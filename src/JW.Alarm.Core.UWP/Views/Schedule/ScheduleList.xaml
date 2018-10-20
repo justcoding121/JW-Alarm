@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="JW.Alarm.Core.UWP.Views.ScheduleList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:JW.Alarm.Core.UWP.Views.Schedule"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="using:System"
+    xmlns:converters="using:JW.Alarm.Core.UWP.Views.Converters"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <converters:DayColorConverter x:Key="dayColorConverter" />
+        <converters:IsEnabledColorConverter x:Key="isEnabledColorConverter" />
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Button Canvas.ZIndex="1000" Grid.Row="1" 
+                        Name="addScheduleButton"
+                        Click="addScheduleButton_Click"
+                        Margin="5"
+                        HorizontalAlignment="Stretch"
+                        Background="White"
+                        Foreground="SlateBlue">
+                <SymbolIcon Symbol="Add" Foreground="SlateBlue"/>
+            </Button>
+        </StackPanel>
+        <ListView Name="SchedulesListView" Grid.Row="1" ItemsSource="{Binding Schedules}" SelectionChanged="SchedulesListView_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="75">
+                        <Grid.Resources>
+                            <system:DayOfWeek x:Key="Sunday">Sunday</system:DayOfWeek>
+                            <system:DayOfWeek x:Key="Monday">Monday</system:DayOfWeek>
+                            <system:DayOfWeek x:Key="Tuesday">Tuesday</system:DayOfWeek>
+                            <system:DayOfWeek x:Key="Wednesday">Wednesday</system:DayOfWeek>
+                            <system:DayOfWeek x:Key="Thursday">Thursday</system:DayOfWeek>
+                            <system:DayOfWeek x:Key="Friday">Friday</system:DayOfWeek>
+                            <system:DayOfWeek x:Key="Saturday">Saturday</system:DayOfWeek>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center" Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock Name="TextBlock_Hour" Text="{Binding Hour}" Margin="10,0,0,0" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}" />
+                            <TextBlock Text=":" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}" />
+                            <TextBlock Name="TextBlock_Minute"  Text="{Binding Minute}" Margin="0,0,5,0" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
+                            <TextBlock Name="TextBlock_Merridien" Text="{Binding Meridien}" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Name="TextBlock_Sunday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}" Text="S" Margin="5,0,0,0" />
+                                <TextBlock Name="TextBlock_Monday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Monday}}" Text="M" Margin="5,0,0,0" />
+                                <TextBlock Name="TextBlock_Tuesday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Tuesday}}" Text="T" Margin="5,0,0,0"/>
+                                <TextBlock Name="TextBlock_Wednesday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Wednesday}}" Text="W" Margin="5,0,0,0"/>
+                                <TextBlock Name="TextBlock_Thursday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Thursday}}" Text="T" Margin="5,0,0,0"/>
+                                <TextBlock Name="TextBlock_Friday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Friday}}" Text="F" Margin="5,0,0,0"/>
+                                <TextBlock Name="TextBlock_Saturday" Foreground="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Saturday}}" Text="S" Margin="5,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock Name="TextBlock_Description"  MaxLines="1" TextWrapping="NoWrap" Text="{Binding Name}" MaxWidth="100" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Center" Grid.Column="2" Orientation="Horizontal" Margin="15,0,0,0">
+                            <ToggleSwitch Name="Toggle_IsEnabled" Toggled="Toggle_IsEnabled_Toggled" IsOn="{Binding IsEnabled}" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"></ToggleSwitch>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
