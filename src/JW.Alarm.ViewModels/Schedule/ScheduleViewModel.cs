@@ -11,12 +11,12 @@ namespace JW.Alarm.ViewModels
 
     public class ScheduleViewModel : BindableBase
     {
-        IScheduleService scheduleService;
+        IAlarmScheduleService scheduleService;
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
-            this.scheduleService = IocSetup.Container.Resolve<IScheduleService>();
+            this.scheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
 
             isNewSchedule = model == null ? true : false;
@@ -122,14 +122,14 @@ namespace JW.Alarm.ViewModels
             }
         }
 
-        public BibleAudio Bible
+        public int BibleReadingScheduleId
         {
-            get => Model.Bible;
+            get => Model.BibleReadingScheduleId;
             set
             {
-                if (value != Model.Bible)
+                if (value != Model.BibleReadingScheduleId)
                 {
-                    Model.Bible = value;
+                    Model.BibleReadingScheduleId = value;
                     IsModified = true;
                     OnPropertyChanged();
                 }
@@ -242,7 +242,7 @@ namespace JW.Alarm.ViewModels
 
         public async Task RefreshScheduleAsync()
         {
-            Model = (await scheduleService.Schedules)[Model.Id];
+            Model = (await scheduleService.AlarmSchedules)[Model.Id];
         }
 
     }

@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace JW.Alarm.Services.UWP
 {
@@ -9,9 +10,19 @@ namespace JW.Alarm.Services.UWP
     {
         public async Task RunOnUIThread(Action action)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+            //already in UI thread
+            if(CoreWindow.GetForCurrentThread().Dispatcher.HasThreadAccess)
+            {
                 action();
-            });
+            }
+            else
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                    action();
+                });
+            }
+
+           
         }
     }
 }

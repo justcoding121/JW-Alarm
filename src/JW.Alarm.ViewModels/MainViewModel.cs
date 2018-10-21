@@ -11,13 +11,14 @@ namespace JW.Alarm.ViewModels
 
     public class MainViewModel : BindableBase
     {
-        private IScheduleService scheduleService;
+        private IAlarmScheduleService scheduleService;
         private IThreadService threadService;
 
-        public MainViewModel(IScheduleService scheduleService, IThreadService threadService)
+        public MainViewModel(IAlarmScheduleService scheduleService, IThreadService threadService)
         {
             this.scheduleService = scheduleService;
             this.threadService = threadService;
+           // Task.Run(() => GetScheduleListAsync());
         }
 
         public ObservableCollection<ScheduleViewModel> Schedules { get; }
@@ -44,7 +45,7 @@ namespace JW.Alarm.ViewModels
         {
             await threadService.RunOnUIThread(()=> IsLoading = true);
 
-            var schedules = await scheduleService.Schedules;
+            var schedules = await scheduleService.AlarmSchedules;
             if (schedules == null)
             {
                 return;

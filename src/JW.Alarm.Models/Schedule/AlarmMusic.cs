@@ -3,7 +3,7 @@ using System.IO;
 
 namespace JW.Alarm.Models
 {
-    public abstract class AlarmMusic
+    public abstract class AlarmMusic 
     {
         public MusicType MusicType { get; protected set; }
         public string PublicationCode { get; set; }

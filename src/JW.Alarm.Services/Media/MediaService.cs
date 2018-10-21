@@ -20,93 +20,76 @@ namespace JW.Alarm.Services
             this.storageService = storageService;
         }
 
-        public async Task<Dictionary<string, string>> GetBibleLanguages()
+        public async Task<Dictionary<string, Language>> GetBibleLanguages()
         {
             var root = mediaLookUpService.IndexRoot;
-            var languageIndex = Path.Combine(root, "Audio", "Bible", "index.json");
+            var languageIndex = Path.Combine(root, "Audio", "Bible", "languages.json");
             var languages = await storageService.ReadFile(languageIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(languages);
+            return JsonConvert.DeserializeObject<List<Language>>(languages).ToDictionary(x=>x.Code, x=>x);
         }
 
-        public async Task<Dictionary<string, string>> GetBibleVersions(string languageCode)
+        public async Task<Dictionary<string, Publication>> GetBibleTranslations(string languageCode)
         {
             var root = mediaLookUpService.IndexRoot;
-            var bibleIndex = Path.Combine(root, "Audio", "Bible", languageCode, "index.json");
-            var bibleVersions = await storageService.ReadFile(bibleIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(bibleVersions);
+            var bibleIndex = Path.Combine(root, "Audio", "Bible", languageCode, "publications.json");
+            var bibleTranslations = await storageService.ReadFile(bibleIndex);
+            return JsonConvert.DeserializeObject<List<Publication>>(bibleTranslations).ToDictionary(x => x.Code, x => x);
         }
 
-        public async Task<TreeDictionary<int, string>> GetBibleBooks(string languageCode, string versionCode)
+        public async Task<OrderedDictionary<int, BibleBook>> GetBibleBooks(string languageCode, string versionCode)
         {
             var root = mediaLookUpService.IndexRoot;
-            var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, "index.json");
+            var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, "books.json");
             var bibleBooks = await storageService.ReadFile(booksIndex);
-            return JsonConvert.DeserializeObject<TreeDictionary<int, string>>(bibleBooks);
+            return new OrderedDictionary<int, BibleBook>(JsonConvert.DeserializeObject<List<BibleBook>>(bibleBooks).ToDictionary(x=>x.Number, x=>x));
         }
 
-        public async Task<TreeDictionary<int, BibleChapter>> GetBibleChapters(string languageCode, string versionCode, int bookNumber)
+        public async Task<OrderedDictionary<int, BibleChapter>> GetBibleChapters(string languageCode, string versionCode, int bookNumber)
         {
             var root = mediaLookUpService.IndexRoot;
-            var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, bookNumber.ToString(), "index.json");
-            var bibleBooks = await storageService.ReadFile(booksIndex);
-            return JsonConvert.DeserializeObject<BibleBook>(bibleBooks).Chapters;
+            var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, bookNumber.ToString(), "chapters.json");
+            var bibleChapters = await storageService.ReadFile(booksIndex);
+            return new OrderedDictionary<int, BibleChapter>(JsonConvert.DeserializeObject<List<BibleChapter>>(bibleChapters).ToDictionary(x=>x.Number, x=>x));
         }
 
-        public async Task<Dictionary<string, string>> GetMelodyMusicVersions()
+        public async Task<Dictionary<string, Publication>> GetMelodyMusicReleases()
         {
             var root = mediaLookUpService.IndexRoot;
-            var discIndex = Path.Combine(root, "Music", "Melodies", "index.json");
-            var fileContent = await storageService.ReadFile(discIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(fileContent);
+            var releaseIndex = Path.Combine(root, "Music", "Melodies", "publications.json");
+            var fileContent = await storageService.ReadFile(releaseIndex);
+            return JsonConvert.DeserializeObject<List<Publication>>(fileContent).ToDictionary(x=>x.Code, x=>x);
         }
 
-        public async Task<Dictionary<string, string>> GetMelodyMusicDiscs(string versionCode)
+        public async Task<OrderedDictionary<int, MusicTrack>> GetMelodyMusicTracks(string publicationCode)
         {
             var root = mediaLookUpService.IndexRoot;
-            var discIndex = Path.Combine(root, "Music", "Melodies", versionCode, "index.json");
-            var fileContent = await storageService.ReadFile(discIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(fileContent);
-        }
-
-        public async Task<TreeDictionary<int, MusicTrack>> GetMelodyMusicTracks(string versionCode, string discCode)
-        {
-            var root = mediaLookUpService.IndexRoot;
-            var trackIndex = Path.Combine(root, "Music", "Melodies", discCode, "index.json");
+            var trackIndex = Path.Combine(root, "Music", "Melodies", publicationCode, "tracks.json");
             var fileContent = await storageService.ReadFile(trackIndex);
-            return JsonConvert.DeserializeObject<MusicDisc>(fileContent).Tracks;
+            return new OrderedDictionary<int, MusicTrack>(JsonConvert.DeserializeObject<List<MusicTrack>>(fileContent).ToDictionary(x=>x.Number, x=>x));
         }
 
-        public async Task<Dictionary<string, string>> GetVocalMusicLanguages()
+        public async Task<Dictionary<string, Language>> GetVocalMusicLanguages()
         {
             var root = mediaLookUpService.IndexRoot;
-            var trackIndex = Path.Combine(root, "Music", "Vocals", "index.json");
-            var melodyDiscs = await storageService.ReadFile(trackIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(melodyDiscs);
+            var languageIndex = Path.Combine(root, "Music", "Vocals", "languages.json");
+            var languages = await storageService.ReadFile(languageIndex);
+            return JsonConvert.DeserializeObject<List<Language>>(languages).ToDictionary(x=>x.Code, x=>x);
         }
 
-
-        public async Task<Dictionary<string, string>> GetVocalMusicDiscs(string languageCode)
+        public async Task<Dictionary<string, Publication>> GetVocalMusicReleases(string languageCode)
         {
             var root = mediaLookUpService.IndexRoot;
-            var discIndex = Path.Combine(root, "Music", "Vocals", languageCode, "index.json");
-            var vocalDiscs = await storageService.ReadFile(discIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(vocalDiscs);
+            var releaseIndex = Path.Combine(root, "Music", "Vocals", languageCode, "publications.json");
+            var vocalReleases = await storageService.ReadFile(releaseIndex);
+            return JsonConvert.DeserializeObject<List<Publication>>(vocalReleases).ToDictionary(x => x.Code, x => x);
         }
 
-        public async Task<Dictionary<string, string>> GetVocalMusicVersions(string languageCode, string versionCode)
+        public async Task<OrderedDictionary<int, MusicTrack>> GetVocalMusicTracks(string languageCode, string publicationCode)
         {
             var root = mediaLookUpService.IndexRoot;
-            var trackIndex = Path.Combine(root, "Music", "Vocals", languageCode, versionCode, "index.json");
-            var melodyDiscs = await storageService.ReadFile(trackIndex);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(melodyDiscs);
-        }
-
-        public async Task<TreeDictionary<int, MusicTrack>> GetVocalMusicTracks(string languageCode, string versionCode, string discCode)
-        {
-            var root = mediaLookUpService.IndexRoot;
-            var trackIndex = Path.Combine(root, "Music", "Vocals", languageCode, versionCode, discCode, "index.json");
-            var melodyDiscs = await storageService.ReadFile(trackIndex);
-            return JsonConvert.DeserializeObject<MusicDisc>(melodyDiscs).Tracks;
+            var trackIndex = Path.Combine(root, "Music", "Vocals", languageCode, publicationCode, "tracks.json");
+            var melodyTracks = await storageService.ReadFile(trackIndex);
+            return new OrderedDictionary<int, MusicTrack>(JsonConvert.DeserializeObject<List<MusicTrack>>(melodyTracks).ToDictionary(x=>x.Number, x=>x));
         }
 
     }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -34,10 +35,10 @@ namespace JW.Alarm.Core.UWP.Views
             DataContext = Uwp.IocSetup.Container.Resolve<MainViewModel>();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await ViewModel.GetScheduleListAsync();
+            ViewModel.GetScheduleListAsync().ContinueOnAnyContext();
         }
 
         private void Toggle_IsEnabled_Toggled(object sender, RoutedEventArgs e)

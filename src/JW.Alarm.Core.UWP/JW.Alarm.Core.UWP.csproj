@@ -115,9 +115,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="..\..\docs\index.zip">
-      <Link>Assets\Media\index.zip</Link>
-    </Content>
+    <None Include="Assets\Media\index.zip" />
     <None Include="JW.Alarm.Core.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

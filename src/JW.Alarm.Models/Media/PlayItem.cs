@@ -7,12 +7,10 @@ namespace JW.Alarm.Models
     public class PlayItem
     {
         public string Url { get; set; }
-        public int Second { get; set; }
 
-        public PlayItem(string url, int second)
+        public PlayItem(string url)
         {
             Url = url;
-            Second = second;
         }
     }
 }

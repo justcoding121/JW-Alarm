@@ -5,8 +5,8 @@ namespace JW.Alarm.Services.Uwp.Tasks
 {
     public class SchedulerTask 
     {
-        private IScheduleService alarmService;
-        public SchedulerTask(IScheduleService alarmService)
+        private IAlarmScheduleService alarmService;
+        public SchedulerTask(IAlarmScheduleService alarmService)
         {
             this.alarmService = alarmService;
         }

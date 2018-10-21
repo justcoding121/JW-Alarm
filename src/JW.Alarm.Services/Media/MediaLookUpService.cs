@@ -12,8 +12,8 @@ namespace JW.Alarm.Services
 {
     public class MediaLookUpService
     {
-        private readonly string latestIndexStatusFileUrl = "https://cdn.rawgit.com/justcoding121/JW-Alarm/master/src/server/index.json";
-        private readonly string latestIndexFileUrl = "https://cdn.rawgit.com/justcoding121/JW-Alarm/master/src/server/index.zip";
+        private readonly string latestIndexStatusFileUrl = "https://cdn.rawgit.com/justcoding121/JW-Media-Index/master/src/server/index.json";
+        private readonly string latestIndexFileUrl = "https://cdn.rawgit.com/justcoding121/W-Media-Index/master/src/server/index.zip";
 
         private readonly Lazy<string> indexRoot;
 

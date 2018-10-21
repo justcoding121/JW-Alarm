@@ -14,9 +14,9 @@ namespace JW.Alarm.Services.Uwp.Tasks
 {
     public class AlarmTask
     {
-        private MediaPlayService mediaPlayService;
+        private IMediaPlayService mediaPlayService;
 
-        public AlarmTask(MediaPlayService mediaPlayService)
+        public AlarmTask(IMediaPlayService mediaPlayService)
         {
             this.mediaPlayService = mediaPlayService;
         }

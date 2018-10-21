@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Contracts
 {
@@ -7,6 +8,7 @@ namespace JW.Alarm.Services.Contracts
         string StorageRoot { get; }
         Task<bool> DirectoryExists(string path);
         Task<bool> FileExists(string path);
+        Task<List<string>> GetAllFiles(string path);
 
         Task<string> ReadFile(string path);
         Task CopyResourceFile(string resourceFilePath, string destinationDirectoryPath, string destinationFileName);

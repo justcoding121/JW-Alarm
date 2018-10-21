@@ -11,7 +11,7 @@
         internal static IContainer Container;
         public static void Initialize(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<UwpScheduleService>().As<IScheduleService>().SingleInstance();
+            containerBuilder.RegisterType<UwpScheduleService>().As<IAlarmScheduleService>().SingleInstance();
 
             containerBuilder.RegisterType<UwpStorageService>().As<IStorageService>();
             containerBuilder.RegisterType<UwpThreadService>().As<IThreadService>();
@@ -19,7 +19,7 @@
             containerBuilder.RegisterType<SchedulerTask>();
             containerBuilder.RegisterType<HttpClientHandler>();
             containerBuilder.RegisterType<UwpPopUpService>().As<IPopUpService>();
-            containerBuilder.RegisterType<UwpMediaPlayService>().As<MediaPlayService>();
+            containerBuilder.RegisterType<UwpMediaPlayService>().As<IMediaPlayService>();
         }
 
         public static void SetContainer(IContainer iocContainer)

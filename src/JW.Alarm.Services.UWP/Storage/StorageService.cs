@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Services.Contracts;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,10 +42,25 @@ namespace JW.Alarm.Services.Uwp
 
             foreach (var directory in subDirectories.Where(x => !string.IsNullOrEmpty(x)))
             {
-                return await currentDirectory.TryGetItemAsync(directory) != null;
+                currentDirectory = await currentDirectory.TryGetItemAsync(directory) as StorageFolder;
+                if(currentDirectory == null)
+                {
+                    return false;
+                }
             }
 
             return true;
+        }
+
+        public async Task<List<string>> GetAllFiles(string path)
+        {
+            if(!await DirectoryExists(path))
+            {
+                return new List<string>();
+            }
+
+            var directory = await StorageFolder.GetFolderFromPathAsync(path);
+            return (await directory.GetFilesAsync()).Select(x => x.Path).ToList();
         }
 
         public async Task<string> ReadFile(string path)
@@ -81,14 +97,14 @@ namespace JW.Alarm.Services.Uwp
         {
             // Open file in application package
             var fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{resourceFilePath}", UriKind.Absolute));
-            
-            if(! await DirectoryExists(destinationDirectoryPath))
+
+            if (!await DirectoryExists(destinationDirectoryPath))
             {
-               await createDirectory(destinationDirectoryPath);
+                await createDirectory(destinationDirectoryPath);
             }
 
             var destinationDirectory = await StorageFolder.GetFolderFromPathAsync(destinationDirectoryPath);
- 
+
             var fileToWrite = await destinationDirectory.CreateFileAsync(destinationFileName, CreationCollisionOption.ReplaceExisting);
 
             byte[] buffer = new byte[1024];
@@ -111,24 +127,25 @@ namespace JW.Alarm.Services.Uwp
         private async Task createDirectory(string path)
         {
             var subPath = path.Replace(StorageRoot, string.Empty);
-            var subDirectories =  subPath.Split('\\');
+            var subDirectories = subPath.Split('\\');
 
             var current = StorageRoot;
             var currentDirectory = await StorageFolder.GetFolderFromPathAsync(StorageRoot);
 
-            foreach(var directory in subDirectories.Where(x=> !string.IsNullOrEmpty(x)))
+            foreach (var directory in subDirectories.Where(x => !string.IsNullOrEmpty(x)))
             {
                 current = Path.Combine(current, directory);
 
                 if (await currentDirectory.TryGetItemAsync(directory) == null)
                 {
-                   await currentDirectory.CreateFolderAsync(directory);
+                    await currentDirectory.CreateFolderAsync(directory);
                 }
 
                 currentDirectory = await currentDirectory.GetFolderAsync(directory);
             }
 
         }
+
 
     }
 }

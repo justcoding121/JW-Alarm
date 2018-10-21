@@ -11,7 +11,6 @@ namespace JW.Alarm.Services.Contracts
         Task Play(int scheduleId);
         Task Stop(AlarmSchedule schedule);
         Task SetNextItemToPlay(int scheduleId);
-        Task UpdatePlayedSeconds(AlarmSchedule schedule, int second);
         Task<PlayItem> NextUrlToPlay(int scheduleId);
     }
 }

@@ -8,10 +8,10 @@ using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.Uwp
 {
-    public class UwpScheduleService : ScheduleService
+    public class UwpScheduleService : AlarmScheduleService
     {
-        public UwpScheduleService(IStorageService storageService)
-            : base(storageService)
+        public UwpScheduleService(IDatabase database)
+            : base(database)
         {
         }
 

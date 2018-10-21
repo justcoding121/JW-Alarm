@@ -6,9 +6,10 @@ using System.Linq;
 
 namespace JW.Alarm.Models
 {
-    public class AlarmSchedule
+    public class AlarmSchedule : IEntity
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
         public bool IsEnabled { get; set; } = true;
         
@@ -66,8 +67,8 @@ namespace JW.Alarm.Models
 
         private string getCronExpression()
         {
-            string Days = string.Join(",", DaysOfWeek.Select(x => x + 1).OrderBy(x => x));
-            var expression = new CronExpression($"0 {Minute} {Hour} ? * {Days}");
+            string days = string.Join(",", DaysOfWeek.Select(x => (int)x + 1).OrderBy(x => x));
+            var expression = new CronExpression($"0 {Minute} {Hour} ? * {days}");
             return expression.CronExpressionString;
         }
 

@@ -11,12 +11,13 @@ namespace JW.Alarm.Services.UWP
 
     public class UwpMediaPlayService : MediaPlayService
     {
-
         private Dictionary<int, MediaPlayer> alarmToMediaPlayersMap = new Dictionary<int, MediaPlayer>();
         private Dictionary<MediaPlayer, int> mediaPlayersToAlarmMap = new Dictionary<MediaPlayer, int>();
 
-        public UwpMediaPlayService(IScheduleService scheduleService, MediaService mediaService)
-            : base(scheduleService, mediaService)
+        public UwpMediaPlayService(IAlarmScheduleService alarmscheduleService, 
+            IBibleReadingScheduleService bibleReadingScheduleService,
+            MediaService mediaService)
+            : base(alarmscheduleService, bibleReadingScheduleService, mediaService)
         {
         }
 
@@ -26,7 +27,6 @@ namespace JW.Alarm.Services.UWP
 
             var mediaPlayer = new MediaPlayer();
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(nextPlayItem.Url));
-            mediaPlayer.PlaybackSession.Position = TimeSpan.FromSeconds(nextPlayItem.Second);
             mediaPlayer.PlaybackSession.BufferingEnded += onTrackEnd;
             mediaPlayer.Play();
 
@@ -46,7 +46,6 @@ namespace JW.Alarm.Services.UWP
             var nextPlayItem = await NextUrlToPlay(scheduleId);
 
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(nextPlayItem.Url));
-            mediaPlayer.PlaybackSession.Position = TimeSpan.FromSeconds(nextPlayItem.Second);
             mediaPlayer.Play();
         }
 
@@ -54,8 +53,6 @@ namespace JW.Alarm.Services.UWP
         public override async Task Stop(AlarmSchedule schedule)
         {
             var mediaPlayer = alarmToMediaPlayersMap[schedule.Id];
-            var second = mediaPlayer.PlaybackSession.Position.TotalSeconds;
-            await UpdatePlayedSeconds(schedule, (int)second < 0 ? 0 : (int)second);
             mediaPlayer.Dispose();
 
             await base.Stop(schedule);
