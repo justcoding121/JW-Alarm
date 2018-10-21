@@ -23,6 +23,7 @@ namespace Advanced.Algorithms.DataStructures.Foundation
         }
 
         public OrderedDictionary(IDictionary<K, V> initial)
+            :this()
         {
             foreach(var kvPair in initial)
             {

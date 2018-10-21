@@ -11,22 +11,28 @@ namespace JW.Alarm.ViewModels
 
     public class ScheduleViewModel : BindableBase
     {
-        IAlarmScheduleService scheduleService;
+        IAlarmScheduleService alarmScheduleService;
+        IBibleReadingScheduleService bibleReadingScheduleService;
+
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
-            this.scheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
+            this.alarmScheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingScheduleService>();
 
             isNewSchedule = model == null ? true : false;
             Model = model ?? new AlarmSchedule();
+            //{
+            //    Music = ,
+            //    BibleReadingScheduleId = 
+            //};
 
             EnableCommand = new RelayCommandAsync<object>(async (x) =>
             {
                 IsEnabled = bool.Parse(x.ToString());
                 await SaveAsync();
-
             });
         }
 
@@ -191,11 +197,11 @@ namespace JW.Alarm.ViewModels
             if (isNewSchedule)
             {
                 isNewSchedule = false;
-                await scheduleService.Create(Model);
+                await alarmScheduleService.Create(Model);
             }
             else
             {
-                await scheduleService.Update(Model);
+                await alarmScheduleService.Update(Model);
             }
 
             IsModified = false;
@@ -227,7 +233,7 @@ namespace JW.Alarm.ViewModels
         {
             if (Model.Id >= 0)
             {
-                await scheduleService.Delete(Model.Id);
+                await alarmScheduleService.Delete(Model.Id);
             }
         }
 
@@ -242,7 +248,7 @@ namespace JW.Alarm.ViewModels
 
         public async Task RefreshScheduleAsync()
         {
-            Model = (await scheduleService.AlarmSchedules)[Model.Id];
+            Model = (await alarmScheduleService.AlarmSchedules)[Model.Id];
         }
 
     }

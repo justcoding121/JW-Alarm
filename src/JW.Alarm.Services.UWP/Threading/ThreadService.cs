@@ -11,13 +11,13 @@ namespace JW.Alarm.Services.UWP
         public async Task RunOnUIThread(Action action)
         {
             //already in UI thread
-            if(CoreWindow.GetForCurrentThread().Dispatcher.HasThreadAccess)
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
             {
                 action();
             }
             else
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
                     action();
                 });
             }

@@ -70,7 +70,7 @@ namespace JW.Alarm.Services
 
         public async Task<PlayItem> NextUrlToPlay(int scheduleId)
         {
-            var schedule = (await scheduleService.AlarmSchedules)[scheduleId];
+            var schedule = await scheduleService.Read(scheduleId);
 
             if (schedule.CurrentPlayItem == PlayType.Music)
             {
@@ -87,13 +87,13 @@ namespace JW.Alarm.Services
             switch (schedule.Music.MusicType)
             {
                 case MusicType.Melodies:
-                    var melodyMusic = schedule.Music as MelodyMusic;
+                    var melodyMusic = schedule.Music;
                     var melodyTracks = await mediaService.GetMelodyMusicTracks(melodyMusic.PublicationCode);
                     var melodyTrack = melodyTracks[melodyMusic.TrackNumber];
                     return new PlayItem(melodyTrack.Url);
 
                 case MusicType.Vocals:
-                    var vocalMusic = schedule.Music as VocalMusic;
+                    var vocalMusic = schedule.Music;
                     var vocalTracks = await mediaService.GetVocalMusicTracks(vocalMusic.LanguageCode, vocalMusic.PublicationCode);
                     var vocalTrack = vocalTracks[vocalMusic.TrackNumber];
                     return new PlayItem(vocalTrack.Url);

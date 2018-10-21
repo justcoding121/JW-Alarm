@@ -8,6 +8,8 @@ namespace JW.Alarm.Services.Contracts
 {
     public interface IBibleReadingScheduleService
     {
+        int RandomScheduleId { get; }
+
         Task<Dictionary<int, BibleReadingSchedule>> BibleReadingSchedules { get; }
 
         Task<BibleReadingSchedule> Read(int bibleReadingScheduleId);

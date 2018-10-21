@@ -6,7 +6,7 @@ using JW.Alarm.Models;
 
 namespace JW.Alarm.Services
 {
-    public abstract class BibleReadingScheduleService : IBibleReadingScheduleService
+    public class BibleReadingScheduleService : IBibleReadingScheduleService
     {
         private readonly IDatabase database;
         private Dictionary<int, BibleReadingSchedule> schedules;
@@ -17,6 +17,8 @@ namespace JW.Alarm.Services
         }
 
         public Task<Dictionary<int, BibleReadingSchedule>> BibleReadingSchedules => getBibleReadingSchedules();
+
+        public int RandomScheduleId => (BibleReadingSchedules.Result).First().Key;
 
         public virtual async Task Create(BibleReadingSchedule bibleReadingSchedule)
         {

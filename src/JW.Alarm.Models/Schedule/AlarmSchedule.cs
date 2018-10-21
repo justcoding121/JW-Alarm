@@ -40,18 +40,7 @@ namespace JW.Alarm.Models
 
         public AlarmSchedule()
         {
-            //Default music when a new alarm scheduel is created
-            //Song number 15 from old song book (Sing Praises to Jehovah! - 1984) as default hymn.
-            //"Life without end at last!" is the song theme.
-            Music = new MelodyMusic()
-            {
-                PublicationCode = "iam",
-                TrackNumber = 12
-            };
-
-            //Default when a new alarm schedule is created
-            //Isaiah chapter 1 of English NWT 2013 as default chapter of Bible.
-            BibleReadingScheduleId = 1;
+           
         }
 
         public DateTimeOffset NextFireDate()

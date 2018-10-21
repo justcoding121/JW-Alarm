@@ -38,7 +38,6 @@ namespace JW.Alarm.Core.UWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ViewModel.GetScheduleListAsync().ContinueOnAnyContext();
         }
 
         private void Toggle_IsEnabled_Toggled(object sender, RoutedEventArgs e)
