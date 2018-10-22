@@ -1,21 +1,7 @@
-﻿using Autofac;
-using JW.Alarm.Core.Uwp;
-using JW.Alarm.Services.Contracts;
+﻿using JW.Alarm.Core.Uwp;
 using JW.Alarm.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -27,17 +13,21 @@ namespace JW.Alarm.Core.UWP.Views
     /// </summary>
     public sealed partial class ScheduleList : Page
     {
-        public MainViewModel ViewModel => DataContext as MainViewModel;
+        public ScheduleListViewModel ViewModel => DataContext as ScheduleListViewModel;
 
         public ScheduleList()
         {
             this.InitializeComponent();
-            DataContext = Uwp.IocSetup.Container.Resolve<MainViewModel>();
+            DataContext = Uwp.IocSetup.Container.Resolve<ScheduleListViewModel>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            //if(e.NavigationMode == NavigationMode.Back)
+            //{
+            //    ViewModel.GetScheduleListAsync().ContinueOnAnyContext();
+            //}
         }
 
         private void Toggle_IsEnabled_Toggled(object sender, RoutedEventArgs e)

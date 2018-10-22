@@ -1,18 +1,17 @@
-﻿namespace JW.Alarm.ViewModels
+﻿using JW.Alarm.Services.Contracts;
+
+namespace JW.Alarm.ViewModels
 {
-    using Autofac;
+
 
     public static class IocSetup
     {
         internal static IContainer Container;
-        public static void Initialize(ContainerBuilder containerBuilder)
+        public static void Initialize(IContainer container)
         {
-            containerBuilder.RegisterType<MainViewModel>().SingleInstance();
+            container.Register((x) => new ScheduleListViewModel(container.Resolve<IAlarmScheduleService>(), container.Resolve<IThreadService>()), isSingleton: true);
+            Container = container;
         }
 
-        public static void SetContainer(IContainer iocContainer)
-        {
-            Container = iocContainer;
-        }
     }
 }

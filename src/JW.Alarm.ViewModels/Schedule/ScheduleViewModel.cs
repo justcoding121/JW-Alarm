@@ -3,33 +3,36 @@ using JW.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Autofac;
+using Mvvmicro;
 
 namespace JW.Alarm.ViewModels
 {
 
-    public class ScheduleViewModel : BindableBase
+    public class ScheduleViewModel : ViewModelBase
     {
         IAlarmScheduleService alarmScheduleService;
         IBibleReadingScheduleService bibleReadingScheduleService;
 
         IPopUpService popUpService;
 
+        //TODO get rid of this when reactive extensions are used later
+        ScheduleListViewModel mainViewModel;
+
         public ScheduleViewModel(AlarmSchedule model = null)
         {
             this.alarmScheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingScheduleService>();
+            this.mainViewModel = IocSetup.Container.Resolve<ScheduleListViewModel>();
 
-            isNewSchedule = model == null ? true : false;
+            IsNewSchedule = model == null ? true : false;
             Model = model ?? new AlarmSchedule();
             //{
             //    Music = ,
             //    BibleReadingScheduleId = 
             //};
 
-            EnableCommand = new RelayCommandAsync<object>(async (x) =>
+            EnableCommand = new AsyncRelayCommand(async (x) =>
             {
                 IsEnabled = bool.Parse(x.ToString());
                 await SaveAsync();
@@ -41,42 +44,21 @@ namespace JW.Alarm.ViewModels
         public AlarmSchedule Model
         {
             get => model;
-            set
-            {
-                if (model != value)
-                {
-                    model = value;
-                    OnPropertyChanged(string.Empty);
-                }
-            }
+            set => this.Set(ref model, value);
         }
 
+        private string name;
         public string Name
         {
-            get => Model.Name;
-            set
-            {
-                if (value != Model.Name)
-                {
-                    Model.Name = value;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
+            get => name;
+            set => this.Set(ref name, value);
         }
 
+        private bool isEnabled;
         public bool IsEnabled
         {
-            get => Model.IsEnabled;
-            set
-            {
-                if (value != Model.IsEnabled)
-                {
-                    Model.IsEnabled = value;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
+            get => isEnabled;
+            set => this.Set(ref isEnabled, value);
         }
 
         public HashSet<DayOfWeek> DaysOfWeek
@@ -84,19 +66,12 @@ namespace JW.Alarm.ViewModels
             get => Model.DaysOfWeek;
         }
 
+        private TimeSpan time;
         public TimeSpan Time
         {
             get => new TimeSpan(Model.Hour, Model.Minute, 0);
-            set
-            {
-                if (value.Hours != Model.Hour || value.Minutes != Model.Minute)
-                {
-                    Model.Hour = value.Hours;
-                    Model.Minute = value.Minutes;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
+            set => this.Set(ref time, value);
+          
         }
 
         public string Hour
@@ -114,32 +89,18 @@ namespace JW.Alarm.ViewModels
             get => Model.Meridien;
         }
 
+        private AlarmMusic music;
         public AlarmMusic Music
         {
             get => Model.Music;
-            set
-            {
-                if (value != Model.Music)
-                {
-                    Model.Music = value;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
+            set => this.Set(ref music, value);
         }
 
+        private int bibleReadingScheduleId;
         public int BibleReadingScheduleId
         {
             get => Model.BibleReadingScheduleId;
-            set
-            {
-                if (value != Model.BibleReadingScheduleId)
-                {
-                    Model.BibleReadingScheduleId = value;
-                    IsModified = true;
-                    OnPropertyChanged();
-                }
-            }
+            set => this.Set(ref bibleReadingScheduleId, value);
         }
 
 
@@ -149,15 +110,13 @@ namespace JW.Alarm.ViewModels
         public bool IsLoading
         {
             get => isLoading;
-            set => Set(ref isLoading, value);
+            set => this.Set(ref isLoading, value);
         }
 
-        private bool isNewSchedule;
-        public bool IsNewSchedule => isNewSchedule;
+        public bool IsNewSchedule { get; private set; }
+        public bool IsExistingSchedule => !IsNewSchedule;
 
-        public bool IsExistingSchedule => !isNewSchedule;
-
-        public ICommand EnableCommand { get; private set; }
+        public AsyncRelayCommand EnableCommand { get; private set; }
 
         public void Toggle(DayOfWeek day)
         {
@@ -170,7 +129,8 @@ namespace JW.Alarm.ViewModels
                 DaysOfWeek.Add(day);
             }
             IsModified = true;
-            OnPropertyChanged("DaysOfWeek");
+
+            this.RaiseProperty("DaysOfWeek");
         }
 
         public async Task CancelAsync()
@@ -194,10 +154,11 @@ namespace JW.Alarm.ViewModels
             }
 
            
-            if (isNewSchedule)
+            if (IsNewSchedule)
             {
-                isNewSchedule = false;
+                IsNewSchedule = false;
                 await alarmScheduleService.Create(Model);
+                mainViewModel.Schedules.Add(this);
             }
             else
             {
@@ -234,6 +195,7 @@ namespace JW.Alarm.ViewModels
             if (Model.Id >= 0)
             {
                 await alarmScheduleService.Delete(Model.Id);
+                mainViewModel.Schedules.Remove(this);
             }
         }
 

@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\JW.Alarm.Common\JW.Alarm.Common.csproj" />
     <ProjectReference Include="..\Jw.Alarm.Models\JW.Alarm.Models.csproj" />
     <ProjectReference Include="..\JW.Alarm.Services.Contracts\JW.Alarm.Services.Contracts.csproj" />

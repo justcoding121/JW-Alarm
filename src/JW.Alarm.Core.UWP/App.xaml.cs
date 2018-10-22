@@ -1,7 +1,4 @@
-﻿using Autofac;
-using JW.Alarm.ViewModels;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+﻿using JW.Alarm.ViewModels;
 using JW.Alarm.Services.Uwp.Helpers;
 using JW.Alarm.Services.Uwp.Tasks;
 using System;
@@ -50,7 +47,7 @@ namespace JW.Alarm.Core.Uwp
                 IocSetup.Initialize();
                 BootstrapHelper.VerifyBackgroundTasks();
                 Task.Run(async () => await BootstrapHelper.VerifyMediaLookUpService());
-                IocSetup.Container.Resolve<MainViewModel>();
+                IocSetup.Container.Resolve<ScheduleListViewModel>();
             }
 
             var rootFrame = Window.Current.Content as Frame;

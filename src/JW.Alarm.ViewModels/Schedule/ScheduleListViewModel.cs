@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JW.Alarm.Services.Contracts;
+using Mvvmicro;
 
 namespace JW.Alarm.ViewModels
 {
-
-    public class MainViewModel : BindableBase
+    public class ScheduleListViewModel : ViewModelBase
     {
         private IAlarmScheduleService scheduleService;
         private IThreadService threadService;
 
-        public MainViewModel(IAlarmScheduleService scheduleService, IThreadService threadService)
+        public ScheduleListViewModel(IAlarmScheduleService scheduleService, IThreadService threadService)
         {
             this.scheduleService = scheduleService;
             this.threadService = threadService;
-            Task.Run(()=>GetScheduleListAsync());//.ContinueOnAnyContext();
+            Task.Run(()=>GetScheduleListAsync());
         }
 
         public ObservableCollection<ScheduleViewModel> Schedules { get; }
@@ -29,7 +29,7 @@ namespace JW.Alarm.ViewModels
         public ScheduleViewModel SelectedSchedule
         {
             get => selectedSchedule;
-            set => Set(ref selectedSchedule, value);
+            set => this.Set(ref selectedSchedule, value);
         }
 
         private bool isLoading = false;
@@ -37,7 +37,7 @@ namespace JW.Alarm.ViewModels
         public bool IsLoading
         {
             get => isLoading;
-            set => Set(ref isLoading, value);
+            set => this.Set(ref isLoading, value);
         }
 
 
@@ -61,6 +61,10 @@ namespace JW.Alarm.ViewModels
                 IsLoading = false;
             });
         }
+    }
+
+    public class ScheduleListViewItem
+    {
 
     }
 }

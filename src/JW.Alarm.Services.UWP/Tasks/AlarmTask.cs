@@ -1,5 +1,4 @@
-﻿using Autofac;
-using JW.Alarm.Services.Contracts;
+﻿using JW.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

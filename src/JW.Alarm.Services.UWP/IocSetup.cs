@@ -1,6 +1,5 @@
 ﻿namespace JW.Alarm.Services.Uwp
 {
-    using Autofac;
     using JW.Alarm.Services.Contracts;
     using JW.Alarm.Services.Uwp.Tasks;
     using JW.Alarm.Services.UWP;
@@ -9,22 +8,22 @@
     public static class IocSetup
     {
         internal static IContainer Container;
-        public static void Initialize(ContainerBuilder containerBuilder)
+        public static void Initialize(IContainer container)
         {
-            containerBuilder.RegisterType<UwpScheduleService>().As<IAlarmScheduleService>().SingleInstance();
+            container.Register((x)=>new HttpClientHandler());
 
-            containerBuilder.RegisterType<UwpStorageService>().As<IStorageService>();
-            containerBuilder.RegisterType<UwpThreadService>().As<IThreadService>();
-            containerBuilder.RegisterType<AlarmTask>();
-            containerBuilder.RegisterType<SchedulerTask>();
-            containerBuilder.RegisterType<HttpClientHandler>();
-            containerBuilder.RegisterType<UwpPopUpService>().As<IPopUpService>();
-            containerBuilder.RegisterType<UwpMediaPlayService>().As<IMediaPlayService>();
-        }
+            container.Register<IStorageService>((x) => new UwpStorageService(), isSingleton: true);
+            container.Register<IThreadService>((x) => new UwpThreadService(), isSingleton: true);
+            container.Register<IPopUpService>((x) => new UwpPopUpService(container.Resolve<IThreadService>()), isSingleton: true);
 
-        public static void SetContainer(IContainer iocContainer)
-        {
-            Container = iocContainer;
+            container.Register<IAlarmScheduleService>((x) => new UwpScheduleService(container.Resolve<IDatabase>()), isSingleton: true);
+            container.Register((x)=> new AlarmTask(container.Resolve<IMediaPlayService>()));
+            container.Register((x)=> new SchedulerTask(container.Resolve<IAlarmScheduleService>()), isSingleton: true);
+
+            container.Register<IMediaPlayService>((x) => new UwpMediaPlayService(container.Resolve<IAlarmScheduleService>(),
+                container.Resolve<IBibleReadingScheduleService>(), container.Resolve<MediaService>()));
+
+            Container = container;
         }
     }
 }

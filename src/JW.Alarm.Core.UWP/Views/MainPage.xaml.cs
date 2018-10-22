@@ -1,15 +1,9 @@
-﻿using Autofac;
-using JW.Alarm.Core.UWP;
-using JW.Alarm.Core.UWP.Views;
-using JW.Alarm.Services.Contracts;
-using JW.Alarm.ViewModels;
-using System;
+﻿using JW.Alarm.Core.UWP.Views;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace JW.Alarm.Core.Uwp

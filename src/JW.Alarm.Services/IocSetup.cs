@@ -1,24 +1,22 @@
 ﻿namespace JW.Alarm.Services
 {
-    using Autofac;
     using JW.Alarm.Services.Contracts;
+    using System.Net.Http;
 
     public static class IocSetup
     {
         internal static IContainer Container;
-        public static void Initialize(ContainerBuilder containerBuilder)
+        public static void Initialize(IContainer container)
         {
-            containerBuilder.RegisterType<DownloadService>();
-            containerBuilder.RegisterType<MediaLookUpService>();
-            containerBuilder.RegisterType<MediaService>();
+            container.Register((x) => new DownloadService(container.Resolve<HttpClientHandler>()));
+            container.Register((x) => new MediaLookUpService(container.Resolve<DownloadService>(), container.Resolve<IStorageService>()), isSingleton: true);
+            container.Register((x) => new MediaService(container.Resolve<MediaLookUpService>(), container.Resolve<IStorageService>()), isSingleton:true);
+            container.Register<IBibleReadingScheduleService>((x) => new BibleReadingScheduleService(container.Resolve<IDatabase>()), isSingleton: true);
+            container.Register<IDatabase>((x)=> new JsonDatabase(container.Resolve<IStorageService>()), isSingleton:true);
 
-            containerBuilder.RegisterType<BibleReadingScheduleService>().As<IBibleReadingScheduleService>();
-            containerBuilder.RegisterType<JsonDatabase>().As<IDatabase>().SingleInstance();
+            Container = container;
         }
 
-        public static void SetContainer(IContainer iocContainer)
-        {
-            Container = iocContainer;
-        }
+
     }
 }
