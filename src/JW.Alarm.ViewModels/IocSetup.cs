@@ -2,8 +2,6 @@
 
 namespace JW.Alarm.ViewModels
 {
-
-
     public static class IocSetup
     {
         internal static IContainer Container;

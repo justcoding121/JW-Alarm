@@ -6,7 +6,7 @@
         public static IContainer Container;
         public static void Initialize()
         {
-            var container = JW.Alarm.Container.Default;
+            var container = Alarm.Container.Default;
 
             Services.IocSetup.Initialize(container);
             Services.Uwp.IocSetup.Initialize(container);
