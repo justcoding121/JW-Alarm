@@ -3,20 +3,21 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JW.Alarm.Models;
+using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
     public class BibleReadingScheduleService : IBibleReadingScheduleService
     {
         private readonly IDatabase database;
-        private Dictionary<int, BibleReadingSchedule> schedules;
+        private ObservableDictionary<int, BibleReadingSchedule> schedules;
 
         public BibleReadingScheduleService(IDatabase database)
         {
             this.database = database;
         }
 
-        public Task<Dictionary<int, BibleReadingSchedule>> BibleReadingSchedules => getBibleReadingSchedules();
+        public Task<ObservableDictionary<int, BibleReadingSchedule>> BibleReadingSchedules => getBibleReadingSchedules();
 
         public int RandomScheduleId => (BibleReadingSchedules.Result).First().Key;
 
@@ -62,11 +63,11 @@ namespace JW.Alarm.Services
   
         }
 
-        private async Task<Dictionary<int, BibleReadingSchedule>> getBibleReadingSchedules()
+        private async Task<ObservableDictionary<int, BibleReadingSchedule>> getBibleReadingSchedules()
         {
             if (schedules == null)
             {
-                schedules = (await database.ReadAll<BibleReadingSchedule>()).ToDictionary(x => x.Id, x => x);
+                schedules = (await database.ReadAll<BibleReadingSchedule>()).ToObservableDictionary(x => x.Id, x => x);
             }
 
             return schedules;

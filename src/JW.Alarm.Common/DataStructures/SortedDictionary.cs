@@ -10,19 +10,19 @@ namespace Advanced.Algorithms.DataStructures.Foundation
     /// </summary>
     /// <typeparam name="K">The key datatype.</typeparam>
     /// <typeparam name="V">The value datatype.</typeparam>
-    public class OrderedDictionary<K, V> : IEnumerable<KeyValuePair<K, V>> where K : IComparable
+    public class SortedDictionary<K, V> : IEnumerable<KeyValuePair<K, V>> where K : IComparable
     {
         //use red-black tree as our balanced BST since it gives good performance for both deletion/insertion
         private readonly RedBlackTree<SortedDictionaryNode<K, V>> binarySearchTree;
 
         public int Count => binarySearchTree.Count;
 
-        public OrderedDictionary()
+        public SortedDictionary()
         {
             binarySearchTree = new RedBlackTree<SortedDictionaryNode<K, V>>();
         }
 
-        public OrderedDictionary(IDictionary<K, V> initial)
+        public SortedDictionary(IDictionary<K, V> initial)
             :this()
         {
             foreach(var kvPair in initial)

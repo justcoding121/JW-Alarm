@@ -39,7 +39,7 @@ namespace JW.Alarm.Services.Uwp.Helpers
 
         public async static Task VerifyMediaLookUpService()
         {
-            var service = IocSetup.Container.Resolve<MediaLookUpService>();
+            var service = IocSetup.Container.Resolve<MediaIndexService>();
             await service.Verify();
         }
 

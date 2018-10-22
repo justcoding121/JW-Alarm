@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services
 {
-    public class MediaLookUpService
+    public class MediaIndexService
     {
         private readonly string latestIndexStatusFileUrl = "https://cdn.rawgit.com/justcoding121/JW-Media-Index/master/src/server/index.json";
         private readonly string latestIndexFileUrl = "https://cdn.rawgit.com/justcoding121/W-Media-Index/master/src/server/index.zip";
@@ -22,7 +22,7 @@ namespace JW.Alarm.Services
 
         public string IndexRoot => indexRoot.Value;
 
-        public MediaLookUpService(DownloadService downloadService, IStorageService storageService)
+        public MediaIndexService(DownloadService downloadService, IStorageService storageService)
         {
             this.downloadService = downloadService;
             this.storageService = storageService;

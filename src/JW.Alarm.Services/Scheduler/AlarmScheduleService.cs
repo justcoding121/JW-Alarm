@@ -3,20 +3,21 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JW.Alarm.Models;
+using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
     public abstract class AlarmScheduleService : IAlarmScheduleService
     {
         private readonly IDatabase database;
-        private Dictionary<int, AlarmSchedule> schedules;
+        private ObservableDictionary<int, AlarmSchedule> schedules;
 
         public AlarmScheduleService(IDatabase database)
         {
             this.database = database;
         }
 
-        public Task<Dictionary<int, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
+        public Task<ObservableDictionary<int, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
 
         public virtual async Task Create(AlarmSchedule alarmSchedule)
         {
@@ -58,11 +59,11 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<Dictionary<int, AlarmSchedule>> getAlarmSchedules()
+        private async Task<ObservableDictionary<int, AlarmSchedule>> getAlarmSchedules()
         {
             if (schedules == null)
             {
-                schedules = (await database.ReadAll<AlarmSchedule>()).ToDictionary(x => x.Id, x => x);
+                schedules = (await database.ReadAll<AlarmSchedule>()).ToObservableDictionary(x => x.Id, x => x);
             }
 
             return schedules;

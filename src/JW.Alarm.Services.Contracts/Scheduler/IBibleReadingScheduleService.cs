@@ -1,4 +1,5 @@
-﻿using JW.Alarm.Models;
+﻿using JW.Alarm.Common.DataStructures;
+using JW.Alarm.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace JW.Alarm.Services.Contracts
     {
         int RandomScheduleId { get; }
 
-        Task<Dictionary<int, BibleReadingSchedule>> BibleReadingSchedules { get; }
+        Task<ObservableDictionary<int, BibleReadingSchedule>> BibleReadingSchedules { get; }
 
         Task<BibleReadingSchedule> Read(int bibleReadingScheduleId);
         Task Create(BibleReadingSchedule bibleReadingSchedule);

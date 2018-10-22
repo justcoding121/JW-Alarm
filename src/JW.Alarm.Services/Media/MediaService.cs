@@ -1,20 +1,22 @@
-﻿using Advanced.Algorithms.DataStructures.Foundation;
-using JW.Alarm.Models;
+﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SortedByBookNumberDictionary = Advanced.Algorithms.DataStructures.Foundation.SortedDictionary<int, JW.Alarm.Models.BibleBook>;
+using SortedByChapterNumberDictionary = Advanced.Algorithms.DataStructures.Foundation.SortedDictionary<int, JW.Alarm.Models.BibleChapter>;
+using SortedByTrackNumberDictionary = Advanced.Algorithms.DataStructures.Foundation.SortedDictionary<int, JW.Alarm.Models.MusicTrack>;
 
 namespace JW.Alarm.Services
 {
     public class MediaService 
     {
-        private MediaLookUpService mediaLookUpService;
+        private MediaIndexService mediaLookUpService;
         private IStorageService storageService;
 
-        public MediaService(MediaLookUpService mediaLookUpService, IStorageService storageService)
+        public MediaService(MediaIndexService mediaLookUpService, IStorageService storageService)
         {
             this.mediaLookUpService = mediaLookUpService;
             this.storageService = storageService;
@@ -36,20 +38,20 @@ namespace JW.Alarm.Services
             return JsonConvert.DeserializeObject<List<Publication>>(bibleTranslations).ToDictionary(x => x.Code, x => x);
         }
 
-        public async Task<OrderedDictionary<int, BibleBook>> GetBibleBooks(string languageCode, string versionCode)
+        public async Task<SortedByBookNumberDictionary> GetBibleBooks(string languageCode, string versionCode)
         {
             var root = mediaLookUpService.IndexRoot;
             var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, "books.json");
             var bibleBooks = await storageService.ReadFile(booksIndex);
-            return new OrderedDictionary<int, BibleBook>(JsonConvert.DeserializeObject<List<BibleBook>>(bibleBooks).ToDictionary(x=>x.Number, x=>x));
+            return new SortedByBookNumberDictionary(JsonConvert.DeserializeObject<List<BibleBook>>(bibleBooks).ToDictionary(x => x.Number, x=> x));
         }
 
-        public async Task<OrderedDictionary<int, BibleChapter>> GetBibleChapters(string languageCode, string versionCode, int bookNumber)
+        public async Task<SortedByChapterNumberDictionary> GetBibleChapters(string languageCode, string versionCode, int bookNumber)
         {
             var root = mediaLookUpService.IndexRoot;
             var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, bookNumber.ToString(), "chapters.json");
             var bibleChapters = await storageService.ReadFile(booksIndex);
-            return new OrderedDictionary<int, BibleChapter>(JsonConvert.DeserializeObject<List<BibleChapter>>(bibleChapters).ToDictionary(x=>x.Number, x=>x));
+            return new SortedByChapterNumberDictionary(JsonConvert.DeserializeObject<List<BibleChapter>>(bibleChapters).ToDictionary(x => x.Number, x=> x));
         }
 
         public async Task<Dictionary<string, Publication>> GetMelodyMusicReleases()
@@ -60,12 +62,12 @@ namespace JW.Alarm.Services
             return JsonConvert.DeserializeObject<List<Publication>>(fileContent).ToDictionary(x=>x.Code, x=>x);
         }
 
-        public async Task<OrderedDictionary<int, MusicTrack>> GetMelodyMusicTracks(string publicationCode)
+        public async Task<SortedByTrackNumberDictionary> GetMelodyMusicTracks(string publicationCode)
         {
             var root = mediaLookUpService.IndexRoot;
             var trackIndex = Path.Combine(root, "Music", "Melodies", publicationCode, "tracks.json");
             var fileContent = await storageService.ReadFile(trackIndex);
-            return new OrderedDictionary<int, MusicTrack>(JsonConvert.DeserializeObject<List<MusicTrack>>(fileContent).ToDictionary(x=>x.Number, x=>x));
+            return new SortedByTrackNumberDictionary(JsonConvert.DeserializeObject<List<MusicTrack>>(fileContent).ToDictionary(x => x.Number, x=> x));
         }
 
         public async Task<Dictionary<string, Language>> GetVocalMusicLanguages()
@@ -84,12 +86,12 @@ namespace JW.Alarm.Services
             return JsonConvert.DeserializeObject<List<Publication>>(vocalReleases).ToDictionary(x => x.Code, x => x);
         }
 
-        public async Task<OrderedDictionary<int, MusicTrack>> GetVocalMusicTracks(string languageCode, string publicationCode)
+        public async Task<SortedByTrackNumberDictionary> GetVocalMusicTracks(string languageCode, string publicationCode)
         {
             var root = mediaLookUpService.IndexRoot;
             var trackIndex = Path.Combine(root, "Music", "Vocals", languageCode, publicationCode, "tracks.json");
             var melodyTracks = await storageService.ReadFile(trackIndex);
-            return new OrderedDictionary<int, MusicTrack>(JsonConvert.DeserializeObject<List<MusicTrack>>(melodyTracks).ToDictionary(x=>x.Number, x=>x));
+            return new SortedByTrackNumberDictionary(JsonConvert.DeserializeObject<List<MusicTrack>>(melodyTracks).ToDictionary(x => x.Number, x=> x));
         }
 
     }
