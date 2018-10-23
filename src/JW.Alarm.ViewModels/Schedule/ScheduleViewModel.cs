@@ -32,9 +32,10 @@ namespace JW.Alarm.ViewModels
             //    BibleReadingScheduleId = 
             //};
 
-            EnableCommand = new AsyncRelayCommand(async (x) =>
+            EnableCommand = new AsyncRelayCommand(async (parameter, cancelationToken) =>
             {
-                IsEnabled = bool.Parse(x.ToString());
+                IsEnabled = bool.Parse(parameter.ToString());
+                IsModified = true;
                 await SaveAsync();
             });
         }

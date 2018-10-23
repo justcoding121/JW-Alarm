@@ -12,7 +12,7 @@
 	{
 		#region Fields 
 
-		private readonly Func<CancellationToken, Task> execute;
+		private readonly Func<object, CancellationToken, Task> execute;
 
 		private readonly Func<bool> canExecute;
 
@@ -44,7 +44,7 @@
 
 		#region Constructors
 
-		public AsyncRelayCommand(Func<CancellationToken, Task> execute, Func<bool> canExecute = null)
+		public AsyncRelayCommand(Func<object, CancellationToken, Task> execute, Func<bool> canExecute = null)
 		{
 			this.execute = execute;
 			this.canExecute = canExecute ?? (() => true);
@@ -67,7 +67,7 @@
 			try
 			{
 				this.cts = new CancellationTokenSource();
-				this.execution = execute(cts.Token);
+				this.execution = execute(parameter, cts.Token);
 				this.RaiseIsExecuting();
 				await this.execution;
 				this.lastExecution = DateTime.Now;
