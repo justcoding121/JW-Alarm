@@ -56,8 +56,13 @@ namespace JW.Alarm.Common.DataStructures
             dictionary = new ExposedDictionary<TKey, TValue>(info, context);
         }
 
-        public TValue this[TKey key] { get => dictionary[key]; set => dictionary[key] = value; }
-        public object this[object key] { get => dictionary[(TKey)key]; set => dictionary[(TKey)key] = (TValue)value; }
+        public TValue this[TKey key]
+        {
+            get => dictionary[key];
+            set => set(key, value);
+        }
+
+        public object this[object key] { get => this[(TKey)key]; set => this[(TKey)key] = (TValue)value; }
 
         public int Count => dictionary.Count;
 
@@ -103,6 +108,22 @@ namespace JW.Alarm.Common.DataStructures
             (dictionary as IDictionary).Add(key, value);
             onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new KeyValuePair<TKey, TValue>((TKey)key, (TValue)value)));
             onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+        }
+
+        private void set(TKey key, TValue value)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                Add(key, value);
+            }
+            else
+            {
+                var old = new KeyValuePair<TKey, TValue>(key, value);
+                dictionary[key] = value;
+                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, new KeyValuePair<TKey, TValue>(key, value), old));
+                onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+            }
+
         }
 
         public void Clear()

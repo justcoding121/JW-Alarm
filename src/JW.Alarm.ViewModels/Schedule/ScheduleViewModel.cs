@@ -159,7 +159,7 @@ namespace JW.Alarm.ViewModels
             {
                 IsNewSchedule = false;
                 await alarmScheduleService.Create(Model);
-                mainViewModel.Schedules.Add(this);
+               // mainViewModel.Schedules.Add(this);
             }
             else
             {
@@ -196,7 +196,6 @@ namespace JW.Alarm.ViewModels
             if (Model.Id >= 0)
             {
                 await alarmScheduleService.Delete(Model.Id);
-                mainViewModel.Schedules.Remove(this);
             }
         }
 
@@ -211,7 +210,7 @@ namespace JW.Alarm.ViewModels
 
         public async Task RefreshScheduleAsync()
         {
-            Model = (await alarmScheduleService.AlarmSchedules)[Model.Id];
+            Model = await alarmScheduleService.Read(Model.Id);
         }
 
     }

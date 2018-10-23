@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JW.Alarm.Common.DataStructures;
+using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Mvvmicro;
 
@@ -18,11 +21,10 @@ namespace JW.Alarm.ViewModels
         {
             this.scheduleService = scheduleService;
             this.threadService = threadService;
-            Task.Run(()=>GetScheduleListAsync());
+            Task.Run(() => GetScheduleListAsync());
         }
 
-        public ObservableCollection<ScheduleViewModel> Schedules { get; }
-            = new ObservableCollection<ScheduleViewModel>();
+        public ObservableHashSet<AlarmSchedule> Schedules { get; } = new ObservableHashSet<AlarmSchedule>();
 
         private ScheduleViewModel selectedSchedule;
 
@@ -34,6 +36,7 @@ namespace JW.Alarm.ViewModels
 
         private bool isLoading = false;
 
+
         public bool IsLoading
         {
             get => isLoading;
@@ -43,7 +46,7 @@ namespace JW.Alarm.ViewModels
 
         public async Task GetScheduleListAsync()
         {
-            await threadService.RunOnUIThread(()=> IsLoading = true);
+            await threadService.RunOnUIThread(() => IsLoading = true);
 
             var schedules = await scheduleService.AlarmSchedules;
             if (schedules == null)
@@ -51,20 +54,39 @@ namespace JW.Alarm.ViewModels
                 return;
             }
 
+            schedules.CollectionChanged += async (s, e) =>
+            {
+                await threadService.RunOnUIThread(() =>
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        foreach (var newItem in e.NewItems)
+                        {
+                            Schedules.Add(((KeyValuePair<int, AlarmSchedule>)newItem).Value);
+                        }
+                    }
+
+                    if(e.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        foreach (var newItem in e.NewItems)
+                        {
+                            Schedules.Remove(((KeyValuePair<int, AlarmSchedule>)newItem).Value);
+                        }
+                    }
+                });
+            };
+
             await threadService.RunOnUIThread(() =>
             {
                 Schedules.Clear();
                 foreach (var schedule in schedules)
                 {
-                    Schedules.Add(new ScheduleViewModel(schedule.Value));
+                    Schedules.Add(schedule.Value);
                 }
                 IsLoading = false;
             });
         }
-    }
 
-    public class ScheduleListViewItem
-    {
 
     }
 }

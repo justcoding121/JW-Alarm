@@ -28,17 +28,11 @@ namespace JW.Alarm.Services
 
         public async Task<IEnumerable<T>> ReadAll<T>() where T : IEntity
         {
-            var files = await storageService.GetAllFiles(tablePath<T>());
+            var fileReadTasks = await storageService.GetAllFiles(tablePath<T>())
+                .ContinueWith(m => m.Result.Select(file => storageService.ReadFile(file)
+                .ContinueWith(z => JsonConvert.DeserializeObject<T>(z.Result))));
 
-            var result = new List<T>();
-            foreach (var file in files.Where(x => x.EndsWith(".json")))
-            {
-                var content = await storageService.ReadFile(file);
-                result.Add(JsonConvert.DeserializeObject<T>(content));
-            }
-
-            return result;
-
+            return await Task.WhenAll(fileReadTasks);
         }
 
         public async Task<int> Count<T>() where T : IEntity
