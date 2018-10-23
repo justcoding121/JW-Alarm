@@ -1,29 +1,46 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Advanced.Algorithms.DataStructures
 {
     /// <summary>
     /// A red black tree implementation.
     /// </summary>
-    public class RedBlackTree<T> : IEnumerable<T> where T : IComparable
+    public class RedBlackTree<T> : BSTBase<T>, IEnumerable<T> where T : IComparable
     {
         private readonly Dictionary<T, BSTNodeBase<T>> nodeLookUp;
         internal RedBlackTreeNode<T> Root { get; set; }
         public int Count { get; private set; }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
         /// <param name="enableNodeLookUp">Enabling lookup will fasten deletion/insertion/exists operations
         /// at the cost of additional space.</param>
+        /// <param name="equalityComparer">Provide custom IEquality comparer for node lookup dictionary when enabled.</param>
         public RedBlackTree(bool enableNodeLookUp = false, IEqualityComparer<T> equalityComparer = null)
         {
             if (enableNodeLookUp)
             {
                 nodeLookUp = new Dictionary<T, BSTNodeBase<T>>(equalityComparer);
             }
+        }
+
+        /// <summary>
+        /// Initialize the BST with given sorted keys.
+        /// Time complexity: O(n).
+        /// </summary>
+        /// <param name="collection">The sorted keys.</param>
+        /// <param name="enableNodeLookUp">Enabling lookup will fasten deletion/insertion/exists operations
+        /// at the cost of additional space.</param>
+        /// <param name="equalityComparer">Provide custom IEquality comparer for node lookup dictionary when enabled.</param>
+        public RedBlackTree(IEnumerable<T> sortedKeys, bool enableNodeLookUp = false, IEqualityComparer<T> equalityComparer = null)
+            : this(enableNodeLookUp, equalityComparer)
+        {
+            ValidateCollection(sortedKeys);
+            var nodes = sortedKeys.Select(x => new RedBlackTreeNode<T>(null, x)).ToArray();
+            Root = (RedBlackTreeNode<T>)ToBST(nodes);
+            resetColors(Root);
+            Count = nodes.Length;
         }
 
         /// <summary>
@@ -694,6 +711,26 @@ namespace Advanced.Algorithms.DataStructures
                 return null;
             }
             return null;
+        }
+
+        private void resetColors(RedBlackTreeNode<T> current)
+        {
+            if (current == null)
+            {
+                return;
+            }
+
+            resetColors(current.Left);
+            resetColors(current.Right);
+
+            if (current.IsLeaf)
+            {
+                current.NodeColor = RedBlackTreeNodeColor.Red;
+            }
+            else
+            {
+                current.NodeColor = RedBlackTreeNodeColor.Black;
+            }
         }
 
         /// <summary>

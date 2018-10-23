@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Advanced.Algorithms.DataStructures.Foundation
 {
@@ -22,13 +23,13 @@ namespace Advanced.Algorithms.DataStructures.Foundation
             binarySearchTree = new RedBlackTree<SortedDictionaryNode<K, V>>();
         }
 
-        public SortedDictionary(IDictionary<K, V> initial)
-            :this()
+        /// <summary>
+        /// Initialize the dictionary with given key value pairs sorted by key.
+        /// Time complexity: log(n).
+        /// </summary>
+        public SortedDictionary(IEnumerable<KeyValuePair<K, V>> sortedKeyValuePairs)
         {
-            foreach(var kvPair in initial)
-            {
-                Add(kvPair.Key, kvPair.Value);
-            }
+            binarySearchTree = new RedBlackTree<SortedDictionaryNode<K, V>>(sortedKeyValuePairs.Select(x => new SortedDictionaryNode<K, V>(x.Key, x.Value)));
         }
 
         /// <summary>
