@@ -1,4 +1,5 @@
 ﻿using JW.Alarm.Core.Uwp;
+using JW.Alarm.Models;
 using JW.Alarm.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -36,18 +37,11 @@ namespace JW.Alarm.Core.UWP.Views
 
                 if (listViewItem != null)
                 {
-                    var schedule = listViewItem.Content as ScheduleViewModel;
+                    var schedule = listViewItem.Content as ScheduleListItem;
 
                     if (schedule != null)
                     {
-                        if (toggleSwitch.IsOn == true)
-                        {
-                            schedule.EnableCommand.Execute(true);
-                        }
-                        else
-                        {
-                            schedule.EnableCommand.Execute(false);
-                        }
+                      ViewModel.EnableCommand.Execute(schedule.ScheduleId);   
                     }
                 }
             }
@@ -63,7 +57,8 @@ namespace JW.Alarm.Core.UWP.Views
         {
             if(e.AddedItems.Count > 0)
             {
-                Frame.Navigate(typeof(ScheduleView), (sender as ListView).SelectedItem as ScheduleViewModel);
+                Frame.Navigate(typeof(ScheduleView), 
+                    new ScheduleViewModel(((sender as ListView).SelectedItem as ScheduleListItem).Schedule));
             }     
         }
     }

@@ -1,28 +1,30 @@
-﻿using System;
+﻿using Advanced.Algorithms.DataStructures.Foundation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace JW.Alarm.Common.DataStructures
 {
     public class ObservableHashSet<T> : INotifyCollectionChanged,
-                                        IReadOnlyList<T>,
                                         IList<T>,
-                                        IList
+                                        IList where T : IComparable
     {
-        private readonly HashSet<T> hashSet = new HashSet<T>();
+        private readonly SortedHashSet<T> sortedHashSet = new SortedHashSet<T>();
 
-        private int index;
-        private readonly Dictionary<int, T> forwardLookUp = new Dictionary<int, T>();
-        private readonly Dictionary<T, int> reverseLookUp = new Dictionary<T, int>();
+        public T this[int i]
+        {
+            get => sortedHashSet[i];
+            set => throw new NotSupportedException();
+        }
 
-        public T this[int index] { get => forwardLookUp[index]; set => throw new NotImplementedException(); }
+        object IList.this[int i]
+        {
+            get => this[i];
+            set => this[i] = (T)value;
+        }
 
-        public int Count => hashSet.Count;
+        public int Count => sortedHashSet.Count;
 
         public bool IsReadOnly => false;
 
@@ -31,18 +33,6 @@ namespace JW.Alarm.Common.DataStructures
         public bool IsSynchronized => false;
 
         public object SyncRoot => throw new NotImplementedException();
-
-        object IList.this[int index]
-        {
-            get => this[index];
-            set
-            {
-                hashSet.Remove((T)value);
-                hashSet.Add((T)value);
-                forwardLookUp[index] = (T)value;
-                reverseLookUp[(T)value] = index;
-            }
-        }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
@@ -58,21 +48,15 @@ namespace JW.Alarm.Common.DataStructures
 
         private int add(T item)
         {
-            hashSet.Add(item);
-            forwardLookUp[index] = item;
-            reverseLookUp[item] = index;
-            Insert(index, item);
-            index++;
-
-            return index - 1;
+            sortedHashSet.Add(item);
+            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, sortedHashSet.IndexOf(item)));
+            return sortedHashSet.IndexOf(item);
         }
 
         public void Clear()
         {
-            hashSet.Clear();
-            forwardLookUp.Clear();
-            reverseLookUp.Clear();
-            index = 0;
+            sortedHashSet.Clear();
+            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public bool Contains(object value)
@@ -82,7 +66,7 @@ namespace JW.Alarm.Common.DataStructures
 
         public bool Contains(T item)
         {
-            return hashSet.Contains(item);
+            return sortedHashSet.Contains(item);
         }
 
         public int IndexOf(object value)
@@ -92,17 +76,17 @@ namespace JW.Alarm.Common.DataStructures
 
         public int IndexOf(T item)
         {
-            return reverseLookUp[item];
+            return sortedHashSet.IndexOf(item);
         }
 
-        public void Insert(int index, object value)
+        public void Insert(int i, object value)
         {
-            Insert(index, (T)value);
+            Insert(i, (T)value);
         }
 
-        public void Insert(int index, T item)
+        public void Insert(int i, T item)
         {
-            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+            throw new NotSupportedException();
         }
 
         public void Remove(object value)
@@ -112,12 +96,20 @@ namespace JW.Alarm.Common.DataStructures
 
         public bool Remove(T item)
         {
-            return hashSet.Remove(item);
+            var index = sortedHashSet.IndexOf(item);
+            var result = sortedHashSet.Remove(item);
+            if (result)
+            {
+                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+            }
+
+            return result;
         }
 
-        public void RemoveAt(int index)
+        public void RemoveAt(int i)
         {
-            Remove(forwardLookUp[index]);
+            var element = sortedHashSet.RemoveAt(i);
+            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, element));
         }
 
         private void onNotifyCollectionChanged(NotifyCollectionChangedEventArgs args)
@@ -125,14 +117,14 @@ namespace JW.Alarm.Common.DataStructures
             CollectionChanged?.Invoke(this, args);
         }
 
-        public void CopyTo(Array array, int index)
+        public void CopyTo(Array array, int i)
         {
-            throw new NotImplementedException();
+            CopyTo((T[])array, i);
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(T[] array, int i)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -142,7 +134,7 @@ namespace JW.Alarm.Common.DataStructures
 
         public IEnumerator<T> GetEnumerator()
         {
-            return hashSet.GetEnumerator();
+            return sortedHashSet.GetEnumerator();
         }
 
     }

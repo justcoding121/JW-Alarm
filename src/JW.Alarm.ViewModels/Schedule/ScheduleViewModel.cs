@@ -27,17 +27,7 @@ namespace JW.Alarm.ViewModels
 
             IsNewSchedule = model == null ? true : false;
             Model = model ?? new AlarmSchedule();
-            //{
-            //    Music = ,
-            //    BibleReadingScheduleId = 
-            //};
-
-            EnableCommand = new AsyncRelayCommand(async (parameter, cancelationToken) =>
-            {
-                IsEnabled = bool.Parse(parameter.ToString());
-                IsModified = true;
-                await SaveAsync();
-            });
+          
         }
 
         private AlarmSchedule model;
@@ -159,7 +149,6 @@ namespace JW.Alarm.ViewModels
             {
                 IsNewSchedule = false;
                 await alarmScheduleService.Create(Model);
-               // mainViewModel.Schedules.Add(this);
             }
             else
             {
@@ -168,15 +157,14 @@ namespace JW.Alarm.ViewModels
 
             IsModified = false;
 
-            var nextFire = Model.NextFireDate();
-            var timeSpan = nextFire - DateTimeOffset.Now;
-
+  
             if (IsEnabled)
             {
+                var nextFire = Model.NextFireDate();
+                var timeSpan = nextFire - DateTimeOffset.Now;
                 await popUpService.ShowMessage($"Alarm set for {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
             }
 
-            
             return true;
         }
 
