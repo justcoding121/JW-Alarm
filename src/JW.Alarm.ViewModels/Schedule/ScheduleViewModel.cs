@@ -26,17 +26,40 @@ namespace JW.Alarm.ViewModels
             this.mainViewModel = IocSetup.Container.Resolve<ScheduleListViewModel>();
 
             IsNewSchedule = model == null ? true : false;
-            Model = model ?? new AlarmSchedule();
-          
+            setModel(model ?? new AlarmSchedule());
+
         }
 
-        private AlarmSchedule model;
-
-        public AlarmSchedule Model
+        private AlarmSchedule getModel()
         {
-            get => model;
-            set => this.Set(ref model, value);
+            var model = new AlarmSchedule();
+
+            model.Id = scheduleId;
+
+            model.Name = Name;
+            model.IsEnabled = IsEnabled;
+            model.DaysOfWeek = DaysOfWeek;
+            model.Hour = Time.Hours;
+            model.Minute = Time.Minutes;
+            model.MusicEnabled = musicEnabled;
+            model.BibleReadingEnabled = BibleReadingEnabled;
+
+            return model;
         }
+
+        private void setModel(AlarmSchedule model)
+        {
+            scheduleId = model.Id;
+
+            name = model.Name;
+            isEnabled = model.IsEnabled;
+            daysOfWeek = model.DaysOfWeek;
+            time = new TimeSpan(model.Hour, model.Minute, 0);
+            musicEnabled = model.MusicEnabled;
+            bibleReadingEnabled = model.BibleReadingEnabled;
+        }
+
+        private int scheduleId;
 
         private string name;
         public string Name
@@ -52,48 +75,49 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isEnabled, value);
         }
 
+        private HashSet<DayOfWeek> daysOfWeek;
         public HashSet<DayOfWeek> DaysOfWeek
         {
-            get => Model.DaysOfWeek;
+            get => daysOfWeek;
+            set => this.Set(ref daysOfWeek, value);
         }
 
         private TimeSpan time;
         public TimeSpan Time
         {
-            get => new TimeSpan(Model.Hour, Model.Minute, 0);
+            get => time;
             set => this.Set(ref time, value);
-          
+
         }
 
         public string Hour
         {
-            get => (Model.Hour % 12).ToString("D2");
+            get => (Time.Hours % 12).ToString("D2");
         }
 
         public string Minute
         {
-            get => Model.Minute.ToString("D2");
+            get => Time.Minutes.ToString("D2");
         }
 
         public Meridien Meridien
         {
-            get => Model.Meridien;
+            get => Time.Hours < 12 ? Meridien.AM : Meridien.PM;
         }
 
-        private AlarmMusic music;
-        public AlarmMusic Music
+        private bool musicEnabled;
+        public bool MusicEnabled
         {
-            get => Model.Music;
-            set => this.Set(ref music, value);
+            get => musicEnabled;
+            set => this.Set(ref musicEnabled, value);
         }
 
-        private int bibleReadingScheduleId;
-        public int BibleReadingScheduleId
+        private bool bibleReadingEnabled;
+        public bool BibleReadingEnabled
         {
-            get => Model.BibleReadingScheduleId;
-            set => this.Set(ref bibleReadingScheduleId, value);
+            get => bibleReadingEnabled;
+            set => this.Set(ref bibleReadingEnabled, value);
         }
-
 
         public bool IsModified { get; set; }
 
@@ -124,17 +148,9 @@ namespace JW.Alarm.ViewModels
             this.RaiseProperty("DaysOfWeek");
         }
 
-        public async Task CancelAsync()
-        {
-            if (!IsNewSchedule)
-            {
-                await RevertChangesAsync();
-            }
-        }
-
         public async Task<bool> SaveAsync()
         {
-            if(IsExistingSchedule && !IsModified)
+            if (IsExistingSchedule && !IsModified)
             {
                 return true;
             }
@@ -144,23 +160,24 @@ namespace JW.Alarm.ViewModels
                 return false;
             }
 
-           
+            var model = getModel();
+
             if (IsNewSchedule)
             {
                 IsNewSchedule = false;
-                await alarmScheduleService.Create(Model);
+                await alarmScheduleService.Create(model);
             }
             else
             {
-                await alarmScheduleService.Update(Model);
+                await alarmScheduleService.Update(model);
             }
 
             IsModified = false;
 
-  
+
             if (IsEnabled)
             {
-                var nextFire = Model.NextFireDate();
+                var nextFire = model.NextFireDate();
                 var timeSpan = nextFire - DateTimeOffset.Now;
                 await popUpService.ShowMessage($"Alarm set for {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
             }
@@ -181,24 +198,10 @@ namespace JW.Alarm.ViewModels
 
         public async Task DeleteAsync()
         {
-            if (Model.Id >= 0)
+            if (scheduleId >= 0)
             {
-                await alarmScheduleService.Delete(Model.Id);
+                await alarmScheduleService.Delete(scheduleId);
             }
-        }
-
-        public async Task RevertChangesAsync()
-        {
-            if (IsModified)
-            {
-                await RefreshScheduleAsync();
-                IsModified = false;
-            }
-        }
-
-        public async Task RefreshScheduleAsync()
-        {
-            Model = await alarmScheduleService.Read(Model.Id);
         }
 
     }

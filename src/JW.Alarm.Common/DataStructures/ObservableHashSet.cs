@@ -10,7 +10,7 @@ namespace JW.Alarm.Common.DataStructures
                                         IList<T>,
                                         IList where T : IComparable
     {
-        private readonly SortedHashSet<T> sortedHashSet = new SortedHashSet<T>();
+        private readonly OrderedHashSet<T> sortedHashSet = new OrderedHashSet<T>();
 
         public T this[int i]
         {
@@ -48,9 +48,9 @@ namespace JW.Alarm.Common.DataStructures
 
         private int add(T item)
         {
-            sortedHashSet.Add(item);
-            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, sortedHashSet.IndexOf(item)));
-            return sortedHashSet.IndexOf(item);
+            var index = sortedHashSet.Add(item);
+            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+            return index;
         }
 
         public void Clear()
@@ -96,14 +96,14 @@ namespace JW.Alarm.Common.DataStructures
 
         public bool Remove(T item)
         {
-            var index = sortedHashSet.IndexOf(item);
-            var result = sortedHashSet.Remove(item);
-            if (result)
+            var index = sortedHashSet.Remove(item);
+            if (index>=0)
             {
                 onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+                return true;
             }
 
-            return result;
+            return false;
         }
 
         public void RemoveAt(int i)

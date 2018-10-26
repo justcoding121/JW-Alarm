@@ -27,27 +27,7 @@ namespace JW.Alarm.Core.UWP.Views
             base.OnNavigatedTo(e);
         }
 
-        private void Toggle_IsEnabled_Toggled(object sender, RoutedEventArgs e)
-        {
-            var toggleSwitch = sender as ToggleSwitch;
-
-            if (toggleSwitch != null)
-            {
-                var listViewItem = toggleSwitch.FindVisualAncestor<ListViewItem>();
-
-                if (listViewItem != null)
-                {
-                    var schedule = listViewItem.Content as ScheduleListItem;
-
-                    if (schedule != null)
-                    {
-                      ViewModel.EnableCommand.Execute(schedule.ScheduleId);   
-                    }
-                }
-            }
-
-        }
-
+        
         private void addScheduleButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ScheduleView), new ScheduleViewModel());

@@ -65,7 +65,7 @@
                             <TextBlock Name="TextBlock_Description"  MaxLines="1" TextWrapping="NoWrap" Text="{Binding Name}" MaxWidth="100" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
                         </StackPanel>
                         <StackPanel VerticalAlignment="Center" Grid.Column="2" Orientation="Horizontal" Margin="15,0,0,0">
-                            <ToggleSwitch Name="Toggle_IsEnabled" Toggled="Toggle_IsEnabled_Toggled" IsOn="{Binding IsEnabled}" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"></ToggleSwitch>
+                            <ToggleSwitch Name="Toggle_IsEnabled" IsOn="{Binding IsEnabled, Mode=TwoWay}" Foreground="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"></ToggleSwitch>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

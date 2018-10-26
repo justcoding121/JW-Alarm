@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Mvvmicro;
+using System.Reactive.Disposables;
+using Observable = System.Reactive.Linq.Observable;
+using System.ComponentModel;
+using System.Reactive.Linq;
 
 namespace JW.Alarm.ViewModels
 {
@@ -18,14 +20,18 @@ namespace JW.Alarm.ViewModels
         private IThreadService threadService;
         private IPopUpService popUpService;
 
+        readonly SerialDisposable subscription;
+
         public AsyncRelayCommand EnableCommand { get; private set; }
 
-        public ScheduleListViewModel(IAlarmScheduleService scheduleService, 
+        public ScheduleListViewModel(IAlarmScheduleService scheduleService,
             IThreadService threadService, IPopUpService popUpService)
         {
             this.scheduleService = scheduleService;
             this.threadService = threadService;
             this.popUpService = popUpService;
+
+            subscription = new SerialDisposable();
 
             EnableCommand = new AsyncRelayCommand(async (parameter, cancelationToken) =>
             {
@@ -68,15 +74,49 @@ namespace JW.Alarm.ViewModels
 
         public async Task GetScheduleListAsync()
         {
+            var subscription = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
+                                => new NotifyCollectionChangedEventHandler(ev),
+                                      ev => Schedules.CollectionChanged += ev,
+                                      ev => Schedules.CollectionChanged -= ev)
+            .SelectMany(x =>
+            {
+                var newItems = new List<ScheduleListItem>();
+
+                if (x.EventArgs.NewItems != null)
+                {
+                    foreach (var item in x.EventArgs.NewItems)
+                    {
+                        newItems.Add((ScheduleListItem)item);
+                    }
+                }
+
+                return newItems.Select(y =>
+                {
+                    return Observable.FromEvent<PropertyChangedEventHandler, ScheduleListItem>(
+                                   onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                 => onNextHandler(((ScheduleListItem)sender)),
+                                                   handler => y.PropertyChanged += handler,
+                                                   handler => y.PropertyChanged -= handler)
+                                                   .TakeUntil((s) => !Schedules.Contains(s));
+
+                });
+
+            })
+             .Merge()
+             .Subscribe(x =>
+             {
+                 scheduleService.Update(x.Schedule);
+             });
+
             await threadService.RunOnUIThread(() => IsLoading = true);
 
-            var schedules = await scheduleService.AlarmSchedules;
-            if (schedules == null)
+            var alarmSchedules = await scheduleService.AlarmSchedules;
+            if (alarmSchedules == null)
             {
                 return;
             }
 
-            schedules.CollectionChanged += async (s, e) =>
+            alarmSchedules.CollectionChanged += async (s, e) =>
             {
                 await threadService.RunOnUIThread(() =>
                 {
@@ -90,7 +130,7 @@ namespace JW.Alarm.ViewModels
                         }
                     }
 
-                    if(e.Action == NotifyCollectionChangedAction.Remove)
+                    if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
                         foreach (var newItem in e.OldItems)
                         {
@@ -104,8 +144,7 @@ namespace JW.Alarm.ViewModels
 
             await threadService.RunOnUIThread(() =>
             {
-                Schedules.Clear();
-                foreach (var schedule in schedules)
+                foreach (var schedule in alarmSchedules)
                 {
                     var listItem = new ScheduleListItem(schedule.Value);
                     listMapping.Add(schedule.Value, listItem);
@@ -114,23 +153,27 @@ namespace JW.Alarm.ViewModels
                 IsLoading = false;
             });
         }
-
-
     }
 
-    public class ScheduleListItem : IComparable
+    public class ScheduleListItem : ViewModelBase, IComparable
     {
         public AlarmSchedule Schedule;
         public ScheduleListItem(AlarmSchedule schedule = null)
         {
             Schedule = schedule;
+            isEnabled = schedule.IsEnabled;
         }
 
         public int ScheduleId => Schedule.Id;
 
         public string Name => Schedule.Name;
 
-        public bool IsEnabled => Schedule.IsEnabled;
+        private bool isEnabled;
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set => this.Set(ref isEnabled, value);
+        }
 
         public HashSet<DayOfWeek> DaysOfWeek => Schedule.DaysOfWeek;
 
