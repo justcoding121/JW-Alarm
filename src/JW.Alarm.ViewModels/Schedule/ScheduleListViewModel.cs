@@ -80,21 +80,18 @@ namespace JW.Alarm.ViewModels
                                       ev => Schedules.CollectionChanged -= ev)
             .SelectMany(x =>
             {
-                var newItems = new List<ScheduleListItem>();
+                var newItems = x.EventArgs.NewItems?.Cast<ScheduleListItem>();
 
-                if (x.EventArgs.NewItems != null)
+                if (newItems == null)
                 {
-                    foreach (var item in x.EventArgs.NewItems)
-                    {
-                        newItems.Add((ScheduleListItem)item);
-                    }
+                    return Enumerable.Empty<IObservable<ScheduleListItem>>();
                 }
 
                 return newItems.Select(y =>
                 {
                     return Observable.FromEvent<PropertyChangedEventHandler, ScheduleListItem>(
                                    onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                 => onNextHandler(((ScheduleListItem)sender)),
+                                                 => onNextHandler((ScheduleListItem)sender),
                                                    handler => y.PropertyChanged += handler,
                                                    handler => y.PropertyChanged -= handler)
                                                    .TakeUntil((s) => !Schedules.Contains(s));
