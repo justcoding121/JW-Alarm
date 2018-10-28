@@ -177,9 +177,7 @@ namespace JW.Alarm.ViewModels
 
             if (IsEnabled)
             {
-                var nextFire = model.NextFireDate();
-                var timeSpan = nextFire - DateTimeOffset.Now;
-                await popUpService.ShowMessage($"Alarm set for {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
+                await popUpService.ShowScheduledNotification(model);
             }
 
             return true;

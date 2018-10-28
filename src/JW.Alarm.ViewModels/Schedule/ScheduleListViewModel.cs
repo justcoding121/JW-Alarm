@@ -22,31 +22,12 @@ namespace JW.Alarm.ViewModels
 
         readonly SerialDisposable subscription;
 
-        public AsyncRelayCommand EnableCommand { get; private set; }
-
         public ScheduleListViewModel(IAlarmScheduleService scheduleService,
             IThreadService threadService, IPopUpService popUpService)
         {
             this.scheduleService = scheduleService;
             this.threadService = threadService;
             this.popUpService = popUpService;
-
-            subscription = new SerialDisposable();
-
-            EnableCommand = new AsyncRelayCommand(async (parameter, cancelationToken) =>
-            {
-                var scheduleId = int.Parse(parameter.ToString());
-                var schedule = await scheduleService.Read(scheduleId);
-                schedule.IsEnabled = !schedule.IsEnabled;
-                await scheduleService.Update(schedule);
-
-                if (schedule.IsEnabled)
-                {
-                    var nextFire = schedule.NextFireDate();
-                    var timeSpan = nextFire - DateTimeOffset.Now;
-                    await popUpService.ShowMessage($"Alarm set for {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
-                }
-            });
 
             Task.Run(() => GetScheduleListAsync());
         }
@@ -74,36 +55,43 @@ namespace JW.Alarm.ViewModels
 
         public async Task GetScheduleListAsync()
         {
-            var subscription = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
-                                => new NotifyCollectionChangedEventHandler(ev),
-                                      ev => Schedules.CollectionChanged += ev,
-                                      ev => Schedules.CollectionChanged -= ev)
-            .SelectMany(x =>
-            {
-                var newItems = x.EventArgs.NewItems?.Cast<ScheduleListItem>();
+            var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
+                               => new NotifyCollectionChangedEventHandler(ev),
+                                     ev => Schedules.CollectionChanged += ev,
+                                     ev => Schedules.CollectionChanged -= ev);
 
-                if (newItems == null)
-                {
-                    return Enumerable.Empty<IObservable<ScheduleListItem>>();
-                }
+            var subscription = scheduleObservable
+                                .Do(async x => await threadService.RunOnUIThread(() => IsLoading = true))
+                                .SelectMany(x =>
+                                {
+                                    var newItems = x.EventArgs.NewItems?.Cast<ScheduleListItem>();
+                                    if (newItems == null)
+                                    {
+                                        return Enumerable.Empty<IObservable<ScheduleListItem>>();
+                                    }
 
-                return newItems.Select(y =>
-                {
-                    return Observable.FromEvent<PropertyChangedEventHandler, ScheduleListItem>(
-                                   onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                 => onNextHandler((ScheduleListItem)sender),
-                                                   handler => y.PropertyChanged += handler,
-                                                   handler => y.PropertyChanged -= handler)
-                                                   .TakeUntil((s) => !Schedules.Contains(s));
+                                    return newItems.Select(added =>
+                                    {
+                                        var removedObservable = scheduleObservable.Any(z =>
+                                        {
+                                            var oldItem = z.EventArgs.OldItems?.Cast<ScheduleListItem>();
+                                            return oldItem != null && oldItem.Any(removed => added == removed);
+                                        });
 
-                });
+                                        return Observable.FromEvent<PropertyChangedEventHandler, ScheduleListItem>(
+                                                       onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                                     => onNextHandler((ScheduleListItem)sender),
+                                                                       handler => added.PropertyChanged += handler,
+                                                                       handler => added.PropertyChanged -= handler)
+                                                                       .TakeUntil(removedObservable);
+                                    });
 
-            })
-             .Merge()
-             .Subscribe(x =>
-             {
-                 scheduleService.Update(x.Schedule);
-             });
+                                })
+                                 .Merge()
+                                 .Do(async y => await scheduleService.Update(y.Schedule))
+                                 .Do(async y => { if (y.IsEnabled) await popUpService.ShowScheduledNotification(y.Schedule); })
+                                 .Do(async x => await threadService.RunOnUIThread(() => IsLoading = false))
+                                 .Subscribe();
 
             await threadService.RunOnUIThread(() => IsLoading = true);
 

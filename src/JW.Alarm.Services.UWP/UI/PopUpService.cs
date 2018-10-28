@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace JW.Alarm.Services.UWP
 {
-    public class UwpPopUpService : IPopUpService
+    public class UwpPopUpService : PopUpService
     {
         private IThreadService threadService;
 
@@ -20,7 +20,7 @@ namespace JW.Alarm.Services.UWP
             this.threadService = threadService;
         }
 
-        public async Task ShowMessage(string message, int seconds)
+        public override async Task ShowMessage(string message, int seconds)
         {
             var flyout = new Flyout();
             flyout.Content = new TextBlock()
@@ -32,6 +32,8 @@ namespace JW.Alarm.Services.UWP
             flyout.Placement = FlyoutPlacementMode.Bottom;
 
             Frame currentFrame = Window.Current.Content as Frame;
+
+            flyout.OverlayInputPassThroughElement = currentFrame;
 
             await threadService.RunOnUIThread(() => flyout.ShowAt(currentFrame));
 

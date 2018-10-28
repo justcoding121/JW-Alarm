@@ -18,7 +18,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Canvas.ZIndex="1000" Grid.Row="1" 
+            <Button Grid.Row="1" 
                         Name="addScheduleButton"
                         Click="addScheduleButton_Click"
                         Margin="5"
