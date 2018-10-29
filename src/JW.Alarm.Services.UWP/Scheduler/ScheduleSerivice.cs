@@ -10,33 +10,34 @@ namespace JW.Alarm.Services.Uwp
 {
     public class UwpScheduleService : AlarmScheduleService
     {
-        public UwpScheduleService(IDatabase database)
-            : base(database)
+        public UwpScheduleService(IDatabase database, IBibleReadingScheduleService bibleReadingScheduleService)
+            : base(database, bibleReadingScheduleService)
         {
         }
 
         public override async Task Create(AlarmSchedule schedule)
         {
-            createNotification(schedule);
             await base.Create(schedule);
+            createNotification(schedule);
+            
         }
 
         public override async Task Delete(int scheduleId)
         {
-            removeNotification(scheduleId.ToString());
             await base.Delete(scheduleId);
+            removeNotification(scheduleId.ToString());   
         }
 
         public override async Task Update(AlarmSchedule schedule)
         {
+            await base.Update(schedule);
+
             removeNotification(schedule.Id.ToString());
 
             if(schedule.IsEnabled)
             {
                 createNotification(schedule);
-            }
-
-            await base.Update(schedule);
+            }            
         }
 
         private void createNotification(AlarmSchedule schedule)

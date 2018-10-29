@@ -6,9 +6,10 @@ namespace JW.Alarm.Models
 {
     public class PlayItem
     {
+        public PlayType Type { get; set; }
         public string Url { get; set; }
 
-        public PlayItem(string url)
+        public PlayItem(PlayType type, string url)
         {
             Url = url;
         }

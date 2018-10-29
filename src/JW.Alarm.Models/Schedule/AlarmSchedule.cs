@@ -36,12 +36,8 @@ namespace JW.Alarm.Models
         public bool BibleReadingEnabled { get; set; } = true;
         public int BibleReadingScheduleId { get; set; }
 
+        //state
         public PlayType CurrentPlayItem { get; set; }
-
-        public AlarmSchedule()
-        {
-           
-        }
 
         public DateTimeOffset NextFireDate()
         {

@@ -16,7 +16,9 @@
             container.Register<IThreadService>((x) => new UwpThreadService(), isSingleton: true);
             container.Register<IPopUpService>((x) => new UwpPopUpService(container.Resolve<IThreadService>()), isSingleton: true);
 
-            container.Register<IAlarmScheduleService>((x) => new UwpScheduleService(container.Resolve<IDatabase>()), isSingleton: true);
+            container.Register<IAlarmScheduleService>((x) => new UwpScheduleService(container.Resolve<IDatabase>(),
+                container.Resolve<IBibleReadingScheduleService>()), isSingleton: true);
+
             container.Register((x)=> new AlarmTask(container.Resolve<IMediaPlayService>()));
             container.Register((x)=> new SchedulerTask(container.Resolve<IAlarmScheduleService>()), isSingleton: true);
 

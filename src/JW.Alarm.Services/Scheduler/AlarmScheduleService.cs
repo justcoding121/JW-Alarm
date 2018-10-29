@@ -10,17 +10,47 @@ namespace JW.Alarm.Services
     public abstract class AlarmScheduleService : IAlarmScheduleService
     {
         private readonly IDatabase database;
+        private readonly IBibleReadingScheduleService bibleReadingScheduleService;
+
         private ObservableDictionary<int, AlarmSchedule> schedules;
 
-        public AlarmScheduleService(IDatabase database)
+        public AlarmScheduleService(IDatabase database,
+            IBibleReadingScheduleService bibleReadingScheduleService)
         {
             this.database = database;
+            this.bibleReadingScheduleService = bibleReadingScheduleService;
         }
 
         public Task<ObservableDictionary<int, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
 
         public virtual async Task Create(AlarmSchedule alarmSchedule)
         {
+            if (alarmSchedule.BibleReadingScheduleId == 0)
+            {
+                var newSchedule = new BibleReadingSchedule()
+                {
+                    BookNumber = 23,
+                    ChapterNumber = 1,
+                    LanguageCode = "E",
+                    PublicationCode = "NWT"
+                };
+
+                await bibleReadingScheduleService.Create(newSchedule);
+
+                alarmSchedule.BibleReadingScheduleId = newSchedule.Id;
+            }
+
+            if (alarmSchedule.Music == null)
+            {
+                alarmSchedule.Music = new AlarmMusic()
+                {
+                    MusicType = MusicType.Melodies,
+                    PublicationCode = "iam",
+                    LanguageCode = "E",
+                    TrackNumber = 89
+                };
+            }
+
             await database.Insert(alarmSchedule);
 
             if (schedules != null)
@@ -41,7 +71,10 @@ namespace JW.Alarm.Services
 
         public virtual async Task Delete(int alarmScheduleId)
         {
-            await database.Delete<AlarmSchedule>(alarmScheduleId);
+            var schedule = await Read(alarmScheduleId);
+
+            await database.Delete<AlarmSchedule>(schedule.Id);
+            await bibleReadingScheduleService.Delete(schedule.BibleReadingScheduleId);
 
             if (schedules != null)
             {

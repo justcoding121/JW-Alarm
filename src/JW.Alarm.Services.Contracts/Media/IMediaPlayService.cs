@@ -10,7 +10,7 @@ namespace JW.Alarm.Services.Contracts
     {
         Task Play(int scheduleId);
         Task Stop(AlarmSchedule schedule);
-        Task SetNextItemToPlay(int scheduleId);
-        Task<PlayItem> NextUrlToPlay(int scheduleId);
+        Task<PlayItem> NextUrlToPlay(int scheduleId, PlayType playType);
+        Task SetNextItemToPlay(int scheduleId, PlayType currentPublication);
     }
 }

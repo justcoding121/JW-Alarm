@@ -13,6 +13,7 @@ namespace JW.Alarm.Services.UWP
     {
         private Dictionary<int, MediaPlayer> alarmToMediaPlayersMap = new Dictionary<int, MediaPlayer>();
         private Dictionary<MediaPlayer, int> mediaPlayersToAlarmMap = new Dictionary<MediaPlayer, int>();
+        private Dictionary<int, PlayType> playStatus = new Dictionary<int, PlayType>();
 
         public UwpMediaPlayService(IAlarmScheduleService alarmscheduleService, 
             IBibleReadingScheduleService bibleReadingScheduleService,
@@ -23,30 +24,37 @@ namespace JW.Alarm.Services.UWP
 
         public override async Task Play(int scheduleId)
         {
-            var nextPlayItem = await NextUrlToPlay(scheduleId);
+            var nextPlayItem = await NextUrlToPlay(scheduleId, PlayType.Music);
+            playStatus[scheduleId] = nextPlayItem.Type;
 
             var mediaPlayer = new MediaPlayer();
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(nextPlayItem.Url));
-            mediaPlayer.PlaybackSession.BufferingEnded += onTrackEnd;
+           
+            mediaPlayer.MediaEnded += onTrackEnd;
             mediaPlayer.Play();
-
+           
             alarmToMediaPlayersMap.Add(scheduleId, mediaPlayer);
             mediaPlayersToAlarmMap.Add(mediaPlayer, scheduleId);
+
         }
 
         //move to next track on track end
-        private async void onTrackEnd(MediaPlaybackSession sender, object args)
+        private async void onTrackEnd(MediaPlayer mediaPlayer, object args)
         {
-            var mediaPlayer = sender.MediaPlayer;
-
             var scheduleId = mediaPlayersToAlarmMap[mediaPlayer];
-           
-            SetNextItemToPlay(scheduleId).Wait();
 
-            var nextPlayItem = await NextUrlToPlay(scheduleId);
+            var status = playStatus[scheduleId];
+            if(status != PlayType.Music)
+            {
+                await SetNextItemToPlay(scheduleId, PlayType.Bible); 
+            }
+
+            var nextPlayItem = await NextUrlToPlay(scheduleId, PlayType.Bible);
+            playStatus[scheduleId] = nextPlayItem.Type;
 
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(nextPlayItem.Url));
             mediaPlayer.Play();
+
         }
 
 

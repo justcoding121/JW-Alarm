@@ -8,9 +8,9 @@ using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Mvvmicro;
 using System.Reactive.Disposables;
-using Observable = System.Reactive.Linq.Observable;
-using System.ComponentModel;
 using System.Reactive.Linq;
+using System.ComponentModel;
+using System.Collections;
 
 namespace JW.Alarm.ViewModels
 {
@@ -20,8 +20,6 @@ namespace JW.Alarm.ViewModels
         private IThreadService threadService;
         private IPopUpService popUpService;
 
-        readonly SerialDisposable subscription;
-
         public ScheduleListViewModel(IAlarmScheduleService scheduleService,
             IThreadService threadService, IPopUpService popUpService)
         {
@@ -29,7 +27,7 @@ namespace JW.Alarm.ViewModels
             this.threadService = threadService;
             this.popUpService = popUpService;
 
-            Task.Run(() => GetScheduleListAsync());
+            Task.Run(() => InitializeScheduleListAsync());
         }
 
         private Dictionary<AlarmSchedule, ScheduleListItem> listMapping = new Dictionary<AlarmSchedule, ScheduleListItem>();
@@ -43,17 +41,8 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref selectedSchedule, value);
         }
 
-        private bool isLoading = false;
 
-
-        public bool IsLoading
-        {
-            get => isLoading;
-            set => this.Set(ref isLoading, value);
-        }
-
-
-        public async Task GetScheduleListAsync()
+        public async Task InitializeScheduleListAsync()
         {
             var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
                                => new NotifyCollectionChangedEventHandler(ev),
@@ -61,7 +50,6 @@ namespace JW.Alarm.ViewModels
                                      ev => Schedules.CollectionChanged -= ev);
 
             var subscription = scheduleObservable
-                                .Do(async x => await threadService.RunOnUIThread(() => IsLoading = true))
                                 .SelectMany(x =>
                                 {
                                     var newItems = x.EventArgs.NewItems?.Cast<ScheduleListItem>();
@@ -78,51 +66,38 @@ namespace JW.Alarm.ViewModels
                                             return oldItem != null && oldItem.Any(removed => added == removed);
                                         });
 
-                                        return Observable.FromEvent<PropertyChangedEventHandler, ScheduleListItem>(
+                                        return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, ScheduleListItem>>(
                                                        onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                                     => onNextHandler((ScheduleListItem)sender),
+                                                                     => onNextHandler(new KeyValuePair<string, ScheduleListItem>(e.PropertyName, (ScheduleListItem)sender)),
                                                                        handler => added.PropertyChanged += handler,
                                                                        handler => added.PropertyChanged -= handler)
-                                                                       .TakeUntil(removedObservable);
+                                                                       .TakeUntil(removedObservable)
+                                                                       .Where(kv => kv.Key == "IsEnabled")
+                                                                       .Select(y => y.Value);
                                     });
 
                                 })
                                  .Merge()
+                                 .Do(async x => await popUpService.ShowProgressRing())
                                  .Do(async y => await scheduleService.Update(y.Schedule))
                                  .Do(async y => { if (y.IsEnabled) await popUpService.ShowScheduledNotification(y.Schedule); })
-                                 .Do(async x => await threadService.RunOnUIThread(() => IsLoading = false))
+                                 .Do(async x => await popUpService.HideProgressRing())
                                  .Subscribe();
 
-            await threadService.RunOnUIThread(() => IsLoading = true);
-
             var alarmSchedules = await scheduleService.AlarmSchedules;
-            if (alarmSchedules == null)
-            {
-                return;
-            }
 
             alarmSchedules.CollectionChanged += async (s, e) =>
             {
                 await threadService.RunOnUIThread(() =>
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    switch (e.Action)
                     {
-                        foreach (var newItem in e.NewItems)
-                        {
-                            var listItem = new ScheduleListItem(((KeyValuePair<int, AlarmSchedule>)newItem).Value);
-                            listMapping.Add(listItem.Schedule, listItem);
-                            Schedules.Add(listItem);
-                        }
-                    }
-
-                    if (e.Action == NotifyCollectionChangedAction.Remove)
-                    {
-                        foreach (var newItem in e.OldItems)
-                        {
-                            var removed = ((KeyValuePair<int, AlarmSchedule>)newItem).Value;
-                            Schedules.Remove(listMapping[removed]);
-                            listMapping.Remove(removed);
-                        }
+                        case NotifyCollectionChangedAction.Add:
+                            add(e.NewItems);
+                            break;
+                        case NotifyCollectionChangedAction.Remove:
+                            remove(e.OldItems);
+                            break;
                     }
                 });
             };
@@ -135,9 +110,31 @@ namespace JW.Alarm.ViewModels
                     listMapping.Add(schedule.Value, listItem);
                     Schedules.Add(listItem);
                 }
-                IsLoading = false;
             });
+
+            await popUpService.HideProgressRing();
         }
+
+        private void remove(IList oldItems)
+        {
+            foreach (var newItem in oldItems)
+            {
+                var removed = ((KeyValuePair<int, AlarmSchedule>)newItem).Value;
+                Schedules.Remove(listMapping[removed]);
+                listMapping.Remove(removed);
+            }
+        }
+
+        private void add(IList newItems)
+        {
+            foreach (var newItem in newItems)
+            {
+                var listItem = new ScheduleListItem(((KeyValuePair<int, AlarmSchedule>)newItem).Value);
+                listMapping.Add(listItem.Schedule, listItem);
+                Schedules.Add(listItem);
+            }
+        }
+
     }
 
     public class ScheduleListItem : ViewModelBase, IComparable
@@ -175,5 +172,4 @@ namespace JW.Alarm.ViewModels
             return ScheduleId.CompareTo((obj as ScheduleListItem).ScheduleId);
         }
     }
-
 }

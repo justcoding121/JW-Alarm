@@ -1,4 +1,5 @@
-﻿using JW.Alarm.Models;
+﻿using JW.Alarm.Common.Mvvm;
+using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,30 @@ namespace JW.Alarm.Services
 {
     public abstract class PopUpService : IPopUpService
     {
+        private readonly IThreadService threadService;
+
+        public PopUpService(IThreadService threadService)
+        {
+            this.threadService = threadService;
+        }
+
+        public async Task HideProgressRing()
+        {
+            await threadService.RunOnUIThread(async () =>
+            {
+                await Messenger<bool>.Publish(Messages.Progress, false);
+            });
+        }
+
         public abstract Task ShowMessage(string message, int seconds = 3);
+
+        public async Task ShowProgressRing()
+        {
+            await threadService.RunOnUIThread(async () =>
+            {
+                await Messenger<bool>.Publish(Messages.Progress, true);
+            });
+        }
 
         public async Task ShowScheduledNotification(AlarmSchedule schedule, int seconds = 3)
         {

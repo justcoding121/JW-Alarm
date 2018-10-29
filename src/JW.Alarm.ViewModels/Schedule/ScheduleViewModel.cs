@@ -7,7 +7,6 @@ using Mvvmicro;
 
 namespace JW.Alarm.ViewModels
 {
-
     public class ScheduleViewModel : ViewModelBase
     {
         IAlarmScheduleService alarmScheduleService;
@@ -15,25 +14,20 @@ namespace JW.Alarm.ViewModels
 
         IPopUpService popUpService;
 
-        //TODO get rid of this when reactive extensions are used later
-        ScheduleListViewModel mainViewModel;
-
         public ScheduleViewModel(AlarmSchedule model = null)
         {
             this.alarmScheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingScheduleService>();
-            this.mainViewModel = IocSetup.Container.Resolve<ScheduleListViewModel>();
 
             IsNewSchedule = model == null ? true : false;
             setModel(model ?? new AlarmSchedule());
-
         }
+
+        private AlarmSchedule model;
 
         private AlarmSchedule getModel()
         {
-            var model = new AlarmSchedule();
-
             model.Id = scheduleId;
 
             model.Name = Name;
@@ -49,8 +43,9 @@ namespace JW.Alarm.ViewModels
 
         private void setModel(AlarmSchedule model)
         {
-            scheduleId = model.Id;
+            this.model = model;
 
+            scheduleId = model.Id;
             name = model.Name;
             isEnabled = model.IsEnabled;
             daysOfWeek = model.DaysOfWeek;
@@ -119,15 +114,6 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref bibleReadingEnabled, value);
         }
 
-        public bool IsModified { get; set; }
-
-        private bool isLoading;
-        public bool IsLoading
-        {
-            get => isLoading;
-            set => this.Set(ref isLoading, value);
-        }
-
         public bool IsNewSchedule { get; private set; }
         public bool IsExistingSchedule => !IsNewSchedule;
 
@@ -143,44 +129,44 @@ namespace JW.Alarm.ViewModels
             {
                 DaysOfWeek.Add(day);
             }
-            IsModified = true;
 
             this.RaiseProperty("DaysOfWeek");
         }
 
         public async Task<bool> SaveAsync()
         {
-            if (IsExistingSchedule && !IsModified)
+            try
             {
+                await popUpService.ShowProgressRing();
+
+                if (!await validate())
+                {
+                    return false;
+                }
+
+                var model = getModel();
+
+                if (IsNewSchedule)
+                {
+                    IsNewSchedule = false;
+                    await alarmScheduleService.Create(model);
+                }
+                else
+                {
+                    await alarmScheduleService.Update(model);
+                }
+
+                if (IsEnabled)
+                {
+                    await popUpService.ShowScheduledNotification(model);
+                }
+
                 return true;
             }
-
-            if (!await validate())
+            finally
             {
-                return false;
+                await popUpService.HideProgressRing();
             }
-
-            var model = getModel();
-
-            if (IsNewSchedule)
-            {
-                IsNewSchedule = false;
-                await alarmScheduleService.Create(model);
-            }
-            else
-            {
-                await alarmScheduleService.Update(model);
-            }
-
-            IsModified = false;
-
-
-            if (IsEnabled)
-            {
-                await popUpService.ShowScheduledNotification(model);
-            }
-
-            return true;
         }
 
         private async Task<bool> validate()
@@ -201,6 +187,5 @@ namespace JW.Alarm.ViewModels
                 await alarmScheduleService.Delete(scheduleId);
             }
         }
-
     }
 }

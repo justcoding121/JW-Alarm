@@ -16,6 +16,7 @@ namespace JW.Alarm.Services.UWP
         private IThreadService threadService;
 
         public UwpPopUpService(IThreadService threadService)
+            :base(threadService)
         {
             this.threadService = threadService;
         }

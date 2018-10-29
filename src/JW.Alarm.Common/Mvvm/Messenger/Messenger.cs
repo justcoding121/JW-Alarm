@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Common.Mvvm.Messenger
+namespace JW.Alarm.Common.Mvvm
 {
-    public static class Messenger
+    public enum Messages
     {
-        private static Dictionary<string, List<Func<object, Task>>> subscribers = new Dictionary<string, List<Func<object, Task>>>();
+        Progress
+    }
 
-        public async static Task Publish<T>(T @object) where T : class
+    public static class Messenger<T>
+    {
+        private static Dictionary<Messages, List<Func<T, Task>>> subscribers = new Dictionary<Messages, List<Func<T, Task>>>();
+
+        public async static Task Publish(Messages stream, T @object) 
         {
-            if (subscribers.ContainsKey(typeof(T).Name))
+            if (subscribers.ContainsKey(stream))
             {
-                var listeners = subscribers[typeof(T).Name];
+                var listeners = subscribers[stream];
 
                 foreach (var listener in listeners)
                 {
@@ -21,15 +26,15 @@ namespace JW.Alarm.Common.Mvvm.Messenger
             }
         }
 
-        public static void Subscribe<T>(Func<object, Task> action) where T : class
+        public static void Subscribe(Messages stream, Func<T, Task> action) 
         {
-            if (subscribers.ContainsKey(typeof(T).Name))
+            if (subscribers.ContainsKey(stream))
             {
-                subscribers[typeof(T).Name].Add(action);
+                subscribers[stream].Add(action);
             }
             else
             {
-                subscribers[typeof(T).Name] = new List<Func<object, Task>>(new[] { action });
+                subscribers[stream] = new List<Func<T, Task>>(new[] { action });
             }
 
         }

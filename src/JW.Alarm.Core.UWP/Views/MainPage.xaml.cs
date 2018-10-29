@@ -1,4 +1,6 @@
-﻿using JW.Alarm.Core.UWP.Views;
+﻿using JW.Alarm.Common.Mvvm;
+using JW.Alarm.Core.UWP.Views;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -14,6 +16,22 @@ namespace JW.Alarm.Core.Uwp
         {
             this.InitializeComponent();
             customizeTitleBar();
+
+            Messenger<bool>.Subscribe(Messages.Progress, (bool inProgress) =>
+            {
+                if (inProgress)
+                {
+                    this.ProgressRing_Loading.IsActive = true;
+                    this.ProgressRing_Loading.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    this.ProgressRing_Loading.IsActive = false;
+                    this.ProgressRing_Loading.Visibility = Visibility.Collapsed;
+                }
+
+                return Task.FromResult(false);
+            });
         }
 
         private void customizeTitleBar()

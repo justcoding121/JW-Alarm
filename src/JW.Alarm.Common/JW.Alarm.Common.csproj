@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Enums\**" />
+    <Compile Remove="Mvvm\Navigation\**" />
     <EmbeddedResource Remove="Enums\**" />
+    <EmbeddedResource Remove="Mvvm\Navigation\**" />
     <None Remove="Enums\**" />
+    <None Remove="Mvvm\Navigation\**" />
   </ItemGroup>
 
   <ItemGroup>

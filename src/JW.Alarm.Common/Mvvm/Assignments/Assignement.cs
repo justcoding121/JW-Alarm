@@ -7,7 +7,7 @@
 	/// <summary>
 	/// The result of an assignment of an Observable property.
 	/// </summary>
-    public class Assignement<TObservable,T> where TObservable : Observable
+    public class Assignement<TObservable,T> where TObservable : VMObservable
 	{
 		public Assignement(TObservable owner, string property, T oldValue, T newValue)
 		{
