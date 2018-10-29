@@ -11,6 +11,7 @@ namespace JW.Alarm.Models
 
         public PlayItem(PlayType type, string url)
         {
+            Type = type;
             Url = url;
         }
     }

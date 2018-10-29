@@ -13,7 +13,7 @@ namespace JW.Alarm.Common.Mvvm
     {
         private static Dictionary<Messages, List<Func<T, Task>>> subscribers = new Dictionary<Messages, List<Func<T, Task>>>();
 
-        public async static Task Publish(Messages stream, T @object) 
+        public async static Task Publish(Messages stream, T @object)
         {
             if (subscribers.ContainsKey(stream))
             {
@@ -26,7 +26,7 @@ namespace JW.Alarm.Common.Mvvm
             }
         }
 
-        public static void Subscribe(Messages stream, Func<T, Task> action) 
+        public static void Subscribe(Messages stream, Func<T, Task> action)
         {
             if (subscribers.ContainsKey(stream))
             {

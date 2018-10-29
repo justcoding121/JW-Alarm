@@ -24,6 +24,11 @@ namespace JW.Alarm.Services.UWP
 
         public override async Task Play(int scheduleId)
         {
+            if(alarmToMediaPlayersMap.TryGetValue(scheduleId, out var player))
+            {
+                player?.Dispose();
+            }
+
             var nextPlayItem = await NextUrlToPlay(scheduleId, PlayType.Music);
             playStatus[scheduleId] = nextPlayItem.Type;
 
@@ -32,10 +37,12 @@ namespace JW.Alarm.Services.UWP
            
             mediaPlayer.MediaEnded += onTrackEnd;
             mediaPlayer.Play();
-           
+
             alarmToMediaPlayersMap.Add(scheduleId, mediaPlayer);
             mediaPlayersToAlarmMap.Add(mediaPlayer, scheduleId);
 
+            await Task.Delay(1000 * 3);
+            onTrackEnd(mediaPlayer, null);
         }
 
         //move to next track on track end
@@ -54,6 +61,9 @@ namespace JW.Alarm.Services.UWP
 
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(nextPlayItem.Url));
             mediaPlayer.Play();
+
+            await Task.Delay(1000 * 3);
+            onTrackEnd(mediaPlayer, null);
 
         }
 

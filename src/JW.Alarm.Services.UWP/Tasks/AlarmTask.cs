@@ -32,18 +32,14 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
                 foreach (var toast in history)
                 {
-                    if(int.TryParse(toast.Tag, out var id))
+                    if (int.TryParse(toast.Tag, out var id))
                     {
-                        try
-                        {
-                            await mediaPlayService.Play(id);
-                        }
-                        catch { }
-                      
+
+                        await mediaPlayService.Play(id);
                         break;
                     }
                 }
-           }
+            }
 
             deferral.Complete();
         }

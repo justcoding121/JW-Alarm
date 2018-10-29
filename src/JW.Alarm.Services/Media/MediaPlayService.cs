@@ -41,20 +41,29 @@ namespace JW.Alarm.Services
         {
             var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId) as BibleReadingSchedule;
             var chapters = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber);
-            if (bibleReadingSchedule.ChapterNumber < chapters.Count)
+            var nextChapter = chapters.NextHigher(bibleReadingSchedule.ChapterNumber);
+
+            if (!nextChapter.Equals(default(KeyValuePair<int, BibleChapter>)))
             {
-                bibleReadingSchedule.ChapterNumber++;
-                await scheduleService.Update(schedule);
+                bibleReadingSchedule.ChapterNumber = nextChapter.Key;
+                await bibleReadingScheduleService.Update(bibleReadingSchedule);
                 return;
             }
 
             var books = await mediaService.GetBibleBooks(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode);
             var nextBook = books.NextHigher(bibleReadingSchedule.BookNumber);
 
+            if(!nextBook.Equals(default(KeyValuePair<int, BibleBook>)))
+            {
+                bibleReadingSchedule.BookNumber = nextBook.Key;
+                await bibleReadingScheduleService.Update(bibleReadingSchedule);
+                return;
+            }
+
+            nextBook = books.Min();
             bibleReadingSchedule.BookNumber = nextBook.Key;
             await bibleReadingScheduleService.Update(bibleReadingSchedule);
             return;
-
         }
 
         public async Task<PlayItem> NextUrlToPlay(int scheduleId, PlayType playType)

@@ -1,212 +1,149 @@
-﻿using System;
+﻿using Advanced.Algorithms.DataStructures.Foundation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 
 namespace JW.Alarm.Common.DataStructures
 {
-    [System.Runtime.InteropServices.ComVisible(false)]
-    [Serializable]
     public class ObservableDictionary<TKey, TValue> : INotifyCollectionChanged,
-                                                      INotifyPropertyChanged,
-                                                      ICollection<KeyValuePair<TKey, TValue>>,
-                                                      IEnumerable<KeyValuePair<TKey, TValue>>,
-                                                      IEnumerable,
-                                                      IDictionary<TKey, TValue>,
-                                                      IReadOnlyCollection<KeyValuePair<TKey, TValue>>,
-                                                      IReadOnlyDictionary<TKey, TValue>,
-                                                      ICollection, IDictionary,
-                                                      IDeserializationCallback, ISerializable
+                                                      IList<KeyValuePair<TKey, TValue>>,
+                                                      IList where TKey : IComparable
     {
-        private readonly ExposedDictionary<TKey, TValue> dictionary;
+        private readonly OrderedDictionary<TKey, TValue> dictionary;
 
         public ObservableDictionary()
         {
-            dictionary = new ExposedDictionary<TKey, TValue>();
+            dictionary = new OrderedDictionary<TKey, TValue>();
         }
 
-        public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
+        public TValue GetValue(TKey key)
         {
-            dictionary = new ExposedDictionary<TKey, TValue>(dictionary);
-        }
-        public ObservableDictionary(IEqualityComparer<TKey> comparer)
-        {
-            dictionary = new ExposedDictionary<TKey, TValue>(comparer);
+            return dictionary[key];
         }
 
-        public ObservableDictionary(int capacity)
+        public void SetValue(TKey key, TValue value)
         {
-            dictionary = new ExposedDictionary<TKey, TValue>(capacity);
+            dictionary[key] = value;
         }
 
-        public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
+        public KeyValuePair<TKey, TValue> this[int i]
         {
-            dictionary = new ExposedDictionary<TKey, TValue>(dictionary, comparer);
+            get => dictionary.ElementAt(i);
+            set => throw new NotSupportedException();
         }
 
-        public ObservableDictionary(int capacity, IEqualityComparer<TKey> comparer)
+        object IList.this[int i]
         {
-            dictionary = new ExposedDictionary<TKey, TValue>(capacity, comparer);
+            get => this[i];
+            set => this[i] = (KeyValuePair<TKey, TValue>)value;
         }
-
-        protected ObservableDictionary(SerializationInfo info, StreamingContext context)
-        {
-            dictionary = new ExposedDictionary<TKey, TValue>(info, context);
-        }
-
-        public TValue this[TKey key]
-        {
-            get => dictionary[key];
-            set => set(key, value);
-        }
-
-        public object this[object key] { get => this[(TKey)key]; set => this[(TKey)key] = (TValue)value; }
 
         public int Count => dictionary.Count;
 
-        public bool IsReadOnly => (dictionary as ICollection<KeyValuePair<TKey, TValue>>).IsReadOnly;
+        public bool IsReadOnly => false;
 
-        public ICollection<TKey> Keys => dictionary.Keys;
+        public bool IsFixedSize => false;
 
-        public ICollection<TValue> Values => dictionary.Values;
+        public bool IsSynchronized => false;
 
-        public bool IsSynchronized => (dictionary as ICollection).IsSynchronized;
-
-        public object SyncRoot => (dictionary as ICollection).SyncRoot;
-
-        public bool IsFixedSize => (dictionary as IDictionary).IsFixedSize;
-
-        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => (dictionary as IReadOnlyDictionary<TKey, TValue>).Keys;
-
-        ICollection IDictionary.Keys => (dictionary as IDictionary).Keys;
-
-        IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => (dictionary as IReadOnlyDictionary<TKey, TValue>).Values;
-
-        ICollection IDictionary.Values => (dictionary as IDictionary).Values;
+        public object SyncRoot => throw new NotImplementedException();
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void Add(KeyValuePair<TKey, TValue> item)
-        {
-            (dictionary as ICollection<KeyValuePair<TKey, TValue>>).Add(item);
-            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
-        }
 
         public void Add(TKey key, TValue value)
         {
-            dictionary.Add(key, value);
-            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new KeyValuePair<TKey, TValue>(key, value)));
-            onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+            add(new KeyValuePair<TKey, TValue>(key, value));
         }
 
-        public void Add(object key, object value)
+        public void Add(KeyValuePair<TKey, TValue> item)
         {
-            (dictionary as IDictionary).Add(key, value);
-            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new KeyValuePair<TKey, TValue>((TKey)key, (TValue)value)));
-            onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+            add(item);
         }
 
-        private void set(TKey key, TValue value)
+        public int Add(object value)
         {
-            if (!dictionary.ContainsKey(key))
-            {
-                Add(key, value);
-            }
-            else
-            {
-                var old = new KeyValuePair<TKey, TValue>(key, value);
-                dictionary[key] = value;
-                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, new KeyValuePair<TKey, TValue>(key, value), old));
-                onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
-            }
+            return add((KeyValuePair<TKey, TValue>)value);
+        }
 
+        private int add(KeyValuePair<TKey, TValue> item)
+        {
+            var index = dictionary.Add(item.Key, item.Value);
+            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+            return index;
         }
 
         public void Clear()
         {
             dictionary.Clear();
             onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            return (dictionary as ICollection<KeyValuePair<TKey, TValue>>).Contains(item);
+            return dictionary.ContainsKey(item.Key);
         }
 
-        public bool Contains(object key)
+        public bool Contains(object value)
         {
-            return (dictionary as IDictionary).Contains(key);
-        }
-
-        public bool ContainsKey(TKey key)
-        {
-            return dictionary.ContainsKey(key);
+            return Contains((KeyValuePair<TKey, TValue>)value);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            (dictionary as ICollection<KeyValuePair<TKey, TValue>>).CopyTo(array, arrayIndex);
+            throw new NotImplementedException();
         }
 
         public void CopyTo(Array array, int index)
         {
-            (dictionary as IDictionary).CopyTo(array, index);
+            throw new NotImplementedException();
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return (dictionary as ICollection<KeyValuePair<TKey, TValue>>).GetEnumerator();
+            return dictionary.GetEnumerator();
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public int IndexOf(object value)
         {
-            dictionary.GetObjectData(info, context);
+            return IndexOf((KeyValuePair<TKey, TValue>)value);
         }
 
-        public void OnDeserialization(object sender)
+        public int IndexOf(KeyValuePair<TKey, TValue> item)
         {
-            dictionary.OnDeserialization(sender);
+            return dictionary.IndexOf(item.Key);
+        }
+
+        public void Insert(int index, KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(int index, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(object value)
+        {
+            Remove((KeyValuePair<TKey, TValue>)value);
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            var result = (dictionary as ICollection<KeyValuePair<TKey, TValue>>).Remove(item);
-            if (result)
+            var index = dictionary.Remove(item.Key);
+            if (index >= 0)
             {
-                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
-            }
-
-            return result;
-        }
-
-        public bool Remove(TKey key)
-        {
-            TValue value;
-            if (dictionary.TryGetValue(key, out value))
-            {
-                dictionary.Remove(key);
-                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value)));
-                onPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
                 return true;
             }
 
-            return false;
+            return index >= 0;
         }
 
-        public void Remove(object key)
+        public void RemoveAt(int index)
         {
-            Remove((TKey)key);
-        }
-
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            return dictionary.TryGetValue(key, out value);
+            dictionary.RemoveAt(index);
         }
 
         private void onNotifyCollectionChanged(NotifyCollectionChangedEventArgs args)
@@ -214,31 +151,9 @@ namespace JW.Alarm.Common.DataStructures
             CollectionChanged?.Invoke(this, args);
         }
 
-        private void onPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        IDictionaryEnumerator IDictionary.GetEnumerator()
-        {
-            return (dictionary as IDictionary).GetEnumerator();
-        }
-
-        //expose protected constructors of Dictionary<TKey, TValue>
-        private class ExposedDictionary<Key, Value> : Dictionary<Key, Value>
-        {
-            internal ExposedDictionary() : base() { }
-            internal ExposedDictionary(IDictionary<Key, Value> dictionary) : base(dictionary) { }
-            internal ExposedDictionary(IEqualityComparer<Key> comparer) : base(comparer) { }
-            internal ExposedDictionary(int capacity) : base(capacity) { }
-            internal ExposedDictionary(IDictionary<Key, Value> dictionary, IEqualityComparer<Key> comparer) : base(dictionary, comparer) { }
-            internal ExposedDictionary(int capacity, IEqualityComparer<Key> comparer) : base(comparer) { }
-            internal ExposedDictionary(SerializationInfo info, StreamingContext context) : base(info, context) { }
         }
     }
 }

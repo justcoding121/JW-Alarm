@@ -23,7 +23,7 @@
             container.Register((x)=> new SchedulerTask(container.Resolve<IAlarmScheduleService>()), isSingleton: true);
 
             container.Register<IMediaPlayService>((x) => new UwpMediaPlayService(container.Resolve<IAlarmScheduleService>(),
-                container.Resolve<IBibleReadingScheduleService>(), container.Resolve<MediaService>()));
+                container.Resolve<IBibleReadingScheduleService>(), container.Resolve<MediaService>()), isSingleton: true);
 
             Container = container;
         }
