@@ -25,11 +25,11 @@ namespace JW.Alarm.Services
         {
             await database.Insert(bibleReadingSchedule);
 
-            if(schedules!=null)
+            if (schedules != null)
             {
                 schedules.Add(bibleReadingSchedule.Id, bibleReadingSchedule);
             }
-           
+
         }
 
         public virtual async Task Delete(int bibleReadingScheduleId)
@@ -46,7 +46,7 @@ namespace JW.Alarm.Services
         {
             if (schedules != null)
             {
-                return schedules.GetValue(bibleReadingScheduleId);
+                return schedules[bibleReadingScheduleId];
             }
 
             return await database.Read<BibleReadingSchedule>(bibleReadingScheduleId);
@@ -58,9 +58,9 @@ namespace JW.Alarm.Services
 
             if (schedules != null)
             {
-                schedules.SetValue(bibleReadingSchedule.Id, bibleReadingSchedule);
+                schedules[bibleReadingSchedule.Id] = bibleReadingSchedule;
             }
-  
+
         }
 
         private async Task<ObservableDictionary<int, BibleReadingSchedule>> getBibleReadingSchedules()

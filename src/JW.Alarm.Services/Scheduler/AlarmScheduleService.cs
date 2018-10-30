@@ -63,7 +63,7 @@ namespace JW.Alarm.Services
         {
             if (schedules != null)
             {
-                return schedules.GetValue(alarmScheduleId);
+                return schedules[alarmScheduleId];
             }
 
             return await database.Read<AlarmSchedule>(alarmScheduleId);
@@ -88,7 +88,7 @@ namespace JW.Alarm.Services
 
             if (schedules != null)
             {
-                schedules.SetValue(alarmSchedule.Id,  alarmSchedule);
+                schedules[alarmSchedule.Id] = alarmSchedule;
             }
         }
 

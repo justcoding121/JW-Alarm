@@ -6,9 +6,9 @@ using System.Collections.Specialized;
 
 namespace JW.Alarm.Common.DataStructures
 {
-    public class ObservableDictionary<TKey, TValue> : INotifyCollectionChanged,
-                                                      IList<KeyValuePair<TKey, TValue>>,
-                                                      IList where TKey : IComparable
+    public class ObservableDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>,
+                                                        INotifyCollectionChanged
+                                                            where TKey : IComparable
     {
         private readonly OrderedDictionary<TKey, TValue> dictionary;
 
@@ -17,59 +17,20 @@ namespace JW.Alarm.Common.DataStructures
             dictionary = new OrderedDictionary<TKey, TValue>();
         }
 
-        public TValue GetValue(TKey key)
+        public TValue this[TKey key]
         {
-            return dictionary[key];
-        }
-
-        public void SetValue(TKey key, TValue value)
-        {
-            dictionary[key] = value;
-        }
-
-        public KeyValuePair<TKey, TValue> this[int i]
-        {
-            get => dictionary.ElementAt(i);
-            set => throw new NotSupportedException();
-        }
-
-        object IList.this[int i]
-        {
-            get => this[i];
-            set => this[i] = (KeyValuePair<TKey, TValue>)value;
+            get => dictionary[key];
+            set => dictionary[key] = value;
         }
 
         public int Count => dictionary.Count;
 
-        public bool IsReadOnly => false;
-
-        public bool IsFixedSize => false;
-
-        public bool IsSynchronized => false;
-
-        public object SyncRoot => throw new NotImplementedException();
-
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public void Add(TKey key, TValue value)
+        public int Add(TKey key, TValue value)
         {
-            add(new KeyValuePair<TKey, TValue>(key, value));
-        }
-
-        public void Add(KeyValuePair<TKey, TValue> item)
-        {
-            add(item);
-        }
-
-        public int Add(object value)
-        {
-            return add((KeyValuePair<TKey, TValue>)value);
-        }
-
-        private int add(KeyValuePair<TKey, TValue> item)
-        {
-            var index = dictionary.Add(item.Key, item.Value);
-            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+            var index = dictionary.Add(key, value);
+            onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new KeyValuePair<TKey, TValue>(key, value), index));
             return index;
         }
 
@@ -79,66 +40,27 @@ namespace JW.Alarm.Common.DataStructures
             onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        public bool Contains(KeyValuePair<TKey, TValue> item)
+        public bool ContainsKey(TKey key)
         {
-            return dictionary.ContainsKey(item.Key);
+            return dictionary.ContainsKey(key);
         }
 
-        public bool Contains(object value)
+        public int IndexOf(TKey key)
         {
-            return Contains((KeyValuePair<TKey, TValue>)value);
+            return dictionary.IndexOf(key);
         }
 
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
-        }
-
-        public void CopyTo(Array array, int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            return dictionary.GetEnumerator();
-        }
-
-        public int IndexOf(object value)
-        {
-            return IndexOf((KeyValuePair<TKey, TValue>)value);
-        }
-
-        public int IndexOf(KeyValuePair<TKey, TValue> item)
-        {
-            return dictionary.IndexOf(item.Key);
-        }
-
-        public void Insert(int index, KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(object value)
-        {
-            Remove((KeyValuePair<TKey, TValue>)value);
-        }
-
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            var index = dictionary.Remove(item.Key);
-            if (index >= 0)
+            if (dictionary.ContainsKey(key))
             {
-                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+                var value = dictionary[key];
+                var index = dictionary.Remove(key);
+                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
                 return true;
             }
 
-            return index >= 0;
+            return false;
         }
 
         public void RemoveAt(int index)
@@ -154,6 +76,11 @@ namespace JW.Alarm.Common.DataStructures
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return dictionary.GetEnumerator();
         }
     }
 }
