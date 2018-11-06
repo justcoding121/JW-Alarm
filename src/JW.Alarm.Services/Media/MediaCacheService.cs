@@ -14,11 +14,15 @@ namespace JW.Alarm.Services
 
         private IStorageService storageService;
         private DownloadService downloadService;
-        public MediaCacheService(IStorageService storageService, 
-            DownloadService downloadService)
+        private IMediaPlayService mediaPlayService;
+
+        public MediaCacheService(IStorageService storageService,
+            DownloadService downloadService, IMediaPlayService mediaPlayService)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;
+            this.mediaPlayService = mediaPlayService;
+
             cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
         }
 
@@ -34,9 +38,18 @@ namespace JW.Alarm.Services
             return await storageService.FileExists(cachePath);
         }
 
-        public Task SetupAlarmCache(int alarmScheduleId)
+        public async Task SetupAlarmCache(int alarmScheduleId)
         {
-            throw new NotImplementedException();
+            var items = await mediaPlayService.ItemsToPlay(alarmScheduleId, TimeSpan.FromMinutes(15));
+
+            foreach (var item in items)
+            {
+                if (!await Exists(item.Url))
+                {
+                    var bytes = await downloadService.DownloadAsync(item.Url);
+                    await storageService.SaveFile(cacheRoot, GetCacheKey(item.Url), bytes);
+                }
+            }
         }
 
         public string GetCacheUrl(string url)

@@ -54,6 +54,8 @@ namespace JW.Alarm.Services.Uwp
 
         private async Task createNotifications(AlarmSchedule schedule)
         {
+            notificationService.Clear();
+
             var duration = new TimeSpan(3, 0, 0);
             var items = await mediaPlayService.ItemsToPlay(schedule.Id, duration);
             var nextFire = schedule.NextFireDate();

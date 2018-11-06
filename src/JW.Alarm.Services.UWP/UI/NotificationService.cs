@@ -83,5 +83,18 @@ namespace JW.Alarm.Services.UWP
             var notifications = notifier.GetScheduledToastNotifications();
             return notifications.Any(x => x.Tag == groupName);
         }
+
+        public void Clear()
+        {
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            var notifications = notifier.GetScheduledToastNotifications()
+                                    .ToList();
+
+            foreach (var notification in notifications)
+            {
+                notifier.RemoveFromSchedule(notification);
+            }
+        }
     }
 }

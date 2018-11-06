@@ -129,16 +129,32 @@ namespace JW.Alarm.Services
 
             if (schedule.BibleReadingEnabled)
             {
-                while(duration.TotalSeconds > 0)
+                var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId);
+
+                int bookNumber = bibleReadingSchedule.BookNumber;
+                int chapter = bibleReadingSchedule.ChapterNumber;
+                var chapters = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bookNumber);
+
+                var chapterDetail = chapters[chapter];
+
+                var url = chapterDetail.Url;
+                var trackDuration = chapterDetail.Duration;
+
+                while (duration.TotalSeconds > 0)
                 {
-                    var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId) as BibleReadingSchedule;
+                    result.Add(new PlayItem(PlayType.Bible, trackDuration, url));
+                    duration = duration.Subtract(trackDuration);
 
-                    var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber, bibleReadingSchedule.ChapterNumber);
-                    result.Add(new PlayItem(PlayType.Bible, next.Value.Duration, next.Value.Url));
+                    var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode,
+                        bibleReadingSchedule.PublicationCode,
+                        bookNumber, chapter);
 
-                    duration.Subtract(next.Value.Duration);
+                    bookNumber = next.Key.Number;
+                    chapter = next.Value.Number;
+                    trackDuration = next.Value.Duration;
+                    url = next.Value.Url;
                 }
-               
+
             }
 
             return result;

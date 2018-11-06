@@ -15,7 +15,8 @@
             container.Register<IDatabase>((x) => new JsonDatabase(container.Resolve<IStorageService>()), isSingleton: true);
             container.Register<IMediaCacheService>((x) =>
                 new MediaCacheService(container.Resolve<IStorageService>(),
-                container.Resolve<DownloadService>()), isSingleton: true);
+                container.Resolve<DownloadService>(),
+                container.Resolve<IMediaPlayService>()), isSingleton: true);
 
             container.Register<IAlarmScheduleService>((x) => new AlarmScheduleService(
                 container.Resolve<IDatabase>(),

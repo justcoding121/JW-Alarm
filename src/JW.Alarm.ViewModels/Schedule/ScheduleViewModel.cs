@@ -11,13 +11,14 @@ namespace JW.Alarm.ViewModels
     {
         IAlarmScheduleService alarmScheduleService;
         IBibleReadingScheduleService bibleReadingScheduleService;
-
+        IAlarmService alarmService;
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
             this.alarmScheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingScheduleService>();
 
             IsNewSchedule = model == null ? true : false;
@@ -158,6 +159,7 @@ namespace JW.Alarm.ViewModels
 
                 if (IsEnabled)
                 {
+                    await alarmService.Create(model);
                     await popUpService.ShowScheduledNotification(model);
                 }
 
