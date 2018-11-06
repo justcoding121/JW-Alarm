@@ -151,15 +151,16 @@ namespace JW.Alarm.ViewModels
                 {
                     IsNewSchedule = false;
                     await alarmScheduleService.Create(model);
+                    await alarmService.Create(model);
                 }
                 else
                 {
                     await alarmScheduleService.Update(model);
+                    await alarmService.Update(model);
                 }
 
                 if (IsEnabled)
                 {
-                    await alarmService.Create(model);
                     await popUpService.ShowScheduledNotification(model);
                 }
 
@@ -187,6 +188,7 @@ namespace JW.Alarm.ViewModels
             if (scheduleId >= 0)
             {
                 await alarmScheduleService.Delete(scheduleId);
+                await alarmService.Delete(scheduleId);
             }
         }
     }
