@@ -88,6 +88,11 @@ namespace JW.Alarm.Core.Uwp
         {
             base.OnBackgroundActivated(args);
 
+            if (IocSetup.Container == null)
+            {
+                IocSetup.Initialize();
+            }
+
             switch (args.TaskInstance.Task.Name)
             {
                 case "AlarmTask":

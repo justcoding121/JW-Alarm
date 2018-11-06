@@ -8,8 +8,7 @@ namespace JW.Alarm.Services.Contracts
 {
     public interface IMediaPlayService
     {
-        Task Play(int scheduleId);
-        Task Stop(AlarmSchedule schedule);
+        Task<List<PlayItem>> ItemsToPlay(int scheduleId, TimeSpan duration);
         Task<PlayItem> NextUrlToPlay(int scheduleId, PlayType playType);
         Task SetNextItemToPlay(int scheduleId, PlayType currentPublication);
     }

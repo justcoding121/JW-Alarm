@@ -6,14 +6,25 @@ namespace JW.Alarm.Services.Uwp.Tasks
     public class SchedulerTask 
     {
         private IAlarmScheduleService alarmService;
-        public SchedulerTask(IAlarmScheduleService alarmService)
+        private IMediaCacheService mediaCacheService;
+        public SchedulerTask(IAlarmScheduleService alarmService, IMediaCacheService mediaCacheService)
         {
             this.alarmService = alarmService;
+            this.mediaCacheService = mediaCacheService;
         }
 
-        public void Handle(IBackgroundTaskInstance backgroundTask)
+        public async void Handle(IBackgroundTaskInstance backgroundTask)
         {
+            var deferral = backgroundTask.GetDeferral();
 
+            var schedules = await alarmService.AlarmSchedules;
+
+            foreach(var schedule in schedules)
+            {
+                var nextFire = schedule.Value.NextFireDate();
+            }
+
+            deferral.Complete();
         }
     }
 }

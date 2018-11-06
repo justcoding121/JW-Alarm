@@ -34,8 +34,7 @@ namespace JW.Alarm.Services.Uwp.Tasks
                 {
                     if (int.TryParse(toast.Tag, out var id))
                     {
-
-                        await mediaPlayService.Play(id);
+                       
                         break;
                     }
                 }

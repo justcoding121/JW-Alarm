@@ -56,7 +56,7 @@ namespace JW.Alarm.Common.DataStructures
             {
                 var value = dictionary[key];
                 var index = dictionary.Remove(key);
-                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value, index));
+                onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value), index));
                 return true;
             }
 

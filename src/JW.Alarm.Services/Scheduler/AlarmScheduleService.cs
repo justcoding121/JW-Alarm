@@ -7,7 +7,7 @@ using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
-    public abstract class AlarmScheduleService : IAlarmScheduleService
+    public class AlarmScheduleService : IAlarmScheduleService
     {
         private readonly IDatabase database;
         private readonly IBibleReadingScheduleService bibleReadingScheduleService;
@@ -23,7 +23,7 @@ namespace JW.Alarm.Services
 
         public Task<ObservableDictionary<int, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
 
-        public virtual async Task Create(AlarmSchedule alarmSchedule)
+        public async Task Create(AlarmSchedule alarmSchedule)
         {
             if (alarmSchedule.BibleReadingScheduleId == 0)
             {
@@ -69,7 +69,7 @@ namespace JW.Alarm.Services
             return await database.Read<AlarmSchedule>(alarmScheduleId);
         }
 
-        public virtual async Task Delete(int alarmScheduleId)
+        public async Task Delete(int alarmScheduleId)
         {
             var schedule = await Read(alarmScheduleId);
 
@@ -82,7 +82,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        public virtual async Task Update(AlarmSchedule alarmSchedule)
+        public async Task Update(AlarmSchedule alarmSchedule)
         {
             await database.Update(alarmSchedule);
 

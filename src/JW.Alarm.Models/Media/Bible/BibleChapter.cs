@@ -9,6 +9,7 @@ namespace JW.Alarm.Models
         [JsonIgnore]
         public string Title => $"Chapter {Number}";
         public string Url { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public int CompareTo(object obj)
         {

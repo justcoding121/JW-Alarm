@@ -60,7 +60,6 @@ namespace JW.Alarm.Services
             {
                 schedules[bibleReadingSchedule.Id] = bibleReadingSchedule;
             }
-
         }
 
         private async Task<ObservableDictionary<int, BibleReadingSchedule>> getBibleReadingSchedules()

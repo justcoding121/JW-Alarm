@@ -6,6 +6,7 @@ namespace JW.Alarm.Models
     {
         public int Number { get; set; }
         public string Title { get; set; }
+        public TimeSpan Duration { get; set; }
         public string Url { get; set; }
 
         public int CompareTo(object obj)

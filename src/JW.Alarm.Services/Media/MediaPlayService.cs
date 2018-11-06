@@ -23,7 +23,6 @@ namespace JW.Alarm.Services
             this.mediaService = mediaService;
         }
 
-        public abstract Task Play(int scheduleId);
 
         public async Task SetNextItemToPlay(int scheduleId, PlayType currentPublication)
         {
@@ -40,30 +39,39 @@ namespace JW.Alarm.Services
         private async Task setNextBibleChapter(AlarmSchedule schedule)
         {
             var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId) as BibleReadingSchedule;
-            var chapters = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber);
-            var nextChapter = chapters.NextHigher(bibleReadingSchedule.ChapterNumber);
+            var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber, bibleReadingSchedule.ChapterNumber);
+            bibleReadingSchedule.BookNumber = next.Key.Number;
+            bibleReadingSchedule.ChapterNumber = next.Value.Number;
+            await bibleReadingScheduleService.Update(bibleReadingSchedule);
+        }
+
+        private async Task<KeyValuePair<BibleBook, BibleChapter>> getNextBibleChapter(string languageCode, string publicationCode, int bookNumber, int chapter)
+        {
+            var result = new KeyValuePair<BibleBook, BibleChapter>(new BibleBook(), new BibleChapter());
+
+            var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
+            var currentBook = books[bookNumber];
+
+            var chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, bookNumber);
+            var nextChapter = chapters.NextHigher(chapter);
 
             if (!nextChapter.Equals(default(KeyValuePair<int, BibleChapter>)))
             {
-                bibleReadingSchedule.ChapterNumber = nextChapter.Key;
-                await bibleReadingScheduleService.Update(bibleReadingSchedule);
-                return;
+                return new KeyValuePair<BibleBook, BibleChapter>(currentBook, nextChapter.Value);
             }
 
-            var books = await mediaService.GetBibleBooks(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode);
-            var nextBook = books.NextHigher(bibleReadingSchedule.BookNumber);
+            var nextBook = books.NextHigher(bookNumber);
 
-            if(!nextBook.Equals(default(KeyValuePair<int, BibleBook>)))
+
+            if (!nextBook.Equals(default(KeyValuePair<int, BibleBook>)))
             {
-                bibleReadingSchedule.BookNumber = nextBook.Key;
-                await bibleReadingScheduleService.Update(bibleReadingSchedule);
-                return;
+                chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, nextBook.Key);
+                return new KeyValuePair<BibleBook, BibleChapter>(nextBook.Value, chapters[0]);
             }
 
             nextBook = books.Min();
-            bibleReadingSchedule.BookNumber = nextBook.Key;
-            await bibleReadingScheduleService.Update(bibleReadingSchedule);
-            return;
+            chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, nextBook.Key);
+            return new KeyValuePair<BibleBook, BibleChapter>(nextBook.Value, chapters[0]);
         }
 
         public async Task<PlayItem> NextUrlToPlay(int scheduleId, PlayType playType)
@@ -88,13 +96,13 @@ namespace JW.Alarm.Services
                     var melodyMusic = schedule.Music;
                     var melodyTracks = await mediaService.GetMelodyMusicTracks(melodyMusic.PublicationCode);
                     var melodyTrack = melodyTracks[melodyMusic.TrackNumber];
-                    return new PlayItem(PlayType.Music, melodyTrack.Url);
+                    return new PlayItem(PlayType.Music, melodyTrack.Duration, melodyTrack.Url);
 
                 case MusicType.Vocals:
                     var vocalMusic = schedule.Music;
                     var vocalTracks = await mediaService.GetVocalMusicTracks(vocalMusic.LanguageCode, vocalMusic.PublicationCode);
                     var vocalTrack = vocalTracks[vocalMusic.TrackNumber];
-                    return new PlayItem(PlayType.Music, vocalTrack.Url);
+                    return new PlayItem(PlayType.Music, vocalTrack.Duration, vocalTrack.Url);
             }
 
             return null;
@@ -105,12 +113,35 @@ namespace JW.Alarm.Services
             var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId) as BibleReadingSchedule;
             var bibleTracks = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber);
             var bibleTrack = bibleTracks[bibleReadingSchedule.ChapterNumber];
-            return new PlayItem(PlayType.Bible, bibleTrack.Url);
+            return new PlayItem(PlayType.Bible, bibleTrack.Duration, bibleTrack.Url);
         }
 
-        public async virtual Task Stop(AlarmSchedule schedule)
+        public async Task<List<PlayItem>> ItemsToPlay(int scheduleId, TimeSpan duration)
         {
-            await scheduleService.Update(schedule);
+            var result = new List<PlayItem>();
+
+            var schedule = await scheduleService.Read(scheduleId);
+
+            if (schedule.MusicEnabled)
+            {
+                result.Add(await nextMusicUrlToPlay(schedule));
+            }
+
+            if (schedule.BibleReadingEnabled)
+            {
+                while(duration.TotalSeconds > 0)
+                {
+                    var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId) as BibleReadingSchedule;
+
+                    var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber, bibleReadingSchedule.ChapterNumber);
+                    result.Add(new PlayItem(PlayType.Bible, next.Value.Duration, next.Value.Url));
+
+                    duration.Subtract(next.Value.Duration);
+                }
+               
+            }
+
+            return result;
         }
     }
 }
