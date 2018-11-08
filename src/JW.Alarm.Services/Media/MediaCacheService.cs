@@ -14,10 +14,10 @@ namespace JW.Alarm.Services
 
         private IStorageService storageService;
         private DownloadService downloadService;
-        private IMediaPlayService mediaPlayService;
+        private IPlaylistService mediaPlayService;
 
         public MediaCacheService(IStorageService storageService,
-            DownloadService downloadService, IMediaPlayService mediaPlayService)
+            DownloadService downloadService, IPlaylistService mediaPlayService)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;
@@ -40,14 +40,14 @@ namespace JW.Alarm.Services
 
         public async Task SetupAlarmCache(int alarmScheduleId)
         {
-            var items = await mediaPlayService.ItemsToPlay(alarmScheduleId, TimeSpan.FromMinutes(15));
+            var urls = await mediaPlayService.Playlist(alarmScheduleId, TimeSpan.FromMinutes(15));
 
-            foreach (var item in items)
+            foreach (var url in urls)
             {
-                if (!await Exists(item.Url))
+                if (!await Exists(url))
                 {
-                    var bytes = await downloadService.DownloadAsync(item.Url);
-                    await storageService.SaveFile(cacheRoot, GetCacheKey(item.Url), bytes);
+                    var bytes = await downloadService.DownloadAsync(url);
+                    await storageService.SaveFile(cacheRoot, GetCacheKey(url), bytes);
                 }
             }
         }

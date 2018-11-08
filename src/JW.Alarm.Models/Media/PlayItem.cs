@@ -6,13 +6,14 @@ namespace JW.Alarm.Models
 {
     public class PlayItem
     {
-        public PlayType Type { get; set; }
+        public PlayDetail PlayDetail { get; set; }
+
         public string Url { get; set; }
         public TimeSpan Duration { get; set; }
 
-        public PlayItem(PlayType type, TimeSpan duration, string url)
+        public PlayItem(PlayDetail detail, TimeSpan duration, string url)
         {
-            Type = type;
+            PlayDetail = detail;
             Duration = duration;
             Url = url;
         }

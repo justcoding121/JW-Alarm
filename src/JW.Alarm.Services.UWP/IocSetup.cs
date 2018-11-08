@@ -17,19 +17,14 @@
             container.Register<IPopUpService>((x) => new UwpPopUpService(container.Resolve<IThreadService>()), isSingleton: true);
 
             container.Register<INotificationService>((x) => new UwpNotificationService(container.Resolve<IMediaCacheService>()), isSingleton: true);
-            container.Register((x) => new AlarmTask(container.Resolve<IMediaPlayService>()));
+            container.Register((x) => new AlarmTask(container.Resolve<IPlaylistService>()));
             container.Register((x) => new SchedulerTask(container.Resolve<IAlarmScheduleService>(),
                                     container.Resolve<IMediaCacheService>()), isSingleton: true);
 
-            container.Register<IMediaPlayService>((x) => new UwpMediaPlayService(container.Resolve<IAlarmScheduleService>(),
-                container.Resolve<IBibleReadingScheduleService>(), container.Resolve<MediaService>(),
-                container.Resolve<DownloadService>(), container.Resolve<IStorageService>()), isSingleton: true);
-
             container.Register<IAlarmService>((x) => new UwpScheduleService(
                 container.Resolve<IDatabase>(),
-                container.Resolve<IBibleReadingScheduleService>(),
                 container.Resolve<INotificationService>(),
-                container.Resolve<IMediaPlayService>(),
+                container.Resolve<IPlaylistService>(),
                 container.Resolve<IMediaCacheService>()), isSingleton: true);
 
             Container = container;

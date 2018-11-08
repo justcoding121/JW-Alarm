@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="Helpers\BootstrapHelper.cs" />
     <Compile Include="IocSetup.cs" />
-    <Compile Include="Media\MediaPlayService.cs" />
     <Compile Include="UI\NotificationService.cs" />
     <Compile Include="Scheduler\ScheduleSerivice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,7 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using Windows.UI.Notifications;
@@ -15,8 +16,8 @@ namespace JW.Alarm.Services.UWP
             this.mediaCacheService = mediaCacheService;
         }
 
-        public void Add(string groupName, DateTimeOffset notificationTime,
-                            string title, string body, string audioUrl)
+        public void Add(int scheduleId, string detail, DateTimeOffset notificationTime, 
+                                    string title, string body, string audioUrl)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
@@ -54,19 +55,20 @@ namespace JW.Alarm.Services.UWP
 
             var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
             {
-                Group = groupName,
+                Tag = detail,
+                Group = scheduleId.ToString(),
                 RemoteId = remoteId
             };
 
             notifier.AddToSchedule(notification);
         }
 
-        public bool Remove(string groupName)
+        public bool Remove(int scheduleId)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             var notifications = notifier.GetScheduledToastNotifications()
-                                    .Where(x => x.Group == groupName)
+                                    .Where(x => x.Group == scheduleId.ToString())
                                     .ToList();
 
             foreach (var notification in notifications)
@@ -77,11 +79,11 @@ namespace JW.Alarm.Services.UWP
             return true;
         }
 
-        public bool IsScheduled(string groupName)
+        public bool IsScheduled(int scheduleId)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
             var notifications = notifier.GetScheduledToastNotifications();
-            return notifications.Any(x => x.Tag == groupName);
+            return notifications.Any(x => x.Group == scheduleId.ToString());
         }
 
         public void Clear()
@@ -89,12 +91,38 @@ namespace JW.Alarm.Services.UWP
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             var notifications = notifier.GetScheduledToastNotifications()
-                                    .ToList();
+                                        .ToList();
 
             foreach (var notification in notifications)
             {
                 notifier.RemoveFromSchedule(notification);
             }
         }
+
+        public string GetBibleNotificationDetail(int scheduleId, BibleReadingSchedule bibleReadingSchedule)
+        {
+            return JsonConvert.SerializeObject(new PlayDetail()
+            {
+                ScheduleId = scheduleId,
+                BookNumber = bibleReadingSchedule.BookNumber,
+                Chapter = bibleReadingSchedule.ChapterNumber
+            });
+        }
+
+        public string GetMusicNotificationDetail(int scheduleId, AlarmMusic alarmMusicSchedule)
+        {
+            return JsonConvert.SerializeObject(new PlayDetail()
+            {
+                ScheduleId = scheduleId,
+                TrackNumber = alarmMusicSchedule.TrackNumber
+            });
+        }
+
+
+        public PlayDetail ParseNotificationDetail(string detail)
+        {
+            return JsonConvert.DeserializeObject<PlayDetail>(detail);
+        }
     }
+
 }

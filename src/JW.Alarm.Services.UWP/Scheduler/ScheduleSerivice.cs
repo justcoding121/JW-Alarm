@@ -1,40 +1,35 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
-using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.Uwp
 {
     public class UwpScheduleService : IAlarmService
     {
         private INotificationService notificationService;
-        private IBibleReadingScheduleService bibleReadingScheduleService;
-        private IMediaPlayService mediaPlayService;
+        private IPlaylistService mediaPlayService;
         private IMediaCacheService mediaCacheService;
 
         public UwpScheduleService(IDatabase database,
-            IBibleReadingScheduleService bibleReadingScheduleService,
-            INotificationService notificationService, IMediaPlayService mediaPlayService,
+            INotificationService notificationService, IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService)
         {
             this.notificationService = notificationService;
-            this.bibleReadingScheduleService = bibleReadingScheduleService;
             this.mediaPlayService = mediaPlayService;
             this.mediaCacheService = mediaCacheService;
         }
 
         public async Task Create(AlarmSchedule schedule)
         {
-            await createNotifications(schedule);
+            await scheduleNotification(schedule);
             var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
         public Task Delete(int scheduleId)
         {
-            removeNotifications(scheduleId);
+            removeNotification(scheduleId);
             return Task.FromResult(false);
         }
 
@@ -42,35 +37,30 @@ namespace JW.Alarm.Services.Uwp
         {
             if (schedule.IsEnabled)
             {
-                removeNotifications(schedule.Id);
-                await createNotifications(schedule);
+                removeNotification(schedule.Id);
+                await scheduleNotification(schedule);
                 var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
             }
             else
             {
-                removeNotifications(schedule.Id);
+                removeNotification(schedule.Id);
             }
         }
 
-        private async Task createNotifications(AlarmSchedule schedule)
+        private async Task scheduleNotification(AlarmSchedule schedule)
         {
-            notificationService.Clear();
+            notificationService.Remove(schedule.Id);
 
-            var duration = new TimeSpan(3, 0, 0);
-            var items = await mediaPlayService.ItemsToPlay(schedule.Id, duration);
+            var track = await mediaPlayService.NextTrack(schedule.Id);
             var nextFire = schedule.NextFireDate();
-            foreach (var item in items)
-            {
-                notificationService.Add(schedule.Id.ToString(), nextFire, schedule.Name, schedule.Name, item.Url);
-                nextFire = nextFire.AddSeconds(item.Duration.TotalSeconds + 3);
-            }
 
+            notificationService.Add(schedule.Id, JsonConvert.SerializeObject(track.PlayDetail),
+                nextFire, schedule.Name, schedule.Name, track.Url);
         }
 
-        private void removeNotifications(int scheduleId)
+        private void removeNotification(int scheduleId)
         {
-            notificationService.Remove(scheduleId.ToString());
+            notificationService.Remove(scheduleId);
         }
-
     }
 }

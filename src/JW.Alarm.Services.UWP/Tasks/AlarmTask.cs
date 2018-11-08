@@ -13,9 +13,9 @@ namespace JW.Alarm.Services.Uwp.Tasks
 {
     public class AlarmTask
     {
-        private IMediaPlayService mediaPlayService;
+        private IPlaylistService mediaPlayService;
 
-        public AlarmTask(IMediaPlayService mediaPlayService)
+        public AlarmTask(IPlaylistService mediaPlayService)
         {
             this.mediaPlayService = mediaPlayService;
         }
@@ -34,7 +34,7 @@ namespace JW.Alarm.Services.Uwp.Tasks
                 {
                     if (int.TryParse(toast.Tag, out var id))
                     {
-                       
+
                         break;
                     }
                 }

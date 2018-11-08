@@ -12,4 +12,8 @@
     <ProjectReference Include="..\JW.Alarm.Common\JW.Alarm.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Notification\" />
+  </ItemGroup>
+
 </Project>

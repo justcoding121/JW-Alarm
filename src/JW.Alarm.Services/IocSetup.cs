@@ -13,14 +13,18 @@
             container.Register((x) => new MediaService(container.Resolve<MediaIndexService>(), container.Resolve<IStorageService>()), isSingleton: true);
             container.Register<IBibleReadingScheduleService>((x) => new BibleReadingScheduleService(container.Resolve<IDatabase>()), isSingleton: true);
             container.Register<IDatabase>((x) => new JsonDatabase(container.Resolve<IStorageService>()), isSingleton: true);
+
             container.Register<IMediaCacheService>((x) =>
                 new MediaCacheService(container.Resolve<IStorageService>(),
                 container.Resolve<DownloadService>(),
-                container.Resolve<IMediaPlayService>()), isSingleton: true);
+                container.Resolve<IPlaylistService>()), isSingleton: true);
 
             container.Register<IAlarmScheduleService>((x) => new AlarmScheduleService(
                 container.Resolve<IDatabase>(),
                 container.Resolve<IBibleReadingScheduleService>()), isSingleton: true);
+
+            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IAlarmScheduleService>(),
+               container.Resolve<IBibleReadingScheduleService>(), container.Resolve<MediaService>()), isSingleton: true);
 
             Container = container;
         }

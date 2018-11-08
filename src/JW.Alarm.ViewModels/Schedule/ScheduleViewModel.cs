@@ -11,6 +11,7 @@ namespace JW.Alarm.ViewModels
     {
         IAlarmScheduleService alarmScheduleService;
         IBibleReadingScheduleService bibleReadingScheduleService;
+
         IAlarmService alarmService;
         IPopUpService popUpService;
 
@@ -37,7 +38,6 @@ namespace JW.Alarm.ViewModels
             model.Hour = Time.Hours;
             model.Minute = Time.Minutes;
             model.MusicEnabled = musicEnabled;
-            model.BibleReadingEnabled = BibleReadingEnabled;
 
             return model;
         }
@@ -52,7 +52,6 @@ namespace JW.Alarm.ViewModels
             daysOfWeek = model.DaysOfWeek;
             time = new TimeSpan(model.Hour, model.Minute, 0);
             musicEnabled = model.MusicEnabled;
-            bibleReadingEnabled = model.BibleReadingEnabled;
         }
 
         private int scheduleId;
