@@ -5,7 +5,7 @@ using JW.Alarm.Models;
 
 namespace JW.Alarm.Services.Contracts
 {
-    public interface IAlarmScheduleService
+    public interface IScheduleDbContext
     {
         Task<ObservableDictionary<int, AlarmSchedule>> AlarmSchedules { get; }
 

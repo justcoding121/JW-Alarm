@@ -12,5 +12,4 @@ namespace JW.Alarm.Services.Contracts
         Task Delete(int scheduleId);
         Task Update(AlarmSchedule schedule);
     }
-
 }

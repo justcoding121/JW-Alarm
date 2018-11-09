@@ -18,10 +18,10 @@
 
             container.Register<INotificationService>((x) => new UwpNotificationService(container.Resolve<IMediaCacheService>()), isSingleton: true);
             container.Register((x) => new AlarmTask(container.Resolve<IPlaylistService>()));
-            container.Register((x) => new SchedulerTask(container.Resolve<IAlarmScheduleService>(),
+            container.Register((x) => new SchedulerTask(container.Resolve<IScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>()), isSingleton: true);
 
-            container.Register<IAlarmService>((x) => new UwpScheduleService(
+            container.Register<IAlarmService>((x) => new UwpAlarmService(
                 container.Resolve<IDatabase>(),
                 container.Resolve<INotificationService>(),
                 container.Resolve<IPlaylistService>(),

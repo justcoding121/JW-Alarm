@@ -16,11 +16,11 @@ namespace JW.Alarm.ViewModels
 {
     public class ScheduleListViewModel : ViewModelBase
     {
-        private IAlarmScheduleService scheduleService;
+        private IScheduleDbContext scheduleService;
         private IThreadService threadService;
         private IPopUpService popUpService;
 
-        public ScheduleListViewModel(IAlarmScheduleService scheduleService,
+        public ScheduleListViewModel(IScheduleDbContext scheduleService,
             IThreadService threadService, IPopUpService popUpService)
         {
             this.scheduleService = scheduleService;

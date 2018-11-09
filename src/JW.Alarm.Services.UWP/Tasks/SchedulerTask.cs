@@ -5,9 +5,9 @@ namespace JW.Alarm.Services.Uwp.Tasks
 {
     public class SchedulerTask 
     {
-        private IAlarmScheduleService alarmService;
+        private IScheduleDbContext alarmService;
         private IMediaCacheService mediaCacheService;
-        public SchedulerTask(IAlarmScheduleService alarmService, IMediaCacheService mediaCacheService)
+        public SchedulerTask(IScheduleDbContext alarmService, IMediaCacheService mediaCacheService)
         {
             this.alarmService = alarmService;
             this.mediaCacheService = mediaCacheService;

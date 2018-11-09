@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Contracts
 {
-    public interface IBibleReadingScheduleService
+    public interface IBibleReadingDbContext
     {
         int RandomScheduleId { get; }
 

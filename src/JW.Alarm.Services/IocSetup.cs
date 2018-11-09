@@ -11,7 +11,7 @@
             container.Register((x) => new DownloadService(container.Resolve<HttpClientHandler>()));
             container.Register((x) => new MediaIndexService(container.Resolve<DownloadService>(), container.Resolve<IStorageService>()), isSingleton: true);
             container.Register((x) => new MediaService(container.Resolve<MediaIndexService>(), container.Resolve<IStorageService>()), isSingleton: true);
-            container.Register<IBibleReadingScheduleService>((x) => new BibleReadingScheduleService(container.Resolve<IDatabase>()), isSingleton: true);
+            container.Register<IBibleReadingDbContext>((x) => new BibleReadingDbContext(container.Resolve<IDatabase>()), isSingleton: true);
             container.Register<IDatabase>((x) => new JsonDatabase(container.Resolve<IStorageService>()), isSingleton: true);
 
             container.Register<IMediaCacheService>((x) =>
@@ -19,12 +19,12 @@
                 container.Resolve<DownloadService>(),
                 container.Resolve<IPlaylistService>()), isSingleton: true);
 
-            container.Register<IAlarmScheduleService>((x) => new AlarmScheduleService(
+            container.Register<IScheduleDbContext>((x) => new ScheduleDbContext(
                 container.Resolve<IDatabase>(),
-                container.Resolve<IBibleReadingScheduleService>()), isSingleton: true);
+                container.Resolve<IBibleReadingDbContext>()), isSingleton: true);
 
-            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IAlarmScheduleService>(),
-               container.Resolve<IBibleReadingScheduleService>(), container.Resolve<MediaService>()), isSingleton: true);
+            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IScheduleDbContext>(),
+               container.Resolve<IBibleReadingDbContext>(), container.Resolve<MediaService>()), isSingleton: true);
 
             Container = container;
         }

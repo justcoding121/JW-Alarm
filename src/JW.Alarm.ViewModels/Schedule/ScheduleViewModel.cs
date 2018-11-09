@@ -9,18 +9,18 @@ namespace JW.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModelBase
     {
-        IAlarmScheduleService alarmScheduleService;
-        IBibleReadingScheduleService bibleReadingScheduleService;
+        IScheduleDbContext alarmScheduleService;
+        IBibleReadingDbContext bibleReadingScheduleService;
 
         IAlarmService alarmService;
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
-            this.alarmScheduleService = IocSetup.Container.Resolve<IAlarmScheduleService>();
+            this.alarmScheduleService = IocSetup.Container.Resolve<IScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
-            this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingScheduleService>();
+            this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingDbContext>();
 
             IsNewSchedule = model == null ? true : false;
             setModel(model ?? new AlarmSchedule());

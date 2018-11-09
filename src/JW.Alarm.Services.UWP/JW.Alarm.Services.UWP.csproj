@@ -109,7 +109,7 @@
     <Compile Include="Helpers\BootstrapHelper.cs" />
     <Compile Include="IocSetup.cs" />
     <Compile Include="UI\NotificationService.cs" />
-    <Compile Include="Scheduler\ScheduleSerivice.cs" />
+    <Compile Include="Scheduler\AlarmService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\StorageService.cs" />
     <Compile Include="Tasks\AlarmTask.cs" />

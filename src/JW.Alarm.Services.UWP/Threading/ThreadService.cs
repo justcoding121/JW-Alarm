@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
+
 namespace JW.Alarm.Services.UWP
 {
     public class UwpThreadService : IThreadService
@@ -17,12 +18,13 @@ namespace JW.Alarm.Services.UWP
             }
             else
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                    action();
-                });
+                await CoreApplication.MainView.CoreWindow.Dispatcher
+                        .RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            action();
+                        });
             }
 
-           
         }
     }
 }

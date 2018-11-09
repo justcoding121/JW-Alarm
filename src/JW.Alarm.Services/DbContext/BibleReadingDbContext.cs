@@ -7,12 +7,12 @@ using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
-    public class BibleReadingScheduleService : IBibleReadingScheduleService
+    public class BibleReadingDbContext : IBibleReadingDbContext
     {
         private readonly IDatabase database;
         private ObservableDictionary<int, BibleReadingSchedule> schedules;
 
-        public BibleReadingScheduleService(IDatabase database)
+        public BibleReadingDbContext(IDatabase database)
         {
             this.database = database;
         }
