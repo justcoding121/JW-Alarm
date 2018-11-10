@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.UWP
@@ -11,14 +12,20 @@ namespace JW.Alarm.Services.UWP
     public class UwpNotificationService : INotificationService
     {
         IMediaCacheService mediaCacheService;
-        public UwpNotificationService(IMediaCacheService mediaCacheService)
+        IPlayDetailDbContext playDetailDbContext;
+
+        public UwpNotificationService(IMediaCacheService mediaCacheService,
+            IPlayDetailDbContext playDetailDbContext)
         {
             this.mediaCacheService = mediaCacheService;
+            this.playDetailDbContext = playDetailDbContext;
         }
 
-        public void Add(int scheduleId, string detail, DateTimeOffset notificationTime, 
+        public async Task Add(int scheduleId, PlayDetail detail, DateTimeOffset notificationTime,
                                     string title, string body, string audioUrl)
         {
+            await playDetailDbContext.Create(detail);
+
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             var content = new ToastContent()
@@ -55,7 +62,7 @@ namespace JW.Alarm.Services.UWP
 
             var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
             {
-                Tag = detail,
+                Tag = detail.Id.ToString(),
                 Group = scheduleId.ToString(),
                 RemoteId = remoteId
             };
@@ -63,7 +70,7 @@ namespace JW.Alarm.Services.UWP
             notifier.AddToSchedule(notification);
         }
 
-        public bool Remove(int scheduleId)
+        public async Task Remove(int scheduleId)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
@@ -71,12 +78,21 @@ namespace JW.Alarm.Services.UWP
                                     .Where(x => x.Group == scheduleId.ToString())
                                     .ToList();
 
+
+            var details = (await playDetailDbContext.PlayDetails)
+                .Where(x => x.Value.ScheduleId == scheduleId)
+                .Select(x => x.Value)
+                .ToList();
+
+            foreach (var detail in details)
+            {
+                await playDetailDbContext.Delete(detail.Id);
+            }
+
             foreach (var notification in notifications)
             {
                 notifier.RemoveFromSchedule(notification);
             }
-
-            return true;
         }
 
         public bool IsScheduled(int scheduleId)
@@ -84,19 +100,6 @@ namespace JW.Alarm.Services.UWP
             var notifier = ToastNotificationManager.CreateToastNotifier();
             var notifications = notifier.GetScheduledToastNotifications();
             return notifications.Any(x => x.Group == scheduleId.ToString());
-        }
-
-        public void Clear()
-        {
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-
-            var notifications = notifier.GetScheduledToastNotifications()
-                                        .ToList();
-
-            foreach (var notification in notifications)
-            {
-                notifier.RemoveFromSchedule(notification);
-            }
         }
 
         public string GetBibleNotificationDetail(int scheduleId, BibleReadingSchedule bibleReadingSchedule)
@@ -118,10 +121,9 @@ namespace JW.Alarm.Services.UWP
             });
         }
 
-
-        public PlayDetail ParseNotificationDetail(string detail)
+        public async Task<PlayDetail> ParseNotificationDetail(string key)
         {
-            return JsonConvert.DeserializeObject<PlayDetail>(detail);
+            return await playDetailDbContext.Read(int.Parse(key));
         }
     }
 

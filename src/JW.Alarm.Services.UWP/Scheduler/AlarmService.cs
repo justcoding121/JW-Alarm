@@ -13,7 +13,8 @@ namespace JW.Alarm.Services.Uwp
         private IMediaCacheService mediaCacheService;
 
         public UwpAlarmService(IDatabase database,
-            INotificationService notificationService, IPlaylistService mediaPlayService,
+            INotificationService notificationService,
+            IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService)
         {
             this.notificationService = notificationService;
@@ -23,7 +24,17 @@ namespace JW.Alarm.Services.Uwp
 
         public async Task Create(AlarmSchedule schedule)
         {
-            await scheduleNotification(schedule);
+            var nextTrack = await mediaPlayService.NextTrack(schedule.Id);
+            nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
+            await scheduleNotification(schedule, nextTrack, nextTrack.PlayDetail.NotificationTime);
+            var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
+        }
+
+        public async Task Create(AlarmSchedule schedule, PlayDetail playDetail)
+        {
+            var nextTrack = await mediaPlayService.NextTrack(playDetail);
+            nextTrack.PlayDetail.NotificationTime = DateTimeOffset.Now.Add(playDetail.Duration);
+            await scheduleNotification(schedule, nextTrack, nextTrack.PlayDetail.NotificationTime);
             var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
@@ -38,7 +49,7 @@ namespace JW.Alarm.Services.Uwp
             if (schedule.IsEnabled)
             {
                 removeNotification(schedule.Id);
-                await scheduleNotification(schedule);
+                await scheduleNotification(schedule, await mediaPlayService.NextTrack(schedule.Id), schedule.NextFireDate());
                 var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
             }
             else
@@ -47,15 +58,10 @@ namespace JW.Alarm.Services.Uwp
             }
         }
 
-        private async Task scheduleNotification(AlarmSchedule schedule)
+        private async Task scheduleNotification(AlarmSchedule schedule, PlayItem track, DateTimeOffset nextFire)
         {
-            notificationService.Remove(schedule.Id);
-
-            var track = await mediaPlayService.NextTrack(schedule.Id);
-            var nextFire = schedule.NextFireDate();
-
-            notificationService.Add(schedule.Id, JsonConvert.SerializeObject(track.PlayDetail),
-                nextFire, schedule.Name, schedule.Name, track.Url);
+            await notificationService.Add(schedule.Id, track.PlayDetail,
+                  nextFire, schedule.Name, schedule.Name, track.Url);
         }
 
         private void removeNotification(int scheduleId)
