@@ -5,10 +5,10 @@ using System.Text;
 
 namespace JW.Alarm.Models
 {
-    public class PlayDetail : IEntity
+    public class NotificationDetail : IEntity
     {
-        public int Id { get; set; }
-        public int ScheduleId { get; set; }
+        public long Id { get; set; }
+        public long ScheduleId { get; set; }
         public DateTimeOffset NotificationTime { get; set; }
 
 

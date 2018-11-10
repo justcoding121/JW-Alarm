@@ -18,7 +18,7 @@
 
             container.Register<INotificationService>((x) => 
             new UwpNotificationService(container.Resolve<IMediaCacheService>(),
-                container.Resolve<IPlayDetailDbContext>()), isSingleton: true);
+                container.Resolve<INotificationDetailDbContext>()), isSingleton: true);
 
             container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
                                                     container.Resolve<INotificationService>(),

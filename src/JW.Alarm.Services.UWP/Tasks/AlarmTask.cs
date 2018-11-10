@@ -42,7 +42,7 @@ namespace JW.Alarm.Services.Uwp.Tasks
             {
                 var history = ToastNotificationManager.History.GetHistory();
 
-                var playDetails = new Dictionary<ToastNotification, PlayDetail>();
+                var playDetails = new Dictionary<ToastNotification, NotificationDetail>();
                 foreach (var toast in history)
                 {
                     var detail = await notificationService.ParseNotificationDetail(toast.Tag);

@@ -7,11 +7,11 @@ namespace JW.Alarm.Services.Contracts
 {
     public interface IScheduleDbContext
     {
-        Task<ObservableDictionary<int, AlarmSchedule>> AlarmSchedules { get; }
+        Task<ObservableDictionary<long, AlarmSchedule>> AlarmSchedules { get; }
 
-        Task<AlarmSchedule> Read(int alarmScheduleId);
-        Task Create(AlarmSchedule alarmSchedule);
+        Task<AlarmSchedule> Read(long alarmScheduleId);
+        Task Add(AlarmSchedule alarmSchedule);
         Task Update(AlarmSchedule alarmSchedule);
-        Task Delete(int alarmScheduleId);
+        Task Remove(long alarmScheduleId);
     }
 }

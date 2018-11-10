@@ -10,18 +10,16 @@ namespace JW.Alarm.Services
     public class BibleReadingDbContext : IBibleReadingDbContext
     {
         private readonly IDatabase database;
-        private ObservableDictionary<int, BibleReadingSchedule> schedules;
+        private ObservableDictionary<long, BibleReadingSchedule> schedules;
 
         public BibleReadingDbContext(IDatabase database)
         {
             this.database = database;
         }
 
-        public Task<ObservableDictionary<int, BibleReadingSchedule>> BibleReadingSchedules => getBibleReadingSchedules();
+        public Task<ObservableDictionary<long, BibleReadingSchedule>> BibleReadingSchedules => getBibleReadingSchedules();
 
-        public int RandomScheduleId => (BibleReadingSchedules.Result).First().Key;
-
-        public virtual async Task Create(BibleReadingSchedule bibleReadingSchedule)
+        public virtual async Task Add(BibleReadingSchedule bibleReadingSchedule)
         {
             await database.Insert(bibleReadingSchedule);
 
@@ -32,7 +30,7 @@ namespace JW.Alarm.Services
 
         }
 
-        public virtual async Task Delete(int bibleReadingScheduleId)
+        public virtual async Task Remove(long bibleReadingScheduleId)
         {
             await database.Delete<BibleReadingSchedule>(bibleReadingScheduleId);
 
@@ -42,7 +40,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        public async Task<BibleReadingSchedule> Read(int bibleReadingScheduleId)
+        public async Task<BibleReadingSchedule> Read(long bibleReadingScheduleId)
         {
             if (schedules != null)
             {
@@ -62,7 +60,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<ObservableDictionary<int, BibleReadingSchedule>> getBibleReadingSchedules()
+        private async Task<ObservableDictionary<long, BibleReadingSchedule>> getBibleReadingSchedules()
         {
             if (schedules == null)
             {

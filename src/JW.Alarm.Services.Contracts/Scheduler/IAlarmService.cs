@@ -9,8 +9,8 @@ namespace JW.Alarm.Services.Contracts
     public interface IAlarmService
     {
         Task Create(AlarmSchedule schedule);
-        Task Create(AlarmSchedule schedule, PlayDetail playDetail);
-        Task Delete(int scheduleId);
+        Task Create(AlarmSchedule schedule, NotificationDetail playDetail);
+        Task Delete(long scheduleId);
         Task Update(AlarmSchedule schedule);
     }
 }

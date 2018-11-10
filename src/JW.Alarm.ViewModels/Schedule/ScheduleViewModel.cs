@@ -54,7 +54,7 @@ namespace JW.Alarm.ViewModels
             musicEnabled = model.MusicEnabled;
         }
 
-        private int scheduleId;
+        private long scheduleId;
 
         private string name;
         public string Name
@@ -149,7 +149,7 @@ namespace JW.Alarm.ViewModels
                 if (IsNewSchedule)
                 {
                     IsNewSchedule = false;
-                    await alarmScheduleService.Create(model);
+                    await alarmScheduleService.Add(model);
                     await alarmService.Create(model);
                 }
                 else
@@ -186,7 +186,7 @@ namespace JW.Alarm.ViewModels
         {
             if (scheduleId >= 0)
             {
-                await alarmScheduleService.Delete(scheduleId);
+                await alarmScheduleService.Remove(scheduleId);
                 await alarmService.Delete(scheduleId);
             }
         }

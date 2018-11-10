@@ -11,6 +11,6 @@ namespace JW.Alarm.Services.Contracts
         string GetCacheKey(string url);
         string GetCacheUrl(string url);
 
-        Task SetupAlarmCache(int alarmScheduleId);
+        Task SetupAlarmCache(long alarmScheduleId);
     }
 }

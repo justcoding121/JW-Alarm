@@ -38,7 +38,7 @@ namespace JW.Alarm.Services
             return await storageService.FileExists(cachePath);
         }
 
-        public async Task SetupAlarmCache(int alarmScheduleId)
+        public async Task SetupAlarmCache(long alarmScheduleId)
         {
             var urls = await mediaPlayService.Playlist(alarmScheduleId, TimeSpan.FromMinutes(15));
 

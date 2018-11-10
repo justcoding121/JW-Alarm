@@ -12,7 +12,7 @@ namespace JW.Alarm.Services
         private readonly IDatabase database;
         private readonly IBibleReadingDbContext bibleReadingScheduleService;
 
-        private ObservableDictionary<int, AlarmSchedule> schedules;
+        private ObservableDictionary<long, AlarmSchedule> schedules;
 
         public ScheduleDbContext(IDatabase database,
             IBibleReadingDbContext bibleReadingScheduleService)
@@ -21,9 +21,9 @@ namespace JW.Alarm.Services
             this.bibleReadingScheduleService = bibleReadingScheduleService;
         }
 
-        public Task<ObservableDictionary<int, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
+        public Task<ObservableDictionary<long, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
 
-        public async Task Create(AlarmSchedule alarmSchedule)
+        public async Task Add(AlarmSchedule alarmSchedule)
         {
             if (alarmSchedule.BibleReadingScheduleId == 0)
             {
@@ -35,7 +35,7 @@ namespace JW.Alarm.Services
                     PublicationCode = "NWT"
                 };
 
-                await bibleReadingScheduleService.Create(newSchedule);
+                await bibleReadingScheduleService.Add(newSchedule);
 
                 alarmSchedule.BibleReadingScheduleId = newSchedule.Id;
             }
@@ -59,7 +59,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        public async Task<AlarmSchedule> Read(int alarmScheduleId)
+        public async Task<AlarmSchedule> Read(long alarmScheduleId)
         {
             if (schedules != null)
             {
@@ -69,12 +69,12 @@ namespace JW.Alarm.Services
             return await database.Read<AlarmSchedule>(alarmScheduleId);
         }
 
-        public async Task Delete(int alarmScheduleId)
+        public async Task Remove(long alarmScheduleId)
         {
             var schedule = await Read(alarmScheduleId);
 
             await database.Delete<AlarmSchedule>(schedule.Id);
-            await bibleReadingScheduleService.Delete(schedule.BibleReadingScheduleId);
+            await bibleReadingScheduleService.Remove(schedule.BibleReadingScheduleId);
 
             if (schedules != null)
             {
@@ -92,7 +92,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<ObservableDictionary<int, AlarmSchedule>> getAlarmSchedules()
+        private async Task<ObservableDictionary<long, AlarmSchedule>> getAlarmSchedules()
         {
             if (schedules == null)
             {

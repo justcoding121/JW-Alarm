@@ -30,7 +30,7 @@ namespace JW.Alarm.Services.Uwp
             var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
-        public async Task Create(AlarmSchedule schedule, PlayDetail playDetail)
+        public async Task Create(AlarmSchedule schedule, NotificationDetail playDetail)
         {
             var nextTrack = await mediaPlayService.NextTrack(playDetail);
             nextTrack.PlayDetail.NotificationTime = DateTimeOffset.Now.Add(playDetail.Duration);
@@ -38,7 +38,7 @@ namespace JW.Alarm.Services.Uwp
             var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
-        public Task Delete(int scheduleId)
+        public Task Delete(long scheduleId)
         {
             removeNotification(scheduleId);
             return Task.FromResult(false);
@@ -64,7 +64,7 @@ namespace JW.Alarm.Services.Uwp
                   nextFire, schedule.Name, schedule.Name, track.Url);
         }
 
-        private void removeNotification(int scheduleId)
+        private void removeNotification(long scheduleId)
         {
             notificationService.Remove(scheduleId);
         }

@@ -12,19 +12,20 @@ namespace JW.Alarm.Services.UWP
     public class UwpNotificationService : INotificationService
     {
         IMediaCacheService mediaCacheService;
-        IPlayDetailDbContext playDetailDbContext;
+        INotificationDetailDbContext playDetailDbContext;
 
         public UwpNotificationService(IMediaCacheService mediaCacheService,
-            IPlayDetailDbContext playDetailDbContext)
+            INotificationDetailDbContext playDetailDbContext)
         {
             this.mediaCacheService = mediaCacheService;
             this.playDetailDbContext = playDetailDbContext;
         }
 
-        public async Task Add(int scheduleId, PlayDetail detail, DateTimeOffset notificationTime,
+        public async Task Add(long scheduleId, NotificationDetail detail, DateTimeOffset notificationTime,
                                     string title, string body, string audioUrl)
         {
-            await playDetailDbContext.Create(detail);
+            var s = notificationTime.ToLocalTime();
+            await playDetailDbContext.Add(detail);
 
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
@@ -70,7 +71,7 @@ namespace JW.Alarm.Services.UWP
             notifier.AddToSchedule(notification);
         }
 
-        public async Task Remove(int scheduleId)
+        public async Task Remove(long scheduleId)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
@@ -86,7 +87,7 @@ namespace JW.Alarm.Services.UWP
 
             foreach (var detail in details)
             {
-                await playDetailDbContext.Delete(detail.Id);
+                await playDetailDbContext.Remove(detail.Id);
             }
 
             foreach (var notification in notifications)
@@ -95,16 +96,16 @@ namespace JW.Alarm.Services.UWP
             }
         }
 
-        public bool IsScheduled(int scheduleId)
+        public bool IsScheduled(long scheduleId)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
             var notifications = notifier.GetScheduledToastNotifications();
             return notifications.Any(x => x.Group == scheduleId.ToString());
         }
 
-        public string GetBibleNotificationDetail(int scheduleId, BibleReadingSchedule bibleReadingSchedule)
+        public string GetBibleNotificationDetail(long scheduleId, BibleReadingSchedule bibleReadingSchedule)
         {
-            return JsonConvert.SerializeObject(new PlayDetail()
+            return JsonConvert.SerializeObject(new NotificationDetail()
             {
                 ScheduleId = scheduleId,
                 BookNumber = bibleReadingSchedule.BookNumber,
@@ -112,18 +113,18 @@ namespace JW.Alarm.Services.UWP
             });
         }
 
-        public string GetMusicNotificationDetail(int scheduleId, AlarmMusic alarmMusicSchedule)
+        public string GetMusicNotificationDetail(long scheduleId, AlarmMusic alarmMusicSchedule)
         {
-            return JsonConvert.SerializeObject(new PlayDetail()
+            return JsonConvert.SerializeObject(new NotificationDetail()
             {
                 ScheduleId = scheduleId,
                 TrackNumber = alarmMusicSchedule.TrackNumber
             });
         }
 
-        public async Task<PlayDetail> ParseNotificationDetail(string key)
+        public async Task<NotificationDetail> ParseNotificationDetail(string key)
         {
-            return await playDetailDbContext.Read(int.Parse(key));
+            return await playDetailDbContext.Read(long.Parse(key));
         }
     }
 

@@ -9,13 +9,11 @@ namespace JW.Alarm.Services.Contracts
 {
     public interface IBibleReadingDbContext
     {
-        int RandomScheduleId { get; }
+        Task<ObservableDictionary<long, BibleReadingSchedule>> BibleReadingSchedules { get; }
 
-        Task<ObservableDictionary<int, BibleReadingSchedule>> BibleReadingSchedules { get; }
-
-        Task<BibleReadingSchedule> Read(int bibleReadingScheduleId);
-        Task Create(BibleReadingSchedule bibleReadingSchedule);
+        Task<BibleReadingSchedule> Read(long bibleReadingScheduleId);
+        Task Add(BibleReadingSchedule bibleReadingSchedule);
         Task Update(BibleReadingSchedule bibleReadingSchedule);
-        Task Delete(int bibleReadingScheduleId);
+        Task Remove(long bibleReadingScheduleId);
     }
 }

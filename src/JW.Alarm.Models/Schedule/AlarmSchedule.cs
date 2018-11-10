@@ -8,7 +8,7 @@ namespace JW.Alarm.Models
 {
     public class AlarmSchedule : IEntity
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; }
         public bool IsEnabled { get; set; } = true;
@@ -33,7 +33,7 @@ namespace JW.Alarm.Models
         public bool MusicEnabled { get; set; } = true;
         public AlarmMusic Music { get; set; }
 
-        public int BibleReadingScheduleId { get; set; }
+        public long BibleReadingScheduleId { get; set; }
 
         //state
         public PlayType CurrentPlayItem { get; set; }

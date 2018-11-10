@@ -25,7 +25,7 @@
                 container.Resolve<IDatabase>(),
                 container.Resolve<IBibleReadingDbContext>()), isSingleton: true);
 
-            container.Register<IPlayDetailDbContext>((x) => new PlayDetailDbContext(
+            container.Register<INotificationDetailDbContext>((x) => new NotificationDetailDbContext(
                container.Resolve<IDatabase>()), isSingleton: true);
 
             container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IScheduleDbContext>(),

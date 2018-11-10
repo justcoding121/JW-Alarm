@@ -7,21 +7,19 @@ using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
-    public class PlayDetailDbContext : IPlayDetailDbContext
+    public class NotificationDetailDbContext : INotificationDetailDbContext
     {
         private readonly IDatabase database;
-        private ObservableDictionary<int, PlayDetail> schedules;
+        private ObservableDictionary<long, NotificationDetail> schedules;
 
-        public PlayDetailDbContext(IDatabase database)
+        public NotificationDetailDbContext(IDatabase database)
         {
             this.database = database;
         }
 
-        public Task<ObservableDictionary<int, PlayDetail>> PlayDetails => getPlayDetails();
+        public Task<ObservableDictionary<long, NotificationDetail>> PlayDetails => getPlayDetails();
 
-        public int RandomScheduleId => (PlayDetails.Result).First().Key;
-
-        public virtual async Task Create(PlayDetail bibleReadingSchedule)
+        public virtual async Task Add(NotificationDetail bibleReadingSchedule)
         {
             await database.Insert(bibleReadingSchedule);
 
@@ -32,9 +30,9 @@ namespace JW.Alarm.Services
 
         }
 
-        public virtual async Task Delete(int bibleReadingScheduleId)
+        public virtual async Task Remove(long bibleReadingScheduleId)
         {
-            await database.Delete<PlayDetail>(bibleReadingScheduleId);
+            await database.Delete<NotificationDetail>(bibleReadingScheduleId);
 
             if (schedules != null)
             {
@@ -42,17 +40,17 @@ namespace JW.Alarm.Services
             }
         }
 
-        public async Task<PlayDetail> Read(int bibleReadingScheduleId)
+        public async Task<NotificationDetail> Read(long bibleReadingScheduleId)
         {
             if (schedules != null)
             {
                 return schedules[bibleReadingScheduleId];
             }
 
-            return await database.Read<PlayDetail>(bibleReadingScheduleId);
+            return await database.Read<NotificationDetail>(bibleReadingScheduleId);
         }
 
-        public virtual async Task Update(PlayDetail bibleReadingSchedule)
+        public virtual async Task Update(NotificationDetail bibleReadingSchedule)
         {
             await database.Update(bibleReadingSchedule);
 
@@ -62,11 +60,11 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<ObservableDictionary<int, PlayDetail>> getPlayDetails()
+        private async Task<ObservableDictionary<long, NotificationDetail>> getPlayDetails()
         {
             if (schedules == null)
             {
-                schedules = (await database.ReadAll<PlayDetail>()).ToObservableDictionary(x => x.Id, x => x);
+                schedules = (await database.ReadAll<NotificationDetail>()).ToObservableDictionary(x => x.Id, x => x);
             }
 
             return schedules;

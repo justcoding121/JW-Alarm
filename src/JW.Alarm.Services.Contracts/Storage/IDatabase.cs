@@ -10,10 +10,10 @@ namespace JW.Alarm.Services.Contracts
     {
         Task<IEnumerable<T>> ReadAll<T>() where T : IEntity;
         Task<int> Count<T>() where T : IEntity;
-        Task<T> Read<T>(int recordId) where T : IEntity;
+        Task<T> Read<T>(long recordId) where T : IEntity;
         Task Insert<T>(T record) where T : IEntity;
         Task Update<T>(T record) where T : IEntity;
-        Task Delete<T>(int recordId) where T : IEntity;
+        Task Delete<T>(long recordId) where T : IEntity;
     }
 
 }

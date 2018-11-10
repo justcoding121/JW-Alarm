@@ -23,28 +23,7 @@ namespace JW.Alarm.Services
         private string tableName<T>() where T : IEntity => typeof(T).Name;
 
         private ConcurrentDictionary<string, SemaphoreSlim> tableLocks = new ConcurrentDictionary<string, SemaphoreSlim>();
-        private ConcurrentDictionary<string, OrderedHashSet<int>> keyCache = new ConcurrentDictionary<string, OrderedHashSet<int>>();
-
-        private AsyncLazy<OrderedHashSet<int>> keys<T>() where T : IEntity =>
-                new AsyncLazy<OrderedHashSet<int>>(async () =>
-                {
-                    if (keyCache.TryGetValue(tableName<T>(), out var value))
-                    {
-                        return value;
-                    }
-
-                    var @lock = acquireTableLock<T>();
-                    OrderedHashSet<int> keys;
-                    try
-                    {
-                        await @lock.WaitAsync();
-                        keys = new OrderedHashSet<int>(await readKeys<T>());
-                        keyCache[tableName<T>()] = keys;
-                    }
-                    finally { @lock.Release(); }
-
-                    return keys;
-                });
+        private ConcurrentDictionary<string, OrderedHashSet<long>> keyCache = new ConcurrentDictionary<string, OrderedHashSet<long>>();
 
         private SemaphoreSlim acquireTableLock<T>() where T : IEntity
         {
@@ -91,10 +70,10 @@ namespace JW.Alarm.Services
 
         public async Task<int> Count<T>() where T : IEntity
         {
-            return (await keys<T>()).Count;
+            return (await readKeys<T>()).Count();
         }
 
-        public async Task<T> Read<T>(int recordId) where T : IEntity
+        public async Task<T> Read<T>(long recordId) where T : IEntity
         {
             if (recordId == 0)
             {
@@ -120,11 +99,9 @@ namespace JW.Alarm.Services
                 throw new ArgumentException("Object to insert already have an assigned primary key.", "Id");
             }
 
-            record.Id = await getNextId<T>();
+            record.Id = getNextId();
             var fileContent = JsonConvert.SerializeObject(record);
             await storageService.SaveFile(tablePath<T>(), $"{record.Id}.json", fileContent);
-            var keys = await keys<T>();
-            keys.Add(record.Id);
         }
 
         public async Task Update<T>(T record) where T : IEntity
@@ -145,7 +122,7 @@ namespace JW.Alarm.Services
             finally { @lock.Release(); }
         }
 
-        public async Task Delete<T>(int recordId) where T : IEntity
+        public async Task Delete<T>(long recordId) where T : IEntity
         {
             if (recordId == 0)
             {
@@ -160,22 +137,28 @@ namespace JW.Alarm.Services
                 await storageService.DeleteFile(Path.Combine(tablePath<T>(), $"{recordId}.json"));
             }
             finally { @lock.Release(); }
-
-            var keys = await keys<T>();
-            keys.Remove(recordId);
         }
 
-        private async Task<int> getNextId<T>() where T : IEntity
+        private static long lastTimeStamp = DateTime.UtcNow.Ticks;
+        private long getNextId()
         {
-            return (await keys<T>()).Max() + 1;
+            long original, newValue;
+            do
+            {
+                original = lastTimeStamp;
+                long now = DateTime.UtcNow.Ticks;
+                newValue = Math.Max(now, original + 1);
+            } while (Interlocked.CompareExchange(ref lastTimeStamp, newValue, original) != original);
+
+            return newValue;
         }
 
-        private async Task<IEnumerable<int>> readKeys<T>() where T : IEntity
+        private async Task<IEnumerable<long>> readKeys<T>() where T : IEntity
         {
             var files = await storageService.GetAllFiles(tablePath<T>());
 
             return files.Where(x => x.EndsWith(".json"))
-                        .Select(x => int.Parse(Path.GetFileNameWithoutExtension(x)));
+                        .Select(x => long.Parse(Path.GetFileNameWithoutExtension(x)));
         }
     }
 }

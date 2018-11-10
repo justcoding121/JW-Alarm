@@ -119,7 +119,7 @@ namespace JW.Alarm.ViewModels
         {
             foreach (var newItem in oldItems)
             {
-                var removed = ((KeyValuePair<int, AlarmSchedule>)newItem).Value;
+                var removed = ((KeyValuePair<long, AlarmSchedule>)newItem).Value;
                 Schedules.Remove(listMapping[removed]);
                 listMapping.Remove(removed);
             }
@@ -129,7 +129,7 @@ namespace JW.Alarm.ViewModels
         {
             foreach (var newItem in newItems)
             {
-                var listItem = new ScheduleListItem(((KeyValuePair<int, AlarmSchedule>)newItem).Value);
+                var listItem = new ScheduleListItem(((KeyValuePair<long, AlarmSchedule>)newItem).Value);
                 listMapping.Add(listItem.Schedule, listItem);
                 Schedules.Add(listItem);
             }
@@ -146,7 +146,7 @@ namespace JW.Alarm.ViewModels
             isEnabled = schedule.IsEnabled;
         }
 
-        public int ScheduleId => Schedule.Id;
+        public long ScheduleId => Schedule.Id;
 
         public string Name => Schedule.Name;
 
