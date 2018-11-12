@@ -9,6 +9,7 @@ namespace JW.Alarm.Models
     {
         public long Id { get; set; }
         public long ScheduleId { get; set; }
+        public long BibleReadingScheduleId { get; set; }
         public DateTimeOffset NotificationTime { get; set; }
 
 
@@ -16,7 +17,7 @@ namespace JW.Alarm.Models
         public PlayType PlayType => BookNumber > 0 ? PlayType.Bible : PlayType.Music;
 
         public int BookNumber { get; set; }
-        public int Chapter { get; set; }
+        public int ChapterNumber { get; set; }
 
         public int TrackNumber { get; set; }
         public TimeSpan Duration { get; set; }

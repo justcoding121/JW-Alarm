@@ -9,18 +9,18 @@ namespace JW.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModelBase
     {
-        IScheduleDbContext alarmScheduleService;
-        IBibleReadingDbContext bibleReadingScheduleService;
+        IScheduleDbContext alarmDbContext;
+        IBibleReadingDbContext bibleReadingDbContext;
 
         IAlarmService alarmService;
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
-            this.alarmScheduleService = IocSetup.Container.Resolve<IScheduleDbContext>();
+            this.alarmDbContext = IocSetup.Container.Resolve<IScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
-            this.bibleReadingScheduleService = IocSetup.Container.Resolve<IBibleReadingDbContext>();
+            this.bibleReadingDbContext = IocSetup.Container.Resolve<IBibleReadingDbContext>();
 
             IsNewSchedule = model == null ? true : false;
             setModel(model ?? new AlarmSchedule());
@@ -149,12 +149,12 @@ namespace JW.Alarm.ViewModels
                 if (IsNewSchedule)
                 {
                     IsNewSchedule = false;
-                    await alarmScheduleService.Add(model);
+                    await alarmDbContext.Add(model);
                     await alarmService.Create(model);
                 }
                 else
                 {
-                    await alarmScheduleService.Update(model);
+                    await alarmDbContext.Update(model);
                     await alarmService.Update(model);
                 }
 
@@ -186,7 +186,7 @@ namespace JW.Alarm.ViewModels
         {
             if (scheduleId >= 0)
             {
-                await alarmScheduleService.Remove(scheduleId);
+                await alarmDbContext.Remove(scheduleId);
                 await alarmService.Delete(scheduleId);
             }
         }

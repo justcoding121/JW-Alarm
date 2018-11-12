@@ -25,21 +25,6 @@ namespace JW.Alarm.Services
 
         public async Task Add(AlarmSchedule alarmSchedule)
         {
-            if (alarmSchedule.BibleReadingScheduleId == 0)
-            {
-                var newSchedule = new BibleReadingSchedule()
-                {
-                    BookNumber = 23,
-                    ChapterNumber = 1,
-                    LanguageCode = "E",
-                    PublicationCode = "NWT"
-                };
-
-                await bibleReadingScheduleService.Add(newSchedule);
-
-                alarmSchedule.BibleReadingScheduleId = newSchedule.Id;
-            }
-
             if (alarmSchedule.Music == null)
             {
                 alarmSchedule.Music = new AlarmMusic()
@@ -52,11 +37,29 @@ namespace JW.Alarm.Services
             }
 
             await database.Insert(alarmSchedule);
-
             if (schedules != null)
             {
                 schedules.Add(alarmSchedule.Id, alarmSchedule);
             }
+
+            if (alarmSchedule.BibleReadingScheduleId == 0)
+            {
+                var newSchedule = new BibleReadingSchedule()
+                {
+                    ScheduleId = alarmSchedule.Id,
+                    BookNumber = 23,
+                    ChapterNumber = 1,
+                    LanguageCode = "E",
+                    PublicationCode = "NWT"
+                };
+
+                await bibleReadingScheduleService.Add(newSchedule);
+
+                alarmSchedule.BibleReadingScheduleId = newSchedule.Id;
+
+                await Update(alarmSchedule);
+            }
+
         }
 
         public async Task<AlarmSchedule> Read(long alarmScheduleId)

@@ -18,7 +18,8 @@
 
             container.Register<INotificationService>((x) => 
             new UwpNotificationService(container.Resolve<IMediaCacheService>(),
-                container.Resolve<INotificationDetailDbContext>()), isSingleton: true);
+                container.Resolve<INotificationDetailDbContext>(),
+                container.Resolve<IBibleReadingDbContext>()), isSingleton: true);
 
             container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
                                                     container.Resolve<INotificationService>(),

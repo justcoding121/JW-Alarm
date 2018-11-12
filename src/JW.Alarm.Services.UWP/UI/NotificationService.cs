@@ -13,18 +13,21 @@ namespace JW.Alarm.Services.UWP
     {
         IMediaCacheService mediaCacheService;
         INotificationDetailDbContext playDetailDbContext;
+        IBibleReadingDbContext bibleReadingDbContext;
 
         public UwpNotificationService(IMediaCacheService mediaCacheService,
-            INotificationDetailDbContext playDetailDbContext)
+            INotificationDetailDbContext playDetailDbContext,
+            IBibleReadingDbContext bibleReadingDbContext)
         {
             this.mediaCacheService = mediaCacheService;
             this.playDetailDbContext = playDetailDbContext;
+            this.bibleReadingDbContext = bibleReadingDbContext;
         }
 
-        public async Task Add(long scheduleId, NotificationDetail detail, DateTimeOffset notificationTime,
+        public async Task Add(string groupId, NotificationDetail detail, DateTimeOffset notificationTime,
                                     string title, string body, string audioUrl)
         {
-            var s = notificationTime.ToLocalTime();
+
             await playDetailDbContext.Add(detail);
 
             var notifier = ToastNotificationManager.CreateToastNotifier();
@@ -64,7 +67,7 @@ namespace JW.Alarm.Services.UWP
             var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
             {
                 Tag = detail.Id.ToString(),
-                Group = scheduleId.ToString(),
+                Group = groupId,
                 RemoteId = remoteId
             };
 
@@ -73,26 +76,25 @@ namespace JW.Alarm.Services.UWP
 
         public async Task Remove(long scheduleId)
         {
-            var notifier = ToastNotificationManager.CreateToastNotifier();
+            var notifications = (await playDetailDbContext.PlayDetails)
+                                .Where(x => x.Value.ScheduleId == scheduleId)
+                                .Select(x => x.Value).ToList();
 
-            var notifications = notifier.GetScheduledToastNotifications()
-                                    .Where(x => x.Group == scheduleId.ToString())
-                                    .ToList();
-
-
-            var details = (await playDetailDbContext.PlayDetails)
-                .Where(x => x.Value.ScheduleId == scheduleId)
-                .Select(x => x.Value)
-                .ToList();
-
-            foreach (var detail in details)
-            {
-                await playDetailDbContext.Remove(detail.Id);
-            }
 
             foreach (var notification in notifications)
             {
+                await playDetailDbContext.Remove(notification.Id);
+            }
+
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            ToastNotificationManager.History.Clear();
+            foreach (var notification in notifier.GetScheduledToastNotifications())
+            {
+                //if(notifications.Any(x=> x.Id.ToString() == notification.Tag))
+                //{
                 notifier.RemoveFromSchedule(notification);
+                //}     
             }
         }
 
@@ -109,7 +111,7 @@ namespace JW.Alarm.Services.UWP
             {
                 ScheduleId = scheduleId,
                 BookNumber = bibleReadingSchedule.BookNumber,
-                Chapter = bibleReadingSchedule.ChapterNumber
+                ChapterNumber = bibleReadingSchedule.ChapterNumber
             });
         }
 
@@ -125,6 +127,43 @@ namespace JW.Alarm.Services.UWP
         public async Task<NotificationDetail> ParseNotificationDetail(string key)
         {
             return await playDetailDbContext.Read(long.Parse(key));
+        }
+
+        public void AddSilent(string groupId, DateTimeOffset notificationTime)
+        {
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            var content = new ToastContent()
+            {
+                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
+                Scenario = ToastScenario.Reminder,
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Playing next chapter..",
+                                HintMaxLines = 1
+                            }
+                        }
+                    }
+                },
+
+                Actions = new ToastActionsSnoozeAndDismiss()
+            };
+
+            string remoteId = (notificationTime.Ticks / 10000000 / 60).ToString(); // Minutes
+
+            var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
+            {
+                Group = groupId,
+                RemoteId = remoteId
+            };
+
+            notifier.AddToSchedule(notification);
         }
     }
 

@@ -40,14 +40,14 @@ namespace JW.Alarm.Services
 
         public async Task SetupAlarmCache(long alarmScheduleId)
         {
-            var urls = await mediaPlayService.Playlist(alarmScheduleId, TimeSpan.FromMinutes(15));
+            var playlist = await mediaPlayService.Playlist(alarmScheduleId, TimeSpan.FromMinutes(15));
 
-            foreach (var url in urls)
+            foreach (var playItem in playlist)
             {
-                if (!await Exists(url))
+                if (!await Exists(playItem.Url))
                 {
-                    var bytes = await downloadService.DownloadAsync(url);
-                    await storageService.SaveFile(cacheRoot, GetCacheKey(url), bytes);
+                    var bytes = await downloadService.DownloadAsync(playItem.Url);
+                    await storageService.SaveFile(cacheRoot, GetCacheKey(playItem.Url), bytes);
                 }
             }
         }

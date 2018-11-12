@@ -11,6 +11,6 @@ namespace JW.Alarm.Services.Contracts
         Task<PlayItem> NextTrack(long scheduleId);
         Task<PlayItem> NextTrack(NotificationDetail currentTrack);
         Task SetFinishedTrack(NotificationDetail trackDetail);
-        Task<List<string>> Playlist(long scheduleId, TimeSpan duration);
+        Task<List<PlayItem>> Playlist(long scheduleId, TimeSpan duration);
     }
 }

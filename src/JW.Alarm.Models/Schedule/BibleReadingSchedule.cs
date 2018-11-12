@@ -8,7 +8,7 @@ namespace JW.Alarm.Models
     public class BibleReadingSchedule : IEntity
     {
         public long Id { get; set; }
-
+        public long ScheduleId { get; set; }
         public string LanguageCode { get; set; }
         public string PublicationCode { get; set; }
 
