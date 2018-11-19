@@ -20,7 +20,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
         private IScheduleDbContext scheduleDbContext;
         private IPlaylistService playlistService;
 
-
         public AlarmTask(IAlarmService alarmService,
             INotificationService notificationService,
             IScheduleDbContext scheduleDbContext,

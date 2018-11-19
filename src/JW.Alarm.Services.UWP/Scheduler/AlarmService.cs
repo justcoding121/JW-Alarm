@@ -25,8 +25,6 @@ namespace JW.Alarm.Services.Uwp
 
         public async Task Create(AlarmSchedule schedule)
         {
-            await removeNotification(0);
-
             var nextTrack = await playlistService.NextTrack(schedule.Id);
             nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
             await scheduleNotification(schedule, nextTrack);
@@ -68,7 +66,7 @@ namespace JW.Alarm.Services.Uwp
             await notificationService.Add(schedule.Id.ToString(), currentTrack.PlayDetail,
                 fireDate, schedule.Name, schedule.Name, currentTrack.Url);
 
-            fireDate = fireDate.Add(TimeSpan.FromSeconds(5)).AddSeconds(1);
+            fireDate = fireDate.Add(currentTrack.Duration).AddSeconds(1);
             notificationService.AddSilent("Clear", fireDate);
         }
 

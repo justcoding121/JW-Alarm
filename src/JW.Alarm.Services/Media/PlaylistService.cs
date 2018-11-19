@@ -11,15 +11,12 @@ namespace JW.Alarm.Services
     public class PlaylistService : IPlaylistService
     {
         private IScheduleDbContext scheduleService;
-        private IBibleReadingDbContext bibleReadingScheduleService;
         private MediaService mediaService;
 
         public PlaylistService(IScheduleDbContext scheduleService,
-            IBibleReadingDbContext bibleReadingScheduleService,
             MediaService mediaService)
         {
             this.scheduleService = scheduleService;
-            this.bibleReadingScheduleService = bibleReadingScheduleService;
             this.mediaService = mediaService;
         }
 
@@ -33,18 +30,19 @@ namespace JW.Alarm.Services
             }
             else
             {
-                return await nextBibleUrlToPlay(scheduleId, schedule.BibleReadingScheduleId);
+                return await nextBibleUrlToPlay(scheduleId, schedule.BibleReadingSchedule);
             }
         }
 
         public async Task<PlayItem> NextTrack(NotificationDetail currentTrack)
         {
+            var schedule = await scheduleService.Read(currentTrack.ScheduleId);
+            var bibleReadingSchedule = schedule.BibleReadingSchedule;
+
             if (currentTrack.PlayType == PlayType.Music)
             {
-                return await nextBibleUrlToPlay(currentTrack.ScheduleId, currentTrack.BibleReadingScheduleId);
+                return await nextBibleUrlToPlay(currentTrack.ScheduleId, bibleReadingSchedule);
             }
-
-            var bibleReadingSchedule = await bibleReadingScheduleService.Read(currentTrack.BibleReadingScheduleId);
 
             int bookNumber = currentTrack.BookNumber;
             int chapter = currentTrack.ChapterNumber;
@@ -59,7 +57,6 @@ namespace JW.Alarm.Services
             return new PlayItem(new NotificationDetail()
             {
                 ScheduleId = currentTrack.ScheduleId,
-                BibleReadingScheduleId = currentTrack.BibleReadingScheduleId,
                 BookNumber = bookNumber,
                 ChapterNumber = chapter,
                 Duration = bibleTrack.Duration
@@ -69,9 +66,10 @@ namespace JW.Alarm.Services
 
         public async Task SetFinishedTrack(NotificationDetail trackDetail)
         {
+            var schedule = await scheduleService.Read(trackDetail.ScheduleId);
+
             if (trackDetail.PlayType == PlayType.Music)
             {
-                var schedule = await scheduleService.Read(trackDetail.ScheduleId);
 
                 if (!schedule.Music.Fixed)
                 {
@@ -82,11 +80,10 @@ namespace JW.Alarm.Services
             }
             else
             {
-                var bibleReadingSchedule = await bibleReadingScheduleService.Read(trackDetail.BibleReadingScheduleId);
+                var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
                 bibleReadingSchedule.BookNumber = trackDetail.BookNumber;
                 bibleReadingSchedule.ChapterNumber = trackDetail.ChapterNumber;
-                await bibleReadingScheduleService.Update(bibleReadingSchedule);
             }
         }
 
@@ -101,7 +98,7 @@ namespace JW.Alarm.Services
                 result.Add(await nextMusicUrlToPlay(schedule));
             }
 
-            var bibleReadingSchedule = await bibleReadingScheduleService.Read(schedule.BibleReadingScheduleId);
+            var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
             int bookNumber = bibleReadingSchedule.BookNumber;
             int chapter = bibleReadingSchedule.ChapterNumber;
@@ -117,7 +114,6 @@ namespace JW.Alarm.Services
                 result.Add(new PlayItem(new NotificationDetail()
                 {
                     ScheduleId = scheduleId,
-                    BibleReadingScheduleId = schedule.BibleReadingScheduleId,
                     BookNumber = bookNumber,
                     ChapterNumber = chapter,
                     Duration = trackDuration
@@ -180,7 +176,6 @@ namespace JW.Alarm.Services
                     return new PlayItem(new NotificationDetail()
                     {
                         ScheduleId = schedule.Id,
-                        BibleReadingScheduleId = schedule.BibleReadingScheduleId,
                         TrackNumber = melodyTrack.Number,
                         Duration = melodyTrack.Duration,   
                     }, melodyTrack.Duration, melodyTrack.Url);
@@ -192,7 +187,6 @@ namespace JW.Alarm.Services
                     return new PlayItem(new NotificationDetail()
                     {
                         ScheduleId = schedule.Id,
-                        BibleReadingScheduleId = schedule.BibleReadingScheduleId,
                         TrackNumber = vocalTrack.Number,
                         Duration = vocalTrack.Duration
                     }, vocalTrack.Duration, vocalTrack.Url);
@@ -202,15 +196,13 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<PlayItem> nextBibleUrlToPlay(long scheduleId, long bibleReadingScheduleId)
+        private async Task<PlayItem> nextBibleUrlToPlay(long scheduleId, BibleReadingSchedule bibleReadingSchedule)
         {
-            var bibleReadingSchedule = await bibleReadingScheduleService.Read(bibleReadingScheduleId) as BibleReadingSchedule;
             var bibleTracks = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber);
             var bibleTrack = bibleTracks[bibleReadingSchedule.ChapterNumber];
             return new PlayItem(new NotificationDetail()
             {
                 ScheduleId = scheduleId,
-                BibleReadingScheduleId = bibleReadingScheduleId,
                 BookNumber = bibleReadingSchedule.BookNumber,
                 ChapterNumber = bibleReadingSchedule.ChapterNumber,
                 Duration = bibleTrack.Duration

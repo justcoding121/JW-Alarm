@@ -11,6 +11,7 @@ namespace JW.Alarm.Services.Uwp.Helpers
     {
         private static readonly string alarmTaskName = "AlarmTask";
         private static readonly string schedulerTaskName = "SchedulerTask";
+        private static readonly string snoozeDismissTaskName = "SnoozeDismissTask";
 
         public async static Task VerifyPermissions()
         {
@@ -59,6 +60,13 @@ namespace JW.Alarm.Services.Uwp.Helpers
             if (schedulerTask == null)
             {
                 registerBackgroundTask(schedulerTaskName, new TimeTrigger(15, false));
+            }
+
+            var snoozeDismissTask = allTasks.FirstOrDefault(x => x.Name == snoozeDismissTaskName);
+
+            if(snoozeDismissTask == null)
+            {
+                registerBackgroundTask(snoozeDismissTaskName, new ToastNotificationActionTrigger());                
             }
         }
 

@@ -13,15 +13,12 @@ namespace JW.Alarm.Services.UWP
     {
         IMediaCacheService mediaCacheService;
         INotificationDetailDbContext playDetailDbContext;
-        IBibleReadingDbContext bibleReadingDbContext;
 
         public UwpNotificationService(IMediaCacheService mediaCacheService,
-            INotificationDetailDbContext playDetailDbContext,
-            IBibleReadingDbContext bibleReadingDbContext)
+            INotificationDetailDbContext playDetailDbContext)
         {
             this.mediaCacheService = mediaCacheService;
             this.playDetailDbContext = playDetailDbContext;
-            this.bibleReadingDbContext = bibleReadingDbContext;
         }
 
         public async Task Add(string groupId, NotificationDetail detail, DateTimeOffset notificationTime,
@@ -36,6 +33,8 @@ namespace JW.Alarm.Services.UWP
             {
                 Audio = new ToastAudio() { Src = new Uri(mediaCacheService.GetCacheUrl(audioUrl)) },
                 Scenario = ToastScenario.Reminder,
+                ActivationType = ToastActivationType.Background,
+                Launch = groupId,
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -45,7 +44,7 @@ namespace JW.Alarm.Services.UWP
                             new AdaptiveText()
                             {
                                 Text = title,
-                                HintMaxLines = 1
+                                HintMaxLines = 1,
                             },
                             new AdaptiveText()
                             {
@@ -55,7 +54,21 @@ namespace JW.Alarm.Services.UWP
                     }
                 },
 
-                Actions = new ToastActionsSnoozeAndDismiss()
+                Actions = new ToastActionsCustom()
+                {                
+                    Buttons =
+                    {
+                        new ToastButton("Snooze", groupId)
+                        {
+                            ActivationType = ToastActivationType.Background
+                        },
+
+                        new ToastButton("Dismiss", groupId)
+                        {
+                            ActivationType = ToastActivationType.Background
+                        }
+                    }
+                }
             };
 
             // We can easily enable Universal Dismiss by generating a RemoteId for the alarm that will be
@@ -68,33 +81,83 @@ namespace JW.Alarm.Services.UWP
             {
                 Tag = detail.Id.ToString(),
                 Group = groupId,
-                RemoteId = remoteId
+                RemoteId = remoteId,
             };
 
             notifier.AddToSchedule(notification);
         }
 
+
+        public void AddSilent(string groupId, DateTimeOffset notificationTime)
+        {
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            var content = new ToastContent()
+            {
+                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
+                Scenario = ToastScenario.Default,
+                ActivationType = ToastActivationType.Background,
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Playing next chapter..",
+                                HintMaxLines = 1
+                            }
+                        }
+                    }
+                },
+
+                Actions = new ToastActionsCustom()
+                {
+                    Buttons =
+                    {
+                        new ToastButton("Snooze", "snooze")
+                        {
+                            ActivationType = ToastActivationType.Background
+                        },
+
+                        new ToastButton("Dismiss", "dismiss")
+                        {
+                            ActivationType = ToastActivationType.Background
+                        }
+                    }
+                }
+            };
+
+            string remoteId = (notificationTime.Ticks / 10000000 / 60).ToString(); // Minutes
+
+            var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
+            {
+                Group = groupId,
+                RemoteId = remoteId
+            };
+
+            notifier.AddToSchedule(notification);
+        }
         public async Task Remove(long scheduleId)
         {
             var notifications = (await playDetailDbContext.PlayDetails)
                                 .Where(x => x.Value.ScheduleId == scheduleId)
                                 .Select(x => x.Value).ToList();
 
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            foreach (var notification in notifier.GetScheduledToastNotifications())
+            {
+                if (notifications.Any(x => x.Id.ToString() == notification.Tag))
+                {
+                    notifier.RemoveFromSchedule(notification);
+                }
+            }
 
             foreach (var notification in notifications)
             {
                 await playDetailDbContext.Remove(notification.Id);
-            }
-
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-
-            ToastNotificationManager.History.Clear();
-            foreach (var notification in notifier.GetScheduledToastNotifications())
-            {
-                //if(notifications.Any(x=> x.Id.ToString() == notification.Tag))
-                //{
-                notifier.RemoveFromSchedule(notification);
-                //}     
             }
         }
 
@@ -129,42 +192,6 @@ namespace JW.Alarm.Services.UWP
             return await playDetailDbContext.Read(long.Parse(key));
         }
 
-        public void AddSilent(string groupId, DateTimeOffset notificationTime)
-        {
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-
-            var content = new ToastContent()
-            {
-                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
-                Scenario = ToastScenario.Reminder,
-                Visual = new ToastVisual()
-                {
-                    BindingGeneric = new ToastBindingGeneric()
-                    {
-                        Children =
-                        {
-                            new AdaptiveText()
-                            {
-                                Text = "Playing next chapter..",
-                                HintMaxLines = 1
-                            }
-                        }
-                    }
-                },
-
-                Actions = new ToastActionsSnoozeAndDismiss()
-            };
-
-            string remoteId = (notificationTime.Ticks / 10000000 / 60).ToString(); // Minutes
-
-            var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
-            {
-                Group = groupId,
-                RemoteId = remoteId
-            };
-
-            notifier.AddToSchedule(notification);
-        }
     }
 
 }

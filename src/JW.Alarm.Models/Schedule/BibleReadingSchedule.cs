@@ -5,10 +5,8 @@ using System.IO;
 namespace JW.Alarm.Models
 {
 
-    public class BibleReadingSchedule : IEntity
+    public class BibleReadingSchedule 
     {
-        public long Id { get; set; }
-        public long ScheduleId { get; set; }
         public string LanguageCode { get; set; }
         public string PublicationCode { get; set; }
 

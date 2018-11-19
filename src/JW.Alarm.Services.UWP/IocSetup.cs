@@ -18,13 +18,18 @@
 
             container.Register<INotificationService>((x) => 
             new UwpNotificationService(container.Resolve<IMediaCacheService>(),
-                container.Resolve<INotificationDetailDbContext>(),
-                container.Resolve<IBibleReadingDbContext>()), isSingleton: true);
+                container.Resolve<INotificationDetailDbContext>()), isSingleton: true);
 
             container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
                                                     container.Resolve<INotificationService>(),
                                                     container.Resolve<IScheduleDbContext>(),
                                                     container.Resolve<IPlaylistService>()));
+
+            container.Register((x) => new SnoozeDismissTask(container.Resolve<IAlarmService>(),
+                                                   container.Resolve<INotificationService>(),
+                                                   container.Resolve<IScheduleDbContext>(),
+                                                   container.Resolve<IPlaylistService>()));
+
 
             container.Register((x) => new SchedulerTask(container.Resolve<IScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>()), isSingleton: true);

@@ -102,6 +102,11 @@ namespace JW.Alarm.Core.Uwp
                 case "SchedulerTask":
                     IocSetup.Container.Resolve<SchedulerTask>().Handle(args.TaskInstance);
                     break;
+
+                case "SnoozeDismissTask":
+                    IocSetup.Container.Resolve<SnoozeDismissTask>().Handle(args.TaskInstance);
+                    break;
+
             }
         }
 

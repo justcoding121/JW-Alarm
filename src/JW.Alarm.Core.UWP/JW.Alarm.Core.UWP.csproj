@@ -96,19 +96,40 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="IocSetup.cs" />
-    <Compile Include="Views\Converters\BoolVisibilityConverter.cs" />
-    <Compile Include="Views\Converters\DayColorConverter.cs" />
-    <Compile Include="Views\Extensions\VisualTreeExtensions.cs" />
+    <Compile Include="ViewHelpers\Converters\BoolVisibilityConverter.cs" />
+    <Compile Include="ViewHelpers\Converters\DayColorConverter.cs" />
+    <Compile Include="ViewHelpers\Extensions\VisualTreeExtensions.cs" />
+    <Compile Include="Views\Bible\BibleSelection.xaml.cs">
+      <DependentUpon>BibleSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Bible\BookSelection.xaml.cs">
+      <DependentUpon>BookSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Bible\ChapterSelection.xaml.cs">
+      <DependentUpon>ChapterSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Converters\IsEnabledColorConverter.cs" />
+    <Compile Include="ViewHelpers\Converters\IsEnabledColorConverter.cs" />
+    <Compile Include="Views\Music\MusicSelection.xaml.cs">
+      <DependentUpon>MusicSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Music\SongBookSelection.xaml.cs">
+      <DependentUpon>SongBookSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Music\TrackSelection.xaml.cs">
+      <DependentUpon>TrackSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Schedule\ScheduleList.xaml.cs">
       <DependentUpon>ScheduleList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Schedule\ScheduleView.xaml.cs">
       <DependentUpon>ScheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\LanguageSelection.xaml.cs">
+      <DependentUpon>LanguageSelection.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -134,15 +155,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Bible\BibleSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Bible\BookSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Bible\ChapterSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Music\MusicSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Music\SongBookSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Music\TrackSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Schedule\ScheduleList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Schedule\ScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shared\LanguageSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Icons\" />
-    <Folder Include="Views\Sc\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

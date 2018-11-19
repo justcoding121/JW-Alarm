@@ -27,7 +27,7 @@ namespace JW.Alarm.ViewModels
             this.threadService = threadService;
             this.popUpService = popUpService;
 
-            Task.Run(() => InitializeScheduleListAsync());
+            Task.Run(() => InitializeSchedulesAsync());
         }
 
         private Dictionary<AlarmSchedule, ScheduleListItem> listMapping = new Dictionary<AlarmSchedule, ScheduleListItem>();
@@ -42,7 +42,7 @@ namespace JW.Alarm.ViewModels
         }
 
 
-        public async Task InitializeScheduleListAsync()
+        public async Task InitializeSchedulesAsync()
         {
             var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
                                => new NotifyCollectionChangedEventHandler(ev),

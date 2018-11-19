@@ -10,7 +10,6 @@ namespace JW.Alarm.ViewModels
     public class ScheduleViewModel : ViewModelBase
     {
         IScheduleDbContext alarmDbContext;
-        IBibleReadingDbContext bibleReadingDbContext;
 
         IAlarmService alarmService;
         IPopUpService popUpService;
@@ -20,31 +19,30 @@ namespace JW.Alarm.ViewModels
             this.alarmDbContext = IocSetup.Container.Resolve<IScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
-            this.bibleReadingDbContext = IocSetup.Container.Resolve<IBibleReadingDbContext>();
 
             IsNewSchedule = model == null ? true : false;
             setModel(model ?? new AlarmSchedule());
         }
 
-        private AlarmSchedule model;
+        public AlarmSchedule Model { get; private set; }
 
         private AlarmSchedule getModel()
         {
-            model.Id = scheduleId;
+            Model.Id = scheduleId;
 
-            model.Name = Name;
-            model.IsEnabled = IsEnabled;
-            model.DaysOfWeek = DaysOfWeek;
-            model.Hour = Time.Hours;
-            model.Minute = Time.Minutes;
-            model.MusicEnabled = musicEnabled;
+            Model.Name = Name;
+            Model.IsEnabled = IsEnabled;
+            Model.DaysOfWeek = DaysOfWeek;
+            Model.Hour = Time.Hours;
+            Model.Minute = Time.Minutes;
+            Model.MusicEnabled = musicEnabled;
 
-            return model;
+            return Model;
         }
 
         private void setModel(AlarmSchedule model)
         {
-            this.model = model;
+            this.Model = model;
 
             scheduleId = model.Id;
             name = model.Name;
@@ -107,12 +105,8 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref musicEnabled, value);
         }
 
-        private bool bibleReadingEnabled;
-        public bool BibleReadingEnabled
-        {
-            get => bibleReadingEnabled;
-            set => this.Set(ref bibleReadingEnabled, value);
-        }
+        public AlarmMusic Music => Model.Music;
+        public BibleReadingSchedule BibleReadingSchedule => Model.BibleReadingSchedule;
 
         public bool IsNewSchedule { get; private set; }
         public bool IsExistingSchedule => !IsNewSchedule;
@@ -148,9 +142,9 @@ namespace JW.Alarm.ViewModels
 
                 if (IsNewSchedule)
                 {
-                    IsNewSchedule = false;
                     await alarmDbContext.Add(model);
                     await alarmService.Create(model);
+                    IsNewSchedule = false;
                 }
                 else
                 {

@@ -8,11 +8,31 @@ namespace JW.Alarm.Models
 {
     public class AlarmSchedule : IEntity
     {
+        public AlarmSchedule()
+        {
+            Music = new AlarmMusic()
+            {
+                MusicType = MusicType.Melodies,
+                PublicationCode = "iam",
+                LanguageCode = "E",
+                TrackNumber = 89
+            };
+
+            BibleReadingSchedule = new BibleReadingSchedule()
+            {
+                BookNumber = 23,
+                ChapterNumber = 1,
+                LanguageCode = "E",
+                PublicationCode = "NWT"
+            };
+
+        }
+
         public long Id { get; set; }
 
         public string Name { get; set; }
         public bool IsEnabled { get; set; } = true;
-        
+
         public int Hour { get; set; } //24 hour based
         public int MeridienHour => Meridien == Meridien.AM ? Hour : Hour % 12;
         public int Minute { get; set; }
@@ -33,7 +53,7 @@ namespace JW.Alarm.Models
         public bool MusicEnabled { get; set; } = true;
         public AlarmMusic Music { get; set; }
 
-        public long BibleReadingScheduleId { get; set; }
+        public BibleReadingSchedule BibleReadingSchedule { get; set; }
 
         //state
         public PlayType CurrentPlayItem { get; set; }

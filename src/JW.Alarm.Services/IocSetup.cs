@@ -19,17 +19,14 @@
                 container.Resolve<DownloadService>(),
                 container.Resolve<IPlaylistService>()), isSingleton: true);
 
-            container.Register<IBibleReadingDbContext>((x) => new BibleReadingDbContext(container.Resolve<IDatabase>()), isSingleton: true);
-
             container.Register<IScheduleDbContext>((x) => new ScheduleDbContext(
-                container.Resolve<IDatabase>(),
-                container.Resolve<IBibleReadingDbContext>()), isSingleton: true);
+                container.Resolve<IDatabase>()), isSingleton: true);
 
             container.Register<INotificationDetailDbContext>((x) => new NotificationDetailDbContext(
                container.Resolve<IDatabase>()), isSingleton: true);
 
-            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IScheduleDbContext>(),
-               container.Resolve<IBibleReadingDbContext>(), container.Resolve<MediaService>()), isSingleton: true);
+            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IScheduleDbContext>(), 
+                container.Resolve<MediaService>()), isSingleton: true);
 
             Container = container;
         }

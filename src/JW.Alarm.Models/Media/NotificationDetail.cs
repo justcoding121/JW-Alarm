@@ -9,7 +9,6 @@ namespace JW.Alarm.Models
     {
         public long Id { get; set; }
         public long ScheduleId { get; set; }
-        public long BibleReadingScheduleId { get; set; }
         public DateTimeOffset NotificationTime { get; set; }
 
 
