@@ -24,8 +24,13 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Name="Button_Cancel" Click="Button_Cancel_Click" Content="Cancel"  HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"></Button>
-            <Button Grid.Column="1" Name="Button_Save" Click="Button_Save_Click" Content="Save" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"></Button>
+            <Button Grid.Column="0" Name="Button_Cancel" Click="Button_Cancel_Click"
+                    Margin="2 2 1 2"
+                    Content="Cancel"  
+                    HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"></Button>
+            <Button Grid.Column="1" Name="Button_Save" Click="Button_Save_Click" Content="Save"
+                    Margin="1 2 2 2"
+                    HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"></Button>
         </Grid>
         <Grid Grid.Row="1" VerticalAlignment="Top">
             <Grid.Resources>
@@ -57,9 +62,52 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Center"/>
                 </StackPanel>
+                <Button Margin="5"
+                        HorizontalAlignment="Stretch"
+                        Background="White"
+                        HorizontalContentAlignment="Stretch"
+                        Foreground="SlateBlue">
+                    <Button.Content>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalTextAlignment="Center" Foreground="Black"  Margin="5 0 0 0">Music</TextBlock>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"  Orientation="Horizontal">
+                                <ToggleSwitch IsOn="True"  MaxHeight="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 -60 5">
+                                </ToggleSwitch>
+                                <SymbolIcon HorizontalAlignment="Right" Symbol="Forward" Foreground="SlateBlue"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button Margin="5"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        Background="White"
+                        Foreground="SlateBlue"
+                        MinHeight="42">
+                    <Button.Content>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalTextAlignment="Center" Foreground="Black"  Margin="5 0 0 0">Bible Reading</TextBlock>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"  Orientation="Horizontal">
+                                <SymbolIcon Symbol="Forward" Foreground="SlateBlue"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button.Content>
+                </Button>
             </StackPanel>
         </Grid>
-        <Button Visibility="{Binding IsExistingSchedule,  Converter={StaticResource boolVisibilityConverter}}" Grid.Row="2" Name="Button_Delete" Click="Button_Delete_Click" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Content="Delete" Margin="10,5,10,5">
+        <Button Visibility="{Binding IsExistingSchedule,  Converter={StaticResource boolVisibilityConverter}}" 
+                Grid.Row="2" Name="Button_Delete" 
+                Click="Button_Delete_Click" HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom" HorizontalContentAlignment="Center" 
+                Content="Delete" Margin="2">
         </Button>
     </Grid>
 </Page>

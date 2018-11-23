@@ -6,6 +6,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace JW.Alarm.Core.Uwp
@@ -16,6 +17,7 @@ namespace JW.Alarm.Core.Uwp
         {
             this.InitializeComponent();
             customizeTitleBar();
+            setColorDefaults();
 
             Messenger<bool>.Subscribe(Messages.Progress, (bool inProgress) =>
             {
@@ -44,8 +46,18 @@ namespace JW.Alarm.Core.Uwp
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Colors.SlateBlue;
             titleBar.ButtonBackgroundColor = Colors.SlateBlue;
+            titleBar.InactiveBackgroundColor = Colors.SlateBlue;
+            titleBar.ButtonInactiveBackgroundColor = Colors.SlateBlue;
+
             titleBar.ForegroundColor = Colors.White;
             titleBar.ButtonForegroundColor = Colors.White;
+            titleBar.ButtonInactiveForegroundColor = Colors.White;   
+        }
+
+        private void setColorDefaults()
+        {
+            Application.Current.Resources["ToggleSwitchFillOnPointerOver"] = new SolidColorBrush(Colors.SlateBlue);
+            Application.Current.Resources["ToggleSwitchFillOn"] = new SolidColorBrush(Colors.SlateBlue);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

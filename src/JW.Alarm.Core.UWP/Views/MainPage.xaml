@@ -8,16 +8,16 @@
     xmlns:converters="using:JW.Alarm.Core.UWP.Views.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="SlateBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Name="customTitleBar" Height="32" Background="SlateBlue">
+        <Grid Grid.Row="0" Name="customTitleBar" Height="35">
             <TextBlock Text="JW Alarm" Foreground="White" VerticalAlignment="Center" Margin="12,0,0,0"/>
         </Grid>
         <ProgressRing Name="ProgressRing_Loading"  Canvas.ZIndex="1000" Height="50" Width="50" Grid.Row="1"  IsActive="True" Visibility="Visible"/>
-        <Frame Grid.Row="2" Name="NavFrame">
+        <Frame  Grid.Row="2" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Name="NavFrame">
 
         </Frame>
     </Grid>
