@@ -20,9 +20,9 @@
         <StackPanel Grid.Row="0">
             <Button Name="addScheduleButton"
                     Click="addScheduleButton_Click"
-                    Margin="5"
+                    Margin="2"
+                    Height="32"
                     HorizontalAlignment="Stretch"
-                    Background="White"
                     Foreground="SlateBlue">
                 <SymbolIcon Symbol="Add" Foreground="SlateBlue"/>
             </Button>

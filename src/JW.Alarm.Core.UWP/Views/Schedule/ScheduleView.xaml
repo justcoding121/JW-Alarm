@@ -42,7 +42,11 @@
                 <system:DayOfWeek x:Key="Friday">Friday</system:DayOfWeek>
                 <system:DayOfWeek x:Key="Saturday">Saturday</system:DayOfWeek>
             </Grid.Resources>
-            <StackPanel Orientation="Vertical">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="211*"/>
+                <ColumnDefinition Width="39*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
                 <TextBlock TextAlignment="Center" HorizontalAlignment="Stretch" Text="Alarm Time" Margin="0,3,0,3"></TextBlock>
                 <TimePicker HorizontalAlignment="Stretch" Time="{Binding Time, Mode=TwoWay}" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
@@ -62,9 +66,8 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Center"/>
                 </StackPanel>
-                <Button Margin="5"
+                <Button Margin="2"
                         HorizontalAlignment="Stretch"
-                        Background="White"
                         HorizontalContentAlignment="Stretch"
                         Foreground="SlateBlue">
                     <Button.Content>
@@ -82,12 +85,11 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Margin="5"
+                <Button Margin="2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
-                        Background="White"
                         Foreground="SlateBlue"
-                        MinHeight="42">
+                        MinHeight="47">
                     <Button.Content>
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
