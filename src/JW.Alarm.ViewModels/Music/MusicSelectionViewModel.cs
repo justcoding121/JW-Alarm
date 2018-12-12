@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class MusicTypeSelectionViewModel : ViewModelBase
+    public class MusicSelectionViewModel : ViewModelBase
     {
         private readonly AlarmMusic model;
-        public MusicTypeSelectionViewModel(AlarmMusic model)
+        public MusicSelectionViewModel(AlarmMusic model)
         {
             this.model = model;
             this.musicType = model.MusicType;

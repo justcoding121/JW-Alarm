@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JW.Alarm.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,17 @@ namespace JW.Alarm.Core.UWP.Views.Bible
     /// </summary>
     public sealed partial class BookSelection : Page
     {
+        public BookSelectionViewModel ViewModel => DataContext as BookSelectionViewModel;
+
         public BookSelection()
         {
             this.InitializeComponent();
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            DataContext = e.Parameter as BookSelectionViewModel;
+        }
+
     }
 }

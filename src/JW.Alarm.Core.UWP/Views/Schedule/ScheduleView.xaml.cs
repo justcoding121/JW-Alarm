@@ -1,4 +1,6 @@
-﻿using JW.Alarm.ViewModels;
+﻿using JW.Alarm.Core.UWP.Views.Bible;
+using JW.Alarm.Core.UWP.Views.Music;
+using JW.Alarm.ViewModels;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -74,6 +76,16 @@ namespace JW.Alarm.Core.UWP
                     break;
             }
 
+        }
+
+        private void Music_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MusicSelection), new MusicSelectionViewModel(ViewModel.Music));
+        }
+
+        private void Bible_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(BibleSelection), new BibleSelectionViewModel(ViewModel.BibleReadingSchedule));
         }
     }
 }

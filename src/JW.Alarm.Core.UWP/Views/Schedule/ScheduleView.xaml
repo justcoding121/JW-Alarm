@@ -66,10 +66,12 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Center"/>
                 </StackPanel>
-                <Button Margin="2"
+                <Button Name="Music_Btn"
+                        Margin="2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
-                        Foreground="SlateBlue">
+                        Foreground="SlateBlue"
+                        Click="Music_Btn_Click">
                     <Button.Content>
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
@@ -85,11 +87,13 @@
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Margin="2"
+                <Button Name="Bible_Btn"
+                        Margin="2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         Foreground="SlateBlue"
-                        MinHeight="47">
+                        MinHeight="47"
+                        Click="Bible_Btn_Click">
                     <Button.Content>
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>

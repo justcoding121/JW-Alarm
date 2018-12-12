@@ -5,15 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Notification\**" />
+    <EmbeddedResource Remove="Notification\**" />
+    <None Remove="Notification\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JW.Alarm.Common\JW.Alarm.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Notification\" />
   </ItemGroup>
 
 </Project>

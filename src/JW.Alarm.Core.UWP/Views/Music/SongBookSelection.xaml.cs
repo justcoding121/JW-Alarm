@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JW.Alarm.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,17 @@ namespace JW.Alarm.Core.UWP.Views.Music
     /// </summary>
     public sealed partial class SongBookSelection : Page
     {
+        public SongBookSelectionViewModel ViewModel => DataContext as SongBookSelectionViewModel;
+
         public SongBookSelection()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            DataContext = e.Parameter as SongBookSelectionViewModel;
         }
     }
 }
