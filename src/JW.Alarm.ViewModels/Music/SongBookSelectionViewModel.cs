@@ -19,10 +19,15 @@ namespace JW.Alarm.ViewModels
         private IPopUpService popUpService;
 
         private readonly AlarmMusic model;
-        public SongBookSelectionViewModel(MusicType musicType, AlarmMusic model)
+
+        private Music current;
+
+        public SongBookSelectionViewModel(Music current, AlarmMusic model)
         {
+            this.current = current;
+
             this.model = model;
-            languageCode = model.LanguageCode;
+
             publicationCode = model.PublicationCode;
 
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
@@ -31,20 +36,7 @@ namespace JW.Alarm.ViewModels
             Task.Run(() => InitializePublicationsAsync(model.LanguageCode));
         }
 
-        public void Navigated()
-        {
-            LanguageCode = model.LanguageCode;
-            PublicationCode = model.PublicationCode;
-        }
-
         public ObservableHashSet<Publication> Translations { get; } = new ObservableHashSet<Publication>();
-
-        private string languageCode;
-        public string LanguageCode
-        {
-            get => languageCode;
-            set => this.Set(ref languageCode, value);
-        }
 
         private string publicationCode;
         public string PublicationCode

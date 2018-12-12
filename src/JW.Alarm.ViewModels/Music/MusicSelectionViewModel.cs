@@ -19,16 +19,12 @@ namespace JW.Alarm.ViewModels
         public MusicSelectionViewModel(AlarmMusic model)
         {
             this.model = model;
+
             this.musicType = model.MusicType;
+            this.languageCode = model.LanguageCode;
         }
 
         public HashSet<MusicType> MusicTypes = new HashSet<MusicType>(new[] { MusicType.Melodies, MusicType.Vocals });
-
-        public void Navigated()
-        {
-            MusicType = model.MusicType;
-        }
-
 
         private MusicType musicType;
         public MusicType MusicType
@@ -37,6 +33,12 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref musicType, value);
         }
 
-        
+        private string languageCode;
+        public string LanguageCode
+        {
+            get => languageCode;
+            set => this.Set(ref languageCode, value);
+        }
+
     }
 }

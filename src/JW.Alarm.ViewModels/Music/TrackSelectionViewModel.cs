@@ -9,9 +9,10 @@ namespace JW.Alarm.ViewModels
 {
     public class TrackSelectionViewModel
     {
-        public TrackSelectionViewModel(AlarmMusic music)
+        private Music current;
+        public TrackSelectionViewModel(Music current, AlarmMusic music)
         {
-
+            this.current = current;
         }
     }
 }
