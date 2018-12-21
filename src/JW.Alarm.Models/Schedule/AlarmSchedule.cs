@@ -23,7 +23,7 @@ namespace JW.Alarm.Models
                 BookNumber = 23,
                 ChapterNumber = 1,
                 LanguageCode = "E",
-                PublicationCode = "NWT"
+                PublicationCode = "nwt"
             };
 
         }

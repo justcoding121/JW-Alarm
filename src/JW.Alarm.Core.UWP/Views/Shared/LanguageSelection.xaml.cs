@@ -20,11 +20,34 @@ namespace JW.Alarm.Core.UWP.Views.Shared
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LanguageSelection : Page
+    public sealed partial class LanguageSelection : UserControl
     {
         public LanguageSelection()
         {
             this.InitializeComponent();
+            this.LayoutUpdated += LanguageSelection_LayoutUpdated;
+        }
+
+        private void LanguageSelection_LayoutUpdated(object sender, object e)
+        {
+            if (ActualWidth == 0 && ActualHeight == 0)
+            {
+                return;
+            }
+
+            this.LanguageListView.MaxHeight = Window.Current.Bounds.Height - 200;
+        }
+
+        private void LanguageListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                // in this example we assume the parent of the UserControl is a Popup 
+                Popup p = this.Parent as Popup;
+
+                // close the Popup
+                if (p != null) { p.IsOpen = false; }
+            }
         }
     }
 }
