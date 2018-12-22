@@ -35,7 +35,12 @@ namespace JW.Alarm.Core.UWP.Views.Shared
                 return;
             }
 
-            this.LanguageListView.MaxHeight = Window.Current.Bounds.Height - 300;
+            this.LanguageListView.MinHeight = Window.Current.Bounds.Height - 200;
+            this.LanguageListView.MaxHeight = Window.Current.Bounds.Height - 200;
+
+            this.LanguageListView.MinWidth = Window.Current.Bounds.Width - 50;
+            this.LanguageListView.MaxWidth = Window.Current.Bounds.Width - 50;
+
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

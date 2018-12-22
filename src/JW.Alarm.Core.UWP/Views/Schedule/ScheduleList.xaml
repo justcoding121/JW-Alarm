@@ -24,7 +24,7 @@
                     Height="32"
                     HorizontalAlignment="Stretch"
                     Foreground="SlateBlue">
-                <SymbolIcon Symbol="Add" Foreground="SlateBlue"/>
+                <SymbolIcon Symbol="Add" Foreground="SlateBlue" />
             </Button>
         </StackPanel>
         <ListView HorizontalContentAlignment="Stretch"

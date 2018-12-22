@@ -26,10 +26,14 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Name="Button_Cancel" Click="Button_Cancel_Click"
                     Margin="2 2 1 2"
-                    Content="Cancel"  
+                    Foreground="SlateBlue"
+                    Content="CANCEL"  
+                    FontWeight="Bold"
                     HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"></Button>
-            <Button Grid.Column="1" Name="Button_Save" Click="Button_Save_Click" Content="Save"
+            <Button Grid.Column="1" Name="Button_Save" Click="Button_Save_Click" Content="SAVE"
                     Margin="1 2 2 2"
+                    Foreground="SlateBlue"
+                    FontWeight="Bold"
                     HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"></Button>
         </Grid>
         <Grid Grid.Row="1" VerticalAlignment="Top">
@@ -112,10 +116,12 @@
             </StackPanel>
         </Grid>
         <Button Visibility="{Binding IsExistingSchedule,  Converter={StaticResource boolVisibilityConverter}}" 
-                Grid.Row="2" Name="Button_Delete" 
+                Grid.Row="2" 
+                Name="Button_Delete" 
+                Foreground="SlateBlue"
                 Click="Button_Delete_Click" HorizontalAlignment="Stretch"
                 VerticalAlignment="Bottom" HorizontalContentAlignment="Center" 
-                Content="Delete" Margin="2">
+                Content="DELETE" FontWeight="Bold" Margin="2">
         </Button>
     </Grid>
 </Page>

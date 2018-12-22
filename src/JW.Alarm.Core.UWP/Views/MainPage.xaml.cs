@@ -60,8 +60,8 @@ namespace JW.Alarm.Core.Uwp
             Application.Current.Resources["ToggleSwitchFillOnPointerOver"] = new SolidColorBrush(Colors.SlateBlue);
             Application.Current.Resources["ToggleSwitchFillOn"] = new SolidColorBrush(Colors.SlateBlue);
 
-            //Application.Current.Resources["ButtonBackground"] = new SolidColorBrush(Colors.White);
-            //Application.Current.Resources["ButtonBackgroundPointerOver"] = getSolidColorBrush("#FF998DDB");
+            Application.Current.Resources["ButtonBackground"] = new SolidColorBrush(Colors.WhiteSmoke);
+            Application.Current.Resources["ButtonBackgroundPointerOver"] = new SolidColorBrush(Colors.WhiteSmoke);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

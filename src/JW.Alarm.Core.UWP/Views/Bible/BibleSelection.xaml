@@ -28,6 +28,7 @@
                 <SymbolIcon Symbol="Back" Foreground="SlateBlue"/>
             </Button>
             <Button Grid.Row="0" Grid.Column="1"
+                        MinWidth="100"
                         Name="Bible_Btn"
                         Margin="0 1 1 1"
                         HorizontalAlignment="Right"
@@ -42,7 +43,9 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                                   HorizontalTextAlignment="Left" Foreground="Black"  Margin="5 0 2 0" 
+                                   HorizontalTextAlignment="Left"  Margin="5 0 2 0" 
+                                   Foreground="SlateBlue"
+                                   FontWeight="Bold"
                                    DataContext="{Binding Path=SelectedLanguage, Mode=OneWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                         </TextBlock>
