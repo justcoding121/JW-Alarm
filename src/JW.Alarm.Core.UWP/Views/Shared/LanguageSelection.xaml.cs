@@ -35,19 +35,17 @@ namespace JW.Alarm.Core.UWP.Views.Shared
                 return;
             }
 
-            this.LanguageListView.MaxHeight = Window.Current.Bounds.Height - 200;
+            this.LanguageListView.MaxHeight = Window.Current.Bounds.Height - 300;
         }
 
-        private void LanguageListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                // in this example we assume the parent of the UserControl is a Popup 
-                Popup p = this.Parent as Popup;
 
-                // close the Popup
-                if (p != null) { p.IsOpen = false; }
-            }
+            // in this example we assume the parent of the UserControl is a Popup 
+            Popup p = this.Parent as Popup;
+
+            // close the Popup
+            if (p != null) { p.IsOpen = false; }
         }
     }
 }

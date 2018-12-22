@@ -60,7 +60,7 @@ namespace JW.Alarm.Core.Uwp
             Application.Current.Resources["ToggleSwitchFillOnPointerOver"] = new SolidColorBrush(Colors.SlateBlue);
             Application.Current.Resources["ToggleSwitchFillOn"] = new SolidColorBrush(Colors.SlateBlue);
 
-            //Application.Current.Resources["ButtonBackground"] = getSolidColorBrush("#FFF5F5FA");
+            //Application.Current.Resources["ButtonBackground"] = new SolidColorBrush(Colors.White);
             //Application.Current.Resources["ButtonBackgroundPointerOver"] = getSolidColorBrush("#FF998DDB");
         }
 
@@ -70,15 +70,15 @@ namespace JW.Alarm.Core.Uwp
             NavFrame.Navigate(typeof(ScheduleList));
         }
 
-        private SolidColorBrush getSolidColorBrush(string hex)
-        {
-            hex = hex.Replace("#", string.Empty);
-            byte a = (byte)(Convert.ToUInt32(hex.Substring(0, 2), 16));
-            byte r = (byte)(Convert.ToUInt32(hex.Substring(2, 2), 16));
-            byte g = (byte)(Convert.ToUInt32(hex.Substring(4, 2), 16));
-            byte b = (byte)(Convert.ToUInt32(hex.Substring(6, 2), 16));
-            SolidColorBrush myBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(a, r, g, b));
-            return myBrush;
-        }
+        //private SolidColorBrush getSolidColorBrush(string hex)
+        //{
+        //    hex = hex.Replace("#", string.Empty);
+        //    byte a = (byte)(Convert.ToUInt32(hex.Substring(0, 2), 16));
+        //    byte r = (byte)(Convert.ToUInt32(hex.Substring(2, 2), 16));
+        //    byte g = (byte)(Convert.ToUInt32(hex.Substring(4, 2), 16));
+        //    byte b = (byte)(Convert.ToUInt32(hex.Substring(6, 2), 16));
+        //    SolidColorBrush myBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(a, r, g, b));
+        //    return myBrush;
+        //}
     }
 }

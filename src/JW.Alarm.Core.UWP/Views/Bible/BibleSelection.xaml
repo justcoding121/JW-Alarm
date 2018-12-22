@@ -42,7 +42,7 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                                   HorizontalTextAlignment="Left" Foreground="Black"  Margin="5 0 0 0" 
+                                   HorizontalTextAlignment="Left" Foreground="Black"  Margin="5 0 2 0" 
                                    DataContext="{Binding Path=SelectedLanguage, Mode=OneWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                         </TextBlock>
@@ -90,7 +90,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Popup x:Name="LanguagePopup" HorizontalOffset="200" VerticalOffset="200" LayoutUpdated="LanguagePopup_LayoutUpdated">
+        <Popup x:Name="LanguagePopup"
+               IsLightDismissEnabled="False"
+               LayoutUpdated="LanguagePopup_LayoutUpdated">
             <shared:LanguageSelection x:Name="LanguagePopupContent"/>
         </Popup>
     </Grid>

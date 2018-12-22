@@ -13,13 +13,15 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class BibleSelectionViewModel : ViewModelBase
+    public class BibleSelectionViewModel : ViewModelBase, IDisposable
     {
         private MediaService mediaService;
         private IPopUpService popUpService;
         private IThreadService threadService;
 
         private readonly BibleReadingSchedule model;
+
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public BibleSelectionViewModel(BibleReadingSchedule model)
         {
@@ -31,10 +33,10 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
-            Task.Run(() => InitializePublicationsAsync(model.LanguageCode));
+            Task.Run(() => InitializeAsync(model.LanguageCode));
         }
 
-        public ObservableHashSet<PublicationViewModel> Translations { get; } = new ObservableHashSet<PublicationViewModel>();
+        public ObservableHashSet<PublicationViewModel> Translations { get; set; } = new ObservableHashSet<PublicationViewModel>();
         public ObservableHashSet<LanguageViewModel> Languages { get; } = new ObservableHashSet<LanguageViewModel>();
 
         private string languageCode;
@@ -56,6 +58,13 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref publicationCode, value);
         }
 
+        private string languageSearchTerm;
+        public string LanguageSearchTerm
+        {
+            get => languageSearchTerm;
+            set => this.Set(ref languageSearchTerm, value);
+        }
+
         private PublicationViewModel selectedTranslation;
         public PublicationViewModel SelectedTranslation
         {
@@ -67,33 +76,49 @@ namespace JW.Alarm.ViewModels
             }
         }
 
-        private async Task InitializePublicationsAsync(string languageCode)
+        private async Task InitializeAsync(string languageCode)
         {
             await populateLanguages();
             await populateTranslations(languageCode);
 
-            var subscription = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
+            var subscription1 = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
                                                     onNextHandler => (object sender, PropertyChangedEventArgs e)
                                                     => onNextHandler(new KeyValuePair<string, object>(e.PropertyName, sender)),
                                                     handler => PropertyChanged += handler,
                                                     handler => PropertyChanged -= handler)
                                 .Where(x => x.Key == "SelectedLanguage")
-                                .Select(x => (x.Value as BibleSelectionViewModel).SelectedLanguage)
-                                .Do(async x => await populateTranslations(x.Code))
+                                .Where(x => SelectedLanguage != null)
+                                .Do(async x => await populateTranslations(SelectedLanguage.Code))
                                 .Subscribe();
+
+            subscriptions.Add(subscription1);
+
+            var subscription2 = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
+                                              onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                              => onNextHandler(new KeyValuePair<string, object>(e.PropertyName, sender)),
+                                              handler => PropertyChanged += handler,
+                                              handler => PropertyChanged -= handler)
+                          .Where(x => x.Key == "LanguageSearchTerm")
+                          .Do(async x => await populateLanguages(LanguageSearchTerm))
+                          .Subscribe();
+
+            subscriptions.Add(subscription2);
         }
 
-        private async Task populateLanguages()
+        private async Task populateLanguages(string searchTerm = null)
         {
             var languages = await mediaService.GetBibleLanguages();
 
-            foreach (var language in languages)
+            await threadService.RunOnUIThread(() => Languages.Clear());
+
+            foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
+                    || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 await threadService.RunOnUIThread(() =>
                 {
-                    var languageVM = new LanguageViewModel(language.Value);
+                    var languageVM = new LanguageViewModel(language);
                     Languages.Add(languageVM);
-                    if (language.Value.Code == languageCode)
+                    if (languageVM.Code == languageCode)
                     {
                         selectedLanguage = languageVM;
                     }
@@ -114,11 +139,12 @@ namespace JW.Alarm.ViewModels
             await threadService.RunOnUIThread(() => Translations.Clear());
 
             var translations = await mediaService.GetBibleTranslations(languageCode);
-            foreach (var translation in translations)
+            foreach (var translation in translations.Select(x => x.Value))
             {
-                var translationVM = new PublicationViewModel(translation.Value);
+                var translationVM = new PublicationViewModel(translation);
                 await threadService.RunOnUIThread(() => Translations.Add(translationVM));
-                if(translationVM.Code == publicationCode)
+                if (this.languageCode == languageCode 
+                    && translationVM.Code == publicationCode)
                 {
                     selectedTranslation = translationVM;
                 }
@@ -130,6 +156,11 @@ namespace JW.Alarm.ViewModels
             });
 
             await popUpService.HideProgressRing();
+        }
+
+        public void Dispose()
+        {
+            subscriptions.ForEach(x => x.Dispose());
         }
     }
 }

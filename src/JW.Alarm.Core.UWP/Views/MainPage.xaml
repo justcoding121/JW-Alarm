@@ -20,7 +20,7 @@
                       Canvas.ZIndex="1000" Height="50" Width="50" 
                       Grid.Row="1"
                       IsActive="True" Visibility="Visible"/>
-        <Frame  Grid.Row="2" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Name="NavFrame">
+        <Frame Grid.Row="2" Background="White" Name="NavFrame">
 
         </Frame>
     </Grid>
