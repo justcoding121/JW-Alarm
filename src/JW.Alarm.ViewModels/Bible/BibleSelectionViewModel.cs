@@ -19,21 +19,38 @@ namespace JW.Alarm.ViewModels
         private IPopUpService popUpService;
         private IThreadService threadService;
 
-        private readonly BibleReadingSchedule model;
+        private readonly BibleReadingSchedule current;
+        private readonly BibleReadingSchedule tentative;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public BibleSelectionViewModel(BibleReadingSchedule model)
+        public BibleSelectionViewModel(BibleReadingSchedule current, BibleReadingSchedule tentative)
         {
-            this.model = model;
-            languageCode = model.LanguageCode;
-            publicationCode = model.PublicationCode;
+            this.current = current;
+            this.tentative = tentative;
 
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
-            Task.Run(() => InitializeAsync(model.LanguageCode));
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            languageCode = tentative.LanguageCode;
+            publicationCode = tentative.PublicationCode;
+
+            Task.Run(() => InitializeAsync(tentative.LanguageCode));
+        }
+
+        public BookSelectionViewModel GetBookSelectionViewModel()
+        {
+            return new BookSelectionViewModel(current, new BibleReadingSchedule()
+            {
+                LanguageCode = languageCode,
+                PublicationCode = publicationCode
+            });
         }
 
         public ObservableHashSet<PublicationViewModel> Translations { get; set; } = new ObservableHashSet<PublicationViewModel>();
@@ -143,8 +160,8 @@ namespace JW.Alarm.ViewModels
             {
                 var translationVM = new PublicationViewModel(translation);
                 await threadService.RunOnUIThread(() => Translations.Add(translationVM));
-                if (this.languageCode == languageCode 
-                    && translationVM.Code == publicationCode)
+                if (current.LanguageCode == languageCode
+                    && current.PublicationCode == publicationCode)
                 {
                     selectedTranslation = translationVM;
                 }

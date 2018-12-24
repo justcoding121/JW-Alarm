@@ -10,9 +10,12 @@ namespace JW.Alarm.ViewModels
     public class BookSelectionViewModel
     {
         private BibleReadingSchedule current;
-        public BookSelectionViewModel(BibleReadingSchedule current, BibleReadingSchedule model)
+        private BibleReadingSchedule tentative;
+
+        public BookSelectionViewModel(BibleReadingSchedule current, BibleReadingSchedule tentative)
         {
             this.current = current;
+            this.tentative = tentative;
         }
     }
 }
