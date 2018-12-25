@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 namespace JW.Alarm.Common.DataStructures
 {
     public class ObservableDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>,
+                                                        IEnumerable,
                                                         INotifyCollectionChanged
                                                             where TKey : IComparable
     {

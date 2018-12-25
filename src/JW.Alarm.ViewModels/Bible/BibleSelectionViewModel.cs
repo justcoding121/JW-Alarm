@@ -38,27 +38,22 @@ namespace JW.Alarm.ViewModels
 
         public void Refresh()
         {
-            languageCode = tentative.LanguageCode;
-            publicationCode = tentative.PublicationCode;
-
             Task.Run(() => InitializeAsync(tentative.LanguageCode));
         }
 
-        public BookSelectionViewModel GetBookSelectionViewModel()
+        public BookSelectionViewModel GetBookSelectionViewModel(PublicationListViewItemModel selectedBible)
         {
-            return new BookSelectionViewModel(current, new BibleReadingSchedule()
-            {
-                LanguageCode = languageCode,
-                PublicationCode = publicationCode
-            });
+            tentative.LanguageCode = selectedLanguage.Code;
+            tentative.PublicationCode = selectedBible.Code;
+
+            return new BookSelectionViewModel(current, tentative);
         }
 
-        public ObservableHashSet<PublicationViewModel> Translations { get; set; } = new ObservableHashSet<PublicationViewModel>();
-        public ObservableHashSet<LanguageViewModel> Languages { get; } = new ObservableHashSet<LanguageViewModel>();
+        public ObservableHashSet<PublicationListViewItemModel> Translations { get; set; } = new ObservableHashSet<PublicationListViewItemModel>();
+        public ObservableHashSet<LanguageListViewItemModel> Languages { get; } = new ObservableHashSet<LanguageListViewItemModel>();
 
-        private string languageCode;
-        private LanguageViewModel selectedLanguage;
-        public LanguageViewModel SelectedLanguage
+        private LanguageListViewItemModel selectedLanguage;
+        public LanguageListViewItemModel SelectedLanguage
         {
             get => selectedLanguage;
             set
@@ -68,11 +63,10 @@ namespace JW.Alarm.ViewModels
             }
         }
 
-        private string publicationCode;
         public string PublicationCode
         {
-            get => publicationCode;
-            set => this.Set(ref publicationCode, value);
+            get => tentative.PublicationCode;
+            set => this.Set(tentative.PublicationCode, value);
         }
 
         private string languageSearchTerm;
@@ -82,8 +76,8 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref languageSearchTerm, value);
         }
 
-        private PublicationViewModel selectedTranslation;
-        public PublicationViewModel SelectedTranslation
+        private PublicationListViewItemModel selectedTranslation;
+        public PublicationListViewItemModel SelectedTranslation
         {
             get => selectedTranslation;
             set
@@ -124,22 +118,26 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateLanguages(string searchTerm = null)
         {
+            await popUpService.ShowProgressRing();
+
             var languages = await mediaService.GetBibleLanguages();
 
-            await threadService.RunOnUIThread(() => Languages.Clear());
+            await threadService.RunOnUIThread(() =>
+            {
+                Languages.Clear();
+            });
 
             foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
                     || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
             {
-                await threadService.RunOnUIThread(() =>
+                var languageVM = new LanguageListViewItemModel(language);
+
+                await threadService.RunOnUIThread(() => Languages.Add(languageVM));
+
+                if (languageVM.Code == tentative.LanguageCode)
                 {
-                    var languageVM = new LanguageViewModel(language);
-                    Languages.Add(languageVM);
-                    if (languageVM.Code == languageCode)
-                    {
-                        selectedLanguage = languageVM;
-                    }
-                });
+                    selectedLanguage = languageVM;
+                }
             }
 
             await threadService.RunOnUIThread(() =>
@@ -147,21 +145,27 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedLanguage");
             });
 
+            await popUpService.HideProgressRing();
         }
 
         private async Task populateTranslations(string languageCode)
         {
             await popUpService.ShowProgressRing();
 
-            await threadService.RunOnUIThread(() => Translations.Clear());
+            await threadService.RunOnUIThread(() =>
+            {
+                Translations.Clear();
+            });
 
             var translations = await mediaService.GetBibleTranslations(languageCode);
             foreach (var translation in translations.Select(x => x.Value))
             {
-                var translationVM = new PublicationViewModel(translation);
+                var translationVM = new PublicationListViewItemModel(translation);
+
                 await threadService.RunOnUIThread(() => Translations.Add(translationVM));
+
                 if (current.LanguageCode == languageCode
-                    && current.PublicationCode == publicationCode)
+                    && current.PublicationCode == translation.Code)
                 {
                     selectedTranslation = translationVM;
                 }

@@ -40,6 +40,8 @@
                 container.Resolve<IPlaylistService>(),
                 container.Resolve<IMediaCacheService>()), isSingleton: true);
 
+            container.Register<IPlayService>((x) => new PlayService(), isSingleton: true);
+
             Container = container;
         }
     }

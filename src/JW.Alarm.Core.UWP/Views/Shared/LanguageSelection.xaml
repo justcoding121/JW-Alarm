@@ -52,6 +52,8 @@
                   MinWidth="250"
                   Grid.Row="3" 
                   ItemsSource="{Binding Languages}" 
+                  ItemClick="LanguageListView_ItemClick"
+                  IsItemClickEnabled="True"
                   SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

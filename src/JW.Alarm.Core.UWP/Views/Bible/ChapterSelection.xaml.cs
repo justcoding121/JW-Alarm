@@ -1,4 +1,5 @@
-﻿using JW.Alarm.ViewModels;
+﻿using JW.Alarm.Core.Uwp;
+using JW.Alarm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,35 @@ namespace JW.Alarm.Core.UWP.Views.Bible
         {
             base.OnNavigatedTo(e);
             DataContext = e.Parameter as ChapterSelectionViewModel;
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
+
+        private void BibleChapterListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.SetChapter(e.ClickedItem as BibleChapterListViewItemModel);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var listViewItem = (sender as Button).FindVisualAncestor<StackPanel>();
+
+            var listViewItemViewModel = (listViewItem.DataContext as BibleChapterListViewItemModel);
+            listViewItemViewModel.Play = !listViewItemViewModel.Play;
+
+            var playIcon = ((e.OriginalSource as Button).Content as SymbolIcon);
+
+            if ((listViewItem.DataContext as BibleChapterListViewItemModel).Play)
+            {
+                playIcon.Symbol = Symbol.Pause;
+            }
+            else
+            {
+                playIcon.Symbol = Symbol.Play;
+            }
         }
     }
 }

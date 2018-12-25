@@ -80,12 +80,14 @@ namespace JW.Alarm.Core.UWP
 
         private void Music_Btn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MusicSelection), new MusicSelectionViewModel(ViewModel.Music));
+            Frame.Navigate(typeof(MusicSelection), ViewModel.GetMusicSelectionViewModel());
         }
 
         private void Bible_Btn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(BibleSelection), new BibleSelectionViewModel(ViewModel.BibleReadingSchedule));
+            Frame.Navigate(typeof(BibleSelection), ViewModel.GetBibleSelectionViewModel());
         }
+
+
     }
 }

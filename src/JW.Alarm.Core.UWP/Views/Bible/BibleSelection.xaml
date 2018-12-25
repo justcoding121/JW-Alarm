@@ -60,8 +60,9 @@
                   HorizontalAlignment="Stretch"
                   Name="BibleListView" Grid.Row="1" 
                   ItemsSource="{Binding Translations}" 
-                  SelectedItem="{Binding SelectedTranslation, Mode=TwoWay}"
-                  SelectionChanged="BibleListView_SelectionChanged">
+                  IsItemClickEnabled="True"
+                  ItemClick="BibleListView_ItemClick"
+                  SelectedItem="{Binding SelectedTranslation, Mode=TwoWay}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
@@ -87,7 +88,7 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" 
                                    HorizontalAlignment="Right"
                                    Margin="5 0 0 0">
-                            <SymbolIcon Symbol="Forward" Foreground="SlateBlue"/>
+                            <SymbolIcon Symbol="Forward" Foreground="Gray"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

@@ -8,6 +8,7 @@ namespace JW.Alarm.Common.DataStructures
 {
     public class ObservableHashSet<T> : INotifyCollectionChanged,
                                         IList<T>,
+                                        IEnumerable,
                                         IList where T : IComparable
     {
         private readonly OrderedHashSet<T> sortedHashSet = new OrderedHashSet<T>();

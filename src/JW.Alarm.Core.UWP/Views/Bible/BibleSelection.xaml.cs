@@ -56,7 +56,7 @@ namespace JW.Alarm.Core.UWP.Views.Bible
         private void BibleSelection_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var transform = Window.Current.Content.TransformToVisual(LanguagePopup);
-            Point point = transform.TransformPoint(new Point(0, 0)); 
+            Point point = transform.TransformPoint(new Point(0, 0));
 
             double hOffset = (Window.Current.Bounds.Width - this.ActualWidth) / 2;
             double vOffset = (Window.Current.Bounds.Height - this.ActualHeight) / 2;
@@ -76,15 +76,15 @@ namespace JW.Alarm.Core.UWP.Views.Bible
             Frame.GoBack();
         }
 
-        private void BibleListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void LanguageButton_Click(object sender, RoutedEventArgs e)
         {
             // open the Popup if it isn't open already 
             if (!LanguagePopup.IsOpen) { LanguagePopup.IsOpen = true; }
+        }
+
+        private void BibleListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(BookSelection), ViewModel.GetBookSelectionViewModel(e.ClickedItem as PublicationListViewItemModel));
         }
     }
 }

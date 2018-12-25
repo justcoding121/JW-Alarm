@@ -87,7 +87,7 @@
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"  Orientation="Horizontal">
                                 <ToggleSwitch IsOn="True"  MaxHeight="30" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 -60 5">
                                 </ToggleSwitch>
-                                <SymbolIcon HorizontalAlignment="Right" Symbol="Forward" Foreground="SlateBlue"/>
+                                <SymbolIcon HorizontalAlignment="Right" Symbol="Forward" Foreground="Gray"/>
                             </StackPanel>
                         </Grid>
                     </Button.Content>
@@ -108,7 +108,7 @@
                             <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                                        HorizontalTextAlignment="Left" Foreground="Black"  Margin="5 0 0 0">Bible Reading</TextBlock>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"  Orientation="Horizontal">
-                                <SymbolIcon Symbol="Forward" Foreground="SlateBlue"/>
+                                <SymbolIcon Symbol="Forward" Foreground="Gray"/>
                             </StackPanel>
                         </Grid>
                     </Button.Content>

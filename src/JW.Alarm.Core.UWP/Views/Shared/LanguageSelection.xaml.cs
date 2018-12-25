@@ -45,12 +45,21 @@ namespace JW.Alarm.Core.UWP.Views.Shared
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            closePopup();
+        }
 
-            // in this example we assume the parent of the UserControl is a Popup 
-            Popup p = this.Parent as Popup;
+        private void LanguageListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            closePopup();
+        }
+
+        private void closePopup()
+        {
+            var p = this.Parent as Popup;
 
             // close the Popup
             if (p != null) { p.IsOpen = false; }
         }
+
     }
 }

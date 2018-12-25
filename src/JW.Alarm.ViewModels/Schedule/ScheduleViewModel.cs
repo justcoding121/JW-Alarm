@@ -105,6 +105,22 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref musicEnabled, value);
         }
 
+        public BibleSelectionViewModel GetBibleSelectionViewModel()
+        {
+            return new BibleSelectionViewModel(BibleReadingSchedule, new BibleReadingSchedule()
+            {
+                BookNumber = BibleReadingSchedule.BookNumber,
+                ChapterNumber = BibleReadingSchedule.ChapterNumber,
+                LanguageCode = BibleReadingSchedule.LanguageCode,
+                PublicationCode = BibleReadingSchedule.PublicationCode
+            });
+        }
+
+        public MusicSelectionViewModel GetMusicSelectionViewModel()
+        {
+            return new MusicSelectionViewModel(Music);
+        }
+
         public AlarmMusic Music => Model.Music;
         public BibleReadingSchedule BibleReadingSchedule => Model.BibleReadingSchedule;
 

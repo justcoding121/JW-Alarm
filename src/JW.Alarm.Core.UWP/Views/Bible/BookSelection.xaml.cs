@@ -35,5 +35,14 @@ namespace JW.Alarm.Core.UWP.Views.Bible
             DataContext = e.Parameter as BookSelectionViewModel;
         }
 
+        private void BibleBookListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(ChapterSelection), ViewModel.GetChapterSelectionViewModel(e.ClickedItem as BibleBookListViewItemModel));
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }

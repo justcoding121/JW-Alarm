@@ -5,12 +5,12 @@ using System.Text;
 
 namespace JW.Alarm.ViewModels
 {
-    public class LanguageViewModel : IComparable
+    public class LanguageListViewItemModel : IComparable
     {
         public string Name { get; set; }
         public string Code { get; set; }
 
-        public LanguageViewModel(Language language)
+        public LanguageListViewItemModel(Language language)
         {
             Name = language.Name;
             Code = language.Code;
@@ -18,7 +18,7 @@ namespace JW.Alarm.ViewModels
 
         public int CompareTo(object obj)
         {
-            return Name.CompareTo((obj as LanguageViewModel).Name);
+            return Name.CompareTo((obj as LanguageListViewItemModel).Name);
         }
     }
 }
