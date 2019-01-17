@@ -53,17 +53,6 @@ namespace JW.Alarm.Core.UWP.Views.Music
 
             var listViewItemViewModel = (listViewItem.DataContext as MusicTrackListViewItemModel);
             listViewItemViewModel.Play = !listViewItemViewModel.Play;
-
-            var playIcon = ((e.OriginalSource as Button).Content as SymbolIcon);
-
-            if ((listViewItem.DataContext as MusicTrackListViewItemModel).Play)
-            {
-                playIcon.Symbol = Symbol.Pause;
-            }
-            else
-            {
-                playIcon.Symbol = Symbol.Play;
-            }
         }
     }
 }

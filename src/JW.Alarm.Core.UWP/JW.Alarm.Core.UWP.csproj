@@ -98,6 +98,7 @@
     <Compile Include="IocSetup.cs" />
     <Compile Include="ViewHelpers\Converters\BoolVisibilityConverter.cs" />
     <Compile Include="ViewHelpers\Converters\DayColorConverter.cs" />
+    <Compile Include="ViewHelpers\Converters\PlayStatusIconConverter.cs" />
     <Compile Include="ViewHelpers\Extensions\VisualTreeExtensions.cs" />
     <Compile Include="Views\Bible\BibleSelection.xaml.cs">
       <DependentUpon>BibleSelection.xaml</DependentUpon>

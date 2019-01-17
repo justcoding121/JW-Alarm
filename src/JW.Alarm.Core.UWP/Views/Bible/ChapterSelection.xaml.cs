@@ -53,17 +53,6 @@ namespace JW.Alarm.Core.UWP.Views.Bible
 
             var listViewItemViewModel = (listViewItem.DataContext as BibleChapterListViewItemModel);
             listViewItemViewModel.Play = !listViewItemViewModel.Play;
-
-            var playIcon = ((e.OriginalSource as Button).Content as SymbolIcon);
-
-            if ((listViewItem.DataContext as BibleChapterListViewItemModel).Play)
-            {
-                playIcon.Symbol = Symbol.Pause;
-            }
-            else
-            {
-                playIcon.Symbol = Symbol.Play;
-            }
         }
     }
 }

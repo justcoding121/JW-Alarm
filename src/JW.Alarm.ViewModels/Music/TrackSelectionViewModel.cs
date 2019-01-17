@@ -66,7 +66,7 @@ namespace JW.Alarm.ViewModels
             Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
         }
 
-        private List<MusicTrackListViewItemModel> currentlyPlaying = new List<MusicTrackListViewItemModel>();
+        private MusicTrackListViewItemModel currentlyPlaying;
 
         private async Task initializeAsync(string languageCode, string publicationCode)
         {
@@ -75,7 +75,7 @@ namespace JW.Alarm.ViewModels
                                     ev => Tracks.CollectionChanged += ev,
                                     ev => Tracks.CollectionChanged -= ev);
 
-            var subscription = scheduleObservable
+            var subscription1 = scheduleObservable
                                 .SelectMany(x =>
                                 {
                                     var newItems = x.EventArgs.NewItems?.Cast<MusicTrackListViewItemModel>();
@@ -93,7 +93,8 @@ namespace JW.Alarm.ViewModels
                                                                        handler => added.PropertyChanged += handler,
                                                                        handler => added.PropertyChanged -= handler)
                                                                        .Where(kv => kv.Key == "Play")
-                                                                       .Select(y => y.Value);
+                                                                       .Select(y => y.Value)
+                                                                       .Where(y => y.Play);
                                     });
 
                                 })
@@ -101,23 +102,51 @@ namespace JW.Alarm.ViewModels
                                  .Do(async x => await popUpService.ShowProgressRing())
                                  .Do(y =>
                                  {
-                                     currentlyPlaying.ForEach(x => x.Play = false);
-                                     currentlyPlaying.Clear();
+                                     if (currentlyPlaying != null)
+                                     {
+                                         currentlyPlaying.Play = false;
+                                     }
 
-                                     if (y.Play)
-                                     {
-                                         playService.Play(y.Url);
-                                         currentlyPlaying.Add(y);
-                                     }
-                                     else
-                                     {
-                                         playService.Stop();
-                                     }
+                                     currentlyPlaying = y;
+                                     playService.Play(y.Url);
+
                                  })
                                  .Do(async x => await popUpService.HideProgressRing())
                                  .Subscribe();
 
-            disposables.Add(subscription);
+            var subscription2 = scheduleObservable
+                               .SelectMany(x =>
+                               {
+                                   var newItems = x.EventArgs.NewItems?.Cast<MusicTrackListViewItemModel>();
+                                   if (newItems == null)
+                                   {
+                                       return Enumerable.Empty<IObservable<MusicTrackListViewItemModel>>();
+                                   }
+
+                                   return newItems.Select(added =>
+                                   {
+                                       return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, MusicTrackListViewItemModel>>(
+                                                      onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                                    => onNextHandler(new KeyValuePair<string, MusicTrackListViewItemModel>(e.PropertyName,
+                                                                                               (MusicTrackListViewItemModel)sender)),
+                                                                      handler => added.PropertyChanged += handler,
+                                                                      handler => added.PropertyChanged -= handler)
+                                                                      .Where(kv => kv.Key == "Play")
+                                                                      .Select(y => y.Value)
+                                                                      .Where(y => !y.Play);
+                                   });
+
+                               })
+                                .Merge()
+                                .Do(async x => await popUpService.ShowProgressRing())
+                                .Do(y =>
+                                {
+                                    playService.Stop();
+                                })
+                                .Do(async x => await popUpService.HideProgressRing())
+                                .Subscribe();
+
+            disposables.AddRange(new[] { subscription1, subscription2 });
 
             await populateTracks(languageCode, publicationCode);
         }

@@ -6,9 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:converters="using:JW.Alarm.Core.UWP.Views.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-
+    <Page.Resources>
+        <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -62,7 +64,7 @@
                                    HorizontalAlignment="Right"
                                    Margin="5 0 0 0">
                             <Button Click="Button_Click">
-                                <SymbolIcon Symbol="Play" Foreground="Gray"/>
+                                <SymbolIcon Symbol="{Binding Play, Converter={StaticResource playStatusIconConverter}}" Foreground="Gray"/>
                             </Button>
 
                         </StackPanel>

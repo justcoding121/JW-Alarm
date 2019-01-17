@@ -68,7 +68,7 @@ namespace JW.Alarm.ViewModels
             Task.Run(() => InitializeAsync(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber));
         }
 
-        private List<BibleChapterListViewItemModel> currentlyPlaying = new List<BibleChapterListViewItemModel>();
+        private BibleChapterListViewItemModel currentlyPlaying;
 
         private async Task InitializeAsync(string languageCode, string publicationCode, int bookNumber)
         {
@@ -77,49 +77,80 @@ namespace JW.Alarm.ViewModels
                                     ev => Chapters.CollectionChanged += ev,
                                     ev => Chapters.CollectionChanged -= ev);
 
-            var subscription = scheduleObservable
-                                .SelectMany(x =>
-                                {
-                                    var newItems = x.EventArgs.NewItems?.Cast<BibleChapterListViewItemModel>();
-                                    if (newItems == null)
-                                    {
-                                        return Enumerable.Empty<IObservable<BibleChapterListViewItemModel>>();
-                                    }
+            var subscription1 = scheduleObservable
+                        .SelectMany(x =>
+                        {
+                            var newItems = x.EventArgs.NewItems?.Cast<BibleChapterListViewItemModel>();
+                            if (newItems == null)
+                            {
+                                return Enumerable.Empty<IObservable<BibleChapterListViewItemModel>>();
+                            }
 
-                                    return newItems.Select(added =>
-                                    {
-                                        return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, BibleChapterListViewItemModel>>(
-                                                       onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                                     => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
-                                                                                                (BibleChapterListViewItemModel)sender)),
-                                                                       handler => added.PropertyChanged += handler,
-                                                                       handler => added.PropertyChanged -= handler)
-                                                                       .Where(kv => kv.Key == "Play")
-                                                                       .Select(y => y.Value);
-                                    });
+                            return newItems.Select(added =>
+                            {
+                                return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, BibleChapterListViewItemModel>>(
+                                               onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                             => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
+                                                                                        (BibleChapterListViewItemModel)sender)),
+                                                               handler => added.PropertyChanged += handler,
+                                                               handler => added.PropertyChanged -= handler)
+                                                               .Where(kv => kv.Key == "Play")
+                                                               .Select(y => y.Value)
+                                                               .Where(y => y.Play);
+                            });
+
+                        })
+                         .Merge()
+                         .Do(async x => await popUpService.ShowProgressRing())
+                         .Do(y =>
+                         {
+                             if (currentlyPlaying != null && currentlyPlaying != y)
+                             {
+                                 currentlyPlaying.Play = false;
+                             }
+
+                             currentlyPlaying = y;
+                             playService.Play(y.Url);
+
+                         })
+                         .Do(async x => await popUpService.HideProgressRing())
+                         .Subscribe();
+
+            var subscription2 = scheduleObservable
+                               .SelectMany(x =>
+                               {
+                                   var newItems = x.EventArgs.NewItems?.Cast<BibleChapterListViewItemModel>();
+                                   if (newItems == null)
+                                   {
+                                       return Enumerable.Empty<IObservable<BibleChapterListViewItemModel>>();
+                                   }
+
+                                   return newItems.Select(added =>
+                                   {
+                                       return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, BibleChapterListViewItemModel>>(
+                                                      onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                                    => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
+                                                                                               (BibleChapterListViewItemModel)sender)),
+                                                                      handler => added.PropertyChanged += handler,
+                                                                      handler => added.PropertyChanged -= handler)
+                                                                      .Where(kv => kv.Key == "Play")
+                                                                      .Select(y => y.Value)
+                                                                      .Where(y => !y.Play);
+                                   });
+
+                               })
+                                .Merge()
+                                .Do(async x => await popUpService.ShowProgressRing())
+                                .Do(y =>
+                                {
+                                    currentlyPlaying = null;
+                                    playService.Stop();
 
                                 })
-                                 .Merge()
-                                 .Do(async x => await popUpService.ShowProgressRing())
-                                 .Do(y =>
-                                 {
-                                     currentlyPlaying.ForEach(x => x.Play = false);
-                                     currentlyPlaying.Clear();
+                                .Do(async x => await popUpService.HideProgressRing())
+                                .Subscribe();
 
-                                     if (y.Play)
-                                     {
-                                         playService.Play(y.Url);
-                                         currentlyPlaying.Add(y);
-                                     }
-                                     else
-                                     {
-                                         playService.Stop();
-                                     }
-                                 })
-                                 .Do(async x => await popUpService.HideProgressRing())
-                                 .Subscribe();
-
-            disposables.Add(subscription);
+            disposables.AddRange(new[] { subscription1, subscription2 });
 
             await populateChapters(languageCode, publicationCode, bookNumber);
         }
