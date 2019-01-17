@@ -87,7 +87,5 @@ namespace JW.Alarm.Core.UWP
         {
             Frame.Navigate(typeof(BibleSelection), ViewModel.GetBibleSelectionViewModel());
         }
-
-
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mvvmicro;
+using Redux;
 
 namespace JW.Alarm.ViewModels
 {

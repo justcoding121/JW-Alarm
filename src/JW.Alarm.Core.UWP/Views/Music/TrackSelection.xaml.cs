@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using JW.Alarm.Core.Uwp;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -34,6 +35,35 @@ namespace JW.Alarm.Core.UWP.Views.Music
         {
             base.OnNavigatedTo(e);
             DataContext = e.Parameter as TrackSelectionViewModel;
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
+
+        private void MusicTrackListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.SetTrack(e.ClickedItem as MusicTrackListViewItemModel);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var listViewItem = (sender as Button).FindVisualAncestor<StackPanel>();
+
+            var listViewItemViewModel = (listViewItem.DataContext as MusicTrackListViewItemModel);
+            listViewItemViewModel.Play = !listViewItemViewModel.Play;
+
+            var playIcon = ((e.OriginalSource as Button).Content as SymbolIcon);
+
+            if ((listViewItem.DataContext as MusicTrackListViewItemModel).Play)
+            {
+                playIcon.Symbol = Symbol.Pause;
+            }
+            else
+            {
+                playIcon.Symbol = Symbol.Play;
+            }
         }
     }
 }

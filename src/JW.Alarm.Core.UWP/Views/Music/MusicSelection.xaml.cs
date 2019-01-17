@@ -35,5 +35,15 @@ namespace JW.Alarm.Core.UWP.Views.Music
             base.OnNavigatedTo(e);
             DataContext = e.Parameter as MusicSelectionViewModel;
         }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
+
+        private void MusicSelectionListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(SongBookSelection), ViewModel.GetBookSelectionViewModel(e.ClickedItem as MusicTypeListItemViewModel));
+        }
     }
 }

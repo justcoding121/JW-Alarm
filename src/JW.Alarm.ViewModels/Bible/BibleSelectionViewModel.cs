@@ -38,7 +38,7 @@ namespace JW.Alarm.ViewModels
 
         public void Refresh()
         {
-            Task.Run(() => InitializeAsync(tentative.LanguageCode));
+            Task.Run(() => initializeAsync(tentative.LanguageCode));
         }
 
         public BookSelectionViewModel GetBookSelectionViewModel(PublicationListViewItemModel selectedBible)
@@ -87,7 +87,7 @@ namespace JW.Alarm.ViewModels
             }
         }
 
-        private async Task InitializeAsync(string languageCode)
+        private async Task initializeAsync(string languageCode)
         {
             await populateLanguages();
             await populateTranslations(languageCode);

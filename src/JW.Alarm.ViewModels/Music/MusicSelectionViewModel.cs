@@ -5,6 +5,7 @@ using JW.Alarm.Services.Contracts;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
@@ -15,30 +16,70 @@ namespace JW.Alarm.ViewModels
 {
     public class MusicSelectionViewModel : ViewModelBase
     {
-        private readonly AlarmMusic model;
-        public MusicSelectionViewModel(AlarmMusic model)
-        {
-            this.model = model;
+        private readonly AlarmMusic current;
+        private readonly IThreadService threadService;
 
-            this.musicType = model.MusicType;
-            this.languageCode = model.LanguageCode;
+        public MusicSelectionViewModel(AlarmMusic current)
+        {
+            this.current = current;
+            this.threadService = IocSetup.Container.Resolve<IThreadService>();
+
+            refresh();
         }
 
-        public HashSet<MusicType> MusicTypes = new HashSet<MusicType>(new[] { MusicType.Melodies, MusicType.Vocals });
-
-        private MusicType musicType;
-        public MusicType MusicType
+        private void refresh()
         {
-            get => musicType;
-            set => this.Set(ref musicType, value);
+            Task.Run(() => initializeAsync());
         }
 
-        private string languageCode;
-        public string LanguageCode
+        private async Task initializeAsync()
         {
-            get => languageCode;
-            set => this.Set(ref languageCode, value);
+            var selected = MusicTypes.First(x => x.MusicType == current.MusicType);
+            await threadService.RunOnUIThread(() => SelectedMusicType = selected);
         }
 
+        public ObservableCollection<MusicTypeListItemViewModel> MusicTypes { get; set; }
+            = new ObservableCollection<MusicTypeListItemViewModel>(new List<MusicTypeListItemViewModel> {
+                new MusicTypeListItemViewModel()
+                {
+                    MusicType = MusicType.Melodies,
+                    Name = "Melodies"
+                },
+                new MusicTypeListItemViewModel()
+                {
+                    MusicType = MusicType.Vocals,
+                    Name = "Vocals"
+                }
+            });
+
+        public SongBookSelectionViewModel GetBookSelectionViewModel(MusicTypeListItemViewModel musicTypeListItemViewModel)
+        {
+            return new SongBookSelectionViewModel(this.current, new AlarmMusic()
+            {
+                Fixed = current.Fixed,
+                LanguageCode = current.LanguageCode,
+                MusicType = current.MusicType,
+                PublicationCode = current.PublicationCode,
+                TrackNumber = current.TrackNumber
+            });
+        }
+
+        private MusicTypeListItemViewModel selectedMusicType;
+        public MusicTypeListItemViewModel SelectedMusicType
+        {
+            get => selectedMusicType;
+            set => this.Set(ref selectedMusicType, value);
+        }
+    }
+
+    public class MusicTypeListItemViewModel : IComparable
+    {
+        public MusicType MusicType { get; set; }
+        public string Name { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            return Name.CompareTo((obj as MusicTypeListItemViewModel).Name);
+        }
     }
 }
