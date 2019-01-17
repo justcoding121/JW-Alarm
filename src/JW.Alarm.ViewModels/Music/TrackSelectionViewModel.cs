@@ -36,7 +36,7 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.playService = IocSetup.Container.Resolve<IPlayService>();
 
-            Refresh();
+            refresh();
         }
 
         public ObservableHashSet<MusicTrackListViewItemModel> Tracks { get; set; } = new ObservableHashSet<MusicTrackListViewItemModel>();
@@ -61,7 +61,7 @@ namespace JW.Alarm.ViewModels
             current.TrackNumber = tentative.TrackNumber;
         }
 
-        public void Refresh()
+        public void refresh()
         {
             Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
         }
@@ -155,7 +155,8 @@ namespace JW.Alarm.ViewModels
         {
             await popUpService.ShowProgressRing();
 
-            var tracks = await mediaService.GetVocalMusicTracks(languageCode, publicationCode);
+            var tracks = languageCode != null ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
+                : await mediaService.GetMelodyMusicTracks(publicationCode);
 
             await threadService.RunOnUIThread(() =>
             {

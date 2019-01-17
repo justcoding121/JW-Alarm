@@ -41,9 +41,17 @@ namespace JW.Alarm.Core.UWP.Views.Music
             Frame.GoBack();
         }
 
-        private void MusicSelectionListView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void MusicSelectionListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame.Navigate(typeof(SongBookSelection), ViewModel.GetBookSelectionViewModel(e.ClickedItem as MusicTypeListItemViewModel));
+            var viewModel = await ViewModel.GetBookSelectionViewModel(e.ClickedItem as MusicTypeListItemViewModel);
+
+            if (viewModel.GetType() == typeof(SongBookSelectionViewModel))
+            {
+                Frame.Navigate(typeof(SongBookSelection), viewModel);
+                return;
+            }
+
+            Frame.Navigate(typeof(TrackSelection), viewModel);
         }
     }
 }
