@@ -34,10 +34,15 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
-            Task.Run(() => initializeAsync(current.LanguageCode));
+            initialize();
         }
 
-        public ObservableHashSet<PublicationListViewItemModel> Translations { get; } = new ObservableHashSet<PublicationListViewItemModel>();
+        private void initialize()
+        {
+            Task.Run(() => initializeAsync());
+        }
+
+        public ObservableHashSet<PublicationListViewItemModel> SongBooks { get; } = new ObservableHashSet<PublicationListViewItemModel>();
         public ObservableHashSet<LanguageListViewItemModel> Languages { get; } = new ObservableHashSet<LanguageListViewItemModel>();
 
         private LanguageListViewItemModel selectedLanguage;
@@ -85,8 +90,25 @@ namespace JW.Alarm.ViewModels
             return new TrackSelectionViewModel(current, tentative);
         }
 
-        private async Task initializeAsync(string languageCode)
+        private async Task initializeAsync()
         {
+            var languageCode = tentative.LanguageCode;
+
+            if (languageCode == null)
+            {
+                var languages = await mediaService.GetVocalMusicLanguages();
+                if (languages.ContainsKey("E"))
+                {
+                    languageCode = "E";
+                }
+                else
+                {
+                    languageCode = languages.First().Key;
+                }
+            }
+
+            tentative.LanguageCode = languageCode;
+
             await populateLanguages();
             await populateSongBooks(languageCode);
 
@@ -152,26 +174,27 @@ namespace JW.Alarm.ViewModels
 
             await threadService.RunOnUIThread(() =>
             {
-                Translations.Clear();
+                SongBooks.Clear();
             });
 
             var releases = await mediaService.GetVocalMusicReleases(languageCode);
             foreach (var release in releases.Select(x => x.Value))
             {
-                var translationVM = new PublicationListViewItemModel(release);
+                var songBookListViewItemModel = new PublicationListViewItemModel(release);
 
-                await threadService.RunOnUIThread(() => Translations.Add(translationVM));
+                await threadService.RunOnUIThread(() => SongBooks.Add(songBookListViewItemModel));
 
-                if (current.LanguageCode == languageCode
+                if (current.MusicType == MusicType.Vocals
+                    && current.LanguageCode == languageCode
                     && current.PublicationCode == release.Code)
                 {
-                    selectedSongBook = translationVM;
+                    selectedSongBook = songBookListViewItemModel;
                 }
             }
 
             await threadService.RunOnUIThread(() =>
             {
-                RaiseProperty("SelectedTranslation");
+                RaiseProperty("SelectedSongBook");
             });
 
             await popUpService.HideProgressRing();

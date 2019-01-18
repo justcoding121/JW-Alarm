@@ -18,11 +18,23 @@ namespace JW.Alarm.Services.UWP
             }
             else
             {
+                var taskCompletionSource = new TaskCompletionSource<bool>();
+
                 await CoreApplication.MainView.CoreWindow.Dispatcher
                         .RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
-                            action();
+                            try
+                            {
+                                action();
+                                taskCompletionSource.SetResult(true);
+                            }
+                            catch (Exception ex)
+                            {
+                                taskCompletionSource.SetException(ex);
+                            }
                         });
+
+                await taskCompletionSource.Task;
             }
 
         }

@@ -37,7 +37,7 @@
                   ItemsSource="{Binding Tracks}" 
                   IsItemClickEnabled="True"
                   ItemClick="MusicTrackListView_ItemClick"
-                  SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedTrack}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

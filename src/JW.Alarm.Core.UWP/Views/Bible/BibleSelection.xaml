@@ -62,7 +62,7 @@
                   ItemsSource="{Binding Translations}" 
                   IsItemClickEnabled="True"
                   ItemClick="BibleListView_ItemClick"
-                  SelectedItem="{Binding SelectedTranslation, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedTranslation}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

@@ -37,7 +37,12 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.playService = IocSetup.Container.Resolve<IPlayService>();
 
-            Refresh();
+            initialize();
+        }
+
+        private void initialize()
+        {
+            Task.Run(() => InitializeAsync(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber));
         }
 
         public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; } = new ObservableHashSet<BibleChapterListViewItemModel>();
@@ -57,16 +62,14 @@ namespace JW.Alarm.ViewModels
         {
             SelectedChapter = bibleChapterListViewItemModel;
 
+            tentative.ChapterNumber = bibleChapterListViewItemModel.Number;
+
             current.LanguageCode = tentative.LanguageCode;
             current.PublicationCode = tentative.PublicationCode;
             current.BookNumber = tentative.BookNumber;
             current.ChapterNumber = tentative.ChapterNumber;
         }
 
-        public void Refresh()
-        {
-            Task.Run(() => InitializeAsync(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber));
-        }
 
         private BibleChapterListViewItemModel currentlyPlaying;
 

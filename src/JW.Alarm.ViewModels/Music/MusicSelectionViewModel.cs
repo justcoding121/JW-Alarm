@@ -26,10 +26,10 @@ namespace JW.Alarm.ViewModels
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
 
-            refresh();
+            initialize();
         }
 
-        private void refresh()
+        private void initialize()
         {
             Task.Run(() => initializeAsync());
         }
@@ -54,26 +54,21 @@ namespace JW.Alarm.ViewModels
                 }
             });
 
-        public async Task<object> GetBookSelectionViewModel(MusicTypeListItemViewModel musicTypeListItemViewModel)
+        public object GetBookSelectionViewModel(MusicTypeListItemViewModel musicTypeListItemViewModel)
         {
             if (musicTypeListItemViewModel.MusicType == MusicType.Vocals)
             {
-                return new SongBookSelectionViewModel(this.current, new AlarmMusic()
+                return new SongBookSelectionViewModel(current, new AlarmMusic()
                 {
-                    Fixed = current.Fixed,
-                    LanguageCode = current.LanguageCode,
-                    MusicType = current.MusicType,
-                    PublicationCode = current.PublicationCode,
-                    TrackNumber = current.TrackNumber
+                    MusicType = MusicType.Vocals,
+                    LanguageCode = current.MusicType == MusicType.Vocals ? current.LanguageCode : null
                 });
             }
 
-            var melodyReleases = await this.mediaService.GetMelodyMusicReleases();
-
             return new TrackSelectionViewModel(current, new AlarmMusic()
             {
-                MusicType = MusicType.Melodies,
-                PublicationCode = melodyReleases.First().Value.Code
+                Fixed = current.Fixed,
+                MusicType = MusicType.Melodies
             });
         }
 

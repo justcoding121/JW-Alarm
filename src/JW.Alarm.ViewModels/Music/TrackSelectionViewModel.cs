@@ -36,7 +36,12 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.playService = IocSetup.Container.Resolve<IPlayService>();
 
-            refresh();
+            initialize();
+        }
+
+        private void initialize()
+        {
+            Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
         }
 
         public ObservableHashSet<MusicTrackListViewItemModel> Tracks { get; set; } = new ObservableHashSet<MusicTrackListViewItemModel>();
@@ -56,14 +61,12 @@ namespace JW.Alarm.ViewModels
         {
             SelectedTrack = musicTrackListViewItemModel;
 
+            tentative.TrackNumber = musicTrackListViewItemModel.Number;
+
+            current.MusicType = tentative.MusicType;
             current.LanguageCode = tentative.LanguageCode;
             current.PublicationCode = tentative.PublicationCode;
             current.TrackNumber = tentative.TrackNumber;
-        }
-
-        public void refresh()
-        {
-            Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
         }
 
         private MusicTrackListViewItemModel currentlyPlaying;
@@ -156,27 +159,30 @@ namespace JW.Alarm.ViewModels
             await popUpService.ShowProgressRing();
 
             var tracks = languageCode != null ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
-                : await mediaService.GetMelodyMusicTracks(publicationCode);
+               : await mediaService.GetMelodyMusicTracks((await this.mediaService.GetMelodyMusicReleases()).First().Value.Code);
 
             await threadService.RunOnUIThread(() =>
             {
                 Tracks.Clear();
             });
 
-            foreach (var chapter in tracks.Select(x => x.Value))
+            foreach (var track in tracks.Select(x => x.Value))
             {
-                var chapterVM = new MusicTrackListViewItemModel(chapter);
+                var musicTrackListViewItemViewModel = new MusicTrackListViewItemModel(track);
 
                 await threadService.RunOnUIThread(() =>
                 {
-                    Tracks.Add(chapterVM);
+                    Tracks.Add(musicTrackListViewItemViewModel);
                 });
 
-                if (current.LanguageCode == tentative.LanguageCode
-                    && current.PublicationCode == tentative.PublicationCode
-                    && current.TrackNumber == tentative.TrackNumber)
+                if (current.MusicType == tentative.MusicType
+                    && current.TrackNumber == track.Number
+                    && (current.MusicType == MusicType.Melodies ||
+                     (current.LanguageCode == tentative.LanguageCode
+                        && current.PublicationCode == tentative.PublicationCode))
+                    )
                 {
-                    selectedTrack = chapterVM;
+                    selectedTrack = musicTrackListViewItemViewModel;
                 }
             }
 

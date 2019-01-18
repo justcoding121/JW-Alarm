@@ -29,7 +29,12 @@ namespace JW.Alarm.ViewModels
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
 
-            Refresh();
+            initialize();
+        }
+
+        private void initialize()
+        {
+            Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
         }
 
         public ObservableHashSet<BibleBookListViewItemModel> Books { get; set; } = new ObservableHashSet<BibleBookListViewItemModel>();
@@ -51,12 +56,8 @@ namespace JW.Alarm.ViewModels
             return new ChapterSelectionViewModel(current, tentative);
         }
 
-        public void Refresh()
-        {
-            Task.Run(() => InitializeAsync(tentative.LanguageCode, tentative.PublicationCode));
-        }
 
-        private async Task InitializeAsync(string languageCode, string publicationCode)
+        private async Task initializeAsync(string languageCode, string publicationCode)
         {
             await populateBooks(languageCode, publicationCode);
         }
@@ -83,7 +84,7 @@ namespace JW.Alarm.ViewModels
 
                 if (current.LanguageCode == tentative.LanguageCode
                     && current.PublicationCode == tentative.PublicationCode
-                    && tentative.ChapterNumber == book.Number)
+                    && current.BookNumber == book.Number)
                 {
                     selectedBook = bookVM;
                 }

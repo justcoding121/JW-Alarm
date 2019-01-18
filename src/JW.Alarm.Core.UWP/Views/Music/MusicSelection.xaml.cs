@@ -41,9 +41,9 @@ namespace JW.Alarm.Core.UWP.Views.Music
             Frame.GoBack();
         }
 
-        private async void MusicSelectionListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void MusicSelectionListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = await ViewModel.GetBookSelectionViewModel(e.ClickedItem as MusicTypeListItemViewModel);
+            var viewModel = ViewModel.GetBookSelectionViewModel(e.ClickedItem as MusicTypeListItemViewModel);
 
             if (viewModel.GetType() == typeof(SongBookSelectionViewModel))
             {

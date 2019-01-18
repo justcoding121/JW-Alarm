@@ -60,10 +60,10 @@
         <ListView HorizontalContentAlignment="Stretch"
                   HorizontalAlignment="Stretch"
                   Name="SongBookListView" Grid.Row="1" 
-                  ItemsSource="{Binding Translations}" 
+                  ItemsSource="{Binding SongBooks}" 
                   IsItemClickEnabled="True"
                   ItemClick="SongBookListView_ItemClick"
-                  SelectedItem="{Binding SelectedTranslation, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedSongBook}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

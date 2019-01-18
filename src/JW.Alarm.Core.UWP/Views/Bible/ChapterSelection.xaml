@@ -37,7 +37,7 @@
                   ItemsSource="{Binding Chapters}" 
                   IsItemClickEnabled="True"
                   ItemClick="BibleChapterListView_ItemClick"
-                  SelectedItem="{Binding SelectedChapter, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedChapter}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>

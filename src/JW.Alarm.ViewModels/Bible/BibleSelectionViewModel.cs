@@ -33,10 +33,10 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
-            Refresh();
+            initialize();
         }
 
-        public void Refresh()
+        private void initialize()
         {
             Task.Run(() => initializeAsync(tentative.LanguageCode));
         }
