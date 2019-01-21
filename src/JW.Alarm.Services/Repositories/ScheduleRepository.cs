@@ -7,18 +7,18 @@ using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
-    public class ScheduleDbContext : IScheduleDbContext
+    public class ScheduleRepository : IScheduleRepository
     {
-        private readonly IDatabase database;
+        private readonly ITableStorage database;
 
-        private ObservableDictionary<long, AlarmSchedule> schedules;
+        private Dictionary<long, AlarmSchedule> schedules;
 
-        public ScheduleDbContext(IDatabase database)
+        public ScheduleRepository(ITableStorage database)
         {
             this.database = database;
         }
 
-        public Task<ObservableDictionary<long, AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
+        public Task<IEnumerable<AlarmSchedule>> AlarmSchedules => getAlarmSchedules();
 
         public async Task Add(AlarmSchedule alarmSchedule)
         {
@@ -61,14 +61,14 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<ObservableDictionary<long, AlarmSchedule>> getAlarmSchedules()
+        private async Task<IEnumerable<AlarmSchedule>> getAlarmSchedules()
         {
             if (schedules == null)
             {
-                schedules = (await database.ReadAll<AlarmSchedule>()).ToObservableDictionary(x => x.Id, x => x);
+                schedules = (await database.ReadAll<AlarmSchedule>()).ToDictionary(x => x.Id, x => x);
             }
 
-            return schedules;
+            return schedules.Select(x=>x.Value);
         }
 
     }

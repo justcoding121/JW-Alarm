@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services
 {
-    public interface INotificationDetailDbContext
+    public interface INotificationRepository
     {
-        Task<ObservableDictionary<long, NotificationDetail>> PlayDetails { get; }
+        Task<IEnumerable<NotificationDetail>> Notifications { get; }
 
         Task<NotificationDetail> Read(long playDetailId);
         Task Add(NotificationDetail playDetail);

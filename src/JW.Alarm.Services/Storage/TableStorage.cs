@@ -14,11 +14,11 @@ namespace JW.Alarm.Services
 {
     //A simple json file database writing to file system.
     //Our simple requirements do not warrant the additional package weight and initialization cost of a real local database sqlite.
-    public class JsonDatabase : IDatabase
+    public class TableStorage : ITableStorage
     {
         private IStorageService storageService;
 
-        private string databasePath => Path.Combine(storageService.StorageRoot, "Database");
+        private string databasePath => Path.Combine(storageService.StorageRoot, "Repository");
         private string tablePath<T>() where T : IEntity => Path.Combine(databasePath, tableName<T>());
         private string tableName<T>() where T : IEntity => typeof(T).Name;
 
@@ -42,7 +42,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        public JsonDatabase(IStorageService storageService)
+        public TableStorage(IStorageService storageService)
         {
             this.storageService = storageService;
         }
@@ -73,6 +73,11 @@ namespace JW.Alarm.Services
             return (await readKeys<T>()).Count();
         }
 
+        public async Task<bool> Exists<T>(long recordId) where T : IEntity
+        {
+            return await storageService.FileExists(Path.Combine(tablePath<T>(), $"{recordId}.json"));
+        }
+
         public async Task<T> Read<T>(long recordId) where T : IEntity
         {
             if (recordId == 0)
@@ -94,9 +99,9 @@ namespace JW.Alarm.Services
 
         public async Task Insert<T>(T record) where T : IEntity
         {
-            if (record.Id > 0)
+            if (record.Id != 0)
             {
-                throw new ArgumentException("Object to insert already have an assigned primary key.", "Id");
+                throw new ArgumentException("new record cannot have a primary key assigned.", "Id");
             }
 
             record.Id = getNextId();
@@ -106,9 +111,14 @@ namespace JW.Alarm.Services
 
         public async Task Update<T>(T record) where T : IEntity
         {
-            if (record.Id == 0)
+            if (record.Id <= 0)
             {
                 throw new ArgumentException("Invalid primary key.", "Id");
+            }
+
+            if(!await Exists<T>(record.Id))
+            {
+                throw new Exception("Record does not exist.");
             }
 
             var fileContent = JsonConvert.SerializeObject(record);
@@ -124,9 +134,14 @@ namespace JW.Alarm.Services
 
         public async Task Delete<T>(long recordId) where T : IEntity
         {
-            if (recordId == 0)
+            if (recordId <= 0)
             {
                 throw new ArgumentException("Invalid primary key.", "recordId");
+            }
+
+            if (!await Exists<T>(recordId))
+            {
+                throw new Exception("Record does not exist.");
             }
 
             var @lock = acquireTableLock<T>();

@@ -13,7 +13,7 @@ namespace JW.Alarm.Services.Uwp
         private IPlaylistService playlistService;
         private IMediaCacheService mediaCacheService;
 
-        public UwpAlarmService(IDatabase database,
+        public UwpAlarmService(ITableStorage database,
             INotificationService notificationService,
             IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService)

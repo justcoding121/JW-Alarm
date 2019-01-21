@@ -18,24 +18,24 @@
 
             container.Register<INotificationService>((x) => 
             new UwpNotificationService(container.Resolve<IMediaCacheService>(),
-                container.Resolve<INotificationDetailDbContext>()), isSingleton: true);
+                container.Resolve<INotificationRepository>()), isSingleton: true);
 
             container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
                                                     container.Resolve<INotificationService>(),
-                                                    container.Resolve<IScheduleDbContext>(),
+                                                    container.Resolve<IScheduleRepository>(),
                                                     container.Resolve<IPlaylistService>()));
 
             container.Register((x) => new SnoozeDismissTask(container.Resolve<IAlarmService>(),
                                                    container.Resolve<INotificationService>(),
-                                                   container.Resolve<IScheduleDbContext>(),
+                                                   container.Resolve<IScheduleRepository>(),
                                                    container.Resolve<IPlaylistService>()));
 
 
-            container.Register((x) => new SchedulerTask(container.Resolve<IScheduleDbContext>(),
+            container.Register((x) => new SchedulerTask(container.Resolve<IScheduleRepository>(),
                                     container.Resolve<IMediaCacheService>()), isSingleton: true);
 
             container.Register<IAlarmService>((x) => new UwpAlarmService(
-                container.Resolve<IDatabase>(),
+                container.Resolve<ITableStorage>(),
                 container.Resolve<INotificationService>(),
                 container.Resolve<IPlaylistService>(),
                 container.Resolve<IMediaCacheService>()), isSingleton: true);

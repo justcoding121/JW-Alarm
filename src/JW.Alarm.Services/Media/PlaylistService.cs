@@ -10,10 +10,10 @@ namespace JW.Alarm.Services
 {
     public class PlaylistService : IPlaylistService
     {
-        private IScheduleDbContext scheduleService;
+        private IScheduleRepository scheduleService;
         private MediaService mediaService;
 
-        public PlaylistService(IScheduleDbContext scheduleService,
+        public PlaylistService(IScheduleRepository scheduleService,
             MediaService mediaService)
         {
             this.scheduleService = scheduleService;

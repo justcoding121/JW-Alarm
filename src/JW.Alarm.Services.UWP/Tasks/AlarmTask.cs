@@ -17,12 +17,12 @@ namespace JW.Alarm.Services.Uwp.Tasks
     {
         private IAlarmService alarmService;
         private INotificationService notificationService;
-        private IScheduleDbContext scheduleDbContext;
+        private IScheduleRepository scheduleDbContext;
         private IPlaylistService playlistService;
 
         public AlarmTask(IAlarmService alarmService,
             INotificationService notificationService,
-            IScheduleDbContext scheduleDbContext,
+            IScheduleRepository scheduleDbContext,
             IPlaylistService playlistService)
         {
             this.alarmService = alarmService;

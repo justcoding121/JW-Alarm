@@ -16,11 +16,11 @@ namespace JW.Alarm.ViewModels
 {
     public class ScheduleListViewModel : ViewModelBase
     {
-        private IScheduleDbContext scheduleService;
+        private IScheduleRepository scheduleService;
         private IThreadService threadService;
         private IPopUpService popUpService;
 
-        public ScheduleListViewModel(IScheduleDbContext scheduleService,
+        public ScheduleListViewModel(IScheduleRepository scheduleService,
             IThreadService threadService, IPopUpService popUpService)
         {
             this.scheduleService = scheduleService;
@@ -86,28 +86,28 @@ namespace JW.Alarm.ViewModels
 
             var alarmSchedules = await scheduleService.AlarmSchedules;
 
-            alarmSchedules.CollectionChanged += async (s, e) =>
-            {
-                await threadService.RunOnUIThread(() =>
-                {
-                    switch (e.Action)
-                    {
-                        case NotifyCollectionChangedAction.Add:
-                            add(e.NewItems);
-                            break;
-                        case NotifyCollectionChangedAction.Remove:
-                            remove(e.OldItems);
-                            break;
-                    }
-                });
-            };
+            //alarmSchedules.CollectionChanged += async (s, e) =>
+            //{
+            //    await threadService.RunOnUIThread(() =>
+            //    {
+            //        switch (e.Action)
+            //        {
+            //            case NotifyCollectionChangedAction.Add:
+            //                add(e.NewItems);
+            //                break;
+            //            case NotifyCollectionChangedAction.Remove:
+            //                remove(e.OldItems);
+            //                break;
+            //        }
+            //    });
+            //};
 
             await threadService.RunOnUIThread(() =>
             {
                 foreach (var schedule in alarmSchedules)
                 {
-                    var listItem = new ScheduleListItem(schedule.Value);
-                    listMapping.Add(schedule.Value, listItem);
+                    var listItem = new ScheduleListItem(schedule);
+                    listMapping.Add(schedule, listItem);
                     Schedules.Add(listItem);
                 }
             });

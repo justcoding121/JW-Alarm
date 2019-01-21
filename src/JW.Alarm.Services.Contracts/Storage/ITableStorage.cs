@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Contracts
 {
-    public interface IDatabase
+    public interface ITableStorage
     {
         Task<IEnumerable<T>> ReadAll<T>() where T : IEntity;
         Task<int> Count<T>() where T : IEntity;
+        Task<bool> Exists<T>(long Id) where T : IEntity;
         Task<T> Read<T>(long recordId) where T : IEntity;
         Task Insert<T>(T record) where T : IEntity;
         Task Update<T>(T record) where T : IEntity;
         Task Delete<T>(long recordId) where T : IEntity;
     }
-
 }

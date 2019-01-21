@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Redux\**" />
+    <EmbeddedResource Remove="Redux\**" />
+    <None Remove="Redux\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ReactiveProperty" Version="5.3.2" />
     <PackageReference Include="Redux.NET" Version="2.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.1.2" />
@@ -15,10 +21,6 @@
     <ProjectReference Include="..\Jw.Alarm.Models\JW.Alarm.Models.csproj" />
     <ProjectReference Include="..\JW.Alarm.Services.Contracts\JW.Alarm.Services.Contracts.csproj" />
     <ProjectReference Include="..\JW.Alarm.Services\JW.Alarm.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Redux\" />
   </ItemGroup>
 
 </Project>

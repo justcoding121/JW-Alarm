@@ -12,10 +12,10 @@ namespace JW.Alarm.Services.UWP
     public class UwpNotificationService : INotificationService
     {
         IMediaCacheService mediaCacheService;
-        INotificationDetailDbContext playDetailDbContext;
+        INotificationRepository playDetailDbContext;
 
         public UwpNotificationService(IMediaCacheService mediaCacheService,
-            INotificationDetailDbContext playDetailDbContext)
+            INotificationRepository playDetailDbContext)
         {
             this.mediaCacheService = mediaCacheService;
             this.playDetailDbContext = playDetailDbContext;
@@ -141,7 +141,7 @@ namespace JW.Alarm.Services.UWP
         }
         public async Task Remove(long scheduleId)
         {
-            var notifications = (await playDetailDbContext.PlayDetails)
+            var notifications = (await playDetailDbContext.Notifications)
                                 .Where(x => x.Value.ScheduleId == scheduleId)
                                 .Select(x => x.Value).ToList();
 

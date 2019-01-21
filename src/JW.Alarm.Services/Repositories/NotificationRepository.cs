@@ -7,17 +7,17 @@ using JW.Alarm.Common.DataStructures;
 
 namespace JW.Alarm.Services
 {
-    public class NotificationDetailDbContext : INotificationDetailDbContext
+    public class NotificationRepository : INotificationRepository
     {
-        private readonly IDatabase database;
-        private ObservableDictionary<long, NotificationDetail> schedules;
+        private readonly ITableStorage database;
+        private Dictionary<long, NotificationDetail> schedules;
 
-        public NotificationDetailDbContext(IDatabase database)
+        public NotificationRepository(ITableStorage database)
         {
             this.database = database;
         }
 
-        public Task<ObservableDictionary<long, NotificationDetail>> PlayDetails => getPlayDetails();
+        public Task<IEnumerable<NotificationDetail>> Notifications => getPlayDetails();
 
         public virtual async Task Add(NotificationDetail bibleReadingSchedule)
         {
@@ -60,14 +60,14 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<ObservableDictionary<long, NotificationDetail>> getPlayDetails()
+        private async Task<IEnumerable<NotificationDetail>> getPlayDetails()
         {
             if (schedules == null)
             {
-                schedules = (await database.ReadAll<NotificationDetail>()).ToObservableDictionary(x => x.Id, x => x);
+                schedules = (await database.ReadAll<NotificationDetail>()).ToDictionary(x => x.Id, x => x);
             }
 
-            return schedules;
+            return schedules.Select(x=>x.Value);
         }
 
     }

@@ -10,14 +10,14 @@ namespace JW.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModelBase
     {
-        IScheduleDbContext alarmDbContext;
+        IScheduleRepository alarmDbContext;
 
         IAlarmService alarmService;
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
-            this.alarmDbContext = IocSetup.Container.Resolve<IScheduleDbContext>();
+            this.alarmDbContext = IocSetup.Container.Resolve<IScheduleRepository>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
 
