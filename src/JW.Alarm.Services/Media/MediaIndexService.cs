@@ -17,12 +17,12 @@ namespace JW.Alarm.Services
 
         private readonly Lazy<string> indexRoot;
 
-        private DownloadService downloadService;
+        private IDownloadService downloadService;
         private IStorageService storageService;
 
         public string IndexRoot => indexRoot.Value;
 
-        public MediaIndexService(DownloadService downloadService, IStorageService storageService)
+        public MediaIndexService(IDownloadService downloadService, IStorageService storageService)
         {
             this.downloadService = downloadService;
             this.storageService = storageService;
@@ -62,7 +62,6 @@ namespace JW.Alarm.Services
             ZipFile.ExtractToDirectory(indexFilePath, IndexRoot);
             await storageService.DeleteFile(indexFilePath);
         }
-
 
         public async Task UpdateIndex()
         {

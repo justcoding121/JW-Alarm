@@ -1,3 +1,4 @@
+using JW.Alarm.Services.Contracts;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace JW.Alarm.Services
     /// <summary>
     /// Download service
     /// </summary>
-    public class DownloadService
+    public class DownloadService : IDownloadService
     {
         private readonly int retryAttempts = 3;
 
