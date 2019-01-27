@@ -39,6 +39,48 @@ namespace JW.Alarm.Services.UWP.Tests.Media
             Assert.IsTrue(chapters.Count > 0);
         }
 
+        [TestMethod]
+        public async Task Media_Service_Smoke_Test_Melodies_Index()
+        {
+            var storageService = new UwpStorageService();
+            var downloadService = new FakeDownloadService();
+
+            var indexService = new MediaIndexService(downloadService, storageService);
+            await indexService.Verify();
+
+            var service = new MediaService(indexService, storageService);
+
+            var releases = await service.GetMelodyMusicReleases();
+            Assert.IsTrue(releases.Count > 0);
+
+            var testRelease = releases.First().Value.Code;
+            var tracks = await service.GetMelodyMusicTracks(testRelease);
+            Assert.IsTrue(tracks.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task Media_Service_Smoke_Test_Vocals_Index()
+        {
+            var storageService = new UwpStorageService();
+            var downloadService = new FakeDownloadService();
+
+            var indexService = new MediaIndexService(downloadService, storageService);
+            await indexService.Verify();
+
+            var service = new MediaService(indexService, storageService);
+
+            var languages = await service.GetVocalMusicLanguages();
+            Assert.IsTrue(languages.Count > 0);
+
+            var testLanguage = languages.First().Value.Code;
+            var releases = await service.GetVocalMusicReleases(testLanguage);
+            Assert.IsTrue(releases.Count > 0);
+
+            var testRelease = releases.First().Value.Code;
+            var tracks = await service.GetVocalMusicTracks(testLanguage, testRelease);
+            Assert.IsTrue(tracks.Count > 0);
+        }
+
         private class FakeDownloadService : IDownloadService
         {
             public Task<byte[]> DownloadAsync(string url, string alternativeUrl = null)
