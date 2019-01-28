@@ -13,8 +13,7 @@ namespace JW.Alarm.Services.Uwp
         private IPlaylistService playlistService;
         private IMediaCacheService mediaCacheService;
 
-        public UwpAlarmService(ITableStorage database,
-            INotificationService notificationService,
+        public UwpAlarmService(INotificationService notificationService,
             IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService)
         {
@@ -33,23 +32,21 @@ namespace JW.Alarm.Services.Uwp
 
         public async Task Update(AlarmSchedule schedule)
         {
+            await removeNotification(schedule.Id);
+
             if (schedule.IsEnabled)
             {
-                await removeNotification(schedule.Id);
                 var nextTrack = await playlistService.NextTrack(schedule.Id);
                 nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
                 await scheduleNotification(schedule, nextTrack);
                 var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
             }
-            else
-            {
-                await removeNotification(schedule.Id);
-            }
+  
         }
 
-        public async Task ScheduleNextTrack(AlarmSchedule schedule, NotificationDetail detail)
+        public async Task ScheduleNextTrack(AlarmSchedule schedule, NotificationDetail currentTrackDetail)
         {
-            var nextTrack = await playlistService.NextTrack(detail);
+            var nextTrack = await playlistService.NextTrack(currentTrackDetail);
             nextTrack.PlayDetail.NotificationTime = DateTimeOffset.Now.AddSeconds(3);
             await scheduleNotification(schedule, nextTrack);
         }

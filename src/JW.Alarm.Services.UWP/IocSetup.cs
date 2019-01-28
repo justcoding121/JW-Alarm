@@ -35,7 +35,6 @@
                                     container.Resolve<IMediaCacheService>()), isSingleton: true);
 
             container.Register<IAlarmService>((x) => new UwpAlarmService(
-                container.Resolve<ITableStorage>(),
                 container.Resolve<INotificationService>(),
                 container.Resolve<IPlaylistService>(),
                 container.Resolve<IMediaCacheService>()), isSingleton: true);

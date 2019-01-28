@@ -13,11 +13,11 @@ namespace JW.Alarm.Services
         private readonly string cacheRoot;
 
         private IStorageService storageService;
-        private DownloadService downloadService;
+        private IDownloadService downloadService;
         private IPlaylistService mediaPlayService;
 
         public MediaCacheService(IStorageService storageService,
-            DownloadService downloadService, IPlaylistService mediaPlayService)
+            IDownloadService downloadService, IPlaylistService mediaPlayService)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;

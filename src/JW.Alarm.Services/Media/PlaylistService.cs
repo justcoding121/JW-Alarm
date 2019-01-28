@@ -64,7 +64,7 @@ namespace JW.Alarm.Services
             }, bibleTrack.Duration, bibleTrack.Url);
         }
 
-        public async Task SetFinishedTrack(NotificationDetail trackDetail)
+        public async Task MarkTrackAsFinished(NotificationDetail trackDetail)
         {
             var schedule = await scheduleService.Read(trackDetail.ScheduleId);
 

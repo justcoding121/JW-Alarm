@@ -29,9 +29,10 @@ namespace JW.Alarm.Services.UWP
 
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
+            var url = new Uri(mediaCacheService.GetCacheUrl(audioUrl));
             var content = new ToastContent()
             {
-                Audio = new ToastAudio() { Src = new Uri(mediaCacheService.GetCacheUrl(audioUrl)) },
+                Audio = new ToastAudio() { Src = url },
                 Scenario = ToastScenario.Reminder,
                 ActivationType = ToastActivationType.Background,
                 Launch = groupId,
@@ -142,8 +143,8 @@ namespace JW.Alarm.Services.UWP
         public async Task Remove(long scheduleId)
         {
             var notifications = (await playDetailDbContext.Notifications)
-                                .Where(x => x.Value.ScheduleId == scheduleId)
-                                .Select(x => x.Value).ToList();
+                                .Where(x => x.ScheduleId == scheduleId)
+                                .Select(x => x).ToList();
 
             var notifier = ToastNotificationManager.CreateToastNotifier();
 

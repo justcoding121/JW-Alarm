@@ -9,8 +9,8 @@ namespace JW.Alarm.Services.Contracts
     public interface IPlaylistService
     {
         Task<PlayItem> NextTrack(long scheduleId);
-        Task<PlayItem> NextTrack(NotificationDetail currentTrack);
-        Task SetFinishedTrack(NotificationDetail trackDetail);
+        Task<PlayItem> NextTrack(NotificationDetail trackDetail);
+        Task MarkTrackAsFinished(NotificationDetail trackDetail);
         Task<List<PlayItem>> Playlist(long scheduleId, TimeSpan duration);
     }
 }

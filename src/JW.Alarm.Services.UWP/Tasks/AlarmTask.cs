@@ -53,26 +53,25 @@ namespace JW.Alarm.Services.Uwp.Tasks
                         }          
                     }
 
-                    var latest = playDetails
+                    var latestTrackDetail = playDetails
                         .Select(x => x.Value)
                         .OrderByDescending(x => x.NotificationTime)
                         .FirstOrDefault();
 
-                    if (latest != null)
+                    if (latestTrackDetail != null)
                     {
-                        var outDated = playDetails.Where(x => x.Value != latest);
+                        var outDatedTrackDetails = playDetails.Where(x => x.Value != latestTrackDetail);
 
-                        if (outDated.Count() > 0)
+                        if (outDatedTrackDetails.Count() > 0)
                         {
-                            foreach (var item in outDated.Select(x => x.Value).OrderBy(x => x.NotificationTime))
+                            foreach (var trackDetail in outDatedTrackDetails.Select(x => x.Value).OrderBy(x => x.NotificationTime))
                             {
-                                await playlistService.SetFinishedTrack(item);
+                                await playlistService.MarkTrackAsFinished(trackDetail);
                             }
                         }
 
-                        var schedule = await scheduleDbContext.Read(latest.ScheduleId);
-                        await alarmService.ScheduleNextTrack(schedule, latest);
-
+                        var schedule = await scheduleDbContext.Read(latestTrackDetail.ScheduleId);
+                        await alarmService.ScheduleNextTrack(schedule, latestTrackDetail);
                     }
 
                     ToastNotificationManager.History.Clear();

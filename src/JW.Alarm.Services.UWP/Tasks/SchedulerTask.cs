@@ -21,7 +21,7 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
             foreach(var schedule in schedules)
             {
-                var nextFire = schedule.Value.NextFireDate();
+                var nextFire = schedule.NextFireDate();
             }
 
             deferral.Complete();
