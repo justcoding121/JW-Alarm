@@ -61,7 +61,7 @@ namespace JW.Alarm.Services.Uwp
             var fireDate = currentTrack.PlayDetail.NotificationTime;
 
             await notificationService.Add(schedule.Id.ToString(), currentTrack.PlayDetail,
-                fireDate, schedule.Name, schedule.Name, currentTrack.Url);
+                schedule.Name, schedule.Name, currentTrack.Url);
 
             fireDate = fireDate.Add(currentTrack.Duration).AddSeconds(1);
             notificationService.AddSilent("Clear", fireDate);

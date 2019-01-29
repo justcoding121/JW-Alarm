@@ -10,7 +10,7 @@ namespace JW.Alarm.Services.Uwp
 {
     public class UwpStorageService : IStorageService
     {
-        public string StorageRoot => ApplicationData.Current.LocalFolder.Path;
+        public string StorageRoot => ApplicationData.Current.TemporaryFolder.Path;
 
         public async Task DeleteFile(string path)
         {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JW.Alarm.Services.Uwp.Helpers;
+using JW.Alarm.Services.UWP.Tests.Scheduler;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,7 +48,6 @@ namespace JW.Alarm.Services.UWP.Tests
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -75,6 +76,19 @@ namespace JW.Alarm.Services.UWP.Tests
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }
 
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case "AlarmTask":
+                    AlarmServiceTests.Actor.Handle(args.TaskInstance);
+                    break;
+
+            }
+        }
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>

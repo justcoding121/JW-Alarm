@@ -23,23 +23,22 @@ namespace JW.Alarm.Services.UWP
             this.notificationTableContext = playDetailDbContext;
         }
 
-        public async Task Add(string groupId, NotificationDetail detail, DateTimeOffset notificationTime,
-                                    string title, string body, string audioUrl)
+        public async Task Add(string scheduleId, NotificationDetail notificationDetail, string title, string body, string audioUrl)
         {
 
-            await notificationTableContext.Add(detail);
+            await notificationTableContext.Add(notificationDetail);
 
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
-            var url = new Uri(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+            var url = new Uri(Path.Combine(ApplicationData.Current.TemporaryFolder.Path,
                     mediaCacheService.GetCacheKey(audioUrl)));
 
             var content = new ToastContent()
             {
-                Audio = new ToastAudio() { Src = url },
+                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
                 Scenario = ToastScenario.Alarm,
                 ActivationType = ToastActivationType.Background,
-                Launch = groupId,
+                Launch = scheduleId,
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -63,12 +62,12 @@ namespace JW.Alarm.Services.UWP
                 {                
                     Buttons =
                     {
-                        new ToastButton("Snooze", groupId)
+                        new ToastButton("Snooze", scheduleId)
                         {
                             ActivationType = ToastActivationType.Background
                         },
 
-                        new ToastButton("Dismiss", groupId)
+                        new ToastButton("Dismiss", scheduleId)
                         {
                             ActivationType = ToastActivationType.Background
                         }
@@ -80,12 +79,12 @@ namespace JW.Alarm.Services.UWP
             // the same on both devices. We'll just use the alarm delivery time. If an alarm on one device
             // has the same delivery time as an alarm on another device, it'll be dismissed when one of the
             // alarms is dismissed.
-            string remoteId = (notificationTime.Ticks / 10000000 / 60).ToString(); // Minutes
+            string remoteId = (notificationDetail.NotificationTime.Ticks / 10000000 / 60).ToString(); 
 
-            var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
+            var notification = new ScheduledToastNotification(content.GetXml(), notificationDetail.NotificationTime)
             {
-                Tag = detail.Id.ToString(),
-                Group = groupId,
+                Tag = notificationDetail.Id.ToString(),
+                Group = scheduleId,
                 RemoteId = remoteId,
             };
 

@@ -8,8 +8,7 @@ namespace JW.Alarm.Services.Contracts
 {
     public interface INotificationService
     {
-        Task Add(string groupId, NotificationDetail detail,
-            DateTimeOffset notificationTime, string title, string body, string audioUrl);
+        Task Add(string groupId, NotificationDetail detail, string title, string body, string audioUrl);
 
         void AddSilent(string groupId, DateTimeOffset notificationTime);
 

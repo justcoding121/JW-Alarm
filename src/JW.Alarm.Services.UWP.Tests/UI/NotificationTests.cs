@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System.Profile;
+using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.UWP.Tests.UI
 {
@@ -78,17 +79,23 @@ namespace JW.Alarm.Services.UWP.Tests.UI
 
             var track = await playlistService.NextTrack(schedule.Id);
 
-            var notificationTime = DateTime.Now.AddSeconds(2);
+            var notificationTime = DateTime.Now.AddSeconds(1);
+            var notificationDetail = new NotificationDetail()
+            {
+                NotificationTime = notificationTime,
+                TrackNumber = track.PlayDetail.TrackNumber
+            };
 
             await notificationService.Add(schedule.Id.ToString(),
-                new NotificationDetail()
-                {
-                    NotificationTime = notificationTime,
-                    TrackNumber = track.PlayDetail.TrackNumber
-                },
-                notificationTime, "Test", "Body", track.Url);
+                notificationDetail, "Test", "Body", track.Url);
 
-            await Task.Delay(1000 * 60);
+            await Task.Delay(2 * 1000);
+
+            var history = ToastNotificationManager.History.GetHistory();
+
+            var notification = history.FirstOrDefault(x => x.Group == schedule.Id.ToString() && x.Tag == notificationDetail.Id.ToString());
+
+            Assert.IsNotNull(notification);
         }
 
         private class FakeDownloadService : IDownloadService
