@@ -87,7 +87,7 @@ namespace JW.Alarm.Services
             }
         }
 
-        public async Task<List<PlayItem>> Playlist(long scheduleId, TimeSpan duration)
+        public async Task<List<PlayItem>> NextTracks(long scheduleId, TimeSpan duration)
         {
             var result = new List<PlayItem>();
 

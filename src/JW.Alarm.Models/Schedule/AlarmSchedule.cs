@@ -33,10 +33,13 @@ namespace JW.Alarm.Models
         public string Name { get; set; }
         public bool IsEnabled { get; set; } = true;
 
-        public int Hour { get; set; } //24 hour based
+        //24 hour based
+        public int Hour { get; set; }
         public int MeridienHour => Meridien == Meridien.AM ? Hour : Hour % 12;
         public int Minute { get; set; }
         public Meridien Meridien => Hour < 12 ? Meridien.AM : Meridien.PM;
+        public int Second { get; set; }
+
         public HashSet<DayOfWeek> DaysOfWeek { get; set; } = new HashSet<DayOfWeek>(new DayOfWeek[] {
             DayOfWeek.Sunday,
             DayOfWeek.Monday,
@@ -72,7 +75,7 @@ namespace JW.Alarm.Models
         private string getCronExpression()
         {
             string days = string.Join(",", DaysOfWeek.Select(x => (int)x + 1).OrderBy(x => x));
-            var expression = new CronExpression($"0 {Minute} {Hour} ? * {days}");
+            var expression = new CronExpression($"{Second} {Minute} {Hour} ? * {days}");
             return expression.CronExpressionString;
         }
 

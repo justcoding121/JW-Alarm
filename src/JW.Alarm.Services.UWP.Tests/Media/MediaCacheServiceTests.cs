@@ -11,18 +11,21 @@ using System.Threading.Tasks;
 namespace JW.Alarm.Services.UWP.Tests.Media
 {
     [TestClass]
-    public class PlaylistServiceTests
+    public class MediaCacheServiceTests
     {
         [TestMethod]
-        public async Task Playlist_Service_Smoke_Test()
+        public async Task Media_Cache_Service_Smoke_Test()
         {
             var storageService = new UwpStorageService();
             var downloadService = new FakeDownloadService();
 
             var indexService = new MediaIndexService(downloadService, storageService);
-            await indexService.Verify();
+
+            Task.Run(() => indexService.Verify());
 
             var mediaService = new MediaService(indexService, storageService);
+
+            await mediaService.GetMelodyMusicReleases();
 
             var tableStorage = new TableStorage(storageService);
             var scheduleRepository = new ScheduleRepository(tableStorage);
@@ -56,52 +59,25 @@ namespace JW.Alarm.Services.UWP.Tests.Media
 
             var playlistService = new PlaylistService(scheduleRepository, mediaService);
 
+            var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);
+
+            await mediaCacheService.SetupAlarmCache(newRecord.Id);
+
             var track = await playlistService.NextTrack(newRecord.Id);
-            var tracks = await playlistService.NextTracks(newRecord.Id, TimeSpan.FromHours(1));
 
-            Assert.IsTrue(tracks.Count > 0);
-            Assert.AreEqual(track.Url, tracks[0].Url);
+            Assert.IsNotNull(mediaCacheService.GetCacheKey(track.Url));
 
-            await scheduleRepository.Update(newRecord);
-
-            track = await playlistService.NextTrack(newRecord.Id);
-            tracks = await playlistService.NextTracks(newRecord.Id, TimeSpan.FromHours(1));
-
-            Assert.IsTrue(tracks.Count > 0);
-            Assert.AreEqual(track.Url, tracks[0].Url);
-
-            Assert.IsNotNull(track);
-            Assert.AreEqual(PlayType.Music, track.PlayDetail.PlayType);
-            Assert.AreEqual(89, track.PlayDetail.TrackNumber);
-
-            await playlistService.MarkTrackAsFinished(track.PlayDetail);
-
-            track = await playlistService.NextTrack(track.PlayDetail);
-
-            Assert.IsNotNull(track);
-            Assert.AreEqual(PlayType.Bible, track.PlayDetail.PlayType);
-            Assert.AreEqual(23, track.PlayDetail.BookNumber);
-            Assert.AreEqual(1, track.PlayDetail.ChapterNumber);
-
-            await playlistService.MarkTrackAsFinished(track.PlayDetail);
-
-            track = await playlistService.NextTrack(track.PlayDetail);
-
-            Assert.IsNotNull(track);
-            Assert.AreEqual(PlayType.Bible, track.PlayDetail.PlayType);
-            Assert.AreEqual(23, track.PlayDetail.BookNumber);
-            Assert.AreEqual(2, track.PlayDetail.ChapterNumber);
-
-            await playlistService.MarkTrackAsFinished(track.PlayDetail);
-
+            Assert.IsTrue(await mediaCacheService.Exists(track.Url));
         }
-
 
         private class FakeDownloadService : IDownloadService
         {
+            private Random rnd = new Random();
             public Task<byte[]> DownloadAsync(string url, string alternativeUrl = null)
             {
-                throw new NotImplementedException();
+                var b = new byte[5];
+                rnd.NextBytes(b);
+                return Task.FromResult(b);
             }
         }
     }

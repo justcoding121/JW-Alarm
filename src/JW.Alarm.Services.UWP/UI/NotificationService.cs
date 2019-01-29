@@ -3,8 +3,10 @@ using JW.Alarm.Services.Contracts;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.UWP
@@ -12,28 +14,30 @@ namespace JW.Alarm.Services.UWP
     public class UwpNotificationService : INotificationService
     {
         IMediaCacheService mediaCacheService;
-        INotificationRepository playDetailDbContext;
+        INotificationRepository notificationTableContext;
 
         public UwpNotificationService(IMediaCacheService mediaCacheService,
             INotificationRepository playDetailDbContext)
         {
             this.mediaCacheService = mediaCacheService;
-            this.playDetailDbContext = playDetailDbContext;
+            this.notificationTableContext = playDetailDbContext;
         }
 
         public async Task Add(string groupId, NotificationDetail detail, DateTimeOffset notificationTime,
                                     string title, string body, string audioUrl)
         {
 
-            await playDetailDbContext.Add(detail);
+            await notificationTableContext.Add(detail);
 
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
-            var url = new Uri(mediaCacheService.GetCacheUrl(audioUrl));
+            var url = new Uri(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+                    mediaCacheService.GetCacheKey(audioUrl)));
+
             var content = new ToastContent()
             {
                 Audio = new ToastAudio() { Src = url },
-                Scenario = ToastScenario.Reminder,
+                Scenario = ToastScenario.Alarm,
                 ActivationType = ToastActivationType.Background,
                 Launch = groupId,
                 Visual = new ToastVisual()
@@ -142,7 +146,7 @@ namespace JW.Alarm.Services.UWP
         }
         public async Task Remove(long scheduleId)
         {
-            var notifications = (await playDetailDbContext.Notifications)
+            var notifications = (await notificationTableContext.Notifications)
                                 .Where(x => x.ScheduleId == scheduleId)
                                 .Select(x => x).ToList();
 
@@ -158,7 +162,7 @@ namespace JW.Alarm.Services.UWP
 
             foreach (var notification in notifications)
             {
-                await playDetailDbContext.Remove(notification.Id);
+                await notificationTableContext.Remove(notification.Id);
             }
         }
 
@@ -190,7 +194,7 @@ namespace JW.Alarm.Services.UWP
 
         public async Task<NotificationDetail> ParseNotificationDetail(string key)
         {
-            return await playDetailDbContext.Read(long.Parse(key));
+            return await notificationTableContext.Read(long.Parse(key));
         }
 
     }

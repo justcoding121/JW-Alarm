@@ -27,7 +27,7 @@ namespace JW.Alarm.Services.Uwp
             var nextTrack = await playlistService.NextTrack(schedule.Id);
             nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
             await scheduleNotification(schedule, nextTrack);
-            var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
+            await Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
         public async Task Update(AlarmSchedule schedule)

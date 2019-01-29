@@ -31,15 +31,21 @@ namespace JW.Alarm.Services
         }
 
         private readonly SemaphoreSlim @lock = new SemaphoreSlim(1);
+        private bool verified = false;
 
         public async Task Verify()
         {
             try
             {
                 await @lock.WaitAsync();
+                if (verified)
+                {
+                    return;
+                }
                 if (!await indexExists())
                 {
                     await copyIndexFromResource();
+                    verified = true;
                 }
             }
             finally
@@ -48,19 +54,24 @@ namespace JW.Alarm.Services
             }
         }
 
-        private Task<bool> indexExists()
+        private async Task<bool> indexExists()
         {
-            return storageService.DirectoryExists(IndexRoot);
+            var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
+
+            return await storageService.DirectoryExists(IndexRoot)
+                //verify that any previous unzipping process was not incomplete
+                && !await storageService.FileExists(tmpIndexFilePath);
         }
 
         private async Task copyIndexFromResource()
         {
             var indexResourceFile = "Assets/Media/index.zip";
+
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
 
-            var indexFilePath = Path.Combine(IndexRoot, "index.zip");
-            ZipFile.ExtractToDirectory(indexFilePath, IndexRoot);
-            await storageService.DeleteFile(indexFilePath);
+            var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
+            ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
+            await storageService.DeleteFile(tmpIndexFilePath);
         }
 
         public async Task UpdateIndex()

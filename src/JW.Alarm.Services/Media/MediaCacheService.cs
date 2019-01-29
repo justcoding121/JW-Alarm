@@ -29,7 +29,7 @@ namespace JW.Alarm.Services
         public string GetCacheKey(string url)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(url);
-            return Convert.ToBase64String(plainTextBytes);
+            return Convert.ToBase64String(plainTextBytes) + ".mp3";
         }
 
         public async Task<bool> Exists(string url)
@@ -40,7 +40,7 @@ namespace JW.Alarm.Services
 
         public async Task SetupAlarmCache(long alarmScheduleId)
         {
-            var playlist = await mediaPlayService.Playlist(alarmScheduleId, TimeSpan.FromMinutes(15));
+            var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromMinutes(15));
 
             foreach (var playItem in playlist)
             {
@@ -50,11 +50,6 @@ namespace JW.Alarm.Services
                     await storageService.SaveFile(cacheRoot, GetCacheKey(playItem.Url), bytes);
                 }
             }
-        }
-
-        public string GetCacheUrl(string url)
-        {
-            return Path.Combine(cacheRoot, GetCacheKey(url));
         }
     }
 }

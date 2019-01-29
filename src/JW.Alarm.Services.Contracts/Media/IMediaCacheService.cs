@@ -9,7 +9,6 @@ namespace JW.Alarm.Services.Contracts
     {
         Task<bool> Exists(string url);
         string GetCacheKey(string url);
-        string GetCacheUrl(string url);
 
         Task SetupAlarmCache(long alarmScheduleId);
     }

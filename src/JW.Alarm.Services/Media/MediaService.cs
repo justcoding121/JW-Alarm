@@ -22,6 +22,8 @@ namespace JW.Alarm.Services
 
         public async Task<Dictionary<string, Language>> GetBibleLanguages()
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var languageIndex = Path.Combine(root, "Audio", "Bible", "languages.json");
             var languages = await storageService.ReadFile(languageIndex);
@@ -30,6 +32,8 @@ namespace JW.Alarm.Services
 
         public async Task<Dictionary<string, Publication>> GetBibleTranslations(string languageCode)
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var bibleIndex = Path.Combine(root, "Audio", "Bible", languageCode, "publications.json");
             var bibleTranslations = await storageService.ReadFile(bibleIndex);
@@ -38,6 +42,8 @@ namespace JW.Alarm.Services
 
         public async Task<OrderedDictionary<int, BibleBook>> GetBibleBooks(string languageCode, string versionCode)
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, "books.json");
             var bibleBooks = await storageService.ReadFile(booksIndex);
@@ -47,6 +53,8 @@ namespace JW.Alarm.Services
 
         public async Task<OrderedDictionary<int, BibleChapter>> GetBibleChapters(string languageCode, string versionCode, int bookNumber)
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var booksIndex = Path.Combine(root, "Audio", "Bible", languageCode, versionCode, bookNumber.ToString(), "chapters.json");
             var bibleChapters = await storageService.ReadFile(booksIndex);
@@ -56,6 +64,8 @@ namespace JW.Alarm.Services
 
         public async Task<Dictionary<string, Publication>> GetMelodyMusicReleases()
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var releaseIndex = Path.Combine(root, "Music", "Melodies", "publications.json");
             var fileContent = await storageService.ReadFile(releaseIndex);
@@ -64,6 +74,8 @@ namespace JW.Alarm.Services
 
         public async Task<OrderedDictionary<int, MusicTrack>> GetMelodyMusicTracks(string publicationCode)
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var trackIndex = Path.Combine(root, "Music", "Melodies", publicationCode, "tracks.json");
             var fileContent = await storageService.ReadFile(trackIndex);
@@ -73,6 +85,8 @@ namespace JW.Alarm.Services
 
         public async Task<Dictionary<string, Language>> GetVocalMusicLanguages()
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var languageIndex = Path.Combine(root, "Music", "Vocals", "languages.json");
             var languages = await storageService.ReadFile(languageIndex);
@@ -81,6 +95,8 @@ namespace JW.Alarm.Services
 
         public async Task<Dictionary<string, Publication>> GetVocalMusicReleases(string languageCode)
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var releaseIndex = Path.Combine(root, "Music", "Vocals", languageCode, "publications.json");
             var vocalReleases = await storageService.ReadFile(releaseIndex);
@@ -89,6 +105,8 @@ namespace JW.Alarm.Services
 
         public async Task<OrderedDictionary<int, MusicTrack>> GetVocalMusicTracks(string languageCode, string publicationCode)
         {
+            await mediaLookUpService.Verify();
+
             var root = mediaLookUpService.IndexRoot;
             var trackIndex = Path.Combine(root, "Music", "Vocals", languageCode, publicationCode, "tracks.json");
             var melodyTracks = await storageService.ReadFile(trackIndex);
