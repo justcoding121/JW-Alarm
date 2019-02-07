@@ -4,6 +4,7 @@
     using JW.Alarm.Services.Uwp.Tasks;
     using JW.Alarm.Services.UWP;
     using System.Net.Http;
+    using Windows.Media.Playback;
 
     public static class IocSetup
     {
@@ -16,14 +17,14 @@
             container.Register<IThreadService>((x) => new UwpThreadService(), isSingleton: true);
             container.Register<IPopUpService>((x) => new UwpPopUpService(container.Resolve<IThreadService>()), isSingleton: true);
 
-            container.Register<INotificationService>((x) => 
+            container.Register<INotificationService>((x) =>
             new UwpNotificationService(container.Resolve<IMediaCacheService>(),
                 container.Resolve<INotificationRepository>()), isSingleton: true);
 
             container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
                                                     container.Resolve<INotificationService>(),
                                                     container.Resolve<IScheduleRepository>(),
-                                                    container.Resolve<IPlaylistService>()));
+                                                    container.Resolve<IPlaybackService>()));
 
             container.Register((x) => new SnoozeDismissTask(container.Resolve<IAlarmService>(),
                                                    container.Resolve<INotificationService>(),
@@ -37,9 +38,21 @@
             container.Register<IAlarmService>((x) => new UwpAlarmService(
                 container.Resolve<INotificationService>(),
                 container.Resolve<IPlaylistService>(),
-                container.Resolve<IMediaCacheService>()), isSingleton: true);
+                container.Resolve<IMediaCacheService>(),
+                container.Resolve<IScheduleRepository>()), isSingleton: true);
 
-            container.Register<IPlayService>((x) => new PlayService(), isSingleton: true);
+            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()), isSingleton: true);
+            container.Register((x) =>
+            {
+                var player = new MediaPlayer();
+                player.AutoPlay = false;
+                return player;
+            }, isSingleton: true);
+
+            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
+                                                            container.Resolve<IPlaylistService>(),
+                                                            container.Resolve<IMediaCacheService>(),
+                                                            container.Resolve<IAlarmService>()), isSingleton: true);
 
             Container = container;
         }

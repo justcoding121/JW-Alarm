@@ -12,14 +12,17 @@ namespace JW.Alarm.Services.Uwp
         private INotificationService notificationService;
         private IPlaylistService playlistService;
         private IMediaCacheService mediaCacheService;
+        private IScheduleRepository scheduleRepository;
 
         public UwpAlarmService(INotificationService notificationService,
             IPlaylistService mediaPlayService,
-            IMediaCacheService mediaCacheService)
+            IMediaCacheService mediaCacheService,
+            IScheduleRepository scheduleRepository)
         {
             this.notificationService = notificationService;
             this.playlistService = mediaPlayService;
             this.mediaCacheService = mediaCacheService;
+            this.scheduleRepository = scheduleRepository;
         }
 
         public async Task Create(AlarmSchedule schedule)
@@ -41,13 +44,15 @@ namespace JW.Alarm.Services.Uwp
                 await scheduleNotification(schedule, nextTrack);
                 var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
             }
-  
         }
 
-        public async Task ScheduleNextTrack(AlarmSchedule schedule, NotificationDetail currentTrackDetail)
+        public async Task Snooze(long scheduleId)
         {
-            var nextTrack = await playlistService.NextTrack(currentTrackDetail);
-            nextTrack.PlayDetail.NotificationTime = DateTimeOffset.Now.AddSeconds(3);
+            var nextTrack = await playlistService.NextTrack(scheduleId);
+            var schedule = await scheduleRepository.Read(scheduleId);
+
+            nextTrack.PlayDetail.NotificationTime = DateTimeOffset.Now.AddMinutes(schedule.SnoozeMinutes);
+
             await scheduleNotification(schedule, nextTrack);
         }
 
@@ -63,8 +68,6 @@ namespace JW.Alarm.Services.Uwp
             await notificationService.Add(schedule.Id.ToString(), currentTrack.PlayDetail,
                 schedule.Name, schedule.Name, currentTrack.Url);
 
-            fireDate = fireDate.Add(currentTrack.Duration).AddSeconds(1);
-            notificationService.AddSilent("Clear", fireDate);
         }
 
         private async Task removeNotification(long scheduleId)

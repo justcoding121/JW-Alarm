@@ -26,15 +26,20 @@ namespace JW.Alarm.Services
             cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
         }
 
-        public string GetCacheKey(string url)
+        public string GetCacheFileName(string url)
         {
             var plainTextBytes = Encoding.UTF8.GetBytes(url);
             return Convert.ToBase64String(plainTextBytes) + ".mp3";
         }
 
+        public string GetCacheFilePath(string url)
+        {
+            return Path.Combine(cacheRoot, GetCacheFileName(url));
+        }
+
         public async Task<bool> Exists(string url)
         {
-            var cachePath = Path.Combine(cacheRoot, GetCacheKey(url));
+            var cachePath = Path.Combine(cacheRoot, GetCacheFileName(url));
             return await storageService.FileExists(cachePath);
         }
 
@@ -47,7 +52,7 @@ namespace JW.Alarm.Services
                 if (!await Exists(playItem.Url))
                 {
                     var bytes = await downloadService.DownloadAsync(playItem.Url);
-                    await storageService.SaveFile(cacheRoot, GetCacheKey(playItem.Url), bytes);
+                    await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
                 }
             }
         }

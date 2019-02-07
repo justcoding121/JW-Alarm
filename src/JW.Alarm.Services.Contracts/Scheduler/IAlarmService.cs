@@ -12,6 +12,6 @@ namespace JW.Alarm.Services.Contracts
         Task Update(AlarmSchedule schedule);
         Task Delete(long scheduleId);
 
-        Task ScheduleNextTrack(AlarmSchedule schedule, NotificationDetail currentTrackDetail);
+        Task Snooze(long scheduleId);
     }
 }

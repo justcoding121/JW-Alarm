@@ -9,9 +9,15 @@ using Windows.Media.Playback;
 
 namespace JW.Alarm.Services.UWP
 {
-    public class PlayService : IPlayService
+    public class PreviewPlayService : IPreviewPlayService
     {
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        private MediaPlayer mediaPlayer;
+
+        public PreviewPlayService(MediaPlayer player)
+        {
+            this.mediaPlayer = player;
+        }
+
         public void Play(string url)
         {
             var manifestUri = new Uri(url);

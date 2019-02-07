@@ -31,7 +31,7 @@ namespace JW.Alarm.Services.UWP
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             var url = new Uri(Path.Combine(ApplicationData.Current.TemporaryFolder.Path,
-                    mediaCacheService.GetCacheKey(audioUrl)));
+                    mediaCacheService.GetCacheFileName(audioUrl)));
 
             var content = new ToastContent()
             {
@@ -92,57 +92,6 @@ namespace JW.Alarm.Services.UWP
         }
 
 
-        public void AddSilent(string groupId, DateTimeOffset notificationTime)
-        {
-            var notifier = ToastNotificationManager.CreateToastNotifier();
-
-            var content = new ToastContent()
-            {
-                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
-                Scenario = ToastScenario.Default,
-                ActivationType = ToastActivationType.Background,
-                Visual = new ToastVisual()
-                {
-                    BindingGeneric = new ToastBindingGeneric()
-                    {
-                        Children =
-                        {
-                            new AdaptiveText()
-                            {
-                                Text = "Playing next chapter..",
-                                HintMaxLines = 1
-                            }
-                        }
-                    }
-                },
-
-                Actions = new ToastActionsCustom()
-                {
-                    Buttons =
-                    {
-                        new ToastButton("Snooze", "snooze")
-                        {
-                            ActivationType = ToastActivationType.Background
-                        },
-
-                        new ToastButton("Dismiss", "dismiss")
-                        {
-                            ActivationType = ToastActivationType.Background
-                        }
-                    }
-                }
-            };
-
-            string remoteId = (notificationTime.Ticks / 10000000 / 60).ToString(); // Minutes
-
-            var notification = new ScheduledToastNotification(content.GetXml(), notificationTime)
-            {
-                Group = groupId,
-                RemoteId = remoteId
-            };
-
-            notifier.AddToSchedule(notification);
-        }
         public async Task Remove(long scheduleId)
         {
             var notifications = (await notificationTableContext.Notifications)

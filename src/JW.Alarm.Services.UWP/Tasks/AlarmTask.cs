@@ -18,17 +18,17 @@ namespace JW.Alarm.Services.Uwp.Tasks
         private IAlarmService alarmService;
         private INotificationService notificationService;
         private IScheduleRepository scheduleDbContext;
-        private IPlaylistService playlistService;
+        private IPlaybackService playbackService;
 
         public AlarmTask(IAlarmService alarmService,
             INotificationService notificationService,
             IScheduleRepository scheduleDbContext,
-            IPlaylistService playlistService)
+            IPlaybackService playbackService)
         {
             this.alarmService = alarmService;
             this.notificationService = notificationService;
             this.scheduleDbContext = scheduleDbContext;
-            this.playlistService = playlistService;
+            this.playbackService = playbackService;
         }
 
         public async void Handle(IBackgroundTaskInstance backgroundTask)
@@ -39,48 +39,21 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
             if (details.ChangeType == ToastHistoryChangedType.Added)
             {
-                var history = ToastNotificationManager.History.GetHistory();
-
-                if (history.Any(x => x.Group == "Clear"))
-                {
-                    var playDetails = new Dictionary<ToastNotification, NotificationDetail>();
-                    foreach (var toast in history)
+                var toast = ToastNotificationManager.History.GetHistory()
+                    .Select(x => new
                     {
-                        if(toast.Group !="Clear")
-                        {
-                            var detail = await notificationService.ParseNotificationDetail(toast.Tag);
-                            playDetails.Add(toast, detail);
-                        }          
-                    }
+                        x.Tag
+                    })
+                .FirstOrDefault();
 
-                    var latestTrackDetail = playDetails
-                        .Select(x => x.Value)
-                        .OrderByDescending(x => x.NotificationTime)
-                        .FirstOrDefault();
+                var detail = await notificationService.ParseNotificationDetail(toast.Tag);
 
-                    if (latestTrackDetail != null)
-                    {
-                        var outDatedTrackDetails = playDetails.Where(x => x.Value != latestTrackDetail);
-
-                        if (outDatedTrackDetails.Count() > 0)
-                        {
-                            foreach (var trackDetail in outDatedTrackDetails.Select(x => x.Value).OrderBy(x => x.NotificationTime))
-                            {
-                                await playlistService.MarkTrackAsFinished(trackDetail);
-                            }
-                        }
-
-                        var schedule = await scheduleDbContext.Read(latestTrackDetail.ScheduleId);
-                        await alarmService.ScheduleNextTrack(schedule, latestTrackDetail);
-                    }
-
-                    ToastNotificationManager.History.Clear();
-                    return;
-                }
+                await playbackService.Play(detail.ScheduleId);
 
             }
 
             deferral.Complete();
+
         }
     }
 }

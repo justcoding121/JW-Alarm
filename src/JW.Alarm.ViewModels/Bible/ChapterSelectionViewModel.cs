@@ -19,7 +19,7 @@ namespace JW.Alarm.ViewModels
         private MediaService mediaService;
         private IThreadService threadService;
         private IPopUpService popUpService;
-        private IPlayService playService;
+        private IPreviewPlayService playService;
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
 
@@ -35,7 +35,7 @@ namespace JW.Alarm.ViewModels
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
-            this.playService = IocSetup.Container.Resolve<IPlayService>();
+            this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
 
             initialize();
         }

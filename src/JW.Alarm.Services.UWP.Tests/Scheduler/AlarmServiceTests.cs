@@ -12,8 +12,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Metadata;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.System.Profile;
+using Windows.UI.Core;
 using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.UWP.Tests.Scheduler
@@ -21,8 +23,6 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
     [TestClass]
     public class AlarmServiceTests
     {
-        public static NotificationTaskActor Actor;
-
         [TestMethod]
         public async Task Alarm_Service_Smoke_Test()
         {
@@ -44,9 +44,13 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
             var notificationRepository = new NotificationRepository(tableStorage);
             var notificationService = new UwpNotificationService(mediaCacheService, notificationRepository);
 
-            var alarmService = new UwpAlarmService(notificationService, playlistService, mediaCacheService);
+            var alarmService = new UwpAlarmService(notificationService, playlistService, mediaCacheService, scheduleRepository);
 
-            Actor = new NotificationTaskActor(alarmService, notificationService, scheduleRepository, playlistService);
+            var player = new MediaPlayer();
+            player.AutoPlay = false;
+
+            var playbackService = new PlaybackService(player, playlistService, mediaCacheService, alarmService);
+            Actor = new NotificationTaskActor(alarmService, notificationService, scheduleRepository, playbackService);
 
             var name = $"Test Alarm";
             var alarmTime = DateTime.Now.AddSeconds(3);
@@ -87,25 +91,31 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
             await scheduleRepository.Add(schedule);
             await alarmService.Create(schedule);
 
+            await Actor.TaskCompletionSource.Task;
+
             await Task.Delay(1000 * 60);
         }
+
+        public static NotificationTaskActor Actor;
 
         public class NotificationTaskActor
         {
             private IAlarmService alarmService;
             private INotificationService notificationService;
             private IScheduleRepository scheduleDbContext;
-            private IPlaylistService playlistService;
+            private IPlaybackService playbackService;
+
+            public TaskCompletionSource<bool> TaskCompletionSource = new TaskCompletionSource<bool>();
 
             public NotificationTaskActor(IAlarmService alarmService,
                 INotificationService notificationService,
                 IScheduleRepository scheduleDbContext,
-                IPlaylistService playlistService)
+                IPlaybackService playbackService)
             {
                 this.alarmService = alarmService;
                 this.notificationService = notificationService;
                 this.scheduleDbContext = scheduleDbContext;
-                this.playlistService = playlistService;
+                this.playbackService = playbackService;
             }
 
 
@@ -117,50 +127,24 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
 
                 if (details.ChangeType == ToastHistoryChangedType.Added)
                 {
-                    var history = ToastNotificationManager.History.GetHistory();
-
-                    var s = history.Select(x => new { x.Content, x.Data, x.Group, x.SuppressPopup, x.Tag, x.ExpirationTime, x.NotificationMirroring, x.Priority }).ToList();
-
-                    if (history.Any(x => x.Group == "Clear"))
+                    var toast = ToastNotificationManager.History.GetHistory().Select(x => new
                     {
-                        var playDetails = new Dictionary<ToastNotification, NotificationDetail>();
-                        foreach (var toast in history)
-                        {
-                            if (toast.Group != "Clear")
-                            {
-                                var detail = await notificationService.ParseNotificationDetail(toast.Tag);
-                                playDetails.Add(toast, detail);
-                            }
-                        }
+                        x.Tag
+                    })
+                    .FirstOrDefault();
 
-                        var latestTrackDetail = playDetails
-                            .Select(x => x.Value)
-                            .OrderByDescending(x => x.NotificationTime)
-                            .FirstOrDefault();
+                    Assert.IsNotNull(toast);
 
-                        if (latestTrackDetail != null)
-                        {
-                            var outDatedTrackDetails = playDetails.Where(x => x.Value != latestTrackDetail);
+                    var detail = await notificationService.ParseNotificationDetail(toast.Tag);
 
-                            if (outDatedTrackDetails.Count() > 0)
-                            {
-                                foreach (var trackDetail in outDatedTrackDetails.Select(x => x.Value).OrderBy(x => x.NotificationTime))
-                                {
-                                    await playlistService.MarkTrackAsFinished(trackDetail);
-                                }
-                            }
-
-                            var schedule = await scheduleDbContext.Read(latestTrackDetail.ScheduleId);
-                            await alarmService.ScheduleNextTrack(schedule, latestTrackDetail);
-                        }
-
-                        ToastNotificationManager.History.Clear();
-                        return;
-                    }
+                    Assert.IsTrue(detail.ScheduleId > 0);
+                    await playbackService.Play(detail.ScheduleId);
 
                 }
 
                 deferral.Complete();
+
+                TaskCompletionSource.SetResult(true);
             }
         }
 

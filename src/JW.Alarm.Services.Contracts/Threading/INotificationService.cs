@@ -10,7 +10,6 @@ namespace JW.Alarm.Services.Contracts
     {
         Task Add(string groupId, NotificationDetail detail, string title, string body, string audioUrl);
 
-        void AddSilent(string groupId, DateTimeOffset notificationTime);
 
         Task Remove(long scheduleId);
         bool IsScheduled(long scheduleId);

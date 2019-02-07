@@ -58,6 +58,8 @@ namespace JW.Alarm.Models
 
         public BibleReadingSchedule BibleReadingSchedule { get; set; }
 
+        public int SnoozeMinutes { get; set; } = 5;
+
         //state
         public PlayType CurrentPlayItem { get; set; }
 

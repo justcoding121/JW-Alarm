@@ -65,7 +65,7 @@ namespace JW.Alarm.Services.UWP.Tests.Media
 
             var track = await playlistService.NextTrack(newRecord.Id);
 
-            Assert.IsNotNull(mediaCacheService.GetCacheKey(track.Url));
+            Assert.IsNotNull(mediaCacheService.GetCacheFileName(track.Url));
 
             Assert.IsTrue(await mediaCacheService.Exists(track.Url));
         }
