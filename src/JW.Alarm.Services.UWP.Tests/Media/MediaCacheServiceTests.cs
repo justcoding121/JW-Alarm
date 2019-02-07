@@ -21,6 +21,7 @@ namespace JW.Alarm.Services.UWP.Tests.Media
 
             var indexService = new MediaIndexService(downloadService, storageService);
 
+            //intented async without Wait() for testing code below.
             Task.Run(() => indexService.Verify());
 
             var mediaService = new MediaService(indexService, storageService);

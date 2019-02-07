@@ -8,15 +8,8 @@ namespace JW.Alarm.Services.Contracts
 {
     public interface INotificationService
     {
-        Task Add(string groupId, NotificationDetail detail, string title, string body, string audioUrl);
-
-
-        Task Remove(long scheduleId);
+        void Add(NotificationDetail detail, string title, string body);
+        void Remove(long scheduleId);
         bool IsScheduled(long scheduleId);
-
-
-        string GetBibleNotificationDetail(long scheduleId, BibleReadingSchedule bibleReadingSchedule);
-        string GetMusicNotificationDetail(long scheduleId, AlarmMusic alarmMusicSchedule);
-        Task<NotificationDetail> ParseNotificationDetail(string key);
     }
 }

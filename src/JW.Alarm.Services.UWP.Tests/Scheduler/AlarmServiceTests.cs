@@ -41,8 +41,7 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
 
             var playlistService = new PlaylistService(scheduleRepository, mediaService);
             var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);
-            var notificationRepository = new NotificationRepository(tableStorage);
-            var notificationService = new UwpNotificationService(mediaCacheService, notificationRepository);
+            var notificationService = new UwpNotificationService(mediaCacheService);
 
             var alarmService = new UwpAlarmService(notificationService, playlistService, mediaCacheService, scheduleRepository);
 
@@ -129,16 +128,13 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
                 {
                     var toast = ToastNotificationManager.History.GetHistory().Select(x => new
                     {
-                        x.Tag
+                        x.Group
                     })
                     .FirstOrDefault();
 
                     Assert.IsNotNull(toast);
 
-                    var detail = await notificationService.ParseNotificationDetail(toast.Tag);
-
-                    Assert.IsTrue(detail.ScheduleId > 0);
-                    await playbackService.Play(detail.ScheduleId);
+                    await playbackService.Play(long.Parse(toast.Group));
 
                 }
 

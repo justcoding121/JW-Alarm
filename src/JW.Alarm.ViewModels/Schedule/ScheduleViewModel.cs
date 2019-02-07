@@ -198,7 +198,7 @@ namespace JW.Alarm.ViewModels
             if (scheduleId >= 0)
             {
                 await alarmDbContext.Remove(scheduleId);
-                await alarmService.Delete(scheduleId);
+                alarmService.Delete(scheduleId);
             }
         }
     }

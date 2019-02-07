@@ -14,31 +14,22 @@ namespace JW.Alarm.Services.UWP
     public class UwpNotificationService : INotificationService
     {
         IMediaCacheService mediaCacheService;
-        INotificationRepository notificationTableContext;
 
-        public UwpNotificationService(IMediaCacheService mediaCacheService,
-            INotificationRepository playDetailDbContext)
+        public UwpNotificationService(IMediaCacheService mediaCacheService)
         {
             this.mediaCacheService = mediaCacheService;
-            this.notificationTableContext = playDetailDbContext;
         }
 
-        public async Task Add(string scheduleId, NotificationDetail notificationDetail, string title, string body, string audioUrl)
+        public void Add(NotificationDetail notificationDetail, string title, string body)
         {
-
-            await notificationTableContext.Add(notificationDetail);
-
             var notifier = ToastNotificationManager.CreateToastNotifier();
-
-            var url = new Uri(Path.Combine(ApplicationData.Current.TemporaryFolder.Path,
-                    mediaCacheService.GetCacheFileName(audioUrl)));
 
             var content = new ToastContent()
             {
                 Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
                 Scenario = ToastScenario.Alarm,
                 ActivationType = ToastActivationType.Background,
-                Launch = scheduleId,
+                Launch = notificationDetail.ScheduleId.ToString(),
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -59,15 +50,15 @@ namespace JW.Alarm.Services.UWP
                 },
 
                 Actions = new ToastActionsCustom()
-                {                
+                {
                     Buttons =
                     {
-                        new ToastButton("Snooze", scheduleId)
+                        new ToastButton("Snooze", "Snooze")
                         {
                             ActivationType = ToastActivationType.Background
                         },
 
-                        new ToastButton("Dismiss", scheduleId)
+                        new ToastButton("Dismiss", "Dismiss")
                         {
                             ActivationType = ToastActivationType.Background
                         }
@@ -79,12 +70,11 @@ namespace JW.Alarm.Services.UWP
             // the same on both devices. We'll just use the alarm delivery time. If an alarm on one device
             // has the same delivery time as an alarm on another device, it'll be dismissed when one of the
             // alarms is dismissed.
-            string remoteId = (notificationDetail.NotificationTime.Ticks / 10000000 / 60).ToString(); 
+            string remoteId = (notificationDetail.NotificationTime.Ticks / 10000000 / 60).ToString();
 
             var notification = new ScheduledToastNotification(content.GetXml(), notificationDetail.NotificationTime)
             {
-                Tag = notificationDetail.Id.ToString(),
-                Group = scheduleId,
+                Group = notificationDetail.Id.ToString(),
                 RemoteId = remoteId,
             };
 
@@ -92,25 +82,16 @@ namespace JW.Alarm.Services.UWP
         }
 
 
-        public async Task Remove(long scheduleId)
+        public void Remove(long scheduleId)
         {
-            var notifications = (await notificationTableContext.Notifications)
-                                .Where(x => x.ScheduleId == scheduleId)
-                                .Select(x => x).ToList();
-
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             foreach (var notification in notifier.GetScheduledToastNotifications())
             {
-                if (notifications.Any(x => x.Id.ToString() == notification.Tag))
+                if (scheduleId.ToString() == notification.Group)
                 {
                     notifier.RemoveFromSchedule(notification);
                 }
-            }
-
-            foreach (var notification in notifications)
-            {
-                await notificationTableContext.Remove(notification.Id);
             }
         }
 
@@ -120,31 +101,6 @@ namespace JW.Alarm.Services.UWP
             var notifications = notifier.GetScheduledToastNotifications();
             return notifications.Any(x => x.Group == scheduleId.ToString());
         }
-
-        public string GetBibleNotificationDetail(long scheduleId, BibleReadingSchedule bibleReadingSchedule)
-        {
-            return JsonConvert.SerializeObject(new NotificationDetail()
-            {
-                ScheduleId = scheduleId,
-                BookNumber = bibleReadingSchedule.BookNumber,
-                ChapterNumber = bibleReadingSchedule.ChapterNumber
-            });
-        }
-
-        public string GetMusicNotificationDetail(long scheduleId, AlarmMusic alarmMusicSchedule)
-        {
-            return JsonConvert.SerializeObject(new NotificationDetail()
-            {
-                ScheduleId = scheduleId,
-                TrackNumber = alarmMusicSchedule.TrackNumber
-            });
-        }
-
-        public async Task<NotificationDetail> ParseNotificationDetail(string key)
-        {
-            return await notificationTableContext.Read(long.Parse(key));
-        }
-
     }
 
 }

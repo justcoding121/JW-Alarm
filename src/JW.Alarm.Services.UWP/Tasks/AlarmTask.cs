@@ -16,17 +16,14 @@ namespace JW.Alarm.Services.Uwp.Tasks
     public class AlarmTask
     {
         private IAlarmService alarmService;
-        private INotificationService notificationService;
         private IScheduleRepository scheduleDbContext;
         private IPlaybackService playbackService;
 
         public AlarmTask(IAlarmService alarmService,
-            INotificationService notificationService,
             IScheduleRepository scheduleDbContext,
             IPlaybackService playbackService)
         {
             this.alarmService = alarmService;
-            this.notificationService = notificationService;
             this.scheduleDbContext = scheduleDbContext;
             this.playbackService = playbackService;
         }
@@ -42,13 +39,11 @@ namespace JW.Alarm.Services.Uwp.Tasks
                 var toast = ToastNotificationManager.History.GetHistory()
                     .Select(x => new
                     {
-                        x.Tag
+                        x.Group
                     })
                 .FirstOrDefault();
 
-                var detail = await notificationService.ParseNotificationDetail(toast.Tag);
-
-                await playbackService.Play(detail.ScheduleId);
+                await playbackService.Play(int.Parse(toast.Group));
 
             }
 

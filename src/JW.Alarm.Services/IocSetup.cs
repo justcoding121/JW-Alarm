@@ -22,9 +22,6 @@
             container.Register<IScheduleRepository>((x) => new ScheduleRepository(
                 container.Resolve<ITableStorage>()), isSingleton: true);
 
-            container.Register<INotificationRepository>((x) => new NotificationRepository(
-               container.Resolve<ITableStorage>()), isSingleton: true);
-
             container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IScheduleRepository>(), 
                 container.Resolve<MediaService>()), isSingleton: true);
 

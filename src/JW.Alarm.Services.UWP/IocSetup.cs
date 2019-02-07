@@ -18,18 +18,13 @@
             container.Register<IPopUpService>((x) => new UwpPopUpService(container.Resolve<IThreadService>()), isSingleton: true);
 
             container.Register<INotificationService>((x) =>
-            new UwpNotificationService(container.Resolve<IMediaCacheService>(),
-                container.Resolve<INotificationRepository>()), isSingleton: true);
+            new UwpNotificationService(container.Resolve<IMediaCacheService>()), isSingleton: true);
 
             container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
-                                                    container.Resolve<INotificationService>(),
                                                     container.Resolve<IScheduleRepository>(),
                                                     container.Resolve<IPlaybackService>()));
 
-            container.Register((x) => new SnoozeDismissTask(container.Resolve<IAlarmService>(),
-                                                   container.Resolve<INotificationService>(),
-                                                   container.Resolve<IScheduleRepository>(),
-                                                   container.Resolve<IPlaylistService>()));
+            container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
 
 
             container.Register((x) => new SchedulerTask(container.Resolve<IScheduleRepository>(),

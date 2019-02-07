@@ -35,8 +35,7 @@ namespace JW.Alarm.Services.UWP.Tests.UI
 
             var playlistService = new PlaylistService(scheduleRepository, mediaService);
             var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);
-            var notificationRepository = new NotificationRepository(tableStorage);
-            var notificationService = new UwpNotificationService(mediaCacheService, notificationRepository);
+            var notificationService = new UwpNotificationService(mediaCacheService);
 
             var name = $"Test Alarm";
             var alarmTime = DateTime.Now.AddSeconds(3);
@@ -86,8 +85,7 @@ namespace JW.Alarm.Services.UWP.Tests.UI
                 TrackNumber = track.PlayDetail.TrackNumber
             };
 
-            await notificationService.Add(schedule.Id.ToString(),
-                notificationDetail, "Test", "Body", track.Url);
+            notificationService.Add(notificationDetail, "Test", "Body");
 
             await Task.Delay(2 * 1000);
 

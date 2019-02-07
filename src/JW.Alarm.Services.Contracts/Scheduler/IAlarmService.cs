@@ -10,7 +10,7 @@ namespace JW.Alarm.Services.Contracts
     {
         Task Create(AlarmSchedule schedule);
         Task Update(AlarmSchedule schedule);
-        Task Delete(long scheduleId);
+        void Delete(long scheduleId);
 
         Task Snooze(long scheduleId);
     }

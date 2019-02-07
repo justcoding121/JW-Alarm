@@ -12,20 +12,11 @@ namespace JW.Alarm.Services.Uwp.Tasks
 {
     public class SnoozeDismissTask
     {
-        private IAlarmService alarmService;
-        private INotificationService notificationService;
-        private IScheduleRepository scheduleDbContext;
-        private IPlaylistService playlistService;
+        private IPlaybackService playbackService;
 
-        public SnoozeDismissTask(IAlarmService alarmService,
-           INotificationService notificationService,
-           IScheduleRepository scheduleDbContext,
-           IPlaylistService playlistService)
+        public SnoozeDismissTask(IPlaybackService playbackService)
         {
-            this.alarmService = alarmService;
-            this.notificationService = notificationService;
-            this.scheduleDbContext = scheduleDbContext;
-            this.playlistService = playlistService;
+            this.playbackService = playbackService;
         }
 
         public async void Handle(IBackgroundTaskInstance backgroundTask)
@@ -34,7 +25,15 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
             var details = backgroundTask.TriggerDetails as ToastNotificationActionTriggerDetail;
 
-            await notificationService.Remove(long.Parse(details.Argument));
+            switch(details.Argument)
+            {
+                case "Snooze":
+                    await playbackService.Snooze();
+                    break;
+                case "Dismiss":
+                    playbackService.Dismiss();
+                    break;
+            }
 
             ToastNotificationManager.History.Clear();
 
