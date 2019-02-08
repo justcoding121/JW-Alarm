@@ -20,21 +20,19 @@
             container.Register<INotificationService>((x) =>
             new UwpNotificationService(container.Resolve<IMediaCacheService>()), isSingleton: true);
 
-            container.Register((x) => new AlarmTask(container.Resolve<IAlarmService>(),
-                                                    container.Resolve<IScheduleRepository>(),
-                                                    container.Resolve<IPlaybackService>()));
+            container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
 
             container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
 
 
-            container.Register((x) => new SchedulerTask(container.Resolve<IScheduleRepository>(),
+            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>()), isSingleton: true);
 
             container.Register<IAlarmService>((x) => new UwpAlarmService(
                 container.Resolve<INotificationService>(),
                 container.Resolve<IPlaylistService>(),
                 container.Resolve<IMediaCacheService>(),
-                container.Resolve<IScheduleRepository>()), isSingleton: true);
+                container.Resolve<ScheduleDbContext>()), isSingleton: true);
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()), isSingleton: true);
             container.Register((x) =>
@@ -49,7 +47,6 @@
                                                             container.Resolve<IMediaCacheService>(),
                                                             container.Resolve<IAlarmService>()), isSingleton: true);
 
-            container.Register<ITableStorage>((x) => new TableStorage(), isSingleton: true);
 
             Container = container;
         }

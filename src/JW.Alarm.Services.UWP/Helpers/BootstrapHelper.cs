@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Models;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -98,18 +99,9 @@ namespace JW.Alarm.Services.Uwp.Helpers
 
         public static void InitializeDatabase()
         {
-            using (SqliteConnection db =
-                new SqliteConnection("Filename=bibleAlarm.db"))
+            using (var db = new ScheduleDbContext())
             {
-                db.Open();
-
-                var tableCommand = "CREATE TABLE IF NOT " +
-                    $"EXISTS {typeof(AlarmSchedule).Name} (key INTEGER PRIMARY KEY, " +
-                    "value text NOT NULL)";
-
-                SqliteCommand createTable = new SqliteCommand(tableCommand, db);
-
-                createTable.ExecuteReader();
+                db.Database.Migrate();
             }
         }
     }

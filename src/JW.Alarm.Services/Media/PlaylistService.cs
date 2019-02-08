@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,19 @@ namespace JW.Alarm.Services
 {
     public class PlaylistService : IPlaylistService
     {
-        private IScheduleRepository scheduleService;
+        private ScheduleDbContext scheduleDbContext;
         private MediaService mediaService;
 
-        public PlaylistService(IScheduleRepository scheduleService,
+        public PlaylistService(ScheduleDbContext scheduleDbContext,
             MediaService mediaService)
         {
-            this.scheduleService = scheduleService;
+            this.scheduleDbContext = scheduleDbContext;
             this.mediaService = mediaService;
         }
 
         public async Task<PlayItem> NextTrack(long scheduleId)
         {
-            var schedule = await scheduleService.Read(scheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
             {
@@ -36,7 +37,7 @@ namespace JW.Alarm.Services
 
         public async Task<PlayItem> NextTrack(NotificationDetail currentTrack)
         {
-            var schedule = await scheduleService.Read(currentTrack.ScheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == currentTrack.ScheduleId);
             var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
             if (currentTrack.PlayType == PlayType.Music)
@@ -66,7 +67,7 @@ namespace JW.Alarm.Services
 
         public async Task MarkTrackAsFinished(NotificationDetail trackDetail)
         {
-            var schedule = await scheduleService.Read(trackDetail.ScheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == trackDetail.ScheduleId);
 
             if (trackDetail.PlayType == PlayType.Music)
             {
@@ -75,7 +76,7 @@ namespace JW.Alarm.Services
                 {
                     var next = await nextMusicUrlToPlay(schedule, true);
                     schedule.Music.TrackNumber = next.PlayDetail.TrackNumber;
-                    await scheduleService.Update(schedule);
+                    await scheduleDbContext.SaveChangesAsync();
                 }
             }
             else
@@ -91,7 +92,7 @@ namespace JW.Alarm.Services
         {
             var result = new List<PlayItem>();
 
-            var schedule = await scheduleService.Read(scheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
             {
@@ -177,7 +178,7 @@ namespace JW.Alarm.Services
                     {
                         ScheduleId = schedule.Id,
                         TrackNumber = melodyTrack.Number,
-                        Duration = melodyTrack.Duration,   
+                        Duration = melodyTrack.Duration,
                     }, melodyTrack.Duration, melodyTrack.Url);
 
                 case MusicType.Vocals:

@@ -1,6 +1,7 @@
 ﻿namespace JW.Alarm.Services
 {
     using JW.Alarm.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
     using System.Net.Http;
 
     public static class IocSetup
@@ -17,10 +18,12 @@
                 container.Resolve<IDownloadService>(),
                 container.Resolve<IPlaylistService>()), isSingleton: true);
 
-            container.Register<IScheduleRepository>((x) => new ScheduleRepository(
-                container.Resolve<ITableStorage>()), isSingleton: true);
+            var dbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
+                .UseSqlite("Data Source=bibleAlarm.db").Options;
 
-            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<IScheduleRepository>(), 
+            container.Register((x) => new ScheduleDbContext(dbConfig), isSingleton: true);
+
+            container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<ScheduleDbContext>(),
                 container.Resolve<MediaService>()), isSingleton: true);
 
             Container = container;

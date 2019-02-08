@@ -8,6 +8,35 @@ namespace JW.Alarm.Models
 {
     public class AlarmSchedule : IEntity
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public bool IsEnabled { get; set; } = true;
+
+        //24 hour based
+        public int Hour { get; set; }
+        public int MeridienHour => Meridien == Meridien.AM ? Hour : Hour % 12;
+        public int Minute { get; set; }
+        public Meridien Meridien => Hour < 12 ? Meridien.AM : Meridien.PM;
+        public int Second { get; set; }
+
+        public DaysOfWeek DaysOfWeek { get; set; } 
+
+        [JsonIgnore]
+        public string TimeText => $"{MeridienHour.ToString("D2")}:{Minute.ToString("D2")} {Meridien}";
+        [JsonIgnore]
+        public string CronExpression => getCronExpression();
+
+        public bool MusicEnabled { get; set; } = true;
+        public AlarmMusic Music { get; set; }
+
+        public BibleReadingSchedule BibleReadingSchedule { get; set; }
+
+        public int SnoozeMinutes { get; set; } = 5;
+
+        //state
+        public PlayType CurrentPlayItem { get; set; }
+
         public AlarmSchedule()
         {
             Music = new AlarmMusic()
@@ -27,42 +56,6 @@ namespace JW.Alarm.Models
             };
 
         }
-
-        public long Id { get; set; }
-
-        public string Name { get; set; }
-        public bool IsEnabled { get; set; } = true;
-
-        //24 hour based
-        public int Hour { get; set; }
-        public int MeridienHour => Meridien == Meridien.AM ? Hour : Hour % 12;
-        public int Minute { get; set; }
-        public Meridien Meridien => Hour < 12 ? Meridien.AM : Meridien.PM;
-        public int Second { get; set; }
-
-        public HashSet<DayOfWeek> DaysOfWeek { get; set; } = new HashSet<DayOfWeek>(new DayOfWeek[] {
-            DayOfWeek.Sunday,
-            DayOfWeek.Monday,
-            DayOfWeek.Tuesday,
-            DayOfWeek.Wednesday,
-            DayOfWeek.Thursday,
-            DayOfWeek.Friday,
-            DayOfWeek.Saturday });
-        [JsonIgnore]
-        public string TimeText => $"{MeridienHour.ToString("D2")}:{Minute.ToString("D2")} {Meridien}";
-        [JsonIgnore]
-        public string CronExpression => getCronExpression();
-
-        public bool MusicEnabled { get; set; } = true;
-        public AlarmMusic Music { get; set; }
-
-        public BibleReadingSchedule BibleReadingSchedule { get; set; }
-
-        public int SnoozeMinutes { get; set; } = 5;
-
-        //state
-        public PlayType CurrentPlayItem { get; set; }
-
         public DateTimeOffset NextFireDate()
         {
             validateTime();
@@ -76,9 +69,10 @@ namespace JW.Alarm.Models
 
         private string getCronExpression()
         {
-            string days = string.Join(",", DaysOfWeek.Select(x => (int)x + 1).OrderBy(x => x));
-            var expression = new CronExpression($"{Second} {Minute} {Hour} ? * {days}");
-            return expression.CronExpressionString;
+            throw new NotImplementedException();
+            //string days = string.Join(",", DaysOfWeek.Select(x => (int)x + 1).OrderBy(x => x));
+            //var expression = new CronExpression($"{Second} {Minute} {Hour} ? * {days}");
+            //return expression.CronExpressionString;
         }
 
         private void validateTime()
@@ -94,7 +88,7 @@ namespace JW.Alarm.Models
                 throw new Exception("Invalid hour.");
             }
 
-            if (DaysOfWeek?.Count == 0)
+            if (DaysOfWeek == 0)
             {
                 throw new Exception("DaysOfWeek is empty.");
             }

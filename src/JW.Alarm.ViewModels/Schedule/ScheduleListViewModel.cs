@@ -11,19 +11,21 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.ComponentModel;
 using System.Collections;
+using JW.Alarm.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace JW.Alarm.ViewModels
 {
     public class ScheduleListViewModel : ViewModelBase
     {
-        private IScheduleRepository scheduleService;
+        private ScheduleDbContext scheduleDbContext;
         private IThreadService threadService;
         private IPopUpService popUpService;
 
-        public ScheduleListViewModel(IScheduleRepository scheduleService,
+        public ScheduleListViewModel(ScheduleDbContext scheduleDbContext,
             IThreadService threadService, IPopUpService popUpService)
         {
-            this.scheduleService = scheduleService;
+            this.scheduleDbContext = scheduleDbContext;
             this.threadService = threadService;
             this.popUpService = popUpService;
 
@@ -79,12 +81,15 @@ namespace JW.Alarm.ViewModels
                                 })
                                  .Merge()
                                  .Do(async x => await popUpService.ShowProgressRing())
-                                 .Do(async y => await scheduleService.Update(y.Schedule))
+                                 .Do(async y => {
+                                     scheduleDbContext.AlarmSchedules.Attach(y.Schedule);
+                                     await scheduleDbContext.SaveChangesAsync();
+                                  })
                                  .Do(async y => { if (y.IsEnabled) await popUpService.ShowScheduledNotification(y.Schedule); })
                                  .Do(async x => await popUpService.HideProgressRing())
                                  .Subscribe();
 
-            var alarmSchedules = await scheduleService.AlarmSchedules;
+            var alarmSchedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
 
             //alarmSchedules.CollectionChanged += async (s, e) =>
             //{
@@ -157,7 +162,7 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isEnabled, value);
         }
 
-        public HashSet<DayOfWeek> DaysOfWeek => Schedule.DaysOfWeek;
+        public DaysOfWeek DaysOfWeek => Schedule.DaysOfWeek;
 
         public string TimeText => Schedule.TimeText;
 

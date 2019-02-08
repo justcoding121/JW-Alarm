@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -12,17 +13,17 @@ namespace JW.Alarm.Services.Uwp
         private INotificationService notificationService;
         private IPlaylistService playlistService;
         private IMediaCacheService mediaCacheService;
-        private IScheduleRepository scheduleRepository;
+        private ScheduleDbContext scheduleDbContext;
 
         public UwpAlarmService(INotificationService notificationService,
             IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService,
-            IScheduleRepository scheduleRepository)
+            ScheduleDbContext scheduleDbContext)
         {
             this.notificationService = notificationService;
             this.playlistService = mediaPlayService;
             this.mediaCacheService = mediaCacheService;
-            this.scheduleRepository = scheduleRepository;
+            this.scheduleDbContext = scheduleDbContext;
         }
 
         public async Task Create(AlarmSchedule schedule)
@@ -46,7 +47,7 @@ namespace JW.Alarm.Services.Uwp
 
         public async Task Snooze(long scheduleId)
         {
-            var schedule = await scheduleRepository.Read(scheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
             scheduleNotification(schedule);
         }
 

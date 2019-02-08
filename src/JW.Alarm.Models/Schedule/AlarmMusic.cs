@@ -12,10 +12,15 @@ namespace JW.Alarm.Models
 
     }
 
-    public class AlarmMusic : Music
+    public class AlarmMusic : Music, IEntity
     {
+        public int Id { get; set; }
+
         //Always play current track.
         public bool Fixed { get; set; }
+
+        public int AlarmScheduleId { get; set; }
+        public AlarmSchedule AlarmSchedule { get; set; }
 
         public AlarmMusic()
         {

@@ -51,30 +51,32 @@ namespace JW.Alarm.Core.UWP
         {
             var button = sender as Button;
 
-            switch (button.Name)
-            {
-                case "Button_Sunday":
-                    ViewModel.Toggle(DayOfWeek.Sunday);
-                    break;
-                case "Button_Monday":
-                    ViewModel.Toggle(DayOfWeek.Monday);
-                    break;
-                case "Button_Tuesday":
-                    ViewModel.Toggle(DayOfWeek.Tuesday);
-                    break;
-                case "Button_Wednesday":
-                    ViewModel.Toggle(DayOfWeek.Wednesday);
-                    break;
-                case "Button_Thursday":
-                    ViewModel.Toggle(DayOfWeek.Thursday);
-                    break;
-                case "Button_Friday":
-                    ViewModel.Toggle(DayOfWeek.Friday);
-                    break;
-                case "Button_Saturday":
-                    ViewModel.Toggle(DayOfWeek.Saturday);
-                    break;
-            }
+            //switch (button.Name)
+            //{
+            //    case "Button_Sunday":
+            //        ViewModel.Toggle(DayOfWeek.Sunday);
+            //        break;
+            //    case "Button_Monday":
+            //        ViewModel.Toggle(DayOfWeek.Monday);
+            //        break;
+            //    case "Button_Tuesday":
+            //        ViewModel.Toggle(DayOfWeek.Tuesday);
+            //        break;
+            //    case "Button_Wednesday":
+            //        ViewModel.Toggle(DayOfWeek.Wednesday);
+            //        break;
+            //    case "Button_Thursday":
+            //        ViewModel.Toggle(DayOfWeek.Thursday);
+            //        break;
+            //    case "Button_Friday":
+            //        ViewModel.Toggle(DayOfWeek.Friday);
+            //        break;
+            //    case "Button_Saturday":
+            //        ViewModel.Toggle(DayOfWeek.Saturday);
+            //        break;
+            //}
+
+            throw new NotImplementedException();
 
         }
 

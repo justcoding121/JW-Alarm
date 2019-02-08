@@ -15,16 +15,10 @@ namespace JW.Alarm.Services.Uwp.Tasks
 {
     public class AlarmTask
     {
-        private IAlarmService alarmService;
-        private IScheduleRepository scheduleDbContext;
         private IPlaybackService playbackService;
 
-        public AlarmTask(IAlarmService alarmService,
-            IScheduleRepository scheduleDbContext,
-            IPlaybackService playbackService)
+        public AlarmTask(IPlaybackService playbackService)
         {
-            this.alarmService = alarmService;
-            this.scheduleDbContext = scheduleDbContext;
             this.playbackService = playbackService;
         }
 

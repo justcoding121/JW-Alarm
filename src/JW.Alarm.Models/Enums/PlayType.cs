@@ -6,7 +6,7 @@ namespace JW.Alarm.Models
 {
     public enum PlayType
     {
-        Music,
-        Bible
+        Music = 0,
+        Bible = 1
     }
 }

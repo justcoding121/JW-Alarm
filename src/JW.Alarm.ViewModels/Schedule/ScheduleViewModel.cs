@@ -5,19 +5,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mvvmicro;
 using Redux;
+using JW.Alarm.Services;
 
 namespace JW.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModelBase
     {
-        IScheduleRepository alarmDbContext;
+        ScheduleDbContext scheduleDbContext;
 
         IAlarmService alarmService;
         IPopUpService popUpService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
-            this.alarmDbContext = IocSetup.Container.Resolve<IScheduleRepository>();
+            this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
 
@@ -49,11 +50,11 @@ namespace JW.Alarm.ViewModels
             name = model.Name;
             isEnabled = model.IsEnabled;
             daysOfWeek = model.DaysOfWeek;
-            time = new TimeSpan(model.Hour, model.Minute, 0);
+            time = new TimeSpan(model.Hour, model.Minute, model.Second);
             musicEnabled = model.MusicEnabled;
         }
 
-        private long scheduleId;
+        private int scheduleId;
 
         private string name;
         public string Name
@@ -69,8 +70,8 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isEnabled, value);
         }
 
-        private HashSet<DayOfWeek> daysOfWeek;
-        public HashSet<DayOfWeek> DaysOfWeek
+        private DaysOfWeek daysOfWeek;
+        public DaysOfWeek DaysOfWeek
         {
             get => daysOfWeek;
             set => this.Set(ref daysOfWeek, value);
@@ -130,15 +131,15 @@ namespace JW.Alarm.ViewModels
 
         public AsyncRelayCommand EnableCommand { get; private set; }
 
-        public void Toggle(DayOfWeek day)
+        public void Toggle(DaysOfWeek day)
         {
-            if (DaysOfWeek.Contains(day))
+            if ((DaysOfWeek & day) == day)
             {
-                DaysOfWeek.Remove(day);
+                DaysOfWeek = DaysOfWeek & ~day;
             }
             else
             {
-                DaysOfWeek.Add(day);
+                DaysOfWeek = DaysOfWeek | day;
             }
 
             this.RaiseProperty("DaysOfWeek");
@@ -159,13 +160,14 @@ namespace JW.Alarm.ViewModels
 
                 if (IsNewSchedule)
                 {
-                    await alarmDbContext.Add(model);
+                    await scheduleDbContext.AddAsync(model);
                     await alarmService.Create(model);
                     IsNewSchedule = false;
                 }
                 else
                 {
-                    await alarmDbContext.Update(model);
+                    scheduleDbContext.AlarmSchedules.Attach(model);
+                    await scheduleDbContext.SaveChangesAsync();
                     alarmService.Update(model);
                 }
 
@@ -184,7 +186,7 @@ namespace JW.Alarm.ViewModels
 
         private async Task<bool> validate()
         {
-            if (DaysOfWeek.Count == 0)
+            if (DaysOfWeek == 0)
             {
                 await popUpService.ShowMessage("Please select day(s) of Week.");
                 return false;
@@ -197,7 +199,10 @@ namespace JW.Alarm.ViewModels
         {
             if (scheduleId >= 0)
             {
-                await alarmDbContext.Remove(scheduleId);
+                var model = getModel();
+                scheduleDbContext.AlarmSchedules.Attach(model);
+                scheduleDbContext.AlarmSchedules.Remove(model);
+                await scheduleDbContext.SaveChangesAsync();
                 alarmService.Delete(scheduleId);
             }
         }
