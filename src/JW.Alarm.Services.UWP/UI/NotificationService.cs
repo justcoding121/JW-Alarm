@@ -20,16 +20,17 @@ namespace JW.Alarm.Services.UWP
             this.mediaCacheService = mediaCacheService;
         }
 
-        public void Add(NotificationDetail notificationDetail, string title, string body)
+        public void Add(long scheduleId, DateTimeOffset time,
+            string title, string body, Uri audio)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             var content = new ToastContent()
             {
-                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
+                Audio = new ToastAudio() { Src = audio ?? new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
                 Scenario = ToastScenario.Alarm,
                 ActivationType = ToastActivationType.Background,
-                Launch = notificationDetail.ScheduleId.ToString(),
+                Launch = scheduleId.ToString(),
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -70,12 +71,12 @@ namespace JW.Alarm.Services.UWP
             // the same on both devices. We'll just use the alarm delivery time. If an alarm on one device
             // has the same delivery time as an alarm on another device, it'll be dismissed when one of the
             // alarms is dismissed.
-            string remoteId = (notificationDetail.NotificationTime.Ticks / 10000000 / 60).ToString();
+            string remoteId = (time.Ticks / 10000000 / 60).ToString();
 
-            var notification = new ScheduledToastNotification(content.GetXml(), notificationDetail.NotificationTime)
+            var notification = new ScheduledToastNotification(content.GetXml(), time)
             {
-                Group = notificationDetail.Id.ToString(),
-                RemoteId = remoteId,
+                Group = scheduleId.ToString(),
+                RemoteId = remoteId
             };
 
             notifier.AddToSchedule(notification);

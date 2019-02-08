@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JW.Alarm.Models;
+using Microsoft.Data.Sqlite;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
@@ -92,6 +94,23 @@ namespace JW.Alarm.Services.Uwp.Helpers
                 }
             }
 
+        }
+
+        public static void InitializeDatabase()
+        {
+            using (SqliteConnection db =
+                new SqliteConnection("Filename=bibleAlarm.db"))
+            {
+                db.Open();
+
+                var tableCommand = "CREATE TABLE IF NOT " +
+                    $"EXISTS {typeof(AlarmSchedule).Name} (key INTEGER PRIMARY KEY, " +
+                    "value text NOT NULL)";
+
+                SqliteCommand createTable = new SqliteCommand(tableCommand, db);
+
+                createTable.ExecuteReader();
+            }
         }
     }
 }

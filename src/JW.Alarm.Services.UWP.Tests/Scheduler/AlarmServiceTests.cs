@@ -26,7 +26,7 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
         [TestMethod]
         public async Task Alarm_Service_Smoke_Test()
         {
-            BootstrapHelper.VerifyBackgroundTasks();
+            BootstrapHelper.InitializeDatabase();
 
             var storageService = new UwpStorageService();
             var downloadService = new FakeDownloadService();
@@ -36,7 +36,7 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
 
             var mediaService = new MediaService(indexService, storageService);
 
-            var tableStorage = new TableStorage(storageService);
+            var tableStorage = new TableStorage();
             var scheduleRepository = new ScheduleRepository(tableStorage);
 
             var playlistService = new PlaylistService(scheduleRepository, mediaService);
@@ -91,8 +91,6 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
             await alarmService.Create(schedule);
 
             await Actor.TaskCompletionSource.Task;
-
-            await Task.Delay(1000 * 60);
         }
 
         public static NotificationTaskActor Actor;

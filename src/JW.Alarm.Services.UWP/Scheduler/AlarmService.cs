@@ -29,31 +29,25 @@ namespace JW.Alarm.Services.Uwp
         {
             var nextTrack = await playlistService.NextTrack(schedule.Id);
             nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
-            scheduleNotification(schedule, nextTrack);
-            await Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
+            scheduleNotification(schedule);
+            var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
-        public async Task Update(AlarmSchedule schedule)
+        public void Update(AlarmSchedule schedule)
         {
             removeNotification(schedule.Id);
 
             if (schedule.IsEnabled)
             {
-                var nextTrack = await playlistService.NextTrack(schedule.Id);
-                nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
-                scheduleNotification(schedule, nextTrack);
+                scheduleNotification(schedule);
                 var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
             }
         }
 
         public async Task Snooze(long scheduleId)
         {
-            var nextTrack = await playlistService.NextTrack(scheduleId);
             var schedule = await scheduleRepository.Read(scheduleId);
-
-            nextTrack.PlayDetail.NotificationTime = DateTimeOffset.Now.AddMinutes(schedule.SnoozeMinutes);
-
-            scheduleNotification(schedule, nextTrack);
+            scheduleNotification(schedule);
         }
 
         public void Delete(long scheduleId)
@@ -61,13 +55,9 @@ namespace JW.Alarm.Services.Uwp
             removeNotification(scheduleId);
         }
 
-        private void scheduleNotification(AlarmSchedule schedule, PlayItem currentTrack)
+        private void scheduleNotification(AlarmSchedule schedule)
         {
-            var fireDate = currentTrack.PlayDetail.NotificationTime;
-
-            notificationService.Add(currentTrack.PlayDetail,
-                schedule.Name, schedule.Name);
-
+            notificationService.Add(schedule.Id, schedule.NextFireDate(), schedule.Name, schedule.Name);
         }
 
         private void removeNotification(long scheduleId)

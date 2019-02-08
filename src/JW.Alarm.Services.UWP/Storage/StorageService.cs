@@ -10,13 +10,14 @@ namespace JW.Alarm.Services.Uwp
 {
     public class UwpStorageService : IStorageService
     {
-        public string StorageRoot => ApplicationData.Current.TemporaryFolder.Path;
+        public string StorageRoot => ApplicationData.Current.LocalFolder.Path;
 
         public async Task DeleteFile(string path)
         {
             var file = await StorageFile.GetFileFromPathAsync(path);
             await file.DeleteAsync();
         }
+
         public async Task<bool> FileExists(string path)
         {
             var directoryPath = path.Substring(0, path.LastIndexOf("\\"));
@@ -43,7 +44,7 @@ namespace JW.Alarm.Services.Uwp
             foreach (var directory in subDirectories.Where(x => !string.IsNullOrEmpty(x)))
             {
                 currentDirectory = await currentDirectory.TryGetItemAsync(directory) as StorageFolder;
-                if(currentDirectory == null)
+                if (currentDirectory == null)
                 {
                     return false;
                 }
@@ -52,9 +53,15 @@ namespace JW.Alarm.Services.Uwp
             return true;
         }
 
+        public Task DeleteDirectory(string path)
+        {
+            Directory.Delete(path, true);
+            return Task.CompletedTask;
+        }
+
         public async Task<List<string>> GetAllFiles(string path)
         {
-            if(!await DirectoryExists(path))
+            if (!await DirectoryExists(path))
             {
                 return new List<string>();
             }

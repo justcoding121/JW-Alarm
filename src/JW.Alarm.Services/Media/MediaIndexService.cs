@@ -61,14 +61,18 @@ namespace JW.Alarm.Services
             return await storageService.DirectoryExists(IndexRoot)
                 //verify that any previous unzipping process was not incomplete
                 && !await storageService.FileExists(tmpIndexFilePath);
+
         }
 
         private async Task copyIndexFromResource()
         {
+            if (await storageService.DirectoryExists(IndexRoot))
+            {
+                await storageService.DeleteDirectory(IndexRoot);
+            }
+
             var indexResourceFile = "Assets/Media/index.zip";
-
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
-
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
             await storageService.DeleteFile(tmpIndexFilePath);

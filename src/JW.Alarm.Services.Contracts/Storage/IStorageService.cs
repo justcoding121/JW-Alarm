@@ -15,5 +15,6 @@ namespace JW.Alarm.Services.Contracts
         Task SaveFile(string directoryPath, string fileName, string contents);
         Task SaveFile(string directoryPath, string fileName, byte[] contents);
         Task DeleteFile(string path);
+        Task DeleteDirectory(string path);
     }
 }

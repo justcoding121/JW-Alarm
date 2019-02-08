@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Uwp;
+using JW.Alarm.Services.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,20 @@ namespace JW.Alarm.Services.UWP.Tests.Repositories
         [TestMethod]
         public async Task Schedule_Repository_Smoke_Tests()
         {
-            var storageService = new UwpStorageService();
-            var tableStorage = new TableStorage(storageService);
+            BootstrapHelper.InitializeDatabase();
+
+            var tableStorage = new TableStorage();
 
             var scheduleRepository = new ScheduleRepository(tableStorage);
 
             var testRecordCount = 10;
+
+            //clean test left overs
+            var toClear = await scheduleRepository.AlarmSchedules;
+            foreach (var item in toClear.ToList())
+            {
+                await scheduleRepository.Remove(item.Id);
+            }
 
             for (int i = 1; i < testRecordCount; i++)
             {

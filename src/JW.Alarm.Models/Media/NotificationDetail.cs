@@ -5,12 +5,10 @@ using System.Text;
 
 namespace JW.Alarm.Models
 {
-    public class NotificationDetail : IEntity
+    public class NotificationDetail 
     {
-        public long Id { get; set; }
         public long ScheduleId { get; set; }
         public DateTimeOffset NotificationTime { get; set; }
-
 
         [JsonIgnore]
         public PlayType PlayType => BookNumber > 0 ? PlayType.Bible : PlayType.Music;

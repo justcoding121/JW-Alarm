@@ -44,8 +44,10 @@ namespace JW.Alarm.Core.Uwp
                 e.PreviousExecutionState == ApplicationExecutionState.Terminated ||
                 e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
-                IocSetup.Initialize();
                 BootstrapHelper.VerifyBackgroundTasks();
+                IocSetup.Initialize();
+                BootstrapHelper.InitializeDatabase();
+
                 Task.Run(async () => await BootstrapHelper.VerifyMediaLookUpService());
                 IocSetup.Container.Resolve<ScheduleListViewModel>();
             }
@@ -90,7 +92,8 @@ namespace JW.Alarm.Core.Uwp
 
             if (IocSetup.Container == null)
             {
-                IocSetup.Initialize();
+                BootstrapHelper.InitializeDatabase();
+                IocSetup.Initialize();  
             }
 
             switch (args.TaskInstance.Task.Name)

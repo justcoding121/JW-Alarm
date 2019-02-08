@@ -24,7 +24,7 @@ namespace JW.Alarm.Services.UWP.Tests.Media
 
             var mediaService = new MediaService(indexService, storageService);
 
-            var tableStorage = new TableStorage(storageService);
+            var tableStorage = new TableStorage();
             var scheduleRepository = new ScheduleRepository(tableStorage);
 
             var name = $"Test Alarm";

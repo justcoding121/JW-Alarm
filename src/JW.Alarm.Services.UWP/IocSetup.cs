@@ -49,6 +49,8 @@
                                                             container.Resolve<IMediaCacheService>(),
                                                             container.Resolve<IAlarmService>()), isSingleton: true);
 
+            container.Register<ITableStorage>((x) => new TableStorage(), isSingleton: true);
+
             Container = container;
         }
     }

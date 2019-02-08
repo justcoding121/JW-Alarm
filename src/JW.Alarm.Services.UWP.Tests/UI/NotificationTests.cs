@@ -1,6 +1,7 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using JW.Alarm.Services.Uwp;
+using JW.Alarm.Services.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace JW.Alarm.Services.UWP.Tests.UI
         [TestMethod]
         public async Task Notification_Service_Smoke_Test()
         {
+            BootstrapHelper.InitializeDatabase();
+
             var storageService = new UwpStorageService();
             var downloadService = new FakeDownloadService();
 
@@ -30,7 +33,7 @@ namespace JW.Alarm.Services.UWP.Tests.UI
 
             var mediaService = new MediaService(indexService, storageService);
 
-            var tableStorage = new TableStorage(storageService);
+            var tableStorage = new TableStorage();
             var scheduleRepository = new ScheduleRepository(tableStorage);
 
             var playlistService = new PlaylistService(scheduleRepository, mediaService);
@@ -79,19 +82,15 @@ namespace JW.Alarm.Services.UWP.Tests.UI
             var track = await playlistService.NextTrack(schedule.Id);
 
             var notificationTime = DateTime.Now.AddSeconds(1);
-            var notificationDetail = new NotificationDetail()
-            {
-                NotificationTime = notificationTime,
-                TrackNumber = track.PlayDetail.TrackNumber
-            };
 
-            notificationService.Add(notificationDetail, "Test", "Body");
+
+            notificationService.Add(schedule.Id, notificationTime, "Test", "Body", null);
 
             await Task.Delay(2 * 1000);
 
             var history = ToastNotificationManager.History.GetHistory();
 
-            var notification = history.FirstOrDefault(x => x.Group == schedule.Id.ToString() && x.Tag == notificationDetail.Id.ToString());
+            var notification = history.FirstOrDefault(x => x.Group == schedule.Id.ToString());
 
             Assert.IsNotNull(notification);
         }

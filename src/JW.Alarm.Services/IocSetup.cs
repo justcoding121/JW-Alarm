@@ -11,8 +11,6 @@
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpClientHandler>()));
             container.Register((x) => new MediaIndexService(container.Resolve<IDownloadService>(), container.Resolve<IStorageService>()), isSingleton: true);
             container.Register((x) => new MediaService(container.Resolve<MediaIndexService>(), container.Resolve<IStorageService>()), isSingleton: true);
-         
-            container.Register<ITableStorage>((x) => new TableStorage(container.Resolve<IStorageService>()), isSingleton: true);
 
             container.Register<IMediaCacheService>((x) =>
                 new MediaCacheService(container.Resolve<IStorageService>(),

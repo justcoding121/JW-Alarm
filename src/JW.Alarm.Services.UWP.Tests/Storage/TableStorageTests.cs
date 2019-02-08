@@ -1,5 +1,7 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Uwp;
+using JW.Alarm.Services.Uwp.Helpers;
+using Microsoft.Data.Sqlite;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,12 @@ namespace JW.Alarm.Services.UWP.Tests.Storage
         [TestMethod]
         public async Task Uwp_Table_Storage_Smoke_Tests()
         {
+            initDatabase();
+
             var testRecordCount = 10;
 
             var storageService = new UwpStorageService();
-            var tableStorage = new TableStorage(storageService);
+            var tableStorage = new TableStorage();
 
             for (int i = 1; i < testRecordCount; i++)
             {
@@ -61,6 +65,23 @@ namespace JW.Alarm.Services.UWP.Tests.Storage
 
             records = (await tableStorage.ReadAll<TestEntity>()).ToList();
             Assert.AreEqual(0, records.Count);
+        }
+
+        private void initDatabase()
+        {
+            using (SqliteConnection db =
+                 new SqliteConnection("Filename=bibleAlarm.db"))
+            {
+                db.Open();
+
+                var tableCommand = "CREATE TABLE IF NOT " +
+                    $"EXISTS {typeof(TestEntity).Name} (id INTEGER PRIMARY KEY, " +
+                    "data text NOT NULL)";
+
+                SqliteCommand createTable = new SqliteCommand(tableCommand, db);
+
+                createTable.ExecuteReader();
+            }
         }
     }
 

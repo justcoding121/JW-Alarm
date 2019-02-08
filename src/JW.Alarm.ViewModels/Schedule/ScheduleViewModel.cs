@@ -166,7 +166,7 @@ namespace JW.Alarm.ViewModels
                 else
                 {
                     await alarmDbContext.Update(model);
-                    await alarmService.Update(model);
+                    alarmService.Update(model);
                 }
 
                 if (IsEnabled)

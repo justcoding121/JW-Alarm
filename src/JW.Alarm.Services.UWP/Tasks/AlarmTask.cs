@@ -43,7 +43,7 @@ namespace JW.Alarm.Services.Uwp.Tasks
                     })
                 .FirstOrDefault();
 
-                await playbackService.Play(int.Parse(toast.Group));
+                await playbackService.Play(long.Parse(toast.Group));
 
             }
 

@@ -1,6 +1,7 @@
 ﻿using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using JW.Alarm.Services.Uwp;
+using JW.Alarm.Services.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,21 @@ namespace JW.Alarm.Services.UWP.Tests.Media
         [TestMethod]
         public async Task Media_Cache_Service_Smoke_Test()
         {
+            BootstrapHelper.InitializeDatabase();
+
             var storageService = new UwpStorageService();
             var downloadService = new FakeDownloadService();
 
             var indexService = new MediaIndexService(downloadService, storageService);
 
             //intented async without Wait() for testing code below.
-            Task.Run(() => indexService.Verify());
+            var task = Task.Run(() => indexService.Verify());
 
             var mediaService = new MediaService(indexService, storageService);
 
             await mediaService.GetMelodyMusicReleases();
 
-            var tableStorage = new TableStorage(storageService);
+            var tableStorage = new TableStorage();
             var scheduleRepository = new ScheduleRepository(tableStorage);
 
             var name = $"Test Alarm";

@@ -38,7 +38,7 @@ namespace JW.Alarm.Services.UWP
         public async Task Play(long scheduleId)
         {
             //another alarm is already in effect
-            if(currentTrackDetail != null)
+            if (currentTrackDetail != null)
             {
                 return;
             }
@@ -55,6 +55,26 @@ namespace JW.Alarm.Services.UWP
             await this.alarmService.Snooze(currentTrackDetail.ScheduleId);
             currentTrackDetail = null;
         }
+
+        private async void trackChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        {
+            if (args.NewItem != null)
+            {
+                var playbackItem = args.NewItem;
+
+                var detail = playbackItem.Source.CustomProperties["playDetail"] as NotificationDetail;
+
+                if (currentTrackDetail != null)
+                {
+                    await playlistService.MarkTrackAsFinished(currentTrackDetail);
+                }
+
+                currentTrackDetail = detail;
+
+            }
+
+        }
+
 
         private MediaPlaybackList toPlaybackList(List<PlayItem> playItems)
         {
@@ -73,16 +93,6 @@ namespace JW.Alarm.Services.UWP
             return playbackList;
         }
 
-        private async void trackChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
-        {
-            var playbackItem = args.NewItem;
-
-            var detail = playbackItem.Source.CustomProperties["playDetail"] as NotificationDetail;
-
-            currentTrackDetail = detail;
-
-            await playlistService.MarkTrackAsFinished(detail);
-        }
 
         private MediaPlaybackItem toPlaybackItem(PlayItem playItem)
         {
