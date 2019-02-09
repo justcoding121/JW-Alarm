@@ -2,6 +2,9 @@
 using AudioLinkHarvester.Bible;
 using AudioLinkHarvester.Utility;
 using AudioLinkHarvestor.Utility;
+using Bible.Alarm.Audio.Links.Harvestor;
+using JW.Alarm.Services;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,16 +24,17 @@ namespace AudioLinkHarvester
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            deleteDirectory(DirectoryHelper.IndexDirectory);
+
+            //deleteDirectory(DirectoryHelper.IndexDirectory);
 
             var tasks = new List<Task>();
 
-            //Bible
+            ////Bible
             tasks.Add(BibleHarvester.Harvest_Bible_Links());
 
-            //Music
-            tasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
-            tasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
+            ////Music
+            //tasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
+            //tasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
 
             Task.WaitAll(tasks.ToArray());
 
@@ -47,20 +51,9 @@ namespace AudioLinkHarvester
 
             File.WriteAllText(indexFile, JsonConvert.SerializeObject(index));
 
-            ZipFiles(index.ReleaseDate);
-
+            DbSeeder.Seed($"{DirectoryHelper.IndexDirectory}/media").Wait();
         }
 
-        private static void ZipFiles(long ticks)
-        {
-            var zipIndex = $"{DirectoryHelper.IndexDirectory}/index.zip";
-            if (File.Exists(zipIndex))
-            {
-                File.Delete(zipIndex);
-            }
-
-            ZipFile.CreateFromDirectory($"{DirectoryHelper.IndexDirectory}/media", zipIndex);
-        }
 
         /// <summary>
         /// Depth-first recursive delete, with handling for descendant 

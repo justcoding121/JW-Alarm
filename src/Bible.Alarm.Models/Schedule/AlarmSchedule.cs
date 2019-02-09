@@ -27,9 +27,10 @@ namespace JW.Alarm.Models
         [JsonIgnore]
         public string CronExpression => getCronExpression();
 
-        public bool MusicEnabled { get; set; } = true;
+        public bool MusicEnabled { get; set; }
         public AlarmMusic Music { get; set; }
 
+        public int BibleReadingScheduleId { get; set; }
         public BibleReadingSchedule BibleReadingSchedule { get; set; }
 
         public int SnoozeMinutes { get; set; } = 5;
@@ -69,10 +70,9 @@ namespace JW.Alarm.Models
 
         private string getCronExpression()
         {
-            throw new NotImplementedException();
-            //string days = string.Join(",", DaysOfWeek.Select(x => (int)x + 1).OrderBy(x => x));
-            //var expression = new CronExpression($"{Second} {Minute} {Hour} ? * {days}");
-            //return expression.CronExpressionString;
+            string days = string.Join(",", DaysOfWeek.ToList().OrderBy(x => x));
+            var expression = new CronExpression($"{Second} {Minute} {Hour} ? * {days}");
+            return expression.CronExpressionString;
         }
 
         private void validateTime()

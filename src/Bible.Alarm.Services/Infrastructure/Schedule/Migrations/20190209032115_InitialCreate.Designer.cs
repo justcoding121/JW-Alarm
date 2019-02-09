@@ -2,14 +2,16 @@
 using JW.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JW.Alarm.Services.Migrations
+namespace Bible.Alarm.Services.Infrastructure.Schedule.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    partial class ScheduleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190209032115_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +47,8 @@ namespace JW.Alarm.Services.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("BibleReadingScheduleId");
+
                     b.Property<int>("CurrentPlayItem");
 
                     b.Property<int>("DaysOfWeek");
@@ -65,6 +69,8 @@ namespace JW.Alarm.Services.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BibleReadingScheduleId");
+
                     b.ToTable("AlarmSchedules");
                 });
 
@@ -72,8 +78,6 @@ namespace JW.Alarm.Services.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AlarmScheduleId");
 
                     b.Property<int>("BookNumber");
 
@@ -85,10 +89,7 @@ namespace JW.Alarm.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlarmScheduleId")
-                        .IsUnique();
-
-                    b.ToTable("BibleReadingSchedule");
+                    b.ToTable("BibleReadingSchedules");
                 });
 
             modelBuilder.Entity("JW.Alarm.Models.AlarmMusic", b =>
@@ -99,11 +100,11 @@ namespace JW.Alarm.Services.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JW.Alarm.Models.BibleReadingSchedule", b =>
+            modelBuilder.Entity("JW.Alarm.Models.AlarmSchedule", b =>
                 {
-                    b.HasOne("JW.Alarm.Models.AlarmSchedule", "AlarmSchedule")
-                        .WithOne("BibleReadingSchedule")
-                        .HasForeignKey("JW.Alarm.Models.BibleReadingSchedule", "AlarmScheduleId")
+                    b.HasOne("JW.Alarm.Models.BibleReadingSchedule", "BibleReadingSchedule")
+                        .WithMany("AlarmSchedules")
+                        .HasForeignKey("BibleReadingScheduleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

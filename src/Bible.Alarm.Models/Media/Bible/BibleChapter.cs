@@ -5,12 +5,18 @@ namespace JW.Alarm.Models
 {
     public class BibleChapter : IComparable
     {
+        public int Id { get; set; }
+
         public int Number { get; set; }
         [JsonIgnore]
         public string Title => $"Chapter {Number}";
+
         public string Url { get; set; }
         public TimeSpan Duration { get; set; }
 
+        public int BibleBookId { get; set; }
+        public BibleBook Book { get; set; }
+  
         public int CompareTo(object obj)
         {
             return Number.CompareTo((obj as BibleChapter).Number);
