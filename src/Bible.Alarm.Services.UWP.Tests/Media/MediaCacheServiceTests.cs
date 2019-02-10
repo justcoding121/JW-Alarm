@@ -31,14 +31,21 @@ namespace JW.Alarm.Services.UWP.Tests.Media
 
             await mediaService.GetMelodyMusicReleases();
 
-            var tableStorage = new TableStorage();
-            var scheduleRepository = new ScheduleRepository(tableStorage);
+            var db = new ScheduleDbContext();
+            db.Database.EnsureCreated();
 
             var name = $"Test Alarm";
             var newRecord = new AlarmSchedule()
             {
                 Name = name,
-                DaysOfWeek = new HashSet<DayOfWeek>(new[] { DayOfWeek.Sunday, DayOfWeek.Monday }),
+                DaysOfWeek =
+                    DaysOfWeek.Sunday |
+                    DaysOfWeek.Monday |
+                    DaysOfWeek.Tuesday |
+                    DaysOfWeek.Wednesday |
+                    DaysOfWeek.Thursday |
+                    DaysOfWeek.Friday |
+                    DaysOfWeek.Saturday,
                 Hour = 10,
                 Minute = 30,
                 IsEnabled = true,
@@ -59,9 +66,10 @@ namespace JW.Alarm.Services.UWP.Tests.Media
                 }
             };
 
-            await scheduleRepository.Add(newRecord);
+            db.AlarmSchedules.Add(newRecord);
+            db.SaveChanges();
 
-            var playlistService = new PlaylistService(scheduleRepository, mediaService);
+            var playlistService = new PlaylistService(db, mediaService);
 
             var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);
 

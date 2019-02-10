@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("JW.Alarm.Services.UWP.Tests")]
+[assembly: AssemblyTitle("Bible.Alarm.Services.UWP.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JW.Alarm.Services.UWP.Tests")]
+[assembly: AssemblyProduct("Bible.Alarm.Services.UWP.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

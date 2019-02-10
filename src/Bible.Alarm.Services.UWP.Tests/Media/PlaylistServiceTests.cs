@@ -24,14 +24,22 @@ namespace JW.Alarm.Services.UWP.Tests.Media
 
             var mediaService = new MediaService(indexService, storageService);
 
-            var tableStorage = new TableStorage();
-            var scheduleRepository = new ScheduleRepository(tableStorage);
+
+            var db = new ScheduleDbContext();
+            db.Database.EnsureCreated();
 
             var name = $"Test Alarm";
             var newRecord = new AlarmSchedule()
             {
                 Name = name,
-                DaysOfWeek = new HashSet<DayOfWeek>(new[] { DayOfWeek.Sunday, DayOfWeek.Monday }),
+                DaysOfWeek =
+                    DaysOfWeek.Sunday |
+                    DaysOfWeek.Monday |
+                    DaysOfWeek.Tuesday |
+                    DaysOfWeek.Wednesday |
+                    DaysOfWeek.Thursday |
+                    DaysOfWeek.Friday |
+                    DaysOfWeek.Saturday,
                 Hour = 10,
                 Minute = 30,
                 IsEnabled = true,
@@ -52,9 +60,10 @@ namespace JW.Alarm.Services.UWP.Tests.Media
                 }
             };
 
-            await scheduleRepository.Add(newRecord);
+            db.AlarmSchedules.Add(newRecord);
+            db.SaveChanges();
 
-            var playlistService = new PlaylistService(scheduleRepository, mediaService);
+            var playlistService = new PlaylistService(db, mediaService);
 
             var track = await playlistService.NextTrack(newRecord.Id);
             var tracks = await playlistService.NextTracks(newRecord.Id, TimeSpan.FromHours(1));
@@ -62,7 +71,7 @@ namespace JW.Alarm.Services.UWP.Tests.Media
             Assert.IsTrue(tracks.Count > 0);
             Assert.AreEqual(track.Url, tracks[0].Url);
 
-            await scheduleRepository.Update(newRecord);
+            db.SaveChanges();
 
             track = await playlistService.NextTrack(newRecord.Id);
             tracks = await playlistService.NextTracks(newRecord.Id, TimeSpan.FromHours(1));

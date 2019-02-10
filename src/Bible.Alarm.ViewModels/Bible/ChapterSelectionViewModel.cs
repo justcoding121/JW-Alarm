@@ -213,8 +213,8 @@ namespace JW.Alarm.ViewModels
         public int Number => chapter.Number;
 
         public string Title => chapter.Title;
-        public string Url => chapter.Url;
-        public TimeSpan Duration => chapter.Duration;
+        public string Url => chapter.Source.Url;
+        public TimeSpan Duration => chapter.Source.Duration;
 
         private bool play;
         public bool Play

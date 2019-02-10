@@ -60,9 +60,9 @@ namespace JW.Alarm.Services
                 ScheduleId = currentTrack.ScheduleId,
                 BookNumber = bookNumber,
                 ChapterNumber = chapter,
-                Duration = bibleTrack.Duration
+                Duration = bibleTrack.Source.Duration
 
-            }, bibleTrack.Duration, bibleTrack.Url);
+            }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
         }
 
         public async Task MarkTrackAsFinished(NotificationDetail trackDetail)
@@ -107,8 +107,8 @@ namespace JW.Alarm.Services
 
             var chapterDetail = chapters[chapter];
 
-            var url = chapterDetail.Url;
-            var trackDuration = chapterDetail.Duration;
+            var url = chapterDetail.Source.Url;
+            var trackDuration = chapterDetail.Source.Duration;
 
             while (duration.TotalSeconds > 0)
             {
@@ -129,8 +129,8 @@ namespace JW.Alarm.Services
 
                 bookNumber = next.Key.Number;
                 chapter = next.Value.Number;
-                trackDuration = next.Value.Duration;
-                url = next.Value.Url;
+                trackDuration = next.Value.Source.Duration;
+                url = next.Value.Source.Url;
             }
 
             return result;
@@ -178,8 +178,8 @@ namespace JW.Alarm.Services
                     {
                         ScheduleId = schedule.Id,
                         TrackNumber = melodyTrack.Number,
-                        Duration = melodyTrack.Duration,
-                    }, melodyTrack.Duration, melodyTrack.Url);
+                        Duration = melodyTrack.Source.Duration,
+                    }, melodyTrack.Source.Duration, melodyTrack.Source.Url);
 
                 case MusicType.Vocals:
                     var vocalMusic = schedule.Music;
@@ -189,8 +189,8 @@ namespace JW.Alarm.Services
                     {
                         ScheduleId = schedule.Id,
                         TrackNumber = vocalTrack.Number,
-                        Duration = vocalTrack.Duration
-                    }, vocalTrack.Duration, vocalTrack.Url);
+                        Duration = vocalTrack.Source.Duration
+                    }, vocalTrack.Source.Duration, vocalTrack.Source.Url);
 
                 default:
                     throw new ApplicationException("Invalid MusicType.");
@@ -206,9 +206,9 @@ namespace JW.Alarm.Services
                 ScheduleId = scheduleId,
                 BookNumber = bibleReadingSchedule.BookNumber,
                 ChapterNumber = bibleReadingSchedule.ChapterNumber,
-                Duration = bibleTrack.Duration
+                Duration = bibleTrack.Source.Duration
 
-            }, bibleTrack.Duration, bibleTrack.Url);
+            }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
         }
     }
 }

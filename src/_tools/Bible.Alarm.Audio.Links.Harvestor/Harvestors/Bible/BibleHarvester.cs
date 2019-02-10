@@ -53,10 +53,7 @@ namespace AudioLinkHarvester.Bible
                     {
                         languageCodeToEditionsMapping[languageCode] = new List<string>(new[] { publication.Key });
                     }
-                    break;
                 }
-
-                break;
             }
 
             if (!Directory.Exists($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible"))

@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{FBE9353E-F541-4AC6-A753-31615633E246}</ProjectGuid>
+    <ProjectGuid>{0D010415-8CC9-4D7D-9AD2-20DE47CEF723}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bible.Alarm.Services.UWP.Tests</RootNamespace>
     <AssemblyName>Bible.Alarm.Services.UWP.Tests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -123,14 +123,12 @@
     <Compile Include="Media\MediaServiceTests.cs" />
     <Compile Include="Media\PlaylistServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ScheduleRepositoryTests.cs" />
     <Compile Include="Scheduler\AlarmServiceTests.cs" />
-    <Compile Include="Storage\TableStorageTests.cs" />
+    <Compile Include="Storage\StorageServiceTest.cs" />
     <Compile Include="UI\NotificationTests.cs" />
     <Compile Include="UnitTestApp.xaml.cs">
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Storage\StorageServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="UnitTestApp.xaml">
@@ -142,22 +140,25 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Media\Alarm_Sample.mp3" />
-    <Content Include="Assets\Media\index.zip" />
+    <Content Include="..\_tools\_index\index.zip">
+      <Link>Assets\index.zip</Link>
+    </Content>
     <None Include="Bible.Alarm.Services.UWP.Tests_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Media\1.5-second-silence.mp3" />
+    <Content Include="Properties\UnitTestApp.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Properties\UnitTestApp.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+      <Version>3.0.0-preview.19074.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
     </PackageReference>
@@ -182,12 +183,16 @@
       <Name>Bible.Alarm.Services.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bible.Alarm.Services.UWP\Bible.Alarm.Services.UWP.csproj">
-      <Project>{f59eccee-2853-4288-aea3-3cd8a580957f}</Project>
+      <Project>{F59ECCEE-2853-4288-AEA3-3CD8A580957F}</Project>
       <Name>Bible.Alarm.Services.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bible.Alarm.Services\Bible.Alarm.Services.csproj">
       <Project>{385dd86e-59c5-4f19-9043-4461a7057d01}</Project>
       <Name>Bible.Alarm.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bible.Alarm.ViewModels\Bible.Alarm.ViewModels.csproj">
+      <Project>{a5998e96-80a5-4fac-b828-99a5ab409cab}</Project>
+      <Name>Bible.Alarm.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -16,6 +16,20 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0-preview.19074.3");
 
+            modelBuilder.Entity("JW.Alarm.Models.AudioSource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<TimeSpan>("Duration");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AudioSource");
+                });
+
             modelBuilder.Entity("JW.Alarm.Models.BibleBook", b =>
                 {
                     b.Property<int>("Id")
@@ -41,15 +55,15 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
 
                     b.Property<int>("BibleBookId");
 
-                    b.Property<TimeSpan>("Duration");
-
                     b.Property<int>("Number");
 
-                    b.Property<string>("Url");
+                    b.Property<int?>("SourceId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BibleBookId");
+
+                    b.HasIndex("SourceId");
 
                     b.ToTable("BibleChapter");
                 });
@@ -61,11 +75,15 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
 
                     b.Property<string>("Code");
 
+                    b.Property<int>("DisplayLanguageId");
+
                     b.Property<int>("LanguageId");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DisplayLanguageId");
 
                     b.HasIndex("LanguageId");
 
@@ -86,46 +104,70 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("JW.Alarm.Models.MusicTrack", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<TimeSpan>("Duration");
-
-                    b.Property<int>("Number");
-
-                    b.Property<int>("SongBookId");
-
-                    b.Property<string>("Title");
-
-                    b.Property<string>("Url");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SongBookId");
-
-                    b.ToTable("MusicTrack");
-                });
-
-            modelBuilder.Entity("JW.Alarm.Models.SongBook", b =>
+            modelBuilder.Entity("JW.Alarm.Models.MelodyMusic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Code");
 
-                    b.Property<int>("LanguageId");
-
-                    b.Property<int>("MusicType");
+                    b.Property<int>("DisplayLanguageId");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DisplayLanguageId");
+
+                    b.ToTable("MelodyMusic");
+                });
+
+            modelBuilder.Entity("JW.Alarm.Models.MusicTrack", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MelodyMusicId");
+
+                    b.Property<int>("Number");
+
+                    b.Property<int?>("SourceId");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int?>("VocalMusicId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MelodyMusicId");
+
+                    b.HasIndex("SourceId");
+
+                    b.HasIndex("VocalMusicId");
+
+                    b.ToTable("MusicTrack");
+                });
+
+            modelBuilder.Entity("JW.Alarm.Models.VocalMusic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code");
+
+                    b.Property<int>("DisplayLanguageId");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DisplayLanguageId");
+
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("SongBooks");
+                    b.ToTable("VocalMusic");
                 });
 
             modelBuilder.Entity("JW.Alarm.Models.BibleBook", b =>
@@ -142,26 +184,55 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
                         .WithMany("Chapters")
                         .HasForeignKey("BibleBookId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("JW.Alarm.Models.AudioSource", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId");
                 });
 
             modelBuilder.Entity("JW.Alarm.Models.BibleTranslation", b =>
                 {
+                    b.HasOne("JW.Alarm.Models.Language", "DisplayLanguage")
+                        .WithMany()
+                        .HasForeignKey("DisplayLanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("JW.Alarm.Models.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JW.Alarm.Models.MusicTrack", b =>
+            modelBuilder.Entity("JW.Alarm.Models.MelodyMusic", b =>
                 {
-                    b.HasOne("JW.Alarm.Models.SongBook", "SongBook")
-                        .WithMany("Tracks")
-                        .HasForeignKey("SongBookId")
+                    b.HasOne("JW.Alarm.Models.Language", "DisplayLanguage")
+                        .WithMany()
+                        .HasForeignKey("DisplayLanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("JW.Alarm.Models.SongBook", b =>
+            modelBuilder.Entity("JW.Alarm.Models.MusicTrack", b =>
                 {
+                    b.HasOne("JW.Alarm.Models.MelodyMusic")
+                        .WithMany("Tracks")
+                        .HasForeignKey("MelodyMusicId");
+
+                    b.HasOne("JW.Alarm.Models.AudioSource", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId");
+
+                    b.HasOne("JW.Alarm.Models.VocalMusic")
+                        .WithMany("Tracks")
+                        .HasForeignKey("VocalMusicId");
+                });
+
+            modelBuilder.Entity("JW.Alarm.Models.VocalMusic", b =>
+                {
+                    b.HasOne("JW.Alarm.Models.Language", "DisplayLanguage")
+                        .WithMany()
+                        .HasForeignKey("DisplayLanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("JW.Alarm.Models.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId")

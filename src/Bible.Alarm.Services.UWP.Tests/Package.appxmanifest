@@ -1,29 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
-  <Identity Name="9a960249-ffa3-4ddb-9592-6422f6e12959" Publisher="CN=Jehonathan" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="9a960249-ffa3-4ddb-9592-6422f6e12959" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  IgnorableNamespaces="uap mp">
+
+  <Identity Name="ed1827d5-768d-459b-9800-5007c5517949"
+            Publisher="CN=Jehonathan"
+            Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="ed1827d5-768d-459b-9800-5007c5517949" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
   <Properties>
-    <DisplayName>JW.Alarm.Services.UWP.Tests</DisplayName>
+    <DisplayName>Bible.Alarm.Services.UWP.Tests</DisplayName>
     <PublisherDisplayName>Jehonathan</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
+
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
+
   <Resources>
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="vstest.executionengine.universal.App" Executable="$targetnametoken$.exe" EntryPoint="JW.Alarm.Services.UWP.Tests.App">
-      <uap:VisualElements DisplayName="JW.Alarm.Services.UWP.Tests" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="JW.Alarm.Services.UWP.Tests" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
-        </uap:DefaultTile>
+    <Application Id="vstest.executionengine.universal.App"
+        Executable="$targetnametoken$.exe"
+        EntryPoint="Bible.Alarm.Services.UWP.Tests.App">
+      <uap:VisualElements
+        DisplayName="Bible.Alarm.Services.UWP.Tests"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
+        Description="Bible.Alarm.Services.UWP.Tests"
+        BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
-    <Capability Name="internetClient" />
-    <uap3:Capability Name="backgroundMediaPlayback" />
+    <Capability Name="internetClientServer" />
+    <Capability Name="privateNetworkClientServer" />
   </Capabilities>
 </Package>

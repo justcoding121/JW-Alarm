@@ -20,11 +20,13 @@ namespace JW.Alarm.Services
         public DbSet<AlarmSchedule> AlarmSchedules { get; set; }
         public DbSet<BibleReadingSchedule> BibleReadingSchedules { get; set; }
 
-#if DEBUG
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=bibleAlarm.db");
+            //only for seed migration
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=bibleAlarm.db");
+            }
         }
-#endif
     }
 }

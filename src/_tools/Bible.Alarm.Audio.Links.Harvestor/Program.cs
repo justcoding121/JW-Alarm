@@ -24,17 +24,16 @@ namespace AudioLinkHarvester
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-
-            //deleteDirectory(DirectoryHelper.IndexDirectory);
+            deleteDirectory(DirectoryHelper.IndexDirectory);
 
             var tasks = new List<Task>();
 
-            ////Bible
+            //////Bible
             tasks.Add(BibleHarvester.Harvest_Bible_Links());
 
-            ////Music
-            //tasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
-            //tasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
+            //////Music
+            tasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
+            tasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
 
             Task.WaitAll(tasks.ToArray());
 
@@ -51,9 +50,21 @@ namespace AudioLinkHarvester
 
             File.WriteAllText(indexFile, JsonConvert.SerializeObject(index));
 
-            DbSeeder.Seed($"{DirectoryHelper.IndexDirectory}/media").Wait();
+            DbSeeder.Seed($"{DirectoryHelper.IndexDirectory}").Wait();
+
+            zipFiles();
         }
 
+        private static void zipFiles()
+        {
+            var zipIndex = $"{DirectoryHelper.IndexDirectory}/index.zip";
+            if (File.Exists(zipIndex))
+            {
+                File.Delete(zipIndex);
+            }
+
+            ZipFile.CreateFromDirectory($"{Path.Combine(DirectoryHelper.IndexDirectory, "db")}", zipIndex);
+        }
 
         /// <summary>
         /// Depth-first recursive delete, with handling for descendant 

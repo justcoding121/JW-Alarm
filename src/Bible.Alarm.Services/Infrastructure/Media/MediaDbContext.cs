@@ -12,20 +12,26 @@ namespace JW.Alarm.Services
     {
         public MediaDbContext() { }
 
-        public MediaDbContext(DbContextOptions<ScheduleDbContext> options)
+        public MediaDbContext(DbContextOptions<MediaDbContext> options)
             : base(options)
         {
         }
 
         public DbSet<Language> Languages { get; set; }
-        public DbSet<BibleTranslation> BibleTranslations { get; set; }
-        public DbSet<SongBook> SongBooks { get; set; }
 
-#if DEBUG
+        public DbSet<BibleTranslation> BibleTranslations { get; set; }
+
+        public DbSet<MelodyMusic> MelodyMusic { get; set; }
+        public DbSet<VocalMusic> VocalMusic { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=mediaIndex.db");
+            //only for seed migration
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=mediaIndex.db");
+            }
         }
-#endif
+
     }
 }

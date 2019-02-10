@@ -11,8 +11,7 @@ namespace JW.Alarm.Models
         [JsonIgnore]
         public string Title => $"Chapter {Number}";
 
-        public string Url { get; set; }
-        public TimeSpan Duration { get; set; }
+        public AudioSource Source { get; set; }
 
         public int BibleBookId { get; set; }
         public BibleBook Book { get; set; }

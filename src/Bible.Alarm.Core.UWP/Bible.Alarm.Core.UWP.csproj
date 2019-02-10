@@ -138,8 +138,9 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\Media\1.5-second-silence.mp3" />
-    <Content Include="Assets\Media\Alarm_Sample.mp3" />
-    <Content Include="Assets\Media\index.zip" />
+    <Content Include="..\_tools\_index\index.zip">
+      <Link>Assets\Media\index.zip</Link>
+    </Content>
     <None Include="Bible.Alarm.Core.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

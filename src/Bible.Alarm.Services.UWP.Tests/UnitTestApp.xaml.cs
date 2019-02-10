@@ -1,5 +1,4 @@
-﻿using JW.Alarm.Services.Uwp.Helpers;
-using JW.Alarm.Services.UWP.Tests.Scheduler;
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace JW.Alarm.Services.UWP.Tests
+namespace Bible.Alarm.Services.UWP.Tests
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -48,6 +47,7 @@ namespace JW.Alarm.Services.UWP.Tests
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -83,9 +83,9 @@ namespace JW.Alarm.Services.UWP.Tests
 
             switch (args.TaskInstance.Task.Name)
             {
-                case "AlarmTask":
-                    AlarmServiceTests.Actor.Handle(args.TaskInstance);
-                    break;
+                //case "AlarmTask":
+                //    AlarmServiceTests.Actor.Handle(args.TaskInstance);
+                //    break;
 
             }
         }

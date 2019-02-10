@@ -36,20 +36,20 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
 
             var mediaService = new MediaService(indexService, storageService);
 
-            var tableStorage = new TableStorage();
-            var scheduleRepository = new ScheduleRepository(tableStorage);
+            var db = new ScheduleDbContext();
+            db.Database.EnsureCreated();
 
-            var playlistService = new PlaylistService(scheduleRepository, mediaService);
+            var playlistService = new PlaylistService(db, mediaService);
             var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);
             var notificationService = new UwpNotificationService(mediaCacheService);
 
-            var alarmService = new UwpAlarmService(notificationService, playlistService, mediaCacheService, scheduleRepository);
+            var alarmService = new UwpAlarmService(notificationService, playlistService, mediaCacheService, db);
 
             var player = new MediaPlayer();
             player.AutoPlay = false;
 
             var playbackService = new PlaybackService(player, playlistService, mediaCacheService, alarmService);
-            Actor = new NotificationTaskActor(alarmService, notificationService, scheduleRepository, playbackService);
+            Actor = new NotificationTaskActor(playbackService);
 
             var name = $"Test Alarm";
             var alarmTime = DateTime.Now.AddSeconds(3);
@@ -57,15 +57,14 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
             var schedule = new AlarmSchedule()
             {
                 Name = name,
-                DaysOfWeek = new HashSet<DayOfWeek>(new[] {
-                    DayOfWeek.Sunday,
-                    DayOfWeek.Monday,
-                    DayOfWeek.Tuesday,
-                    DayOfWeek.Wednesday,
-                    DayOfWeek.Thursday,
-                    DayOfWeek.Friday,
-                    DayOfWeek.Saturday
-                }),
+                DaysOfWeek =
+                    DaysOfWeek.Sunday |
+                    DaysOfWeek.Monday |
+                    DaysOfWeek.Tuesday |
+                    DaysOfWeek.Wednesday |
+                    DaysOfWeek.Thursday |
+                    DaysOfWeek.Friday |
+                    DaysOfWeek.Saturday,
                 Hour = alarmTime.Hour,
                 Minute = alarmTime.Minute,
                 Second = alarmTime.Second,
@@ -87,7 +86,9 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
                 }
             };
 
-            await scheduleRepository.Add(schedule);
+            db.AlarmSchedules.Add(schedule);
+            db.SaveChanges();
+
             await alarmService.Create(schedule);
 
             await Actor.TaskCompletionSource.Task;
@@ -97,21 +98,12 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
 
         public class NotificationTaskActor
         {
-            private IAlarmService alarmService;
-            private INotificationService notificationService;
-            private IScheduleRepository scheduleDbContext;
             private IPlaybackService playbackService;
 
             public TaskCompletionSource<bool> TaskCompletionSource = new TaskCompletionSource<bool>();
 
-            public NotificationTaskActor(IAlarmService alarmService,
-                INotificationService notificationService,
-                IScheduleRepository scheduleDbContext,
-                IPlaybackService playbackService)
+            public NotificationTaskActor(IPlaybackService playbackService)
             {
-                this.alarmService = alarmService;
-                this.notificationService = notificationService;
-                this.scheduleDbContext = scheduleDbContext;
                 this.playbackService = playbackService;
             }
 

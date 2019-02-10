@@ -32,11 +32,8 @@ namespace JW.Alarm.Services.UWP.Tests.UI
             await indexService.Verify();
 
             var mediaService = new MediaService(indexService, storageService);
-
-            var tableStorage = new TableStorage();
-            var scheduleRepository = new ScheduleRepository(tableStorage);
-
-            var playlistService = new PlaylistService(scheduleRepository, mediaService);
+            var db = new ScheduleDbContext();
+            var playlistService = new PlaylistService(db, mediaService);
             var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);
             var notificationService = new UwpNotificationService(mediaCacheService);
 
@@ -46,15 +43,14 @@ namespace JW.Alarm.Services.UWP.Tests.UI
             var schedule = new AlarmSchedule()
             {
                 Name = name,
-                DaysOfWeek = new HashSet<DayOfWeek>(new[] {
-                    DayOfWeek.Sunday,
-                    DayOfWeek.Monday,
-                    DayOfWeek.Tuesday,
-                    DayOfWeek.Wednesday,
-                    DayOfWeek.Thursday,
-                    DayOfWeek.Friday,
-                    DayOfWeek.Saturday
-                }),
+                DaysOfWeek =
+                    DaysOfWeek.Sunday |
+                    DaysOfWeek.Monday |
+                    DaysOfWeek.Tuesday |
+                    DaysOfWeek.Wednesday |
+                    DaysOfWeek.Thursday |
+                    DaysOfWeek.Friday |
+                    DaysOfWeek.Saturday,
                 Hour = alarmTime.Hour,
                 Minute = alarmTime.Minute,
                 Second = alarmTime.Second,
@@ -76,7 +72,9 @@ namespace JW.Alarm.Services.UWP.Tests.UI
                 }
             };
 
-            await scheduleRepository.Add(schedule);
+            db.AlarmSchedules.Add(schedule);
+            db.SaveChanges();
+
             await mediaCacheService.SetupAlarmCache(schedule.Id);
 
             var track = await playlistService.NextTrack(schedule.Id);
