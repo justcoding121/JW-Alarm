@@ -141,9 +141,7 @@
     <Content Include="..\_tools\_index\index.zip">
       <Link>Assets\Media\index.zip</Link>
     </Content>
-    <Content Include="Assets\Icons\Font Awesome 5 Brands-Regular-400.otf" />
-    <Content Include="Assets\Icons\Font Awesome 5 Free-Regular-400.otf" />
-    <Content Include="Assets\Icons\Font Awesome 5 Free-Solid-900.otf" />
+    <Content Include="Assets\Font Awesome 5 Free-Regular-400.otf" />
     <None Include="Bible.Alarm.Core.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
