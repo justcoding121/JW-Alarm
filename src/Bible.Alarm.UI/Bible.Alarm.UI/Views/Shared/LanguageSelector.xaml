@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bible.Alarm.UI.Views.Shared.LanguageSelector">
+    <ContentPage.Content>
+        <Grid BackgroundColor="WhiteSmoke">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" 
+                   Text="Languages" 
+                   Height="32"
+                   Font="Bold,18"
+                   Margin="10,2,2,2" 
+                   VerticalOptions="Fill">
+            </Label>
+
+            <BoxView HorizontalOptions="Fill" Color="Gray" Height="1" Grid.Row="1" />
+            <Grid HorizontalOptions="Fill" Grid.Row="2" Margin="2" BackgroundColor="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="65*"/>
+                    <ColumnDefinition Width="1411*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Orientation="Horizontal" Margin="5,0,0,0">
+                    <Label Text="&#xf002;" 
+                   FontSize="50"
+                   TextColor="SkyBlue"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center" >
+                        <Label.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <OnPlatform.Platforms>
+                                    <On Platform="iOS" Value="Font Awesome 5 Free" />
+                                    <On Platform="Android" Value="Font Awesome 5 Free-Regular-400.otf#Font Awesome 5 Free Regular" />
+                                    <On Platform="UWP" Value="Assets/Icons/Font Awesome 5 Free-Regular-400.otf#Font Awesome 5 Free" />
+                                </OnPlatform.Platforms>
+                            </OnPlatform>
+                        </Label.FontFamily>
+                    </Label>
+                </StackLayout>
+                <SearchBar Grid.Column="1" 
+                             Height="32"
+                             Placeholder="Search languages"
+                             VerticalOptions="Center"
+                             HorizontalTextAlignment="Start" 
+                             TextColor="Black"
+                             Margin="5,0,0,0"
+                             Text="{Binding LanguageSearchTerm, Mode=TwoWay}"
+                             Grid.ColumnSpan="2"/>
+
+            </Grid>
+            <ListView HorizontalOptions="Fill"
+                  BackgroundColor="White"
+                  x:Name="LanguageListView" 
+                  MinimumHeightRequest="300"
+                  MinimumWidthRequest="250"
+                  Grid.Row="3" 
+                  ItemsSource="{Binding Languages}" 
+                  ItemTapped="LanguageListView_ItemTapped"
+                  SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Label HorizontalOptions="Start"
+                               HorizontalTextAlignment="Start"
+                               Text="{Binding Name}"></Label>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="4" HorizontalOptions="Fill" 
+                VerticalOptions="Fill"
+                Height="32"
+                Margin="2"
+                TextColor="SlateBlue"
+                Font="Bold,18"
+                x:Name="CloseButton"
+                Clicked="CloseButton_Clicked"
+                Text="Close"></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

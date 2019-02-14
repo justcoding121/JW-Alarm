@@ -244,8 +244,6 @@ namespace Advanced.Algorithms.DataStructures.Foundation
 
     internal class SortedDictionaryEnumerator<K, V> : IEnumerator<KeyValuePair<K, V>> where K : IComparable
     {
-        private bool asc;
-
         private RedBlackTree<OrderedKeyValuePair<K, V>> bst;
         private IEnumerator<OrderedKeyValuePair<K, V>> enumerator;
 

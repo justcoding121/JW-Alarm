@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Core.UWP.Views.Bible;
 using JW.Alarm.Core.UWP.Views.Music;
+using JW.Alarm.Models;
 using JW.Alarm.ViewModels;
 using System;
 using Windows.UI.Xaml;
@@ -51,32 +52,31 @@ namespace JW.Alarm.Core.UWP
         {
             var button = sender as Button;
 
-            //switch (button.Name)
-            //{
-            //    case "Button_Sunday":
-            //        ViewModel.Toggle(DayOfWeek.Sunday);
-            //        break;
-            //    case "Button_Monday":
-            //        ViewModel.Toggle(DayOfWeek.Monday);
-            //        break;
-            //    case "Button_Tuesday":
-            //        ViewModel.Toggle(DayOfWeek.Tuesday);
-            //        break;
-            //    case "Button_Wednesday":
-            //        ViewModel.Toggle(DayOfWeek.Wednesday);
-            //        break;
-            //    case "Button_Thursday":
-            //        ViewModel.Toggle(DayOfWeek.Thursday);
-            //        break;
-            //    case "Button_Friday":
-            //        ViewModel.Toggle(DayOfWeek.Friday);
-            //        break;
-            //    case "Button_Saturday":
-            //        ViewModel.Toggle(DayOfWeek.Saturday);
-            //        break;
-            //}
+            switch (button.Name)
+            {
+                case "Button_Sunday":
+                    ViewModel.Toggle(DaysOfWeek.Sunday);
+                    break;
+                case "Button_Monday":
+                    ViewModel.Toggle(DaysOfWeek.Monday);
+                    break;
+                case "Button_Tuesday":
+                    ViewModel.Toggle(DaysOfWeek.Tuesday);
+                    break;
+                case "Button_Wednesday":
+                    ViewModel.Toggle(DaysOfWeek.Wednesday);
+                    break;
+                case "Button_Thursday":
+                    ViewModel.Toggle(DaysOfWeek.Thursday);
+                    break;
+                case "Button_Friday":
+                    ViewModel.Toggle(DaysOfWeek.Friday);
+                    break;
+                case "Button_Saturday":
+                    ViewModel.Toggle(DaysOfWeek.Saturday);
+                    break;
+            }
 
-            throw new NotImplementedException();
 
         }
 

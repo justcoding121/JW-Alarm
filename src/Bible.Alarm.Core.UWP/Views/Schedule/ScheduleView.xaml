@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:JW.Alarm.Core.UWP.Views.Converters"
-    xmlns:system="using:System"
+    xmlns:models="using:JW.Alarm.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -38,13 +38,13 @@
         </Grid>
         <Grid Grid.Row="1" VerticalAlignment="Top">
             <Grid.Resources>
-                <system:DayOfWeek x:Key="Sunday">Sunday</system:DayOfWeek>
-                <system:DayOfWeek x:Key="Monday">Monday</system:DayOfWeek>
-                <system:DayOfWeek x:Key="Tuesday">Tuesday</system:DayOfWeek>
-                <system:DayOfWeek x:Key="Wednesday">Wednesday</system:DayOfWeek>
-                <system:DayOfWeek x:Key="Thursday">Thursday</system:DayOfWeek>
-                <system:DayOfWeek x:Key="Friday">Friday</system:DayOfWeek>
-                <system:DayOfWeek x:Key="Saturday">Saturday</system:DayOfWeek>
+                <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
+                <models:DaysOfWeek x:Key="Monday">Monday</models:DaysOfWeek>
+                <models:DaysOfWeek x:Key="Tuesday">Tuesday</models:DaysOfWeek>
+                <models:DaysOfWeek x:Key="Wednesday">Wednesday</models:DaysOfWeek>
+                <models:DaysOfWeek x:Key="Thursday">Thursday</models:DaysOfWeek>
+                <models:DaysOfWeek x:Key="Friday">Friday</models:DaysOfWeek>
+                <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="211*"/>

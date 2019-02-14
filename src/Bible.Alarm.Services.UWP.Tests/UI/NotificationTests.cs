@@ -31,7 +31,8 @@ namespace JW.Alarm.Services.UWP.Tests.UI
             var indexService = new MediaIndexService(downloadService, storageService);
             await indexService.Verify();
 
-            var mediaService = new MediaService(indexService, storageService);
+            var mediaDbContext = new MediaDbContext();
+            var mediaService = new MediaService(indexService, mediaDbContext);
             var db = new ScheduleDbContext();
             var playlistService = new PlaylistService(db, mediaService);
             var mediaCacheService = new MediaCacheService(storageService, downloadService, playlistService);

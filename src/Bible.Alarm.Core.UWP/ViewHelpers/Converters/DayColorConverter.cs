@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JW.Alarm.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace JW.Alarm.Core.UWP.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var isEnabled = (value as HashSet<DayOfWeek>).Contains((DayOfWeek)parameter);
+            var isEnabled = ((DaysOfWeek)value & (DaysOfWeek)parameter) == (DaysOfWeek)parameter;
 
             return isEnabled ? new SolidColorBrush(Colors.Black) : new SolidColorBrush(Colors.Gray);
         }

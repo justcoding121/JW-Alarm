@@ -29,12 +29,13 @@ namespace JW.Alarm.Services.UWP.Tests.Scheduler
             BootstrapHelper.InitializeDatabase();
 
             var storageService = new UwpStorageService();
+            var mediaDbContext = new MediaDbContext();
             var downloadService = new FakeDownloadService();
 
             var indexService = new MediaIndexService(downloadService, storageService);
             await indexService.Verify();
 
-            var mediaService = new MediaService(indexService, storageService);
+            var mediaService = new MediaService(indexService, mediaDbContext);
 
             var db = new ScheduleDbContext();
             db.Database.EnsureCreated();

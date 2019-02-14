@@ -63,6 +63,7 @@ namespace JW.Alarm.Core.Uwp
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application

@@ -27,7 +27,7 @@ namespace JW.Alarm.Services
             this.downloadService = downloadService;
             this.storageService = storageService;
 
-            indexRoot = new Lazy<string>(() => Path.Combine(this.storageService.StorageRoot, "Media"));
+            indexRoot = new Lazy<string>(() => Path.Combine(this.storageService.StorageRoot));
         }
 
         private readonly SemaphoreSlim @lock = new SemaphoreSlim(1);
@@ -58,7 +58,7 @@ namespace JW.Alarm.Services
         {
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
 
-            return await storageService.DirectoryExists(IndexRoot)
+            return await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db"))
                 //verify that any previous unzipping process was not incomplete
                 && !await storageService.FileExists(tmpIndexFilePath);
 
@@ -66,11 +66,6 @@ namespace JW.Alarm.Services
 
         private async Task copyIndexFromResource()
         {
-            if (await storageService.DirectoryExists(IndexRoot))
-            {
-                await storageService.DeleteDirectory(IndexRoot);
-            }
-
             var indexResourceFile = "Assets/Media/index.zip";
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");

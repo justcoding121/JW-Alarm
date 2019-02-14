@@ -141,6 +141,9 @@
     <Content Include="..\_tools\_index\index.zip">
       <Link>Assets\Media\index.zip</Link>
     </Content>
+    <Content Include="Assets\Icons\Font Awesome 5 Brands-Regular-400.otf" />
+    <Content Include="Assets\Icons\Font Awesome 5 Free-Regular-400.otf" />
+    <Content Include="Assets\Icons\Font Awesome 5 Free-Solid-900.otf" />
     <None Include="Bible.Alarm.Core.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -233,9 +236,7 @@
       <Name>Bible.Alarm.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Icons\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

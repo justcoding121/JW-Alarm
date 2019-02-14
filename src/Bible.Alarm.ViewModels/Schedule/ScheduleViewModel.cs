@@ -161,6 +161,7 @@ namespace JW.Alarm.ViewModels
                 if (IsNewSchedule)
                 {
                     await scheduleDbContext.AddAsync(model);
+                    await scheduleDbContext.SaveChangesAsync();
                     await alarmService.Create(model);
                     IsNewSchedule = false;
                 }
