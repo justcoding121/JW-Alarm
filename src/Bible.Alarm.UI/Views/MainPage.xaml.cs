@@ -14,10 +14,8 @@ namespace Bible.Alarm.UI
     {
         public MainPage()
         {
-
             InitializeComponent();
-
-           
+       
             Messenger<bool>.Subscribe(Messages.Progress, (bool inProgress) =>
             {
                 if (inProgress)

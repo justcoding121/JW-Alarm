@@ -24,38 +24,14 @@ namespace Bible.Alarm.UI.UWP
         {
             this.InitializeComponent();
 
-            //customizeTitleBar();
-            //setColorDefaults();
+            customizeTitleBar();
+            setColorDefaults();
 
-            LoadApplication(new Bible.Alarm.UI.App());
+            LoadApplication(new UI.App());
         }
 
         private void customizeTitleBar()
         {
-            // customize title area
-            //CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
-            //var grid = new Grid()
-            //{
-            //    Height = 35
-            //};
-
-            //RowDefinition gridRow0 = new RowDefinition();
-            //gridRow0.Height = new GridLength(45);
-
-            //grid.RowDefinitions.Add(gridRow0);
-
-            //var textBlock = new TextBlock();
-            //textBlock.Text = "Bible Alarm";
-            //textBlock.Foreground = new SolidColorBrush(Colors.White);
-            //textBlock.VerticalAlignment = VerticalAlignment.Center;
-            //textBlock.Margin = new Thickness(12, 0, 0, 0);
-
-            //grid.Children.Add(textBlock);
-            //Grid.SetRow(textBlock, 0);
-
-            //Window.Current.SetTitleBar(grid);
-
             // customize buttons' colors
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Colors.SlateBlue;
