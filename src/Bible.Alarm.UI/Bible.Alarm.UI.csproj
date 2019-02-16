@@ -20,4 +20,5 @@
     <ProjectReference Include="..\Bible.Alarm.Services\Bible.Alarm.Services.csproj" />
     <ProjectReference Include="..\Bible.Alarm.ViewModels\Bible.Alarm.ViewModels.csproj" />
   </ItemGroup>
+
 </Project>

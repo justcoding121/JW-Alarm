@@ -1,6 +1,7 @@
 ﻿
-using Bible.Alarm.UI.Views.Schedule;
+using Bible.Alarm.UI.Views;
 using JW.Alarm.Common.Mvvm;
+using JW.Alarm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace Bible.Alarm.UI
 {
     public partial class MainPage : ContentPage
     {
+        public ScheduleListViewModel ViewModel => BindingContext as ScheduleListViewModel;
+
         public MainPage()
         {
             InitializeComponent();
-       
+
             Messenger<bool>.Subscribe(Messages.Progress, (bool inProgress) =>
             {
                 if (inProgress)
@@ -31,12 +34,29 @@ namespace Bible.Alarm.UI
 
                 return Task.FromResult(false);
             });
+
+            BindingContext = IocSetup.Container.Resolve<ScheduleListViewModel>();
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            NavFrame.Content = new ScheduleList();
+        }
+
+        private async void AddScheduleButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Schedule()
+            {
+                BindingContext = new ScheduleViewModel()
+            });
+        }
+
+        private async void SchedulesListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushAsync(new Schedule()
+            {
+                BindingContext = new ScheduleViewModel((e.SelectedItem as ScheduleListItem).Schedule)
+            });
         }
     }
 }
