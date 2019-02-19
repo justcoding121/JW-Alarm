@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace JW.Alarm.Models
 {
-    public class AlarmSchedule : IEntity
+    public class AlarmSchedule : IEntity, IComparable
     {
         public int Id { get; set; }
 
@@ -20,7 +20,7 @@ namespace JW.Alarm.Models
         public Meridien Meridien => Hour < 12 ? Meridien.AM : Meridien.PM;
         public int Second { get; set; }
 
-        public DaysOfWeek DaysOfWeek { get; set; } 
+        public DaysOfWeek DaysOfWeek { get; set; }
 
         [JsonIgnore]
         public string TimeText => $"{MeridienHour.ToString("D2")}:{Minute.ToString("D2")} {Meridien}";
@@ -38,8 +38,11 @@ namespace JW.Alarm.Models
         //state
         public PlayType CurrentPlayItem { get; set; }
 
+
         public AlarmSchedule()
         {
+            DaysOfWeek = DaysOfWeek.All;
+
             Music = new AlarmMusic()
             {
                 MusicType = MusicType.Melodies,
@@ -102,6 +105,11 @@ namespace JW.Alarm.Models
             {
                 throw new Exception("Invalid alarm time.");
             }
+        }
+
+        public int CompareTo(object obj)
+        {
+            return Id.CompareTo((obj as AlarmSchedule).Id);
         }
     }
 

@@ -12,7 +12,8 @@ namespace JW.Alarm.Models
         Wednesday = 8,
         Thursday = 16,
         Friday = 32,
-        Saturday = 64
+        Saturday = 64,
+        All = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday
     }
 
     public static class DaysOfWeekExtensions
@@ -22,9 +23,14 @@ namespace JW.Alarm.Models
             var result = new List<int>();
 
             int day = 1;
-            foreach(var item in Enum.GetValues(typeof(DaysOfWeek)))
+            foreach (var item in Enum.GetValues(typeof(DaysOfWeek)))
             {
-                if((daysOfWeek & (DaysOfWeek)item) == (DaysOfWeek)item)
+                if ((DaysOfWeek)item == DaysOfWeek.All)
+                {
+                    continue;
+                }
+
+                if ((daysOfWeek & (DaysOfWeek)item) == (DaysOfWeek)item)
                 {
                     result.Add(day);
                 }

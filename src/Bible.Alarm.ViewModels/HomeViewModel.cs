@@ -7,19 +7,20 @@ using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Mvvmicro;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.ComponentModel;
-using System.Collections;
 using JW.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Bible.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
+using System.Reactive.Concurrency;
+using Bible.Alarm.ViewModels.Redux.Actions;
 
 namespace JW.Alarm.ViewModels
 {
-    public class HomeViewModel : ViewModel
+    public class HomeViewModel : ViewModel, IDisposable
     {
         private ScheduleDbContext scheduleDbContext;
         private IThreadService threadService;
@@ -35,20 +36,37 @@ namespace JW.Alarm.ViewModels
             this.navigationService = navigationService;
 
             AddScheduleCommand = new Command(async () =>
-           {
-               await navigationService.Navigate(new ScheduleViewModel());
-           });
+            {
+                var viewModel = new ScheduleViewModel();
+                ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
+                await navigationService.Navigate(viewModel);
+            });
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
             {
-                await navigationService.Navigate(new ScheduleViewModel(x.Schedule));
+                var viewModel = new ScheduleViewModel(x);
+                ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
+                await navigationService.Navigate(viewModel);
             });
+
+            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+               .DistinctUntilChanged(state => state.Schedules)
+               .Where(x => x.Schedules != null)
+               .Subscribe(x =>
+               {
+                   Schedules = x.Schedules;
+                   listenChange();
+               });
 
             Task.Run(() => initializeSchedulesAsync());
         }
 
-        private Dictionary<AlarmSchedule, ScheduleListItem> listMapping = new Dictionary<AlarmSchedule, ScheduleListItem>();
-        public ObservableHashSet<ScheduleListItem> Schedules { get; } = new ObservableHashSet<ScheduleListItem>();
+        private ObservableHashSet<ScheduleListItem> schedules;
+        public ObservableHashSet<ScheduleListItem> Schedules
+        {
+            get => schedules;
+            set => this.Set(ref schedules, value);
+        }
 
         private bool isBusy;
         public bool IsBusy
@@ -71,12 +89,46 @@ namespace JW.Alarm.ViewModels
 
         private async Task initializeSchedulesAsync()
         {
-            var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
-                               => new NotifyCollectionChangedEventHandler(ev),
-                                     ev => Schedules.CollectionChanged += ev,
-                                     ev => Schedules.CollectionChanged -= ev);
+            var alarmSchedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
 
-            var subscription = scheduleObservable
+            var initialSchedules = new ObservableHashSet<ScheduleListItem>();
+            foreach (var schedule in alarmSchedules)
+            {
+                initialSchedules.Add(new ScheduleListItem(schedule));
+            }
+            await threadService.RunOnUIThread(() =>
+            {
+                ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
+                IsBusy = false;
+            });
+        }
+
+        private void listenChange()
+        {
+            var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
+                            => new NotifyCollectionChangedEventHandler(ev),
+                                  ev => Schedules.CollectionChanged += ev,
+                                  ev => Schedules.CollectionChanged -= ev);
+
+            var existingChangedObservable = Schedules.Select(item =>
+            {
+                var removedObservable = scheduleObservable.Any(z =>
+                {
+                    var oldItem = z.EventArgs.OldItems?.Cast<ScheduleListItem>();
+                    return oldItem != null && oldItem.Any(removed => item == removed);
+                });
+
+                return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, ScheduleListItem>>(
+                               onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                             => onNextHandler(new KeyValuePair<string, ScheduleListItem>(e.PropertyName, (ScheduleListItem)sender)),
+                                               handler => item.PropertyChanged += handler,
+                                               handler => item.PropertyChanged -= handler)
+                                               .TakeUntil(removedObservable)
+                                               .Where(kv => kv.Key == "IsEnabled")
+                                               .Select(y => y.Value);
+            }).Merge();
+
+            var newChangedObservable = scheduleObservable
                                 .SelectMany(x =>
                                 {
                                     var newItems = x.EventArgs.NewItems?.Cast<ScheduleListItem>();
@@ -104,7 +156,9 @@ namespace JW.Alarm.ViewModels
                                     });
 
                                 })
-                                 .Merge()
+                                 .Merge();
+
+            var subcription = Observable.Merge(existingChangedObservable, newChangedObservable)
                                  .Do(async x => await threadService.RunOnUIThread(() =>
                                  {
                                      IsBusy = true;
@@ -120,61 +174,12 @@ namespace JW.Alarm.ViewModels
                                      IsBusy = false;
                                  }))
                                  .Subscribe();
-
-            var alarmSchedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
-
-            //alarmSchedules.CollectionChanged += async (s, e) =>
-            //{
-            //    await threadService.RunOnUIThread(() =>
-            //    {
-            //        switch (e.Action)
-            //        {
-            //            case NotifyCollectionChangedAction.Add:
-            //                add(e.NewItems);
-            //                break;
-            //            case NotifyCollectionChangedAction.Remove:
-            //                remove(e.OldItems);
-            //                break;
-            //        }
-            //    });
-            //};
-
-            await threadService.RunOnUIThread(() =>
-            {
-                foreach (var schedule in alarmSchedules)
-                {
-                    var listItem = new ScheduleListItem(schedule);
-                    listMapping.Add(schedule, listItem);
-                    Schedules.Add(listItem);
-                }
-            });
-
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = false;
-            });
         }
 
-        private void remove(IList oldItems)
+        public void Dispose()
         {
-            foreach (var newItem in oldItems)
-            {
-                var removed = ((KeyValuePair<long, AlarmSchedule>)newItem).Value;
-                Schedules.Remove(listMapping[removed]);
-                listMapping.Remove(removed);
-            }
+            scheduleDbContext.Dispose();
         }
-
-        private void add(IList newItems)
-        {
-            foreach (var newItem in newItems)
-            {
-                var listItem = new ScheduleListItem(((KeyValuePair<long, AlarmSchedule>)newItem).Value);
-                listMapping.Add(listItem.Schedule, listItem);
-                Schedules.Add(listItem);
-            }
-        }
-
     }
 
     public class ScheduleListItem : ViewModel, IComparable
@@ -206,6 +211,11 @@ namespace JW.Alarm.ViewModels
         public string Minute => Schedule.Minute.ToString("D2");
 
         public Meridien Meridien => Schedule.Meridien;
+
+        public void RaisePropertiesChangedEvent()
+        {
+            RaiseProperties(GetType().GetProperties().Select(x => x.Name).ToArray());
+        }
 
         public int CompareTo(object obj)
         {

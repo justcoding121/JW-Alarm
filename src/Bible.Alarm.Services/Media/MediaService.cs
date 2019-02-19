@@ -36,8 +36,9 @@ namespace JW.Alarm.Services
 
             var books = await dbContext.BibleTranslations.Where(x => x.Language.Code == languageCode)
                                                          .Where(x => x.Code == versionCode)
-                                                         .Select(x => x.Books)
-                                                         .FirstAsync();
+                                                         .SelectMany(x => x.Books)
+                                                         .OrderBy(x => x.Number)
+                                                         .ToListAsync();
 
             return new OrderedDictionary<int, BibleBook>(books.Select(x => new KeyValuePair<int, BibleBook>(x.Number, x)));
         }
@@ -53,6 +54,7 @@ namespace JW.Alarm.Services
                 .Where(x => x.Number == bookNumber)
                 .SelectMany(x => x.Chapters)
                 .Include(x => x.Source)
+                .OrderBy(x => x.Number)
                 .ToListAsync();
 
             return new OrderedDictionary<int, BibleChapter>(chapters.Select(x => new KeyValuePair<int, BibleChapter>(x.Number, x)));
@@ -73,6 +75,7 @@ namespace JW.Alarm.Services
                 .Where(x => x.Code == publicationCode)
                 .SelectMany(x => x.Tracks)
                 .Include(x => x.Source)
+                .OrderBy(x => x.Number)
                 .ToListAsync();
 
             return new OrderedDictionary<int, MusicTrack>(tracks.Select(x => new KeyValuePair<int, MusicTrack>(x.Number, x)));
@@ -102,6 +105,7 @@ namespace JW.Alarm.Services
                 .Where(x => x.Code == publicationCode)
                 .SelectMany(x => x.Tracks)
                 .Include(x => x.Source)
+                .OrderBy(x => x.Number)
                 .ToListAsync();
 
             return new OrderedDictionary<int, MusicTrack>(tracks.Select(x => new KeyValuePair<int, MusicTrack>(x.Number, x)));

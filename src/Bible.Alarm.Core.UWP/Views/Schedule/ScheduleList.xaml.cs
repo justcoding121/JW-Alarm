@@ -27,7 +27,6 @@ namespace JW.Alarm.Core.UWP.Views
             base.OnNavigatedTo(e);
         }
 
-        
         private void addScheduleButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(ScheduleView), new ScheduleViewModel());
@@ -35,11 +34,11 @@ namespace JW.Alarm.Core.UWP.Views
 
         private void SchedulesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.AddedItems.Count > 0)
+            if (e.AddedItems.Count > 0)
             {
-                Frame.Navigate(typeof(ScheduleView), 
-                    new ScheduleViewModel(((sender as ListView).SelectedItem as ScheduleListItem).Schedule));
-            }     
+                Frame.Navigate(typeof(ScheduleView),
+                    new ScheduleViewModel((sender as ListView).SelectedItem as ScheduleListItem));
+            }
         }
     }
 }

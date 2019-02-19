@@ -9,24 +9,30 @@ using JW.Alarm.Services;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Bible.Alarm.Services.Contracts;
+using System.Linq;
+using JW.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux.Actions;
+using Microsoft.EntityFrameworkCore;
 
 namespace JW.Alarm.ViewModels
 {
-    public class ScheduleViewModel : ViewModel
+    public class ScheduleViewModel : ViewModel, IDisposable
     {
         ScheduleDbContext scheduleDbContext;
         IAlarmService alarmService;
         IPopUpService popUpService;
         INavigationService navigationService;
-        private IThreadService threadService;
 
-        public ScheduleViewModel(AlarmSchedule model = null)
+        public ScheduleViewModel(ScheduleListItem listViewItem = null)
         {
+            this.scheduleListItem = listViewItem;
+
+            var model = listViewItem?.Schedule;
+
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
-            this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
             IsNewSchedule = model == null ? true : false;
             setModel(model ?? new AlarmSchedule());
@@ -34,6 +40,7 @@ namespace JW.Alarm.ViewModels
             CancelCommand = new Command(async () =>
             {
                 await navigationService.GoBack();
+                ReduxContainer.Store.Dispatch(new BackToHomeAction());
             });
 
             SaveCommand = new Command(async () =>
@@ -41,6 +48,7 @@ namespace JW.Alarm.ViewModels
                 if (await saveAsync())
                 {
                     await navigationService.GoBack();
+                    ReduxContainer.Store.Dispatch(new BackToHomeAction());
                 }
             });
 
@@ -48,6 +56,7 @@ namespace JW.Alarm.ViewModels
             {
                 await deleteAsync();
                 await navigationService.GoBack();
+                ReduxContainer.Store.Dispatch(new BackToHomeAction());
             });
 
             ToggleDayCommand = new Command<DaysOfWeek>(x =>
@@ -55,7 +64,7 @@ namespace JW.Alarm.ViewModels
                 toggle(x);
             });
 
-            SelectMusicCommand = new Command(async() =>
+            SelectMusicCommand = new Command(async () =>
             {
                 await navigationService.Navigate(getMusicSelectionViewModel());
             });
@@ -66,6 +75,7 @@ namespace JW.Alarm.ViewModels
             });
         }
 
+        private ScheduleListItem scheduleListItem;
 
         public ICommand CancelCommand { get; set; }
 
@@ -205,10 +215,7 @@ namespace JW.Alarm.ViewModels
         {
             try
             {
-                await threadService.RunOnUIThread(() =>
-                {
-                    IsBusy = true;
-                });
+                IsBusy = true;
 
                 if (!await validate())
                 {
@@ -222,13 +229,39 @@ namespace JW.Alarm.ViewModels
                     await scheduleDbContext.AddAsync(model);
                     await scheduleDbContext.SaveChangesAsync();
                     await alarmService.Create(model);
-                    IsNewSchedule = false;
+
+                    ReduxContainer.Store.Dispatch(new AddScheduleAction() { ScheduleListItem = new ScheduleListItem(model) });
                 }
                 else
                 {
-                    scheduleDbContext.AlarmSchedules.Attach(model);
+                    var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == model.Id);
+
+                    existing.Hour = model.Hour;
+                    existing.IsEnabled = model.IsEnabled;
+                    existing.Minute = model.Minute;
+
+                    existing.Music.Fixed = model.Music.Fixed;
+                    existing.Music.LanguageCode = model.Music.LanguageCode;
+                    existing.Music.MusicType = model.Music.MusicType;
+                    existing.Music.PublicationCode = model.Music.PublicationCode;
+                    existing.Music.TrackNumber = model.Music.TrackNumber;
+
+                    existing.BibleReadingSchedule.BookNumber = model.BibleReadingSchedule.BookNumber;
+                    existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
+                    existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
+                    existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
+
+                    existing.MusicEnabled = model.MusicEnabled;
+                    existing.Name = model.Name;
+                    existing.Second = model.Second;
+                    existing.SnoozeMinutes = model.SnoozeMinutes;
+
                     await scheduleDbContext.SaveChangesAsync();
+
                     alarmService.Update(model);
+
+                    scheduleListItem.RaisePropertiesChangedEvent();
+                    ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
                 }
 
                 if (IsEnabled)
@@ -240,10 +273,7 @@ namespace JW.Alarm.ViewModels
             }
             finally
             {
-                await threadService.RunOnUIThread(() =>
-                {
-                    IsBusy = false;
-                });
+                IsBusy = false;
             }
         }
 
@@ -262,12 +292,18 @@ namespace JW.Alarm.ViewModels
         {
             if (scheduleId >= 0)
             {
-                var model = getModel();
-                scheduleDbContext.AlarmSchedules.Attach(model);
+                var model = scheduleDbContext.AlarmSchedules.FirstOrDefault(x => x.Id == scheduleId);
                 scheduleDbContext.AlarmSchedules.Remove(model);
                 await scheduleDbContext.SaveChangesAsync();
                 alarmService.Delete(scheduleId);
+
+                ReduxContainer.Store.Dispatch(new RemoveScheduleAction() { ScheduleListItem = scheduleListItem });
             }
+        }
+
+        public void Dispose()
+        {
+            scheduleDbContext.Dispose();
         }
     }
 }

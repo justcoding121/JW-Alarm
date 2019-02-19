@@ -46,7 +46,7 @@ namespace Bible.Alarm.UI
                 case "ScheduleViewModel":
                     await navigater.PushAsync(new Schedule()
                     {
-                        BindingContext = IocSetup.Container.Resolve<ScheduleViewModel>()
+                        BindingContext = viewModel
                     });
                     break;
 
