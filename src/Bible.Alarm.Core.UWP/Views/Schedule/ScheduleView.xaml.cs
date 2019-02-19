@@ -36,7 +36,7 @@ namespace JW.Alarm.Core.UWP
 
         private async void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            if (await ViewModel.SaveAsync())
+            if (await ViewModel.saveAsync())
             {
                 Frame.GoBack();
             }
@@ -44,7 +44,7 @@ namespace JW.Alarm.Core.UWP
 
         private async void Button_Delete_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.DeleteAsync();
+            await ViewModel.deleteAsync();
             Frame.GoBack();
         }
 
@@ -55,25 +55,25 @@ namespace JW.Alarm.Core.UWP
             switch (button.Name)
             {
                 case "Button_Sunday":
-                    ViewModel.Toggle(DaysOfWeek.Sunday);
+                    ViewModel.toggle(DaysOfWeek.Sunday);
                     break;
                 case "Button_Monday":
-                    ViewModel.Toggle(DaysOfWeek.Monday);
+                    ViewModel.toggle(DaysOfWeek.Monday);
                     break;
                 case "Button_Tuesday":
-                    ViewModel.Toggle(DaysOfWeek.Tuesday);
+                    ViewModel.toggle(DaysOfWeek.Tuesday);
                     break;
                 case "Button_Wednesday":
-                    ViewModel.Toggle(DaysOfWeek.Wednesday);
+                    ViewModel.toggle(DaysOfWeek.Wednesday);
                     break;
                 case "Button_Thursday":
-                    ViewModel.Toggle(DaysOfWeek.Thursday);
+                    ViewModel.toggle(DaysOfWeek.Thursday);
                     break;
                 case "Button_Friday":
-                    ViewModel.Toggle(DaysOfWeek.Friday);
+                    ViewModel.toggle(DaysOfWeek.Friday);
                     break;
                 case "Button_Saturday":
-                    ViewModel.Toggle(DaysOfWeek.Saturday);
+                    ViewModel.toggle(DaysOfWeek.Saturday);
                     break;
             }
 
@@ -82,12 +82,12 @@ namespace JW.Alarm.Core.UWP
 
         private void Music_Btn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MusicSelection), ViewModel.GetMusicSelectionViewModel());
+            Frame.Navigate(typeof(MusicSelection), ViewModel.getMusicSelectionViewModel());
         }
 
         private void Bible_Btn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(BibleSelection), ViewModel.GetBibleSelectionViewModel());
+            Frame.Navigate(typeof(BibleSelection), ViewModel.getBibleSelectionViewModel());
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class BookSelectionViewModel : ViewModelBase, IDisposable
+    public class BookSelectionViewModel : ViewModel, IDisposable
     {
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
@@ -30,6 +30,13 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
 
             initialize();
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
         }
 
         private void initialize()
@@ -64,7 +71,10 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateBooks(string languageCode, string publicationCode)
         {
-            await popUpService.ShowProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
 
             var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
 
@@ -95,7 +105,10 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedBook");
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
         }
 
         public void Dispose()

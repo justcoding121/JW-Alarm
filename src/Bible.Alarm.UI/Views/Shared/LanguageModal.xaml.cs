@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Bible.Alarm.UI.Views.Shared
+namespace Bible.Alarm.UI.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LanguageSelector : ContentPage
+	public partial class LanguageModal : ContentPage
 	{
-		public LanguageSelector ()
+		public LanguageModal ()
 		{
 			InitializeComponent ();
           

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bible.Alarm.Services.Contracts;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,12 +12,17 @@ namespace Bible.Alarm.UI
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            var navigationPage = new NavigationPage();
+            IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
+
+            MainPage = navigationPage;
         }
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
-            // Handle when your app starts
+            // Handle when your app starts  
+            var navigater = IocSetup.Container.Resolve<INavigationService>();
+            await navigater.NavigateToHome();
         }
 
         protected override void OnSleep()

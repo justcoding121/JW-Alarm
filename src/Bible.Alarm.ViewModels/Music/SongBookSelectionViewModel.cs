@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class SongBookSelectionViewModel : ViewModelBase
+    public class SongBookSelectionViewModel : ViewModel
     {
         private MediaService mediaService;
         private IPopUpService popUpService;
@@ -40,6 +40,13 @@ namespace JW.Alarm.ViewModels
         private void initialize()
         {
             Task.Run(() => initializeAsync());
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
         }
 
         public ObservableHashSet<PublicationListViewItemModel> SongBooks { get; } = new ObservableHashSet<PublicationListViewItemModel>();
@@ -138,7 +145,10 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateLanguages(string searchTerm = null)
         {
-            await popUpService.ShowProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
 
             var languages = await mediaService.GetVocalMusicLanguages();
 
@@ -165,12 +175,18 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedLanguage");
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = false;
+            });
         }
 
         private async Task populateSongBooks(string languageCode)
         {
-            await popUpService.ShowProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
 
             await threadService.RunOnUIThread(() =>
             {
@@ -197,7 +213,10 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedSongBook");
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = false;
+            });
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Bible.Alarm.UI.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(200, 300));
 
             ApplicationView.PreferredLaunchViewSize = new Size(250, 400);
@@ -49,7 +50,6 @@ namespace Bible.Alarm.UI.UWP
                 BootstrapHelper.InitializeDatabase();
 
                 Task.Run(() => BootstrapHelper.VerifyMediaLookUpService());
-                IocSetup.Container.Resolve<ScheduleListViewModel>();
             }
 
             Frame rootFrame = Window.Current.Content as Frame;

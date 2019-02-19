@@ -49,7 +49,7 @@ namespace JW.Alarm.Core.Uwp
                 BootstrapHelper.InitializeDatabase();
 
                 Task.Run(async () => await BootstrapHelper.VerifyMediaLookUpService());
-                IocSetup.Container.Resolve<ScheduleListViewModel>();
+                IocSetup.Container.Resolve<HomeViewModel>();
             }
 
             var rootFrame = Window.Current.Content as Frame;

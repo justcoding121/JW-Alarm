@@ -6,25 +6,76 @@ using System.Threading.Tasks;
 using Mvvmicro;
 using Redux;
 using JW.Alarm.Services;
+using System.Windows.Input;
+using Xamarin.Forms;
+using Bible.Alarm.Services.Contracts;
 
 namespace JW.Alarm.ViewModels
 {
-    public class ScheduleViewModel : ViewModelBase
+    public class ScheduleViewModel : ViewModel
     {
         ScheduleDbContext scheduleDbContext;
-
         IAlarmService alarmService;
         IPopUpService popUpService;
+        INavigationService navigationService;
+        private IThreadService threadService;
 
         public ScheduleViewModel(AlarmSchedule model = null)
         {
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
+            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
             IsNewSchedule = model == null ? true : false;
             setModel(model ?? new AlarmSchedule());
+
+            CancelCommand = new Command(async () =>
+            {
+                await navigationService.GoBack();
+            });
+
+            SaveCommand = new Command(async () =>
+            {
+                if (await saveAsync())
+                {
+                    await navigationService.GoBack();
+                }
+            });
+
+            DeleteCommand = new Command(async () =>
+            {
+                await deleteAsync();
+                await navigationService.GoBack();
+            });
+
+            ToggleDayCommand = new Command<DaysOfWeek>(x =>
+            {
+                toggle(x);
+            });
+
+            SelectMusicCommand = new Command(async() =>
+            {
+                await navigationService.Navigate(getMusicSelectionViewModel());
+            });
+
+            SelectBibleCommand = new Command(async () =>
+            {
+                await navigationService.Navigate(getBibleSelectionViewModel());
+            });
         }
+
+
+        public ICommand CancelCommand { get; set; }
+
+        public ICommand SaveCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
+
+        public ICommand SelectMusicCommand { get; set; }
+        public ICommand SelectBibleCommand { get; set; }
+
+        public ICommand ToggleDayCommand { get; set; }
 
         public AlarmSchedule Model { get; private set; }
 
@@ -55,6 +106,13 @@ namespace JW.Alarm.ViewModels
         }
 
         private int scheduleId;
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
+        }
 
         private string name;
         public string Name
@@ -107,7 +165,7 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref musicEnabled, value);
         }
 
-        public BibleSelectionViewModel GetBibleSelectionViewModel()
+        private BibleSelectionViewModel getBibleSelectionViewModel()
         {
             return new BibleSelectionViewModel(BibleReadingSchedule, new BibleReadingSchedule()
             {
@@ -118,7 +176,7 @@ namespace JW.Alarm.ViewModels
             });
         }
 
-        public MusicSelectionViewModel GetMusicSelectionViewModel()
+        private MusicSelectionViewModel getMusicSelectionViewModel()
         {
             return new MusicSelectionViewModel(Music);
         }
@@ -129,9 +187,7 @@ namespace JW.Alarm.ViewModels
         public bool IsNewSchedule { get; private set; }
         public bool IsExistingSchedule => !IsNewSchedule;
 
-        public AsyncRelayCommand EnableCommand { get; private set; }
-
-        public void Toggle(DaysOfWeek day)
+        private void toggle(DaysOfWeek day)
         {
             if ((DaysOfWeek & day) == day)
             {
@@ -145,11 +201,14 @@ namespace JW.Alarm.ViewModels
             this.RaiseProperty("DaysOfWeek");
         }
 
-        public async Task<bool> SaveAsync()
+        private async Task<bool> saveAsync()
         {
             try
             {
-                await popUpService.ShowProgressRing();
+                await threadService.RunOnUIThread(() =>
+                {
+                    IsBusy = true;
+                });
 
                 if (!await validate())
                 {
@@ -181,7 +240,10 @@ namespace JW.Alarm.ViewModels
             }
             finally
             {
-                await popUpService.HideProgressRing();
+                await threadService.RunOnUIThread(() =>
+                {
+                    IsBusy = false;
+                });
             }
         }
 
@@ -196,7 +258,7 @@ namespace JW.Alarm.ViewModels
             return true;
         }
 
-        public async Task DeleteAsync()
+        private async Task deleteAsync()
         {
             if (scheduleId >= 0)
             {

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class ChapterSelectionViewModel : ViewModelBase, IDisposable
+    public class ChapterSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
         private IThreadService threadService;
@@ -43,6 +43,13 @@ namespace JW.Alarm.ViewModels
         private void initialize()
         {
             Task.Run(() => InitializeAsync(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber));
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
         }
 
         public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; } = new ObservableHashSet<BibleChapterListViewItemModel>();
@@ -104,7 +111,10 @@ namespace JW.Alarm.ViewModels
 
                         })
                          .Merge()
-                         .Do(async x => await popUpService.ShowProgressRing())
+                         .Do(async x => await threadService.RunOnUIThread(() =>
+                         {
+                             IsBusy = true;
+                         }))
                          .Do(y =>
                          {
                              if (currentlyPlaying != null && currentlyPlaying != y)
@@ -116,7 +126,10 @@ namespace JW.Alarm.ViewModels
                              playService.Play(y.Url);
 
                          })
-                         .Do(async x => await popUpService.HideProgressRing())
+                         .Do(async x => await threadService.RunOnUIThread(() =>
+                         {
+                             IsBusy = false;
+                         }))
                          .Subscribe();
 
             var subscription2 = scheduleObservable
@@ -143,14 +156,20 @@ namespace JW.Alarm.ViewModels
 
                                })
                                 .Merge()
-                                .Do(async x => await popUpService.ShowProgressRing())
+                                .Do(async x => await threadService.RunOnUIThread(() =>
+                                {
+                                    IsBusy = true;
+                                }))
                                 .Do(y =>
                                 {
                                     currentlyPlaying = null;
                                     playService.Stop();
 
                                 })
-                                .Do(async x => await popUpService.HideProgressRing())
+                                .Do(async x => await threadService.RunOnUIThread(() =>
+                                {
+                                    IsBusy = false;
+                                }))
                                 .Subscribe();
 
             disposables.AddRange(new[] { subscription1, subscription2 });
@@ -160,7 +179,10 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateChapters(string languageCode, string publicationCode, int bookNumber)
         {
-            await popUpService.ShowProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
 
             var chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, bookNumber);
 
@@ -192,7 +214,10 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedChapter");
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = false;
+            });
         }
 
         public void Dispose()
@@ -202,7 +227,7 @@ namespace JW.Alarm.ViewModels
         }
     }
 
-    public class BibleChapterListViewItemModel : ViewModelBase, IComparable
+    public class BibleChapterListViewItemModel : ViewModel, IComparable
     {
         private readonly BibleChapter chapter;
         public BibleChapterListViewItemModel(BibleChapter chapter)

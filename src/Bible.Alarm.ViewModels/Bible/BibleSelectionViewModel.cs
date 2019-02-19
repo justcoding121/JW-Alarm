@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class BibleSelectionViewModel : ViewModelBase, IDisposable
+    public class BibleSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
         private IPopUpService popUpService;
@@ -61,6 +61,13 @@ namespace JW.Alarm.ViewModels
                 selectedLanguage = value;
                 RaiseProperty("SelectedLanguage");
             }
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
         }
 
         public string PublicationCode
@@ -118,7 +125,10 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateLanguages(string searchTerm = null)
         {
-            await popUpService.ShowProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
 
             var languages = await mediaService.GetBibleLanguages();
 
@@ -145,12 +155,18 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedLanguage");
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = false;
+            });
         }
 
         private async Task populateTranslations(string languageCode)
         {
-            await popUpService.ShowProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = true;
+            });
 
             await threadService.RunOnUIThread(() =>
             {
@@ -176,7 +192,10 @@ namespace JW.Alarm.ViewModels
                 RaiseProperty("SelectedTranslation");
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = false;
+            });
         }
 
         public void Dispose()

@@ -17,23 +17,7 @@ namespace JW.Alarm.Services
             this.threadService = threadService;
         }
 
-        public async Task HideProgressRing()
-        {
-            await threadService.RunOnUIThread(async () =>
-            {
-                await Messenger<bool>.Publish(Messages.Progress, false);
-            });
-        }
-
         public abstract Task ShowMessage(string message, int seconds = 3);
-
-        public async Task ShowProgressRing()
-        {
-            await threadService.RunOnUIThread(async () =>
-            {
-                await Messenger<bool>.Publish(Messages.Progress, true);
-            });
-        }
 
         public async Task ShowScheduledNotification(AlarmSchedule schedule, int seconds = 3)
         {

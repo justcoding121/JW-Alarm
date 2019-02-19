@@ -5,7 +5,7 @@
 	/// <summary>
 	/// A view model base class that adds navigation elements to the observable class.
 	/// </summary>
-    public abstract class ViewModelBase : VMObservable
+    public abstract class ViewModel : VMObservable
 	{
 
     }

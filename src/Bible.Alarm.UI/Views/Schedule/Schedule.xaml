@@ -24,8 +24,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0"
                     Padding="0"
-                    x:Name="Button_Cancel" 
-                    Clicked="Button_Cancel_Clicked"
+                    Command="{Binding CancelCommand}"
                     Margin="2,2,0,2"
                     TextColor="SlateBlue"
                     Text="CANCEL" 
@@ -34,8 +33,7 @@
                 </Button>
                 <Button Grid.Column="1"
                     Padding="0"
-                    x:Name="Button_Save" 
-                    Clicked="Button_Save_Clicked"
+                    Command="{Binding SaveCommand}"
                     Text="SAVE"
                     Margin="0,2,2,2"
                     TextColor="SlateBlue"
@@ -56,17 +54,38 @@
                 <Label HorizontalTextAlignment="Center" HorizontalOptions="Fill" Text="Alarm Time" Margin="0,3,0,3"></Label>
                 <TimePicker HorizontalOptions="Fill" Time="{Binding Time, Mode=TwoWay}" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
-                    <Button WidthRequest="35" x:Name="Button_Sunday" Clicked="Button_Day_Clicked" TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}" Text="S" Margin="5,0,0,0" />
-                    <Button WidthRequest="35" x:Name="Button_Monday" Clicked="Button_Day_Clicked" TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Monday}}" Text="M" Margin="5,0,0,0" />
-                    <Button WidthRequest="35" x:Name="Button_Tuesday" Clicked="Button_Day_Clicked"  TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Tuesday}}" Text="T" Margin="5,0,0,0"/>
-                    <Button WidthRequest="35" x:Name="Button_Wednesday" Clicked="Button_Day_Clicked"  TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Wednesday}}" Text="W" Margin="5,0,0,0"/>
-                    <Button WidthRequest="35" x:Name="Button_Thursday" Clicked="Button_Day_Clicked"  TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Thursday}}" Text="T" Margin="5,0,0,0"/>
-                    <Button WidthRequest="35" x:Name="Button_Friday" Clicked="Button_Day_Clicked"  TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Friday}}" Text="F" Margin="5,0,0,0"/>
-                    <Button WidthRequest="35" x:Name="Button_Saturday" Clicked="Button_Day_Clicked"  TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Saturday}}" Text="S" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"  
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Sunday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}" 
+                            Text="S" Margin="5,0,0,0" />
+                    <Button WidthRequest="35"  
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Monday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Monday}}" 
+                            Text="M" Margin="5,0,0,0" />
+                    <Button WidthRequest="35"  
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Tuesday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Tuesday}}"
+                            Text="T" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35" 
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Wednesday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Wednesday}}"
+                            Text="W" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Thursday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Thursday}}"
+                            Text="T" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Friday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Friday}}" 
+                            Text="F" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Saturday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Saturday}}"
+                            Text="S" Margin="5,0,0,0"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
                     <Label Text="Name:"  Margin="0,0,5,0" VerticalOptions="Center"></Label>
-                    <Entry x:Name="TextBlock_Description" WidthRequest="200"  MinimumWidthRequest="200" 
+                    <Entry WidthRequest="200"  MinimumWidthRequest="200" 
                              Text="{Binding Name, Mode=TwoWay}" 
                              HorizontalOptions="Fill"
                              VerticalOptions="Center"/>
@@ -80,11 +99,14 @@
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectMusicCommand}"/>
+                    </Grid.GestureRecognizers>
+                    
                     <Label Grid.Column="0" VerticalOptions="Center"  HorizontalOptions="Fill"
                                        HorizontalTextAlignment="Start" TextColor="Black" Margin="5,0,0,0">Music</Label>
                     <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal">
-                        <Switch IsToggled="True" 
+                        <Switch IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
                                     HeightRequest="30" HorizontalOptions="End" 
                                     VerticalOptions="Center" Margin="0,0,0,5">
                         </Switch>
@@ -109,6 +131,10 @@
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectBibleCommand}"/>
+                    </Grid.GestureRecognizers>
+                    
                     <Label Grid.Column="0" VerticalOptions="Center" 
                                       HorizontalTextAlignment="Start" TextColor="Black" Text="Bible Reading" Margin="5,0,0,0"></Label>
                     <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End"
@@ -123,9 +149,8 @@
 
             <Button IsVisible="{Binding IsExistingSchedule,  Converter={StaticResource boolVisibilityConverter}}" 
                 Grid.Row="2" 
-                x:Name="Button_Delete" 
+                Command="{Binding DeleteCommand}"
                 TextColor="SlateBlue"
-                Clicked="Button_Delete_Clicked"
                 HorizontalOptions="Fill"
                 VerticalOptions="End"
                 Text="DELETE" Font="Bold,16" Margin="2">

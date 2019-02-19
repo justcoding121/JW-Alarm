@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +19,15 @@
     <ProjectReference Include="..\Bible.Alarm.Services.Contracts\Bible.Alarm.Services.Contracts.csproj" />
     <ProjectReference Include="..\Bible.Alarm.Services\Bible.Alarm.Services.csproj" />
     <ProjectReference Include="..\Bible.Alarm.ViewModels\Bible.Alarm.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Shared\LanguageModal.xaml.cs">
+      <DependentUpon>LanguageModal.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

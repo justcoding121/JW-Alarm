@@ -13,27 +13,52 @@ using System.ComponentModel;
 using System.Collections;
 using JW.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Windows.Input;
+using Xamarin.Forms;
+using Bible.Alarm.Services.Contracts;
 
 namespace JW.Alarm.ViewModels
 {
-    public class ScheduleListViewModel : ViewModelBase
+    public class HomeViewModel : ViewModel
     {
         private ScheduleDbContext scheduleDbContext;
         private IThreadService threadService;
         private IPopUpService popUpService;
+        private INavigationService navigationService;
 
-        public ScheduleListViewModel(ScheduleDbContext scheduleDbContext,
-            IThreadService threadService, IPopUpService popUpService)
+        public HomeViewModel(ScheduleDbContext scheduleDbContext,
+            IThreadService threadService, IPopUpService popUpService, INavigationService navigationService)
         {
             this.scheduleDbContext = scheduleDbContext;
             this.threadService = threadService;
             this.popUpService = popUpService;
+            this.navigationService = navigationService;
 
-            Task.Run(() => InitializeSchedulesAsync());
+            AddScheduleCommand = new Command(async () =>
+           {
+               await navigationService.Navigate(new ScheduleViewModel());
+           });
+
+            ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
+            {
+                await navigationService.Navigate(new ScheduleViewModel(x.Schedule));
+            });
+
+            Task.Run(() => initializeSchedulesAsync());
         }
 
         private Dictionary<AlarmSchedule, ScheduleListItem> listMapping = new Dictionary<AlarmSchedule, ScheduleListItem>();
         public ObservableHashSet<ScheduleListItem> Schedules { get; } = new ObservableHashSet<ScheduleListItem>();
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
+        }
+
+        public ICommand AddScheduleCommand { get; set; }
+        public ICommand ViewScheduleCommand { get; set; }
 
         private ScheduleViewModel selectedSchedule;
 
@@ -44,7 +69,7 @@ namespace JW.Alarm.ViewModels
         }
 
 
-        public async Task InitializeSchedulesAsync()
+        private async Task initializeSchedulesAsync()
         {
             var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
                                => new NotifyCollectionChangedEventHandler(ev),
@@ -80,13 +105,20 @@ namespace JW.Alarm.ViewModels
 
                                 })
                                  .Merge()
-                                 .Do(async x => await popUpService.ShowProgressRing())
-                                 .Do(async y => {
+                                 .Do(async x => await threadService.RunOnUIThread(() =>
+                                 {
+                                     IsBusy = true;
+                                 }))
+                                 .Do(async y =>
+                                 {
                                      scheduleDbContext.AlarmSchedules.Attach(y.Schedule);
                                      await scheduleDbContext.SaveChangesAsync();
-                                  })
+                                 })
                                  .Do(async y => { if (y.IsEnabled) await popUpService.ShowScheduledNotification(y.Schedule); })
-                                 .Do(async x => await popUpService.HideProgressRing())
+                                 .Do(async x => await threadService.RunOnUIThread(() =>
+                                 {
+                                     IsBusy = false;
+                                 }))
                                  .Subscribe();
 
             var alarmSchedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
@@ -117,7 +149,10 @@ namespace JW.Alarm.ViewModels
                 }
             });
 
-            await popUpService.HideProgressRing();
+            await threadService.RunOnUIThread(() =>
+            {
+                IsBusy = false;
+            });
         }
 
         private void remove(IList oldItems)
@@ -142,7 +177,7 @@ namespace JW.Alarm.ViewModels
 
     }
 
-    public class ScheduleListItem : ViewModelBase, IComparable
+    public class ScheduleListItem : ViewModel, IComparable
     {
         public AlarmSchedule Schedule;
         public ScheduleListItem(AlarmSchedule schedule = null)

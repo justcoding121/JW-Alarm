@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.ViewModels
 {
-    public class MusicSelectionViewModel : ViewModelBase
+    public class MusicSelectionViewModel : ViewModel
     {
         private readonly AlarmMusic current;
         private readonly IThreadService threadService;

@@ -14,12 +14,12 @@ namespace JW.Alarm.Core.UWP.Views
     /// </summary>
     public sealed partial class ScheduleList : Page
     {
-        public ScheduleListViewModel ViewModel => DataContext as ScheduleListViewModel;
+        public HomeViewModel ViewModel => DataContext as HomeViewModel;
 
         public ScheduleList()
         {
             this.InitializeComponent();
-            DataContext = Uwp.IocSetup.Container.Resolve<ScheduleListViewModel>();
+            DataContext = Uwp.IocSetup.Container.Resolve<HomeViewModel>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
