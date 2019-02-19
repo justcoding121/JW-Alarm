@@ -36,16 +36,16 @@ namespace JW.Alarm.Core.UWP
 
         private async void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            if (await ViewModel.saveAsync())
-            {
-                Frame.GoBack();
-            }
+            //if (await ViewModel.saveAsync())
+            //{
+            //    Frame.GoBack();
+            //}
         }
 
         private async void Button_Delete_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.deleteAsync();
-            Frame.GoBack();
+            //await ViewModel.deleteAsync();
+            //Frame.GoBack();
         }
 
         private void Button_Day_Click(object sender, RoutedEventArgs e)
