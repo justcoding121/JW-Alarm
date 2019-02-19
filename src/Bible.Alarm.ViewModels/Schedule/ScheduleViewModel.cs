@@ -13,6 +13,8 @@ using System.Linq;
 using JW.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Microsoft.EntityFrameworkCore;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 
 namespace JW.Alarm.ViewModels
 {
@@ -23,19 +25,25 @@ namespace JW.Alarm.ViewModels
         IPopUpService popUpService;
         INavigationService navigationService;
 
-        public ScheduleViewModel(ScheduleListItem listViewItem = null)
+        public ScheduleViewModel()
         {
-            this.scheduleListItem = listViewItem;
-
-            var model = listViewItem?.Schedule;
-
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            IsNewSchedule = model == null ? true : false;
-            setModel(model ?? new AlarmSchedule());
+            //set schedules from initial state.
+            //this should fire only once (look at the where condition).
+            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+               .DistinctUntilChanged(state => state.ScheduleListItem)
+               .Subscribe(x =>
+               {
+                   scheduleListItem = x.ScheduleListItem;
+                   var model = x.ScheduleListItem?.Schedule;
+
+                   IsNewSchedule = model == null ? true : false;
+                   setModel(model ?? new AlarmSchedule());
+               });
 
             CancelCommand = new Command(async () =>
             {

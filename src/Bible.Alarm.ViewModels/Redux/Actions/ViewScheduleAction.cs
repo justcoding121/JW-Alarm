@@ -9,5 +9,6 @@ namespace Bible.Alarm.ViewModels.Redux.Actions
     public class ViewScheduleAction : IAction
     {
         public ScheduleViewModel ScheduleViewModel { get; set; }
+        public ScheduleListItem SelectedScheduleListItem { get; set; }
     }
 }

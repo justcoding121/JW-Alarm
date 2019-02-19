@@ -10,7 +10,7 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
     {
         public static ApplicationState Execute(ApplicationState previousState, IAction action)
         {
-            if(action is InitializeAction)
+            if (action is InitializeAction)
             {
                 return new ApplicationState()
                 {
@@ -20,11 +20,11 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
 
             if (action is AddScheduleAction)
             {
-                var @params  = (action as AddScheduleAction);
+                var @params = (action as AddScheduleAction);
                 previousState.Schedules.Add(@params.ScheduleListItem);
                 return new ApplicationState()
                 {
-                    Current = previousState.Current,
+                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules
                 };
             }
@@ -34,7 +34,7 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 previousState.Schedules.Remove((action as RemoveScheduleAction).ScheduleListItem);
                 return new ApplicationState()
                 {
-                    Current = previousState.Current,
+                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules
                 };
             }
@@ -43,23 +43,25 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
             {
                 return new ApplicationState()
                 {
-                    Current = previousState.Current,
+                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules
                 };
             }
 
             if (action is ViewScheduleAction)
             {
+                var @params = (action as ViewScheduleAction);
                 return new ApplicationState()
                 {
-                    Current = (action as ViewScheduleAction).ScheduleViewModel,
-                    Schedules = previousState.Schedules
+                    ScheduleViewModel = @params.ScheduleViewModel,
+                    Schedules = previousState.Schedules,
+                    ScheduleListItem = @params.SelectedScheduleListItem
                 };
             }
 
             if (action is BackToHomeAction)
             {
-                previousState.Current.Dispose();
+                previousState.ScheduleViewModel.Dispose();
 
                 return new ApplicationState()
                 {

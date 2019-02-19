@@ -37,23 +37,27 @@ namespace JW.Alarm.ViewModels
 
             AddScheduleCommand = new Command(async () =>
             {
-                var viewModel = new ScheduleViewModel();
+                var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
                 await navigationService.Navigate(viewModel);
             });
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
             {
-                var viewModel = new ScheduleViewModel(x);
-                ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
+                var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
+                ReduxContainer.Store.Dispatch(new ViewScheduleAction()
+                {
+                    ScheduleViewModel = viewModel,
+                    SelectedScheduleListItem = x
+                });
                 await navigationService.Navigate(viewModel);
             });
 
             //set schedules from initial state.
-            //this should fire only once (look at the where condition below)
+            //this should fire only once (look at the where condition).
             ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
-               .DistinctUntilChanged(state => state.Schedules)
                .Where(x => x.Schedules != null)
+               .DistinctUntilChanged(state => state.Schedules)
                .Subscribe(x =>
                {
                    Schedules = x.Schedules;
@@ -91,7 +95,7 @@ namespace JW.Alarm.ViewModels
 
         private async Task initializeSchedulesAsync()
         {
-            var alarmSchedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
+            var alarmSchedules = await scheduleDbContext.AlarmSchedules.AsNoTracking().ToListAsync();
 
             var initialSchedules = new ObservableHashSet<ScheduleListItem>();
             foreach (var schedule in alarmSchedules)
@@ -106,20 +110,21 @@ namespace JW.Alarm.ViewModels
         private IDisposable subscription;
         private void listenIsEnabledChanges()
         {
-            var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
+            var scheduleListChangedObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
                             => new NotifyCollectionChangedEventHandler(ev),
                                   ev => Schedules.CollectionChanged += ev,
                                   ev => Schedules.CollectionChanged -= ev);
 
-            //for schedules currently populated
+            //for schedules currently shown on screen.
             var isEnabledObservable = Schedules.Select(item =>
             {
-                var removedObservable = scheduleObservable.Any(z =>
+                var removedObservable = scheduleListChangedObservable.Any(z =>
                 {
                     var oldItem = z.EventArgs.OldItems?.Cast<ScheduleListItem>();
                     return oldItem != null && oldItem.Any(removed => item == removed);
                 });
 
+                //observe until the schedule is removed from the list.
                 return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, ScheduleListItem>>(
                                onNextHandler => (object sender, PropertyChangedEventArgs e)
                                              => onNextHandler(new KeyValuePair<string, ScheduleListItem>(e.PropertyName, (ScheduleListItem)sender)),
@@ -130,8 +135,8 @@ namespace JW.Alarm.ViewModels
                                                .Select(y => y.Value);
             }).Merge();
 
-            //all observe for future schedules 
-            var isEnableObservableForNewSchedules = scheduleObservable
+            //observe for all future schedules. 
+            var isEnableObservableForNewSchedules = scheduleListChangedObservable
                                 .SelectMany(x =>
                                 {
                                     var newItems = x.EventArgs.NewItems?.Cast<ScheduleListItem>();
@@ -140,9 +145,10 @@ namespace JW.Alarm.ViewModels
                                         return Enumerable.Empty<IObservable<ScheduleListItem>>();
                                     }
 
+                                    //observe until the schedule is removed from the list.
                                     return newItems.Select(added =>
                                     {
-                                        var removedObservable = scheduleObservable.Any(z =>
+                                        var removedObservable = scheduleListChangedObservable.Any(z =>
                                         {
                                             var oldItem = z.EventArgs.OldItems?.Cast<ScheduleListItem>();
                                             return oldItem != null && oldItem.Any(removed => added == removed);
@@ -157,7 +163,6 @@ namespace JW.Alarm.ViewModels
                                                                        .Where(kv => kv.Key == "IsEnabled")
                                                                        .Select(y => y.Value);
                                     });
-
                                 })
                                  .Merge();
 
@@ -167,14 +172,14 @@ namespace JW.Alarm.ViewModels
                                  .Do(async y =>
                                  {
                                      IsBusy = true;
-                                     scheduleDbContext.AlarmSchedules.Attach(y.Schedule);
+                                     var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
+                                     existing.IsEnabled = y.IsEnabled;
                                      await scheduleDbContext.SaveChangesAsync();
                                      if (y.IsEnabled)
                                      {
                                          await popUpService.ShowScheduledNotification(y.Schedule);
                                      }
                                      IsBusy = false;
-
                                  })
                                 .Subscribe();
         }

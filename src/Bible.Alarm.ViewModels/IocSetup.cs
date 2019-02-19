@@ -13,7 +13,7 @@ namespace JW.Alarm.ViewModels
                 container.Resolve<ScheduleDbContext>(), 
                 container.Resolve<IThreadService>(), 
                 container.Resolve<IPopUpService>(),
-                container.Resolve<INavigationService>()), isSingleton: true);
+                container.Resolve<INavigationService>()), isSingleton: false);
 
             container.Register((x) => new ScheduleViewModel(), isSingleton: false);
 
