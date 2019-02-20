@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bible.Alarm.UI.Views.Music.TrackSelection"
+             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:fn="clr-namespace:FontNameResources">
+    <ContentPage.Resources>
+        <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" HorizontalOptions="Fill">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0"
+                    Margin="1,1,1,1"
+                    HeightRequest="32"
+                    HorizontalOptions="Fill"
+                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                    Text="{x:Static fn:GlyphNames.Left}"
+                    TextColor="SlateBlue">
+                </Button>
+            </Grid>
+            <ListView HorizontalOptions="Fill"
+                  Grid.Row="1" 
+                  ItemsSource="{Binding Tracks}" 
+                  SelectedItem="{Binding SelectedTrack}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Start"
+                                   TextColor="Black"
+                                   Margin="5,0,0,0"
+                                   Text="{Binding Title}">
+                            </Label>
+                            <StackLayout Grid.Column="1" VerticalOptions="Center"
+                                   HorizontalOptions="End"
+                                   Margin="5,0,0,0">
+                                <Button  FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                         Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}" 
+                                         TextColor="Gray">
+                                </Button>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

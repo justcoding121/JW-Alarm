@@ -13,7 +13,7 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" 
                    Text="Languages" 
-                   Height="32"
+                   HeightRequest="32"
                    Font="Bold,18"
                    Margin="10,2,2,2" 
                    VerticalOptions="Fill">
@@ -44,7 +44,7 @@
                     </Label>
                 </StackLayout>
                 <SearchBar Grid.Column="1" 
-                             Height="32"
+                             HeightRequest="32"
                              Placeholder="Search languages"
                              VerticalOptions="Center"
                              HorizontalTextAlignment="Start" 
@@ -73,7 +73,7 @@
             </ListView>
             <Button Grid.Row="4" HorizontalOptions="Fill" 
                 VerticalOptions="Fill"
-                Height="32"
+                HeightRequest="32"
                 Margin="2"
                 TextColor="SlateBlue"
                 Font="Bold,18"

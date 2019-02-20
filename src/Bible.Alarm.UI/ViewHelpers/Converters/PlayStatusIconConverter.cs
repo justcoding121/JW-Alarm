@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FontNameResources;
+using System;
 using System.Globalization;
 using Xamarin.Forms;
 
@@ -10,10 +11,10 @@ namespace JW.Alarm.UI.Views.Converters
         {
             if (!(bool)value)
             {
-                return "Play";
+                return GlyphNames.Play;
             }
 
-            return "Pause";
+            return GlyphNames.Pause;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

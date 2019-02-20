@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:converters="using:JW.Alarm.Core.UWP.Views.Converters"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:converters="using:JW.Alarm.UI.Views.Converters">
     <Page.Resources>
         <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
     </Page.Resources>
