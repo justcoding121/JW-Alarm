@@ -2,55 +2,71 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Views.Music.MusicSelection"
-             xmlns:fn="clr-namespace:FontNameResources">
+             xmlns:fn="clr-namespace:FontNameResources"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <Grid>
+        <Grid RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" HorizontalOptions="Fill">
+            <Grid Grid.Row="0" HeightRequest="30"
+                  MinimumHeightRequest="30" HorizontalOptions="Fill" 
+                  BackgroundColor="WhiteSmoke"
+                  x:Name="BackButton"
+                  Margin="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" 
-                    Margin="1,1,1,1"
-                    HeightRequest="32"
-                    HorizontalOptions="Fill"
-                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
-                    Text="{x:Static fn:GlyphNames.Left}"
-                    TextColor="SlateBlue">
-                </Button>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
+                </Grid.GestureRecognizers>
+                <StackLayout Grid.Column="0" 
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Start">
+                    <Label Margin="5,0,0,0" TextColor="Gray"    
+                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                Text="{x:Static fn:GlyphNames.Left}"
+                                FontSize="Medium"/>
+                </StackLayout>
+                <Label Grid.Column="1" VerticalOptions="Center" 
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Start"
+                                   TextColor="Black">
+                </Label>
             </Grid>
             <ListView Grid.Row="1"
                   HorizontalOptions="Fill"
                   ItemsSource="{Binding MusicTypes}" 
-                  SelectedItem="{Binding SelectedMusicType}">
+                  SelectedItem="{Binding SelectedMusicType, Mode=TwoWay}"
+                  SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Entry Grid.Column="0" VerticalOptions="Center" 
+                        <ViewCell>
+                            <Grid HeightRequest="45" HorizontalOptions="Fill">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" VerticalOptions="Center" 
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Name}">
-                            </Entry>
-                            <StackLayout Grid.Column="1" 
+                                </Label>
+                                <StackLayout Grid.Column="1" 
                                    VerticalOptions="Center"
                                    HorizontalOptions="End"
-                                   Margin="5,0,0,0">
-                                <Label TextColor="Gray"    
+                                   Margin="5,0,5,0">
+                                    <Label TextColor="Gray"    
                                 FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                 Text="{x:Static fn:GlyphNames.Right}"
                                 FontSize="Medium"/>
-                            </StackLayout>
-                        </Grid>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

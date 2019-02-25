@@ -1,4 +1,5 @@
 ﻿using JW.Alarm.Common.DataStructures;
+using JW.Alarm.Models;
 
 namespace JW.Alarm.ViewModels.Redux
 {
@@ -8,5 +9,8 @@ namespace JW.Alarm.ViewModels.Redux
 
         public ScheduleListItem ScheduleListItem { get; set; }
         public ScheduleViewModel ScheduleViewModel { get; set; }
+
+        public MusicSelectionViewModel MusicSelectionViewModel { get; set; }
+        public AlarmMusic CurrentMusic { get; set; }
     }
 }

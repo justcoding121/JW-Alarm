@@ -69,6 +69,19 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 };
             }
 
+            if (action is MusicSelectionAction)
+            {
+                var @params = (action as MusicSelectionAction);
+                return new ApplicationState()
+                {
+                    ScheduleViewModel = previousState.ScheduleViewModel,
+                    Schedules = previousState.Schedules,
+                    ScheduleListItem = previousState.ScheduleListItem,
+                    MusicSelectionViewModel = @params.MusicSelectionViewModel,
+                    CurrentMusic = @params.CurrentMusic
+                };
+            }
+
             return previousState;
         }
     }

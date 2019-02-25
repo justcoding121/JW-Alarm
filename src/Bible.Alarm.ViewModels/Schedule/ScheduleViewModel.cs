@@ -74,12 +74,23 @@ namespace JW.Alarm.ViewModels
 
             SelectMusicCommand = new Command(async () =>
             {
-                await navigationService.Navigate(getMusicSelectionViewModel());
+                var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
+                ReduxContainer.Store.Dispatch(new MusicSelectionAction()
+                {
+                    MusicSelectionViewModel = viewModel,
+                    CurrentMusic = Music
+                });
+                await navigationService.Navigate(viewModel);
             });
 
             SelectBibleCommand = new Command(async () =>
             {
-                await navigationService.Navigate(getBibleSelectionViewModel());
+                var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
+                ReduxContainer.Store.Dispatch(new BibleSelectionAction()
+                {
+                    BibleSelectionViewModel = viewModel
+                });
+                await navigationService.Navigate(viewModel);
             });
         }
 
@@ -192,11 +203,6 @@ namespace JW.Alarm.ViewModels
                 LanguageCode = BibleReadingSchedule.LanguageCode,
                 PublicationCode = BibleReadingSchedule.PublicationCode
             });
-        }
-
-        private MusicSelectionViewModel getMusicSelectionViewModel()
-        {
-            return new MusicSelectionViewModel(Music);
         }
 
         public AlarmMusic Music => Model.Music;

@@ -1,38 +1,67 @@
-﻿using JW.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Services.Contracts;
+using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace JW.Alarm.ViewModels
 {
     public class MusicSelectionViewModel : ViewModel
     {
-        private readonly AlarmMusic current;
+        private AlarmMusic current;
         private readonly IThreadService threadService;
         private readonly MediaService mediaService;
+        private readonly INavigationService navigationService;
 
-        public MusicSelectionViewModel(AlarmMusic current)
+        public MusicSelectionViewModel()
         {
-            this.current = current;
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
+            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            initialize();
+            //set schedules from initial state.
+            //this should fire only once (look at the where condition).
+            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+               .DistinctUntilChanged(state => state.CurrentMusic)
+               .Subscribe(x =>
+               {
+                   current = x.CurrentMusic;
+                   Task.Run(() => initializeAsync());
+               });
+
+            SongBookSelectionCommand = new Command<MusicTypeListItemViewModel>(async x =>
+            {
+                var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
+                //ReduxContainer.Store.Dispatch(new ViewScheduleAction()
+                //{
+                //    ScheduleViewModel = viewModel,
+                //    SelectedScheduleListItem = x
+                //});
+                await navigationService.Navigate(viewModel);
+            });
+
+            BackCommand = new Command(async () =>
+            {
+                await navigationService.GoBack();
+            });
+
         }
 
-        private void initialize()
-        {
-            Task.Run(() => initializeAsync());
-        }
+        public ICommand BackCommand { get; set; }
+        public ICommand SongBookSelectionCommand { get; set; }
 
         private async Task initializeAsync()
         {

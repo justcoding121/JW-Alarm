@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
              x:Class="Bible.Alarm.UI.Views.Bible.ChapterSelection"
-             xmlns:fn="clr-namespace:FontNameResources">
+             xmlns:fn="clr-namespace:FontNameResources"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
     </ContentPage.Resources>

@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
+using Bible.Alarm.UI.Views.Bible;
+using Bible.Alarm.UI.Views.Music;
 using JW.Alarm.ViewModels;
 using Mvvmicro;
 using Xamarin.Forms;
@@ -49,7 +51,42 @@ namespace Bible.Alarm.UI
                         BindingContext = viewModel
                     });
                     break;
-
+                case "MusicSelectionViewModel":
+                    await navigater.PushAsync(new MusicSelection()
+                    {
+                        BindingContext = viewModel
+                    });
+                    break;
+                case "SongBookSelectionViewModel":
+                    await navigater.PushAsync(new SongBookSelection()
+                    {
+                        BindingContext = viewModel
+                    });
+                    break;
+                case "TrackSelectionViewModel":
+                    await navigater.PushAsync(new TrackSelection()
+                    {
+                        BindingContext = viewModel
+                    });
+                    break;
+                case "BibleSelectionViewModel":
+                    await navigater.PushAsync(new BibleSelection()
+                    {
+                        BindingContext = viewModel
+                    });
+                    break;
+                case "BookSelectionViewModel":
+                    await navigater.PushAsync(new BookSelection()
+                    {
+                        BindingContext = viewModel
+                    });
+                    break;
+                case "ChapterSelectionViewModel":
+                    await navigater.PushAsync(new ChapterSelection()
+                    {
+                        BindingContext = viewModel
+                    });
+                    break;
                 default:
                     throw new ArgumentException("Invalid View Model name", vmName);
             }

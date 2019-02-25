@@ -17,6 +17,8 @@ namespace JW.Alarm.ViewModels
 
             container.Register((x) => new ScheduleViewModel(), isSingleton: false);
 
+            container.Register((x) => new MusicSelectionViewModel(), isSingleton: false);
+
             Container = container;
         }
 
