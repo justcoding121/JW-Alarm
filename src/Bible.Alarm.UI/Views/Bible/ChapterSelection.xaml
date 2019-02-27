@@ -4,7 +4,8 @@
              xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
              x:Class="Bible.Alarm.UI.Views.Bible.ChapterSelection"
              xmlns:fn="clr-namespace:FontNameResources"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
     <ContentPage.Resources>
         <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
     </ContentPage.Resources>
@@ -34,28 +35,30 @@
                   SelectedItem="{Binding SelectedChapter}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Entry Grid.Column="0" 
+                        <ViewCell>
+                            <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Entry Grid.Column="0" 
                                    VerticalOptions="Center"
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Title}">
-                            </Entry>
-                            <StackLayout Grid.Column="1" VerticalOptions="Center"
+                                </Entry>
+                                <StackLayout Grid.Column="1" VerticalOptions="Center"
                                    HorizontalOptions="End"
                                    Margin="5,0,0,0">
-                                <Button  FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                    <Button  FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                          Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}" 
                                          TextColor="Gray">
-                                </Button>
-                            </StackLayout>
-                        </Grid>
+                                    </Button>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

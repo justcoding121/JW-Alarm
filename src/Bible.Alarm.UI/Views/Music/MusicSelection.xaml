@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Views.Music.MusicSelection"
              xmlns:fn="clr-namespace:FontNameResources"
-             NavigationPage.HasNavigationBar="False">
+             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.Resources>
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid RowSpacing="0">
             <Grid.RowDefinitions>
@@ -41,6 +47,10 @@
                   ItemsSource="{Binding MusicTypes}" 
                   SelectedItem="{Binding SelectedMusicType, Mode=TwoWay}"
                   SelectionMode="Single">
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding SongBookSelectionCommand}"
+                                                       EventArgsConverter="{StaticResource itemTappedConverter}" />
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

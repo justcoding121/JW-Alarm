@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Views.Music.SongBookSelection"
              xmlns:fn="clr-namespace:FontNameResources"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -50,28 +51,30 @@
                   SelectedItem="{Binding SelectedSongBook}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" VerticalOptions="Center"
+                        <ViewCell>
+                            <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" VerticalOptions="Center"
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Name}">
-                            </Label>
-                            <StackLayout Grid.Column="1" 
+                                </Label>
+                                <StackLayout Grid.Column="1" 
                                    VerticalOptions="Center" 
                                    HorizontalOptions="End"
                                    Margin="5,0,0,0">
-                                <Label TextColor="Gray"    
+                                    <Label TextColor="Gray"    
                                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                     Text="{x:Static fn:GlyphNames.Right}"
                                     FontSize="Medium"/>
-                            </StackLayout>
-                        </Grid>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

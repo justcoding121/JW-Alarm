@@ -6,7 +6,7 @@ using System.Text;
 
 namespace JW.Alarm.ViewModels.Redux.Reducers
 {
-    public static class RootReducer
+    public static partial class RootReducer
     {
         public static ApplicationState Execute(ApplicationState previousState, IAction action)
         {
@@ -59,9 +59,9 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 };
             }
 
-            if (action is BackToHomeAction)
+            if (action is BackAction)
             {
-                previousState.ScheduleViewModel.Dispose();
+                (action as BackAction).CurrentViewModel.Dispose();
 
                 return new ApplicationState()
                 {
@@ -79,6 +79,20 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                     ScheduleListItem = previousState.ScheduleListItem,
                     MusicSelectionViewModel = @params.MusicSelectionViewModel,
                     CurrentMusic = @params.CurrentMusic
+                };
+            }
+
+            if (action is SongBookSelectionAction)
+            {
+                var @params = (action as SongBookSelectionAction);
+                return new ApplicationState()
+                {
+                    ScheduleViewModel = previousState.ScheduleViewModel,
+                    Schedules = previousState.Schedules,
+                    ScheduleListItem = previousState.ScheduleListItem,
+                    MusicSelectionViewModel = previousState.MusicSelectionViewModel,
+                    CurrentMusic = @params.CurrentMusic,
+                    TentativeMusic = @params.TentativeMusic 
                 };
             }
 

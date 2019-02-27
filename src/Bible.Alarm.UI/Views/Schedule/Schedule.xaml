@@ -5,7 +5,8 @@
              xmlns:models="clr-namespace:JW.Alarm.Models;assembly=Bible.Alarm.Models"
              xmlns:fn="clr-namespace:FontNameResources"
              x:Class="Bible.Alarm.UI.Views.Schedule"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
     <ContentPage.Resources>
         <converters:DayColorConverter x:Key="dayColorConverter" />
     </ContentPage.Resources>

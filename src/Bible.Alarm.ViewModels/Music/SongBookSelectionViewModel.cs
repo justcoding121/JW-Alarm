@@ -2,11 +2,13 @@
 using JW.Alarm.Models;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
@@ -18,28 +20,31 @@ namespace JW.Alarm.ViewModels
         private IPopUpService popUpService;
         private IThreadService threadService;
 
-        private readonly AlarmMusic current;
-        private readonly AlarmMusic tentative;
+        private AlarmMusic current;
+        private AlarmMusic tentative;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public SongBookSelectionViewModel(AlarmMusic current, AlarmMusic tentative)
+        public SongBookSelectionViewModel()
         {
-            this.current = current;
-            this.tentative = tentative;
-
-            publicationCode = current.PublicationCode;
-
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
 
-            initialize();
-        }
-
-        private void initialize()
-        {
-            Task.Run(() => initializeAsync());
+            //set schedules from initial state.
+            //this should fire only once 
+            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+                .Select(state => new { state.CurrentMusic, state.TentativeMusic })
+                .Where(x => x.CurrentMusic != null && x.TentativeMusic != null)
+                .DistinctUntilChanged()
+                .Take(1)
+                .Subscribe(async x =>
+                {
+                    current = x.CurrentMusic;
+                    tentative = x.TentativeMusic;
+                    publicationCode = current.PublicationCode;
+                    await initialize();
+                });
         }
 
         private bool isBusy;
@@ -97,7 +102,7 @@ namespace JW.Alarm.ViewModels
             return new TrackSelectionViewModel(current, tentative);
         }
 
-        private async Task initializeAsync()
+        private async Task initialize()
         {
             var languageCode = tentative.LanguageCode;
 

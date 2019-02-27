@@ -25,6 +25,8 @@ namespace JW.Alarm.ViewModels
         IPopUpService popUpService;
         INavigationService navigationService;
 
+        private List<IDisposable> disposables = new List<IDisposable>();
+
         public ScheduleViewModel()
         {
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
@@ -32,23 +34,28 @@ namespace JW.Alarm.ViewModels
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
+            disposables.Add(scheduleDbContext);
+
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
-            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
-               .DistinctUntilChanged(state => state.ScheduleListItem)
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+               .Select(state => state.ScheduleListItem)
+               .DistinctUntilChanged()
+               .Take(1)
                .Subscribe(x =>
                {
-                   scheduleListItem = x.ScheduleListItem;
-                   var model = x.ScheduleListItem?.Schedule;
+                   scheduleListItem = x;
+                   var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
                    setModel(model ?? new AlarmSchedule());
                });
+            disposables.Add(subscription);
 
             CancelCommand = new Command(async () =>
             {
                 await navigationService.GoBack();
-                ReduxContainer.Store.Dispatch(new BackToHomeAction());
+                ReduxContainer.Store.Dispatch(new BackAction(this));
             });
 
             SaveCommand = new Command(async () =>
@@ -56,7 +63,7 @@ namespace JW.Alarm.ViewModels
                 if (await saveAsync())
                 {
                     await navigationService.GoBack();
-                    ReduxContainer.Store.Dispatch(new BackToHomeAction());
+                    ReduxContainer.Store.Dispatch(new BackAction(this));
                 }
             });
 
@@ -64,7 +71,7 @@ namespace JW.Alarm.ViewModels
             {
                 await deleteAsync();
                 await navigationService.GoBack();
-                ReduxContainer.Store.Dispatch(new BackToHomeAction());
+                ReduxContainer.Store.Dispatch(new BackAction(this));
             });
 
             ToggleDayCommand = new Command<DaysOfWeek>(x =>
@@ -75,22 +82,22 @@ namespace JW.Alarm.ViewModels
             SelectMusicCommand = new Command(async () =>
             {
                 var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
+                await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new MusicSelectionAction()
                 {
                     MusicSelectionViewModel = viewModel,
                     CurrentMusic = Music
                 });
-                await navigationService.Navigate(viewModel);
             });
 
             SelectBibleCommand = new Command(async () =>
             {
                 var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
+                await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new BibleSelectionAction()
                 {
                     BibleSelectionViewModel = viewModel
                 });
-                await navigationService.Navigate(viewModel);
             });
         }
 
@@ -317,7 +324,7 @@ namespace JW.Alarm.ViewModels
 
         public void Dispose()
         {
-            scheduleDbContext.Dispose();
+            disposables.ForEach(x => x.Dispose());
         }
     }
 }

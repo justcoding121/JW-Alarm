@@ -11,6 +11,8 @@ namespace JW.Alarm.ViewModels.Redux
         public ScheduleViewModel ScheduleViewModel { get; set; }
 
         public MusicSelectionViewModel MusicSelectionViewModel { get; set; }
+        public SongBookSelectionViewModel SongBookSelectionViewModel { get; set; }
         public AlarmMusic CurrentMusic { get; set; }
+        public AlarmMusic TentativeMusic { get; set; }
     }
 }

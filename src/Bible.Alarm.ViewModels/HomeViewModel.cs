@@ -27,6 +27,8 @@ namespace JW.Alarm.ViewModels
         private IPopUpService popUpService;
         private INavigationService navigationService;
 
+        private List<IDisposable> disposables = new List<IDisposable>();
+
         public HomeViewModel(ScheduleDbContext scheduleDbContext,
             IThreadService threadService, IPopUpService popUpService, INavigationService navigationService)
         {
@@ -35,35 +37,40 @@ namespace JW.Alarm.ViewModels
             this.popUpService = popUpService;
             this.navigationService = navigationService;
 
+            disposables.Add(scheduleDbContext);
+
             AddScheduleCommand = new Command(async () =>
             {
                 var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
-                ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
                 await navigationService.Navigate(viewModel);
+                ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
             });
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
             {
                 var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
+                await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction()
                 {
                     ScheduleViewModel = viewModel,
                     SelectedScheduleListItem = x
                 });
-                await navigationService.Navigate(viewModel);
             });
 
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
-            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
-               .Where(x => x.Schedules != null)
-               .DistinctUntilChanged(state => state.Schedules)
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+               .Select(state => state.Schedules)
+               .Where(x => x != null)
+               .DistinctUntilChanged()
+               .Take(1)
                .Subscribe(x =>
                {
-                   Schedules = x.Schedules;
+                   Schedules = x;
                    IsBusy = false;
                    listenIsEnabledChanges();
                });
+            disposables.Add(subscription);
 
             Task.Run(() => initializeSchedulesAsync());
         }
@@ -104,10 +111,8 @@ namespace JW.Alarm.ViewModels
             }
 
             ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
-
         }
 
-        private IDisposable subscription;
         private void listenIsEnabledChanges()
         {
             var scheduleListChangedObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
@@ -167,7 +172,7 @@ namespace JW.Alarm.ViewModels
                                  .Merge();
 
             //now the actual job (show the scheduled notification).
-            subscription = Observable.Merge(isEnabledObservable, isEnableObservableForNewSchedules)
+            var subscription = Observable.Merge(isEnabledObservable, isEnableObservableForNewSchedules)
                                  .ObserveOn(Scheduler.CurrentThread)
                                  .Do(async y =>
                                  {
@@ -182,12 +187,13 @@ namespace JW.Alarm.ViewModels
                                      IsBusy = false;
                                  })
                                 .Subscribe();
+
+            disposables.Add(subscription);
         }
 
         public void Dispose()
         {
-            subscription.Dispose();
-            scheduleDbContext.Dispose();
+            disposables.ForEach(x => x.Dispose());
         }
     }
 
