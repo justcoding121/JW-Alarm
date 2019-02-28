@@ -32,7 +32,7 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding Chapters}" 
-                  SelectedItem="{Binding SelectedChapter}">
+                  SelectedItem="{Binding SelectedChapter, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

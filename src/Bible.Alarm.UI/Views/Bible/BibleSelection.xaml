@@ -52,7 +52,7 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding Translations}" 
-                  SelectedItem="{Binding SelectedTranslation}">
+                  SelectedItem="{Binding SelectedTranslation, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

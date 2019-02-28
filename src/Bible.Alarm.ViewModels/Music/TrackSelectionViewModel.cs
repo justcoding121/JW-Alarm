@@ -61,8 +61,6 @@ namespace JW.Alarm.ViewModels
                 current.TrackNumber = tentative.TrackNumber;
             });
 
-
-
             //set schedules from initial state.
             //this should fire only once 
             var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
@@ -78,7 +76,6 @@ namespace JW.Alarm.ViewModels
                    });
 
             disposables.Add(subscription);
-
         }
 
         public ICommand BackCommand { get; set; }
@@ -196,7 +193,18 @@ namespace JW.Alarm.ViewModels
                                 }))
                                 .Subscribe();
 
-            disposables.AddRange(new[] { subscription1, subscription2 });
+            var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev, 
+                                                     ev => playService.OnStopped -= ev)
+                                 .Do(y =>
+                                 {
+                                     if(currentlyPlaying !=null)
+                                     {
+                                         currentlyPlaying.Play = false;
+                                     }
+                                 })
+                                 .Subscribe();
+
+            disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
 
             await populateTracks(languageCode, publicationCode);
         }
@@ -259,7 +267,7 @@ namespace JW.Alarm.ViewModels
         public MusicTrackListViewItemModel(MusicTrack chapter)
         {
             this.chapter = chapter;
-            TogglePlayCommand = new Command(() =>
+            TogglePlayCommand = new Command(async () =>
             {
                 Play = !Play;
             });

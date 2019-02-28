@@ -92,6 +92,7 @@ namespace JW.Alarm.ViewModels
 
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
+                SelectedLanguage = x;
                 await navigationService.CloseModal();
                 await populateSongBooks(x.Code);
             });

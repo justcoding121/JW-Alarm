@@ -28,11 +28,12 @@ namespace Bible.Alarm.UI
             switch (name)
             {
                 case "LanguageModal":
-                    await navigater.PushModalAsync(new LanguageModal()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var modal = IocSetup.Container.Resolve<LanguageModal>();
+                        modal.BindingContext = viewModel;
+                        await navigater.PushModalAsync(modal);
+                        break;
+                    }
                 default:
                     throw new ArgumentException("Modal not defined.", name);
             }
@@ -49,47 +50,55 @@ namespace Bible.Alarm.UI
             switch (vmName)
             {
                 case "ScheduleViewModel":
-                    await navigater.PushAsync(new Schedule()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<Schedule>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
+
                 case "MusicSelectionViewModel":
-                    await navigater.PushAsync(new MusicSelection()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<MusicSelection>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
                 case "SongBookSelectionViewModel":
-                    await navigater.PushAsync(new SongBookSelection()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<SongBookSelection>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
                 case "TrackSelectionViewModel":
-                    await navigater.PushAsync(new TrackSelection()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<TrackSelection>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
                 case "BibleSelectionViewModel":
-                    await navigater.PushAsync(new BibleSelection()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<BibleSelection>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
                 case "BookSelectionViewModel":
-                    await navigater.PushAsync(new BookSelection()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<BookSelection>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
                 case "ChapterSelectionViewModel":
-                    await navigater.PushAsync(new ChapterSelection()
                     {
-                        BindingContext = viewModel
-                    });
-                    break;
+                        var view = IocSetup.Container.Resolve<ChapterSelection>();
+                        view.BindingContext = viewModel;
+                        await navigater.PushAsync(view);
+                        break;
+                    }
                 default:
                     throw new ArgumentException("Invalid View Model name", vmName);
             }

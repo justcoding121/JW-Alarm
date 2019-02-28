@@ -1,4 +1,7 @@
 ﻿using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.UI.Views;
+using Bible.Alarm.UI.Views.Bible;
+using Bible.Alarm.UI.Views.Music;
 using JW.Alarm;
 using JW.Alarm.ViewModels;
 using System;
@@ -21,6 +24,18 @@ namespace Bible.Alarm.UI
             }, isSingleton: true);
 
             Container.Register<INavigationService>(x => new NavigationService(container.Resolve<INavigation>()), isSingleton: true);
+
+            Container.Register(x => new Schedule(), isSingleton: true);
+
+            Container.Register(x => new MusicSelection(), isSingleton: true);
+            Container.Register(x => new SongBookSelection(), isSingleton: true);
+            Container.Register(x => new TrackSelection(), isSingleton: true);
+
+            Container.Register(x => new BibleSelection(), isSingleton: true);
+            Container.Register(x => new BookSelection(), isSingleton: true);
+            Container.Register(x => new ChapterSelection(), isSingleton: true);
+
+            Container.Register(x => new LanguageModal(), isSingleton: true);
         }
     }
 }

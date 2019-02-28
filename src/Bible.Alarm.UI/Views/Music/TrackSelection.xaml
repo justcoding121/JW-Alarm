@@ -46,7 +46,7 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding Tracks}" 
-                  SelectedItem="{Binding SelectedTrack}">
+                  SelectedItem="{Binding SelectedTrack, Mode=OneWay}">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" 
                                                        Command="{Binding SetTrackCommand}"
@@ -66,12 +66,12 @@
                                    HorizontalTextAlignment="Start"
                                    VerticalTextAlignment="Center"
                                    TextColor="Black"
-                                   Margin="5,0,0,0"
+                                   Margin="10,0,0,0"
                                    Text="{Binding Title}">
                                 </Label>
                                 <StackLayout Grid.Column="1" VerticalOptions="Center"
                                    HorizontalOptions="End"
-                                   Margin="5,0,10,0">
+                                   Margin="5,0,15,0">
                                     <Button VerticalOptions="Center"
                                          FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                          Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}" 

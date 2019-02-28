@@ -16,7 +16,15 @@ namespace JW.Alarm.Services.UWP
         public PreviewPlayService(MediaPlayer player)
         {
             this.mediaPlayer = player;
+            mediaPlayer.MediaEnded += mediaEndHandler;
         }
+
+        private void mediaEndHandler(MediaPlayer sender, object args)
+        {
+            OnStopped?.Invoke();
+        }
+
+        public event Action OnStopped;
 
         public void Play(string url)
         {
