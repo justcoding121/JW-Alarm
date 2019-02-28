@@ -40,9 +40,11 @@ namespace JW.Alarm.ViewModels
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-         
+            disposables.Add(mediaService);
+
             BackCommand = new Command(async () =>
             {
+                playService.Stop();
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
             });
@@ -58,6 +60,8 @@ namespace JW.Alarm.ViewModels
                 current.PublicationCode = tentative.PublicationCode;
                 current.TrackNumber = tentative.TrackNumber;
             });
+
+
 
             //set schedules from initial state.
             //this should fire only once 
@@ -255,6 +259,10 @@ namespace JW.Alarm.ViewModels
         public MusicTrackListViewItemModel(MusicTrack chapter)
         {
             this.chapter = chapter;
+            TogglePlayCommand = new Command(() =>
+            {
+                Play = !Play;
+            });
         }
 
         public int Number => chapter.Number;
@@ -269,6 +277,8 @@ namespace JW.Alarm.ViewModels
             get => play;
             set => this.Set(ref play, value);
         }
+
+        public ICommand TogglePlayCommand { get; set; }
 
         public int CompareTo(object obj)
         {

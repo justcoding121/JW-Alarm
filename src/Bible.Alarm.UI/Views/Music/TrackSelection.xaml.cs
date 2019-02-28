@@ -1,4 +1,5 @@
-﻿using JW.Alarm.ViewModels;
+﻿using Bible.Alarm.UI.ViewHelpers;
+using JW.Alarm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,12 @@ namespace Bible.Alarm.UI.Views.Music
         public TrackSelection()
         {
             InitializeComponent();
+
+            BackButton.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(() => AnimateUtils.FlickUponTouched(BackButton, 1500,
+                ColorUtils.ToHexString(Color.LightGray), ColorUtils.ToHexString(Color.WhiteSmoke), 1))
+            });
         }
 
         protected override bool OnBackButtonPressed()

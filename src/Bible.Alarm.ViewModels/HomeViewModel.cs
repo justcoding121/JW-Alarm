@@ -71,7 +71,7 @@ namespace JW.Alarm.ViewModels
                });
             disposables.Add(subscription);
 
-            Task.Run(() => initializeSchedulesAsync());
+            Task.Run(() => initialize());
         }
 
         private ObservableHashSet<ScheduleListItem> schedules;
@@ -99,7 +99,7 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref selectedSchedule, value);
         }
 
-        private async Task initializeSchedulesAsync()
+        private async Task initialize()
         {
             var alarmSchedules = await scheduleDbContext.AlarmSchedules.AsNoTracking().ToListAsync();
 

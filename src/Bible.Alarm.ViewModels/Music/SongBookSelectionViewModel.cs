@@ -38,6 +38,8 @@ namespace JW.Alarm.ViewModels
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
+            disposables.Add(mediaService);
+
             //set schedules from initial state.
             //this should fire only once 
             var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
@@ -56,8 +58,6 @@ namespace JW.Alarm.ViewModels
 
             TrackSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
-                var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
-                await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new TrackSelectionAction()
                 {
                     CurrentMusic = current,
@@ -69,6 +69,9 @@ namespace JW.Alarm.ViewModels
                         PublicationCode = x.Code
                     }
                 });
+
+                var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
+                await navigationService.Navigate(viewModel); 
             });
 
             OpenModalCommand = new Command(async () =>

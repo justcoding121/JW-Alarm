@@ -32,6 +32,7 @@
                     VerticalTextAlignment="Center"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                     FontSize="Medium"
+                    x:Name="BackButton"
                     Text="{x:Static fn:GlyphNames.Left}"
                     TextColor="SlateBlue">
                     <Label.GestureRecognizers>

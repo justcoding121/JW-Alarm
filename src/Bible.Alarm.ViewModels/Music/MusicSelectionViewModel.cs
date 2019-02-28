@@ -36,6 +36,8 @@ namespace JW.Alarm.ViewModels
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
+            disposables.Add(mediaService);
+
             //set schedules from initial state.
             //this should fire only once 
             var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
@@ -56,8 +58,6 @@ namespace JW.Alarm.ViewModels
             {
                 if (x.MusicType == MusicType.Vocals)
                 {
-                    var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
-                    await navigationService.Navigate(viewModel);
                     ReduxContainer.Store.Dispatch(new SongBookSelectionAction()
                     {
                         CurrentMusic = current,
@@ -67,11 +67,12 @@ namespace JW.Alarm.ViewModels
                             LanguageCode = current.LanguageCode
                         }
                     });
+                    var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
+                    await navigationService.Navigate(viewModel);
+                    
                 }
                 else
                 {
-                    var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
-                    await navigationService.Navigate(viewModel);
                     ReduxContainer.Store.Dispatch(new TrackSelectionAction()
                     {
                         CurrentMusic = current,
@@ -81,6 +82,8 @@ namespace JW.Alarm.ViewModels
                             MusicType = MusicType.Melodies
                         }
                     });
+                    var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
+                    await navigationService.Navigate(viewModel);         
                 }
 
 

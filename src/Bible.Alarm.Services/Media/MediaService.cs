@@ -1,13 +1,14 @@
 ﻿using Advanced.Algorithms.DataStructures.Foundation;
 using JW.Alarm.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace JW.Alarm.Services
 {
-    public class MediaService
+    public class MediaService : IDisposable
     {
         private MediaIndexService mediaLookUpService;
         private MediaDbContext dbContext;
@@ -111,5 +112,9 @@ namespace JW.Alarm.Services
             return new OrderedDictionary<int, MusicTrack>(tracks.Select(x => new KeyValuePair<int, MusicTrack>(x.Number, x)));
         }
 
+        public void Dispose()
+        {
+            dbContext.Dispose();
+        }
     }
 }

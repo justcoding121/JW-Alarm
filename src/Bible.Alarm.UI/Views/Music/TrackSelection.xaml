@@ -4,10 +4,12 @@
              x:Class="Bible.Alarm.UI.Views.Music.TrackSelection"
              xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
              xmlns:fn="clr-namespace:FontNameResources"
+             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
     <ContentPage.Resources>
         <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
@@ -15,24 +17,41 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" HorizontalOptions="Fill">
+            <Grid Grid.Row="0" HeightRequest="35"
+                  MinimumHeightRequest="35" HorizontalOptions="Fill" 
+                  BackgroundColor="WhiteSmoke"
+                  x:Name="BackButton"
+                  Margin="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0"
-                    Margin="1,1,1,1"
-                    HeightRequest="32"
-                    HorizontalOptions="Fill"
-                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
-                    Text="{x:Static fn:GlyphNames.Left}"
-                    Command="{Binding BackCommand}"
-                    TextColor="SlateBlue">
-                </Button>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
+                </Grid.GestureRecognizers>
+                <StackLayout Grid.Column="0" 
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Start">
+                    <Label Margin="5,0,0,0" TextColor="Gray"    
+                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                Text="{x:Static fn:GlyphNames.Left}"
+                                FontSize="Medium"/>
+                </StackLayout>
+                <Label Grid.Column="1" VerticalOptions="Center" 
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Start"
+                                   TextColor="Black">
+                </Label>
             </Grid>
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding Tracks}" 
                   SelectedItem="{Binding SelectedTrack}">
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemTapped" 
+                                                       Command="{Binding SetTrackCommand}"
+                                                       EventArgsConverter="{StaticResource itemTappedConverter}" />
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -52,11 +71,12 @@
                                 </Label>
                                 <StackLayout Grid.Column="1" VerticalOptions="Center"
                                    HorizontalOptions="End"
-                                   Margin="5,0,0,0">
+                                   Margin="5,0,10,0">
                                     <Button VerticalOptions="Center"
                                          FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                          Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}" 
-                                         TextColor="Gray">
+                                         TextColor="Gray"
+                                         Command="{Binding TogglePlayCommand}">
                                     </Button>
                                 </StackLayout>
                             </Grid>
