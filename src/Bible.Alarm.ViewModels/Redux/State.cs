@@ -7,11 +7,8 @@ namespace JW.Alarm.ViewModels.Redux
     {
         public ObservableHashSet<ScheduleListItem> Schedules { get; set; }
 
-        public ScheduleListItem ScheduleListItem { get; set; }
-        public ScheduleViewModel ScheduleViewModel { get; set; }
+        public ScheduleListItem CurrentScheduleListItem { get; set; }
 
-        public MusicSelectionViewModel MusicSelectionViewModel { get; set; }
-        public SongBookSelectionViewModel SongBookSelectionViewModel { get; set; }
         public AlarmMusic CurrentMusic { get; set; }
         public AlarmMusic TentativeMusic { get; set; }
     }

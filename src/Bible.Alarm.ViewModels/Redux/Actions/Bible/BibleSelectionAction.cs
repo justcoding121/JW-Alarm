@@ -8,6 +8,5 @@ namespace Bible.Alarm.ViewModels.Redux.Actions
 {
     public class BibleSelectionAction : IAction
     {
-        public BibleSelectionViewModel BibleSelectionViewModel { get; set; }
     }
 }

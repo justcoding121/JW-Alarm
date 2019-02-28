@@ -25,6 +25,7 @@
                     HorizontalOptions="Fill"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                     Text="{x:Static fn:GlyphNames.Left}"
+                    Command="{Binding BackCommand}"
                     TextColor="SlateBlue">
                 </Button>
             </Grid>
@@ -35,7 +36,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
+                            <Grid HeightRequest="45" HorizontalOptions="Fill">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*"/>
                                     <ColumnDefinition Width="2*"/>
@@ -44,6 +45,7 @@
                                    VerticalOptions="Center" 
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Title}">
@@ -51,7 +53,8 @@
                                 <StackLayout Grid.Column="1" VerticalOptions="Center"
                                    HorizontalOptions="End"
                                    Margin="5,0,0,0">
-                                    <Button  FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                    <Button VerticalOptions="Center"
+                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                          Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}" 
                                          TextColor="Gray">
                                     </Button>

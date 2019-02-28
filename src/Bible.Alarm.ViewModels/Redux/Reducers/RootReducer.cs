@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using Redux;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,6 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 previousState.Schedules.Add(@params.ScheduleListItem);
                 return new ApplicationState()
                 {
-                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules
                 };
             }
@@ -32,18 +32,13 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
             if (action is RemoveScheduleAction)
             {
                 previousState.Schedules.Remove((action as RemoveScheduleAction).ScheduleListItem);
-                return new ApplicationState()
-                {
-                    ScheduleViewModel = previousState.ScheduleViewModel,
-                    Schedules = previousState.Schedules
-                };
+                return new ApplicationState(); ;
             }
 
             if (action is UpdateScheduleAction)
             {
                 return new ApplicationState()
                 {
-                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules
                 };
             }
@@ -53,9 +48,8 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 var @params = (action as ViewScheduleAction);
                 return new ApplicationState()
                 {
-                    ScheduleViewModel = @params.ScheduleViewModel,
                     Schedules = previousState.Schedules,
-                    ScheduleListItem = @params.SelectedScheduleListItem
+                    CurrentScheduleListItem = @params.SelectedScheduleListItem
                 };
             }
 
@@ -74,10 +68,8 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 var @params = (action as MusicSelectionAction);
                 return new ApplicationState()
                 {
-                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules,
-                    ScheduleListItem = previousState.ScheduleListItem,
-                    MusicSelectionViewModel = @params.MusicSelectionViewModel,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
                     CurrentMusic = @params.CurrentMusic
                 };
             }
@@ -87,12 +79,22 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 var @params = (action as SongBookSelectionAction);
                 return new ApplicationState()
                 {
-                    ScheduleViewModel = previousState.ScheduleViewModel,
                     Schedules = previousState.Schedules,
-                    ScheduleListItem = previousState.ScheduleListItem,
-                    MusicSelectionViewModel = previousState.MusicSelectionViewModel,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
                     CurrentMusic = @params.CurrentMusic,
                     TentativeMusic = @params.TentativeMusic 
+                };
+            }
+
+            if (action is TrackSelectionAction)
+            {
+                var @params = (action as TrackSelectionAction);
+                return new ApplicationState()
+                {
+                    Schedules = previousState.Schedules,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
+                    CurrentMusic = @params.CurrentMusic,
+                    TentativeMusic = @params.TentativeMusic
                 };
             }
 

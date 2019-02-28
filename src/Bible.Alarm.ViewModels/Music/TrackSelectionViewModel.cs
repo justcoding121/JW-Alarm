@@ -1,15 +1,21 @@
-﻿using JW.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux.Actions;
+using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace JW.Alarm.ViewModels
 {
@@ -19,36 +25,66 @@ namespace JW.Alarm.ViewModels
         private IThreadService threadService;
         private IPopUpService popUpService;
         private IPreviewPlayService playService;
+        private INavigationService navigationService;
+
         private AlarmMusic current;
         private AlarmMusic tentative;
 
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-        public TrackSelectionViewModel(AlarmMusic current, AlarmMusic tentative)
+        public TrackSelectionViewModel()
         {
-            this.current = current;
-            this.tentative = tentative;
-
-            this.current = current;
-
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
+            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            initialize();
+         
+            BackCommand = new Command(async () =>
+            {
+                await navigationService.GoBack();
+                ReduxContainer.Store.Dispatch(new BackAction(this));
+            });
+
+            SetTrackCommand = new Command<MusicTrackListViewItemModel>(x =>
+            {
+                SelectedTrack = x;
+
+                tentative.TrackNumber = x.Number;
+
+                current.MusicType = tentative.MusicType;
+                current.LanguageCode = tentative.LanguageCode;
+                current.PublicationCode = tentative.PublicationCode;
+                current.TrackNumber = tentative.TrackNumber;
+            });
+
+            //set schedules from initial state.
+            //this should fire only once 
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+                   .Select(state => new { state.CurrentMusic, state.TentativeMusic })
+                   .Where(x => x.CurrentMusic != null && x.TentativeMusic != null)
+                   .DistinctUntilChanged()
+                   .Take(1)
+                   .Subscribe(async x =>
+                   {
+                       current = x.CurrentMusic;
+                       tentative = x.TentativeMusic;
+                       await initialize(tentative.LanguageCode, tentative.PublicationCode);
+                   });
+
+            disposables.Add(subscription);
+
         }
+
+        public ICommand BackCommand { get; set; }
+        public ICommand SetTrackCommand { get; set; }
 
         private bool isBusy;
         public bool IsBusy
         {
             get => isBusy;
             set => this.Set(ref isBusy, value);
-        }
-
-        private void initialize()
-        {
-            Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
         }
 
         public ObservableHashSet<MusicTrackListViewItemModel> Tracks { get; set; } = new ObservableHashSet<MusicTrackListViewItemModel>();
@@ -64,21 +100,9 @@ namespace JW.Alarm.ViewModels
             }
         }
 
-        public void SetTrack(MusicTrackListViewItemModel musicTrackListViewItemModel)
-        {
-            SelectedTrack = musicTrackListViewItemModel;
-
-            tentative.TrackNumber = musicTrackListViewItemModel.Number;
-
-            current.MusicType = tentative.MusicType;
-            current.LanguageCode = tentative.LanguageCode;
-            current.PublicationCode = tentative.PublicationCode;
-            current.TrackNumber = tentative.TrackNumber;
-        }
-
         private MusicTrackListViewItemModel currentlyPlaying;
 
-        private async Task initializeAsync(string languageCode, string publicationCode)
+        private async Task initialize(string languageCode, string publicationCode)
         {
             var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
                               => new NotifyCollectionChangedEventHandler(ev),
@@ -222,7 +246,6 @@ namespace JW.Alarm.ViewModels
         public void Dispose()
         {
             disposables.ForEach(x => x.Dispose());
-            disposables.Clear();
         }
     }
 

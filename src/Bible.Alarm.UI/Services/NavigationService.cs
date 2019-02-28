@@ -18,7 +18,7 @@ namespace Bible.Alarm.UI
             navigater = navigation;
         }
 
-        public async Task CancelModal()
+        public async Task CloseModal()
         {
             await navigater.PopModalAsync();
         }
@@ -27,8 +27,11 @@ namespace Bible.Alarm.UI
         {
             switch (name)
             {
-                case "language":
-                    await navigater.PushModalAsync(new LanguageModal());
+                case "LanguageModal":
+                    await navigater.PushModalAsync(new LanguageModal()
+                    {
+                        BindingContext = viewModel
+                    });
                     break;
                 default:
                     throw new ArgumentException("Modal not defined.", name);

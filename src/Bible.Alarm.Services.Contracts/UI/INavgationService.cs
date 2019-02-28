@@ -11,6 +11,6 @@ namespace Bible.Alarm.Services.Contracts
         Task Navigate(object viewModel);
         Task GoBack();
         Task ShowModal(string name, object viewModel);
-        Task CancelModal();
+        Task CloseModal();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
@@ -53,14 +54,36 @@ namespace JW.Alarm.ViewModels
 
             SongBookSelectionCommand = new Command<MusicTypeListItemViewModel>(async x =>
             {
-                var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
-                await navigationService.Navigate(viewModel);
-                ReduxContainer.Store.Dispatch(new SongBookSelectionAction()
+                if (x.MusicType == MusicType.Vocals)
                 {
-                    SongBookSelectionViewModel = viewModel,
-                    CurrentMusic = current,
-                    TentativeMusic = getTentativeAlarmMusic(x)
-                });
+                    var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
+                    await navigationService.Navigate(viewModel);
+                    ReduxContainer.Store.Dispatch(new SongBookSelectionAction()
+                    {
+                        CurrentMusic = current,
+                        TentativeMusic = new AlarmMusic()
+                        {
+                            MusicType = MusicType.Vocals,
+                            LanguageCode = current.LanguageCode
+                        }
+                    });
+                }
+                else
+                {
+                    var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
+                    await navigationService.Navigate(viewModel);
+                    ReduxContainer.Store.Dispatch(new TrackSelectionAction()
+                    {
+                        CurrentMusic = current,
+                        TentativeMusic = new AlarmMusic()
+                        {
+                            Fixed = current.Fixed,
+                            MusicType = MusicType.Melodies
+                        }
+                    });
+                }
+
+
             });
 
             BackCommand = new Command(async () =>
@@ -87,24 +110,6 @@ namespace JW.Alarm.ViewModels
                     Name = "Vocals"
                 }
             });
-
-        private AlarmMusic getTentativeAlarmMusic(MusicTypeListItemViewModel musicTypeListItemViewModel)
-        {
-            if (musicTypeListItemViewModel.MusicType == MusicType.Vocals)
-            {
-                return new AlarmMusic()
-                {
-                    MusicType = MusicType.Vocals,
-                    LanguageCode = current.MusicType == MusicType.Vocals ? current.LanguageCode : null
-                };
-            }
-
-            return new AlarmMusic()
-            {
-                Fixed = current.Fixed,
-                MusicType = MusicType.Melodies
-            };
-        }
 
         private MusicTypeListItemViewModel selectedMusicType;
         public MusicTypeListItemViewModel SelectedMusicType

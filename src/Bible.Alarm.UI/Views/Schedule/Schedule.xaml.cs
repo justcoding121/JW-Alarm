@@ -25,7 +25,17 @@ namespace Bible.Alarm.UI.Views
                 Command = new Command(() => AnimateUtils.FlickUponTouched(BibleButton, 1500,
                     ColorUtils.ToHexString(Color.LightGray), ColorUtils.ToHexString(Color.WhiteSmoke), 1))
             });
+        }
 
+        protected override bool OnBackButtonPressed()
+        {
+            if (base.OnBackButtonPressed())
+            {
+                ViewModel.CancelCommand.Execute(null);
+                return true;
+            }
+
+            return false;
         }
 
     }

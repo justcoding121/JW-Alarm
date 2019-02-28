@@ -43,7 +43,7 @@ namespace JW.Alarm.ViewModels
             {
                 var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
                 await navigationService.Navigate(viewModel);
-                ReduxContainer.Store.Dispatch(new ViewScheduleAction() { ScheduleViewModel = viewModel });
+                ReduxContainer.Store.Dispatch(new ViewScheduleAction());
             });
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
@@ -52,7 +52,6 @@ namespace JW.Alarm.ViewModels
                 await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction()
                 {
-                    ScheduleViewModel = viewModel,
                     SelectedScheduleListItem = x
                 });
             });

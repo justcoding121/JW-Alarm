@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JW.Alarm.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,22 @@ namespace Bible.Alarm.UI.Views.Music
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SongBookSelection : ContentPage
 	{
-		public SongBookSelection ()
+        public SongBookSelectionViewModel ViewModel => BindingContext as SongBookSelectionViewModel;
+
+        public SongBookSelection ()
 		{
 			InitializeComponent ();
 		}
-	}
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (base.OnBackButtonPressed())
+            {
+                ViewModel.BackCommand.Execute(null);
+                return true;
+            }
+
+            return false;
+        }
+    }
 }

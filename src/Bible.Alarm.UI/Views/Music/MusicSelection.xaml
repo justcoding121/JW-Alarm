@@ -16,8 +16,8 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" HeightRequest="30"
-                  MinimumHeightRequest="30" HorizontalOptions="Fill" 
+            <Grid Grid.Row="0" HeightRequest="35"
+                  MinimumHeightRequest="35" HorizontalOptions="Fill" 
                   BackgroundColor="WhiteSmoke"
                   x:Name="BackButton"
                   Margin="3">
@@ -62,6 +62,7 @@
                                 <Label Grid.Column="0" VerticalOptions="Center" 
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Name}">
@@ -71,9 +72,10 @@
                                    HorizontalOptions="End"
                                    Margin="5,0,5,0">
                                     <Label TextColor="Gray"    
-                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
-                                Text="{x:Static fn:GlyphNames.Right}"
-                                FontSize="Medium"/>
+                                        VerticalTextAlignment="Center"
+                                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                        Text="{x:Static fn:GlyphNames.Right}"
+                                        FontSize="Medium"/> 
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

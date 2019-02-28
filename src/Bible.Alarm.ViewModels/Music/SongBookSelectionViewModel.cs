@@ -1,4 +1,7 @@
-﻿using JW.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Music;
+using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
@@ -11,41 +14,92 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace JW.Alarm.ViewModels
 {
-    public class SongBookSelectionViewModel : ViewModel
+    public class SongBookSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
         private IPopUpService popUpService;
         private IThreadService threadService;
+        private INavigationService navigationService;
 
         private AlarmMusic current;
         private AlarmMusic tentative;
 
-        private List<IDisposable> subscriptions = new List<IDisposable>();
+        private List<IDisposable> disposables = new List<IDisposable>();
 
         public SongBookSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.threadService = IocSetup.Container.Resolve<IThreadService>();
+            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             //set schedules from initial state.
             //this should fire only once 
-            ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
-                .Select(state => new { state.CurrentMusic, state.TentativeMusic })
-                .Where(x => x.CurrentMusic != null && x.TentativeMusic != null)
-                .DistinctUntilChanged()
-                .Take(1)
-                .Subscribe(async x =>
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+                 .Select(state => new { state.CurrentMusic, state.TentativeMusic })
+                 .Where(x => x.CurrentMusic != null && x.TentativeMusic != null)
+                 .DistinctUntilChanged()
+                 .Take(1)
+                 .Subscribe(async x =>
+                 {
+                     current = x.CurrentMusic;
+                     tentative = x.TentativeMusic;
+                     publicationCode = current.PublicationCode;
+                     await initialize();
+                 });
+            disposables.Add(subscription);
+
+            TrackSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
+            {
+                var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
+                await navigationService.Navigate(viewModel);
+                ReduxContainer.Store.Dispatch(new TrackSelectionAction()
                 {
-                    current = x.CurrentMusic;
-                    tentative = x.TentativeMusic;
-                    publicationCode = current.PublicationCode;
-                    await initialize();
+                    CurrentMusic = current,
+                    TentativeMusic = new AlarmMusic()
+                    {
+                        Fixed = current.Fixed,
+                        MusicType = MusicType.Vocals,
+                        LanguageCode = selectedLanguage.Code,
+                        PublicationCode = x.Code
+                    }
                 });
+            });
+
+            OpenModalCommand = new Command(async () =>
+            {
+                await navigationService.ShowModal("LanguageModal", this);
+            });
+
+            BackCommand = new Command(async () =>
+            {
+                await navigationService.GoBack();
+                ReduxContainer.Store.Dispatch(new BackAction(this));
+            });
+
+            CloseModalCommand = new Command(async () =>
+            {
+                await navigationService.CloseModal();
+            });
+
+            SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
+            {
+                await navigationService.CloseModal();
+                await populateSongBooks(x.Code);
+            });
         }
+
+        public ICommand BackCommand { get; set; }
+        public ICommand TrackSelectionCommand { get; set; }
+        public ICommand OpenModalCommand { get; set; }
+        public ICommand CloseModalCommand { get; set; }
+        public ICommand SelectLanguageCommand { get; set; }
+        public ICommand SelectSongBookCommand { get; set; }
 
         private bool isBusy;
         public bool IsBusy
@@ -94,14 +148,6 @@ namespace JW.Alarm.ViewModels
             }
         }
 
-        public TrackSelectionViewModel GetTrackSelectionViewModel(PublicationListViewItemModel selectedSongBook)
-        {
-            tentative.LanguageCode = selectedLanguage.Code;
-            tentative.PublicationCode = selectedSongBook.Code;
-
-            return new TrackSelectionViewModel(current, tentative);
-        }
-
         private async Task initialize()
         {
             var languageCode = tentative.LanguageCode;
@@ -125,18 +171,6 @@ namespace JW.Alarm.ViewModels
             await populateSongBooks(languageCode);
 
             var subscription1 = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
-                                                    onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                    => onNextHandler(new KeyValuePair<string, object>(e.PropertyName, sender)),
-                                                    handler => PropertyChanged += handler,
-                                                    handler => PropertyChanged -= handler)
-                                .Where(x => x.Key == "SelectedLanguage")
-                                .Where(x => SelectedLanguage != null)
-                                .Do(async x => await populateSongBooks(SelectedLanguage.Code))
-                                .Subscribe();
-
-            subscriptions.Add(subscription1);
-
-            var subscription2 = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
                                               onNextHandler => (object sender, PropertyChangedEventArgs e)
                                               => onNextHandler(new KeyValuePair<string, object>(e.PropertyName, sender)),
                                               handler => PropertyChanged += handler,
@@ -145,7 +179,7 @@ namespace JW.Alarm.ViewModels
                           .Do(async x => await populateLanguages(LanguageSearchTerm))
                           .Subscribe();
 
-            subscriptions.Add(subscription2);
+            disposables.Add(subscription1);
         }
 
         private async Task populateLanguages(string searchTerm = null)
@@ -222,6 +256,11 @@ namespace JW.Alarm.ViewModels
             {
                 IsBusy = false;
             });
+        }
+
+        public void Dispose()
+        {
+            disposables.ForEach(x => x.Dispose());
         }
     }
 }

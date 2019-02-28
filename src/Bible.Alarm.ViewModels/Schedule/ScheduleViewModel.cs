@@ -39,7 +39,7 @@ namespace JW.Alarm.ViewModels
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
             var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
-               .Select(state => state.ScheduleListItem)
+               .Select(state => state.CurrentScheduleListItem)
                .DistinctUntilChanged()
                .Take(1)
                .Subscribe(x =>
@@ -85,7 +85,6 @@ namespace JW.Alarm.ViewModels
                 await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new MusicSelectionAction()
                 {
-                    MusicSelectionViewModel = viewModel,
                     CurrentMusic = Music
                 });
             });
@@ -94,10 +93,7 @@ namespace JW.Alarm.ViewModels
             {
                 var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
-                ReduxContainer.Store.Dispatch(new BibleSelectionAction()
-                {
-                    BibleSelectionViewModel = viewModel
-                });
+                ReduxContainer.Store.Dispatch(new BibleSelectionAction());
             });
         }
 
