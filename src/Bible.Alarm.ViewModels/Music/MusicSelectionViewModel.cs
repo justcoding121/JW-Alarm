@@ -44,12 +44,10 @@ namespace JW.Alarm.ViewModels
                 .Select(state => state.CurrentMusic)
                 .Where(x => x != null)
                 .DistinctUntilChanged()
-                .Take(1)
                 .Subscribe(x =>
                 {
                     current = x;
-                    var selected = MusicTypes.First(y => y.MusicType == current.MusicType);
-                    SelectedMusicType = selected;
+                    setSelectedMusicType();
                 });
 
             disposables.Add(subscription);
@@ -69,7 +67,6 @@ namespace JW.Alarm.ViewModels
                     });
                     var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
                     await navigationService.Navigate(viewModel);
-                    
                 }
                 else
                 {
@@ -83,7 +80,7 @@ namespace JW.Alarm.ViewModels
                         }
                     });
                     var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
-                    await navigationService.Navigate(viewModel);         
+                    await navigationService.Navigate(viewModel);
                 }
 
 
@@ -95,6 +92,21 @@ namespace JW.Alarm.ViewModels
                 ReduxContainer.Store.Dispatch(new BackAction(this));
             });
 
+            navigationService.NavigatedBack += onNavigated;
+        }
+
+        private void onNavigated(object viewModal)
+        {
+            if (viewModal.GetType() == typeof(MusicSelectionViewModel))
+            {
+                setSelectedMusicType();
+            }
+        }
+
+        private void setSelectedMusicType()
+        {
+            var selected = MusicTypes.First(y => y.MusicType == current.MusicType);
+            SelectedMusicType = selected;
         }
 
         public ICommand BackCommand { get; set; }
@@ -123,6 +135,7 @@ namespace JW.Alarm.ViewModels
 
         public void Dispose()
         {
+            navigationService.NavigatedBack -= onNavigated;
             disposables.ForEach(x => x.Dispose());
         }
     }

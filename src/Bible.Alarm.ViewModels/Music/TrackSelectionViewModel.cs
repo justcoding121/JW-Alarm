@@ -76,6 +76,7 @@ namespace JW.Alarm.ViewModels
                    });
 
             disposables.Add(subscription);
+
         }
 
         public ICommand BackCommand { get; set; }
@@ -193,11 +194,11 @@ namespace JW.Alarm.ViewModels
                                 }))
                                 .Subscribe();
 
-            var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev, 
+            var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev,
                                                      ev => playService.OnStopped -= ev)
                                  .Do(y =>
                                  {
-                                     if(currentlyPlaying !=null)
+                                     if (currentlyPlaying != null)
                                      {
                                          currentlyPlaying.Play = false;
                                      }

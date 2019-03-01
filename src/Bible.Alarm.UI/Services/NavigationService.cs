@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
@@ -13,6 +14,9 @@ namespace Bible.Alarm.UI
     public class NavigationService : INavigationService
     {
         private readonly INavigation navigater;
+
+        public event Action<object> NavigatedBack;
+
         public NavigationService(INavigation navigation)
         {
             navigater = navigation;
@@ -21,6 +25,14 @@ namespace Bible.Alarm.UI
         public async Task CloseModal()
         {
             await navigater.PopModalAsync();
+
+            var currentPage = navigater.NavigationStack.FirstOrDefault();
+            
+            if(currentPage!=null)
+            {
+                NavigatedBack?.Invoke(currentPage.BindingContext);
+            }
+    
         }
 
         public async Task ShowModal(string name, object viewModel)
@@ -42,6 +54,13 @@ namespace Bible.Alarm.UI
         public async Task GoBack()
         {
             await navigater.PopAsync();
+
+            var currentPage = navigater.NavigationStack.LastOrDefault();
+
+            if (currentPage != null)
+            {
+                NavigatedBack?.Invoke(currentPage.BindingContext);
+            }
         }
 
         public async Task Navigate(object viewModel)
@@ -102,7 +121,6 @@ namespace Bible.Alarm.UI
                 default:
                     throw new ArgumentException("Invalid View Model name", vmName);
             }
-
         }
 
         public async Task NavigateToHome()

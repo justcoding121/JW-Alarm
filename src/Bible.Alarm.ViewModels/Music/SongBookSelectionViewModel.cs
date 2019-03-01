@@ -42,7 +42,7 @@ namespace JW.Alarm.ViewModels
 
             //set schedules from initial state.
             //this should fire only once 
-            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            var subscription1 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
                  .Select(state => new { state.CurrentMusic, state.TentativeMusic })
                  .Where(x => x.CurrentMusic != null && x.TentativeMusic != null)
                  .DistinctUntilChanged()
@@ -54,7 +54,23 @@ namespace JW.Alarm.ViewModels
                      publicationCode = current.PublicationCode;
                      await initialize();
                  });
-            disposables.Add(subscription);
+
+            disposables.Add(subscription1);
+
+            var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+             .Select(state => new { state.CurrentMusic, state.TentativeMusic })
+             .Where(x => x.CurrentMusic != null && x.TentativeMusic != null)
+             .DistinctUntilChanged()
+             .Skip(1)
+             .Subscribe(x =>
+             {
+                 current = x.CurrentMusic;
+                 tentative = x.TentativeMusic;
+
+                 setSelectedSongBook();
+             });
+
+            disposables.Add(subscription2);
 
             TrackSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
@@ -71,7 +87,7 @@ namespace JW.Alarm.ViewModels
                 });
 
                 var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
-                await navigationService.Navigate(viewModel); 
+                await navigationService.Navigate(viewModel);
             });
 
             OpenModalCommand = new Command(async () =>
@@ -96,6 +112,22 @@ namespace JW.Alarm.ViewModels
                 await navigationService.CloseModal();
                 await populateSongBooks(x.Code);
             });
+
+            navigationService.NavigatedBack += onNavigated;
+        }
+
+        private void onNavigated(object viewModal)
+        {
+            if (viewModal.GetType() == typeof(SongBookSelectionViewModel))
+            {
+                setSelectedSongBook();
+            }
+        }
+
+        private void setSelectedSongBook()
+        {
+            SelectedLanguage = Languages.FirstOrDefault(y => y.Code == current.LanguageCode);
+            SelectedSongBook = SongBooks.FirstOrDefault(y => y.Code == current.PublicationCode);
         }
 
         public ICommand BackCommand { get; set; }
@@ -264,6 +296,7 @@ namespace JW.Alarm.ViewModels
 
         public void Dispose()
         {
+            navigationService.NavigatedBack -= onNavigated;
             disposables.ForEach(x => x.Dispose());
         }
     }

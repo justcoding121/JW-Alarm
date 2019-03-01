@@ -46,7 +46,7 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding Tracks}" 
-                  SelectedItem="{Binding SelectedTrack, Mode=OneWay}">
+                  SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" 
                                                        Command="{Binding SetTrackCommand}"

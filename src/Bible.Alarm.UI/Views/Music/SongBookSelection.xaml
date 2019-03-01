@@ -48,7 +48,7 @@
                     <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"  Margin="5,0,2,0" 
                                    TextColor="SlateBlue"
-                                   BindingContext="{Binding Path=SelectedLanguage, Mode=OneWay}"
+                                   BindingContext="{Binding Path=SelectedLanguage, Mode=TwoWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                     </Label>
                     <StackLayout Grid.Column="1" VerticalOptions="Center"
@@ -64,7 +64,7 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding SongBooks}" 
-                  SelectedItem="{Binding SelectedSongBook, Mode=OneWay}">
+                  SelectedItem="{Binding SelectedSongBook, Mode=TwoWay}">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" 
                                                        Command="{Binding TrackSelectionCommand}"
