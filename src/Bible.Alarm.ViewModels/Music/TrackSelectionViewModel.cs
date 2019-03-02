@@ -51,7 +51,8 @@ namespace JW.Alarm.ViewModels
 
             SetTrackCommand = new Command<MusicTrackListViewItemModel>(x =>
             {
-                SelectedTrack = x;
+                selectedTrack = x;
+                RaiseProperty("SelectedTrack");
 
                 tentative.TrackNumber = x.Number;
 
@@ -97,8 +98,9 @@ namespace JW.Alarm.ViewModels
             get => selectedTrack;
             set
             {
-                selectedTrack = value;
-                RaiseProperty("SelectedTrack");
+                //this is a hack since selection is not working in one-way mode 
+                //make two-way mode behave like one way mode
+                Raise();
             }
         }
 

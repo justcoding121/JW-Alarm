@@ -47,9 +47,8 @@
                   MinimumHeightRequest="300"
                   MinimumWidthRequest="250"
                   Grid.Row="3" 
-                  SelectionMode="Single"
                   ItemsSource="{Binding Languages}" 
-                  SelectedItem="{Binding SelectedLanguage, Mode=OneWay}">
+                  SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding SelectLanguageCommand}"
                                                        EventArgsConverter="{StaticResource itemTappedConverter}" />

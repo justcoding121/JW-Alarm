@@ -7,6 +7,10 @@
     {
         #region Set and raise bindable property value
 
+        public void Raise([CallerMemberName] string name = null)
+        {
+            this.RaiseProperty(name);
+        }
         /// <summary>
         /// Raise the PropertyChanged event with the given property name.
         /// </summary>
@@ -45,7 +49,7 @@
         /// <param name="value">The new value.</param>
         /// <param name="name">Name of the set property.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static Assignement<TObservable, T> Set<TObservable,T>(this TObservable obs, ref T field, T value, [CallerMemberName]string name = null)
+        public static Assignement<TObservable, T> Set<TObservable, T>(this TObservable obs, ref T field, T value, [CallerMemberName]string name = null)
             where TObservable : VMObservable
         {
             var result = new Assignement<TObservable, T>(obs, name, field, value);
@@ -53,9 +57,9 @@
             if (result.HasChanged)
             {
                 field = result.NewValue;
-                obs.RaiseProperty(name);
             }
 
+            obs.RaiseProperty(name);
             return result;
         }
 

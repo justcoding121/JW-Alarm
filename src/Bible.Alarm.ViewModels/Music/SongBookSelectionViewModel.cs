@@ -23,7 +23,6 @@ namespace JW.Alarm.ViewModels
     {
         private MediaService mediaService;
         private IPopUpService popUpService;
-        private IThreadService threadService;
         private INavigationService navigationService;
 
         private AlarmMusic current;
@@ -66,8 +65,6 @@ namespace JW.Alarm.ViewModels
              {
                  current = x.CurrentMusic;
                  tentative = x.TentativeMusic;
-
-                 setSelectedSongBook();
              });
 
             disposables.Add(subscription2);
@@ -108,7 +105,8 @@ namespace JW.Alarm.ViewModels
 
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
-                SelectedLanguage = x;
+                selectedLanguage = x;
+                RaiseProperty("SelectedLanguage");
                 await navigationService.CloseModal();
                 await populateSongBooks(x.Code);
             });
@@ -126,8 +124,16 @@ namespace JW.Alarm.ViewModels
 
         private void setSelectedSongBook()
         {
-            SelectedLanguage = Languages.FirstOrDefault(y => y.Code == current.LanguageCode);
-            SelectedSongBook = SongBooks.FirstOrDefault(y => y.Code == current.PublicationCode);
+            if (current.LanguageCode == tentative.LanguageCode)
+            {
+                selectedSongBook = SongBooks.FirstOrDefault(y => y.Code == current.PublicationCode);
+            }
+            else
+            {
+                selectedSongBook = null;
+            }
+
+            RaiseProperty("SelectedSongBook");
         }
 
         public ICommand BackCommand { get; set; }
@@ -153,8 +159,9 @@ namespace JW.Alarm.ViewModels
             get => selectedLanguage;
             set
             {
-                selectedLanguage = value;
-                RaiseProperty("SelectedLanguage");
+                //this is a hack since selection is not working in one-way mode 
+                //make two-way mode behave like one way mode
+                Raise();
             }
         }
 
@@ -179,8 +186,9 @@ namespace JW.Alarm.ViewModels
             get => selectedSongBook;
             set
             {
-                selectedSongBook = value;
-                RaiseProperty("SelectedSongBook");
+                //this is a hack since selection is not working in one-way mode 
+                //make two-way mode behave like one way mode
+                Raise();
             }
         }
 
@@ -266,6 +274,7 @@ namespace JW.Alarm.ViewModels
             await threadService.RunOnUIThread(() =>
             {
                 SongBooks.Clear();
+                selectedSongBook = null;
             });
 
             var releases = await mediaService.GetVocalMusicReleases(languageCode);

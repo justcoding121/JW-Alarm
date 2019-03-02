@@ -106,7 +106,8 @@ namespace JW.Alarm.ViewModels
         private void setSelectedMusicType()
         {
             var selected = MusicTypes.First(y => y.MusicType == current.MusicType);
-            SelectedMusicType = selected;
+            selectedMusicType = selected;
+            Raise("SelectedMusicType");
         }
 
         public ICommand BackCommand { get; set; }
@@ -130,7 +131,12 @@ namespace JW.Alarm.ViewModels
         public MusicTypeListItemViewModel SelectedMusicType
         {
             get => selectedMusicType;
-            set => this.Set(ref selectedMusicType, value);
+            set
+            {
+                //this is a hack since selection is not working in one-way mode 
+                //make two-way mode behave like one way mode
+                Raise();
+            }
         }
 
         public void Dispose()
