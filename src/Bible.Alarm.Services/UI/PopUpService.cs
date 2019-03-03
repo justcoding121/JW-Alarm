@@ -23,7 +23,16 @@ namespace JW.Alarm.Services
         {
             var nextFire = schedule.NextFireDate();
             var timeSpan = nextFire - DateTimeOffset.Now;
-            await ShowMessage($"Alarm set for {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
+
+            if (timeSpan.Days > 0)
+            {
+                await ShowMessage($"Alarm set for {timeSpan.Days} days, {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
+            }
+            else
+            {
+                await ShowMessage($"Alarm set for {timeSpan.Hours} hours and {timeSpan.Minutes} minutes from now.");
+            }
+
         }
     }
 }

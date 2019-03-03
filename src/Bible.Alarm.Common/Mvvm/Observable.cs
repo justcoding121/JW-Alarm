@@ -57,9 +57,9 @@
             if (result.HasChanged)
             {
                 field = result.NewValue;
+                obs.RaiseProperty(name);
             }
-
-            obs.RaiseProperty(name);
+    
             return result;
         }
 

@@ -99,7 +99,7 @@ namespace JW.Alarm.Services.Uwp.Helpers
 
         public static void InitializeDatabase()
         {
-            using (var db = new ScheduleDbContext())
+            using (var db = IocSetup.Container.Resolve<ScheduleDbContext>())
             {
                 db.Database.Migrate();
             }

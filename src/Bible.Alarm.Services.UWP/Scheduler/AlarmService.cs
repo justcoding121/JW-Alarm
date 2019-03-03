@@ -30,7 +30,7 @@ namespace JW.Alarm.Services.Uwp
         {
             var nextTrack = await playlistService.NextTrack(schedule.Id);
             nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
-            scheduleNotification(schedule);
+            scheduleNotification(schedule, false);
             var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
         }
 
@@ -40,7 +40,7 @@ namespace JW.Alarm.Services.Uwp
 
             if (schedule.IsEnabled)
             {
-                scheduleNotification(schedule);
+                scheduleNotification(schedule, false);
                 var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
             }
         }
@@ -48,7 +48,7 @@ namespace JW.Alarm.Services.Uwp
         public async Task Snooze(long scheduleId)
         {
             var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
-            scheduleNotification(schedule);
+            scheduleNotification(schedule, true);
         }
 
         public void Delete(long scheduleId)
@@ -56,9 +56,11 @@ namespace JW.Alarm.Services.Uwp
             removeNotification(scheduleId);
         }
 
-        private void scheduleNotification(AlarmSchedule schedule)
+        private void scheduleNotification(AlarmSchedule schedule, bool isSnoozeNotification)
         {
-            notificationService.Add(schedule.Id, schedule.NextFireDate(), schedule.Name, schedule.Name);
+            notificationService.Add(schedule.Id, isSnoozeNotification ?
+                DateTimeOffset.Now.AddMinutes(schedule.SnoozeMinutes) : schedule.NextFireDate(), schedule.Name,
+                schedule.MusicEnabled ? "Playing alarm music." : "Playing Bible.");
         }
 
         private void removeNotification(long scheduleId)

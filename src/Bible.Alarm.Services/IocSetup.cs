@@ -6,7 +6,7 @@
 
     public static class IocSetup
     {
-        internal static IContainer Container;
+        public static IContainer Container;
         public static void Initialize(IContainer container)
         {
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpClientHandler>()));

@@ -23,7 +23,10 @@ namespace JW.Alarm.Services
 
         public async Task<PlayItem> NextTrack(long scheduleId)
         {
-            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules
+                .Include(x=>x.Music)
+                .Include(x => x.BibleReadingSchedule)
+                .FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
             {
@@ -37,7 +40,11 @@ namespace JW.Alarm.Services
 
         public async Task<PlayItem> NextTrack(NotificationDetail currentTrack)
         {
-            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == currentTrack.ScheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules
+                                .Include(x => x.Music)
+                                .Include(x => x.BibleReadingSchedule)
+                                .FirstAsync(x => x.Id == currentTrack.ScheduleId);
+
             var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
             if (currentTrack.PlayType == PlayType.Music)
@@ -67,7 +74,10 @@ namespace JW.Alarm.Services
 
         public async Task MarkTrackAsFinished(NotificationDetail trackDetail)
         {
-            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == trackDetail.ScheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules
+                                    .Include(x => x.Music)
+                                    .Include(x => x.BibleReadingSchedule)
+                                    .FirstAsync(x => x.Id == trackDetail.ScheduleId);
 
             if (trackDetail.PlayType == PlayType.Music)
             {
@@ -92,7 +102,10 @@ namespace JW.Alarm.Services
         {
             var result = new List<PlayItem>();
 
-            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules
+                                    .Include(x => x.Music)
+                                    .Include(x => x.BibleReadingSchedule)
+                                    .FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
             {

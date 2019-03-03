@@ -23,24 +23,18 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
             {
                 var @params = (action as AddScheduleAction);
                 previousState.Schedules.Add(@params.ScheduleListItem);
-                return new ApplicationState()
-                {
-                    Schedules = previousState.Schedules
-                };
+                return previousState;
             }
 
             if (action is RemoveScheduleAction)
             {
                 previousState.Schedules.Remove((action as RemoveScheduleAction).ScheduleListItem);
-                return new ApplicationState(); ;
+                return previousState;
             }
 
             if (action is UpdateScheduleAction)
             {
-                return new ApplicationState()
-                {
-                    Schedules = previousState.Schedules
-                };
+                return previousState;
             }
 
             if (action is ViewScheduleAction)
@@ -56,11 +50,7 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
             if (action is BackAction)
             {
                 (action as BackAction).CurrentViewModel.Dispose();
-
-                return new ApplicationState()
-                {
-                    Schedules = previousState.Schedules
-                };
+                return previousState;
             }
 
             if (action is MusicSelectionAction)
@@ -81,8 +71,8 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 {
                     Schedules = previousState.Schedules,
                     CurrentScheduleListItem = previousState.CurrentScheduleListItem,
-                    CurrentMusic = @params.CurrentMusic,
-                    TentativeMusic = @params.TentativeMusic 
+                    CurrentMusic = previousState.CurrentMusic,
+                    TentativeMusic = @params.TentativeMusic
                 };
             }
 
@@ -93,8 +83,20 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                 {
                     Schedules = previousState.Schedules,
                     CurrentScheduleListItem = previousState.CurrentScheduleListItem,
-                    CurrentMusic = @params.CurrentMusic,
+                    CurrentMusic = previousState.CurrentMusic,
                     TentativeMusic = @params.TentativeMusic
+                };
+            }
+
+            if (action is TrackSelectedAction)
+            {
+                var @params = (action as TrackSelectedAction);
+                return new ApplicationState()
+                {
+                    Schedules = previousState.Schedules,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
+                    CurrentMusic = @params.CurrentMusic,
+                    TentativeMusic = previousState.TentativeMusic
                 };
             }
 

@@ -41,19 +41,20 @@ namespace JW.Alarm.ViewModels
 
             AddScheduleCommand = new Command(async () =>
             {
+                ReduxContainer.Store.Dispatch(new ViewScheduleAction());
                 var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
                 await navigationService.Navigate(viewModel);
-                ReduxContainer.Store.Dispatch(new ViewScheduleAction());
             });
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
             {
-                var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
-                await navigationService.Navigate(viewModel);
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction()
                 {
                     SelectedScheduleListItem = x
                 });
+
+                var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
+                await navigationService.Navigate(viewModel);
             });
 
             //set schedules from initial state.
@@ -72,6 +73,7 @@ namespace JW.Alarm.ViewModels
             disposables.Add(subscription);
 
             Task.Run(() => initialize());
+
         }
 
         private ObservableHashSet<ScheduleListItem> schedules;
@@ -101,7 +103,10 @@ namespace JW.Alarm.ViewModels
 
         private async Task initialize()
         {
-            var alarmSchedules = await scheduleDbContext.AlarmSchedules.AsNoTracking().ToListAsync();
+            var alarmSchedules = await scheduleDbContext.AlarmSchedules
+                .Include(x => x.Music)
+                .Include(x => x.BibleReadingSchedule)
+                .AsNoTracking().ToListAsync();
 
             var initialSchedules = new ObservableHashSet<ScheduleListItem>();
             foreach (var schedule in alarmSchedules)

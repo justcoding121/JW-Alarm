@@ -18,6 +18,7 @@ namespace JW.Alarm.Services
         }
 
         public DbSet<AlarmSchedule> AlarmSchedules { get; set; }
+        public DbSet<AlarmMusic> AlarmMusic { get; set; }
         public DbSet<BibleReadingSchedule> BibleReadingSchedules { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

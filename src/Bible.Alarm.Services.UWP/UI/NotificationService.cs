@@ -21,13 +21,13 @@ namespace JW.Alarm.Services.UWP
         }
 
         public void Add(long scheduleId, DateTimeOffset time,
-            string title, string body, Uri audio)
+            string title, string body)
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
             var content = new ToastContent()
             {
-                Audio = new ToastAudio() { Src = audio ?? new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
+                Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
                 Scenario = ToastScenario.Alarm,
                 ActivationType = ToastActivationType.Background,
                 Launch = scheduleId.ToString(),

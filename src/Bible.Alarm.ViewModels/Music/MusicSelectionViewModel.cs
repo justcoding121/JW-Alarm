@@ -58,7 +58,6 @@ namespace JW.Alarm.ViewModels
                 {
                     ReduxContainer.Store.Dispatch(new SongBookSelectionAction()
                     {
-                        CurrentMusic = current,
                         TentativeMusic = new AlarmMusic()
                         {
                             MusicType = MusicType.Vocals,
@@ -72,7 +71,6 @@ namespace JW.Alarm.ViewModels
                 {
                     ReduxContainer.Store.Dispatch(new TrackSelectionAction()
                     {
-                        CurrentMusic = current,
                         TentativeMusic = new AlarmMusic()
                         {
                             Fixed = current.Fixed,

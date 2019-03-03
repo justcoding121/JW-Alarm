@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
@@ -60,6 +61,12 @@ namespace JW.Alarm.ViewModels
                 current.LanguageCode = tentative.LanguageCode;
                 current.PublicationCode = tentative.PublicationCode;
                 current.TrackNumber = tentative.TrackNumber;
+
+                ReduxContainer.Store.Dispatch(new TrackSelectedAction()
+                {
+                    CurrentMusic = current
+                });
+
             });
 
             //set schedules from initial state.

@@ -34,7 +34,6 @@ namespace JW.Alarm.ViewModels
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
-            this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             disposables.Add(mediaService);
@@ -73,7 +72,6 @@ namespace JW.Alarm.ViewModels
             {
                 ReduxContainer.Store.Dispatch(new TrackSelectionAction()
                 {
-                    CurrentMusic = current,
                     TentativeMusic = new AlarmMusic()
                     {
                         Fixed = current.Fixed,
@@ -228,24 +226,16 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateLanguages(string searchTerm = null)
         {
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = true;
-            });
-
+            IsBusy = true;
             var languages = await mediaService.GetVocalMusicLanguages();
-
-            await threadService.RunOnUIThread(() =>
-            {
-                Languages.Clear();
-            });
+            Languages.Clear();
 
             foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
                     || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 var languageVM = new LanguageListViewItemModel(language);
 
-                await threadService.RunOnUIThread(() => Languages.Add(languageVM));
+                Languages.Add(languageVM);
 
                 if (languageVM.Code == tentative.LanguageCode)
                 {
@@ -253,36 +243,23 @@ namespace JW.Alarm.ViewModels
                 }
             }
 
-            await threadService.RunOnUIThread(() =>
-            {
-                RaiseProperty("SelectedLanguage");
-            });
-
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = false;
-            });
+            RaiseProperty("SelectedLanguage");
+            IsBusy = false;
         }
 
         private async Task populateSongBooks(string languageCode)
         {
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = true;
-            });
+            IsBusy = true;
 
-            await threadService.RunOnUIThread(() =>
-            {
-                SongBooks.Clear();
-                selectedSongBook = null;
-            });
+            SongBooks.Clear();
+            selectedSongBook = null;
 
             var releases = await mediaService.GetVocalMusicReleases(languageCode);
             foreach (var release in releases.Select(x => x.Value))
             {
                 var songBookListViewItemModel = new PublicationListViewItemModel(release);
 
-                await threadService.RunOnUIThread(() => SongBooks.Add(songBookListViewItemModel));
+                SongBooks.Add(songBookListViewItemModel);
 
                 if (current.MusicType == MusicType.Vocals
                     && current.LanguageCode == languageCode
@@ -292,15 +269,8 @@ namespace JW.Alarm.ViewModels
                 }
             }
 
-            await threadService.RunOnUIThread(() =>
-            {
-                RaiseProperty("SelectedSongBook");
-            });
-
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = false;
-            });
+            RaiseProperty("SelectedSongBook");
+            IsBusy = false;
         }
 
         public void Dispose()

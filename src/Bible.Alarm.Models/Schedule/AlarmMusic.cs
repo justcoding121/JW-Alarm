@@ -16,13 +16,8 @@ namespace JW.Alarm.Models
         //Always play current track.
         public bool Fixed { get; set; }
 
+        public virtual AlarmSchedule AlarmSchedule { get; set; }
         public int AlarmScheduleId { get; set; }
-        public AlarmSchedule AlarmSchedule { get; set; }
-
-        public AlarmMusic()
-        {
-
-        }
     }
 
 }

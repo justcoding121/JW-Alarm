@@ -48,9 +48,40 @@ namespace JW.Alarm.ViewModels
                    var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
-                   setModel(model ?? new AlarmSchedule());
+                   setModel(model ?? new AlarmSchedule()
+                   {
+                       IsEnabled = true,
+                       MusicEnabled = true,
+                       DaysOfWeek = DaysOfWeek.All,
+                       Music = new AlarmMusic()
+                       {
+                           MusicType = MusicType.Melodies,
+                           PublicationCode = "iam",
+                           LanguageCode = "E",
+                           TrackNumber = 89
+                       },
+
+                       BibleReadingSchedule = new BibleReadingSchedule()
+                       {
+                           BookNumber = 23,
+                           ChapterNumber = 1,
+                           LanguageCode = "E",
+                           PublicationCode = "nwt"
+                       }
+                   });
                });
             disposables.Add(subscription);
+
+
+            var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+           .Select(state => state.CurrentMusic)
+           .Where(x => x != null)
+           .Subscribe(x =>
+           {
+               Model.Music = x;
+           });
+
+            disposables.Add(subscription2);
 
             CancelCommand = new Command(async () =>
             {
@@ -64,6 +95,7 @@ namespace JW.Alarm.ViewModels
                 {
                     await navigationService.GoBack();
                     ReduxContainer.Store.Dispatch(new BackAction(this));
+
                 }
             });
 
@@ -72,6 +104,7 @@ namespace JW.Alarm.ViewModels
                 await deleteAsync();
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+
             });
 
             ToggleDayCommand = new Command<DaysOfWeek>(x =>
@@ -251,11 +284,15 @@ namespace JW.Alarm.ViewModels
                 }
                 else
                 {
-                    var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == model.Id);
+                    var existing = await scheduleDbContext.AlarmSchedules
+                        .Include(x => x.Music)
+                        .Include(x => x.BibleReadingSchedule)
+                        .FirstAsync(x => x.Id == model.Id);
 
                     existing.Hour = model.Hour;
-                    existing.IsEnabled = model.IsEnabled;
                     existing.Minute = model.Minute;
+                    existing.DaysOfWeek = model.DaysOfWeek;
+                    existing.IsEnabled = model.IsEnabled;
 
                     existing.Music.Fixed = model.Music.Fixed;
                     existing.Music.LanguageCode = model.Music.LanguageCode;

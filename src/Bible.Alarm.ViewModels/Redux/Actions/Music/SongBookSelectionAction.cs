@@ -9,7 +9,6 @@ namespace Bible.Alarm.ViewModels.Redux.Actions
 {
     public class SongBookSelectionAction : IAction
     {
-        public AlarmMusic CurrentMusic { get; set; }
         public AlarmMusic TentativeMusic { get; set; }
     }
 }

@@ -239,7 +239,6 @@ namespace Advanced.Algorithms.DataStructures.Foundation
         {
             return Key.GetHashCode();
         }
-
     }
 
     internal class SortedDictionaryEnumerator<K, V> : IEnumerator<KeyValuePair<K, V>> where K : IComparable
