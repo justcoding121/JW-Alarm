@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Bible;
 using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using Redux;
 using System;
@@ -97,6 +98,54 @@ namespace JW.Alarm.ViewModels.Redux.Reducers
                     CurrentScheduleListItem = previousState.CurrentScheduleListItem,
                     CurrentMusic = @params.CurrentMusic,
                     TentativeMusic = previousState.TentativeMusic
+                };
+            }
+
+            if (action is BibleSelectionAction)
+            {
+                var @params = (action as BibleSelectionAction);
+                return new ApplicationState()
+                {
+                    Schedules = previousState.Schedules,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
+                    CurrentBibleReadingSchedule = @params.CurrentBibleReadingSchedule,
+                    TentativeBibleReadingSchedule = @params.TentativeBibleReadingSchedule
+                };
+            }
+
+            if (action is BookSelectionAction)
+            {
+                var @params = (action as BookSelectionAction);
+                return new ApplicationState()
+                {
+                    Schedules = previousState.Schedules,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
+                    CurrentBibleReadingSchedule = previousState.CurrentBibleReadingSchedule,
+                    TentativeBibleReadingSchedule = @params.TentativeBibleReadingSchedule
+                };
+            }
+
+            if (action is ChapterSelectionAction)
+            {
+                var @params = (action as ChapterSelectionAction);
+                return new ApplicationState()
+                {
+                    Schedules = previousState.Schedules,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
+                    CurrentBibleReadingSchedule = previousState.CurrentBibleReadingSchedule,
+                    TentativeBibleReadingSchedule = @params.TentativeBibleReadingSchedule
+                };
+            }
+
+            if (action is ChapterSelectedAction)
+            {
+                var @params = (action as ChapterSelectedAction);
+                return new ApplicationState()
+                {
+                    Schedules = previousState.Schedules,
+                    CurrentScheduleListItem = previousState.CurrentScheduleListItem,
+                    CurrentBibleReadingSchedule = @params.CurrentBibleReadingSchedule,
+                    TentativeBibleReadingSchedule = previousState.TentativeBibleReadingSchedule
                 };
             }
 

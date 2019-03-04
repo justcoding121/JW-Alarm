@@ -1,13 +1,21 @@
-﻿using JW.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Bible;
+using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace JW.Alarm.ViewModels
 {
@@ -17,21 +25,83 @@ namespace JW.Alarm.ViewModels
         private BibleReadingSchedule tentative;
 
         private MediaService mediaService;
-        private IThreadService threadService;
         private IPopUpService popUpService;
+        private INavigationService navigationService;
 
-        public BookSelectionViewModel(BibleReadingSchedule current, BibleReadingSchedule tentative)
+        public ICommand BackCommand { get; set; }
+        public ICommand ChapterSelectionCommand { get; set; }
+
+        private List<IDisposable> disposables = new List<IDisposable>();
+
+        public BookSelectionViewModel()
         {
-            this.current = current;
-            this.tentative = tentative;
-
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            initialize();
+            BackCommand = new Command(async () =>
+            {
+                await navigationService.GoBack();
+                ReduxContainer.Store.Dispatch(new BackAction(this));
+            });
+
+            ChapterSelectionCommand = new Command<BibleBookListViewItemModel>(async x =>
+            {
+                ReduxContainer.Store.Dispatch(new ChapterSelectionAction()
+                {
+                    TentativeBibleReadingSchedule = new BibleReadingSchedule()
+                    {
+                        LanguageCode = tentative.LanguageCode,
+                        PublicationCode = tentative.PublicationCode,
+                        BookNumber = x.Number
+                    }
+                });
+
+                var viewModel = IocSetup.Container.Resolve<ChapterSelectionViewModel>();
+                await navigationService.Navigate(viewModel);
+
+            });
+
+            //set schedules from initial state.
+            //this should fire only once 
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+                   .Select(state => new { state.CurrentBibleReadingSchedule, state.TentativeBibleReadingSchedule })
+                   .Where(x => x.CurrentBibleReadingSchedule != null && x.TentativeBibleReadingSchedule != null)
+                   .DistinctUntilChanged()
+                   .Take(1)
+                   .Subscribe(async x =>
+                   {
+                       current = x.CurrentBibleReadingSchedule;
+                       tentative = x.TentativeBibleReadingSchedule;
+                       await initialize(tentative.LanguageCode, tentative.PublicationCode);
+                   });
+
+            disposables.Add(subscription);
+
+            navigationService.NavigatedBack += onNavigated;
         }
 
+        private void onNavigated(object viewModal)
+        {
+            if (viewModal.GetType() == this.GetType())
+            {
+                setSelectedBook();
+            }
+        }
+
+        private void setSelectedBook()
+        {
+            if (current.LanguageCode == tentative.LanguageCode && current.PublicationCode == tentative.PublicationCode)
+            {
+                selectedBook = Books.FirstOrDefault(y => y.Number == current.BookNumber);
+            }
+            else
+            {
+                selectedBook = null;
+            }
+
+            RaiseProperty("SelectedBook");
+        }
         private bool isBusy;
         public bool IsBusy
         {
@@ -39,12 +109,8 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        private void initialize()
-        {
-            Task.Run(() => initializeAsync(tentative.LanguageCode, tentative.PublicationCode));
-        }
-
-        public ObservableHashSet<BibleBookListViewItemModel> Books { get; set; } = new ObservableHashSet<BibleBookListViewItemModel>();
+        public ObservableHashSet<BibleBookListViewItemModel> Books { get; set; }
+            = new ObservableHashSet<BibleBookListViewItemModel>();
 
         private BibleBookListViewItemModel selectedBook;
         public BibleBookListViewItemModel SelectedBook
@@ -52,45 +118,28 @@ namespace JW.Alarm.ViewModels
             get => selectedBook;
             set
             {
-                selectedBook = value;
-                RaiseProperty("SelectedBook");
+                //this is a hack since selection is not working in one-way mode 
+                //make two-way mode behave like one way mode
+                Raise();
             }
         }
 
-        public ChapterSelectionViewModel GetChapterSelectionViewModel(BibleBookListViewItemModel selectedBook)
-        {
-            tentative.BookNumber = selectedBook.Number;
-            return new ChapterSelectionViewModel(current, tentative);
-        }
-
-
-        private async Task initializeAsync(string languageCode, string publicationCode)
+        private async Task initialize(string languageCode, string publicationCode)
         {
             await populateBooks(languageCode, publicationCode);
         }
 
         private async Task populateBooks(string languageCode, string publicationCode)
         {
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = true;
-            });
+            IsBusy = true;
+            Books.Clear();
+            selectedBook = null;
 
             var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
-
-            await threadService.RunOnUIThread(() =>
-            {
-                Books.Clear();
-            });
-
             foreach (var book in books.Select(x => x.Value))
             {
                 var bookVM = new BibleBookListViewItemModel(book);
-
-                await threadService.RunOnUIThread(() =>
-                {
-                    Books.Add(bookVM);
-                });
+                Books.Add(bookVM);
 
                 if (current.LanguageCode == tentative.LanguageCode
                     && current.PublicationCode == tentative.PublicationCode
@@ -100,20 +149,14 @@ namespace JW.Alarm.ViewModels
                 }
             }
 
-            await threadService.RunOnUIThread(() =>
-            {
-                RaiseProperty("SelectedBook");
-            });
-
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = true;
-            });
+            RaiseProperty("SelectedBook");
+            IsBusy = true;
         }
 
         public void Dispose()
         {
-
+            navigationService.NavigatedBack -= onNavigated;
+            disposables.ForEach(x => x.Dispose());
         }
     }
 

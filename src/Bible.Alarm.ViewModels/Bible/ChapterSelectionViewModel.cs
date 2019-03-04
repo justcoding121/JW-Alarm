@@ -1,49 +1,89 @@
-﻿using JW.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Redux.Actions.Bible;
+using JW.Alarm.Common.DataStructures;
 using JW.Alarm.Models;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace JW.Alarm.ViewModels
 {
     public class ChapterSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IThreadService threadService;
         private IPopUpService popUpService;
         private IPreviewPlayService playService;
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
+        private INavigationService navigationService;
 
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-        public ChapterSelectionViewModel(BibleReadingSchedule current, BibleReadingSchedule tentative)
+        public ChapterSelectionViewModel()
         {
-            this.current = current;
-            this.tentative = tentative;
-
-            this.current = current;
-
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
+            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            initialize();
+            BackCommand = new Command(async () =>
+            {
+                playService.Stop();
+                await navigationService.GoBack();
+                ReduxContainer.Store.Dispatch(new BackAction(this));
+            });
+
+            SetChapterCommand = new Command<BibleChapterListViewItemModel>(x =>
+            {
+                selectedChapter = x;
+                RaiseProperty("SelectedChapter");
+
+                tentative.ChapterNumber = x.Number;
+
+                current.LanguageCode = tentative.LanguageCode;
+                current.PublicationCode = tentative.PublicationCode;
+                current.BookNumber = tentative.BookNumber;
+                current.ChapterNumber = x.Number;
+
+                ReduxContainer.Store.Dispatch(new ChapterSelectedAction()
+                {
+                    CurrentBibleReadingSchedule = current
+                });
+
+            });
+
+            //set schedules from initial state.
+            //this should fire only once 
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+                   .Select(state => new { state.CurrentBibleReadingSchedule, state.TentativeBibleReadingSchedule })
+                   .Where(x => x.CurrentBibleReadingSchedule != null && x.TentativeBibleReadingSchedule != null)
+                   .DistinctUntilChanged()
+                   .Take(1)
+                   .Subscribe(async x =>
+                   {
+                       current = x.CurrentBibleReadingSchedule;
+                       tentative = x.TentativeBibleReadingSchedule;
+                       await initialize(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber);
+                   });
+
+            disposables.Add(subscription);
         }
 
-        private void initialize()
-        {
-            Task.Run(() => InitializeAsync(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber));
-        }
+        public ICommand BackCommand { get; set; }
+        public ICommand SetChapterCommand { get; set; }
 
         private bool isBusy;
         public bool IsBusy
@@ -52,7 +92,8 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; } = new ObservableHashSet<BibleChapterListViewItemModel>();
+        public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; } 
+            = new ObservableHashSet<BibleChapterListViewItemModel>();
 
         private BibleChapterListViewItemModel selectedChapter;
         public BibleChapterListViewItemModel SelectedChapter
@@ -60,8 +101,9 @@ namespace JW.Alarm.ViewModels
             get => selectedChapter;
             set
             {
-                selectedChapter = value;
-                RaiseProperty("SelectedChapter");
+                //this is a hack since selection is not working in one-way mode 
+                //make two-way mode behave like one way mode
+                Raise();
             }
         }
 
@@ -80,7 +122,7 @@ namespace JW.Alarm.ViewModels
 
         private BibleChapterListViewItemModel currentlyPlaying;
 
-        private async Task InitializeAsync(string languageCode, string publicationCode, int bookNumber)
+        private async Task initialize(string languageCode, string publicationCode, int bookNumber)
         {
             var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
                               => new NotifyCollectionChangedEventHandler(ev),
@@ -111,10 +153,7 @@ namespace JW.Alarm.ViewModels
 
                         })
                          .Merge()
-                         .Do(async x => await threadService.RunOnUIThread(() =>
-                         {
-                             IsBusy = true;
-                         }))
+                         .Do(x => IsBusy = true)
                          .Do(y =>
                          {
                              if (currentlyPlaying != null && currentlyPlaying != y)
@@ -126,10 +165,7 @@ namespace JW.Alarm.ViewModels
                              playService.Play(y.Url);
 
                          })
-                         .Do(async x => await threadService.RunOnUIThread(() =>
-                         {
-                             IsBusy = false;
-                         }))
+                         .Do(x => IsBusy = false)
                          .Subscribe();
 
             var subscription2 = scheduleObservable
@@ -156,68 +192,56 @@ namespace JW.Alarm.ViewModels
 
                                })
                                 .Merge()
-                                .Do(async x => await threadService.RunOnUIThread(() =>
-                                {
-                                    IsBusy = true;
-                                }))
+                               .Do(x => IsBusy = true)
                                 .Do(y =>
                                 {
                                     currentlyPlaying = null;
                                     playService.Stop();
 
                                 })
-                                .Do(async x => await threadService.RunOnUIThread(() =>
-                                {
-                                    IsBusy = false;
-                                }))
+                               .Do(x => IsBusy = false)
                                 .Subscribe();
 
-            disposables.AddRange(new[] { subscription1, subscription2 });
+            var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev,
+                                                    ev => playService.OnStopped -= ev)
+                                .Do(y =>
+                                {
+                                    if (currentlyPlaying != null)
+                                    {
+                                        currentlyPlaying.Play = false;
+                                    }
+                                })
+                                .Subscribe();
+
+            disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
 
             await populateChapters(languageCode, publicationCode, bookNumber);
         }
 
         private async Task populateChapters(string languageCode, string publicationCode, int bookNumber)
         {
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = true;
-            });
+            IsBusy = true;
 
             var chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, bookNumber);
-
-            await threadService.RunOnUIThread(() =>
-            {
-                Chapters.Clear();
-            });
+            Chapters.Clear();
 
             foreach (var chapter in chapters.Select(x => x.Value))
             {
                 var chapterVM = new BibleChapterListViewItemModel(chapter);
 
-                await threadService.RunOnUIThread(() =>
-                {
-                    Chapters.Add(chapterVM);
-                });
+                Chapters.Add(chapterVM);
 
                 if (current.LanguageCode == tentative.LanguageCode
                     && current.PublicationCode == tentative.PublicationCode
                     && current.BookNumber == tentative.BookNumber
-                    && tentative.ChapterNumber == chapter.Number)
+                    && current.ChapterNumber == chapter.Number)
                 {
                     selectedChapter = chapterVM;
                 }
             }
 
-            await threadService.RunOnUIThread(() =>
-            {
-                RaiseProperty("SelectedChapter");
-            });
-
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = false;
-            });
+            RaiseProperty("SelectedChapter");
+            IsBusy = false;
         }
 
         public void Dispose()
@@ -233,7 +257,10 @@ namespace JW.Alarm.ViewModels
         public BibleChapterListViewItemModel(BibleChapter chapter)
         {
             this.chapter = chapter;
+            TogglePlayCommand = new Command(() => Play = !Play);
         }
+
+        public ICommand TogglePlayCommand { get; set; }
 
         public int Number => chapter.Number;
 

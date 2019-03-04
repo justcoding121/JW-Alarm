@@ -126,7 +126,15 @@ namespace JW.Alarm.ViewModels
             {
                 var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
-                ReduxContainer.Store.Dispatch(new BibleSelectionAction());
+                ReduxContainer.Store.Dispatch(new BibleSelectionAction()
+                {
+                    CurrentBibleReadingSchedule = BibleReadingSchedule,
+                    TentativeBibleReadingSchedule = new BibleReadingSchedule()
+                    {
+                        PublicationCode = BibleReadingSchedule.PublicationCode,
+                        LanguageCode = BibleReadingSchedule.LanguageCode
+                    }
+                });
             });
         }
 
@@ -228,17 +236,6 @@ namespace JW.Alarm.ViewModels
         {
             get => musicEnabled;
             set => this.Set(ref musicEnabled, value);
-        }
-
-        private BibleSelectionViewModel getBibleSelectionViewModel()
-        {
-            return new BibleSelectionViewModel(BibleReadingSchedule, new BibleReadingSchedule()
-            {
-                BookNumber = BibleReadingSchedule.BookNumber,
-                ChapterNumber = BibleReadingSchedule.ChapterNumber,
-                LanguageCode = BibleReadingSchedule.LanguageCode,
-                PublicationCode = BibleReadingSchedule.PublicationCode
-            });
         }
 
         public AlarmMusic Music => Model.Music;

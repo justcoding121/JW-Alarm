@@ -4,14 +4,20 @@ using Windows.ApplicationModel.Background;
 
 namespace JW.Alarm.Services.Uwp.Tasks
 {
-    public class SchedulerTask 
+    public class SchedulerTask
     {
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;
-        public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService)
+        private IAlarmService alarmService;
+        private INotificationService notificationService;
+
+        public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
+              IAlarmService alarmService, INotificationService notificationService)
         {
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;
+            this.alarmService = alarmService;
+            this.notificationService = notificationService;
         }
 
         public async void Handle(IBackgroundTaskInstance backgroundTask)
@@ -22,7 +28,11 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
             foreach (var schedule in schedules)
             {
-                //var nextFire = schedule.NextFireDate();
+                if (!notificationService.IsScheduled(schedule.Id))
+                {
+                    await alarmService.Create(schedule);
+                    await mediaCacheService.SetupAlarmCache(schedule.Id);
+                }
             }
 
             deferral.Complete();

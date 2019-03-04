@@ -11,5 +11,8 @@ namespace JW.Alarm.ViewModels.Redux
 
         public AlarmMusic CurrentMusic { get; set; }
         public AlarmMusic TentativeMusic { get; set; }
+
+        public BibleReadingSchedule CurrentBibleReadingSchedule { get; set; }
+        public BibleReadingSchedule TentativeBibleReadingSchedule { get; set; }
     }
 }

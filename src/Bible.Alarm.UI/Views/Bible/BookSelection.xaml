@@ -3,58 +3,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Views.Bible.BookSelection"
              xmlns:fn="clr-namespace:FontNameResources"
+             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
-  <ContentPage.Content>
-    <Grid>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="auto"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
-      <Grid Grid.Row="0" HorizontalOptions="Fill">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Button Grid.Row="0"
-            Margin="1,1,1,1"
-            HeightRequest="32"
-            HorizontalOptions="Fill"
-            FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-            Text="{x:Static fn:GlyphNames.Left}"
-            TextColor="SlateBlue">
-        </Button>
-      </Grid>
-      <ListView HorizontalOptions="Fill"
-            Grid.Row="1"
-            SelectedItem="{Binding SelectedBook, Mode=OneWay}">
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
+    <ContentPage.Resources>
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" HeightRequest="35"
+                  MinimumHeightRequest="35" HorizontalOptions="Fill" 
+                  BackgroundColor="WhiteSmoke"
+                  x:Name="BackButton"
+                  Margin="3">
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="8*"/>
-                  <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" VerticalOptions="Center"
-                       HorizontalOptions="Fill"
-                       HorizontalTextAlignment="Start"
-                       TextColor="Black"
-                       Margin="5,0,0,0"
-                       Text="{Binding Name}">
-                </Label>
-                <StackLayout Grid.Column="1" VerticalOptions="Center"
-                       HorizontalOptions="End"
-                       Margin="5,0,0,0">
-                  <Label TextColor="Gray"
-                  FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                  Text="{x:Static fn:GlyphNames.Right}"
-                  FontSize="Medium"/>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
+                </Grid.GestureRecognizers>
+                <StackLayout Grid.Column="0" 
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Start">
+                    <Label Margin="5,0,0,0" TextColor="Gray"    
+                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                Text="{x:Static fn:GlyphNames.Left}"
+                                FontSize="Medium"/>
                 </StackLayout>
-              </Grid>
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
-    </Grid>
-  </ContentPage.Content>
+                <Label Grid.Column="1" VerticalOptions="Center" 
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Start"
+                                   TextColor="Black">
+                </Label>
+            </Grid>
+            <ListView Grid.Row="1"
+                  HorizontalOptions="Fill"
+                  ItemsSource="{Binding Books}" 
+                  SelectedItem="{Binding SelectedBook, Mode=TwoWay}">
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ChapterSelectionCommand}"
+                                                       EventArgsConverter="{StaticResource itemTappedConverter}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid HeightRequest="45" HorizontalOptions="Fill">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" VerticalOptions="Center" 
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
+                                   TextColor="Black"
+                                   Margin="5,0,0,0"
+                                   Text="{Binding Name}">
+                                </Label>
+                                <StackLayout Grid.Column="1" 
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="End"
+                                   Margin="5,0,5,0">
+                                    <Label TextColor="Gray"    
+                                        VerticalTextAlignment="Center"
+                                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                        Text="{x:Static fn:GlyphNames.Right}"
+                                        FontSize="Medium"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

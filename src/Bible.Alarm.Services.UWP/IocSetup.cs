@@ -26,7 +26,8 @@
 
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-                                    container.Resolve<IMediaCacheService>()), isSingleton: true);
+                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
+                                    container.Resolve<INotificationService>()), isSingleton: true);
 
             container.Register<IAlarmService>((x) => new UwpAlarmService(
                 container.Resolve<INotificationService>(),

@@ -49,7 +49,7 @@ namespace JW.Alarm.ViewModels
                  {
                      current = x.CurrentMusic;
                      tentative = x.TentativeMusic;
-                     publicationCode = current.PublicationCode;
+
                      await initialize();
                  });
 
@@ -114,7 +114,7 @@ namespace JW.Alarm.ViewModels
 
         private void onNavigated(object viewModal)
         {
-            if (viewModal.GetType() == typeof(SongBookSelectionViewModel))
+            if (viewModal.GetType() == this.GetType())
             {
                 setSelectedSongBook();
             }
@@ -161,13 +161,6 @@ namespace JW.Alarm.ViewModels
                 //make two-way mode behave like one way mode
                 Raise();
             }
-        }
-
-        private string publicationCode;
-        public string PublicationCode
-        {
-            get => publicationCode;
-            set => this.Set(ref publicationCode, value);
         }
 
         private string languageSearchTerm;

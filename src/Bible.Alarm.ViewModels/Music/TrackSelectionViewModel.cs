@@ -23,7 +23,6 @@ namespace JW.Alarm.ViewModels
     public class TrackSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IThreadService threadService;
         private IPopUpService popUpService;
         private IPreviewPlayService playService;
         private INavigationService navigationService;
@@ -36,7 +35,6 @@ namespace JW.Alarm.ViewModels
         public TrackSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
@@ -84,7 +82,6 @@ namespace JW.Alarm.ViewModels
                    });
 
             disposables.Add(subscription);
-
         }
 
         public ICommand BackCommand { get; set; }
@@ -144,10 +141,7 @@ namespace JW.Alarm.ViewModels
 
                                 })
                                  .Merge()
-                                 .Do(async x => await threadService.RunOnUIThread(() =>
-                                 {
-                                     IsBusy = true;
-                                 }))
+                                 .Do(x => IsBusy = true)
                                  .Do(y =>
                                  {
                                      if (currentlyPlaying != null)
@@ -159,10 +153,7 @@ namespace JW.Alarm.ViewModels
                                      playService.Play(y.Url);
 
                                  })
-                                 .Do(async x => await threadService.RunOnUIThread(() =>
-                                 {
-                                     IsBusy = false;
-                                 }))
+                                    .Do(x => IsBusy = false)
                                  .Subscribe();
 
             var subscription2 = scheduleObservable
@@ -189,18 +180,12 @@ namespace JW.Alarm.ViewModels
 
                                })
                                 .Merge()
-                                .Do(async x => await threadService.RunOnUIThread(() =>
-                                {
-                                    IsBusy = true;
-                                }))
+                                .Do(x => IsBusy = true)
                                 .Do(y =>
                                 {
                                     playService.Stop();
                                 })
-                                .Do(async x => await threadService.RunOnUIThread(() =>
-                                {
-                                    IsBusy = false;
-                                }))
+                                .Do(x => IsBusy = false)
                                 .Subscribe();
 
             var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev,
@@ -221,27 +206,17 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateTracks(string languageCode, string publicationCode)
         {
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = true;
-            });
+            IsBusy = true;
 
             var tracks = languageCode != null ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
                : await mediaService.GetMelodyMusicTracks((await this.mediaService.GetMelodyMusicReleases()).First().Value.Code);
-
-            await threadService.RunOnUIThread(() =>
-            {
-                Tracks.Clear();
-            });
+            Tracks.Clear();
 
             foreach (var track in tracks.Select(x => x.Value))
             {
                 var musicTrackListViewItemViewModel = new MusicTrackListViewItemModel(track);
 
-                await threadService.RunOnUIThread(() =>
-                {
-                    Tracks.Add(musicTrackListViewItemViewModel);
-                });
+                Tracks.Add(musicTrackListViewItemViewModel);
 
                 if (current.MusicType == tentative.MusicType
                     && current.TrackNumber == track.Number
@@ -254,15 +229,8 @@ namespace JW.Alarm.ViewModels
                 }
             }
 
-            await threadService.RunOnUIThread(() =>
-            {
-                RaiseProperty("SelectedTrack");
-            });
-
-            await threadService.RunOnUIThread(() =>
-            {
-                IsBusy = false;
-            });
+            RaiseProperty("SelectedTrack");
+            IsBusy = false;
         }
 
         public void Dispose()
@@ -277,10 +245,7 @@ namespace JW.Alarm.ViewModels
         public MusicTrackListViewItemModel(MusicTrack chapter)
         {
             this.chapter = chapter;
-            TogglePlayCommand = new Command(async () =>
-            {
-                Play = !Play;
-            });
+            TogglePlayCommand = new Command(() => Play = !Play);
         }
 
         public int Number => chapter.Number;

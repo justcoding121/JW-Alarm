@@ -3,48 +3,60 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Views.Bible.BibleSelection"
              xmlns:fn="clr-namespace:FontNameResources"
+             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
+    <ContentPage.Resources>
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" HorizontalOptions="Fill">
+            <Grid Grid.Row="0"
+                  MinimumHeightRequest="30" HorizontalOptions="Fill" 
+                  BackgroundColor="WhiteSmoke"
+                  Margin="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" 
-                    Margin="1,1,1,1"
-                    HeightRequest="32"
+                <Label Grid.Row="0" Grid.Column="0" 
+                    Margin="5,0,0,0"
                     HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    HorizontalTextAlignment="Start"
+                    VerticalTextAlignment="Center"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                    FontSize="Medium"
+                    x:Name="BackButton"
                     Text="{x:Static fn:GlyphNames.Left}"
                     TextColor="SlateBlue">
-                </Button>
-                <Grid HorizontalOptions="End" 
-                      Grid.Row="0" Grid.Column="1" 
-                      MinimumWidthRequest="100"
-                      Margin="0,1,1,1">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Grid MinimumHeightRequest="32" Grid.Row="0" Grid.Column="1"  MinimumWidthRequest="100"
+                               Margin="0,1,1,1" HorizontalOptions="End">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Fill" 
+                    <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"  Margin="5,0,2,0" 
                                    TextColor="SlateBlue"
-                                   Font="Bold,18"
-                                   BindingContext="{Binding Path=SelectedLanguage, Mode=OneWay}"
+                                   BindingContext="{Binding Path=SelectedLanguage, Mode=TwoWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                     </Label>
-                    <StackLayout Grid.Column="1" 
-                                 VerticalOptions="Center" HorizontalOptions="End"
-                                 Orientation="Horizontal">
-                        <Label TextColor="SlateBlue"    
+                    <StackLayout Grid.Column="1" VerticalOptions="Center"
+                                 HorizontalOptions="End"  Orientation="Horizontal">
+                        <Button TextColor="SlateBlue"    
                                 FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                 Text="{x:Static fn:GlyphNames.Language}"
+                                Command="{Binding OpenModalCommand}"
                                 FontSize="Medium"/>
                     </StackLayout>
                 </Grid>
@@ -52,11 +64,16 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   ItemsSource="{Binding Translations}" 
-                  SelectedItem="{Binding SelectedTranslation, Mode=OneWay}">
+                  SelectedItem="{Binding SelectedTranslation, Mode=TwoWay}">
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemTapped" 
+                                                       Command="{Binding BookSelectionCommand}"
+                                                       EventArgsConverter="{StaticResource itemTappedConverter}" />
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid MinimumHeightRequest="30" HorizontalOptions="Fill">
+                            <Grid HeightRequest="45" HorizontalOptions="Fill">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*"/>
                                     <ColumnDefinition Width="2*"/>
@@ -64,17 +81,20 @@
                                 <Label Grid.Column="0" VerticalOptions="Center"
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Name}">
                                 </Label>
-                                <StackLayout Grid.Column="1" VerticalOptions="Center" 
+                                <StackLayout Grid.Column="1" 
+                                   VerticalOptions="Center" 
                                    HorizontalOptions="End"
                                    Margin="5,0,0,0">
-                                    <Label TextColor="Gray"    
-                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
-                                Text="{x:Static fn:GlyphNames.Right}"
-                                FontSize="Medium"/>
+                                    <Label TextColor="Gray"  
+                                        VerticalTextAlignment="Center"
+                                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                        Text="{x:Static fn:GlyphNames.Right}"
+                                        FontSize="Medium"/>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

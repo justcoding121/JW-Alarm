@@ -95,7 +95,7 @@ namespace JW.Alarm.ViewModels
 
         private void onNavigated(object viewModal)
         {
-            if (viewModal.GetType() == typeof(MusicSelectionViewModel))
+            if (viewModal.GetType() == this.GetType())
             {
                 setSelectedMusicType();
             }
