@@ -1,4 +1,5 @@
 ﻿using JW.Alarm.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,13 +16,16 @@ namespace JW.Alarm.Services
         private IStorageService storageService;
         private IDownloadService downloadService;
         private IPlaylistService mediaPlayService;
+        private ScheduleDbContext dbContext;
 
         public MediaCacheService(IStorageService storageService,
-            IDownloadService downloadService, IPlaylistService mediaPlayService)
+            IDownloadService downloadService, IPlaylistService mediaPlayService,
+            ScheduleDbContext dbContext)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;
             this.mediaPlayService = mediaPlayService;
+            this.dbContext = dbContext;
 
             cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
         }
@@ -55,6 +59,32 @@ namespace JW.Alarm.Services
                     await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
                 }
             }
+        }
+
+        public async Task CleanUp()
+        {
+            var schedules = await dbContext.AlarmSchedules.ToListAsync();
+            var files = (await storageService.GetAllFiles(cacheRoot)).ToDictionary(x => x, null);
+
+            foreach (var schedule in schedules)
+            {
+                var playlist = await mediaPlayService.NextTracks(schedule.Id, TimeSpan.FromMinutes(15));
+                var fileNames = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
+
+                fileNames.ForEach(x =>
+                {
+                    if (files.ContainsKey(x))
+                    {
+                        files.Remove(x);
+                    }
+                });
+            }
+
+            files.Select(x => x.Key).ToList().ForEach(x =>
+            {
+                try { storageService.DeleteFile(x); }
+                catch { }
+            });
         }
     }
 }

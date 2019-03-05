@@ -26,16 +26,19 @@ namespace JW.Alarm.ViewModels
         private IThreadService threadService;
         private IPopUpService popUpService;
         private INavigationService navigationService;
+        private IMediaCacheService mediaCacheService;
 
         private List<IDisposable> disposables = new List<IDisposable>();
 
         public HomeViewModel(ScheduleDbContext scheduleDbContext,
-            IThreadService threadService, IPopUpService popUpService, INavigationService navigationService)
+            IThreadService threadService, IPopUpService popUpService, INavigationService navigationService,
+            IMediaCacheService mediaCacheService)
         {
             this.scheduleDbContext = scheduleDbContext;
             this.threadService = threadService;
             this.popUpService = popUpService;
             this.navigationService = navigationService;
+            this.mediaCacheService = mediaCacheService;
 
             disposables.Add(scheduleDbContext);
 
@@ -181,9 +184,11 @@ namespace JW.Alarm.ViewModels
                                  .Do(async y =>
                                  {
                                      IsBusy = true;
+
                                      var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
                                      existing.IsEnabled = y.IsEnabled;
                                      await scheduleDbContext.SaveChangesAsync();
+
                                      if (y.IsEnabled)
                                      {
                                          await popUpService.ShowScheduledNotification(y.Schedule);

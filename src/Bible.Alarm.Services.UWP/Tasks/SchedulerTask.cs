@@ -1,5 +1,6 @@
 ﻿using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Windows.ApplicationModel.Background;
 
 namespace JW.Alarm.Services.Uwp.Tasks
@@ -24,17 +25,22 @@ namespace JW.Alarm.Services.Uwp.Tasks
         {
             var deferral = backgroundTask.GetDeferral();
 
-            var schedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
+            await mediaCacheService.CleanUp();
+
+            var schedules = await scheduleDbContext.AlarmSchedules.Where(x => x.IsEnabled).ToListAsync();
 
             foreach (var schedule in schedules)
             {
                 if (!notificationService.IsScheduled(schedule.Id))
                 {
-                    await alarmService.Create(schedule);
+                    await alarmService.Create(schedule, true);
+                }
+                else
+                {
                     await mediaCacheService.SetupAlarmCache(schedule.Id);
                 }
             }
-
+         
             deferral.Complete();
         }
     }

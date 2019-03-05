@@ -12,5 +12,6 @@ namespace JW.Alarm.Services.Contracts
         string GetCacheFilePath(string url);
 
         Task SetupAlarmCache(long alarmScheduleId);
+        Task CleanUp();
     }
 }

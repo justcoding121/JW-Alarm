@@ -26,7 +26,7 @@ namespace JW.Alarm.Services.Uwp
             this.scheduleDbContext = scheduleDbContext;
         }
 
-        public async Task Create(AlarmSchedule schedule)
+        public async Task Create(AlarmSchedule schedule, bool downloadAlarmMedia)
         {
             var nextTrack = await playlistService.NextTrack(schedule.Id);
             nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
