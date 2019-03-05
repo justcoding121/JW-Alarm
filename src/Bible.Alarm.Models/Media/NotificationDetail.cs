@@ -13,8 +13,10 @@ namespace JW.Alarm.Models
         [JsonIgnore]
         public PlayType PlayType => BookNumber > 0 ? PlayType.Bible : PlayType.Music;
 
-        public string PublicationCode { get; set; }
         public string LanguageCode { get; set; }
+        public string PublicationCode { get; set; }
+
+        public string LookUpPath { get; set; }
 
         //bible
         public int BookNumber { get; set; }

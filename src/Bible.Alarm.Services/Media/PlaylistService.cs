@@ -3,8 +3,6 @@ using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JW.Alarm.Services
@@ -69,7 +67,8 @@ namespace JW.Alarm.Services
                 PublicationCode = currentTrack.PublicationCode,
                 LanguageCode = currentTrack.LanguageCode,
                 ChapterNumber = chapter,
-                Duration = bibleTrack.Source.Duration
+                Duration = bibleTrack.Source.Duration,
+                LookUpPath = bibleTrack.Source.LookUpPath
 
             }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
         }
@@ -126,6 +125,7 @@ namespace JW.Alarm.Services
             var languageCode = bibleReadingSchedule.LanguageCode;
             var url = chapterDetail.Source.Url;
             var trackDuration = chapterDetail.Source.Duration;
+            var lookUpPath = chapterDetail.Source.LookUpPath;
 
             while (duration.TotalSeconds > 0)
             {
@@ -134,6 +134,7 @@ namespace JW.Alarm.Services
                     ScheduleId = scheduleId,
                     PublicationCode = publicationCode,
                     LanguageCode = languageCode,
+                    LookUpPath = lookUpPath,
                     BookNumber = bookNumber,
                     ChapterNumber = chapter,
                     Duration = trackDuration
@@ -150,6 +151,7 @@ namespace JW.Alarm.Services
                 chapter = next.Value.Number;
                 trackDuration = next.Value.Source.Duration;
                 url = next.Value.Source.Url;
+                lookUpPath = next.Value.Source.LookUpPath;
             }
 
             return result;
@@ -176,12 +178,12 @@ namespace JW.Alarm.Services
             if (!nextBook.Equals(default(KeyValuePair<int, BibleBook>)))
             {
                 chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, nextBook.Key);
-                return new KeyValuePair<BibleBook, BibleChapter>(nextBook.Value, chapters[0]);
+                return new KeyValuePair<BibleBook, BibleChapter>(nextBook.Value, chapters[1]);
             }
 
             nextBook = books.Min();
             chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, nextBook.Key);
-            return new KeyValuePair<BibleBook, BibleChapter>(nextBook.Value, chapters[0]);
+            return new KeyValuePair<BibleBook, BibleChapter>(nextBook.Value, chapters[1]);
         }
 
         private async Task<PlayItem> nextMusicUrlToPlay(AlarmSchedule schedule, bool next = false)
@@ -199,6 +201,7 @@ namespace JW.Alarm.Services
                         PublicationCode = melodyMusic.PublicationCode,
                         TrackNumber = melodyTrack.Number,
                         Duration = melodyTrack.Source.Duration,
+                        LookUpPath = melodyTrack.Source.LookUpPath
                     }, melodyTrack.Source.Duration, melodyTrack.Source.Url);
 
                 case MusicType.Vocals:
@@ -211,7 +214,8 @@ namespace JW.Alarm.Services
                         PublicationCode = vocalMusic.PublicationCode,
                         LanguageCode = vocalMusic.LanguageCode,
                         TrackNumber = vocalTrack.Number,
-                        Duration = vocalTrack.Source.Duration
+                        Duration = vocalTrack.Source.Duration,
+                        LookUpPath = vocalTrack.Source.LookUpPath
                     }, vocalTrack.Source.Duration, vocalTrack.Source.Url);
 
                 default:
@@ -230,7 +234,8 @@ namespace JW.Alarm.Services
                 LanguageCode = bibleReadingSchedule.LanguageCode,
                 BookNumber = bibleReadingSchedule.BookNumber,
                 ChapterNumber = bibleReadingSchedule.ChapterNumber,
-                Duration = bibleTrack.Source.Duration
+                Duration = bibleTrack.Source.Duration,
+                LookUpPath = bibleTrack.Source.LookUpPath
 
             }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
         }

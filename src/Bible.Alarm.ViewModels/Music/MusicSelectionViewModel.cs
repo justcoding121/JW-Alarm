@@ -74,7 +74,8 @@ namespace JW.Alarm.ViewModels
                         TentativeMusic = new AlarmMusic()
                         {
                             Fixed = current.Fixed,
-                            MusicType = MusicType.Melodies
+                            MusicType = MusicType.Melodies,
+                            PublicationCode = "iam"
                         }
                     });
                     var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();

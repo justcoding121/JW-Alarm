@@ -164,7 +164,10 @@ namespace AudioLinkHarvester.Audio
                         Number = trackNumber,
                         Title = musicFile.title,
                         Url = url,
-                        Duration = TimeSpan.FromMilliseconds(duration * 1000)
+                        Duration = TimeSpan.FromMilliseconds(duration * 1000),
+                        LookUpPath = $"?output=json&pub={publicationDownloadCode}&fileformat=MP3" +
+                                    $"{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}" +
+                                    $"&txtCMSLang=E&track={track}"
                     });
 
                     trackNumber++;

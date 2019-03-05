@@ -71,12 +71,12 @@ namespace JW.Alarm.Services
 
                         if (playDetail.PlayType == Models.PlayType.Bible)
                         {
-                            url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber);
+                            url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.LookUpPath);
                             await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
                         }
                         else
                         {
-                            url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber);
+                            url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
 
                             if (playDetail.LanguageCode == null)
                             {
@@ -99,15 +99,12 @@ namespace JW.Alarm.Services
         private static string[] urls = new string[] { "https://api.hag27.com/GETPUBMEDIALINKS",
                                                       "https://apps.jw.org/GETPUBMEDIALINKS"};
 
-        private async Task<string> getBibleChapterUrl(string languageCode, string publicationCode, int bookNumber, int chapter)
+        private async Task<string> getBibleChapterUrl(string languageCode, string lookUpPath)
         {
             try
             {
-                var harvestLink1 = $@"{urls[0]}?booknum=0&output=json&pub={publicationCode}
-&fileformat=MP3&langwritten={languageCode}&txtCMSLang=E&booknum={bookNumber}&track={chapter}";
-
-                var harvestLink2 = $@"{urls[1]}?booknum=0&output=json&pub={publicationCode}
-&fileformat=MP3&langwritten={languageCode}&txtCMSLang=E&booknum={bookNumber}&track={chapter}";
+                var harvestLink1 = $"{urls[0]}{lookUpPath}";
+                var harvestLink2 = $"{urls[1]}{lookUpPath}";
 
                 var @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
                 string jsonString = Encoding.Default.GetString(@bytes);
@@ -121,23 +118,18 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<string> getMusicTrackUrl(string languageCode, string publicationCode, int trackNumber)
+        private async Task<string> getMusicTrackUrl(string languageCode, string lookUpPath)
         {
             try
             {
-                var harvestLink1 = $"{urls[0]}?booknum=0&output=json&pub={publicationCode}&fileformat=MP3" +
-                                    $"{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}" +
-                                    $"&txtCMSLang=E&track={trackNumber}";
-
-                var harvestLink2 = $@"{urls[1]}?booknum=0&output=json&pub={publicationCode}&fileformat=MP3" +
-                                    $"{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}" +
-                                    $"&langwritten={languageCode}&txtCMSLang=E&track={trackNumber}";
+                var harvestLink1 = $"{urls[0]}{lookUpPath}";
+                var harvestLink2 = $"{urls[1]}{lookUpPath}";
 
                 var @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
                 string jsonString = Encoding.Default.GetString(@bytes);
                 dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                return model.files[languageCode].MP3[0].file.url;
+                return model.files[languageCode == null ? "E" : languageCode].MP3[0].file.url;
             }
             catch
             {

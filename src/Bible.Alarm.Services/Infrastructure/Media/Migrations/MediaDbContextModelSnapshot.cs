@@ -23,6 +23,8 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
 
                     b.Property<TimeSpan>("Duration");
 
+                    b.Property<string>("LookUpPath");
+
                     b.Property<string>("Url");
 
                     b.HasKey("Id");

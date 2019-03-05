@@ -52,10 +52,24 @@ namespace JW.Alarm.Services
         {
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
 
-            return await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db"))
+            var exists = await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db"))
                 //verify that any previous unzipping process was not incomplete
                 && !await storageService.FileExists(tmpIndexFilePath);
 
+            //delete the file if it was outdated by an app auto-update.
+            if (exists)
+            {
+                var resourceFileCreationDate = await storageService.GetFileCreationDate("Assets/Media/index.zip", true);
+                var creationDate = await storageService.GetFileCreationDate(Path.Combine(IndexRoot, "mediaIndex.db"), false);
+
+                if(creationDate < resourceFileCreationDate)
+                {
+                    await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
+                    return false;
+                }
+            }
+
+            return exists;
         }
 
         private async Task copyIndexFromResource()

@@ -18,7 +18,7 @@ namespace Bible.Alarm.Audio.Links.Harvestor
             {
                 Directory.CreateDirectory(zipDir);
             }
-            
+
             var dbConfig = new DbContextOptionsBuilder<MediaDbContext>()
                .UseSqlite($"Data Source={Path.Combine(zipDir, "mediaIndex.db")}").Options;
 
@@ -96,7 +96,10 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                                 Source = new AudioSource()
                                 {
                                     Url = chapter.Value.Url,
-                                    Duration = chapter.Value.Duration
+                                    Duration = chapter.Value.Duration,
+                                    LookUpPath = $"?output=json&pub={bibleTranslation.Code}" +
+                                                 $"&fileformat=MP3&langwritten={bibleTranslation.Language.Code}" +
+                                                 $"&txtCMSLang=E&booknum={newBook.Number}&track={chapter.Value.Number}"
                                 }
                             };
 
@@ -136,7 +139,8 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                         Source = new AudioSource()
                         {
                             Url = track.Value.Url,
-                            Duration = track.Value.Duration
+                            Duration = track.Value.Duration,
+                            LookUpPath = track.Value.LookUpPath
                         }
                     };
 
@@ -192,7 +196,8 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                             Source = new AudioSource()
                             {
                                 Url = track.Value.Url,
-                                Duration = track.Value.Duration
+                                Duration = track.Value.Duration,
+                                LookUpPath = track.Value.LookUpPath
                             }
                         };
 

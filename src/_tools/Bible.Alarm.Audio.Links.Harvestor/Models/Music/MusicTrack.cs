@@ -9,6 +9,8 @@ namespace AudioLinkHarvester.Models.Music
         public string Url { get; set; }
         public TimeSpan Duration { get; set; }
 
+        public string LookUpPath { get; set; }
+
         public int CompareTo(object obj)
         {
             return Number.CompareTo((obj as MusicTrack).Number);

@@ -104,7 +104,7 @@ namespace JW.Alarm.Services.Uwp
         {
             // Open file in application package
             var fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{resourceFilePath}", UriKind.Absolute));
-
+      
             if (!await DirectoryExists(destinationDirectoryPath))
             {
                 await createDirectory(destinationDirectoryPath);
@@ -128,7 +128,6 @@ namespace JW.Alarm.Services.Uwp
                     }
                 }
             }
-
         }
 
         private async Task createDirectory(string path)
@@ -153,6 +152,13 @@ namespace JW.Alarm.Services.Uwp
 
         }
 
+        public async Task<DateTimeOffset> GetFileCreationDate(string path, bool isResourceFile)
+        {
+            var fileToRead = isResourceFile ?
+                await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{path}", UriKind.Absolute))
+                : await StorageFile.GetFileFromPathAsync(path);
 
+            return fileToRead.DateCreated;
+        }
     }
 }
