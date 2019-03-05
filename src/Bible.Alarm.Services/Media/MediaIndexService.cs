@@ -1,10 +1,7 @@
 ﻿using JW.Alarm.Services.Contracts;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,9 +9,6 @@ namespace JW.Alarm.Services
 {
     public class MediaIndexService
     {
-        //private readonly string latestIndexStatusFileUrl = "https://cdn.rawgit.com/justcoding121/JW-Media-Index/master/src/server/index.json";
-        private readonly string latestIndexFileUrl = "https://cdn.rawgit.com/justcoding121/W-Media-Index/master/src/server/index.zip";
-
         private readonly Lazy<string> indexRoot;
 
         private IDownloadService downloadService;
@@ -73,33 +67,5 @@ namespace JW.Alarm.Services
             await storageService.DeleteFile(tmpIndexFilePath);
         }
 
-        public async Task UpdateIndex()
-        {
-            await Verify();
-
-            if (!await isIndexUpToDate())
-            {
-                var bytes = await downloadService.DownloadAsync(latestIndexFileUrl);
-                await storageService.SaveFile(IndexRoot, "index.zip", bytes);
-
-                var indexFilePath = Path.Combine(IndexRoot, "index.zip");
-                ZipFile.ExtractToDirectory(indexFilePath, storageService.StorageRoot);
-                await storageService.DeleteFile(indexFilePath);
-            }
-        }
-
-        private async Task<bool> isIndexUpToDate()
-        {
-            await Verify();
-
-            var currentIndexFileContents = await storageService.ReadFile(Path.Combine(storageService.StorageRoot, "index.json"));
-            var currentIndex = JsonConvert.DeserializeObject<KeyValuePair<string, long>>(currentIndexFileContents);
-
-            var latestIndexFileBytes = await downloadService.DownloadAsync(latestIndexFileUrl);
-            var latestIndexFileContents = Encoding.UTF8.GetString(latestIndexFileBytes);
-            var latestIndex = JsonConvert.DeserializeObject<KeyValuePair<string, long>>(latestIndexFileContents);
-
-            return latestIndex.Value > currentIndex.Value;
-        }
     }
 }

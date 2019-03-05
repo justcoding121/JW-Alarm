@@ -13,7 +13,8 @@ namespace JW.Alarm.Services
         private MediaIndexService mediaLookUpService;
         private MediaDbContext dbContext;
 
-        public MediaService(MediaIndexService mediaLookUpService, MediaDbContext dbContext)
+        public MediaService(MediaIndexService mediaLookUpService,
+            MediaDbContext dbContext)
         {
             this.mediaLookUpService = mediaLookUpService;
             this.dbContext = dbContext;
@@ -110,6 +111,59 @@ namespace JW.Alarm.Services
                 .ToListAsync();
 
             return new OrderedDictionary<int, MusicTrack>(tracks.Select(x => new KeyValuePair<int, MusicTrack>(x.Number, x)));
+        }
+
+        public async Task UpdateBibleTrackUrl(string languageCode, string versionCode,
+                                        int bookNumber, int chapterNumber, string url)
+        {
+            await mediaLookUpService.Verify();
+
+            var chapter = await dbContext.BibleTranslations
+                .Where(x => x.Language.Code == languageCode)
+                .Where(x => x.Code == versionCode)
+                .SelectMany(x => x.Books)
+                .Where(x => x.Number == bookNumber)
+                .SelectMany(x => x.Chapters)
+                .Include(x => x.Source)
+                .Where(x => x.Number == chapterNumber)
+                .FirstOrDefaultAsync();
+
+            chapter.Source.Url = url;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateVocalTrackUrl(string languageCode, string publicationCode,
+                                       int trackNumber, string url)
+        {
+            await mediaLookUpService.Verify();
+
+            var track = await dbContext.VocalMusic
+                   .Where(x => x.Language.Code == languageCode)
+                   .Where(x => x.Code == publicationCode)
+                   .SelectMany(x => x.Tracks)
+                   .Include(x => x.Source)
+                   .Where(x => x.Number == trackNumber)
+                   .FirstOrDefaultAsync();
+
+            track.Source.Url = url;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateMelodyTrackUrl(string publicationCode, int trackNumber, string url)
+        {
+            await mediaLookUpService.Verify();
+
+            var track = await dbContext.MelodyMusic
+                .Where(x => x.Code == publicationCode)
+                .SelectMany(x => x.Tracks)
+                .Include(x => x.Source)
+                .Where(x => x.Number == trackNumber)
+                .FirstOrDefaultAsync();
+
+            track.Source.Url = url;
+            await dbContext.SaveChangesAsync();
         }
 
         public void Dispose()

@@ -46,7 +46,7 @@
             container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
                                                             container.Resolve<IPlaylistService>(),
                                                             container.Resolve<IMediaCacheService>(),
-                                                            container.Resolve<IAlarmService>()), isSingleton: true);
+                                                            container.Resolve<IAlarmService>()));
 
 
             Container = container;

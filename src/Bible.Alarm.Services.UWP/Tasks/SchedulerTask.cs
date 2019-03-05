@@ -40,6 +40,7 @@ namespace JW.Alarm.Services.Uwp.Tasks
                     await mediaCacheService.SetupAlarmCache(schedule.Id);
                 }
             }
+
          
             deferral.Complete();
         }

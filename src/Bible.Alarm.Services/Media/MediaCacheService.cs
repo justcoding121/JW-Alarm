@@ -1,7 +1,7 @@
 ﻿using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,16 +16,18 @@ namespace JW.Alarm.Services
         private IStorageService storageService;
         private IDownloadService downloadService;
         private IPlaylistService mediaPlayService;
-        private ScheduleDbContext dbContext;
+        private ScheduleDbContext scheduleDbContext;
+        private MediaService mediaService;
 
         public MediaCacheService(IStorageService storageService,
             IDownloadService downloadService, IPlaylistService mediaPlayService,
-            ScheduleDbContext dbContext)
+            ScheduleDbContext dbContext, MediaService mediaService)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;
             this.mediaPlayService = mediaPlayService;
-            this.dbContext = dbContext;
+            this.scheduleDbContext = dbContext;
+            this.mediaService = mediaService;
 
             cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
         }
@@ -55,15 +57,98 @@ namespace JW.Alarm.Services
             {
                 if (!await Exists(playItem.Url))
                 {
-                    var bytes = await downloadService.DownloadAsync(playItem.Url);
+                    byte[] bytes = null;
+
+                    try
+                    {
+                        bytes = await downloadService.DownloadAsync(playItem.Url);
+                    }
+                    catch
+                    {
+                        var playDetail = playItem.PlayDetail;
+
+                        string url;
+
+                        if (playDetail.PlayType == Models.PlayType.Bible)
+                        {
+                            url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber);
+                            await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
+                        }
+                        else
+                        {
+                            url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber);
+
+                            if (playDetail.LanguageCode == null)
+                            {
+                                await mediaService.UpdateMelodyTrackUrl(playDetail.PublicationCode, playDetail.TrackNumber, url);
+                            }
+                            else
+                            {
+                                await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
+                            }
+                        }
+
+                        bytes = await downloadService.DownloadAsync(url);
+                    }
+
                     await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
                 }
             }
         }
 
+        private static string[] urls = new string[] { "https://api.hag27.com/GETPUBMEDIALINKS",
+                                                      "https://apps.jw.org/GETPUBMEDIALINKS"};
+
+        private async Task<string> getBibleChapterUrl(string languageCode, string publicationCode, int bookNumber, int chapter)
+        {
+            try
+            {
+                var harvestLink1 = $@"{urls[0]}?booknum=0&output=json&pub={publicationCode}
+&fileformat=MP3&langwritten={languageCode}&txtCMSLang=E&booknum={bookNumber}&track={chapter}";
+
+                var harvestLink2 = $@"{urls[1]}?booknum=0&output=json&pub={publicationCode}
+&fileformat=MP3&langwritten={languageCode}&txtCMSLang=E&booknum={bookNumber}&track={chapter}";
+
+                var @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
+                string jsonString = Encoding.Default.GetString(@bytes);
+                dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
+
+                return model.files[languageCode].MP3[0].file.url;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private async Task<string> getMusicTrackUrl(string languageCode, string publicationCode, int trackNumber)
+        {
+            try
+            {
+                var harvestLink1 = $"{urls[0]}?booknum=0&output=json&pub={publicationCode}&fileformat=MP3" +
+                                    $"{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}" +
+                                    $"&txtCMSLang=E&track={trackNumber}";
+
+                var harvestLink2 = $@"{urls[1]}?booknum=0&output=json&pub={publicationCode}&fileformat=MP3" +
+                                    $"{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}" +
+                                    $"&langwritten={languageCode}&txtCMSLang=E&track={trackNumber}";
+
+                var @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
+                string jsonString = Encoding.Default.GetString(@bytes);
+                dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
+
+                return model.files[languageCode].MP3[0].file.url;
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
         public async Task CleanUp()
         {
-            var schedules = await dbContext.AlarmSchedules.ToListAsync();
+            var schedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
             var files = (await storageService.GetAllFiles(cacheRoot)).ToDictionary(x => x, null);
 
             foreach (var schedule in schedules)

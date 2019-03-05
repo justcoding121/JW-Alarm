@@ -10,7 +10,7 @@ namespace Bible.Alarm.UI.UWP
         {
             var container = JW.Alarm.Container.Default;
 
-            Bible.Alarm.UI.IocSetup.Initialize(container);
+            UI.IocSetup.Initialize(container);
             JW.Alarm.Services.IocSetup.Initialize(container);
             JW.Alarm.Services.Uwp.IocSetup.Initialize(container);
             JW.Alarm.ViewModels.IocSetup.Initialize(container);

@@ -16,7 +16,9 @@
             container.Register<IMediaCacheService>((x) =>
                 new MediaCacheService(container.Resolve<IStorageService>(),
                 container.Resolve<IDownloadService>(),
-                container.Resolve<IPlaylistService>(), container.Resolve<ScheduleDbContext>()));
+                container.Resolve<IPlaylistService>(), 
+                container.Resolve<ScheduleDbContext>(),
+                container.Resolve<MediaService>()));
 
             var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
                 .UseSqlite("Data Source=bibleAlarm.db").Options;
