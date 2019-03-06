@@ -51,7 +51,7 @@ namespace JW.Alarm.Services
 
         public async Task SetupAlarmCache(long alarmScheduleId)
         {
-            var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromMinutes(15));
+            var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromMinutes(20));
 
             foreach (var playItem in playlist)
             {
