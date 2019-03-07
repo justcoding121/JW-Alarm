@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bible.Alarm.UI.Home"
+             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:models="clr-namespace:JW.Alarm.Models"
+             xmlns:fn="clr-namespace:FontNameResources"
+             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
+             NavigationPage.HasNavigationBar="False"
+             Title="Bible Alarm">
+    <ContentPage.Resources>
+        <converters:DayColorConverter x:Key="dayColorConverter" />
+        <converters:IsEnabledColorConverter x:Key="isEnabledColorConverter" />
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+    </ContentPage.Resources>
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ActivityIndicator Color="SlateBlue" 
+                      Grid.Row="0"
+                      IsVisible="{Binding IsBusy}"     
+                      IsEnabled="True"
+                      IsRunning="{Binding IsBusy}" />
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0">
+                <Button 
+                    Command="{Binding AddScheduleCommand}"
+                    Margin="2"
+                    HeightRequest="35"
+                    HorizontalOptions="Fill"
+                    MinimumHeightRequest="35"
+                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                    Text="{x:Static fn:GlyphNames.Plus}"
+                    FontSize="Medium"
+                    TextColor="SlateBlue">
+                </Button>
+            </StackLayout>
+            <ListView HorizontalOptions="Fill"
+                   SelectionMode="None"
+                   Grid.Row="1" ItemsSource="{Binding Schedules}">
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ViewScheduleCommand}"
+                                                       EventArgsConverter="{StaticResource itemTappedConverter}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid HorizontalOptions="Fill" MinimumHeightRequest="75" HeightRequest="75">
+                                <Grid.Resources>
+                                    <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
+                                    <models:DaysOfWeek x:Key="Monday">Monday</models:DaysOfWeek>
+                                    <models:DaysOfWeek x:Key="Tuesday">Tuesday</models:DaysOfWeek>
+                                    <models:DaysOfWeek x:Key="Wednesday">Wednesday</models:DaysOfWeek>
+                                    <models:DaysOfWeek x:Key="Thursday">Thursday</models:DaysOfWeek>
+                                    <models:DaysOfWeek x:Key="Friday">Friday</models:DaysOfWeek>
+                                    <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout VerticalOptions="Center" Grid.Column="0" Orientation="Horizontal">
+                                    <Label Text="{Binding Hour}" Margin="10,0,0,0" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}" />
+                                    <Label Text=":" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}" />
+                                    <Label Text="{Binding Minute}" Margin="0,0,5,0" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
+                                    <Label Text="{Binding Meridien}" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
+                                </StackLayout>
+                                <StackLayout VerticalOptions="Center" Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}" Text="S" Margin="5,0,0,0" />
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Monday}}" Text="M" Margin="5,0,0,0" />
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Tuesday}}" Text="T" Margin="5,0,0,0"/>
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Wednesday}}" Text="W" Margin="5,0,0,0"/>
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Thursday}}" Text="T" Margin="5,0,0,0"/>
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Friday}}" Text="F" Margin="5,0,0,0"/>
+                                        <Label TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Saturday}}" Text="S" Margin="5,0,0,0"/>
+                                    </StackLayout>
+                                    <Label Margin="2,0,0,0" MaxLines="1" Text="{Binding Name}" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
+                                </StackLayout>
+                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Horizontal" HorizontalOptions="End" Margin="15,0,0,0">
+                                    <Switch
+                                          IsToggled="{Binding IsEnabled, Mode=TwoWay}"
+                                          Margin="0,0,5,0"></Switch>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</ContentPage>

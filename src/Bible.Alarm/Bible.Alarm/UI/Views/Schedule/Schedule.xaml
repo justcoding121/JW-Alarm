@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:models="clr-namespace:JW.Alarm.Models"
+             xmlns:fn="clr-namespace:FontNameResources"
+             x:Class="Bible.Alarm.UI.Views.Schedule"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.Resources>
+        <converters:DayColorConverter x:Key="dayColorConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" ColumnSpacing="0" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                    Padding="0"
+                    Command="{Binding CancelCommand}"
+                    Margin="2,2,0,2"
+                    TextColor="SlateBlue"
+                    Text="CANCEL" 
+                    Font="Bold,18"
+                    HorizontalOptions="FillAndExpand">
+                </Button>
+                <Button Grid.Column="1"
+                    Padding="0"
+                    Command="{Binding SaveCommand}"
+                    Text="SAVE"
+                    Margin="0,2,2,2"
+                    TextColor="SlateBlue"
+                    Font="Bold,18"
+                    HorizontalOptions="FillAndExpand"></Button>
+            </Grid>
+
+            <StackLayout Orientation="Vertical" Grid.Row="1" VerticalOptions="Start"  HorizontalOptions="Fill" Margin="0,0,0,0">
+                <StackLayout.Resources>
+                    <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
+                    <models:DaysOfWeek x:Key="Monday">Monday</models:DaysOfWeek>
+                    <models:DaysOfWeek x:Key="Tuesday">Tuesday</models:DaysOfWeek>
+                    <models:DaysOfWeek x:Key="Wednesday">Wednesday</models:DaysOfWeek>
+                    <models:DaysOfWeek x:Key="Thursday">Thursday</models:DaysOfWeek>
+                    <models:DaysOfWeek x:Key="Friday">Friday</models:DaysOfWeek>
+                    <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
+                </StackLayout.Resources>
+                <Label HorizontalTextAlignment="Center" HorizontalOptions="Fill" Text="Alarm Time" Margin="0,3,0,3"></Label>
+                <TimePicker HorizontalOptions="Fill" Time="{Binding Time, Mode=TwoWay}" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
+                    <Button WidthRequest="35"  
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Sunday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}" 
+                            Text="S" Margin="5,0,0,0" />
+                    <Button WidthRequest="35"  
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Monday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Monday}}" 
+                            Text="M" Margin="5,0,0,0" />
+                    <Button WidthRequest="35"  
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Tuesday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Tuesday}}"
+                            Text="T" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35" 
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Wednesday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Wednesday}}"
+                            Text="W" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Thursday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Thursday}}"
+                            Text="T" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Friday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Friday}}" 
+                            Text="F" Margin="5,0,0,0"/>
+                    <Button WidthRequest="35"
+                            Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Saturday}" 
+                            TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Saturday}}"
+                            Text="S" Margin="5,0,0,0"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
+                    <Label Text="Name:"  Margin="0,0,5,0" VerticalOptions="Center"></Label>
+                    <Entry WidthRequest="200"  MinimumWidthRequest="200" 
+                             Text="{Binding Name, Mode=TwoWay}" 
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Center"/>
+                </StackLayout>
+                <Grid BackgroundColor="WhiteSmoke"
+                        HeightRequest="40"
+                        x:Name="MusicButton"
+                        MinimumHeightRequest="40"
+                        HorizontalOptions="Fill"  Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectMusicCommand}"/>
+                    </Grid.GestureRecognizers>
+
+                    <Label Grid.Column="0" VerticalOptions="Center"  HorizontalOptions="Fill"
+                                       HorizontalTextAlignment="Start" TextColor="Black" Margin="5,0,0,0">Music</Label>
+                    <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal">
+                        <Switch IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
+                                    HeightRequest="30" HorizontalOptions="End" 
+                                    VerticalOptions="Center" Margin="0,0,0,5">
+                        </Switch>
+                        <Label
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                TextColor="Gray"
+                                Margin="0,0,2,0"
+                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                Text="{x:Static fn:GlyphNames.Right}"
+                                FontSize="Medium">
+                        </Label>
+                    </StackLayout>
+                </Grid>
+                <Grid HeightRequest="40"
+                        MinimumHeightRequest="40"
+                        x:Name="BibleButton"
+                        BackgroundColor="WhiteSmoke"
+                        Margin="2"
+                        HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectBibleCommand}"/>
+                    </Grid.GestureRecognizers>
+
+                    <Label Grid.Column="0" VerticalOptions="Center" 
+                                      HorizontalTextAlignment="Start" TextColor="Black" Text="Bible Reading" Margin="5,0,0,0"></Label>
+                    <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End"
+                                TextColor="Gray"
+                                Margin="0,0,2,0"
+                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
+                                Text="{x:Static fn:GlyphNames.Right}"
+                                FontSize="Medium">
+                    </Label>
+                </Grid>
+            </StackLayout>
+
+            <Button IsVisible="{Binding IsExistingSchedule}" 
+                Grid.Row="2" 
+                Command="{Binding DeleteCommand}"
+                TextColor="SlateBlue"
+                HorizontalOptions="Fill"
+                VerticalOptions="End"
+                Text="DELETE" Font="Bold,16" Margin="2">
+            </Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
