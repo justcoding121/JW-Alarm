@@ -201,7 +201,7 @@ namespace Advanced.Algorithms.DataStructures
         //get the sorted order position of given item under given node
         internal static int Position<T>(this BSTNodeBase<T> node, T item) where T : IComparable
         {
-            if (node == null)
+            if (node == null || object.Equals(item, default(T)))
             {
                 return -1;
             }
