@@ -63,6 +63,7 @@
             </Grid>
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
+                  CachingStrategy="RecycleElement"
                   ItemsSource="{Binding SongBooks}" 
                   SelectedItem="{Binding SelectedSongBook, Mode=TwoWay}">
                 <ListView.Behaviors>

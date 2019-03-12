@@ -206,4 +206,5 @@ FakesAssemblies/
 
 # Docfx
 docs/manifest.json
-media/
+_index*/
+

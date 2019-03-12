@@ -44,6 +44,7 @@
             </Grid>
             <ListView Grid.Row="1"
                   HorizontalOptions="Fill"
+                  CachingStrategy="RecycleElement"
                   ItemsSource="{Binding Books}" 
                   SelectedItem="{Binding SelectedBook, Mode=TwoWay}">
                 <ListView.Behaviors>

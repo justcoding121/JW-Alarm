@@ -44,7 +44,8 @@
                 </Label>
             </Grid>
             <ListView HorizontalOptions="Fill"
-                  Grid.Row="1" 
+                  Grid.Row="1"
+                  CachingStrategy="RecycleElement"
                   ItemsSource="{Binding Chapters}" 
                   SelectedItem="{Binding SelectedChapter, Mode=TwoWay}">
                 <ListView.Behaviors>

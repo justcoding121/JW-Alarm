@@ -45,6 +45,7 @@
             </Grid>
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
+                  CachingStrategy="RecycleElement"
                   ItemsSource="{Binding Tracks}" 
                   SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
                 <ListView.Behaviors>
