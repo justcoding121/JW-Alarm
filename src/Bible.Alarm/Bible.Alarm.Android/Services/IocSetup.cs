@@ -1,41 +1,41 @@
-﻿namespace JW.Alarm.Services.Uwp
+﻿namespace JW.Alarm.Services.Droid
 {
+    using Android.Media;
     using JW.Alarm.Services.Contracts;
-    using JW.Alarm.Services.Uwp.Tasks;
     using JW.Alarm.Services.UWP;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
     using System.Net.Http;
-    using Windows.Media.Playback;
+    using Xamarin.Android.Net;
 
     public static class IocSetup
     {
         internal static IContainer Container;
         public static void Initialize(IContainer container)
         {
-            container.Register((x) => new HttpClientHandler());
+            container.Register<HttpClientHandler>((x) => new AndroidClientHandler());
 
-            container.Register<IStorageService>((x) => new UwpStorageService());
-            container.Register<IPopUpService>((x) => new UwpPopUpService());
+            container.Register<IStorageService>((x) => new DroidStorageService());
+            container.Register<IPopUpService>((x) => new DroidPopUpService());
 
             container.Register<INotificationService>((x) =>
-            new UwpNotificationService(container.Resolve<IMediaCacheService>()));
+            new DroidNotificationService(container.Resolve<IMediaCacheService>()));
 
-            container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
+            //container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
 
-            container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
+            //container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
 
 
-            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-                                    container.Resolve<INotificationService>()));
+            //container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
+            //                        container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
+            //                        container.Resolve<INotificationService>()));
+
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()));
             container.Register((x) =>
             {
                 var player = new MediaPlayer();
-                player.AutoPlay = false;
                 return player;
             });
 
@@ -43,7 +43,9 @@
                                                             container.Resolve<IPlaylistService>(),
                                                             container.Resolve<IMediaCacheService>(),
                                                             container.Resolve<IAlarmService>()));
-
+          
+            //SQLitePCL.Batteries_V2.Init();
+            //databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 

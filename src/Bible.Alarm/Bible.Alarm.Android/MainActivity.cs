@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using System.Threading.Tasks;
+using JW.Alarm.Services.Droid.Helpers;
 
 namespace Bible.Alarm.Droid
 {
@@ -18,6 +20,17 @@ namespace Bible.Alarm.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
+     
+            IocSetup.Initialize();
+            Task.Run(async () =>
+            {
+                //BootstrapHelper.VerifyBackgroundTasks();
+                BootstrapHelper.InitializeDatabase();
+                await BootstrapHelper.VerifyMediaLookUpService();
+            });
+
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }

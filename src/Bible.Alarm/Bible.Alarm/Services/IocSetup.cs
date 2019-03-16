@@ -2,7 +2,10 @@
 {
     using JW.Alarm.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.IO;
     using System.Net.Http;
+    using Xamarin.Forms;
 
     public static class IocSetup
     {
@@ -16,22 +19,18 @@
             container.Register<IMediaCacheService>((x) =>
                 new MediaCacheService(container.Resolve<IStorageService>(),
                 container.Resolve<IDownloadService>(),
-                container.Resolve<IPlaylistService>(), 
+                container.Resolve<IPlaylistService>(),
                 container.Resolve<ScheduleDbContext>(),
                 container.Resolve<MediaService>()));
 
-            var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite("Data Source=bibleAlarm.db").Options;
-
-            container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
-
-            var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite("Data Source=mediaIndex.db").Options;
-
-            container.Register((x) => new MediaDbContext(mediaDbConfig));
-
             container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<ScheduleDbContext>(),
                 container.Resolve<MediaService>()));
+
+            container.Register<IAlarmService>((x) => new AlarmService(
+                    container.Resolve<INotificationService>(),
+                    container.Resolve<IPlaylistService>(),
+                    container.Resolve<IMediaCacheService>(),
+                    container.Resolve<ScheduleDbContext>()));
 
             Container = container;
         }

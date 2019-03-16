@@ -1,22 +1,16 @@
 ﻿using JW.Alarm.Services.Uwp.Helpers;
 using JW.Alarm.Services.Uwp.Tasks;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Bible.Alarm.UWP
@@ -32,8 +26,10 @@ namespace Bible.Alarm.UWP
         /// </summary>
         public App()
         {
+            
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            //AppCenter.Start("7288b4a9-2efe-4a34-b05f-9bb718b62c80", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>

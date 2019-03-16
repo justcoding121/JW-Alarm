@@ -6,16 +6,16 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.Uwp
+namespace JW.Alarm.Services
 {
-    public class UwpAlarmService : IAlarmService
+    public class AlarmService : IAlarmService
     {
         private INotificationService notificationService;
         private IPlaylistService playlistService;
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
-        public UwpAlarmService(INotificationService notificationService,
+        public AlarmService(INotificationService notificationService,
             IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService,
             ScheduleDbContext scheduleDbContext)

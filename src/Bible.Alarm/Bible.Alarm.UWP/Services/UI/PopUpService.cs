@@ -13,15 +13,7 @@ namespace JW.Alarm.Services.UWP
 {
     public class UwpPopUpService : PopUpService
     {
-        private IThreadService threadService;
-
-        public UwpPopUpService(IThreadService threadService)
-            :base(threadService)
-        {
-            this.threadService = threadService;
-        }
-
-        public override async Task ShowMessage(string message, int seconds)
+        public override Task ShowMessage(string message, int seconds)
         {
             var flyout = new Flyout();
             flyout.Content = new TextBlock()
@@ -36,13 +28,14 @@ namespace JW.Alarm.Services.UWP
 
             flyout.OverlayInputPassThroughElement = currentFrame;
 
-            await threadService.RunOnUIThread(() => flyout.ShowAt(currentFrame));
+            flyout.ShowAt(currentFrame);
 
-            var hideTask = Task.Delay(seconds * 1000).ContinueWith(async x =>
+            var hideTask = Task.Delay(seconds * 1000).ContinueWith(x =>
             {
-                await threadService.RunOnUIThread(() => flyout.Hide());
+                flyout.Hide();
             });
 
+            return Task.FromResult(false);
         }
     }
 }

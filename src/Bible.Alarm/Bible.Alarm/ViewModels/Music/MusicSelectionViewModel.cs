@@ -24,7 +24,7 @@ namespace JW.Alarm.ViewModels
     public class MusicSelectionViewModel : ViewModel, IDisposable
     {
         private AlarmMusic current;
-        private readonly IThreadService threadService;
+
         private readonly MediaService mediaService;
         private readonly INavigationService navigationService;
 
@@ -32,7 +32,6 @@ namespace JW.Alarm.ViewModels
 
         public MusicSelectionViewModel()
         {
-            this.threadService = IocSetup.Container.Resolve<IThreadService>();
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 

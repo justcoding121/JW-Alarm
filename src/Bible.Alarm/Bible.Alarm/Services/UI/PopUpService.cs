@@ -10,13 +10,6 @@ namespace JW.Alarm.Services
 {
     public abstract class PopUpService : IPopUpService
     {
-        private readonly IThreadService threadService;
-
-        public PopUpService(IThreadService threadService)
-        {
-            this.threadService = threadService;
-        }
-
         public abstract Task ShowMessage(string message, int seconds = 3);
 
         public async Task ShowScheduledNotification(AlarmSchedule schedule, int seconds = 3)
