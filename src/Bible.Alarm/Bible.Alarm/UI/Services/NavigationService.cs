@@ -27,12 +27,12 @@ namespace Bible.Alarm.UI
             await navigater.PopModalAsync();
 
             var currentPage = navigater.NavigationStack.FirstOrDefault();
-            
-            if(currentPage!=null)
+
+            if (currentPage != null)
             {
                 NavigatedBack?.Invoke(currentPage.BindingContext);
             }
-    
+
         }
 
         public async Task ShowModal(string name, object viewModel)
@@ -125,8 +125,23 @@ namespace Bible.Alarm.UI
 
         public async Task NavigateToHome()
         {
-            var home = IocSetup.Container.Resolve<Home>();
-            await navigater.PushAsync(home);
+            if (navigater.NavigationStack.Count == 0)
+            {
+                var home = IocSetup.Container.Resolve<Home>();
+                await navigater.PushAsync(home);
+                return;
+            }
+
+            while (navigater.ModalStack.Count > 0)
+            {
+                await navigater.PopModalAsync();
+            }
+
+            while (navigater.NavigationStack.Count > 1)
+            {
+                await navigater.PopAsync();
+            }
+
         }
     }
 }

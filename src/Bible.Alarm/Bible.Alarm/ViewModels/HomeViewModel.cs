@@ -60,7 +60,7 @@ namespace JW.Alarm.ViewModels
 
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
-            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            var subscription = ReduxContainer.Store
                .Select(state => state.Schedules)
                .Where(x => x != null)
                .DistinctUntilChanged()
