@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Foundation;
+using JW.Alarm.Services.iOS.Helpers;
 using UIKit;
 
 namespace Bible.Alarm.iOS
@@ -22,6 +23,14 @@ namespace Bible.Alarm.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            IocSetup.Initialize();
+            Task.Run(async () =>
+            {
+                //BootstrapHelper.VerifyBackgroundTasks();
+                BootstrapHelper.InitializeDatabase();
+                await BootstrapHelper.VerifyMediaLookUpService();
+            });
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
