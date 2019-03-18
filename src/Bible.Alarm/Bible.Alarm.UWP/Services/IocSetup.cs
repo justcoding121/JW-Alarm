@@ -14,7 +14,7 @@
         internal static IContainer Container;
         public static void Initialize(IContainer container)
         {
-            container.Register((x) => new HttpClientHandler());
+            container.Register<HttpMessageHandler>((x) => new HttpClientHandler());
 
             container.Register<IPopUpService>((x) => new UwpPopUpService());
 

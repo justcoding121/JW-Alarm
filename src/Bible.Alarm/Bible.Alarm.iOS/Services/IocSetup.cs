@@ -1,6 +1,9 @@
-﻿namespace JW.Alarm.Services.Droid
+﻿namespace JW.Alarm.Services.iOS
 {
+    using AVFoundation;
+    using Foundation;
     using JW.Alarm.Services.Contracts;
+    using JW.Alarm.Services.iOS;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
@@ -11,12 +14,12 @@
         internal static IContainer Container;
         public static void Initialize(IContainer container)
         {
-            container.Register<HttpClientHandler>((x) => new iOSClientHandler());
+            container.Register<HttpMessageHandler>((x) => new NSUrlSessionHandler());
 
-            container.Register<IPopUpService>((x) => new DroidPopUpService());
+            container.Register<IPopUpService>((x) => new iOSPopUpService());
 
             container.Register<INotificationService>((x) =>
-            new DroidNotificationService(container.Resolve<IMediaCacheService>()));
+            new iOSNotificationService(container.Resolve<IMediaCacheService>()));
 
             //container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
 
@@ -28,20 +31,25 @@
             //                        container.Resolve<INotificationService>()));
 
 
-            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()));
+            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<AVPlayer>()));
             container.Register((x) =>
             {
-                var player = new MediaPlayer();
+                var player = new AVQueuePlayer();
                 return player;
             });
 
-            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
+            container.Register((x) =>
+            {
+                var player = new AVPlayer();
+                return player;
+            });
+
+            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<AVQueuePlayer>(),
                                                             container.Resolve<IPlaylistService>(),
                                                             container.Resolve<IMediaCacheService>(),
                                                             container.Resolve<IAlarmService>()));
           
-            //SQLitePCL.Batteries_V2.Init();
-            //databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
+            SQLitePCL.Batteries_V2.Init();
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 

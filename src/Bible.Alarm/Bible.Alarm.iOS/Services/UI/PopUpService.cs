@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.iOS
 {
-    public class DroidPopUpService : PopUpService
+    public class iOSPopUpService : PopUpService
     {
         public override async Task ShowMessage(string message, int seconds)
         {

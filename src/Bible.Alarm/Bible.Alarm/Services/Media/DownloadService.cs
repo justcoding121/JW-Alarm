@@ -12,8 +12,8 @@ namespace JW.Alarm.Services
     {
         private readonly int retryAttempts = 3;
 
-        private HttpClientHandler handler;
-        public DownloadService(HttpClientHandler handler)
+        private HttpMessageHandler handler;
+        public DownloadService(HttpMessageHandler handler)
         {
             this.handler = handler;
         }

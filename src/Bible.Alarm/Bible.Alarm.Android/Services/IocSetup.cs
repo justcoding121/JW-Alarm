@@ -13,7 +13,7 @@
         internal static IContainer Container;
         public static void Initialize(IContainer container)
         {
-            container.Register<HttpClientHandler>((x) => new AndroidClientHandler());
+            container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
             container.Register<IPopUpService>((x) => new DroidPopUpService());
 

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.iOS
 {
-    public class DroidNotificationService : INotificationService
+    public class iOSNotificationService : INotificationService
     {
         IMediaCacheService mediaCacheService;
 
-        public DroidNotificationService(IMediaCacheService mediaCacheService)
+        public iOSNotificationService(IMediaCacheService mediaCacheService)
         {
             this.mediaCacheService = mediaCacheService;
         }
