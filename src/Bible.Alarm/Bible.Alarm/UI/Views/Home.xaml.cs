@@ -10,7 +10,6 @@ namespace Bible.Alarm.UI
         public Home()
         {
             InitializeComponent();
-            BindingContext = IocSetup.Container.Resolve<HomeViewModel>();
         }
     }
 }

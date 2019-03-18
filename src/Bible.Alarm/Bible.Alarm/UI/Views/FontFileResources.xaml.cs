@@ -13,7 +13,6 @@ namespace FontNameResources
             InitializeComponent();
         }
 
-        public static string FontAwesomeRegular => instance.GetStringResourceForPlatform("FontAwesomeRegularId");
         public static string FontAwesomeSolid => instance.GetStringResourceForPlatform("FontAwesomeSolidId");
 
         private string GetStringResourceForPlatform(string resourceKey)

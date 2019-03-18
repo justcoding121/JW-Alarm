@@ -9,13 +9,15 @@ namespace Bible.Alarm
 {
     public partial class App : Application
     {
+        private readonly Home homePage;
         public App()
         {
             InitializeComponent();
 
-            var navigationPage = new NavigationPage();
+            homePage = new Home();
+            var navigationPage = new NavigationPage(homePage);
             IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
-
+            homePage.BindingContext = IocSetup.Container.Resolve<JW.Alarm.ViewModels.HomeViewModel>();
             MainPage = navigationPage;
         }
 

@@ -31,6 +31,7 @@ namespace Bible.Alarm.iOS
                 await BootstrapHelper.VerifyMediaLookUpService();
             });
 
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
