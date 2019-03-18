@@ -1,5 +1,6 @@
 ﻿namespace JW.Alarm.Services
 {
+    using Bible.Alarm.Services;
     using JW.Alarm.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
     using System;
@@ -31,6 +32,8 @@
                     container.Resolve<IPlaylistService>(),
                     container.Resolve<IMediaCacheService>(),
                     container.Resolve<ScheduleDbContext>()));
+
+            container.Register<IStorageService>((x) => new StorageService());
 
             Container = container;
         }

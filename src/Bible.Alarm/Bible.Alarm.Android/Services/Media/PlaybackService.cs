@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.UWP
+namespace JW.Alarm.Services.Droid
 {
     public class PlaybackService :
         Java.Lang.Object,

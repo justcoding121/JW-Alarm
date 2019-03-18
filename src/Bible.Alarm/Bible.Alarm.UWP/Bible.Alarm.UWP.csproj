@@ -101,7 +101,6 @@
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
-    <Compile Include="Services\Storage\StorageService.cs" />
     <Compile Include="Services\Tasks\AlarmTask.cs" />
     <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\Tasks\SnoozeDismissTask.cs" />

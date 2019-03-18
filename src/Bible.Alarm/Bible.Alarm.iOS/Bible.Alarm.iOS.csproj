@@ -100,9 +100,10 @@
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
-    <Compile Include="Services\Storage\StorageService.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\PopUpService.cs" />
+    <BundleResource Include="Resources\Font Awesome 5 Free-Solid-900.otf" />
+    <BundleResource Include="Resources\Font Awesome 5 Free-Regular-400.otf" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -171,12 +172,5 @@
       <Name>Bible.Alarm</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Resources\Fonts\" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\Fonts\Font Awesome 5 Free-Regular-400.otf" />
-    <BundleResource Include="Resources\Fonts\Font Awesome 5 Free-Solid-900.otf" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.UWP
+namespace JW.Alarm.Services.iOS
 {
     public class PlaybackService :
         IPlaybackService
@@ -33,8 +33,7 @@ namespace JW.Alarm.Services.UWP
 
         public void Dismiss()
         {
-            this.player.Stop();
-            currentTrackDetail = null;
+            throw new NotImplementedException();
         }
 
         public async Task Play(long scheduleId)
@@ -47,10 +46,6 @@ namespace JW.Alarm.Services.UWP
             throw new NotImplementedException();
         }
 
-        public async void OnCompletion(MediaPlayer mp)
-        {
-            throw new NotImplementedException();
-        }
-
+      
     }
 }

@@ -1,22 +1,18 @@
 ﻿namespace JW.Alarm.Services.Droid
 {
-    using Android.Media;
     using JW.Alarm.Services.Contracts;
-    using JW.Alarm.Services.UWP;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
     using System.Net.Http;
-    using Xamarin.Android.Net;
 
     public static class IocSetup
     {
         internal static IContainer Container;
         public static void Initialize(IContainer container)
         {
-            container.Register<HttpClientHandler>((x) => new AndroidClientHandler());
+            container.Register<HttpClientHandler>((x) => new iOSClientHandler());
 
-            container.Register<IStorageService>((x) => new DroidStorageService());
             container.Register<IPopUpService>((x) => new DroidPopUpService());
 
             container.Register<INotificationService>((x) =>

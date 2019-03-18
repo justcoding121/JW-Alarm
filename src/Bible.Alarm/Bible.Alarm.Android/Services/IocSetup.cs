@@ -2,7 +2,6 @@
 {
     using Android.Media;
     using JW.Alarm.Services.Contracts;
-    using JW.Alarm.Services.UWP;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
@@ -16,7 +15,6 @@
         {
             container.Register<HttpClientHandler>((x) => new AndroidClientHandler());
 
-            container.Register<IStorageService>((x) => new DroidStorageService());
             container.Register<IPopUpService>((x) => new DroidPopUpService());
 
             container.Register<INotificationService>((x) =>

@@ -1,17 +1,23 @@
-﻿using Android.App;
-using Android.Content.Res;
-using JW.Alarm.Services.Contracts;
+﻿using JW.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
-namespace JW.Alarm.Services.Droid
+namespace Bible.Alarm.Services
 {
-    public class DroidStorageService : IStorageService
+    public class StorageService : IStorageService
     {
-        public string StorageRoot => Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+        public string StorageRoot
+        {
+            get
+            {
+                return Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
+            }
+        }
+
 
         public Task DeleteFile(string path)
         {
@@ -73,15 +79,14 @@ namespace JW.Alarm.Services.Droid
         public async Task CopyResourceFile(string resourceFilePath,
             string destinationDirectoryPath, string destinationFileName)
         {
-            AssetManager assets = Application.Context.Assets;
-            using (StreamReader sr = new StreamReader(assets.Open(resourceFilePath)))
+            using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFilePath))
             {
-                char[] buffer = new char[1024];
+                var buffer = new byte[1024];
                 using (BinaryWriter fileWriter =
                     new BinaryWriter(File.Create(Path.Combine(destinationDirectoryPath, destinationFileName))))
                 {
                     long readCount = 0;
-                    while (readCount < sr.BaseStream.Length)
+                    while (readCount < sr.Length)
                     {
                         int read = await sr.ReadAsync(buffer, 0, buffer.Length);
                         readCount += read;
@@ -99,9 +104,11 @@ namespace JW.Alarm.Services.Droid
             return Task.FromResult(false);
         }
 
-        public async Task<DateTimeOffset> GetFileCreationDate(string path, bool isResourceFile)
+        public Task<DateTimeOffset> GetFileCreationDate(string path, bool isResourceFile)
         {
-            throw new NotImplementedException();
+            var file = new FileInfo(path);
+
+            return Task.FromResult(new DateTimeOffset(file.CreationTime));
         }
     }
 }

@@ -16,7 +16,6 @@
         {
             container.Register((x) => new HttpClientHandler());
 
-            container.Register<IStorageService>((x) => new UwpStorageService());
             container.Register<IPopUpService>((x) => new UwpPopUpService());
 
             container.Register<INotificationService>((x) =>

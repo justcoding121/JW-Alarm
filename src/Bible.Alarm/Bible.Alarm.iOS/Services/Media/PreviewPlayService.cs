@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace JW.Alarm.Services.UWP
+namespace JW.Alarm.Services.iOS
 {
     public class PreviewPlayService :  IPreviewPlayService
     {

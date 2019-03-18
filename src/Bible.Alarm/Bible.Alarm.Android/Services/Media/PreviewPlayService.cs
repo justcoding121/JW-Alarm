@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace JW.Alarm.Services.UWP
+namespace JW.Alarm.Services.Droid
 {
     public class PreviewPlayService : Java.Lang.Object,
         MediaPlayer.IOnCompletionListener, IPreviewPlayService

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace JW.Alarm.Services.UWP
+namespace JW.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
