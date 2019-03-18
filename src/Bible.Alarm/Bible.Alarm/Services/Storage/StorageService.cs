@@ -76,10 +76,10 @@ namespace Bible.Alarm.Services
             File.WriteAllBytes(Path.Combine(directoryPath, name), contents);
         }
 
-        public async Task CopyResourceFile(string resourceFilePath,
+        public async Task CopyResourceFile(string resourceFileName,
             string destinationDirectoryPath, string destinationFileName)
         {
-            using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFilePath))
+            using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFileName))
             {
                 var buffer = new byte[1024];
                 using (BinaryWriter fileWriter =

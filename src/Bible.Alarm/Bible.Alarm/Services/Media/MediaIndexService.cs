@@ -74,7 +74,7 @@ namespace JW.Alarm.Services
 
         private async Task copyIndexFromResource()
         {
-            var indexResourceFile = "Assets/Media/index.zip";
+            var indexResourceFile = "Bible.Alarm.Resources.index.zip";
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
