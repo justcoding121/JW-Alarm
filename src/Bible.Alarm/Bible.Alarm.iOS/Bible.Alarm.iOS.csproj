@@ -95,6 +95,14 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IocSetup.cs" />
+    <Compile Include="Services\Helpers\BootstrapHelper.cs" />
+    <Compile Include="Services\IocSetup.cs" />
+    <Compile Include="Services\Media\PlaybackService.cs" />
+    <Compile Include="Services\Media\PreviewPlayService.cs" />
+    <Compile Include="Services\Storage\StorageService.cs" />
+    <Compile Include="Services\UI\NotificationService.cs" />
+    <Compile Include="Services\UI\PopUpService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -159,8 +167,16 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Bible.Alarm\Bible.Alarm.csproj">
-      <Project>{C648EF9D-C440-468A-B1FE-D6B1B9AEE8BE}</Project>
+      <Project>{88314728-92AD-49BB-9092-3DF53C686066}</Project>
       <Name>Bible.Alarm</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Resources\Fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Fonts\Font Awesome 5 Free-Regular-400.otf" />
+    <BundleResource Include="Resources\Fonts\Font Awesome 5 Free-Solid-900.otf" />
   </ItemGroup>
 </Project>

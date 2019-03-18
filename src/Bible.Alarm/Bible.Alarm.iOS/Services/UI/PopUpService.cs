@@ -1,0 +1,17 @@
+﻿using JW.Alarm.Services.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JW.Alarm.Services.UWP
+{
+    public class DroidPopUpService : PopUpService
+    {
+        public override async Task ShowMessage(string message, int seconds)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

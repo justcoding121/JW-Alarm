@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FontNameResources.FontFileResources">
     <OnPlatform x:Key="FontAwesomeRegularId" x:TypeArguments="x:String">
-        <!--<On Platform="iOS" Value="Font Awesome 5 Pro" />
-        <On Platform="Android" Value="fonts/Font Awesome 5 Pro-Regular-400.otf#Font Awesome 5 Pro" />-->
+        <On Platform="iOS" Value="Font Awesome 5 Pro" />
+        <On Platform="Android" Value="fonts/Font Awesome 5 Pro-Regular-400.otf#Font Awesome 5 Pro" />
         <On Platform="UWP, WinRT, WinPhone" Value="Assets/Fonts/Font Awesome 5 Free-Regular-400.otf#Font Awesome 5 Free" />
     </OnPlatform>
     <Style x:Key="FontAwesomeRegular" TargetType="Label">
