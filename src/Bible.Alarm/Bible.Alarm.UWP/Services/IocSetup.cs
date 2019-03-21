@@ -46,15 +46,11 @@
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
-            var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+            container.Register((x) => new ScheduleDbContext(new DbContextOptionsBuilder<ScheduleDbContext>()
+                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options));
 
-            container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
-
-            var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
-
-            container.Register((x) => new MediaDbContext(mediaDbConfig));
+            container.Register((x) => new MediaDbContext(new DbContextOptionsBuilder<MediaDbContext>()
+                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options));
 
             Container = container;
         }
