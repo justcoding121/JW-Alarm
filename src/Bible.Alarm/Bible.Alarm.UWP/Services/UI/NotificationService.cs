@@ -102,6 +102,11 @@ namespace JW.Alarm.Services.UWP
             var notifications = notifier.GetScheduledToastNotifications();
             return notifications.Any(x => x.Group == scheduleId.ToString());
         }
+
+        public void ClearVisibleNotifications()
+        {
+            ToastNotificationManager.History.Clear();
+        }
     }
 
 }

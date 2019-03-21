@@ -140,7 +140,7 @@ namespace JW.Alarm.Services
 
         public async Task CleanUp()
         {
-            var schedules = await scheduleDbContext.AlarmSchedules.ToListAsync();
+            var schedules = await scheduleDbContext.AlarmSchedules.AsNoTracking().ToListAsync();
             var files = (await storageService.GetAllFiles(cacheRoot)).ToDictionary(x => x, null);
 
             foreach (var schedule in schedules)

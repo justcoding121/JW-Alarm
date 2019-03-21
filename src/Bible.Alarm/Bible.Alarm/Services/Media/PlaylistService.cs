@@ -24,6 +24,7 @@ namespace JW.Alarm.Services
             var schedule = await scheduleDbContext.AlarmSchedules
                 .Include(x => x.Music)
                 .Include(x => x.BibleReadingSchedule)
+                .AsNoTracking()
                 .FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
@@ -41,6 +42,7 @@ namespace JW.Alarm.Services
             var schedule = await scheduleDbContext.AlarmSchedules
                                 .Include(x => x.Music)
                                 .Include(x => x.BibleReadingSchedule)
+                                .AsNoTracking()
                                 .FirstAsync(x => x.Id == currentTrack.ScheduleId);
 
             var bibleReadingSchedule = schedule.BibleReadingSchedule;
@@ -92,8 +94,10 @@ namespace JW.Alarm.Services
             {
                 var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
-                bibleReadingSchedule.BookNumber = trackDetail.BookNumber;
-                bibleReadingSchedule.ChapterNumber = trackDetail.ChapterNumber;
+                var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber, bibleReadingSchedule.ChapterNumber);
+
+                bibleReadingSchedule.BookNumber = next.Key.Number;
+                bibleReadingSchedule.ChapterNumber = next.Value.Number;
             }
 
             await scheduleDbContext.SaveChangesAsync();
@@ -106,6 +110,7 @@ namespace JW.Alarm.Services
             var schedule = await scheduleDbContext.AlarmSchedules
                                     .Include(x => x.Music)
                                     .Include(x => x.BibleReadingSchedule)
+                                    .AsNoTracking()
                                     .FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)

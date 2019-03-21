@@ -41,7 +41,8 @@
             container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
                                                             container.Resolve<IPlaylistService>(),
                                                             container.Resolve<IMediaCacheService>(),
-                                                            container.Resolve<IAlarmService>()));
+                                                            container.Resolve<IAlarmService>(),
+                                                            container.Resolve<ScheduleDbContext>()));
 
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));

@@ -1,5 +1,9 @@
-﻿using JW.Alarm.Models;
+﻿using Bible.Alarm.ViewModels.Redux.Actions.Bible;
+using Bible.Alarm.ViewModels.Redux.Actions.Music;
+using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
+using JW.Alarm.ViewModels.Redux;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +21,18 @@ namespace JW.Alarm.Services.UWP
         private IPlaylistService playlistService;
         private IMediaCacheService cacheService;
         private IAlarmService alarmService;
+        private ScheduleDbContext scheduleDbContext;
 
         private NotificationDetail currentTrackDetail;
 
         public PlaybackService(MediaPlayer player, IPlaylistService playlistService,
-            IMediaCacheService cacheService, IAlarmService alarmService)
+            IMediaCacheService cacheService, IAlarmService alarmService, ScheduleDbContext scheduleDbContext)
         {
             this.player = player;
             this.playlistService = playlistService;
             this.cacheService = cacheService;
             this.alarmService = alarmService;
+            this.scheduleDbContext = scheduleDbContext;
         }
 
         public void Dismiss()

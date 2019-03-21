@@ -15,6 +15,7 @@ namespace JW.Alarm.Models
         public int BookNumber { get; set; }
         public int ChapterNumber { get; set; }
 
-        public virtual List<AlarmSchedule> AlarmSchedules { get; set; }
+        public virtual AlarmSchedule AlarmSchedule { get; set; }
+        public int AlarmScheduleId { get; set; }
     }
 }

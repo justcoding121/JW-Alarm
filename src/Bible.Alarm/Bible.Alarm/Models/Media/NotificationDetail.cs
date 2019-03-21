@@ -24,5 +24,8 @@ namespace JW.Alarm.Models
         public int TrackNumber { get; set; }
 
         public TimeSpan Duration { get; set; }
+
+        public bool IsAlarmMusic => TrackNumber > 0;
+        public bool IsBibleReading => ChapterNumber > 0;
     }
 }

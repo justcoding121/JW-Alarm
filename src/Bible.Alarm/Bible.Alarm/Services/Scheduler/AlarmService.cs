@@ -47,7 +47,7 @@ namespace JW.Alarm.Services
 
         public async Task Snooze(long scheduleId)
         {
-            var schedule = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == scheduleId);
+            var schedule = await scheduleDbContext.AlarmSchedules.AsNoTracking().FirstAsync(x => x.Id == scheduleId);
             scheduleNotification(schedule, true);
         }
 

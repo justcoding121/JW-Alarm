@@ -105,8 +105,6 @@ namespace JW.Alarm.ViewModels
         private async Task initialize()
         {
             var alarmSchedules = await scheduleDbContext.AlarmSchedules
-                .Include(x => x.Music)
-                .Include(x => x.BibleReadingSchedule)
                 .AsNoTracking().ToListAsync();
 
             var initialSchedules = new ObservableHashSet<ScheduleListItem>();
@@ -207,7 +205,7 @@ namespace JW.Alarm.ViewModels
     public class ScheduleListItem : ViewModel, IComparable
     {
         public AlarmSchedule Schedule;
-        public ScheduleListItem(AlarmSchedule schedule = null)
+        public ScheduleListItem(AlarmSchedule schedule)
         {
             Schedule = schedule;
             isEnabled = schedule.IsEnabled;

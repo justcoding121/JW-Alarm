@@ -1,6 +1,4 @@
-﻿using JW.Alarm.Services;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 
 namespace JW.Alarm.DbMigration.Setup
 {

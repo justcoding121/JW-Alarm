@@ -24,6 +24,8 @@ namespace JW.Alarm.ViewModels
         IAlarmService alarmService;
         IToastService popUpService;
         INavigationService navigationService;
+        IPlaybackService playbackService;
+        INotificationService notificationService;
 
         private List<IDisposable> disposables = new List<IDisposable>();
 
@@ -33,6 +35,8 @@ namespace JW.Alarm.ViewModels
             this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
+            this.notificationService = IocSetup.Container.Resolve<INotificationService>();
 
             disposables.Add(scheduleDbContext);
 
@@ -42,10 +46,10 @@ namespace JW.Alarm.ViewModels
                .Select(state => state.CurrentScheduleListItem)
                .DistinctUntilChanged()
                .Take(1)
-               .Subscribe(x =>
+               .Subscribe(async x =>
                {
                    scheduleListItem = x;
-                   var model = x?.Schedule;
+                   var model = x == null ? null : await scheduleDbContext.AlarmSchedules.AsNoTracking().FirstAsync(y => y.Id == x.ScheduleId);
 
                    IsNewSchedule = model == null ? true : false;
                    setModel(model ?? new AlarmSchedule()
@@ -78,10 +82,22 @@ namespace JW.Alarm.ViewModels
            .Where(x => x != null)
            .Subscribe(x =>
            {
-               Model.Music = x;
+               Music = x;
+               musicUpdated = true;
            });
 
             disposables.Add(subscription2);
+
+            var subscription3 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            .Select(state => state.CurrentBibleReadingSchedule)
+            .Where(x => x != null)
+            .Subscribe(x =>
+            {
+                BibleReadingSchedule = x;
+                bibleReadingUpdated = true;
+            });
+
+            disposables.Add(subscription3);
 
             CancelCommand = new Command(async () =>
             {
@@ -93,9 +109,10 @@ namespace JW.Alarm.ViewModels
             {
                 if (await saveAsync())
                 {
+                    this.playbackService.Dismiss();
+                    this.notificationService.ClearVisibleNotifications();
                     await navigationService.GoBack();
                     ReduxContainer.Store.Dispatch(new BackAction(this));
-
                 }
             });
 
@@ -103,8 +120,9 @@ namespace JW.Alarm.ViewModels
             {
                 await deleteAsync();
                 await navigationService.GoBack();
+                this.playbackService.Dismiss();
+                this.notificationService.ClearVisibleNotifications();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
-
             });
 
             ToggleDayCommand = new Command<DaysOfWeek>(x =>
@@ -116,6 +134,13 @@ namespace JW.Alarm.ViewModels
             {
                 var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
+
+                //get the latest music track
+                if (Music == null || (!IsNewSchedule && !musicUpdated))
+                {
+                    Music = await scheduleDbContext.AlarmMusic.AsNoTracking().FirstAsync(x => x.AlarmScheduleId == scheduleId);
+                }
+
                 ReduxContainer.Store.Dispatch(new MusicSelectionAction()
                 {
                     CurrentMusic = Music
@@ -126,6 +151,13 @@ namespace JW.Alarm.ViewModels
             {
                 var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
+
+                //get the latest bible track
+                if (BibleReadingSchedule == null || (!IsNewSchedule && !bibleReadingUpdated))
+                {
+                    BibleReadingSchedule = await scheduleDbContext.BibleReadingSchedules.AsNoTracking().FirstAsync(x => x.AlarmScheduleId == scheduleId);
+                }
+
                 ReduxContainer.Store.Dispatch(new BibleSelectionAction()
                 {
                     CurrentBibleReadingSchedule = BibleReadingSchedule,
@@ -238,8 +270,11 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref musicEnabled, value);
         }
 
-        public AlarmMusic Music => Model.Music;
-        public BibleReadingSchedule BibleReadingSchedule => Model.BibleReadingSchedule;
+        private bool musicUpdated { get; set; }
+        public AlarmMusic Music { get => Model.Music; set => Model.Music = value; }
+
+        private bool bibleReadingUpdated { get; set; }
+        public BibleReadingSchedule BibleReadingSchedule { get => Model.BibleReadingSchedule; set => Model.BibleReadingSchedule = value; }
 
         public bool IsNewSchedule { get; private set; }
         public bool IsExistingSchedule => !IsNewSchedule;
@@ -291,16 +326,22 @@ namespace JW.Alarm.ViewModels
                     existing.DaysOfWeek = model.DaysOfWeek;
                     existing.IsEnabled = model.IsEnabled;
 
-                    existing.Music.Fixed = model.Music.Fixed;
-                    existing.Music.LanguageCode = model.Music.LanguageCode;
-                    existing.Music.MusicType = model.Music.MusicType;
-                    existing.Music.PublicationCode = model.Music.PublicationCode;
-                    existing.Music.TrackNumber = model.Music.TrackNumber;
+                    if (model.Music != null && musicUpdated)
+                    {
+                        existing.Music.Fixed = model.Music.Fixed;
+                        existing.Music.LanguageCode = model.Music.LanguageCode;
+                        existing.Music.MusicType = model.Music.MusicType;
+                        existing.Music.PublicationCode = model.Music.PublicationCode;
+                        existing.Music.TrackNumber = model.Music.TrackNumber;
+                    }
 
-                    existing.BibleReadingSchedule.BookNumber = model.BibleReadingSchedule.BookNumber;
-                    existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
-                    existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
-                    existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
+                    if (model.BibleReadingSchedule != null && bibleReadingUpdated)
+                    {
+                        existing.BibleReadingSchedule.BookNumber = model.BibleReadingSchedule.BookNumber;
+                        existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
+                        existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
+                        existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
+                    }
 
                     existing.MusicEnabled = model.MusicEnabled;
                     existing.Name = model.Name;

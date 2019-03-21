@@ -64,7 +64,7 @@ namespace JW.Alarm.ViewModels
 
             //set schedules from initial state.
             //this should fire only once 
-            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            var subscription1 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
                    .Select(state => new { state.CurrentBibleReadingSchedule, state.TentativeBibleReadingSchedule })
                    .Where(x => x.CurrentBibleReadingSchedule != null && x.TentativeBibleReadingSchedule != null)
                    .DistinctUntilChanged()
@@ -76,7 +76,7 @@ namespace JW.Alarm.ViewModels
                        await initialize(tentative.LanguageCode, tentative.PublicationCode);
                    });
 
-            disposables.Add(subscription);
+            disposables.Add(subscription1);
 
             navigationService.NavigatedBack += onNavigated;
         }

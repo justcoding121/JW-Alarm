@@ -14,7 +14,7 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0-preview.19074.3");
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity("JW.Alarm.Models.AudioSource", b =>
                 {

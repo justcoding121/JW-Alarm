@@ -29,7 +29,6 @@ namespace JW.Alarm.Models
         public bool MusicEnabled { get; set; }
         public virtual AlarmMusic Music { get; set; }
 
-        public int BibleReadingScheduleId { get; set; }
         public virtual BibleReadingSchedule BibleReadingSchedule { get; set; }
 
         public int SnoozeMinutes { get; set; } = 5;

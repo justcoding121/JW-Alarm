@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
 {
     [DbContext(typeof(MediaDbContext))]
-    [Migration("20190305204742_InitialCreate")]
+    [Migration("20190321205906_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0-preview.19074.3");
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity("JW.Alarm.Models.AudioSource", b =>
                 {

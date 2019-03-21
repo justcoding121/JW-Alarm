@@ -67,7 +67,7 @@ namespace JW.Alarm.ViewModels
 
             //set schedules from initial state.
             //this should fire only once 
-            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            var subscription1 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
                    .Select(state => new { state.CurrentBibleReadingSchedule, state.TentativeBibleReadingSchedule })
                    .Where(x => x.CurrentBibleReadingSchedule != null && x.TentativeBibleReadingSchedule != null)
                    .DistinctUntilChanged()
@@ -79,7 +79,8 @@ namespace JW.Alarm.ViewModels
                        await initialize(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber);
                    });
 
-            disposables.Add(subscription);
+            
+            disposables.Add(subscription1);
         }
 
         public ICommand BackCommand { get; set; }
@@ -92,7 +93,7 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; } 
+        public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; }
             = new ObservableHashSet<BibleChapterListViewItemModel>();
 
         private BibleChapterListViewItemModel selectedChapter;
