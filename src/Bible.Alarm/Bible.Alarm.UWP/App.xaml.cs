@@ -52,9 +52,9 @@ namespace Bible.Alarm.UWP
 
                 Task.Run(async () =>
                 {
-                    BootstrapHelper.VerifyBackgroundTasks();
-                    BootstrapHelper.InitializeDatabase();
+                    await BootstrapHelper.InitializeDatabase();
                     await BootstrapHelper.VerifyMediaLookUpService();
+                    await BootstrapHelper.VerifyBackgroundTasks();     
                 });
             }
 
@@ -91,15 +91,19 @@ namespace Bible.Alarm.UWP
             Window.Current.Activate();
         }
 
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        protected async override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
 
+            var deferral = args.TaskInstance.GetDeferral();
+
             if (IocSetup.Container == null)
             {
-                BootstrapHelper.InitializeDatabase();
                 IocSetup.Initialize();
+                await BootstrapHelper.InitializeDatabase();
+                await BootstrapHelper.VerifyMediaLookUpService();
             }
+
 
             switch (args.TaskInstance.Task.Name)
             {
@@ -116,6 +120,8 @@ namespace Bible.Alarm.UWP
                     break;
 
             }
+
+            deferral.Complete();
         }
 
         /// <summary>

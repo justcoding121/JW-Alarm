@@ -24,8 +24,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
         public async void Handle(IBackgroundTaskInstance backgroundTask)
         {
-            var deferral = backgroundTask.GetDeferral();
-
             var details = backgroundTask.TriggerDetails as ToastNotificationHistoryChangedTriggerDetail;
 
             if (details.ChangeType == ToastHistoryChangedType.Added)
@@ -40,9 +38,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
                 await playbackService.Play(long.Parse(toast.Group));
 
             }
-
-            deferral.Complete();
-
         }
     }
 }

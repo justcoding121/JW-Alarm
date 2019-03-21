@@ -59,7 +59,7 @@ namespace JW.Alarm.Services
             //delete the file if it was outdated by an app auto-update.
             if (exists)
             {
-                var resourceFileCreationDate = await storageService.GetFileCreationDate("Assets/Media/index.zip", true);
+                var resourceFileCreationDate = await storageService.GetFileCreationDate("index.zip", true);
                 var creationDate = await storageService.GetFileCreationDate(Path.Combine(IndexRoot, "mediaIndex.db"), false);
 
                 if(creationDate < resourceFileCreationDate)
@@ -74,7 +74,7 @@ namespace JW.Alarm.Services
 
         private async Task copyIndexFromResource()
         {
-            var indexResourceFile = "Bible.Alarm.Resources.index.zip";
+            var indexResourceFile = "index.zip";
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);

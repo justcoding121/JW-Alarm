@@ -47,8 +47,10 @@ namespace JW.Alarm.Services.Uwp.Helpers
             await service.Verify();
         }
 
-        public static void VerifyBackgroundTasks()
+        public static async Task VerifyBackgroundTasks()
         {
+            await BackgroundExecutionManager.RequestAccessAsync();
+
             var allTasks = BackgroundTaskRegistration.AllTasks.Select(x => x.Value);
 
             var alarmTask = allTasks.FirstOrDefault(x => x.Name == alarmTaskName);
@@ -97,11 +99,11 @@ namespace JW.Alarm.Services.Uwp.Helpers
 
         }
 
-        public static void InitializeDatabase()
+        public static async Task InitializeDatabase()
         {
             using (var db = IocSetup.Container.Resolve<ScheduleDbContext>())
             {
-                db.Database.Migrate();
+               await db.Database.MigrateAsync();
             }
         }
     }

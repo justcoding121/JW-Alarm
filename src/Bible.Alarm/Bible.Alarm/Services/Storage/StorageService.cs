@@ -18,6 +18,26 @@ namespace Bible.Alarm.Services
             }
         }
 
+        public string ResourceRoot
+        {
+            get
+            {
+                var appRoot = AppDomain.CurrentDomain.BaseDirectory;
+
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                        return Path.Combine(appRoot, "Resources");
+
+                    case Device.Android:
+                        return Path.Combine(appRoot, "Assets");
+                }
+
+                return Path.Combine(appRoot, "Assets", "Media");
+            }
+        }
+
+
 
         public Task DeleteFile(string path)
         {
@@ -79,7 +99,7 @@ namespace Bible.Alarm.Services
         public async Task CopyResourceFile(string resourceFileName,
             string destinationDirectoryPath, string destinationFileName)
         {
-            using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFileName))
+            using (var sr = File.OpenRead(Path.Combine(ResourceRoot, resourceFileName)))
             {
                 var buffer = new byte[1024];
                 using (BinaryWriter fileWriter =
@@ -104,9 +124,18 @@ namespace Bible.Alarm.Services
             return Task.FromResult(false);
         }
 
-        public Task<DateTimeOffset> GetFileCreationDate(string path, bool isResourceFile)
+        public Task<DateTimeOffset> GetFileCreationDate(string pathOrName, bool isResourceFile)
         {
-            var file = new FileInfo(path);
+            FileInfo file = null;
+
+            if (isResourceFile)
+            {
+                file = new FileInfo(Path.Combine(ResourceRoot, pathOrName));
+            }
+            else
+            {
+                file = new FileInfo(pathOrName);
+            }
 
             return Task.FromResult(new DateTimeOffset(file.CreationTime));
         }

@@ -23,8 +23,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
         public async void Handle(IBackgroundTaskInstance backgroundTask)
         {
-            var deferral = backgroundTask.GetDeferral();
-
             await mediaCacheService.CleanUp();
 
             var schedules = await scheduleDbContext.AlarmSchedules.Where(x => x.IsEnabled).ToListAsync();
@@ -40,9 +38,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
                     await mediaCacheService.SetupAlarmCache(schedule.Id);
                 }
             }
-
-         
-            deferral.Complete();
         }
     }
 }

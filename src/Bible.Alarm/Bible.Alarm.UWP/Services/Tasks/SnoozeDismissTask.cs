@@ -21,8 +21,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
 
         public async void Handle(IBackgroundTaskInstance backgroundTask)
         {
-            var deferral = backgroundTask.GetDeferral();
-
             var details = backgroundTask.TriggerDetails as ToastNotificationActionTriggerDetail;
 
             switch(details.Argument)
@@ -36,8 +34,6 @@ namespace JW.Alarm.Services.Uwp.Tasks
             }
 
             ToastNotificationManager.History.Clear();
-
-            deferral.Complete();
         }
     }
 }

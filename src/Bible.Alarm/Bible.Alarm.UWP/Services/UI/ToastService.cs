@@ -16,6 +16,7 @@ namespace JW.Alarm.Services.UWP
         public override Task ShowMessage(string message, int seconds)
         {
             var flyout = new Flyout();
+
             flyout.Content = new TextBlock()
             {
                 Text = message,
@@ -33,7 +34,8 @@ namespace JW.Alarm.Services.UWP
             var hideTask = Task.Delay(seconds * 1000).ContinueWith(x =>
             {
                 flyout.Hide();
-            });
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
 
             return Task.FromResult(false);
         }
