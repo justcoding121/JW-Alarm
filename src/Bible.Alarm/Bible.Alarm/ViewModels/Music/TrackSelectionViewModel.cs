@@ -23,7 +23,7 @@ namespace JW.Alarm.ViewModels
     public class TrackSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IPopUpService popUpService;
+        private IToastService popUpService;
         private IPreviewPlayService playService;
         private INavigationService navigationService;
 
@@ -35,7 +35,7 @@ namespace JW.Alarm.ViewModels
         public TrackSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 

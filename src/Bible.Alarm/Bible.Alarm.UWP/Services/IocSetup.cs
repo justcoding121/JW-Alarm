@@ -16,7 +16,7 @@
         {
             container.Register<HttpMessageHandler>((x) => new HttpClientHandler());
 
-            container.Register<IPopUpService>((x) => new UwpPopUpService());
+            container.Register<IToastService>((x) => new UwpToastService());
 
             container.Register<INotificationService>((x) =>
             new UwpNotificationService(container.Resolve<IMediaCacheService>()));

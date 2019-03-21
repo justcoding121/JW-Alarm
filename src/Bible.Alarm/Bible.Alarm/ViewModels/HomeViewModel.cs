@@ -23,14 +23,14 @@ namespace JW.Alarm.ViewModels
     public class HomeViewModel : ViewModel, IDisposable
     {
         private ScheduleDbContext scheduleDbContext;
-        private IPopUpService popUpService;
+        private IToastService popUpService;
         private INavigationService navigationService;
         private IMediaCacheService mediaCacheService;
 
         private List<IDisposable> disposables = new List<IDisposable>();
 
         public HomeViewModel(ScheduleDbContext scheduleDbContext,
-            IPopUpService popUpService, INavigationService navigationService,
+            IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService)
         {
             this.scheduleDbContext = scheduleDbContext;

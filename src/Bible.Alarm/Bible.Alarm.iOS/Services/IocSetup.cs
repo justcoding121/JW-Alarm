@@ -16,7 +16,7 @@
         {
             container.Register<HttpMessageHandler>((x) => new NSUrlSessionHandler());
 
-            container.Register<IPopUpService>((x) => new iOSPopUpService());
+            container.Register<IToastService>((x) => new iOSPopUpService());
 
             container.Register<INotificationService>((x) =>
             new iOSNotificationService(container.Resolve<IMediaCacheService>()));

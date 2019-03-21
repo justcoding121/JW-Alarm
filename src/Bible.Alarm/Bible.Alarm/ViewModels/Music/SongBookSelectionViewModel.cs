@@ -22,7 +22,7 @@ namespace JW.Alarm.ViewModels
     public class SongBookSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IPopUpService popUpService;
+        private IToastService popUpService;
         private INavigationService navigationService;
 
         private AlarmMusic current;
@@ -33,7 +33,7 @@ namespace JW.Alarm.ViewModels
         public SongBookSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             disposables.Add(mediaService);

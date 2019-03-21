@@ -22,7 +22,7 @@ namespace JW.Alarm.ViewModels
     {
         ScheduleDbContext scheduleDbContext;
         IAlarmService alarmService;
-        IPopUpService popUpService;
+        IToastService popUpService;
         INavigationService navigationService;
 
         private List<IDisposable> disposables = new List<IDisposable>();
@@ -30,7 +30,7 @@ namespace JW.Alarm.ViewModels
         public ScheduleViewModel()
         {
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
-            this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 

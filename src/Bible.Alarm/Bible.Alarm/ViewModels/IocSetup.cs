@@ -11,7 +11,7 @@ namespace JW.Alarm.ViewModels
         {
             container.Register((x) => new HomeViewModel(
                 container.Resolve<ScheduleDbContext>(), 
-                container.Resolve<IPopUpService>(),
+                container.Resolve<IToastService>(),
                 container.Resolve<INavigationService>(),
                 container.Resolve<IMediaCacheService>()), isSingleton: true);
 

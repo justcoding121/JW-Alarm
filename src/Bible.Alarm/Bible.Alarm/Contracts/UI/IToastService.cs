@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Contracts
 {
-    public interface IPopUpService
+    public interface IToastService
     {
         Task ShowMessage(string message, int seconds = 3);
         Task ShowScheduledNotification(AlarmSchedule schedule, int seconds = 3);

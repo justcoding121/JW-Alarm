@@ -25,7 +25,7 @@ namespace JW.Alarm.ViewModels
         private BibleReadingSchedule tentative;
 
         private MediaService mediaService;
-        private IPopUpService popUpService;
+        private IToastService popUpService;
         private INavigationService navigationService;
 
         public ICommand BackCommand { get; set; }
@@ -36,7 +36,7 @@ namespace JW.Alarm.ViewModels
         public BookSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             BackCommand = new Command(async () =>

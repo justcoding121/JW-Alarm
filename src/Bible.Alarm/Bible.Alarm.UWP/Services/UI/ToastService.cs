@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace JW.Alarm.Services.UWP
 {
-    public class UwpPopUpService : PopUpService
+    public class UwpToastService : ToastService
     {
         public override Task ShowMessage(string message, int seconds)
         {

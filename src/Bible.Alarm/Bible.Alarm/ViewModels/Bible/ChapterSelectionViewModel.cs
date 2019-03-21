@@ -24,7 +24,7 @@ namespace JW.Alarm.ViewModels
     public class ChapterSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IPopUpService popUpService;
+        private IToastService popUpService;
         private IPreviewPlayService playService;
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
@@ -35,7 +35,7 @@ namespace JW.Alarm.ViewModels
         public ChapterSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IPopUpService>();
+            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 

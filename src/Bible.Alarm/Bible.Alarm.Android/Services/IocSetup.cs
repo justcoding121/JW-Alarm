@@ -15,7 +15,7 @@
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
-            container.Register<IPopUpService>((x) => new DroidPopUpService());
+            container.Register<IToastService>((x) => new DroidPopUpService());
 
             container.Register<INotificationService>((x) =>
             new DroidNotificationService(container.Resolve<IMediaCacheService>()));

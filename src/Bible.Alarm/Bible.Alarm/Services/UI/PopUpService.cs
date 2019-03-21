@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services
 {
-    public abstract class PopUpService : IPopUpService
+    public abstract class ToastService : IToastService
     {
         public abstract Task ShowMessage(string message, int seconds = 3);
 
