@@ -105,14 +105,14 @@ namespace JW.Alarm.ViewModels
         {
             if (current.LanguageCode == tentative.LanguageCode && current.PublicationCode == tentative.PublicationCode)
             {
-                if(SelectedBook!=null)
+                if (SelectedBook != null)
                 {
                     SelectedBook.IsSelected = false;
                 }
 
-                SelectedBook = Books.First(x => x.Number == current.BookNumber);
+                SelectedBook = bookVMsMapping[current.BookNumber];
                 SelectedBook.IsSelected = true;
-  
+
             }
         }
 
@@ -137,9 +137,13 @@ namespace JW.Alarm.ViewModels
             await populateBooks(languageCode, publicationCode);
         }
 
+        private Dictionary<int, BibleBookListViewItemModel> bookVMsMapping = new Dictionary<int, BibleBookListViewItemModel>();
+
         private async Task populateBooks(string languageCode, string publicationCode)
         {
             IsBusy = true;
+
+            bookVMsMapping.Clear();
 
             var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
             var bookVMs = new ObservableCollection<BibleBookListViewItemModel>();
@@ -147,7 +151,9 @@ namespace JW.Alarm.ViewModels
             foreach (var book in books.Select(x => x.Value))
             {
                 var bookVM = new BibleBookListViewItemModel(book);
+
                 bookVMs.Add(bookVM);
+                bookVMsMapping.Add(bookVM.Number, bookVM);
 
                 if (current.LanguageCode == tentative.LanguageCode
                     && current.PublicationCode == tentative.PublicationCode

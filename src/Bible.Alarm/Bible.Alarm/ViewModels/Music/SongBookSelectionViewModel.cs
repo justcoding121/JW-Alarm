@@ -130,7 +130,7 @@ namespace JW.Alarm.ViewModels
 
             if (current.LanguageCode == tentative.LanguageCode)
             {
-                SelectedSongBook = SongBooks.FirstOrDefault(y => y.Code == current.PublicationCode);
+                SelectedSongBook = songBookVMsMapping.ContainsKey(current.PublicationCode) ? songBookVMsMapping[current.PublicationCode] : null;
 
                 if (SelectedSongBook != null)
                 {
@@ -244,11 +244,15 @@ namespace JW.Alarm.ViewModels
             IsBusy = false;
         }
 
+        private Dictionary<string, PublicationListViewItemModel> songBookVMsMapping = new Dictionary<string, PublicationListViewItemModel>();
+
         private async Task populateSongBooks(string languageCode)
         {
             IsBusy = true;
 
             SelectedSongBook = null;
+
+            songBookVMsMapping.Clear();
 
             var songBooks = await mediaService.GetVocalMusicReleases(languageCode);
             var songBookVMs = new ObservableCollection<PublicationListViewItemModel>();
@@ -258,6 +262,7 @@ namespace JW.Alarm.ViewModels
                 var songBookListViewItemModel = new PublicationListViewItemModel(release);
 
                 songBookVMs.Add(songBookListViewItemModel);
+                songBookVMsMapping.Add(songBookListViewItemModel.Code, songBookListViewItemModel);
 
                 if (current.MusicType == MusicType.Vocals
                     && current.LanguageCode == languageCode

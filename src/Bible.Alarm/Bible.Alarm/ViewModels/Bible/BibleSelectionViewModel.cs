@@ -76,7 +76,6 @@ namespace JW.Alarm.ViewModels
 
             disposables.Add(subscription2);
 
-
             BookSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
                 ReduxContainer.Store.Dispatch(new BookSelectionAction()
@@ -142,9 +141,8 @@ namespace JW.Alarm.ViewModels
 
                 }
 
-                SelectedTranslation = Translations.First(x => x.Code == current.PublicationCode);
+                SelectedTranslation = translationVMsMapping[current.PublicationCode];
                 SelectedTranslation.IsSelected = true;
-
             }
         }
 
@@ -235,10 +233,15 @@ namespace JW.Alarm.ViewModels
             IsBusy = false;
         }
 
+        private Dictionary<string, PublicationListViewItemModel> translationVMsMapping
+            = new Dictionary<string, PublicationListViewItemModel>();
+
         private async Task populateTranslations(string languageCode)
         {
             IsBusy = true;
-  
+
+            translationVMsMapping.Clear();
+
             var translations = await mediaService.GetBibleTranslations(languageCode);
             var translationVMs = new ObservableCollection<PublicationListViewItemModel>();
 
@@ -247,6 +250,7 @@ namespace JW.Alarm.ViewModels
                 var translationVM = new PublicationListViewItemModel(translation);
 
                 translationVMs.Add(translationVM);
+                translationVMsMapping.Add(translationVM.Code, translationVM);
 
                 if (current.LanguageCode == languageCode
                     && current.PublicationCode == translation.Code)
