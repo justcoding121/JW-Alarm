@@ -58,4 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\_tools\_index\index.zip" Link="Resources\index.zip" />
+  </ItemGroup>
 </Project>

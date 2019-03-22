@@ -1,15 +1,23 @@
 ﻿using JW.Alarm.Models;
+using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JW.Alarm.ViewModels
 {
-    public class LanguageListViewItemModel : IComparable
+    public class LanguageListViewItemModel : ViewModel, IComparable
     {
         public string Name { get; set; }
         public string Code { get; set; }
 
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => this.Set(ref isSelected, value);
+        }
+      
         public LanguageListViewItemModel(Language language)
         {
             Name = language.Name;

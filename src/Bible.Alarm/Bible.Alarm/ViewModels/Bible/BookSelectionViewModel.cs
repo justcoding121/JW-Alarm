@@ -9,10 +9,10 @@ using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -76,7 +76,19 @@ namespace JW.Alarm.ViewModels
                        await initialize(tentative.LanguageCode, tentative.PublicationCode);
                    });
 
+            //set schedules from initial state.
+            //this should fire only once 
+            var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+                   .Select(state => state.CurrentBibleReadingSchedule)
+                   .Where(x => x != null)
+                   .DistinctUntilChanged()
+                   .Subscribe(x =>
+                   {
+                       current = x;
+                   });
+
             disposables.Add(subscription1);
+            disposables.Add(subscription2);
 
             navigationService.NavigatedBack += onNavigated;
         }
@@ -93,15 +105,19 @@ namespace JW.Alarm.ViewModels
         {
             if (current.LanguageCode == tentative.LanguageCode && current.PublicationCode == tentative.PublicationCode)
             {
-                selectedBook = Books.FirstOrDefault(y => y.Number == current.BookNumber);
-            }
-            else
-            {
-                selectedBook = null;
-            }
+                if(SelectedBook!=null)
+                {
+                    SelectedBook.IsSelected = false;
+                }
 
-            RaiseProperty("SelectedBook");
+                SelectedBook = Books.First(x => x.Number == current.BookNumber);
+                SelectedBook.IsSelected = true;
+  
+            }
         }
+
+        public BibleBookListViewItemModel SelectedBook { get; set; }
+
         private bool isBusy;
         public bool IsBusy
         {
@@ -109,19 +125,11 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        public ObservableHashSet<BibleBookListViewItemModel> Books { get; set; }
-            = new ObservableHashSet<BibleBookListViewItemModel>();
-
-        private BibleBookListViewItemModel selectedBook;
-        public BibleBookListViewItemModel SelectedBook
+        private ObservableCollection<BibleBookListViewItemModel> books;
+        public ObservableCollection<BibleBookListViewItemModel> Books
         {
-            get => selectedBook;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
+            get => books;
+            set => this.Set(ref books, value);
         }
 
         private async Task initialize(string languageCode, string publicationCode)
@@ -132,25 +140,27 @@ namespace JW.Alarm.ViewModels
         private async Task populateBooks(string languageCode, string publicationCode)
         {
             IsBusy = true;
-            Books.Clear();
-            selectedBook = null;
 
             var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
+            var bookVMs = new ObservableCollection<BibleBookListViewItemModel>();
+
             foreach (var book in books.Select(x => x.Value))
             {
                 var bookVM = new BibleBookListViewItemModel(book);
-                Books.Add(bookVM);
+                bookVMs.Add(bookVM);
 
                 if (current.LanguageCode == tentative.LanguageCode
                     && current.PublicationCode == tentative.PublicationCode
                     && current.BookNumber == book.Number)
                 {
-                    selectedBook = bookVM;
+                    bookVM.IsSelected = true;
+                    SelectedBook = bookVM;
                 }
             }
 
-            RaiseProperty("SelectedBook");
-            IsBusy = true;
+            Books = bookVMs;
+
+            IsBusy = false;
         }
 
         public void Dispose()
@@ -160,12 +170,19 @@ namespace JW.Alarm.ViewModels
         }
     }
 
-    public class BibleBookListViewItemModel : IComparable
+    public class BibleBookListViewItemModel : ViewModel, IComparable
     {
         private readonly BibleBook book;
         public BibleBookListViewItemModel(BibleBook book)
         {
             this.book = book;
+        }
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => this.Set(ref isSelected, value);
         }
 
         public string Name => book.Name;

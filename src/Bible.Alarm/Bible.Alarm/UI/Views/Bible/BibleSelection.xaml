@@ -9,6 +9,7 @@
              NavigationPage.HasBackButton="False">
     <ContentPage.Resources>
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+        <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
@@ -48,7 +49,7 @@
                     <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"  Margin="5,0,2,0" 
                                    TextColor="SlateBlue"
-                                   BindingContext="{Binding Path=SelectedLanguage, Mode=TwoWay}"
+                                   BindingContext="{Binding Path=CurrentLanguage, Mode=TwoWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                     </Label>
                     <StackLayout Grid.Column="1" VerticalOptions="Center"
@@ -64,8 +65,8 @@
             <ListView HorizontalOptions="Fill"
                   Grid.Row="1" 
                   CachingStrategy="RecycleElement"
-                  ItemsSource="{Binding Translations}" 
-                  SelectedItem="{Binding SelectedTranslation, Mode=TwoWay}">
+                  ItemsSource="{Binding Translations}"
+                  SelectionMode="None">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" 
                                                        Command="{Binding BookSelectionCommand}"
@@ -74,7 +75,8 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid HeightRequest="45" HorizontalOptions="Fill">
+                            <Grid HeightRequest="45" HorizontalOptions="Fill"
+                                  BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*"/>
                                     <ColumnDefinition Width="2*"/>

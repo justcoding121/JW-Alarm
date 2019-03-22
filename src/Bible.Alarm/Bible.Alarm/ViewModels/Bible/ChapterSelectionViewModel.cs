@@ -9,6 +9,7 @@ using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -48,19 +49,25 @@ namespace JW.Alarm.ViewModels
 
             SetChapterCommand = new Command<BibleChapterListViewItemModel>(x =>
             {
-                selectedChapter = x;
-                RaiseProperty("SelectedChapter");
+                if (SelectedChapter != null)
+                {
+                    SelectedChapter.IsSelected = false;
+                }
+
+                SelectedChapter = x;
+                SelectedChapter.IsSelected = true;
 
                 tentative.ChapterNumber = x.Number;
 
-                current.LanguageCode = tentative.LanguageCode;
-                current.PublicationCode = tentative.PublicationCode;
-                current.BookNumber = tentative.BookNumber;
-                current.ChapterNumber = x.Number;
-
                 ReduxContainer.Store.Dispatch(new ChapterSelectedAction()
                 {
-                    CurrentBibleReadingSchedule = current
+                    CurrentBibleReadingSchedule = new BibleReadingSchedule()
+                    {
+                        LanguageCode = tentative.LanguageCode,
+                        PublicationCode = tentative.PublicationCode,
+                        BookNumber = tentative.BookNumber,
+                        ChapterNumber = x.Number
+                    }
                 });
 
             });
@@ -79,12 +86,14 @@ namespace JW.Alarm.ViewModels
                        await initialize(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber);
                    });
 
-            
+
             disposables.Add(subscription1);
         }
 
         public ICommand BackCommand { get; set; }
         public ICommand SetChapterCommand { get; set; }
+
+        public BibleChapterListViewItemModel SelectedChapter { get; set; }
 
         private bool isBusy;
         public bool IsBusy
@@ -93,105 +102,60 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        public ObservableHashSet<BibleChapterListViewItemModel> Chapters { get; set; }
-            = new ObservableHashSet<BibleChapterListViewItemModel>();
-
-        private BibleChapterListViewItemModel selectedChapter;
-        public BibleChapterListViewItemModel SelectedChapter
+        private ObservableCollection<BibleChapterListViewItemModel> chapters;
+        public ObservableCollection<BibleChapterListViewItemModel> Chapters
         {
-            get => selectedChapter;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
+            get => chapters;
+            set => this.Set(ref chapters, value);
         }
-
-        public void SetChapter(BibleChapterListViewItemModel bibleChapterListViewItemModel)
-        {
-            SelectedChapter = bibleChapterListViewItemModel;
-
-            tentative.ChapterNumber = bibleChapterListViewItemModel.Number;
-
-            current.LanguageCode = tentative.LanguageCode;
-            current.PublicationCode = tentative.PublicationCode;
-            current.BookNumber = tentative.BookNumber;
-            current.ChapterNumber = tentative.ChapterNumber;
-        }
-
 
         private BibleChapterListViewItemModel currentlyPlaying;
 
         private async Task initialize(string languageCode, string publicationCode, int bookNumber)
         {
-            var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
-                              => new NotifyCollectionChangedEventHandler(ev),
-                                    ev => Chapters.CollectionChanged += ev,
-                                    ev => Chapters.CollectionChanged -= ev);
+            await populateChapters(languageCode, publicationCode, bookNumber);
 
-            var subscription1 = scheduleObservable
-                        .SelectMany(x =>
-                        {
-                            var newItems = x.EventArgs.NewItems?.Cast<BibleChapterListViewItemModel>();
-                            if (newItems == null)
-                            {
-                                return Enumerable.Empty<IObservable<BibleChapterListViewItemModel>>();
-                            }
 
-                            return newItems.Select(added =>
+            var subscription1 = Chapters.Select(added =>
                             {
                                 return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, BibleChapterListViewItemModel>>(
-                                               onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                             => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
-                                                                                        (BibleChapterListViewItemModel)sender)),
-                                                               handler => added.PropertyChanged += handler,
-                                                               handler => added.PropertyChanged -= handler)
-                                                               .Where(kv => kv.Key == "Play")
-                                                               .Select(y => y.Value)
-                                                               .Where(y => y.Play);
-                            });
-
-                        })
-                         .Merge()
-                         .Do(x => IsBusy = true)
-                         .Do(y =>
-                         {
-                             if (currentlyPlaying != null && currentlyPlaying != y)
+                                   onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                 => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
+                                                                            (BibleChapterListViewItemModel)sender)),
+                                                   handler => added.PropertyChanged += handler,
+                                                   handler => added.PropertyChanged -= handler)
+                                                   .Where(kv => kv.Key == "Play")
+                                                   .Select(y => y.Value)
+                                                   .Where(y => y.Play);
+                            })
+                             .Merge()
+                             .Do(x => IsBusy = true)
+                             .Do(y =>
                              {
-                                 currentlyPlaying.Play = false;
-                             }
+                                 if (currentlyPlaying != null && currentlyPlaying != y)
+                                 {
+                                     currentlyPlaying.Play = false;
+                                 }
 
-                             currentlyPlaying = y;
-                             playService.Play(y.Url);
+                                 currentlyPlaying = y;
+                                 playService.Play(y.Url);
 
-                         })
-                         .Do(x => IsBusy = false)
-                         .Subscribe();
+                             })
+                             .Do(x => IsBusy = false)
+                             .Subscribe();
 
-            var subscription2 = scheduleObservable
-                               .SelectMany(x =>
-                               {
-                                   var newItems = x.EventArgs.NewItems?.Cast<BibleChapterListViewItemModel>();
-                                   if (newItems == null)
-                                   {
-                                       return Enumerable.Empty<IObservable<BibleChapterListViewItemModel>>();
-                                   }
-
-                                   return newItems.Select(added =>
-                                   {
-                                       return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, BibleChapterListViewItemModel>>(
-                                                      onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                                    => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
-                                                                                               (BibleChapterListViewItemModel)sender)),
-                                                                      handler => added.PropertyChanged += handler,
-                                                                      handler => added.PropertyChanged -= handler)
-                                                                      .Where(kv => kv.Key == "Play")
-                                                                      .Select(y => y.Value)
-                                                                      .Where(y => !y.Play);
-                                   });
-
-                               })
+            var subscription2 = Chapters.Select(added =>
+                                {
+                                    return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, BibleChapterListViewItemModel>>(
+                                                   onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                                 => onNextHandler(new KeyValuePair<string, BibleChapterListViewItemModel>(e.PropertyName,
+                                                                                            (BibleChapterListViewItemModel)sender)),
+                                                                   handler => added.PropertyChanged += handler,
+                                                                   handler => added.PropertyChanged -= handler)
+                                                                   .Where(kv => kv.Key == "Play")
+                                                                   .Select(y => y.Value)
+                                                                   .Where(y => !y.Play);
+                                })
                                 .Merge()
                                .Do(x => IsBusy = true)
                                 .Do(y =>
@@ -216,7 +180,7 @@ namespace JW.Alarm.ViewModels
 
             disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
 
-            await populateChapters(languageCode, publicationCode, bookNumber);
+
         }
 
         private async Task populateChapters(string languageCode, string publicationCode, int bookNumber)
@@ -224,24 +188,26 @@ namespace JW.Alarm.ViewModels
             IsBusy = true;
 
             var chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, bookNumber);
-            Chapters.Clear();
+            var chapterVMs = new ObservableCollection<BibleChapterListViewItemModel>();
 
             foreach (var chapter in chapters.Select(x => x.Value))
             {
                 var chapterVM = new BibleChapterListViewItemModel(chapter);
 
-                Chapters.Add(chapterVM);
+                chapterVMs.Add(chapterVM);
 
                 if (current.LanguageCode == tentative.LanguageCode
                     && current.PublicationCode == tentative.PublicationCode
                     && current.BookNumber == tentative.BookNumber
                     && current.ChapterNumber == chapter.Number)
                 {
-                    selectedChapter = chapterVM;
+                    chapterVM.IsSelected = true;
+                    SelectedChapter = chapterVM;
                 }
             }
 
-            RaiseProperty("SelectedChapter");
+            Chapters = chapterVMs;
+
             IsBusy = false;
         }
 
@@ -259,6 +225,13 @@ namespace JW.Alarm.ViewModels
         {
             this.chapter = chapter;
             TogglePlayCommand = new Command(() => Play = !Play);
+        }
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => this.Set(ref isSelected, value);
         }
 
         public ICommand TogglePlayCommand { get; set; }

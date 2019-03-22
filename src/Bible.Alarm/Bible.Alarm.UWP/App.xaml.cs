@@ -26,7 +26,7 @@ namespace Bible.Alarm.UWP
         /// </summary>
         public App()
         {
-            
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             //AppCenter.Start("7288b4a9-2efe-4a34-b05f-9bb718b62c80", typeof(Analytics), typeof(Crashes));
@@ -48,14 +48,18 @@ namespace Bible.Alarm.UWP
                 e.PreviousExecutionState == ApplicationExecutionState.Terminated ||
                 e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
-                IocSetup.Initialize();
+                if (IocSetup.Container == null)
+                {
+                    IocSetup.Initialize();
+                }
 
                 Task.Run(async () =>
-                {
-                    await BootstrapHelper.InitializeDatabase();
-                    await BootstrapHelper.VerifyMediaLookUpService();
-                    await BootstrapHelper.VerifyBackgroundTasks();     
-                });
+                    {
+                        await BootstrapHelper.InitializeDatabase();
+                        await BootstrapHelper.VerifyMediaLookUpService();
+                        await BootstrapHelper.VerifyBackgroundTasks();
+                    });
+
             }
 
             Frame rootFrame = Window.Current.Content as Frame;

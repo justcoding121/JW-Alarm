@@ -82,9 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Font Awesome 5 Free-Solid-900.otf" />
-    <Content Include="..\..\_tools\_index\index.zip">
-      <Link>Assets\index.zip</Link>
-    </Content>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

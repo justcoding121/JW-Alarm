@@ -9,6 +9,7 @@ using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -76,7 +77,7 @@ namespace JW.Alarm.ViewModels
                     {
                         Fixed = current.Fixed,
                         MusicType = MusicType.Vocals,
-                        LanguageCode = selectedLanguage.Code,
+                        LanguageCode = CurrentLanguage.Code,
                         PublicationCode = x.Code
                     }
                 });
@@ -103,8 +104,7 @@ namespace JW.Alarm.ViewModels
 
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
-                selectedLanguage = x;
-                RaiseProperty("SelectedLanguage");
+                CurrentLanguage = x;
                 await navigationService.CloseModal();
                 await populateSongBooks(x.Code);
             });
@@ -122,16 +122,22 @@ namespace JW.Alarm.ViewModels
 
         private void setSelectedSongBook()
         {
-            if (current.LanguageCode == tentative.LanguageCode)
+            if (SelectedSongBook != null)
             {
-                selectedSongBook = SongBooks.FirstOrDefault(y => y.Code == current.PublicationCode);
-            }
-            else
-            {
-                selectedSongBook = null;
+                SelectedSongBook.IsSelected = false;
+                SelectedSongBook = null;
             }
 
-            RaiseProperty("SelectedSongBook");
+            if (current.LanguageCode == tentative.LanguageCode)
+            {
+                SelectedSongBook = SongBooks.FirstOrDefault(y => y.Code == current.PublicationCode);
+
+                if (SelectedSongBook != null)
+                {
+                    SelectedSongBook.IsSelected = true;
+                }
+            }
+
         }
 
         public ICommand BackCommand { get; set; }
@@ -148,19 +154,25 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        public ObservableHashSet<PublicationListViewItemModel> SongBooks { get; } = new ObservableHashSet<PublicationListViewItemModel>();
-        public ObservableHashSet<LanguageListViewItemModel> Languages { get; } = new ObservableHashSet<LanguageListViewItemModel>();
-
-        private LanguageListViewItemModel selectedLanguage;
-        public LanguageListViewItemModel SelectedLanguage
+        private ObservableCollection<PublicationListViewItemModel> songBooks;
+        public ObservableCollection<PublicationListViewItemModel> SongBooks
         {
-            get => selectedLanguage;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
+            get => songBooks;
+            set => this.Set(ref songBooks, value);
+        }
+
+        private ObservableCollection<LanguageListViewItemModel> languages;
+        public ObservableCollection<LanguageListViewItemModel> Languages
+        {
+            get => languages;
+            set => this.Set(ref languages, value);
+        }
+
+        private LanguageListViewItemModel currentLanguage;
+        public LanguageListViewItemModel CurrentLanguage
+        {
+            get => currentLanguage;
+            set => this.Set(ref currentLanguage, value);
         }
 
         private string languageSearchTerm;
@@ -170,18 +182,7 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref languageSearchTerm, value);
         }
 
-
-        private PublicationListViewItemModel selectedSongBook;
-        public PublicationListViewItemModel SelectedSongBook
-        {
-            get => selectedSongBook;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
-        }
+        public PublicationListViewItemModel SelectedSongBook { get; set; }
 
         private async Task initialize()
         {
@@ -220,23 +221,26 @@ namespace JW.Alarm.ViewModels
         private async Task populateLanguages(string searchTerm = null)
         {
             IsBusy = true;
+
             var languages = await mediaService.GetVocalMusicLanguages();
-            Languages.Clear();
+            var languageVMs = new ObservableCollection<LanguageListViewItemModel>();
 
             foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
                     || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 var languageVM = new LanguageListViewItemModel(language);
 
-                Languages.Add(languageVM);
+                languageVMs.Add(languageVM);
 
                 if (languageVM.Code == tentative.LanguageCode)
                 {
-                    selectedLanguage = languageVM;
+                    languageVM.IsSelected = true;
+                    CurrentLanguage = languageVM;
                 }
             }
 
-            RaiseProperty("SelectedLanguage");
+            Languages = languageVMs;
+
             IsBusy = false;
         }
 
@@ -244,25 +248,28 @@ namespace JW.Alarm.ViewModels
         {
             IsBusy = true;
 
-            SongBooks.Clear();
-            selectedSongBook = null;
+            SelectedSongBook = null;
 
-            var releases = await mediaService.GetVocalMusicReleases(languageCode);
-            foreach (var release in releases.Select(x => x.Value))
+            var songBooks = await mediaService.GetVocalMusicReleases(languageCode);
+            var songBookVMs = new ObservableCollection<PublicationListViewItemModel>();
+
+            foreach (var release in songBooks.Select(x => x.Value))
             {
                 var songBookListViewItemModel = new PublicationListViewItemModel(release);
 
-                SongBooks.Add(songBookListViewItemModel);
+                songBookVMs.Add(songBookListViewItemModel);
 
                 if (current.MusicType == MusicType.Vocals
                     && current.LanguageCode == languageCode
                     && current.PublicationCode == release.Code)
                 {
-                    selectedSongBook = songBookListViewItemModel;
+                    SelectedSongBook = songBookListViewItemModel;
+                    SelectedSongBook.IsSelected = true;
                 }
             }
 
-            RaiseProperty("SelectedSongBook");
+            SongBooks = songBookVMs;
+
             IsBusy = false;
         }
 

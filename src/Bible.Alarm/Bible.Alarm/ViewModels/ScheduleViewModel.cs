@@ -46,10 +46,10 @@ namespace JW.Alarm.ViewModels
                .Select(state => state.CurrentScheduleListItem)
                .DistinctUntilChanged()
                .Take(1)
-               .Subscribe(async x =>
+               .Subscribe(x =>
                {
                    scheduleListItem = x;
-                   var model = x == null ? null : await scheduleDbContext.AlarmSchedules.AsNoTracking().FirstAsync(y => y.Id == x.ScheduleId);
+                   var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
                    setModel(model ?? new AlarmSchedule()
@@ -79,7 +79,7 @@ namespace JW.Alarm.ViewModels
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
            .Select(state => state.CurrentMusic)
-           .Where(x => x != null)
+           .Where(x => x != null && x != Music)
            .Subscribe(x =>
            {
                Music = x;
@@ -90,7 +90,8 @@ namespace JW.Alarm.ViewModels
 
             var subscription3 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
             .Select(state => state.CurrentBibleReadingSchedule)
-            .Where(x => x != null)
+            .Where(x => x != null && x != BibleReadingSchedule)
+            .DistinctUntilChanged()
             .Subscribe(x =>
             {
                 BibleReadingSchedule = x;
@@ -107,10 +108,14 @@ namespace JW.Alarm.ViewModels
 
             SaveCommand = new Command(async () =>
             {
-                if (await saveAsync())
+                if (!IsNewSchedule)
                 {
                     this.playbackService.Dismiss();
-                    this.notificationService.ClearVisibleNotifications();
+                    this.notificationService.Remove(scheduleId);
+                }
+
+                if (await saveAsync())
+                {
                     await navigationService.GoBack();
                     ReduxContainer.Store.Dispatch(new BackAction(this));
                 }
@@ -118,10 +123,10 @@ namespace JW.Alarm.ViewModels
 
             DeleteCommand = new Command(async () =>
             {
+                this.playbackService.Dismiss();
                 await deleteAsync();
                 await navigationService.GoBack();
-                this.playbackService.Dismiss();
-                this.notificationService.ClearVisibleNotifications();
+
                 ReduxContainer.Store.Dispatch(new BackAction(this));
             });
 

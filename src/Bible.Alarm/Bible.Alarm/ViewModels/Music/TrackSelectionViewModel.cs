@@ -9,6 +9,7 @@ using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -50,19 +51,25 @@ namespace JW.Alarm.ViewModels
 
             SetTrackCommand = new Command<MusicTrackListViewItemModel>(x =>
             {
-                selectedTrack = x;
-                RaiseProperty("SelectedTrack");
+                if (SelectedTrack != null)
+                {
+                    SelectedTrack.IsSelected = false;
+                }
+
+                SelectedTrack = x;
+                SelectedTrack.IsSelected = true;
 
                 tentative.TrackNumber = x.Number;
 
-                current.MusicType = tentative.MusicType;
-                current.LanguageCode = tentative.LanguageCode;
-                current.PublicationCode = tentative.PublicationCode;
-                current.TrackNumber = tentative.TrackNumber;
-
                 ReduxContainer.Store.Dispatch(new TrackSelectedAction()
                 {
-                    CurrentMusic = current
+                    CurrentMusic = new AlarmMusic()
+                    {
+                        MusicType = tentative.MusicType,
+                        LanguageCode = tentative.LanguageCode,
+                        PublicationCode = tentative.PublicationCode,
+                        TrackNumber = tentative.TrackNumber
+                    }
                 });
 
             });
@@ -94,53 +101,28 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isBusy, value);
         }
 
-        public ObservableHashSet<MusicTrackListViewItemModel> Tracks { get; set; } = new ObservableHashSet<MusicTrackListViewItemModel>();
+        public ObservableCollection<MusicTrackListViewItemModel> Tracks { get; set; } = new ObservableCollection<MusicTrackListViewItemModel>();
 
-        private MusicTrackListViewItemModel selectedTrack;
-        public MusicTrackListViewItemModel SelectedTrack
-        {
-            get => selectedTrack;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
-        }
+        public MusicTrackListViewItemModel SelectedTrack { get; set; }
 
         private MusicTrackListViewItemModel currentlyPlaying;
 
         private async Task initialize(string languageCode, string publicationCode)
         {
-            var scheduleObservable = Observable.FromEventPattern((EventHandler<NotifyCollectionChangedEventArgs> ev)
-                              => new NotifyCollectionChangedEventHandler(ev),
-                                    ev => Tracks.CollectionChanged += ev,
-                                    ev => Tracks.CollectionChanged -= ev);
+            await populateTracks(languageCode, publicationCode);
 
-            var subscription1 = scheduleObservable
-                                .SelectMany(x =>
+            var subscription1 = Tracks.Select(added =>
                                 {
-                                    var newItems = x.EventArgs.NewItems?.Cast<MusicTrackListViewItemModel>();
-                                    if (newItems == null)
-                                    {
-                                        return Enumerable.Empty<IObservable<MusicTrackListViewItemModel>>();
-                                    }
-
-                                    return newItems.Select(added =>
-                                    {
-                                        return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, MusicTrackListViewItemModel>>(
-                                                       onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                                     => onNextHandler(new KeyValuePair<string, MusicTrackListViewItemModel>(e.PropertyName,
-                                                                                                (MusicTrackListViewItemModel)sender)),
-                                                                       handler => added.PropertyChanged += handler,
-                                                                       handler => added.PropertyChanged -= handler)
-                                                                       .Where(kv => kv.Key == "Play")
-                                                                       .Select(y => y.Value)
-                                                                       .Where(y => y.Play);
-                                    });
-
-                                })
-                                 .Merge()
+                                    return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, MusicTrackListViewItemModel>>(
+                                        onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                             => onNextHandler(new KeyValuePair<string, MusicTrackListViewItemModel>(e.PropertyName,
+                                                                        (MusicTrackListViewItemModel)sender)),
+                                               handler => added.PropertyChanged += handler,
+                                               handler => added.PropertyChanged -= handler)
+                                               .Where(kv => kv.Key == "Play")
+                                               .Select(y => y.Value)
+                                               .Where(y => y.Play);
+                                }).Merge()
                                  .Do(x => IsBusy = true)
                                  .Do(y =>
                                  {
@@ -153,32 +135,21 @@ namespace JW.Alarm.ViewModels
                                      playService.Play(y.Url);
 
                                  })
-                                    .Do(x => IsBusy = false)
+                                 .Do(x => IsBusy = false)
                                  .Subscribe();
 
-            var subscription2 = scheduleObservable
-                               .SelectMany(x =>
-                               {
-                                   var newItems = x.EventArgs.NewItems?.Cast<MusicTrackListViewItemModel>();
-                                   if (newItems == null)
-                                   {
-                                       return Enumerable.Empty<IObservable<MusicTrackListViewItemModel>>();
-                                   }
-
-                                   return newItems.Select(added =>
-                                   {
-                                       return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, MusicTrackListViewItemModel>>(
-                                                      onNextHandler => (object sender, PropertyChangedEventArgs e)
-                                                                    => onNextHandler(new KeyValuePair<string, MusicTrackListViewItemModel>(e.PropertyName,
-                                                                                               (MusicTrackListViewItemModel)sender)),
-                                                                      handler => added.PropertyChanged += handler,
-                                                                      handler => added.PropertyChanged -= handler)
-                                                                      .Where(kv => kv.Key == "Play")
-                                                                      .Select(y => y.Value)
-                                                                      .Where(y => !y.Play);
-                                   });
-
-                               })
+            var subscription2 = Tracks.Select(added =>
+                                {
+                                    return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, MusicTrackListViewItemModel>>(
+                                                   onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                                                 => onNextHandler(new KeyValuePair<string, MusicTrackListViewItemModel>(e.PropertyName,
+                                                                                            (MusicTrackListViewItemModel)sender)),
+                                                                   handler => added.PropertyChanged += handler,
+                                                                   handler => added.PropertyChanged -= handler)
+                                                                   .Where(kv => kv.Key == "Play")
+                                                                   .Select(y => y.Value)
+                                                                   .Where(y => !y.Play);
+                                })
                                 .Merge()
                                 .Do(x => IsBusy = true)
                                 .Do(y =>
@@ -200,8 +171,6 @@ namespace JW.Alarm.ViewModels
                                  .Subscribe();
 
             disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
-
-            await populateTracks(languageCode, publicationCode);
         }
 
         private async Task populateTracks(string languageCode, string publicationCode)
@@ -210,13 +179,14 @@ namespace JW.Alarm.ViewModels
 
             var tracks = languageCode != null ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
                : await mediaService.GetMelodyMusicTracks((await this.mediaService.GetMelodyMusicReleases()).First().Value.Code);
-            Tracks.Clear();
+
+            var trackVMs = new ObservableCollection<MusicTrackListViewItemModel>();
 
             foreach (var track in tracks.Select(x => x.Value))
             {
                 var musicTrackListViewItemViewModel = new MusicTrackListViewItemModel(track);
 
-                Tracks.Add(musicTrackListViewItemViewModel);
+                trackVMs.Add(musicTrackListViewItemViewModel);
 
                 if (current.MusicType == tentative.MusicType
                     && current.TrackNumber == track.Number
@@ -225,11 +195,13 @@ namespace JW.Alarm.ViewModels
                         && current.PublicationCode == tentative.PublicationCode))
                     )
                 {
-                    selectedTrack = musicTrackListViewItemViewModel;
+                    SelectedTrack = musicTrackListViewItemViewModel;
+                    SelectedTrack.IsSelected = true;
                 }
             }
 
-            RaiseProperty("SelectedTrack");
+            Tracks = trackVMs;
+
             IsBusy = false;
         }
 
@@ -246,6 +218,13 @@ namespace JW.Alarm.ViewModels
         {
             this.chapter = chapter;
             TogglePlayCommand = new Command(() => Play = !Play);
+        }
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => this.Set(ref isSelected, value);
         }
 
         public int Number => chapter.Number;

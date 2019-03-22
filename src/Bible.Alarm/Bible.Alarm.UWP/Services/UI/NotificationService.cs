@@ -30,7 +30,7 @@ namespace JW.Alarm.Services.UWP
                 Audio = new ToastAudio() { Src = new Uri("ms-appx:///Assets/Media/1.5-second-silence.mp3") },
                 Scenario = ToastScenario.Alarm,
                 ActivationType = ToastActivationType.Background,
-                Launch = scheduleId.ToString(),
+                Launch = "Dismiss",
                 Visual = new ToastVisual()
                 {
                     BindingGeneric = new ToastBindingGeneric()
@@ -85,13 +85,16 @@ namespace JW.Alarm.Services.UWP
 
         public void Remove(long scheduleId)
         {
-            var notifier = ToastNotificationManager.CreateToastNotifier();
+            ToastNotificationManager.History.RemoveGroup(scheduleId.ToString());
 
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+ 
             foreach (var notification in notifier.GetScheduledToastNotifications())
             {
                 if (scheduleId.ToString() == notification.Group)
                 {
                     notifier.RemoveFromSchedule(notification);
+                   
                 }
             }
         }
@@ -103,10 +106,6 @@ namespace JW.Alarm.Services.UWP
             return notifications.Any(x => x.Group == scheduleId.ToString());
         }
 
-        public void ClearVisibleNotifications()
-        {
-            ToastNotificationManager.History.Clear();
-        }
     }
 
 }

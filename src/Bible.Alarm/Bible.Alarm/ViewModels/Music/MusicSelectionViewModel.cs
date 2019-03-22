@@ -39,7 +39,7 @@ namespace JW.Alarm.ViewModels
 
             //set schedules from initial state.
             //this should fire only once 
-            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            var subscription1 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
                 .Select(state => state.CurrentMusic)
                 .Where(x => x != null)
                 .DistinctUntilChanged()
@@ -49,7 +49,8 @@ namespace JW.Alarm.ViewModels
                     setSelectedMusicType();
                 });
 
-            disposables.Add(subscription);
+            disposables.Add(subscription1);
+
 
             SongBookSelectionCommand = new Command<MusicTypeListItemViewModel>(async x =>
             {
@@ -81,7 +82,6 @@ namespace JW.Alarm.ViewModels
                     await navigationService.Navigate(viewModel);
                 }
 
-
             });
 
             BackCommand = new Command(async () =>
@@ -103,9 +103,13 @@ namespace JW.Alarm.ViewModels
 
         private void setSelectedMusicType()
         {
-            var selected = MusicTypes.First(y => y.MusicType == current.MusicType);
-            selectedMusicType = selected;
-            Raise("SelectedMusicType");
+            if (SelectedMusicType != null)
+            {
+                SelectedMusicType.IsSelected = false;
+            }
+
+            SelectedMusicType = MusicTypes.First(y => y.MusicType == current.MusicType);
+            SelectedMusicType.IsSelected = true;
         }
 
         public ICommand BackCommand { get; set; }
@@ -129,12 +133,7 @@ namespace JW.Alarm.ViewModels
         public MusicTypeListItemViewModel SelectedMusicType
         {
             get => selectedMusicType;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
+            set => this.Set(ref selectedMusicType, value);
         }
 
         public void Dispose()
@@ -144,10 +143,17 @@ namespace JW.Alarm.ViewModels
         }
     }
 
-    public class MusicTypeListItemViewModel : IComparable
+    public class MusicTypeListItemViewModel : ViewModel, IComparable
     {
         public MusicType MusicType { get; set; }
         public string Name { get; set; }
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set => this.Set(ref isSelected, value);
+        }
 
         public int CompareTo(object obj)
         {

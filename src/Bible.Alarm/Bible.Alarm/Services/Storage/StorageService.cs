@@ -18,27 +18,6 @@ namespace Bible.Alarm.Services
             }
         }
 
-        public string ResourceRoot
-        {
-            get
-            {
-                var appRoot = AppDomain.CurrentDomain.BaseDirectory;
-
-                switch (Device.RuntimePlatform)
-                {
-                    case Device.iOS:
-                        return Path.Combine(appRoot, "Resources");
-
-                    case Device.Android:
-                        return Path.Combine(appRoot, "Assets");
-                }
-
-                return Path.Combine(appRoot, "Assets", "Media");
-            }
-        }
-
-
-
         public Task DeleteFile(string path)
         {
             File.Delete(path);
@@ -99,7 +78,7 @@ namespace Bible.Alarm.Services
         public async Task CopyResourceFile(string resourceFileName,
             string destinationDirectoryPath, string destinationFileName)
         {
-            using (var sr = File.OpenRead(Path.Combine(ResourceRoot, resourceFileName)))
+            using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFileName))
             {
                 var buffer = new byte[1024];
                 using (BinaryWriter fileWriter =
@@ -130,7 +109,7 @@ namespace Bible.Alarm.Services
 
             if (isResourceFile)
             {
-                file = new FileInfo(Path.Combine(ResourceRoot, pathOrName));
+                file = ResourceLoader.GetFileInfo(typeof(ResourceLoader).Assembly);
             }
             else
             {

@@ -26,8 +26,9 @@ namespace Bible.Alarm.Droid
             Task.Run(async () =>
             {
                 //BootstrapHelper.VerifyBackgroundTasks();
-                BootstrapHelper.InitializeDatabase();
                 await BootstrapHelper.VerifyMediaLookUpService();
+                BootstrapHelper.InitializeDatabase();
+              
             });
 
 

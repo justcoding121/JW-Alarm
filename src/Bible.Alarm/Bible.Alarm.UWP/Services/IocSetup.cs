@@ -36,13 +36,14 @@
                 var player = new MediaPlayer();
                 player.AutoPlay = false;
                 return player;
-            });
+
+            }, true);
 
             container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
                                                             container.Resolve<IPlaylistService>(),
                                                             container.Resolve<IMediaCacheService>(),
                                                             container.Resolve<IAlarmService>(),
-                                                            container.Resolve<ScheduleDbContext>()));
+                                                            container.Resolve<ScheduleDbContext>()), true);
 
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));

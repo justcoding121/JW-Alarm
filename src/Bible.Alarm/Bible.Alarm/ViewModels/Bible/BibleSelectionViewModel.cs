@@ -9,11 +9,11 @@ using JW.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -76,6 +76,7 @@ namespace JW.Alarm.ViewModels
 
             disposables.Add(subscription2);
 
+
             BookSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
                 ReduxContainer.Store.Dispatch(new BookSelectionAction()
@@ -83,7 +84,7 @@ namespace JW.Alarm.ViewModels
                     TentativeBibleReadingSchedule = new BibleReadingSchedule()
                     {
                         PublicationCode = x.Code,
-                        LanguageCode = selectedLanguage.Code
+                        LanguageCode = CurrentLanguage.Code
                     }
                 });
                 var viewModel = IocSetup.Container.Resolve<BookSelectionViewModel>();
@@ -108,8 +109,14 @@ namespace JW.Alarm.ViewModels
 
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
-                selectedLanguage = x;
-                RaiseProperty("SelectedLanguage");
+                if (CurrentLanguage != null)
+                {
+                    CurrentLanguage.IsSelected = false;
+                }
+
+                CurrentLanguage = x;
+                CurrentLanguage.IsSelected = true;
+
                 await navigationService.CloseModal();
                 await populateTranslations(x.Code);
             });
@@ -129,29 +136,39 @@ namespace JW.Alarm.ViewModels
         {
             if (current.LanguageCode == tentative.LanguageCode)
             {
-                selectedTranslation = Translations.FirstOrDefault(y => y.Code == current.PublicationCode);
-            }
-            else
-            {
-                selectedTranslation = null;
-            }
+                if (SelectedTranslation != null)
+                {
+                    SelectedTranslation.IsSelected = false;
 
-            RaiseProperty("SelectedTranslation");
+                }
+
+                SelectedTranslation = Translations.First(x => x.Code == current.PublicationCode);
+                SelectedTranslation.IsSelected = true;
+
+            }
         }
 
-        public ObservableHashSet<PublicationListViewItemModel> Translations { get; set; } = new ObservableHashSet<PublicationListViewItemModel>();
-        public ObservableHashSet<LanguageListViewItemModel> Languages { get; } = new ObservableHashSet<LanguageListViewItemModel>();
-
-        private LanguageListViewItemModel selectedLanguage;
-        public LanguageListViewItemModel SelectedLanguage
+        private ObservableCollection<PublicationListViewItemModel> translations;
+        public ObservableCollection<PublicationListViewItemModel> Translations
         {
-            get => selectedLanguage;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
+            get => translations;
+            set => this.Set(ref translations, value);
+        }
+
+        private ObservableCollection<LanguageListViewItemModel> languages;
+        public ObservableCollection<LanguageListViewItemModel> Languages
+        {
+            get => languages;
+            set => this.Set(ref languages, value);
+        }
+
+        public PublicationListViewItemModel SelectedTranslation { get; set; }
+
+        private LanguageListViewItemModel currentLanguage;
+        public LanguageListViewItemModel CurrentLanguage
+        {
+            get => currentLanguage;
+            set => this.Set(ref currentLanguage, value);
         }
 
         private bool isBusy;
@@ -174,17 +191,6 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref languageSearchTerm, value);
         }
 
-        private PublicationListViewItemModel selectedTranslation;
-        public PublicationListViewItemModel SelectedTranslation
-        {
-            get => selectedTranslation;
-            set
-            {
-                //this is a hack since selection is not working in one-way mode 
-                //make two-way mode behave like one way mode
-                Raise();
-            }
-        }
 
         private async Task initialize(string languageCode)
         {
@@ -206,47 +212,52 @@ namespace JW.Alarm.ViewModels
         private async Task populateLanguages(string searchTerm = null)
         {
             IsBusy = true;
+
             var languages = await mediaService.GetBibleLanguages();
-            Languages.Clear();
+            var languageVMs = new ObservableCollection<LanguageListViewItemModel>();
 
             foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
                     || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 var languageVM = new LanguageListViewItemModel(language);
 
-                Languages.Add(languageVM);
+                languageVMs.Add(languageVM);
 
                 if (languageVM.Code == tentative.LanguageCode)
                 {
-                    selectedLanguage = languageVM;
+                    languageVM.IsSelected = true;
+                    CurrentLanguage = languageVM;
                 }
             }
 
-            RaiseProperty("SelectedLanguage");
+            Languages = languageVMs;
+
             IsBusy = false;
         }
 
         private async Task populateTranslations(string languageCode)
         {
             IsBusy = true;
-            Translations.Clear();
-            SelectedTranslation = null;
-
+  
             var translations = await mediaService.GetBibleTranslations(languageCode);
+            var translationVMs = new ObservableCollection<PublicationListViewItemModel>();
+
             foreach (var translation in translations.Select(x => x.Value))
             {
                 var translationVM = new PublicationListViewItemModel(translation);
 
-                Translations.Add(translationVM);
+                translationVMs.Add(translationVM);
 
                 if (current.LanguageCode == languageCode
                     && current.PublicationCode == translation.Code)
                 {
-                    selectedTranslation = translationVM;
+                    translationVM.IsSelected = true;
+                    SelectedTranslation = translationVM;
                 }
             }
 
-            RaiseProperty("SelectedTranslation");
+            Translations = translationVMs;
+
             IsBusy = false;
         }
 

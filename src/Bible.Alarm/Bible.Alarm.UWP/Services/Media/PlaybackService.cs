@@ -76,7 +76,6 @@ namespace JW.Alarm.Services.UWP
                 }
 
                 currentTrackDetail = detail;
-
             }
 
         }

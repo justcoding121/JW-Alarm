@@ -10,6 +10,7 @@
     <ContentPage.Resources>
         <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+        <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
@@ -47,7 +48,7 @@
                   Grid.Row="1" 
                   CachingStrategy="RecycleElement"
                   ItemsSource="{Binding Tracks}" 
-                  SelectedItem="{Binding SelectedTrack, Mode=TwoWay}">
+                  SelectionMode="None">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" 
                                                        Command="{Binding SetTrackCommand}"
@@ -56,7 +57,8 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid HeightRequest="45" HorizontalOptions="Fill">
+                            <Grid HeightRequest="45" HorizontalOptions="Fill"
+                                   BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*"/>
                                     <ColumnDefinition Width="2*"/>

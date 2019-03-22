@@ -6,6 +6,7 @@
              xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours">
     <ContentPage.Resources>
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+        <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid BackgroundColor="WhiteSmoke">
@@ -48,7 +49,7 @@
                   MinimumWidthRequest="250"
                   Grid.Row="3" 
                   ItemsSource="{Binding Languages}" 
-                  SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+                  SelectionMode="None">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding SelectLanguageCommand}"
                                                        EventArgsConverter="{StaticResource itemTappedConverter}" />
@@ -56,12 +57,16 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label HeightRequest="45" 
-                               HorizontalOptions="Start"
-                               Margin="8,0,0,0"
-                               HorizontalTextAlignment="Start"
-                               VerticalTextAlignment="Center"
-                               Text="{Binding Name}"></Label>
+                            <Grid  BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
+                                   HorizontalOptions="Fill">
+                                <Label HeightRequest="45" 
+                                   HorizontalOptions="Start"
+                                   Margin="8,0,0,0"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
+                                   Text="{Binding Name}"></Label>
+                            </Grid>
+
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

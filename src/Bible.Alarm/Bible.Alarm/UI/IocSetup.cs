@@ -20,17 +20,17 @@ namespace Bible.Alarm.UI
 
             Container.Register<INavigationService>(x => new NavigationService(container.Resolve<INavigation>()), isSingleton: true);
 
-            Container.Register(x => new Schedule(), isSingleton: true);
+            Container.Register(x => new Schedule());
 
-            Container.Register(x => new MusicSelection(), isSingleton: true);
-            Container.Register(x => new SongBookSelection(), isSingleton: true);
-            Container.Register(x => new TrackSelection(), isSingleton: true);
+            Container.Register(x => new MusicSelection());
+            Container.Register(x => new SongBookSelection());
+            Container.Register(x => new TrackSelection());
 
-            Container.Register(x => new BibleSelection(), isSingleton: true);
-            Container.Register(x => new BookSelection(), isSingleton: true);
-            Container.Register(x => new ChapterSelection(), isSingleton: true);
+            Container.Register(x => new BibleSelection());
+            Container.Register(x => new BookSelection());
+            Container.Register(x => new ChapterSelection());
 
-            Container.Register(x => new LanguageModal(), isSingleton: true);
+            Container.Register(x => new LanguageModal());
         }
     }
 }
