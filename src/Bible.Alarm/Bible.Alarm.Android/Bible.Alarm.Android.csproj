@@ -77,6 +77,7 @@
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
+    <Compile Include="Services\Tasks\AlarmTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\PopUpService.cs" />
   </ItemGroup>

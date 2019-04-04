@@ -1,48 +1,43 @@
-﻿using JW.Alarm.Models;
+﻿using Android.App;
+using Android.Content;
+using Android.OS;
+using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Background;
-using Windows.Media.Core;
-using Windows.Media.Playback;
-using Windows.UI.Notifications;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
-    public class AlarmTask
+    [BroadcastReceiver]
+    public class AlarmTask : BroadcastReceiver
     {
         private IPlaybackService playbackService;
 
-        public AlarmTask(IPlaybackService playbackService)
+        public AlarmTask()
+            : base()
         {
-            this.playbackService = playbackService;
+            this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
         }
 
-        public async void Handle(IBackgroundTaskInstance backgroundTask)
+        public override void OnReceive(Context context, Intent intent)
         {
-            var deferral = backgroundTask.GetDeferral();
+            var scheduleId = intent.GetStringExtra("ScheduleId");
 
-            var details = backgroundTask.TriggerDetails as ToastNotificationHistoryChangedTriggerDetail;
+            PendingResult result = GoAsync();
 
-            if (details.ChangeType == ToastHistoryChangedType.Added)
+            Task.Run(async () =>
             {
-                var toast = ToastNotificationManager.History.GetHistory()
-                    .Select(x => new
-                    {
-                        x.Group
-                    })
-                .FirstOrDefault();
+                await (playbackService as PlaybackService).Play(long.Parse(scheduleId), context);
 
-                await playbackService.Play(long.Parse(toast.Group));
-
-            }
-
-            deferral.Complete();
-
+                await Task.Delay(1000 * 8);
+                result.SetResult(Result.Ok, null, new Bundle());          
+                result.Finish();
+            });
         }
     }
 }

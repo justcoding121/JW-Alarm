@@ -1,4 +1,5 @@
-﻿using JW.Alarm.Services.Contracts;
+﻿using Android.Widget;
+using JW.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,13 @@ namespace JW.Alarm.Services.Droid
 {
     public class DroidPopUpService : ToastService
     {
-        public override async Task ShowMessage(string message, int seconds)
+        public override Task ShowMessage(string message, int seconds)
         {
-            throw new NotImplementedException();
+            var context = Android.App.Application.Context;
+            var tostMessage = message;
+            Toast.MakeText(context, message, ToastLength.Short).Show();
+
+            return Task.CompletedTask;
         }
     }
 }

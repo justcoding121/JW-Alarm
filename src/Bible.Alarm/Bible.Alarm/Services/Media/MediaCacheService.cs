@@ -89,6 +89,9 @@ namespace JW.Alarm.Services
                         }
 
                         bytes = await downloadService.DownloadAsync(url);
+                        await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
+                        continue;
+
                     }
 
                     await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);

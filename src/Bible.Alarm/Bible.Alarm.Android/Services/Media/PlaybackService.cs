@@ -1,5 +1,7 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Media;
+using Android.Runtime;
 using Java.IO;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
@@ -14,6 +16,7 @@ namespace JW.Alarm.Services.Droid
     public class PlaybackService :
         Java.Lang.Object,
         MediaPlayer.IOnCompletionListener,
+        MediaPlayer.IOnErrorListener,
         IPlaybackService
     {
         private MediaPlayer player;
@@ -42,6 +45,10 @@ namespace JW.Alarm.Services.Droid
 
         public async Task Play(long scheduleId)
         {
+        }
+
+        public async Task Play(long scheduleId, Context context = null)
+        {
             //another alarm is already in effect
             if (currentTrackDetail != null)
             {
@@ -50,11 +57,22 @@ namespace JW.Alarm.Services.Droid
 
             playList = await playlistService.NextTracks(scheduleId, TimeSpan.FromHours(1));
 
-            this.player.SetDataSource(Application.Context,
-                Android.Net.Uri.FromFile(new File(playList[playIndex].Url)));
+            var path = cacheService.GetCacheFilePath(playList[playIndex].Url);
+            var file = new File(path);
+
+            if (file.Exists() && file.CanRead())
+            {
+
+            }
+            this.player = new MediaPlayer();
+            this.player.SetDataSource(context,
+                Android.Net.Uri.FromFile(file));
 
             currentTrackDetail = playList[playIndex].PlayDetail;
             this.player.SetOnCompletionListener(this);
+            this.player.SetOnErrorListener(this);
+
+            this.player.Prepare();
             this.player.Start();
         }
 
@@ -80,8 +98,19 @@ namespace JW.Alarm.Services.Droid
                 Android.Net.Uri.FromFile(new File(playList[playIndex].Url)));
 
             currentTrackDetail = playList[playIndex].PlayDetail;
+
+            this.player.Prepare();
             this.player.Start();
         }
 
+        public bool OnError(MediaPlayer mp, [GeneratedEnum] MediaError what, int extra)
+        {
+            System.Diagnostics.Debug.WriteLine("OnError()");
+
+            System.Diagnostics.Debug.WriteLine(what);
+            mp.Reset();
+
+            return true;
+        }
     }
 }

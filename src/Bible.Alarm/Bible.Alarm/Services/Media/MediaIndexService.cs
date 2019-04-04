@@ -25,7 +25,7 @@ namespace JW.Alarm.Services
         }
 
         private readonly SemaphoreSlim @lock = new SemaphoreSlim(1);
-        private bool verified = false;
+        private static bool verified = false;
 
         public async Task Verify()
         {
@@ -62,7 +62,7 @@ namespace JW.Alarm.Services
                 var resourceFileCreationDate = await storageService.GetFileCreationDate("index.zip", true);
                 var creationDate = await storageService.GetFileCreationDate(Path.Combine(IndexRoot, "mediaIndex.db"), false);
 
-                if(creationDate < resourceFileCreationDate)
+                if (creationDate < resourceFileCreationDate)
                 {
                     await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
                     return false;
@@ -75,8 +75,14 @@ namespace JW.Alarm.Services
         private async Task copyIndexFromResource()
         {
             var indexResourceFile = "index.zip";
-            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
+
+            if (await storageService.FileExists(tmpIndexFilePath))
+            {
+                await storageService.DeleteFile(tmpIndexFilePath);
+            }
+
+            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
             await storageService.DeleteFile(tmpIndexFilePath);
         }

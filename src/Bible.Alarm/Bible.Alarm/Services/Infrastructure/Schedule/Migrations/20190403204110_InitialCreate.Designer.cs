@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bible.Alarm.Services.Infrastructure.Schedule.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    [Migration("20190321205725_InitialCreate")]
+    [Migration("20190403204110_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
