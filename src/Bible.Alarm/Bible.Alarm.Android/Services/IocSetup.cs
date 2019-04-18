@@ -7,6 +7,7 @@
     using System.IO;
     using System.Net.Http;
     using Xamarin.Android.Net;
+    using MediaManager;
 
     public static class IocSetup
     {
@@ -39,9 +40,7 @@
                                                             container.Resolve<IPlaylistService>(),
                                                             container.Resolve<IMediaCacheService>(),
                                                             container.Resolve<IAlarmService>()));
-          
-            //SQLitePCL.Batteries_V2.Init();
-            //databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
+
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
@@ -54,7 +53,12 @@
                 .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
-
+            container.Register((x) =>
+            {
+                var mediaManager = CrossMediaManager.Current;
+                mediaManager.Init();
+                return mediaManager;
+            });
             Container = container;
         }
     }
