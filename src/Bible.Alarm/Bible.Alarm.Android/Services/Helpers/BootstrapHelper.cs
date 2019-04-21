@@ -9,11 +9,11 @@ namespace JW.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {
-        private static readonly string alarmTaskName = "AlarmTask";
-        private static readonly string schedulerTaskName = "SchedulerTask";
-        private static readonly string snoozeDismissTaskName = "SnoozeDismissTask";
+        //private static readonly string alarmTaskName = "AlarmTask";
+        //private static readonly string schedulerTaskName = "SchedulerTask";
+        //private static readonly string snoozeDismissTaskName = "SnoozeDismissTask";
 
-        public async static Task VerifyPermissions()
+        public static void VerifyPermissions()
         {
             throw new NotImplementedException();
         }

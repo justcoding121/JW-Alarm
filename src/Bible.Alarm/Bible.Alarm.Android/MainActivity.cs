@@ -20,20 +20,19 @@ namespace Bible.Alarm.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-
-     
+    
             IocSetup.Initialize();
             Task.Run(async () =>
             {
                 //BootstrapHelper.VerifyBackgroundTasks();
                 await BootstrapHelper.VerifyMediaLookUpService();
-                BootstrapHelper.InitializeDatabase();
-              
+                BootstrapHelper.InitializeDatabase();             
             });
 
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
+
     }
 }

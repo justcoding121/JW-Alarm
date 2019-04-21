@@ -58,6 +58,7 @@ namespace MediaManager.Platforms.Android.MediaSession
         public override void OnPrepareFromSearch(string query, Bundle extras) => OnPrepareFromSearchImpl?.Invoke(query, extras);
         public override void OnPrepareFromUri(global::Android.Net.Uri uri, Bundle extras) => OnPrepareFromUriImpl?.Invoke(uri, extras);
         public override void OnRemoveQueueItem(MediaDescriptionCompat description) => OnRemoveQueueItemImpl?.Invoke(description);
+        [Obsolete]
         public override void OnRemoveQueueItemAt(int index) => OnRemoveQueueItemAtImpl?.Invoke(index);
         public override void OnRewind() => OnRewindImpl?.Invoke();
         public override void OnSeekTo(long pos) => OnSeekToImpl?.Invoke();

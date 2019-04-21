@@ -40,11 +40,15 @@ namespace JW.Alarm.Services.Droid
 
             if (Build.VERSION.SdkInt < BuildVersionCodes.Kitkat)
             {
-                alarmService.Set(AlarmType.RtcWakeup, Convert.ToInt64(1000), pIntent);
+                alarmService.Set(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pIntent);
+            }
+            else if(Build.VERSION.SdkInt < BuildVersionCodes.M)
+            {
+                alarmService.SetExact(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pIntent);
             }
             else
             {
-                alarmService.SetExact(AlarmType.RtcWakeup, Convert.ToInt64(1000), pIntent);
+                alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pIntent);
             }
         }
 

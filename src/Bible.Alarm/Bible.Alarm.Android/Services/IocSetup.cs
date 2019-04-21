@@ -36,10 +36,10 @@
                 return player;
             });
 
-            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
-                                                            container.Resolve<IPlaylistService>(),
-                                                            container.Resolve<IMediaCacheService>(),
-                                                            container.Resolve<IAlarmService>()));
+            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
+                container.Resolve<IPlaylistService>(),
+                container.Resolve<IAlarmService>(),
+                container.Resolve<IMediaCacheService>()));
 
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
@@ -53,12 +53,15 @@
                 .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
-            container.Register((x) =>
+            container.Register<IMediaManager>((x) =>
             {
-                var mediaManager = CrossMediaManager.Current;
-                mediaManager.Init();
+                var mediaManager = new MediaManagerImplementation();
+                CrossMediaManager.Current = mediaManager;
+                CrossMediaManager.Current.Init();
+               
                 return mediaManager;
-            });
+
+            }, true);
             Container = container;
         }
     }

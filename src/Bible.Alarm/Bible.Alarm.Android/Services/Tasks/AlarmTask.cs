@@ -1,5 +1,7 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
@@ -21,6 +23,11 @@ namespace JW.Alarm.Services.Droid.Tasks
         public AlarmTask()
             : base()
         {
+            if (IocSetup.Container == null)
+            {
+                Bible.Alarm.Droid.IocSetup.Initialize();
+            }
+
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
         }
 
@@ -32,12 +39,12 @@ namespace JW.Alarm.Services.Droid.Tasks
 
             Task.Run(async () =>
             {
-                await (playbackService as PlaybackService).Play(long.Parse(scheduleId), context);
+                await playbackService.Play(long.Parse(scheduleId));
 
-                await Task.Delay(1000 * 8);
-                result.SetResult(Result.Ok, null, new Bundle());          
+                result.SetResult(Result.Ok, null, null);
                 result.Finish();
             });
         }
+
     }
 }
