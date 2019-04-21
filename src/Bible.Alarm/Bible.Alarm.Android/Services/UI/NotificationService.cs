@@ -34,21 +34,19 @@ namespace JW.Alarm.Services.Droid
             var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
 
             // Figure out the alaram in milliseconds.
-            var utcTime = time.UtcDateTime;
-            var epochDif = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
-            var notifyTimeInInMilliseconds = utcTime.AddSeconds(-epochDif).Ticks / 10000;
+            var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis() + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
 
             if (Build.VERSION.SdkInt < BuildVersionCodes.Kitkat)
             {
-                alarmService.Set(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pIntent);
+                alarmService.Set(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
             }
             else if(Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
-                alarmService.SetExact(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pIntent);
+                alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
             }
             else
             {
-                alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pIntent);
+                alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
             }
         }
 
