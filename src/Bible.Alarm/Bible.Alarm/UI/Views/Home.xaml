@@ -19,10 +19,15 @@
         </Grid.RowDefinitions>
         <ActivityIndicator Color="SlateBlue" 
                       Grid.Row="0"
-                      IsVisible="{Binding IsBusy}"     
+                      HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                      IsVisible="{Binding IsBusy}"    
                       IsEnabled="True"
-                      IsRunning="{Binding IsBusy}" />
-        <Grid Grid.Row="0">
+                      IsRunning="{Binding IsBusy}" >
+            <ActivityIndicator.Scale>
+                <OnPlatform x:TypeArguments="x:Double" iOS="4.0" Android="3.0" />
+            </ActivityIndicator.Scale>
+        </ActivityIndicator>
+        <Grid Grid.Row="0" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -31,9 +36,9 @@
                 <Button 
                     Command="{Binding AddScheduleCommand}"
                     Margin="2"
-                    HeightRequest="35"
+                    HeightRequest="43"
                     HorizontalOptions="Fill"
-                    MinimumHeightRequest="35"
+                    MinimumHeightRequest="43"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                     Text="{x:Static fn:GlyphNames.Plus}"
                     FontSize="Medium"
@@ -42,6 +47,7 @@
             </StackLayout>
             <ListView HorizontalOptions="Fill"
                    SelectionMode="None"
+                   RowHeight="100"
                    Grid.Row="1" ItemsSource="{Binding Schedules}">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ViewScheduleCommand}"
@@ -50,7 +56,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid HorizontalOptions="Fill" MinimumHeightRequest="75" HeightRequest="75">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                 <Grid.Resources>
                                     <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
                                     <models:DaysOfWeek x:Key="Monday">Monday</models:DaysOfWeek>

@@ -93,6 +93,8 @@ namespace MediaManager.Platforms.Android.MediaSession
                 StopSelf();
             };
 
+            PlayerNotificationManager.SetFastForwardIncrementMs(0);
+            PlayerNotificationManager.SetRewindIncrementMs(0);
             PlayerNotificationManager.SetNotificationListener(NotificationListener);
             PlayerNotificationManager.SetMediaSessionToken(SessionToken);
             PlayerNotificationManager.SetPlayer(MediaManager.NativeMediaPlayer.Player);

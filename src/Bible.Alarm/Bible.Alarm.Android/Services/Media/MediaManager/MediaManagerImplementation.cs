@@ -49,7 +49,8 @@ namespace MediaManager
         }
 
         private IMediaPlayer _mediaPlayer;
-        public override IMediaPlayer MediaPlayer {
+        public override IMediaPlayer MediaPlayer
+        {
             get
             {
                 if (_mediaPlayer == null)
@@ -116,7 +117,7 @@ namespace MediaManager
         public override MediaPlayerState State => MediaBrowserManager?.MediaController?.PlaybackState?.ToMediaPlayerState() ?? MediaPlayerState.Stopped;
 
         public override float Speed { get => MediaBrowserManager?.MediaController.PlaybackState?.PlaybackSpeed ?? 0; set => throw new NotImplementedException(); }
-        
+
 
         public override Task Pause()
         {
@@ -150,7 +151,7 @@ namespace MediaManager
         public override async Task<IEnumerable<IMediaItem>> Play(IEnumerable<string> items)
         {
             List<IMediaItem> mediaItems = new List<IMediaItem>();
-            foreach (var uri in items)
+            foreach (var uri in items.Select(x => new FileInfo(x)))
             {
                 mediaItems.Add(await MediaExtractor.CreateMediaItem(uri));
             }

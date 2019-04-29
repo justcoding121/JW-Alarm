@@ -9,7 +9,7 @@
         <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid BackgroundColor="WhiteSmoke">
+        <Grid RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -31,11 +31,10 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <SearchBar Grid.Column="0" 
-                             HeightRequest="32"
                              Placeholder="Search languages"
-                             VerticalOptions="Center"
-                             HorizontalOptions="Fill"
-                             HorizontalTextAlignment="Start" 
+                             HorizontalTextAlignment="Start"
+                             HeightRequest="40"
+                             MinimumHeightRequest="40"
                              TextColor="Black"
                              Margin="5,0,0,0"
                              Text="{Binding LanguageSearchTerm, Mode=TwoWay}"
@@ -73,8 +72,8 @@
             </ListView>
             <Button Grid.Row="4" HorizontalOptions="Fill" 
                 VerticalOptions="Fill"
-                HeightRequest="32"
                 Margin="2"
+                Padding="0"
                 Command="{Binding CloseModalCommand}"
                 TextColor="SlateBlue"
                 Font="Bold,18"

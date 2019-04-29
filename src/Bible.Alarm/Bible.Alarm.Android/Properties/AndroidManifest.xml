@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.Bible.Alarm" android:installLocation="preferExternal" android:versionCode="1" android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="27" />
+	<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-	<application android:label="Bible.Alarm.Android">
+	<application android:label="Bible Alarm" android:icon="@mipmap/launcher_foreground">
 		<meta-data android:name="com.google.android.gms.car.application" android:resource="@xml/automative_app_desc" />
 		<receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
 			<intent-filter>

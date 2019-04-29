@@ -147,14 +147,16 @@
                 </Grid>
             </StackLayout>
 
-            <Button IsVisible="{Binding IsExistingSchedule}" 
-                Grid.Row="2" 
+            <Grid Grid.Row="2" >
+                <Button IsVisible="{Binding IsExistingSchedule}" 
+                Padding="0"
                 Command="{Binding DeleteCommand}"
                 TextColor="SlateBlue"
-                HorizontalOptions="Fill"
-                VerticalOptions="End"
-                Text="DELETE" Font="Bold,16" Margin="2">
-            </Button>
+                HorizontalOptions="FillAndExpand"
+                Text="REMOVE" Font="Bold,16" Margin="2">
+                </Button>
+            </Grid>
+           
         </Grid>
     </ContentPage.Content>
 </ContentPage>
