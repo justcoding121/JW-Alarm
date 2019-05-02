@@ -1,4 +1,6 @@
-﻿using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels;
 using JW.Alarm.Services;
 using JW.Alarm.Services.Contracts;
 
@@ -10,7 +12,7 @@ namespace JW.Alarm.ViewModels
         public static void Initialize(IContainer container)
         {
             container.Register((x) => new HomeViewModel(
-                container.Resolve<ScheduleDbContext>(), 
+                container.Resolve<ScheduleDbContext>(),
                 container.Resolve<IToastService>(),
                 container.Resolve<INavigationService>(),
                 container.Resolve<IMediaCacheService>()), isSingleton: true);
@@ -24,6 +26,8 @@ namespace JW.Alarm.ViewModels
             container.Register((x) => new BibleSelectionViewModel());
             container.Register((x) => new BookSelectionViewModel());
             container.Register((x) => new ChapterSelectionViewModel());
+
+            container.Register((x) => new AlarmViewModal());
 
             Container = container;
         }

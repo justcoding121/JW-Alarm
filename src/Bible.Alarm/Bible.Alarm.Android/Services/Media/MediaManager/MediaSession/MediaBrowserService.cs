@@ -75,7 +75,7 @@ namespace MediaManager.Platforms.Android.MediaSession
         protected virtual void PrepareNotificationManager()
         {
             MediaDescriptionAdapter = new MediaDescriptionAdapter(SessionActivityPendingIntent);
-            PlayerNotificationManager = Com.Google.Android.Exoplayer2.UI.PlayerNotificationManager.CreateWithNotificationChannel(
+            PlayerNotificationManager = PlayerNotificationManager.CreateWithNotificationChannel(
                 this,
                 ChannelId,
                 Resource.String.exo_download_notification_channel_name,

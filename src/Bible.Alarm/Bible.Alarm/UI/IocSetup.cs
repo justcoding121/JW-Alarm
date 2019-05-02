@@ -31,6 +31,8 @@ namespace Bible.Alarm.UI
             Container.Register(x => new ChapterSelection());
 
             Container.Register(x => new LanguageModal());
+
+            Container.Register(x => new AlarmModal());
         }
     }
 }

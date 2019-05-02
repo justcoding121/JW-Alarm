@@ -46,6 +46,20 @@ namespace Bible.Alarm.UI
                         await navigater.PushModalAsync(modal);
                         break;
                     }
+
+                case "AlarmModal":
+                    {
+                        //no duplicates
+                        if (navigater.ModalStack.Count > 0 && navigater.ModalStack.First().GetType() == typeof(AlarmModal))
+                        {
+                            return;
+                        }
+
+                        var modal = IocSetup.Container.Resolve<AlarmModal>();
+                        modal.BindingContext = viewModel;
+                        await navigater.PushModalAsync(modal);
+                        break;
+                    }
                 default:
                     throw new ArgumentException("Modal not defined.", name);
             }

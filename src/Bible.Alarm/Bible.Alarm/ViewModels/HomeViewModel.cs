@@ -189,6 +189,7 @@ namespace JW.Alarm.ViewModels
                                      {
                                          await popUpService.ShowScheduledNotification(y.Schedule);
                                      }
+
                                      IsBusy = false;
                                  })
                                 .Subscribe();

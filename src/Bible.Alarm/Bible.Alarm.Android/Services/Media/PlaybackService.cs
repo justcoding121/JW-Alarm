@@ -39,7 +39,9 @@ namespace JW.Alarm.Services.Droid
         {
             if (this.mediaManager.IsPlaying())
             {
+                this.mediaManager.MediaPlayer.Stop();
                 this.mediaManager.Stop();
+              
             }
 
             this.currentScheduleId = 0;

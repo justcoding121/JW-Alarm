@@ -66,4 +66,10 @@
   <ItemGroup>
     <EmbeddedResource Include="..\..\_tools\_index\index.zip" Link="Resources\index.zip" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="UI\Views\Schedule\AlarmModal.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

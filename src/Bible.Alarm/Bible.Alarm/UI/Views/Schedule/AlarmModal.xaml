@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Bible.Alarm.UI.Views.AlarmModal">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Button CornerRadius="10"
+                    Command="{Binding SnoozeCommand}"
+                    Margin="5"
+                    HeightRequest="45"
+                    MinimumHeightRequest="45"
+                    WidthRequest="200"
+                    MinimumWidthRequest="200"
+                    Text="Snooze"
+                    FontSize="Medium"
+                    TextColor="SlateBlue">
+            </Button>
+            <Button CornerRadius="10"
+                    Command="{Binding DismissCommand}"
+                    Margin="5"
+                    HeightRequest="45"
+                    MinimumHeightRequest="45"
+                    WidthRequest="200"
+                    MinimumWidthRequest="200"
+                    Text="Dismiss"
+                    FontSize="Medium"
+                    TextColor="SlateBlue">
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
