@@ -3,23 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using MediaManager.Audio;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Queue;
-using MediaManager.Video;
 using MediaManager.Volume;
 
 namespace MediaManager
 {
-    public abstract class MediaManagerBase<TMediaPlayer, TPlayer> : MediaManagerBase, IMediaManager<TMediaPlayer, TPlayer> where TMediaPlayer : class, IMediaPlayer<TPlayer> where TPlayer : class
-    {
-        public TMediaPlayer NativeMediaPlayer => MediaPlayer as TMediaPlayer;
-    }
-
     public abstract class MediaManagerBase : IMediaManager, INotifyMediaManager
     {
         public MediaManagerBase()
@@ -29,14 +21,7 @@ namespace MediaManager
             Timer.Start();
         }
 
-        public TimeSpan StepSize { get; set; } = TimeSpan.FromSeconds(10);
-        
         public bool IsInitialized { get; protected set; }
-
-        public abstract IMediaPlayer MediaPlayer { get; set; }
-
-        public abstract IMediaExtractor MediaExtractor { get; set; }
-        public abstract IVolumeManager VolumeManager { get; set; }
 
         private IMediaQueue _mediaQueue;
         public virtual IMediaQueue MediaQueue
@@ -48,14 +33,29 @@ namespace MediaManager
 
                 return _mediaQueue;
             }
-            set
-            {
-                _mediaQueue = value;
-            }
+            set => SetProperty(ref _mediaQueue, value);
         }
 
+        public abstract IMediaPlayer MediaPlayer { get; set; }
+        public abstract IMediaExtractor MediaExtractor { get; set; }
+        public abstract IVolumeManager VolumeManager { get; set; }
+
         public Timer Timer { get; } = new Timer(1000);
-        public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
+
+        private TimeSpan _stepSize = TimeSpan.FromSeconds(10);
+        public TimeSpan StepSize
+        {
+            get => _stepSize;
+            set => SetProperty(ref _stepSize, value);
+        }
+
+        private Dictionary<string, string> _requestHeaders = new Dictionary<string, string>();
+        public Dictionary<string, string> RequestHeaders
+        {
+            get => _requestHeaders;
+            set => SetProperty(ref _requestHeaders, value);
+        }
+
         public abstract MediaPlayerState State { get; }
         public abstract TimeSpan Position { get; }
         public abstract TimeSpan Duration { get; }
@@ -86,21 +86,21 @@ namespace MediaManager
         public abstract Task<IMediaItem> Play(FileInfo file);
         public abstract Task<IEnumerable<IMediaItem>> Play(DirectoryInfo directoryInfo);
         public abstract Task Play();
-        public virtual Task<bool> PlayNext()
+        public virtual async Task<bool> PlayNext()
         {
             // If we repeat just the single media item, we do that first
             if (MediaPlayer.RepeatMode == RepeatMode.One)
             {
-                MediaPlayer.Play(MediaQueue.Current);
-                return Task.FromResult(true);
+                await MediaPlayer.Play(MediaQueue.Current);
+                return true;
             }
             else
             {
                 // Otherwise we try to play the next media item in the queue
                 if (MediaQueue.HasNext())
                 {
-                    MediaPlayer.Play(MediaQueue.NextItem);
-                    return Task.FromResult(true);
+                    await MediaPlayer.Play(MediaQueue.NextItem);
+                    return true;
                 }
                 else
                 {
@@ -111,25 +111,25 @@ namespace MediaManager
                         MediaQueue.CurrentIndex = 0;
                         if (MediaQueue.HasCurrent())
                         {
-                            MediaPlayer.Play(MediaQueue.Current);
-                            return Task.FromResult(true);
+                            await MediaPlayer.Play(MediaQueue.Current);
+                            return true;
                         }
                     }
                 }
             }
 
-            return Task.FromResult(false);
+            return false;
         }
 
-        public virtual Task<bool> PlayPrevious()
+        public virtual async Task<bool> PlayPrevious()
         {
             if (MediaQueue.HasPrevious())
             {
-                MediaPlayer.Play(MediaQueue.PreviousItem);
-                return Task.FromResult(true);
+                await MediaPlayer.Play(MediaQueue.PreviousItem);
+                return true;
             }
 
-            return Task.FromResult(false);
+            return false;
         }
 
         public abstract Task SeekTo(TimeSpan position);
@@ -151,6 +151,7 @@ namespace MediaManager
         public abstract Task Stop();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event StateChangedEventHandler StateChanged;
         public event PlayingChangedEventHandler PlayingChanged;
         public event BufferingChangedEventHandler BufferingChanged;
@@ -168,12 +169,25 @@ namespace MediaManager
         public void OnStateChanged(object sender, StateChangedEventArgs e) => StateChanged?.Invoke(sender, e);
         public void OnPositionChanged(object sender, PositionChangedEventArgs e) => PositionChanged?.Invoke(sender, e);
 
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(storage, value))
+            {
+                return false;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
         private TimeSpan PreviousPosition = new TimeSpan();
+
         protected virtual void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (!IsInitialized)
@@ -188,7 +202,7 @@ namespace MediaManager
             {
                 OnPlayingChanged(this, new PlayingChangedEventArgs(Position, Duration));
             }
-            if(this.IsBuffering())
+            if (this.IsBuffering())
             {
                 OnBufferingChanged(this, new BufferingChangedEventArgs(Buffered));
             }

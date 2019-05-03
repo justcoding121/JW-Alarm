@@ -53,14 +53,16 @@ namespace Bible.Alarm
         protected async override void OnStart()
         {
             var navigator = IocSetup.Container.Resolve<INavigationService>();
-            // Handle when your app starts  
-            await navigator.NavigateToHome();
-
             if (mediaManager.IsPlaying())
             {
                 var vm = IocSetup.Container.Resolve<AlarmViewModal>();
                 await navigator.ShowModal("AlarmModal", vm);
+                return;
             }
+
+            // Handle when your app starts  
+            await navigator.NavigateToHome();
+
         }
 
         protected override void OnSleep()

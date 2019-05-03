@@ -35,13 +35,11 @@ namespace JW.Alarm.Services.Droid
             this.cacheService = cacheService;
         }
 
-        public void Dismiss()
+        public async void Dismiss()
         {
             if (this.mediaManager.IsPlaying())
             {
-                this.mediaManager.MediaPlayer.Stop();
-                this.mediaManager.Stop();
-              
+                await this.mediaManager.Stop();
             }
 
             this.currentScheduleId = 0;
@@ -57,7 +55,7 @@ namespace JW.Alarm.Services.Droid
                 var nextTrackUris = nextTracks
                     .Select(x => this.cacheService.GetCacheFilePath(x.Url))
                     .ToList();
-     
+
                 await this.mediaManager.Play(nextTrackUris);
             }
         }

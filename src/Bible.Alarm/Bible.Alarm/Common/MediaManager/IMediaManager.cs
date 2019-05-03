@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using MediaManager.Audio;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Queue;
-using MediaManager.Video;
 using MediaManager.Volume;
 
 namespace MediaManager
 {
-    public interface IMediaManager<TMediaPlayer, TPlayer> : IMediaManager where TMediaPlayer : class, IMediaPlayer<TPlayer> where TPlayer : class
-    {
-        TMediaPlayer NativeMediaPlayer { get; }
-    }
-
     public interface IMediaManager : IPlaybackManager
     {
         IMediaPlayer MediaPlayer { get; set; }
@@ -28,10 +20,7 @@ namespace MediaManager
         /// </summary>
         Dictionary<string, string> RequestHeaders { get; set; }
 
-        //IAudioPlayer AudioPlayer { get; set; }
-
-        //IVideoPlayer VideoPlayer { get; set; }
-
+        //TODO: See if this is still useful
         //INotificationManager NotificationManager { get; set; }
 
         IMediaExtractor MediaExtractor { get; set; }

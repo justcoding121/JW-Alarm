@@ -22,16 +22,18 @@ namespace Bible.Alarm.ViewModels
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            SnoozeCommand = new Command(() =>
+            SnoozeCommand = new Command(async () =>
             {
-                playbackService.Snooze();
-                navigationService.CloseModal();
+                await playbackService.Snooze();
+                await navigationService.CloseModal();
+                await navigationService.NavigateToHome();
             });
 
-            DismissCommand = new Command(() =>
+            DismissCommand = new Command(async () =>
             {
                 playbackService.Dismiss();
-                navigationService.CloseModal();
+                await navigationService.CloseModal();
+                await navigationService.NavigateToHome();
             });
         }
     }

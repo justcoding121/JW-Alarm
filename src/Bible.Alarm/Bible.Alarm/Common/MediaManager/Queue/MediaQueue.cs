@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Threading.Tasks;
 using MediaManager.Media;
 
 namespace MediaManager.Queue
 {
     public class MediaQueue : ObservableCollection<IMediaItem>, IMediaQueue
     {
-        IMediaManager MediaManager = CrossMediaManager.Current;
+        protected IMediaManager MediaManager = CrossMediaManager.Current;
 
         public event QueueEndedEventHandler QueueEnded;
 
         public event QueueChangedEventHandler QueueChanged;
+
+        public string Title { get; set; }
 
         public bool HasNext() => ShuffleMode == ShuffleMode.All ? _shuffledIndexes.Count() > _indexOfCurrentItemInShuffledIndexes + 1 : Count > CurrentIndex + 1;
 
@@ -66,15 +68,16 @@ namespace MediaManager.Queue
                         CurrentIndex--;
                     }
                     return Current;
-                } else
+                }
+                else
                 {
                     return null;
                 }
             }
         }
 
-
         public bool HasCurrent() => Count >= CurrentIndex;
+
         public IMediaItem Current => Count > 0 ? this[CurrentIndex] : null;
 
         private int _currentIndex = 0;
@@ -89,11 +92,9 @@ namespace MediaManager.Queue
             }
         }
 
-        public string Title { get; set; }
-
-
         private ShuffleMode _shuffleMode;
         private IList<int> _shuffledIndexes;
+
         private int _indexOfCurrentItemInShuffledIndexes => _shuffledIndexes.Select((v, i) => new { originalIndex = v, index = i }).First(x => x.originalIndex == CurrentIndex).index;
 
         public ShuffleMode ShuffleMode
@@ -110,7 +111,8 @@ namespace MediaManager.Queue
                     // Create a shuffled remainder of the queue
                     CreateShuffledIndexes();
                     CollectionChanged += (s, e) => CreateShuffledIndexes();
-                } else
+                }
+                else
                 {
                     CollectionChanged -= (s, e) => CreateShuffledIndexes();
                 }
@@ -130,8 +132,20 @@ namespace MediaManager.Queue
             _shuffledIndexes = ints;
         }
 
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnCollectionChanged(e);
+            OnQueueChanged(this, new QueueChangedEventArgs());
+        }
+
         internal void OnQueueEnded(object s, QueueEndedEventArgs e) => QueueEnded?.Invoke(s, e);
 
-        internal void OnQueueChanged(object s, QueueChangedEventArgs e) => QueueChanged?.Invoke(s, e);
+        internal void OnQueueChanged(object s, QueueChangedEventArgs e)
+        {
+            if (this.LastOrDefault() == Current)
+                OnQueueEnded(this, new QueueEndedEventArgs());
+
+            QueueChanged?.Invoke(s, e);
+        }
     }
 }
