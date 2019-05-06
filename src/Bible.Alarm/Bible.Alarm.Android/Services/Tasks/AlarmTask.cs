@@ -4,6 +4,8 @@ using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using Bible.Alarm.Services;
+using Bible.Alarm.ViewModels;
+using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using Newtonsoft.Json;
@@ -20,7 +22,6 @@ namespace JW.Alarm.Services.Droid.Tasks
     public class AlarmTask : BroadcastReceiver
     {
         private IPlaybackService playbackService;
-        private AlarmReceiver alarmReceiver;
 
         public AlarmTask()
             : base()
@@ -31,7 +32,6 @@ namespace JW.Alarm.Services.Droid.Tasks
             }
 
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
-            this.alarmReceiver = IocSetup.Container.Resolve<AlarmReceiver>();
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -43,7 +43,7 @@ namespace JW.Alarm.Services.Droid.Tasks
             Task.Run(async () =>
             {
                 var id = long.Parse(scheduleId);
-                alarmReceiver.Raise(id);
+                await Messenger<object>.Publish(Messages.SnoozeDismiss, IocSetup.Container.Resolve<AlarmViewModal>());
                 await playbackService.Play(id);
 
                 result.SetResult(Result.Ok, null, null);

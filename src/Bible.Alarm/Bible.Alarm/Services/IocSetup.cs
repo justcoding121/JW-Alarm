@@ -34,7 +34,6 @@
                     container.Resolve<ScheduleDbContext>()));
 
             container.Register<IStorageService>((x) => new StorageService());
-            container.Register((x) => new AlarmReceiver(), true);
 
             Container = container;
         }

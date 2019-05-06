@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
 using Bible.Alarm.UI.Views.Music;
+using JW.Alarm.Common.Mvvm;
 using JW.Alarm.ViewModels;
 using Mvvmicro;
 using Xamarin.Forms;
@@ -20,6 +22,21 @@ namespace Bible.Alarm.UI
         public NavigationService(INavigation navigation)
         {
             navigater = navigation;
+
+            var syncContext = TaskScheduler.FromCurrentSynchronizationContext();
+
+            Messenger<object>.Subscribe(Messages.SnoozeDismiss, async vm =>
+            {
+                await Task.Factory.StartNew(async () =>
+                {
+                    await ShowModal("AlarmModal", vm);
+                },
+                CancellationToken.None,
+                TaskCreationOptions.None,
+                syncContext
+                );
+
+            });
         }
 
         public async Task CloseModal()
@@ -49,8 +66,7 @@ namespace Bible.Alarm.UI
 
                 case "AlarmModal":
                     {
-                        //no duplicates
-                        if (navigater.ModalStack.Count > 0 && navigater.ModalStack.First().GetType() == typeof(AlarmModal))
+                        if(navigater.ModalStack.FirstOrDefault()?.GetType() == typeof(AlarmModal))
                         {
                             return;
                         }
@@ -139,13 +155,6 @@ namespace Bible.Alarm.UI
 
         public async Task NavigateToHome()
         {
-            if (navigater.NavigationStack.Count == 0)
-            {
-                var home = IocSetup.Container.Resolve<Home>();
-                await navigater.PushAsync(home);
-                return;
-            }
-
             while (navigater.ModalStack.Count > 0)
             {
                 await navigater.PopModalAsync();
@@ -154,6 +163,13 @@ namespace Bible.Alarm.UI
             while (navigater.NavigationStack.Count > 1)
             {
                 await navigater.PopAsync();
+            }
+
+            if (navigater.NavigationStack.Count == 0)
+            {
+                var home = IocSetup.Container.Resolve<Home>();
+                await navigater.PushAsync(home);
+                return;
             }
 
         }

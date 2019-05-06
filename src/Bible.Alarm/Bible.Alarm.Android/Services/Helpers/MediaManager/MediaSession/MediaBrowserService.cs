@@ -42,12 +42,16 @@ namespace MediaManager.Platforms.Android.MediaSession
             base.OnCreate();
 
             Intent sessionIntent;
-            // Build a PendingIntent that can be used to launch the UI.
+            //Build a PendingIntent that can be used to launch the UI.
             if (MediaManager.GetContext() is Activity activity)
                 sessionIntent = new Intent(this, activity.GetType());
             else
                 sessionIntent = PackageManager.GetLaunchIntentForPackage(PackageName);
-            SessionActivityPendingIntent = PendingIntent.GetActivity(this, 0, sessionIntent, 0);
+
+            sessionIntent.SetFlags(ActivityFlags.SingleTop);
+            sessionIntent.PutExtra("ShowAlarmSnoozeDismiss", "Empty");
+
+            SessionActivityPendingIntent = PendingIntent.GetActivity(this, 0, sessionIntent, PendingIntentFlags.UpdateCurrent);
 
             PrepareMediaSession();
             PrepareMediaPlayer();
@@ -70,14 +74,16 @@ namespace MediaManager.Platforms.Android.MediaSession
         {
             MediaManager.AndroidMediaPlayer.MediaSession = MediaSession;
             MediaManager.MediaPlayer.Initialize();
-            MediaManager.StateChanged += (s, o) =>
+            MediaManager.StateChanged += onStateChanged;
+        }
+
+        private void onStateChanged(object s, StateChangedEventArgs o)
+        {
+            if (o.State == MediaPlayerState.Stopped
+            || o.State == MediaPlayerState.Failed)
             {
-                if (o.State == MediaPlayerState.Stopped
-                || o.State == MediaPlayerState.Failed)
-                {
-                    StopForeground(true);
-                }
-            };
+                StopForeground(true);
+            }
         }
 
         protected virtual void PrepareNotificationManager()
@@ -96,10 +102,10 @@ namespace MediaManager.Platforms.Android.MediaSession
             {
                 StartForeground(notificationId, notification);
             };
-            NotificationListener.OnNotificationCancelledImpl = (notificationId) =>
-            {
-                StopForeground(true);
-            };
+            //NotificationListener.OnNotificationCancelledImpl = (notificationId) =>
+            //{
+            //    StopForeground(true);
+            //};
 
             MediaManager.MediaQueue.CollectionChanged += MediaQueue_CollectionChanged;
 
@@ -134,6 +140,7 @@ namespace MediaManager.Platforms.Android.MediaSession
         public override void OnDestroy()
         {
             // Service is being killed, so make sure we release our resources
+            MediaManager.StateChanged -= onStateChanged;
             PlayerNotificationManager.SetPlayer(null);
             MediaManager.MediaPlayer.Dispose();
             MediaManager.MediaPlayer = null;
