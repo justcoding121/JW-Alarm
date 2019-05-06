@@ -49,7 +49,6 @@ namespace MediaManager.Platforms.Android.MediaSession
                 sessionIntent = PackageManager.GetLaunchIntentForPackage(PackageName);
 
             sessionIntent.SetFlags(ActivityFlags.SingleTop);
-            sessionIntent.PutExtra("ShowAlarmSnoozeDismiss", "Empty");
 
             SessionActivityPendingIntent = PendingIntent.GetActivity(this, 0, sessionIntent, PendingIntentFlags.UpdateCurrent);
 
