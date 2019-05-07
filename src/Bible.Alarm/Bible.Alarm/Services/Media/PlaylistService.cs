@@ -75,6 +75,32 @@ namespace JW.Alarm.Services
             }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
         }
 
+        public async Task MarkTrackAsPlayed(NotificationDetail trackDetail)
+        {
+            var schedule = await scheduleDbContext.AlarmSchedules
+                                    .Include(x => x.Music)
+                                    .Include(x => x.BibleReadingSchedule)
+                                    .FirstAsync(x => x.Id == trackDetail.ScheduleId);
+
+            if (trackDetail.PlayType == PlayType.Music)
+            {
+                if (!schedule.Music.Fixed)
+                {
+                    var next = await nextMusicUrlToPlay(schedule, true);
+                    schedule.Music.TrackNumber = next.PlayDetail.TrackNumber;
+                }
+            }
+            else
+            {
+                var bibleReadingSchedule = schedule.BibleReadingSchedule;
+
+                bibleReadingSchedule.BookNumber = trackDetail.BookNumber;
+                bibleReadingSchedule.ChapterNumber = trackDetail.ChapterNumber;
+            }
+
+            await scheduleDbContext.SaveChangesAsync();
+        }
+
         public async Task MarkTrackAsFinished(NotificationDetail trackDetail)
         {
             var schedule = await scheduleDbContext.AlarmSchedules

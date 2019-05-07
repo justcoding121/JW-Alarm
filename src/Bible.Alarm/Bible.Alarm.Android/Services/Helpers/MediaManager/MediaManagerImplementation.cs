@@ -112,9 +112,9 @@ namespace MediaManager
             }
         }
 
-        public override TimeSpan Position => TimeSpan.FromMilliseconds(MediaBrowserManager?.MediaController.PlaybackState?.Position ?? 0);
+        public override TimeSpan Position => TimeSpan.FromMilliseconds(MediaBrowserManager?.MediaController?.PlaybackState?.Position ?? 0);
 
-        public override TimeSpan Duration => MediaBrowserManager?.MediaController.Metadata?.ToMediaItem().Duration ?? TimeSpan.Zero;
+        public override TimeSpan Duration => MediaBrowserManager?.MediaController?.Metadata?.ToMediaItem().Duration ?? TimeSpan.Zero;
 
         public override TimeSpan Buffered => TimeSpan.FromMilliseconds(MediaBrowserManager?.MediaController?.PlaybackState?.BufferedPosition ?? 0);
 
