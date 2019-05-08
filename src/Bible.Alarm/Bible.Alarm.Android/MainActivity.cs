@@ -12,6 +12,7 @@ using MediaManager;
 using Android.Content;
 using JW.Alarm.Common.Mvvm;
 using Bible.Alarm.ViewModels;
+using JW.Alarm.Services.Droid.Tasks;
 
 namespace Bible.Alarm.Droid
 {
@@ -37,11 +38,26 @@ namespace Bible.Alarm.Droid
                     BootstrapHelper.InitializeDatabase();
                 });
 
+
             }
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+            if (!AlarmRingerService.IsRunning)
+            {
+                Intent service = new Intent(this, typeof(AlarmRingerService));
+                StartService(service);
+            }
+
+
+        }
+
+       
     }
 }

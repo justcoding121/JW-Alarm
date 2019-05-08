@@ -20,14 +20,13 @@ namespace JW.Alarm.Services.Droid
             string title, string body)
         {
             var context = Application.Context;
-            var alarmIntent = new Intent(context, typeof(AlarmTask));
-
-            alarmIntent.SetAction(buildActionName(scheduleId.ToString()));
+            var alarmIntent = new Intent();
+            alarmIntent.SetAction(buildActionName());
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
 
             var pIntent = PendingIntent.GetBroadcast(
                     context,
-                    0,
+                    (int)scheduleId,
                     alarmIntent,
                     PendingIntentFlags.UpdateCurrent);
 
@@ -75,38 +74,23 @@ namespace JW.Alarm.Services.Droid
         {
             var context = Application.Context;
 
-            var alarmIntent = new Intent(context, typeof(AlarmTask));
-            alarmIntent.SetAction(buildActionName(scheduleId.ToString()));
+            var alarmIntent = new Intent();
+            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+            alarmIntent.SetAction(buildActionName());
 
             var pIntent = PendingIntent.GetBroadcast(
                   context,
-                  0,
+                  (int)scheduleId,
                   alarmIntent,
                   PendingIntentFlags.NoCreate);
 
             return pIntent;
         }
-        /// <summary>
-        ///     The action to append end of the action name.
-        /// </summary>
-        private const string ActionSuffix = "NOTIFICATION";
 
-        /// <summary>
-        ///     Builds the action name for the notification intent.
-        /// </summary>
-        /// <param name="notificationId">The unique ID of the notification.</param>
-        /// <returns>The action name with the unique notification ID build into it.</returns>
-        /// <remarks>
-        ///     The action name looks something like:
-        ///     <example>
-        ///         com.saturdaymp.exampleclient.NOTIFICATIONS-[notificationId]
-        ///     </example>
-        /// </remarks>
-        internal static string buildActionName(string notificationId)
+        internal static string buildActionName()
         {
-            return Application.Context.PackageName + "." + ActionSuffix + "-" + notificationId;
+            return "com.bible.alarm.NOTIFICATION";
         }
-
     }
 
 }
