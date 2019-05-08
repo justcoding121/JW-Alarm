@@ -9,6 +9,7 @@ using Bible.Alarm.ViewModels;
 using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
+using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,14 @@ namespace JW.Alarm.Services.Droid.Tasks
         public static bool IsRunning => notificationReceiver != null;
         private static BroadcastReceiver notificationReceiver;
 
+        public AlarmRingerService() : base()
+        {
+            if (IocSetup.Container == null)
+            {
+                Bible.Alarm.Droid.IocSetup.Initialize();
+            }
+        }
+
         public override IBinder OnBind(Intent intent)
         {
             return null;
@@ -33,6 +42,9 @@ namespace JW.Alarm.Services.Droid.Tasks
         public override void OnCreate()
         {
             RegisterBroadcastReceiver();
+
+            var schedulerTask = Bible.Alarm.Droid.IocSetup.Container.Resolve<SchedulerTask>();
+            schedulerTask.Handle();
         }
 
         public override void OnDestroy()
@@ -41,9 +53,14 @@ namespace JW.Alarm.Services.Droid.Tasks
             notificationReceiver = null;
         }
 
-        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        public override void OnTaskRemoved(Intent rootIntent)
         {
-            return StartCommandResult.Sticky;
+            base.OnTaskRemoved(rootIntent);
+
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.SetAction("com.bible.alarm.RESTART");
+            broadcastIntent.SetClass(this, typeof(RestartTask));
+            this.SendBroadcast(broadcastIntent);
         }
 
         private void RegisterBroadcastReceiver()
@@ -72,6 +89,7 @@ namespace JW.Alarm.Services.Droid.Tasks
 
             public override void OnReceive(Context context, Intent intent)
             {
+                Analytics.TrackEvent($"I am called at {DateTime.Now}.");
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
 
@@ -91,5 +109,30 @@ namespace JW.Alarm.Services.Droid.Tasks
         }
     }
 
+    [BroadcastReceiver(Enabled = true, Exported = true, DirectBootAware = true)]
+    [IntentFilter(new[] { "com.bible.alarm.RESTART", Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted,
+        "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON"})]
+    public class RestartTask : BroadcastReceiver
+    {
 
+        public RestartTask()
+            : base()
+        {
+
+        }
+
+        public override void OnReceive(Context context, Intent intent)
+        {
+            if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+            {
+                context.StartForegroundService(new Intent(context, typeof(AlarmRingerService)));
+            }
+            else
+            {
+                context.StartService(new Intent(context, typeof(AlarmRingerService)));
+
+            }
+        }
+
+    }
 }

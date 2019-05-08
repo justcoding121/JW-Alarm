@@ -8,6 +8,7 @@
     using System.Net.Http;
     using Xamarin.Android.Net;
     using MediaManager;
+    using JW.Alarm.Services.Droid.Tasks;
 
     public static class IocSetup
     {
@@ -24,9 +25,9 @@
             //container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
 
 
-            //container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-            //                        container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-            //                        container.Resolve<INotificationService>()));
+            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
+                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
+                                    container.Resolve<INotificationService>()));
 
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()));

@@ -29,7 +29,7 @@ namespace Bible.Alarm.UWP
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            //AppCenter.Start("7288b4a9-2efe-4a34-b05f-9bb718b62c80", typeof(Analytics), typeof(Crashes));
+            AppCenter.Start("7288b4a9-2efe-4a34-b05f-9bb718b62c80", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>

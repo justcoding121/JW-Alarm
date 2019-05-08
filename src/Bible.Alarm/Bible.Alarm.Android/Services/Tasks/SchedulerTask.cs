@@ -1,7 +1,6 @@
 ﻿using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Windows.ApplicationModel.Background;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
@@ -21,10 +20,8 @@ namespace JW.Alarm.Services.Droid.Tasks
             this.notificationService = notificationService;
         }
 
-        public async void Handle(IBackgroundTaskInstance backgroundTask)
+        public async void Handle()
         {
-            var deferral = backgroundTask.GetDeferral();
-
             await mediaCacheService.CleanUp();
 
             var schedules = await scheduleDbContext.AlarmSchedules.Where(x => x.IsEnabled).ToListAsync();
@@ -39,10 +36,7 @@ namespace JW.Alarm.Services.Droid.Tasks
                 {
                     await mediaCacheService.SetupAlarmCache(schedule.Id);
                 }
-            }
-
-         
-            deferral.Complete();
+            }  
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
-
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -22,6 +23,10 @@ namespace Bible.Alarm.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9",
+                   typeof(Analytics));
+            AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics));
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
@@ -54,7 +59,6 @@ namespace Bible.Alarm.Droid
                 Intent service = new Intent(this, typeof(AlarmRingerService));
                 StartService(service);
             }
-
 
         }
 
