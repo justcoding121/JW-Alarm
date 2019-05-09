@@ -44,9 +44,8 @@ namespace Bible.Alarm
 
             if (mediaManager.IsPlaying())
             {
-                Task.Run(() => Messenger<object>.Publish(Messages.SnoozeDismiss, IocSetup.Container.Resolve<AlarmViewModal>()));
+                Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>()));
             }
-
         }
 
         protected async override void OnStart()

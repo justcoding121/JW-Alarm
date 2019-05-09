@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediaManager.Playback;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,5 +11,6 @@ namespace JW.Alarm.Services.Contracts
         Task Play(long scheduleId);
         void Dismiss();
         Task Snooze();
+        event EventHandler<MediaPlayerState> StateChanged;
     }
 }

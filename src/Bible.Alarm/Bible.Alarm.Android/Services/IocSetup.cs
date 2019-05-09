@@ -20,7 +20,7 @@
             container.Register<IToastService>((x) => new DroidPopUpService());
 
             container.Register<INotificationService>((x) =>
-            new DroidNotificationService(container.Resolve<IMediaCacheService>()));
+            new DroidNotificationService());
 
             //container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
 
@@ -63,6 +63,13 @@
                 return mediaManager;
 
             }, true);
+
+            container.Register<IAlarmService>((x) => new AlarmService(
+                container.Resolve<INotificationService>(),
+                container.Resolve<IPlaylistService>(),
+                container.Resolve<IMediaCacheService>(),
+                container.Resolve<ScheduleDbContext>()));
+
             Container = container;
         }
     }

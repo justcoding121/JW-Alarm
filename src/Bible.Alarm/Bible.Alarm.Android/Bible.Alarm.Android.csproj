@@ -112,7 +112,9 @@
     <Compile Include="Services\Media\MusicService.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
-    <Compile Include="Services\Tasks\AlarmTask.cs" />
+    <Compile Include="Services\Tasks\AlarmRingerTask.cs" />
+    <Compile Include="Services\Tasks\AlarmSetupTask.cs" />
+    <Compile Include="Services\Tasks\RestartTask.cs" />
     <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\PopUpService.cs" />

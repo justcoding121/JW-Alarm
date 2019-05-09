@@ -9,44 +9,16 @@ namespace JW.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
-        IMediaCacheService mediaCacheService;
-
-        public DroidNotificationService(IMediaCacheService mediaCacheService)
-        {
-            this.mediaCacheService = mediaCacheService;
-        }
-
         public void Add(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            var context = Application.Context;
-            var alarmIntent = new Intent();
-            alarmIntent.SetAction(buildActionName());
-            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-
-            var pIntent = PendingIntent.GetBroadcast(
-                    context,
-                    (int)scheduleId,
-                    alarmIntent,
-                    PendingIntentFlags.UpdateCurrent);
-
-            var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
-
-            // Figure out the alaram in milliseconds.
-            var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis() + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
-
-            if (Build.VERSION.SdkInt < BuildVersionCodes.Kitkat)
-            {
-                alarmService.Set(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
-            }
-            else if(Build.VERSION.SdkInt < BuildVersionCodes.M)
-            {
-                alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
-            }
-            else
-            {
-                alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
-            }
+            Intent intent = new Intent(Application.Context, typeof(AlarmSetupTask));
+            intent.PutExtra("Action", "Add");
+            intent.PutExtra("ScheduleId", scheduleId.ToString());
+            intent.PutExtra("Time", time.ToString());
+            intent.PutExtra("Title", title);
+            intent.PutExtra("Body", body);
+            Application.Context.StartService(intent);
         }
 
 
@@ -56,12 +28,11 @@ namespace JW.Alarm.Services.Droid
 
             if (pIntent != null)
             {
-                var context = Application.Context;
-                var alarmManager = (AlarmManager)context.GetSystemService(Context.AlarmService);
+                var context = this;
+                var alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
                 alarmManager?.Cancel(pIntent);
                 pIntent.Cancel();
             }
-
         }
 
         public bool IsScheduled(long scheduleId)
@@ -78,7 +49,7 @@ namespace JW.Alarm.Services.Droid
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
             alarmIntent.SetAction(buildActionName());
 
-            var pIntent = PendingIntent.GetBroadcast(
+            var pIntent = PendingIntent.GetService(
                   context,
                   (int)scheduleId,
                   alarmIntent,
@@ -89,7 +60,7 @@ namespace JW.Alarm.Services.Droid
 
         internal static string buildActionName()
         {
-            return "com.bible.alarm.NOTIFICATION";
+            return "com.bible.alarm.RING";
         }
     }
 

@@ -21,6 +21,7 @@ namespace Bible.Alarm.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        private bool initialized = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9",
@@ -36,32 +37,30 @@ namespace Bible.Alarm.Droid
             {
                 IocSetup.Initialize();
                 IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
-                Task.Run(async () =>
-                {
-                    //BootstrapHelper.VerifyBackgroundTasks();
-                    await BootstrapHelper.VerifyMediaLookUpService();
-                    BootstrapHelper.InitializeDatabase();
-                });
-
-
             }
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+
+            Task.Run(async () =>
+            {
+                //BootstrapHelper.VerifyBackgroundTasks();
+                await BootstrapHelper.VerifyMediaLookUpService();
+                await BootstrapHelper.InitializeDatabase();
+                await Messenger<bool>.Publish(Messages.Initialized, true);
+                initialized = true;
+            });
         }
 
         protected override void OnStart()
         {
             base.OnStart();
 
-            if (!AlarmRingerService.IsRunning)
+            if (initialized && !AlarmSetupTask.IsRunning)
             {
-                Intent service = new Intent(this, typeof(AlarmRingerService));
+                Intent service = new Intent(this, typeof(AlarmSetupTask));
                 StartService(service);
             }
-
         }
-
-       
     }
 }

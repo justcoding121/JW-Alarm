@@ -27,12 +27,6 @@
             container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<ScheduleDbContext>(),
                 container.Resolve<MediaService>()));
 
-            container.Register<IAlarmService>((x) => new AlarmService(
-                    container.Resolve<INotificationService>(),
-                    container.Resolve<IPlaylistService>(),
-                    container.Resolve<IMediaCacheService>(),
-                    container.Resolve<ScheduleDbContext>()));
-
             container.Register<IStorageService>((x) => new StorageService());
 
             Container = container;

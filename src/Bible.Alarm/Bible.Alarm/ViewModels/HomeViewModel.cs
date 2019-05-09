@@ -17,6 +17,7 @@ using Bible.Alarm.Services.Contracts;
 using JW.Alarm.ViewModels.Redux;
 using System.Reactive.Concurrency;
 using Bible.Alarm.ViewModels.Redux.Actions;
+using JW.Alarm.Common.Mvvm;
 
 namespace JW.Alarm.ViewModels
 {
@@ -73,7 +74,7 @@ namespace JW.Alarm.ViewModels
                });
             disposables.Add(subscription);
 
-            Task.Run(() => initialize());
+            initialize();
 
         }
 
@@ -88,7 +89,18 @@ namespace JW.Alarm.ViewModels
         public bool IsBusy
         {
             get => isBusy;
-            set => this.Set(ref isBusy, value);
+            set
+            {
+                this.Set(ref isBusy, value);
+                Loaded = !isBusy;
+            }
+        }
+
+        private bool loaded = false;
+        public bool Loaded
+        {
+            get => loaded;
+            set => this.Set(ref loaded, value);
         }
 
         public ICommand AddScheduleCommand { get; set; }
@@ -102,18 +114,22 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref selectedSchedule, value);
         }
 
-        private async Task initialize()
+        private void initialize()
         {
-            var alarmSchedules = await scheduleDbContext.AlarmSchedules
-                .AsNoTracking().ToListAsync();
-
-            var initialSchedules = new ObservableHashSet<ScheduleListItem>();
-            foreach (var schedule in alarmSchedules)
+            Messenger<bool>.Subscribe(Messages.Initialized, async vm =>
             {
-                initialSchedules.Add(new ScheduleListItem(schedule));
-            }
+                var alarmSchedules = await scheduleDbContext.AlarmSchedules
+                                    .AsNoTracking().ToListAsync();
 
-            ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
+                var initialSchedules = new ObservableHashSet<ScheduleListItem>();
+                foreach (var schedule in alarmSchedules)
+                {
+                    initialSchedules.Add(new ScheduleListItem(schedule));
+                }
+
+                ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
+            });
+
         }
 
         private void listenIsEnabledChanges()

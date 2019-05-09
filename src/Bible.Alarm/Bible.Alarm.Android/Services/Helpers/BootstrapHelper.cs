@@ -34,11 +34,11 @@ namespace JW.Alarm.Services.Droid.Helpers
             throw new NotImplementedException();
         }
 
-        public static void InitializeDatabase()
+        public static async Task InitializeDatabase()
         {
             using (var db = IocSetup.Container.Resolve<ScheduleDbContext>())
             {
-                db.Database.Migrate();
+                await db.Database.MigrateAsync();
             }
         }
     }

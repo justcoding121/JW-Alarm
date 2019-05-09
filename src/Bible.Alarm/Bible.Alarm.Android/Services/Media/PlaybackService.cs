@@ -7,6 +7,7 @@ using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
 using MediaManager.Media;
+using MediaManager.Playback;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,8 @@ namespace JW.Alarm.Services.Droid
 
         private bool disposed;
 
+        public event EventHandler<MediaPlayerState> StateChanged;
+
         public PlaybackService(IMediaManager mediaManager,
             IPlaylistService playlistService,
             IAlarmService alarmService,
@@ -41,6 +44,7 @@ namespace JW.Alarm.Services.Droid
 
             this.mediaManager.MediaItemChanged += markTrackAsPlayed;
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
+            this.mediaManager.StateChanged += stateChanged;
 
             Task.Run(async () =>
             {
@@ -54,6 +58,11 @@ namespace JW.Alarm.Services.Droid
                     }
                 }
             });
+        }
+
+        private void stateChanged(object sender, StateChangedEventArgs e)
+        {
+            StateChanged?.Invoke(this, e.State);
         }
 
         private async void markTrackAsPlayed(object sender, MediaItemEventArgs e)

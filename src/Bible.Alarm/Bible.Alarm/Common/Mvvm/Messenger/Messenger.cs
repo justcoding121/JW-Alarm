@@ -6,8 +6,8 @@ namespace JW.Alarm.Common.Mvvm
 {
     public enum Messages
     {
-        Progress,
-        SnoozeDismiss
+        Initialized,
+        ShowSnoozeDismissModal
     }
 
     public static class Messenger<T>

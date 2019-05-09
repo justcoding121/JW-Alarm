@@ -1,6 +1,9 @@
 ﻿using JW.Alarm.Services.Contracts;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
@@ -20,7 +23,7 @@ namespace JW.Alarm.Services.Droid.Tasks
             this.notificationService = notificationService;
         }
 
-        public async void Handle()
+        public async Task Handle()
         {
             await mediaCacheService.CleanUp();
 
@@ -28,6 +31,8 @@ namespace JW.Alarm.Services.Droid.Tasks
 
             foreach (var schedule in schedules)
             {
+                Analytics.TrackEvent($"Service started at {DateTime.Now}.");
+
                 if (!notificationService.IsScheduled(schedule.Id))
                 {
                     await alarmService.Create(schedule, true);

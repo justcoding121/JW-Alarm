@@ -84,8 +84,10 @@ namespace JW.Alarm.Services
 
             if (trackDetail.PlayType == PlayType.Music)
             {
+
                 if (!schedule.Music.Fixed)
                 {
+                    schedule.Music.TrackNumber = trackDetail.TrackNumber;
                     var next = await nextMusicUrlToPlay(schedule, true);
                     schedule.Music.TrackNumber = next.PlayDetail.TrackNumber;
                 }
@@ -225,7 +227,7 @@ namespace JW.Alarm.Services
                     var melodyMusic = schedule.Music;
                     var melodyTracks = await mediaService.GetMelodyMusicTracks(melodyMusic.PublicationCode);
 
-                    var melodyTrack = melodyTracks[next ? (melodyMusic.TrackNumber + 1) % melodyTracks.Count : melodyMusic.TrackNumber];
+                    var melodyTrack = melodyTracks[next ? (melodyMusic.TrackNumber % melodyTracks.Count) + 1 : melodyMusic.TrackNumber];
                     return new PlayItem(new NotificationDetail()
                     {
                         ScheduleId = schedule.Id,
@@ -238,7 +240,7 @@ namespace JW.Alarm.Services
                 case MusicType.Vocals:
                     var vocalMusic = schedule.Music;
                     var vocalTracks = await mediaService.GetVocalMusicTracks(vocalMusic.LanguageCode, vocalMusic.PublicationCode);
-                    var vocalTrack = vocalTracks[next ? (vocalMusic.TrackNumber + 1) % vocalTracks.Count : vocalMusic.TrackNumber];
+                    var vocalTrack = vocalTracks[next ? (vocalMusic.TrackNumber % vocalTracks.Count) + 1 : vocalMusic.TrackNumber];
                     return new PlayItem(new NotificationDetail()
                     {
                         ScheduleId = schedule.Id,

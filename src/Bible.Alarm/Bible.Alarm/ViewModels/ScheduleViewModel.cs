@@ -111,7 +111,6 @@ namespace JW.Alarm.ViewModels
                 if (!IsNewSchedule)
                 {
                     this.playbackService.Dismiss();
-                    this.notificationService.Remove(scheduleId);
                 }
 
                 if (await saveAsync())
