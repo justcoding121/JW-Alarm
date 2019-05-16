@@ -12,11 +12,12 @@ using Android.Widget;
 using JW.Alarm.Services.Droid.Tasks;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
-    [BroadcastReceiver(Enabled = true, Exported = true, DirectBootAware = true)]
-    [IntentFilter(new[] { "com.bible.alarm.RESTART", Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted,
+    [BroadcastReceiver(Enabled = true, DirectBootAware = true)]
+    [IntentFilter(new[] { Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted,
         "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON"})]
     public class RestartTask : BroadcastReceiver
     {
@@ -25,32 +26,29 @@ namespace Bible.Alarm.Droid.Services.Tasks
         {
             if (!AppCenter.Configured)
             {
-                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9",
-                  typeof(Analytics));
+                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
             }
 
             if (IocSetup.Container == null)
             {
-                Analytics.TrackEvent($"Container null for RestartTask at {DateTime.Now}.");
-                Bible.Alarm.Droid.IocSetup.Initialize();
-
+                IocSetup.Initialize();
             }
         }
 
         public override void OnReceive(Context context, Intent intent)
         {
-            Analytics.TrackEvent($"Service start requested at {DateTime.Now}.");
-
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            try
             {
-                context.StartForegroundService(new Intent(context, typeof(AlarmSetupTask)));
-            }
-            else
-            {
-                context.StartService(new Intent(context, typeof(AlarmSetupTask)));
-            }
+                Analytics.TrackEvent($"Restart task called at {DateTime.Now}");
+                var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
+                schedulerTask.Handle().Wait();
 
-            context.StopService(intent);
+                context.StopService(intent);
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
         }
     }
 }

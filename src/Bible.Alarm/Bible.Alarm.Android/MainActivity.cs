@@ -14,6 +14,7 @@ using Android.Content;
 using JW.Alarm.Common.Mvvm;
 using Bible.Alarm.ViewModels;
 using JW.Alarm.Services.Droid.Tasks;
+using Microsoft.AppCenter.Crashes;
 
 namespace Bible.Alarm.Droid
 {
@@ -24,31 +25,44 @@ namespace Bible.Alarm.Droid
         private bool initialized = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9",
-                   typeof(Analytics));
-            AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics));
+            AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
 
-            if (IocSetup.Container == null)
+            try
             {
-                IocSetup.Initialize();
-                IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
-            }
+                if (IocSetup.Container == null)
+                {
+                    IocSetup.Initialize();
+                    IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+                }
 
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+                global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+                LoadApplication(new App());
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+                throw;
+            }
 
             Task.Run(async () =>
             {
-                //BootstrapHelper.VerifyBackgroundTasks();
-                await BootstrapHelper.VerifyMediaLookUpService();
-                await BootstrapHelper.InitializeDatabase();
-                await Messenger<bool>.Publish(Messages.Initialized, true);
-                initialized = true;
+                try
+                {
+                    //BootstrapHelper.VerifyBackgroundTasks();
+                    await BootstrapHelper.VerifyMediaLookUpService();
+                    await BootstrapHelper.InitializeDatabase();
+                    await Messenger<bool>.Publish(Messages.Initialized, true);
+                    initialized = true;
+                }
+                catch (Exception e)
+                {
+                    Crashes.TrackError(e);
+                }
             });
         }
 
@@ -56,10 +70,17 @@ namespace Bible.Alarm.Droid
         {
             base.OnStart();
 
-            if (initialized && !AlarmSetupTask.IsRunning)
+            try
             {
-                Intent service = new Intent(this, typeof(AlarmSetupTask));
-                StartService(service);
+                if (initialized && !AlarmSetupTask.IsRunning)
+                {
+                    Intent service = new Intent(this, typeof(AlarmSetupTask));
+                    StartService(service);
+                }
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
             }
         }
     }

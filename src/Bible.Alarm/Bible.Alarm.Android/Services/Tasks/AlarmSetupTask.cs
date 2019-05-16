@@ -13,6 +13,7 @@ using JW.Alarm.Services.Contracts;
 using MediaManager;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
-    [Service]
+    [Service(Enabled = true)]
     public class AlarmSetupTask : Service
     {
         public static bool IsRunning = false;
@@ -32,13 +33,11 @@ namespace JW.Alarm.Services.Droid.Tasks
         {
             if (!AppCenter.Configured)
             {
-                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9",
-                  typeof(Analytics));
+                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
             }
 
             if (IocSetup.Container == null)
             {
-                Analytics.TrackEvent($"Container null for AlarmService at {DateTime.Now}.");
                 Bible.Alarm.Droid.IocSetup.Initialize();
                 IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
             }
@@ -57,26 +56,36 @@ namespace JW.Alarm.Services.Droid.Tasks
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            var extra = intent.GetStringExtra("Action");
+            Analytics.TrackEvent($"Alarm setup task called at {DateTime.Now}");
 
-            switch (extra)
+            try
             {
-                case "Add":
-                    {
-                        var time = DateTimeOffset.Parse(intent.GetStringExtra("Time"));
-                        var title = intent.GetStringExtra("Title");
-                        var body = intent.GetStringExtra("Body");
+                var extra = intent.GetStringExtra("Action");
 
-                        addNotification(long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
+                Analytics.TrackEvent($"Alarm setup task called at {DateTime.Now} with action {extra}");
+
+                switch (extra)
+                {
+                    case "Add":
+                        {
+                            var time = DateTimeOffset.Parse(intent.GetStringExtra("Time"));
+                            var title = intent.GetStringExtra("Title");
+                            var body = intent.GetStringExtra("Body");
+
+                            addNotification(long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
+                            break;
+                        }
+
+                    default:
+                        var schedulerTask = Bible.Alarm.Droid.IocSetup.Container.Resolve<SchedulerTask>();
+                        schedulerTask.Handle().Wait();
                         break;
-                    }
-
-                default:
-                    var schedulerTask = Bible.Alarm.Droid.IocSetup.Container.Resolve<SchedulerTask>();
-                    schedulerTask.Handle().Wait();
-                    break;
+                }
             }
-
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
 
             StopSelf();
 
@@ -120,6 +129,8 @@ namespace JW.Alarm.Services.Droid.Tasks
             {
                 alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
             }
+            Analytics.TrackEvent($"Notification scheduled at {DateTime.Now}");
+
         }
 
         public bool IsScheduled(long scheduleId)

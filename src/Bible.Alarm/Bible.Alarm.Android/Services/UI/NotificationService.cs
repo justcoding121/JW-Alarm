@@ -3,6 +3,7 @@ using Android.Content;
 using Android.OS;
 using JW.Alarm.Services.Contracts;
 using JW.Alarm.Services.Droid.Tasks;
+using Microsoft.AppCenter.Analytics;
 using System;
 
 namespace JW.Alarm.Services.Droid
@@ -12,6 +13,8 @@ namespace JW.Alarm.Services.Droid
         public void Add(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
+            Analytics.TrackEvent($"Scheduling at {DateTime.Now}");
+
             Intent intent = new Intent(Application.Context, typeof(AlarmSetupTask));
             intent.PutExtra("Action", "Add");
             intent.PutExtra("ScheduleId", scheduleId.ToString());
@@ -19,6 +22,8 @@ namespace JW.Alarm.Services.Droid
             intent.PutExtra("Title", title);
             intent.PutExtra("Body", body);
             Application.Context.StartService(intent);
+
+            Analytics.TrackEvent($"Scheduling Start Service at {DateTime.Now}");
         }
 
 

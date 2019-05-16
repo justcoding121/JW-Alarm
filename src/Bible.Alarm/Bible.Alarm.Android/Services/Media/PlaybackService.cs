@@ -99,7 +99,34 @@ namespace JW.Alarm.Services.Droid
             if (!this.mediaManager.IsPlaying())
             {
                 this.currentScheduleId = scheduleId;
+                await cacheService.SetupAlarmCache(scheduleId);
+
                 var nextTracks = await playlistService.NextTracks(scheduleId, TimeSpan.FromHours(1));
+
+                //play default ring tone if we don't have the files downloaded.
+                if (await nextTracks.AnyAsync(async x => !await cacheService.Exists(x.Url)))
+                {
+                    var notification = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
+
+                    if (notification == null)
+                    {
+                        // alert is null, using backup
+                        notification = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
+
+                        // I can't see this ever being null (as always have a default notification)
+                        // but just incase
+                        if (notification == null)
+                        {
+                            // alert backup is null, using 2nd backup
+                            notification = RingtoneManager.GetDefaultUri(RingtoneType.Ringtone);
+                        }
+                    }
+
+                    var r = RingtoneManager.GetRingtone(Application.Context, notification);
+                    r.Play();
+
+                    return;
+                }
 
                 var nextTrackUris = nextTracks
                     .Select(x => this.cacheService.GetCacheFilePath(x.Url))

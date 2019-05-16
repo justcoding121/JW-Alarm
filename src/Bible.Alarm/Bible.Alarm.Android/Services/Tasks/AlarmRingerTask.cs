@@ -16,10 +16,11 @@ using MediaManager;
 using MediaManager.Playback;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
-    [Service]
+    [Service(Enabled = true)]
     [IntentFilter(new[] { "com.bible.alarm.RING" })]
     public class AlarmRingerService : Service
     {
@@ -29,14 +30,12 @@ namespace Bible.Alarm.Droid.Services.Tasks
         {
             if (!AppCenter.Configured)
             {
-                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9",
-                  typeof(Analytics));
+                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
             }
 
             if (IocSetup.Container == null)
             {
-                Analytics.TrackEvent($"Container null for AlarmService at {DateTime.Now}.");
-                Bible.Alarm.Droid.IocSetup.Initialize();
+                IocSetup.Initialize();
                 IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
             }
 
@@ -52,7 +51,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 playbackService.StateChanged -= stateChanged;
                 StopSelf();
-            }  
+            }
         }
 
         public override IBinder OnBind(Intent intent)
@@ -63,46 +62,39 @@ namespace Bible.Alarm.Droid.Services.Tasks
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+            Analytics.TrackEvent($"Alarm rang at {DateTime.Now}");
 
-            Analytics.TrackEvent($"Alarm rang at {DateTime.Now}.");
-
-            var scheduleId = intent.GetStringExtra("ScheduleId");
-
-            Analytics.TrackEvent($"Alarm play started at {DateTime.Now}.");
-
-            Task.Run(async () =>
+            try
             {
-                try
+                IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+
+                var scheduleId = intent.GetStringExtra("ScheduleId");
+
+                Task.Run(async () =>
                 {
-                    var id = long.Parse(scheduleId);
-                    if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
+                    try
                     {
-                        await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>());
+                        var id = long.Parse(scheduleId);
+                        if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
+                        {
+                            await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>());
+                        }
+
+                        await playbackService.Play(id);
+
                     }
-
-
-
-                    await playbackService.Play(id);
-
-                    Analytics.TrackEvent($"Alarm played at {DateTime.Now}.");
-
-                    if (IocSetup.Container.Resolve<IMediaManager>().IsPlaying())
+                    catch (Exception e)
                     {
-                        Analytics.TrackEvent($"Media Manager playing at {DateTime.Now}.");
+                        Crashes.TrackError(e);
                     }
-                    else
-                    {
-                        Analytics.TrackEvent($"Media Manager not playing at {DateTime.Now}.");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Analytics.TrackEvent($"Error at {DateTime.Now}. Stack: {e.ToString()}");
-                }
-            });
+                });
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+            }
 
-            return base.OnStartCommand(intent, flags, startId);
+            return StartCommandResult.Sticky;
         }
 
         public override void OnCreate()
