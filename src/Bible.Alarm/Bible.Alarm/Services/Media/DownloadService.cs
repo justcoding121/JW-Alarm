@@ -36,6 +36,11 @@ namespace JW.Alarm.Services
                 }
                 catch
                 {
+                    if(alternativeUrl == null)
+                    {
+                        throw;
+                    }
+
                     using (var client = new HttpClient(handler, false))
                     {
                         return await client.GetByteArrayAsync(alternativeUrl);
@@ -49,17 +54,24 @@ namespace JW.Alarm.Services
         {
             var delay = 1000;
 
-            while (true)
+            try
             {
-                try
+                while (true)
                 {
-                    return await func();
+                    try
+                    {
+                        return await func();
+                    }
+                    catch when (retryCount-- > 0)
+                    {
+                        await Task.Delay(delay);
+                        delay *= 2;
+                    }
                 }
-                catch when (retryCount-- > 0)
-                {
-                    await Task.Delay(delay);
-                    delay *= 2;
-                }
+            }
+            catch
+            {
+                return default(T);
             }
         }
     }

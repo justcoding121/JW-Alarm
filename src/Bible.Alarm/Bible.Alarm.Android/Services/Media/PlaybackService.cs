@@ -99,6 +99,7 @@ namespace JW.Alarm.Services.Droid
             if (!this.mediaManager.IsPlaying())
             {
                 this.currentScheduleId = scheduleId;
+
                 await cacheService.SetupAlarmCache(scheduleId);
 
                 var nextTracks = await playlistService.NextTracks(scheduleId, TimeSpan.FromHours(1));

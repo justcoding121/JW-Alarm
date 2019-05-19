@@ -59,11 +59,13 @@ namespace JW.Alarm.Services
                 {
                     byte[] bytes = null;
 
-                    try
+                    bytes = await downloadService.DownloadAsync(playItem.Url);
+
+                    if (bytes != null)
                     {
-                        bytes = await downloadService.DownloadAsync(playItem.Url);
+                        await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
                     }
-                    catch
+                    else
                     {
                         var playDetail = playItem.PlayDetail;
 
@@ -89,12 +91,16 @@ namespace JW.Alarm.Services
                         }
 
                         bytes = await downloadService.DownloadAsync(url);
-                        await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
-                        continue;
 
+                        if (bytes != null)
+                        {
+                            await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
+                            continue;
+                        }
+
+                        break;
                     }
 
-                    await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
                 }
             }
         }

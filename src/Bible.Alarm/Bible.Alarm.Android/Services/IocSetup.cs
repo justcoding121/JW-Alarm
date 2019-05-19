@@ -22,9 +22,6 @@
             container.Register<INotificationService>((x) =>
             new DroidNotificationService());
 
-            //container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
-
-
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
                                     container.Resolve<INotificationService>()));
