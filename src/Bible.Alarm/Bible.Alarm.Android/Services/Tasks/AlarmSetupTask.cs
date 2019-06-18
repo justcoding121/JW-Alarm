@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 namespace JW.Alarm.Services.Droid.Tasks
 {
     [Service(Enabled = true)]
+    [IntentFilter(new[] { "com.bible.alarm.SETUP" })]
     public class AlarmSetupTask : Service
     {
         public static bool IsRunning = false;

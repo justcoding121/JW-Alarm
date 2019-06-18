@@ -1,4 +1,7 @@
-﻿using JW.Alarm.Models;
+﻿using Android.App;
+using Android.Content;
+using JW.Alarm.Models;
+using JW.Alarm.Services.Droid.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,10 +12,6 @@ namespace JW.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {
-        //private static readonly string alarmTaskName = "AlarmTask";
-        //private static readonly string schedulerTaskName = "SchedulerTask";
-        //private static readonly string snoozeDismissTaskName = "SnoozeDismissTask";
-
         public static void VerifyPermissions()
         {
             throw new NotImplementedException();
@@ -26,12 +25,10 @@ namespace JW.Alarm.Services.Droid.Helpers
 
         public static void VerifyBackgroundTasks()
         {
-            throw new NotImplementedException();
-        }
-
-        public static void unregisterBackgroundTasks(string name)
-        {
-            throw new NotImplementedException();
+            if (!IsAlarmSetupTaskScheduled())
+            {
+                scheduleSetupTask();
+            }
         }
 
         public static async Task InitializeDatabase()
@@ -40,6 +37,48 @@ namespace JW.Alarm.Services.Droid.Helpers
             {
                 await db.Database.MigrateAsync();
             }
+        }
+
+        private static void scheduleSetupTask()
+        {
+            var context = Application.Context;
+            var intent = new Intent(context, typeof(AlarmSetupTask));
+            intent.SetAction("com.bible.alarm.SETUP");
+
+            var pIntent = PendingIntent.GetService(
+                    context,
+                    0,
+                    intent,
+                    PendingIntentFlags.UpdateCurrent);
+
+            var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
+
+            var interval = 30 * 1000 * 15;
+            var firstTrigger = Java.Lang.JavaSystem.CurrentTimeMillis();
+
+            alarmService.SetRepeating(AlarmType.RtcWakeup, firstTrigger, interval, pIntent);
+
+        }
+
+        private static bool IsAlarmSetupTaskScheduled()
+        {
+            var pIntent = findIntent();
+            return pIntent != null;
+        }
+
+        private static PendingIntent findIntent()
+        {
+            var context = Application.Context;
+            var intent = new Intent(context, typeof(AlarmSetupTask));
+            intent.SetAction("com.bible.alarm.SETUP");
+
+            var pIntent = PendingIntent.GetService(
+                    context,
+                    0,
+                    intent,
+                    PendingIntentFlags.NoCreate);
+
+            return pIntent;
         }
     }
 }

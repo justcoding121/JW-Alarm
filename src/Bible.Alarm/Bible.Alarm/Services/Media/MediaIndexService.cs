@@ -64,7 +64,6 @@ namespace JW.Alarm.Services
 
                 if (creationDate < resourceFileCreationDate)
                 {
-                    await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
                     return false;
                 }
             }
@@ -80,6 +79,11 @@ namespace JW.Alarm.Services
             if (await storageService.FileExists(tmpIndexFilePath))
             {
                 await storageService.DeleteFile(tmpIndexFilePath);
+            }
+
+            if(await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db")))
+            {
+                await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
             }
 
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");

@@ -15,6 +15,7 @@ using JW.Alarm.Common.Mvvm;
 using Bible.Alarm.ViewModels;
 using JW.Alarm.Services.Droid.Tasks;
 using Microsoft.AppCenter.Crashes;
+using Bible.Alarm.Droid.Services.Tasks;
 
 namespace Bible.Alarm.Droid
 {
@@ -53,7 +54,6 @@ namespace Bible.Alarm.Droid
             {
                 try
                 {
-                    //BootstrapHelper.VerifyBackgroundTasks();
                     await BootstrapHelper.VerifyMediaLookUpService();
                     await BootstrapHelper.InitializeDatabase();
                     await Messenger<bool>.Publish(Messages.Initialized, true);
@@ -72,16 +72,15 @@ namespace Bible.Alarm.Droid
 
             try
             {
-                if (initialized && !AlarmSetupTask.IsRunning)
-                {
-                    Intent service = new Intent(this, typeof(AlarmSetupTask));
-                    StartService(service);
-                }
+                Intent intent = new Intent();
+                intent.SetAction("com.Bible.Alarm.Restart");
+                SendBroadcast(intent);
             }
             catch (Exception e)
             {
                 Crashes.TrackError(e);
             }
         }
+
     }
 }

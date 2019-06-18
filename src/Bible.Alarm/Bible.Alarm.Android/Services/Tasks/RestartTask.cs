@@ -8,6 +8,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using JW.Alarm.Services.Droid.Helpers;
 using JW.Alarm.Services.Droid.Tasks;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -17,7 +18,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 {
     [BroadcastReceiver(Enabled = true, DirectBootAware = true)]
     [IntentFilter(new[] { Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted,
-        "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON"})]
+        "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON", "com.Bible.Alarm.Restart"})]
     public class RestartTask : BroadcastReceiver
     {
         public RestartTask()
@@ -41,6 +42,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 Analytics.TrackEvent($"Restart task called at {DateTime.Now}");
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                 schedulerTask.Handle().Wait();
+                BootstrapHelper.VerifyBackgroundTasks();
 
                 context.StopService(intent);
             }
