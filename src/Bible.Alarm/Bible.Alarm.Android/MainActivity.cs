@@ -1,21 +1,14 @@
 ﻿using System;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using System.Threading.Tasks;
 using JW.Alarm.Services.Droid.Helpers;
 using MediaManager;
 using Android.Content;
 using JW.Alarm.Common.Mvvm;
-using Bible.Alarm.ViewModels;
-using JW.Alarm.Services.Droid.Tasks;
-using Microsoft.AppCenter.Crashes;
-using Bible.Alarm.Droid.Services.Tasks;
+using Bible.Alarm.Services.Infrastructure;
+using NLog;
 
 namespace Bible.Alarm.Droid
 {
@@ -23,10 +16,16 @@ namespace Bible.Alarm.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        private bool initialized = false;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
+        public MainActivity() : base()
+        {
+            LogSetup.Initialize();
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
+            logger.Info("Android App started.");
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -46,7 +45,7 @@ namespace Bible.Alarm.Droid
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                logger.Fatal(e, "Android Application Crashed.");
                 throw;
             }
 
@@ -57,11 +56,10 @@ namespace Bible.Alarm.Droid
                     await BootstrapHelper.VerifyMediaLookUpService();
                     await BootstrapHelper.InitializeDatabase();
                     await Messenger<bool>.Publish(Messages.Initialized, true);
-                    initialized = true;
                 }
                 catch (Exception e)
                 {
-                    Crashes.TrackError(e);
+                    logger.Fatal(e, "Android Initialization Crashed.");
                 }
             });
         }
@@ -78,7 +76,7 @@ namespace Bible.Alarm.Droid
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                logger.Fatal(e, "Failed to start restart service.");
             }
         }
 

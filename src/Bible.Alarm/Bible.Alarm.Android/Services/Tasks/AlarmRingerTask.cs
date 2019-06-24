@@ -9,14 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.ViewModels;
 using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
 using MediaManager.Playback;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -24,14 +24,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
     [IntentFilter(new[] { "com.bible.alarm.RING" })]
     public class AlarmRingerService : Service
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private IPlaybackService playbackService;
 
         public AlarmRingerService() : base()
         {
-            if (!AppCenter.Configured)
-            {
-                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
-            }
+            LogSetup.Initialize();
 
             if (IocSetup.Container == null)
             {
@@ -62,7 +61,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            Analytics.TrackEvent($"Alarm rang at {DateTime.Now}");
+            logger.Info($"Alarm rang at {DateTime.Now}");
 
             try
             {
@@ -85,13 +84,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     }
                     catch (Exception e)
                     {
-                        Crashes.TrackError(e);
+                        logger.Error(e, "An error happened when ringing the alarm.");
                     }
                 });
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                logger.Error(e, "An error happened when creating the task to ring the alarm.");
             }
 
             return StartCommandResult.Sticky;

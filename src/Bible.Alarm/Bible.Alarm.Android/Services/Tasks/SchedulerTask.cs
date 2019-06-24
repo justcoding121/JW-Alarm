@@ -1,15 +1,18 @@
-﻿using JW.Alarm.Services.Contracts;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+﻿using Bible.Alarm.Services.Infrastructure;
+using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
     public class SchedulerTask
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
@@ -18,6 +21,8 @@ namespace JW.Alarm.Services.Droid.Tasks
         public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
               IAlarmService alarmService, INotificationService notificationService)
         {
+            LogSetup.Initialize();
+
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
@@ -46,7 +51,7 @@ namespace JW.Alarm.Services.Droid.Tasks
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                logger.Error(e, "Failed to process scheduler task.");
             }
         }
     }

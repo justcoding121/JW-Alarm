@@ -6,15 +6,15 @@ using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using Bible.Alarm.Services;
+using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.ViewModels;
 using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,15 +28,13 @@ namespace JW.Alarm.Services.Droid.Tasks
     [IntentFilter(new[] { "com.bible.alarm.SETUP" })]
     public class AlarmSetupTask : Service
     {
-        public static bool IsRunning = false;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
+        public static bool IsRunning = false;
+      
         public AlarmSetupTask() : base()
         {
-            if (!AppCenter.Configured)
-            {
-                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
-            }
-
+            LogSetup.Initialize();
             if (IocSetup.Container == null)
             {
                 Bible.Alarm.Droid.IocSetup.Initialize();
@@ -56,14 +54,10 @@ namespace JW.Alarm.Services.Droid.Tasks
 
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
-        {
-            Analytics.TrackEvent($"Alarm setup task called at {DateTime.Now}");
-
+        { 
             try
             {
                 var extra = intent.GetStringExtra("Action");
-
-                Analytics.TrackEvent($"Alarm setup task called at {DateTime.Now} with action {extra}");
 
                 switch (extra)
                 {
@@ -85,7 +79,7 @@ namespace JW.Alarm.Services.Droid.Tasks
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                logger.Error(e, "An error happened in alarm setup task.");
             }
 
             StopSelf();
@@ -130,8 +124,6 @@ namespace JW.Alarm.Services.Droid.Tasks
             {
                 alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
             }
-            Analytics.TrackEvent($"Notification scheduled at {DateTime.Now}");
-
         }
 
         public bool IsScheduled(long scheduleId)

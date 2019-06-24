@@ -8,11 +8,11 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Bible.Alarm.Services.Infrastructure;
 using JW.Alarm.Services.Droid.Helpers;
 using JW.Alarm.Services.Droid.Tasks;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -21,13 +21,12 @@ namespace Bible.Alarm.Droid.Services.Tasks
         "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON", "com.Bible.Alarm.Restart"})]
     public class RestartTask : BroadcastReceiver
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public RestartTask()
             : base()
         {
-            if (!AppCenter.Configured)
-            {
-                AppCenter.Start("0cd5c3e8-dcfa-48dd-9d4b-0433a8572fb9", typeof(Analytics), typeof(Crashes));
-            }
+            LogSetup.Initialize();
 
             if (IocSetup.Container == null)
             {
@@ -39,7 +38,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
         {
             try
             {
-                Analytics.TrackEvent($"Restart task called at {DateTime.Now}");
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                 schedulerTask.Handle().Wait();
                 BootstrapHelper.VerifyBackgroundTasks();
@@ -48,7 +46,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                logger.Error(e, "Failed to process restart task.");
             }
         }
     }
