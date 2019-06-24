@@ -26,10 +26,6 @@ namespace Bible.Alarm.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::PCLCrypto.Resource.String.ApplicationName = global::Bible.Alarm.Droid.Resource.String.ApplicationName;
-			global::PCLCrypto.Resource.String.Hello = global::Bible.Alarm.Droid.Resource.String.Hello;
-			global::PCLStorage.Resource.String.ApplicationName = global::Bible.Alarm.Droid.Resource.String.ApplicationName;
-			global::PCLStorage.Resource.String.Hello = global::Bible.Alarm.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_in = global::Bible.Alarm.Droid.Resource.Animation.abc_fade_in;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_out = global::Bible.Alarm.Droid.Resource.Animation.abc_fade_out;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_grow_fade_in_from_bottom = global::Bible.Alarm.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -7772,12 +7768,6 @@ namespace Bible.Alarm.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f0b004f
-			public const int ApplicationName = 2131427407;
-			
-			// aapt resource value: 0x7f0b004e
-			public const int Hello = 2131427406;
-			
 			// aapt resource value: 0x7f0b0018
 			public const int abc_action_bar_home_description = 2131427352;
 			
@@ -7907,110 +7897,110 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f0b0043
 			public const int character_counter_pattern = 2131427395;
 			
+			// aapt resource value: 0x7f0b004e
+			public const int exo_controls_fastforward_description = 2131427406;
+			
+			// aapt resource value: 0x7f0b004f
+			public const int exo_controls_fullscreen_description = 2131427407;
+			
 			// aapt resource value: 0x7f0b0050
-			public const int exo_controls_fastforward_description = 2131427408;
+			public const int exo_controls_next_description = 2131427408;
 			
 			// aapt resource value: 0x7f0b0051
-			public const int exo_controls_fullscreen_description = 2131427409;
+			public const int exo_controls_pause_description = 2131427409;
 			
 			// aapt resource value: 0x7f0b0052
-			public const int exo_controls_next_description = 2131427410;
+			public const int exo_controls_play_description = 2131427410;
 			
 			// aapt resource value: 0x7f0b0053
-			public const int exo_controls_pause_description = 2131427411;
+			public const int exo_controls_previous_description = 2131427411;
 			
 			// aapt resource value: 0x7f0b0054
-			public const int exo_controls_play_description = 2131427412;
+			public const int exo_controls_repeat_all_description = 2131427412;
 			
 			// aapt resource value: 0x7f0b0055
-			public const int exo_controls_previous_description = 2131427413;
+			public const int exo_controls_repeat_off_description = 2131427413;
 			
 			// aapt resource value: 0x7f0b0056
-			public const int exo_controls_repeat_all_description = 2131427414;
+			public const int exo_controls_repeat_one_description = 2131427414;
 			
 			// aapt resource value: 0x7f0b0057
-			public const int exo_controls_repeat_off_description = 2131427415;
+			public const int exo_controls_rewind_description = 2131427415;
 			
 			// aapt resource value: 0x7f0b0058
-			public const int exo_controls_repeat_one_description = 2131427416;
+			public const int exo_controls_shuffle_description = 2131427416;
 			
 			// aapt resource value: 0x7f0b0059
-			public const int exo_controls_rewind_description = 2131427417;
+			public const int exo_controls_stop_description = 2131427417;
 			
 			// aapt resource value: 0x7f0b005a
-			public const int exo_controls_shuffle_description = 2131427418;
+			public const int exo_download_completed = 2131427418;
 			
 			// aapt resource value: 0x7f0b005b
-			public const int exo_controls_stop_description = 2131427419;
+			public const int exo_download_description = 2131427419;
 			
 			// aapt resource value: 0x7f0b005c
-			public const int exo_download_completed = 2131427420;
+			public const int exo_download_downloading = 2131427420;
 			
 			// aapt resource value: 0x7f0b005d
-			public const int exo_download_description = 2131427421;
+			public const int exo_download_failed = 2131427421;
 			
 			// aapt resource value: 0x7f0b005e
-			public const int exo_download_downloading = 2131427422;
+			public const int exo_download_notification_channel_name = 2131427422;
 			
 			// aapt resource value: 0x7f0b005f
-			public const int exo_download_failed = 2131427423;
+			public const int exo_download_removing = 2131427423;
 			
 			// aapt resource value: 0x7f0b0060
-			public const int exo_download_notification_channel_name = 2131427424;
-			
-			// aapt resource value: 0x7f0b0061
-			public const int exo_download_removing = 2131427425;
-			
-			// aapt resource value: 0x7f0b0062
-			public const int exo_item_list = 2131427426;
-			
-			// aapt resource value: 0x7f0b0070
-			public const int exo_media_action_repeat_all_description = 2131427440;
-			
-			// aapt resource value: 0x7f0b0071
-			public const int exo_media_action_repeat_off_description = 2131427441;
-			
-			// aapt resource value: 0x7f0b0072
-			public const int exo_media_action_repeat_one_description = 2131427442;
-			
-			// aapt resource value: 0x7f0b0063
-			public const int exo_track_bitrate = 2131427427;
-			
-			// aapt resource value: 0x7f0b0064
-			public const int exo_track_mono = 2131427428;
-			
-			// aapt resource value: 0x7f0b0065
-			public const int exo_track_resolution = 2131427429;
-			
-			// aapt resource value: 0x7f0b0066
-			public const int exo_track_selection_auto = 2131427430;
-			
-			// aapt resource value: 0x7f0b0067
-			public const int exo_track_selection_none = 2131427431;
-			
-			// aapt resource value: 0x7f0b0068
-			public const int exo_track_selection_title_audio = 2131427432;
-			
-			// aapt resource value: 0x7f0b0069
-			public const int exo_track_selection_title_text = 2131427433;
-			
-			// aapt resource value: 0x7f0b006a
-			public const int exo_track_selection_title_video = 2131427434;
-			
-			// aapt resource value: 0x7f0b006b
-			public const int exo_track_stereo = 2131427435;
-			
-			// aapt resource value: 0x7f0b006c
-			public const int exo_track_surround = 2131427436;
-			
-			// aapt resource value: 0x7f0b006d
-			public const int exo_track_surround_5_point_1 = 2131427437;
+			public const int exo_item_list = 2131427424;
 			
 			// aapt resource value: 0x7f0b006e
-			public const int exo_track_surround_7_point_1 = 2131427438;
+			public const int exo_media_action_repeat_all_description = 2131427438;
 			
 			// aapt resource value: 0x7f0b006f
-			public const int exo_track_unknown = 2131427439;
+			public const int exo_media_action_repeat_off_description = 2131427439;
+			
+			// aapt resource value: 0x7f0b0070
+			public const int exo_media_action_repeat_one_description = 2131427440;
+			
+			// aapt resource value: 0x7f0b0061
+			public const int exo_track_bitrate = 2131427425;
+			
+			// aapt resource value: 0x7f0b0062
+			public const int exo_track_mono = 2131427426;
+			
+			// aapt resource value: 0x7f0b0063
+			public const int exo_track_resolution = 2131427427;
+			
+			// aapt resource value: 0x7f0b0064
+			public const int exo_track_selection_auto = 2131427428;
+			
+			// aapt resource value: 0x7f0b0065
+			public const int exo_track_selection_none = 2131427429;
+			
+			// aapt resource value: 0x7f0b0066
+			public const int exo_track_selection_title_audio = 2131427430;
+			
+			// aapt resource value: 0x7f0b0067
+			public const int exo_track_selection_title_text = 2131427431;
+			
+			// aapt resource value: 0x7f0b0068
+			public const int exo_track_selection_title_video = 2131427432;
+			
+			// aapt resource value: 0x7f0b0069
+			public const int exo_track_stereo = 2131427433;
+			
+			// aapt resource value: 0x7f0b006a
+			public const int exo_track_surround = 2131427434;
+			
+			// aapt resource value: 0x7f0b006b
+			public const int exo_track_surround_5_point_1 = 2131427435;
+			
+			// aapt resource value: 0x7f0b006c
+			public const int exo_track_surround_7_point_1 = 2131427436;
+			
+			// aapt resource value: 0x7f0b006d
+			public const int exo_track_unknown = 2131427437;
 			
 			// aapt resource value: 0x7f0b0044
 			public const int fab_transformation_scrim_behavior = 2131427396;
