@@ -24,9 +24,11 @@ namespace JW.Alarm.Services.Droid
 
         public void Play(string url)
         {
-            var manifestUri = Android.Net.Uri.Parse(url);
+            var uri = Android.Net.Uri.Parse(url);
+            this.player.Reset();
             this.player.SetOnCompletionListener(this);
-            this.player.SetDataSource(Application.Context, manifestUri);
+            this.player.SetDataSource(Application.Context, uri);
+            this.player.Prepare();
             this.player.Start();
         }
 
