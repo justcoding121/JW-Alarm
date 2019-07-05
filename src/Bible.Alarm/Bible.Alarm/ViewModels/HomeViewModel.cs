@@ -69,8 +69,8 @@ namespace JW.Alarm.ViewModels
                .Subscribe(x =>
                {
                    Schedules = x;
-                   IsBusy = false;
                    listenIsEnabledChanges();
+                   IsBusy = false;
                });
             disposables.Add(subscription);
 

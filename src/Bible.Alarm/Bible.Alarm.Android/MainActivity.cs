@@ -25,8 +25,7 @@ namespace Bible.Alarm.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            Task.Run(()=>
-            logger.Info("Android App started."));
+            logger.Info("Android App started in morning.");
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;

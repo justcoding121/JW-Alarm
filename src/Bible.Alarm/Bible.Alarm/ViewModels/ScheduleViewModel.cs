@@ -73,6 +73,8 @@ namespace JW.Alarm.ViewModels
                            PublicationCode = "nwt"
                        }
                    });
+
+                   IsBusy = false;
                });
             disposables.Add(subscription);
 
@@ -102,12 +104,16 @@ namespace JW.Alarm.ViewModels
 
             CancelCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             SaveCommand = new Command(async () =>
             {
+                IsBusy = true;
+
                 if (!IsNewSchedule)
                 {
                     this.playbackService.Dismiss();
@@ -118,15 +124,21 @@ namespace JW.Alarm.ViewModels
                     await navigationService.GoBack();
                     ReduxContainer.Store.Dispatch(new BackAction(this));
                 }
+
+                IsBusy = false;
             });
 
             DeleteCommand = new Command(async () =>
             {
+                IsBusy = true;
+
                 this.playbackService.Dismiss();
                 await deleteAsync();
                 await navigationService.GoBack();
 
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+
+                IsBusy = false;
             });
 
             ToggleDayCommand = new Command<DaysOfWeek>(x =>
@@ -136,6 +148,8 @@ namespace JW.Alarm.ViewModels
 
             SelectMusicCommand = new Command(async () =>
             {
+                IsBusy = true;
+
                 var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
 
@@ -149,10 +163,14 @@ namespace JW.Alarm.ViewModels
                 {
                     CurrentMusic = Music
                 });
+
+                IsBusy = false;
             });
 
             SelectBibleCommand = new Command(async () =>
             {
+                IsBusy = true;
+
                 var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
 
@@ -171,6 +189,8 @@ namespace JW.Alarm.ViewModels
                         LanguageCode = BibleReadingSchedule.LanguageCode
                     }
                 });
+
+                IsBusy = false;
             });
         }
 
@@ -299,78 +319,70 @@ namespace JW.Alarm.ViewModels
 
         private async Task<bool> saveAsync()
         {
-            try
+            if (!await validate())
             {
-                IsBusy = true;
-
-                if (!await validate())
-                {
-                    return false;
-                }
-
-                var model = getModel();
-
-                if (IsNewSchedule)
-                {
-                    await scheduleDbContext.AddAsync(model);
-                    await scheduleDbContext.SaveChangesAsync();
-                    await alarmService.Create(model);
-
-                    ReduxContainer.Store.Dispatch(new AddScheduleAction() { ScheduleListItem = new ScheduleListItem(model) });
-                }
-                else
-                {
-                    var existing = await scheduleDbContext.AlarmSchedules
-                        .Include(x => x.Music)
-                        .Include(x => x.BibleReadingSchedule)
-                        .FirstAsync(x => x.Id == model.Id);
-
-                    existing.Hour = model.Hour;
-                    existing.Minute = model.Minute;
-                    existing.DaysOfWeek = model.DaysOfWeek;
-                    existing.IsEnabled = model.IsEnabled;
-
-                    if (model.Music != null && musicUpdated)
-                    {
-                        existing.Music.Fixed = model.Music.Fixed;
-                        existing.Music.LanguageCode = model.Music.LanguageCode;
-                        existing.Music.MusicType = model.Music.MusicType;
-                        existing.Music.PublicationCode = model.Music.PublicationCode;
-                        existing.Music.TrackNumber = model.Music.TrackNumber;
-                    }
-
-                    if (model.BibleReadingSchedule != null && bibleReadingUpdated)
-                    {
-                        existing.BibleReadingSchedule.BookNumber = model.BibleReadingSchedule.BookNumber;
-                        existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
-                        existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
-                        existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
-                    }
-
-                    existing.MusicEnabled = model.MusicEnabled;
-                    existing.Name = model.Name;
-                    existing.Second = model.Second;
-                    existing.SnoozeMinutes = model.SnoozeMinutes;
-
-                    await scheduleDbContext.SaveChangesAsync();
-
-                    alarmService.Update(model);
-
-                    scheduleListItem.RaisePropertiesChangedEvent();
-                    ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
-                }
-
-                if (IsEnabled)
-                {
-                    await popUpService.ShowScheduledNotification(model);
-                }
-
-                return true;
+                return false;
             }
-            finally
+
+            var model = getModel();
+
+            if (IsNewSchedule)
             {
-                IsBusy = false;
+                await scheduleDbContext.AddAsync(model);
+                await scheduleDbContext.SaveChangesAsync();
+                await alarmService.Create(model);
+
+                ReduxContainer.Store.Dispatch(new AddScheduleAction() { ScheduleListItem = new ScheduleListItem(model) });
             }
+            else
+            {
+                var existing = await scheduleDbContext.AlarmSchedules
+                    .Include(x => x.Music)
+                    .Include(x => x.BibleReadingSchedule)
+                    .FirstAsync(x => x.Id == model.Id);
+
+                existing.Hour = model.Hour;
+                existing.Minute = model.Minute;
+                existing.DaysOfWeek = model.DaysOfWeek;
+                existing.IsEnabled = model.IsEnabled;
+
+                if (model.Music != null && musicUpdated)
+                {
+                    existing.Music.Fixed = model.Music.Fixed;
+                    existing.Music.LanguageCode = model.Music.LanguageCode;
+                    existing.Music.MusicType = model.Music.MusicType;
+                    existing.Music.PublicationCode = model.Music.PublicationCode;
+                    existing.Music.TrackNumber = model.Music.TrackNumber;
+                }
+
+                if (model.BibleReadingSchedule != null && bibleReadingUpdated)
+                {
+                    existing.BibleReadingSchedule.BookNumber = model.BibleReadingSchedule.BookNumber;
+                    existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
+                    existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
+                    existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
+                }
+
+                existing.MusicEnabled = model.MusicEnabled;
+                existing.Name = model.Name;
+                existing.Second = model.Second;
+                existing.SnoozeMinutes = model.SnoozeMinutes;
+
+                await scheduleDbContext.SaveChangesAsync();
+
+                alarmService.Update(model);
+
+                scheduleListItem.RaisePropertiesChangedEvent();
+                ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
+            }
+
+            if (IsEnabled)
+            {
+                await popUpService.ShowScheduledNotification(model);
+            }
+
+            return true;
+
         }
 
         private async Task<bool> validate()

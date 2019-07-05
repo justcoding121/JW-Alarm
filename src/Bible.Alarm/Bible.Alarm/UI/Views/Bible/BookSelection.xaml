@@ -12,78 +12,93 @@
         <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowSpacing="0">
+        <Grid BackgroundColor="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" HeightRequest="35"
+            <ActivityIndicator Color="SlateBlue" 
+                      Grid.Row="0"
+                      HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                      IsVisible="{Binding IsBusy}"    
+                      IsEnabled="True"
+                      IsRunning="{Binding IsBusy}" >
+                <ActivityIndicator.Scale>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="4.0" Android="3.0" />
+                </ActivityIndicator.Scale>
+            </ActivityIndicator>
+            <Grid Grid.Row="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" HeightRequest="35"
                   MinimumHeightRequest="35" HorizontalOptions="Fill" 
                   BackgroundColor="WhiteSmoke"
                   x:Name="BackButton"
                   Margin="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="8*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
-                </Grid.GestureRecognizers>
-                <StackLayout Grid.Column="0" 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="8*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
+                    </Grid.GestureRecognizers>
+                    <StackLayout Grid.Column="0" 
                                    VerticalOptions="Center"
                                    HorizontalOptions="Start">
-                    <Label Margin="5,0,0,0" TextColor="Gray"    
+                        <Label Margin="5,0,0,0" TextColor="Gray"    
                                 FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                 Text="{x:Static fn:GlyphNames.Left}"
                                 FontSize="Medium"/>
-                </StackLayout>
-                <Label Grid.Column="1" VerticalOptions="Center" 
+                    </StackLayout>
+                    <Label Grid.Column="1" VerticalOptions="Center" 
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
                                    TextColor="Black">
-                </Label>
-            </Grid>
-            <ListView Grid.Row="1"
+                    </Label>
+                </Grid>
+                <ListView Grid.Row="1"
                   HorizontalOptions="Fill"
                   CachingStrategy="RecycleElement"
                   ItemsSource="{Binding Books}" 
                   SelectionMode="None">
-                <ListView.Behaviors>
-                    <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ChapterSelectionCommand}"
+                    <ListView.Behaviors>
+                        <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ChapterSelectionCommand}"
                                                        EventArgsConverter="{StaticResource itemTappedConverter}" />
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid HeightRequest="45" HorizontalOptions="Fill"
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid HeightRequest="45" HorizontalOptions="Fill"
                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="8*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" VerticalOptions="Center" 
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" VerticalOptions="Center" 
                                    HorizontalOptions="Fill"
                                    HorizontalTextAlignment="Start"
                                    VerticalTextAlignment="Center"
                                    TextColor="Black"
                                    Margin="5,0,0,0"
                                    Text="{Binding Name}">
-                                </Label>
-                                <StackLayout Grid.Column="1" 
+                                    </Label>
+                                    <StackLayout Grid.Column="1" 
                                    VerticalOptions="Center"
                                    HorizontalOptions="End"
                                    Margin="5,0,5,0">
-                                    <Label TextColor="Gray"    
+                                        <Label TextColor="Gray"    
                                         VerticalTextAlignment="Center"
                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                         Text="{x:Static fn:GlyphNames.Right}"
                                         FontSize="Medium"/>
-                                </StackLayout>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

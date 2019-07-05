@@ -44,13 +44,16 @@ namespace JW.Alarm.ViewModels
 
             BackCommand = new Command(async () =>
             {
+                IsBusy = true;
                 playService.Stop();
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             SetTrackCommand = new Command<MusicTrackListViewItemModel>(x =>
             {
+                IsBusy = true;
                 if (SelectedTrack != null)
                 {
                     SelectedTrack.IsSelected = false;
@@ -71,7 +74,7 @@ namespace JW.Alarm.ViewModels
                         TrackNumber = tentative.TrackNumber
                     }
                 });
-
+                IsBusy = false;
             });
 
             //set schedules from initial state.
@@ -83,9 +86,11 @@ namespace JW.Alarm.ViewModels
                    .Take(1)
                    .Subscribe(async x =>
                    {
+                       IsBusy = true;
                        current = x.CurrentMusic;
                        tentative = x.TentativeMusic;
                        await initialize(tentative.LanguageCode, tentative.PublicationCode);
+                       IsBusy = false;
                    });
 
             disposables.Add(subscription1);
@@ -175,8 +180,6 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateTracks(string languageCode, string publicationCode)
         {
-            IsBusy = true;
-
             var tracks = languageCode != null ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
                : await mediaService.GetMelodyMusicTracks((await this.mediaService.GetMelodyMusicReleases()).First().Value.Code);
 
@@ -201,8 +204,6 @@ namespace JW.Alarm.ViewModels
             }
 
             Tracks = trackVMs;
-
-            IsBusy = false;
         }
 
         public void Dispose()

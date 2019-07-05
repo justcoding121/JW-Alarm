@@ -47,6 +47,7 @@ namespace JW.Alarm.ViewModels
                 {
                     current = x;
                     setSelectedMusicType();
+                    IsBusy = false;
                 });
 
             disposables.Add(subscription1);
@@ -54,6 +55,8 @@ namespace JW.Alarm.ViewModels
 
             SongBookSelectionCommand = new Command<MusicTypeListItemViewModel>(async x =>
             {
+                IsBusy = true;
+
                 if (x.MusicType == MusicType.Vocals)
                 {
                     ReduxContainer.Store.Dispatch(new SongBookSelectionAction()
@@ -82,12 +85,16 @@ namespace JW.Alarm.ViewModels
                     await navigationService.Navigate(viewModel);
                 }
 
+                IsBusy = false;
+
             });
 
             BackCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             navigationService.NavigatedBack += onNavigated;
@@ -112,6 +119,12 @@ namespace JW.Alarm.ViewModels
             SelectedMusicType.IsSelected = true;
         }
 
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
+        }
         public ICommand BackCommand { get; set; }
         public ICommand SongBookSelectionCommand { get; set; }
 

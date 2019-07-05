@@ -59,6 +59,8 @@ namespace JW.Alarm.ViewModels
                      tentative = x.TentativeBibleReadingSchedule;
 
                      await initialize(tentative.LanguageCode);
+
+                     IsBusy = false;
                  });
 
             disposables.Add(subscription1);
@@ -78,6 +80,7 @@ namespace JW.Alarm.ViewModels
 
             BookSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
+                IsBusy = true;
                 ReduxContainer.Store.Dispatch(new BookSelectionAction()
                 {
                     TentativeBibleReadingSchedule = new BibleReadingSchedule()
@@ -88,26 +91,35 @@ namespace JW.Alarm.ViewModels
                 });
                 var viewModel = IocSetup.Container.Resolve<BookSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
+
+                IsBusy = false;
             });
 
             OpenModalCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.ShowModal("LanguageModal", this);
+                IsBusy = false;
             });
 
             BackCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             CloseModalCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.CloseModal();
+                IsBusy = false;
             });
 
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
+                IsBusy = true;
                 if (CurrentLanguage != null)
                 {
                     CurrentLanguage.IsSelected = false;
@@ -118,6 +130,8 @@ namespace JW.Alarm.ViewModels
 
                 await navigationService.CloseModal();
                 await populateTranslations(x.Code);
+
+                IsBusy = false;
             });
 
             navigationService.NavigatedBack += onNavigated;
@@ -209,8 +223,6 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateLanguages(string searchTerm = null)
         {
-            IsBusy = true;
-
             var languages = await mediaService.GetBibleLanguages();
             var languageVMs = new ObservableCollection<LanguageListViewItemModel>();
 
@@ -230,7 +242,6 @@ namespace JW.Alarm.ViewModels
 
             Languages = languageVMs;
 
-            IsBusy = false;
         }
 
         private Dictionary<string, PublicationListViewItemModel> translationVMsMapping
@@ -238,8 +249,6 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateTranslations(string languageCode)
         {
-            IsBusy = true;
-
             translationVMsMapping.Clear();
 
             var translations = await mediaService.GetBibleTranslations(languageCode);
@@ -261,8 +270,6 @@ namespace JW.Alarm.ViewModels
             }
 
             Translations = translationVMs;
-
-            IsBusy = false;
         }
 
         public void Dispose()

@@ -52,6 +52,8 @@ namespace JW.Alarm.ViewModels
                      tentative = x.TentativeMusic;
 
                      await initialize();
+
+                     IsBusy = false;
                  });
 
             disposables.Add(subscription1);
@@ -71,6 +73,8 @@ namespace JW.Alarm.ViewModels
 
             TrackSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
+                IsBusy = true;
+
                 ReduxContainer.Store.Dispatch(new TrackSelectionAction()
                 {
                     TentativeMusic = new AlarmMusic()
@@ -84,17 +88,23 @@ namespace JW.Alarm.ViewModels
 
                 var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
+
+                IsBusy = false;
             });
 
             OpenModalCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.ShowModal("LanguageModal", this);
+                IsBusy = false;
             });
 
             BackCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             CloseModalCommand = new Command(async () =>
@@ -104,9 +114,11 @@ namespace JW.Alarm.ViewModels
 
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
+                IsBusy = true;
                 CurrentLanguage = x;
                 await navigationService.CloseModal();
                 await populateSongBooks(x.Code);
+                IsBusy = false;
             });
 
             navigationService.NavigatedBack += onNavigated;
@@ -139,6 +151,7 @@ namespace JW.Alarm.ViewModels
             }
 
         }
+
 
         public ICommand BackCommand { get; set; }
         public ICommand TrackSelectionCommand { get; set; }
@@ -220,8 +233,6 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateLanguages(string searchTerm = null)
         {
-            IsBusy = true;
-
             var languages = await mediaService.GetVocalMusicLanguages();
             var languageVMs = new ObservableCollection<LanguageListViewItemModel>();
 
@@ -240,16 +251,13 @@ namespace JW.Alarm.ViewModels
             }
 
             Languages = languageVMs;
-
-            IsBusy = false;
         }
 
-        private Dictionary<string, PublicationListViewItemModel> songBookVMsMapping = new Dictionary<string, PublicationListViewItemModel>();
+        private Dictionary<string, PublicationListViewItemModel> songBookVMsMapping
+            = new Dictionary<string, PublicationListViewItemModel>();
 
         private async Task populateSongBooks(string languageCode)
         {
-            IsBusy = true;
-
             SelectedSongBook = null;
 
             songBookVMsMapping.Clear();
@@ -274,8 +282,6 @@ namespace JW.Alarm.ViewModels
             }
 
             SongBooks = songBookVMs;
-
-            IsBusy = false;
         }
 
         public void Dispose()

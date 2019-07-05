@@ -41,12 +41,15 @@ namespace JW.Alarm.ViewModels
 
             BackCommand = new Command(async () =>
             {
+                IsBusy = true;
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             ChapterSelectionCommand = new Command<BibleBookListViewItemModel>(async x =>
             {
+                IsBusy = true;
                 ReduxContainer.Store.Dispatch(new ChapterSelectionAction()
                 {
                     TentativeBibleReadingSchedule = new BibleReadingSchedule()
@@ -59,7 +62,7 @@ namespace JW.Alarm.ViewModels
 
                 var viewModel = IocSetup.Container.Resolve<ChapterSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
-
+                IsBusy = false;
             });
 
             //set schedules from initial state.
@@ -71,9 +74,11 @@ namespace JW.Alarm.ViewModels
                    .Take(1)
                    .Subscribe(async x =>
                    {
+                       IsBusy = true;
                        current = x.CurrentBibleReadingSchedule;
                        tentative = x.TentativeBibleReadingSchedule;
                        await initialize(tentative.LanguageCode, tentative.PublicationCode);
+                       IsBusy = false;
                    });
 
             //set schedules from initial state.
@@ -141,8 +146,6 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateBooks(string languageCode, string publicationCode)
         {
-            IsBusy = true;
-
             bookVMsMapping.Clear();
 
             var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
@@ -165,8 +168,6 @@ namespace JW.Alarm.ViewModels
             }
 
             Books = bookVMs;
-
-            IsBusy = false;
         }
 
         public void Dispose()

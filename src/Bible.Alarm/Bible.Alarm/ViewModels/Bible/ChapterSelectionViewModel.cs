@@ -42,13 +42,17 @@ namespace JW.Alarm.ViewModels
 
             BackCommand = new Command(async () =>
             {
+                IsBusy = true;
                 playService.Stop();
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+                IsBusy = false;
             });
 
             SetChapterCommand = new Command<BibleChapterListViewItemModel>(x =>
             {
+                IsBusy = true;
+
                 if (SelectedChapter != null)
                 {
                     SelectedChapter.IsSelected = false;
@@ -69,7 +73,7 @@ namespace JW.Alarm.ViewModels
                         ChapterNumber = x.Number
                     }
                 });
-
+                IsBusy = false;
             });
 
             //set schedules from initial state.
@@ -84,6 +88,7 @@ namespace JW.Alarm.ViewModels
                        current = x.CurrentBibleReadingSchedule;
                        tentative = x.TentativeBibleReadingSchedule;
                        await initialize(tentative.LanguageCode, tentative.PublicationCode, tentative.BookNumber);
+                       IsBusy = false;
                    });
 
 
@@ -185,8 +190,6 @@ namespace JW.Alarm.ViewModels
 
         private async Task populateChapters(string languageCode, string publicationCode, int bookNumber)
         {
-            IsBusy = true;
-
             var chapters = await mediaService.GetBibleChapters(languageCode, publicationCode, bookNumber);
             var chapterVMs = new ObservableCollection<BibleChapterListViewItemModel>();
 
@@ -207,8 +210,6 @@ namespace JW.Alarm.ViewModels
             }
 
             Chapters = chapterVMs;
-
-            IsBusy = false;
         }
 
         public void Dispose()
