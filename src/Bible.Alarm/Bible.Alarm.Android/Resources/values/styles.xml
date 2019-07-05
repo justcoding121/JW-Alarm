@@ -31,4 +31,10 @@
   <style name="MyTheme.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
     <item name="colorAccent">#483D8B</item>
   </style>
+
+  <style name="MyTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash_screen</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+  </style>
 </resources>
