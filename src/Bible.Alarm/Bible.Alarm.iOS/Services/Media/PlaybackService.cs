@@ -2,6 +2,7 @@
 using AVFoundation;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
+using MediaManager.Playback;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace JW.Alarm.Services.iOS
             this.cacheService = cacheService;
             this.alarmService = alarmService;
         }
+
+        public event EventHandler<MediaPlayerState> StateChanged;
 
         public void Dismiss()
         {
