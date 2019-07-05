@@ -5704,26 +5704,26 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f020054
 			public const int avd_hide_password = 2130837588;
 			
-			// aapt resource value: 0x7f020157
-			public const int avd_hide_password_1 = 2130837847;
-			
 			// aapt resource value: 0x7f020158
-			public const int avd_hide_password_2 = 2130837848;
+			public const int avd_hide_password_1 = 2130837848;
 			
 			// aapt resource value: 0x7f020159
-			public const int avd_hide_password_3 = 2130837849;
+			public const int avd_hide_password_2 = 2130837849;
+			
+			// aapt resource value: 0x7f02015a
+			public const int avd_hide_password_3 = 2130837850;
 			
 			// aapt resource value: 0x7f020055
 			public const int avd_show_password = 2130837589;
 			
-			// aapt resource value: 0x7f02015a
-			public const int avd_show_password_1 = 2130837850;
-			
 			// aapt resource value: 0x7f02015b
-			public const int avd_show_password_2 = 2130837851;
+			public const int avd_show_password_1 = 2130837851;
 			
 			// aapt resource value: 0x7f02015c
-			public const int avd_show_password_3 = 2130837852;
+			public const int avd_show_password_2 = 2130837852;
+			
+			// aapt resource value: 0x7f02015d
+			public const int avd_show_password_3 = 2130837853;
 			
 			// aapt resource value: 0x7f020056
 			public const int design_bottom_navigation_item_background = 2130837590;
@@ -5743,8 +5743,8 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f02005b
 			public const int design_snackbar_background = 2130837595;
 			
-			// aapt resource value: 0x7f02014a
-			public const int exo_controls_fastforward = 2130837834;
+			// aapt resource value: 0x7f02014b
+			public const int exo_controls_fastforward = 2130837835;
 			
 			// aapt resource value: 0x7f02005c
 			public const int exo_controls_fullscreen_enter = 2130837596;
@@ -5752,17 +5752,17 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f02005d
 			public const int exo_controls_fullscreen_exit = 2130837597;
 			
-			// aapt resource value: 0x7f02014b
-			public const int exo_controls_next = 2130837835;
-			
 			// aapt resource value: 0x7f02014c
-			public const int exo_controls_pause = 2130837836;
+			public const int exo_controls_next = 2130837836;
 			
 			// aapt resource value: 0x7f02014d
-			public const int exo_controls_play = 2130837837;
+			public const int exo_controls_pause = 2130837837;
 			
 			// aapt resource value: 0x7f02014e
-			public const int exo_controls_previous = 2130837838;
+			public const int exo_controls_play = 2130837838;
+			
+			// aapt resource value: 0x7f02014f
+			public const int exo_controls_previous = 2130837839;
 			
 			// aapt resource value: 0x7f02005e
 			public const int exo_controls_repeat_all = 2130837598;
@@ -5773,8 +5773,8 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f020060
 			public const int exo_controls_repeat_one = 2130837600;
 			
-			// aapt resource value: 0x7f02014f
-			public const int exo_controls_rewind = 2130837839;
+			// aapt resource value: 0x7f020150
+			public const int exo_controls_rewind = 2130837840;
 			
 			// aapt resource value: 0x7f020061
 			public const int exo_controls_shuffle = 2130837601;
@@ -5812,29 +5812,29 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f02006c
 			public const int exo_media_action_repeat_one = 2130837612;
 			
-			// aapt resource value: 0x7f020150
-			public const int exo_notification_fastforward = 2130837840;
-			
 			// aapt resource value: 0x7f020151
-			public const int exo_notification_next = 2130837841;
+			public const int exo_notification_fastforward = 2130837841;
 			
 			// aapt resource value: 0x7f020152
-			public const int exo_notification_pause = 2130837842;
+			public const int exo_notification_next = 2130837842;
 			
 			// aapt resource value: 0x7f020153
-			public const int exo_notification_play = 2130837843;
+			public const int exo_notification_pause = 2130837843;
 			
 			// aapt resource value: 0x7f020154
-			public const int exo_notification_previous = 2130837844;
+			public const int exo_notification_play = 2130837844;
 			
 			// aapt resource value: 0x7f020155
-			public const int exo_notification_rewind = 2130837845;
+			public const int exo_notification_previous = 2130837845;
+			
+			// aapt resource value: 0x7f020156
+			public const int exo_notification_rewind = 2130837846;
 			
 			// aapt resource value: 0x7f02006d
 			public const int exo_notification_small_icon = 2130837613;
 			
-			// aapt resource value: 0x7f020156
-			public const int exo_notification_stop = 2130837846;
+			// aapt resource value: 0x7f020157
+			public const int exo_notification_stop = 2130837847;
 			
 			// aapt resource value: 0x7f02006e
 			public const int ic_audiotrack_dark = 2130837614;
@@ -6475,11 +6475,11 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f020142
 			public const int notification_icon_background = 2130837826;
 			
-			// aapt resource value: 0x7f020148
-			public const int notification_template_icon_bg = 2130837832;
-			
 			// aapt resource value: 0x7f020149
-			public const int notification_template_icon_low_bg = 2130837833;
+			public const int notification_template_icon_bg = 2130837833;
+			
+			// aapt resource value: 0x7f02014a
+			public const int notification_template_icon_low_bg = 2130837834;
 			
 			// aapt resource value: 0x7f020143
 			public const int notification_tile_bg = 2130837827;
@@ -6488,13 +6488,16 @@ namespace Bible.Alarm.Droid
 			public const int notify_panel_notification_icon_bg = 2130837828;
 			
 			// aapt resource value: 0x7f020145
-			public const int splash_screen = 2130837829;
+			public const int splash_logo = 2130837829;
 			
 			// aapt resource value: 0x7f020146
-			public const int tooltip_frame_dark = 2130837830;
+			public const int splash_screen = 2130837830;
 			
 			// aapt resource value: 0x7f020147
-			public const int tooltip_frame_light = 2130837831;
+			public const int tooltip_frame_dark = 2130837831;
+			
+			// aapt resource value: 0x7f020148
+			public const int tooltip_frame_light = 2130837832;
 			
 			static Drawable()
 			{
