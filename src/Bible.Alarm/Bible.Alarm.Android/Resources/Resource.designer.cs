@@ -8747,6 +8747,9 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7f0d0208
 			public const int MainTheme_Base = 2131558920;
 			
+			// aapt resource value: 0x7f0d020a
+			public const int MyTheme_Switch = 2131558922;
+			
 			// aapt resource value: 0x7f0d007e
 			public const int Platform_AppCompat = 2131558526;
 			

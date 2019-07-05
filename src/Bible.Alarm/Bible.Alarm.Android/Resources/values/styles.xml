@@ -28,4 +28,7 @@
     <item name="colorAccent">#483D8B</item>
   </style>
 
+  <style name="MyTheme.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+    <item name="colorAccent">#483D8B</item>
+  </style>
 </resources>
