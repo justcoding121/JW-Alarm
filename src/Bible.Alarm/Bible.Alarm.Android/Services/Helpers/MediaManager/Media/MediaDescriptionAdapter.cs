@@ -33,6 +33,11 @@ namespace MediaManager.Platforms.Android.Media
             return MediaManager.MediaQueue.ElementAtOrDefault(player.CurrentWindowIndex)?.GetTitle();
         }
 
+        public string GetCurrentSubText(IPlayer player)
+        {
+            return MediaManager.MediaQueue.ElementAtOrDefault(player.CurrentWindowIndex)?.GetContentTitle();
+        }
+
         public string GetCurrentContentTitle(IPlayer player)
         {
             return MediaManager.MediaQueue.ElementAtOrDefault(player.CurrentWindowIndex)?.GetContentTitle();
