@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
+using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Services.iOS.Helpers;
 using UIKit;
 
@@ -29,6 +30,7 @@ namespace Bible.Alarm.iOS
                 //BootstrapHelper.VerifyBackgroundTasks();
                 BootstrapHelper.InitializeDatabase();
                 await BootstrapHelper.VerifyMediaLookUpService();
+                await Messenger<bool>.Publish(JW.Alarm.Common.Mvvm.Messages.Initialized, true);
             });
 
 
