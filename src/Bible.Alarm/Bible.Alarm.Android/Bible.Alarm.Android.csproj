@@ -100,7 +100,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Helpers\BootstrapHelper.cs" />
     <Compile Include="Services\IocSetup.cs" />
-    <Compile Include="Services\Media\MusicService.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
     <Compile Include="Services\Tasks\AlarmRingerTask.cs" />

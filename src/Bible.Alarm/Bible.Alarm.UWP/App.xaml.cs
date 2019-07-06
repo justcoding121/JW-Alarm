@@ -1,4 +1,5 @@
-﻿using JW.Alarm.Services.Uwp.Helpers;
+﻿using JW.Alarm.Common.Mvvm;
+using JW.Alarm.Services.Uwp.Helpers;
 using JW.Alarm.Services.Uwp.Tasks;
 using MediaManager;
 using System;
@@ -57,6 +58,7 @@ namespace Bible.Alarm.UWP
                         await BootstrapHelper.InitializeDatabase();
                         await BootstrapHelper.VerifyMediaLookUpService();
                         await BootstrapHelper.VerifyBackgroundTasks();
+                        await Messenger<bool>.Publish(Messages.Initialized, true);
                     });
 
             }
