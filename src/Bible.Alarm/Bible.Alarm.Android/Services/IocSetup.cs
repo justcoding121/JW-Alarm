@@ -53,11 +53,7 @@
             container.Register((x) => new MediaDbContext(mediaDbConfig));
             container.Register<IMediaManager>((x) =>
             {
-                var mediaManager = new MediaManagerImplementation();
-                CrossMediaManager.Current = mediaManager;
-                CrossMediaManager.Current.Init();
-               
-                return mediaManager;
+                return CrossMediaManager.Current;
 
             }, true);
 

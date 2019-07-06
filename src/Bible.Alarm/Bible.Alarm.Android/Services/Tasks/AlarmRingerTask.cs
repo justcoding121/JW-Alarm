@@ -35,7 +35,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             if (IocSetup.Container == null)
             {
                 IocSetup.Initialize();
-                IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+                IocSetup.Container.Resolve<IMediaManager>().Init(this);
             }
 
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
@@ -65,7 +65,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
             try
             {
-                IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+                IocSetup.Container.Resolve<IMediaManager>().Init(this);
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
 

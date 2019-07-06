@@ -3,6 +3,7 @@
     using JW.Alarm.Services.Contracts;
     using JW.Alarm.Services.Uwp.Tasks;
     using JW.Alarm.Services.UWP;
+    using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
@@ -45,6 +46,12 @@
                                                             container.Resolve<IAlarmService>(),
                                                             container.Resolve<ScheduleDbContext>()), true);
 
+
+            container.Register<IMediaManager>((x) =>
+            {
+                return CrossMediaManager.Current;
+
+            }, true);
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 

@@ -3,6 +3,7 @@ using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using JW.Alarm.ViewModels.Redux;
+using MediaManager.Playback;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace JW.Alarm.Services.UWP
         private ScheduleDbContext scheduleDbContext;
 
         private NotificationDetail currentTrackDetail;
+
+        public event EventHandler<MediaManager.Playback.MediaPlayerState> StateChanged;
 
         public PlaybackService(MediaPlayer player, IPlaylistService playlistService,
             IMediaCacheService cacheService, IAlarmService alarmService, ScheduleDbContext scheduleDbContext)

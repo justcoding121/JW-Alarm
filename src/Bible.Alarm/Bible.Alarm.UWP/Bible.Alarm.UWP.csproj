@@ -160,6 +160,9 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>5.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.MediaManager">
+      <Version>0.7.1</Version>
+    </PackageReference>
     <PackageReference Include="System.Reactive.Linq">
       <Version>4.1.5</Version>
     </PackageReference>

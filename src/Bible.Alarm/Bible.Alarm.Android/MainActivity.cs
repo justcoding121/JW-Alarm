@@ -37,7 +37,7 @@ namespace Bible.Alarm.Droid
                 if (IocSetup.Container == null)
                 {
                     IocSetup.Initialize();
-                    IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+                    IocSetup.Container.Resolve<IMediaManager>().Init(this);
                 }
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

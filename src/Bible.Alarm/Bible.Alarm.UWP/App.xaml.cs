@@ -1,8 +1,6 @@
 ﻿using JW.Alarm.Services.Uwp.Helpers;
 using JW.Alarm.Services.Uwp.Tasks;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+using MediaManager;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -29,7 +27,6 @@ namespace Bible.Alarm.UWP
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            AppCenter.Start("7288b4a9-2efe-4a34-b05f-9bb718b62c80", typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -51,6 +48,8 @@ namespace Bible.Alarm.UWP
                 if (IocSetup.Container == null)
                 {
                     IocSetup.Initialize();
+                    IocSetup.Container.Resolve<IMediaManager>().Init();
+                
                 }
 
                 Task.Run(async () =>

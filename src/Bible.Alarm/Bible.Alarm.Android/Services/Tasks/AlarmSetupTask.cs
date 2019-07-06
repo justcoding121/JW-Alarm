@@ -38,7 +38,7 @@ namespace JW.Alarm.Services.Droid.Tasks
             if (IocSetup.Container == null)
             {
                 Bible.Alarm.Droid.IocSetup.Initialize();
-                IocSetup.Container.Resolve<IMediaManager>().SetContext(this);
+                IocSetup.Container.Resolve<IMediaManager>().Init(this);
             }
         }
 
