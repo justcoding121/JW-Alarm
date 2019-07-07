@@ -34,11 +34,11 @@ namespace JW.Alarm.Services.iOS.Helpers
             throw new NotImplementedException();
         }
 
-        public static void InitializeDatabase()
+        public async static Task InitializeDatabase()
         {
             using (var db = IocSetup.Container.Resolve<ScheduleDbContext>())
             {
-                db.Database.Migrate();
+                await db.Database.MigrateAsync();
             }
         }
     }

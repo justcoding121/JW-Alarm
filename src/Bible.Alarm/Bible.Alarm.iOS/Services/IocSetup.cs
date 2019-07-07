@@ -4,6 +4,7 @@
     using Foundation;
     using JW.Alarm.Services.Contracts;
     using JW.Alarm.Services.iOS;
+    using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
@@ -20,15 +21,6 @@
 
             container.Register<INotificationService>((x) =>
             new iOSNotificationService(container.Resolve<IMediaCacheService>()));
-
-            //container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
-
-            //container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
-
-
-            //container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-            //                        container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-            //                        container.Resolve<INotificationService>()));
 
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<AVPlayer>()));
@@ -51,19 +43,39 @@
           
             SQLitePCL.Batteries_V2.Init();
 
-            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            container.Register<IMediaManager>((x) =>
+            {
+                return CrossMediaManager.Current;
+
+            }, true);
+
+            string bibleAlarmDatabasePath = getDatabasePath(dbName: "bibleAlarm.db");
 
             var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+                .UseSqlite($"Filename={bibleAlarmDatabasePath}").Options;
 
+            if (File.Exists(bibleAlarmDatabasePath))
+            {
+
+            }
             container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
 
+            string mediaIndexDatabasePath = getDatabasePath(dbName: "bibleAlarm.db");
             var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
+                .UseSqlite($"Filename={mediaIndexDatabasePath}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
 
             Container = container;
+        }
+
+        private static string getDatabasePath(string dbName)
+        {
+            return Path.Combine(Environment.GetFolderPath(
+                Environment.SpecialFolder.MyDocuments),
+                "..",
+                "Library",
+                dbName);
         }
     }
 }
