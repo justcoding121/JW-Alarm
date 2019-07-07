@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bible.Alarm.Services.Infrastructure.Schedule.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    [Migration("20190403204110_InitialCreate")]
+    [Migration("20190707142756_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity("JW.Alarm.Models.AlarmMusic", b =>
                 {
