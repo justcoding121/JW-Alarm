@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
+[assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
 namespace Bible.Alarm.iOS
 {
     public class Application

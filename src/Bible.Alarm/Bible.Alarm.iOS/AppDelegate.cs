@@ -28,7 +28,7 @@ namespace Bible.Alarm.iOS
             Task.Run(async () =>
             {
                 //BootstrapHelper.VerifyBackgroundTasks();
-                BootstrapHelper.InitializeDatabase();
+                await BootstrapHelper.InitializeDatabase();
                 await BootstrapHelper.VerifyMediaLookUpService();
                 await Messenger<bool>.Publish(JW.Alarm.Common.Mvvm.Messages.Initialized, true);
             });
