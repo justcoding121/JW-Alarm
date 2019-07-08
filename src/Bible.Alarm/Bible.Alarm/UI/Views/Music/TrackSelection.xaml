@@ -33,8 +33,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" 
-                  HeightRequest="{OnPlatform Default='35', Android='42'}"
-                  MinimumHeightRequest="{OnPlatform Default='35', Android='42'}"
+                  HeightRequest="45"
+                  MinimumHeightRequest="45"
                   HorizontalOptions="Fill" 
                   Margin="{OnPlatform Default='0', iOS='0,18,0,0'}"
                   BackgroundColor="WhiteSmoke"

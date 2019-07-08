@@ -36,8 +36,8 @@
                 </Grid.GestureRecognizers>
                 <Grid Grid.Row="0"
                   Margin="{OnPlatform Default='0', iOS='0,18,0,0'}"   
-                  HeightRequest="{OnPlatform Default='35', Android='42'}"
-                  MinimumHeightRequest="{OnPlatform Default='35', Android='42'}"
+                  HeightRequest="45"
+                  MinimumHeightRequest="45"
                   HorizontalOptions="Fill" 
                   BackgroundColor="WhiteSmoke">
                     <Grid.ColumnDefinitions>
@@ -47,7 +47,7 @@
                     <Label Grid.Row="0" Grid.Column="0" 
                     Margin="5,0,0,0"
                     HorizontalOptions="Fill"
-                    VerticalOptions="Center"
+                    VerticalOptions="Fill"
                     HorizontalTextAlignment="Start"
                     VerticalTextAlignment="Center"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
@@ -60,12 +60,12 @@
                         </Label.GestureRecognizers>
                     </Label>
                     <Grid Grid.Row="0" Grid.Column="1"  MinimumWidthRequest="100"
-                               Margin="0,1,1,1" HorizontalOptions="End">
+                               Margin="0,1,1,1" HorizontalOptions="End" VerticalOptions="Fill">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End"
+                        <Label Grid.Column="0" VerticalOptions="Fill"  VerticalTextAlignment="Center" HorizontalOptions="End"
                                    HorizontalTextAlignment="End"  Margin="5,0,2,0" 
                                    TextColor="SlateBlue"
                                    BindingContext="{Binding Path=CurrentLanguage, Mode=TwoWay}"

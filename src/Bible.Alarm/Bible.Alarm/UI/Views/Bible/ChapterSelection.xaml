@@ -33,8 +33,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" 
-                  HeightRequest="{OnPlatform Default='35', Android='42'}"
-                  MinimumHeightRequest="{OnPlatform Default='35', Android='42'}"
+                  HeightRequest="45"
+                  MinimumHeightRequest="45"
                   HorizontalOptions="Fill" 
                   BackgroundColor="WhiteSmoke"
                   x:Name="BackButton"
