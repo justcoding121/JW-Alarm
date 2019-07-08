@@ -56,7 +56,7 @@
 
             container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
 
-            string mediaIndexDatabasePath = getDatabasePath(dbName: "bibleAlarm.db");
+            string mediaIndexDatabasePath = getDatabasePath(dbName: "mediaIndex.db");
             var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
                 .UseSqlite($"Filename={mediaIndexDatabasePath}").Options;
 
