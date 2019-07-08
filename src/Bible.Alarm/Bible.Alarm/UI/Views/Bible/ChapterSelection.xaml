@@ -71,7 +71,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid HeightRequest="45" HorizontalOptions="Fill"
+                                <Grid HeightRequest="45" HorizontalOptions="Fill"  Margin="5,0,5,0"
                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="8*"/>

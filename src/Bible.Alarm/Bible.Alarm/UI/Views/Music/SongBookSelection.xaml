@@ -61,10 +61,10 @@
                             <ColumnDefinition Width="6*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Start"  Margin="5,0,2,0" 
+                        <Label Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End"
+                                   HorizontalTextAlignment="End"  Margin="5,0,2,0" 
                                    TextColor="SlateBlue"
-                                   BindingContext="{Binding Path=SelectedLanguage, Mode=TwoWay}"
+                                   BindingContext="{Binding Path=CurrentLanguage, Mode=TwoWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                         </Label>
                         <StackLayout Grid.Column="1" VerticalOptions="Center"
@@ -90,7 +90,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid HeightRequest="45" HorizontalOptions="Fill"
+                                <Grid HeightRequest="45" HorizontalOptions="Fill"  Margin="5,0,5,0"
                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="8*"/>

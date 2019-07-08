@@ -16,7 +16,7 @@ namespace Bible.Alarm.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         public MainActivity() : base()
         {
