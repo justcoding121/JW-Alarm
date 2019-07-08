@@ -35,13 +35,13 @@
             <StackLayout Grid.Row="0">
                 <Button 
                     Command="{Binding AddScheduleCommand}"
-                    Margin="2"
                     HeightRequest="43"
                     HorizontalOptions="Fill"
                     MinimumHeightRequest="43"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                     Text="{x:Static fn:GlyphNames.Plus}"
-                    FontSize="Medium"
+                    Margin="{OnPlatform Default='2', iOS='2,18,2,2'}"
+                    FontSize="{OnPlatform Default='18', iOS='25'}"
                     TextColor="SlateBlue">
                 </Button>
             </StackLayout>

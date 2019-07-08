@@ -54,10 +54,6 @@
             var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
                 .UseSqlite($"Filename={bibleAlarmDatabasePath}").Options;
 
-            if (File.Exists(bibleAlarmDatabasePath))
-            {
-
-            }
             container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
 
             string mediaIndexDatabasePath = getDatabasePath(dbName: "bibleAlarm.db");
@@ -66,15 +62,13 @@
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
 
-            Container = container;
+			Container = container;
         }
 
         private static string getDatabasePath(string dbName)
         {
             return Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.MyDocuments),
-                "..",
-                "Library",
+                Environment.SpecialFolder.LocalApplicationData),
                 dbName);
         }
     }

@@ -35,7 +35,7 @@
                   MinimumHeightRequest="35" HorizontalOptions="Fill" 
                   BackgroundColor="WhiteSmoke"
                   x:Name="BackButton"
-                  Margin="3">
+                  Margin="{OnPlatform Default='0', iOS='0,18,0,0'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="8*"/>

@@ -22,7 +22,7 @@
             container.Register<INotificationService>((x) =>
             new UwpNotificationService(container.Resolve<IMediaCacheService>()));
 
-            container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
+			container.Register((x) => new AlarmTask(container.Resolve<IPlaybackService>()));
 
             container.Register((x) => new SnoozeDismissTask(container.Resolve<IPlaybackService>()));
 

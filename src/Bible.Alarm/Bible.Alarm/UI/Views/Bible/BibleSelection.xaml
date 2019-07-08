@@ -32,9 +32,10 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0"
-                  MinimumHeightRequest="30" HorizontalOptions="Fill" 
-                  BackgroundColor="WhiteSmoke"
-                  Margin="3">
+                  Margin="{OnPlatform Default='0', iOS='0,18,0,0'}"   
+                  MinimumHeightRequest="35" HeightRequest="35"
+                  HorizontalOptions="Fill" 
+                  BackgroundColor="WhiteSmoke">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto"/>
