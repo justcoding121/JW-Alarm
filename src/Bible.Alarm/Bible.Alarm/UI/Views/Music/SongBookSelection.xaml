@@ -32,8 +32,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0"
-                  HeightRequest="35"
-                  MinimumHeightRequest="35" HorizontalOptions="Fill" 
+                  HeightRequest="{OnPlatform Default='35', Android='42'}"
+                  MinimumHeightRequest="{OnPlatform Default='35', Android='42'}"
+                  HorizontalOptions="Fill" 
                   BackgroundColor="WhiteSmoke"
                   Margin="{OnPlatform Default='0', iOS='0,18,0,0'}">
                     <Grid.ColumnDefinitions>
@@ -55,7 +56,7 @@
                             <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
                         </Label.GestureRecognizers>
                     </Label>
-                    <Grid MinimumHeightRequest="32" Grid.Row="0" Grid.Column="1"  MinimumWidthRequest="100"
+                    <Grid Grid.Row="0" Grid.Column="1" MinimumWidthRequest="100" VerticalOptions="Fill"
                                Margin="0,1,1,1" HorizontalOptions="End">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*"/>
@@ -67,9 +68,9 @@
                                    BindingContext="{Binding Path=CurrentLanguage, Mode=TwoWay}"
                                    Text="{Binding Path=Name, Mode=OneWay}">
                         </Label>
-                        <StackLayout Grid.Column="1" VerticalOptions="Center"
+                        <StackLayout Grid.Column="1" VerticalOptions="Fill"
                                  HorizontalOptions="End"  Orientation="Horizontal">
-                            <Button TextColor="SlateBlue"    
+                            <Button TextColor="SlateBlue"      VerticalOptions="Fill"
                                 FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}" 
                                 Text="{x:Static fn:GlyphNames.Language}"
                                 Command="{Binding OpenModalCommand}"
