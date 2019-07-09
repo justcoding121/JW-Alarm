@@ -27,7 +27,7 @@
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>Bible.Alarm</string>
+	<string>Bible Alarm</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.companyname.Bible.Alarm</string>
 	<key>CFBundleVersion</key>
