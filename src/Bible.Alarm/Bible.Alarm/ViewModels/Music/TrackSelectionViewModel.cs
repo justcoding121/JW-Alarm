@@ -128,19 +128,22 @@ namespace JW.Alarm.ViewModels
                                                .Select(y => y.Value)
                                                .Where(y => y.Play);
                                 }).Merge()
-                                 .Do(x => IsBusy = true)
-                                 .Do(y =>
+                                 .Do(async y =>
                                  {
                                      if (currentlyPlaying != null)
                                      {
                                          currentlyPlaying.Play = false;
+                                         currentlyPlaying.IsBusy = false;
                                      }
 
                                      currentlyPlaying = y;
-                                     playService.Play(y.Url);
+
+                                     currentlyPlaying.IsBusy = true;
+                                     await Task.Delay(500);
+                                     await playService.Play(y.Url);
+                                     currentlyPlaying.IsBusy = false;
 
                                  })
-                                 .Do(x => IsBusy = false)
                                  .Subscribe();
 
             var subscription2 = Tracks.Select(added =>
@@ -156,12 +159,10 @@ namespace JW.Alarm.ViewModels
                                                                    .Where(y => !y.Play);
                                 })
                                 .Merge()
-                                .Do(x => IsBusy = true)
                                 .Do(y =>
                                 {
                                     playService.Stop();
                                 })
-                                .Do(x => IsBusy = false)
                                 .Subscribe();
 
             var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev,
@@ -171,6 +172,7 @@ namespace JW.Alarm.ViewModels
                                      if (currentlyPlaying != null)
                                      {
                                          currentlyPlaying.Play = false;
+                                         currentlyPlaying.IsBusy = false;
                                      }
                                  })
                                  .Subscribe();
@@ -209,6 +211,8 @@ namespace JW.Alarm.ViewModels
         public void Dispose()
         {
             disposables.ForEach(x => x.Dispose());
+            disposables.Clear();
+            playService.Dispose();
         }
     }
 
@@ -239,6 +243,13 @@ namespace JW.Alarm.ViewModels
         {
             get => play;
             set => this.Set(ref play, value);
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.Set(ref isBusy, value);
         }
 
         public ICommand TogglePlayCommand { get; set; }

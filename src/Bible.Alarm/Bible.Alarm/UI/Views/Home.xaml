@@ -12,6 +12,7 @@
         <converters:DayColorConverter x:Key="dayColorConverter" />
         <converters:IsEnabledColorConverter x:Key="isEnabledColorConverter" />
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+        <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
     </ContentPage.Resources>
     <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
@@ -22,12 +23,19 @@
                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
                       IsVisible="{Binding IsBusy}"    
                       IsEnabled="True"
+                      Scale="1.0"
                       IsRunning="{Binding IsBusy}" >
             <ActivityIndicator.Scale>
-                <OnPlatform x:TypeArguments="x:Double" iOS="4.0" Android="3.0" />
+                <OnPlatform x:TypeArguments="x:Double">
+                    <OnPlatform.Platforms>
+                        <On Platform="iOS" Value="4.0" />
+                        <On Platform="Android" Value="3.0" />
+                        <On Platform="UWP" Value="1.0" />
+                    </OnPlatform.Platforms>
+                </OnPlatform>
             </ActivityIndicator.Scale>
         </ActivityIndicator>
-        <Grid Grid.Row="0" RowSpacing="0" IsVisible="{Binding Loaded}"  >
+        <Grid Grid.Row="0" RowSpacing="0" IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}"  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>

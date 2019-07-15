@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Contracts
 {
-    public interface IPreviewPlayService
+    public interface IPreviewPlayService : IDisposable
     {
-        void Play(string url);
+        Task Play(string url);
         void Stop();
         event Action OnStopped;
     }

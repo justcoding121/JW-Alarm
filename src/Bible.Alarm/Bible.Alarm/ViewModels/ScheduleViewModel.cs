@@ -105,6 +105,8 @@ namespace JW.Alarm.ViewModels
             CancelCommand = new Command(async () =>
             {
                 IsBusy = true;
+                await Task.Delay(500);
+
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
                 IsBusy = false;
@@ -113,6 +115,7 @@ namespace JW.Alarm.ViewModels
             SaveCommand = new Command(async () =>
             {
                 IsBusy = true;
+                await Task.Delay(500);
 
                 if (!IsNewSchedule)
                 {
@@ -131,6 +134,7 @@ namespace JW.Alarm.ViewModels
             DeleteCommand = new Command(async () =>
             {
                 IsBusy = true;
+                await Task.Delay(500);
 
                 this.playbackService.Dismiss();
                 await deleteAsync();
@@ -149,6 +153,7 @@ namespace JW.Alarm.ViewModels
             SelectMusicCommand = new Command(async () =>
             {
                 IsBusy = true;
+                await Task.Delay(500);
 
                 var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
@@ -170,6 +175,7 @@ namespace JW.Alarm.ViewModels
             SelectBibleCommand = new Command(async () =>
             {
                 IsBusy = true;
+                await Task.Delay(500);
 
                 var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
                 await navigationService.Navigate(viewModel);

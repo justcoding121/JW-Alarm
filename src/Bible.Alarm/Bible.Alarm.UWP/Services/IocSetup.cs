@@ -38,7 +38,7 @@
                 player.AutoPlay = false;
                 return player;
 
-            }, true);
+            });
 
             container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<MediaPlayer>(),
                                                             container.Resolve<IPlaylistService>(),

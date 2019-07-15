@@ -10,6 +10,7 @@ namespace Bible.Alarm.UI
         public Home()
         {
             InitializeComponent();
+            
         }
     }
 }
