@@ -139,7 +139,7 @@ namespace JW.Alarm.ViewModels
                                      currentlyPlaying = y;
 
                                      currentlyPlaying.IsBusy = true;
-                                     await Task.Delay(500);
+                                     await Task.Delay(100);
                                      await playService.Play(y.Url);
                                      currentlyPlaying.IsBusy = false;
 

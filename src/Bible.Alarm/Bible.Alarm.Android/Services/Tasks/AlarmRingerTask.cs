@@ -24,7 +24,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
     [IntentFilter(new[] { "com.bible.alarm.RING" })]
     public class AlarmRingerService : Service
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogManager.GetCurrentClassLogger();
 
         private IPlaybackService playbackService;
 

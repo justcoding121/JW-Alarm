@@ -28,13 +28,14 @@ namespace JW.Alarm.Services.Droid.Tasks
     [IntentFilter(new[] { "com.bible.alarm.SETUP" })]
     public class AlarmSetupTask : Service
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogManager.GetCurrentClassLogger();
 
         public static bool IsRunning = false;
       
         public AlarmSetupTask() : base()
         {
             LogSetup.Initialize();
+
             if (IocSetup.Container == null)
             {
                 Bible.Alarm.Droid.IocSetup.Initialize();

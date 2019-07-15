@@ -11,7 +11,7 @@ namespace JW.Alarm.Services.Droid.Tasks
 {
     public class SchedulerTask
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogManager.GetCurrentClassLogger();
 
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;

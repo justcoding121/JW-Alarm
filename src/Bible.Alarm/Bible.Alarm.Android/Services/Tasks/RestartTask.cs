@@ -21,7 +21,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON", "com.Bible.Alarm.Restart"})]
     public class RestartTask : BroadcastReceiver
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogManager.GetCurrentClassLogger();
 
         public RestartTask()
             : base()

@@ -12,7 +12,7 @@ namespace JW.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogManager.GetCurrentClassLogger();
 
         public DroidNotificationService() : base()
         {

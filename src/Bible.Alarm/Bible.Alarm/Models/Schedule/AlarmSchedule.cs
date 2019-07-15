@@ -14,7 +14,7 @@ namespace JW.Alarm.Models
 
         //24 hour based
         public int Hour { get; set; }
-        public int MeridienHour => Meridien == Meridien.AM ? Hour : Hour % 12;
+        public int MeridienHour => Meridien == Meridien.AM ? Hour == 0 ? 12 : Hour : Hour % 12;
         public int Minute { get; set; }
         public Meridien Meridien => Hour < 12 ? Meridien.AM : Meridien.PM;
         public int Second { get; set; }

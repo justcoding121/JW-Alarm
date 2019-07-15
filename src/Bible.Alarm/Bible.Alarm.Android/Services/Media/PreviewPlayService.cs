@@ -22,16 +22,6 @@ namespace JW.Alarm.Services.Droid
 
         public event Action OnStopped;
 
-        public void Play(string url)
-        {
-            var uri = Android.Net.Uri.Parse(url);
-            this.player.Reset();
-            this.player.SetOnCompletionListener(this);
-            this.player.SetDataSource(Application.Context, uri);
-            this.player.Prepare();
-            this.player.Start();
-        }
-
         public void Stop()
         {
             player.Stop();
@@ -40,6 +30,27 @@ namespace JW.Alarm.Services.Droid
         public void OnCompletion(MediaPlayer mp)
         {
             OnStopped?.Invoke();
+        }
+
+        async Task IPreviewPlayService.Play(string url)
+        {
+            await Task.Delay(500);
+            await Task.Run(() =>
+            {
+                var uri = Android.Net.Uri.Parse(url);
+                this.player.Reset();
+                this.player.SetOnCompletionListener(this);
+                this.player.SetDataSource(Application.Context, uri);
+                this.player.Prepare();
+                this.player.Start();
+            });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            this.player.Dispose();
         }
     }
 }
