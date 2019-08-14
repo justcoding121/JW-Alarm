@@ -16,6 +16,7 @@ using NLog;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
+
     [BroadcastReceiver(Enabled = true, DirectBootAware = true)]
     [IntentFilter(new[] { Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted,
         "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON", "com.Bible.Alarm.Restart"})]

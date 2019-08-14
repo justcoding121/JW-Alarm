@@ -20,6 +20,7 @@ using NLog;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
+    //
     [Service(Enabled = true)]
     [IntentFilter(new[] { "com.bible.alarm.RING" })]
     public class AlarmRingerService : Service

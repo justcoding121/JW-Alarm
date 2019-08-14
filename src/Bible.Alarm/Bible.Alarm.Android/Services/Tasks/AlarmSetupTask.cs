@@ -1,26 +1,11 @@
-﻿using Android;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
-using Android.Widget;
-using Bible.Alarm.Services;
 using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.ViewModels;
-using JW.Alarm.Common.Mvvm;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
 using MediaManager;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
@@ -50,6 +35,8 @@ namespace JW.Alarm.Services.Droid.Tasks
 
         public override void OnCreate()
         {
+            base.OnCreate();
+
             IsRunning = true;
         }
 
@@ -73,9 +60,7 @@ namespace JW.Alarm.Services.Droid.Tasks
                         }
 
                     default:
-                        var schedulerTask = Bible.Alarm.Droid.IocSetup.Container.Resolve<SchedulerTask>();
-                        schedulerTask.Handle().Wait();
-                        break;
+                        throw new NotImplementedException();
                 }
             }
             catch (Exception e)
