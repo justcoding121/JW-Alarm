@@ -74,23 +74,31 @@ namespace JW.Alarm.Services
                         if (playDetail.PlayType == Models.PlayType.Bible)
                         {
                             url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.LookUpPath);
-                            await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
+                            if (url != null)
+                            {
+                                await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
+                            }
                         }
                         else
                         {
                             url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
 
-                            if (playDetail.LanguageCode == null)
+                            if (url != null)
                             {
-                                await mediaService.UpdateMelodyTrackUrl(playDetail.PublicationCode, playDetail.TrackNumber, url);
-                            }
-                            else
-                            {
-                                await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
+                                if (playDetail.LanguageCode == null)
+                                {
+                                    await mediaService.UpdateMelodyTrackUrl(playDetail.PublicationCode, playDetail.TrackNumber, url);
+                                }
+                                else
+                                {
+                                    await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
+                                }
                             }
                         }
-
-                        bytes = await downloadService.DownloadAsync(url);
+                        if (url != null)
+                        {
+                            bytes = await downloadService.DownloadAsync(url);
+                        }    
 
                         if (bytes != null)
                         {

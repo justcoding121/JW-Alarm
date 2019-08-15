@@ -50,17 +50,7 @@ namespace Bible.Alarm.UWP
                 {
                     IocSetup.Initialize();
                     IocSetup.Container.Resolve<IMediaManager>().Init();
-                
                 }
-
-                Task.Run(async () =>
-                    {
-                        await BootstrapHelper.InitializeDatabase();
-                        await BootstrapHelper.VerifyMediaLookUpService();
-                        await BootstrapHelper.VerifyBackgroundTasks();
-                        await Messenger<bool>.Publish(Messages.Initialized, true);
-                    });
-
             }
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -92,8 +82,17 @@ namespace Bible.Alarm.UWP
                 // parameter
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
+
             // Ensure the current window is active
             Window.Current.Activate();
+
+            Task.Run(async () =>
+            {
+                await BootstrapHelper.InitializeDatabase();
+                await BootstrapHelper.VerifyMediaLookUpService();
+                await BootstrapHelper.VerifyBackgroundTasks();
+                await Messenger<bool>.Publish(Messages.Initialized, true);
+            });
         }
 
         protected async override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
