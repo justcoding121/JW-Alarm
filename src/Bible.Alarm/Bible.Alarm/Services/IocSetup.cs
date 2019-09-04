@@ -10,7 +10,7 @@
 
     public static class IocSetup
     {
-        public static IContainer Container;
+        public static IContainer Container { private set; get; }
         public static void Initialize(IContainer container)
         {
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpMessageHandler>()));

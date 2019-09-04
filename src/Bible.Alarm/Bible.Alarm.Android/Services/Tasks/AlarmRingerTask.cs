@@ -20,28 +20,17 @@ using NLog;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
-    //
-    [Service(Enabled = true)]
-    [IntentFilter(new[] { "com.bible.alarm.RING" })]
-    public class AlarmRingerService : Service
+    [BroadcastReceiver(Enabled = true)]
+    public class AlarmRingerService : BroadcastReceiver
     {
         private static Logger logger => LogManager.GetCurrentClassLogger();
 
         private IPlaybackService playbackService;
-
+        private Context context;
+        private Intent intent;
         public AlarmRingerService() : base()
         {
             LogSetup.Initialize();
-
-            if (IocSetup.Container == null)
-            {
-                IocSetup.Initialize();
-                IocSetup.Container.Resolve<IMediaManager>().Init(this);
-            }
-
-            this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
-
-            playbackService.StateChanged += stateChanged;
         }
 
         private void stateChanged(object sender, MediaPlayerState e)
@@ -49,24 +38,37 @@ namespace Bible.Alarm.Droid.Services.Tasks
             if (e == MediaPlayerState.Stopped
             || e == MediaPlayerState.Failed)
             {
-                playbackService.StateChanged -= stateChanged;
-                StopSelf();
+                try
+                {
+                    playbackService.StateChanged -= stateChanged;
+                    context.StopService(intent);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "An error happened when stopping the alarm after media failure.");
+                }
             }
         }
 
-        public override IBinder OnBind(Intent intent)
+        public override void OnReceive(Context context, Intent intent)
         {
-            return null;
-        }
-
-        [return: GeneratedEnum]
-        public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
-        {
-            logger.Info($"Alarm rang at {DateTime.Now}");
-
             try
             {
-                IocSetup.Container.Resolve<IMediaManager>().Init(this);
+                this.context = context;
+                this.intent = intent;
+
+                if (IocSetup.Container == null)
+                {
+                    IocSetup.Initialize(Application.Context, true);
+                    IocSetup.Container.Resolve<IMediaManager>().Init(Application.Context);
+                }
+
+                this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
+
+                playbackService.StateChanged += stateChanged;
+                logger.Info($"Alarm rang at {DateTime.Now}");
+
+                IocSetup.Container.Resolve<IMediaManager>().Init(Application.Context);
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
 
@@ -81,7 +83,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                         }
 
                         await playbackService.Play(id);
-
                     }
                     catch (Exception e)
                     {
@@ -93,17 +94,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
             }
-
-            return StartCommandResult.Sticky;
-        }
-
-        public override void OnCreate()
-        {
-
-        }
-
-        public override void OnDestroy()
-        {
 
         }
 

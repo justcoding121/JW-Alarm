@@ -22,13 +22,21 @@ namespace JW.Alarm.Services.Droid
         public void Add(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            Intent intent = new Intent(Application.Context, typeof(AlarmSetupTask));
-            intent.PutExtra("Action", "Add");
-            intent.PutExtra("ScheduleId", scheduleId.ToString());
-            intent.PutExtra("Time", time.ToString());
-            intent.PutExtra("Title", title);
-            intent.PutExtra("Body", body);
-            Application.Context.StartService(intent);
+            if(IocSetup.IsService)
+            {
+                AlarmSetupTask.AddNotification(Application.Context, scheduleId, time, title, body);
+            }
+            else
+            {
+                Intent intent = new Intent(Application.Context, typeof(AlarmSetupTask));
+                intent.PutExtra("Action", "Add");
+                intent.PutExtra("ScheduleId", scheduleId.ToString());
+                intent.PutExtra("Time", time.ToString());
+                intent.PutExtra("Title", title);
+                intent.PutExtra("Body", body);
+                Application.Context.StartService(intent);
+            }
+           
         }
 
 

@@ -34,7 +34,7 @@ namespace Bible.Alarm.Droid
             {
                 if (IocSetup.Container == null)
                 {
-                    IocSetup.Initialize();
+                    IocSetup.Initialize(this, false);
                     IocSetup.Container.Resolve<IMediaManager>().Init(this);
                 }
 

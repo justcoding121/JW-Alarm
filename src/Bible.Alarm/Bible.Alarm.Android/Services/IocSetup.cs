@@ -9,11 +9,14 @@
     using Xamarin.Android.Net;
     using MediaManager;
     using JW.Alarm.Services.Droid.Tasks;
+    using Android.Content;
 
     public static class IocSetup
     {
-        internal static IContainer Container;
-        public static void Initialize(IContainer container)
+        internal static IContainer Container { private set; get; }
+        public static bool IsService { get; private set; }
+        public static Context Context { get; private set; }
+        public static void Initialize(IContainer container, Context context, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
@@ -58,6 +61,8 @@
             }, true);
 
 			Container = container;
+            Context = context;
+            IsService = isService;
         }
     }
 }

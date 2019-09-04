@@ -28,15 +28,17 @@ namespace Bible.Alarm.Droid.Services.Tasks
             : base()
         {
             LogSetup.Initialize();
-
-            if (IocSetup.Container == null)
-            {
-                IocSetup.Initialize();
-            }
         }
 
         public override void OnReceive(Context context, Intent intent)
         {
+            if (IocSetup.Container == null)
+            {
+                IocSetup.Initialize(context, true);
+            }
+
+            logger.Info($"Restart task fired.");
+
             try
             {
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();

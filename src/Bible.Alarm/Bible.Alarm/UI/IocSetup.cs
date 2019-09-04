@@ -13,7 +13,7 @@ namespace Bible.Alarm.UI
 {
     public static class IocSetup
     {
-        internal static IContainer Container;
+        internal static IContainer Container { private set; get; }
         public static void Initialize(IContainer container)
         {
             Container = container;

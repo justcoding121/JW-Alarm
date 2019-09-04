@@ -8,7 +8,7 @@ namespace JW.Alarm.ViewModels
 {
     public static class IocSetup
     {
-        internal static IContainer Container;
+        internal static IContainer Container { private set; get; }
         public static void Initialize(IContainer container)
         {
             container.Register((x) => new HomeViewModel(
