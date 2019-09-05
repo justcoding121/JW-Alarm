@@ -26,7 +26,7 @@ namespace JW.Alarm.Services.UWP
 
         private NotificationDetail currentTrackDetail;
 
-        public event EventHandler<MediaManager.Playback.MediaPlayerState> StateChanged;
+        public event EventHandler<MediaManager.Player.MediaPlayerState> StateChanged;
 
         public PlaybackService(MediaPlayer player, IPlaylistService playlistService,
             IMediaCacheService cacheService, IAlarmService alarmService, ScheduleDbContext scheduleDbContext)

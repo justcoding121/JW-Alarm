@@ -6,11 +6,14 @@ using Java.IO;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
+using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Playback;
+using MediaManager.Player;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,11 +132,12 @@ namespace JW.Alarm.Services.Droid
                     return;
                 }
 
-                var nextTrackUris = nextTracks
+                var mediaItems = (await nextTracks
                     .Select(x => this.cacheService.GetCacheFilePath(x.Url))
+                    .CreateMediaItems())
                     .ToList();
 
-                var mediaItems = (await this.mediaManager.Play(nextTrackUris)).ToList();
+                await this.mediaManager.Play(mediaItems);
 
                 currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();
                 for (int i = 0; i < nextTracks.Count; i++)

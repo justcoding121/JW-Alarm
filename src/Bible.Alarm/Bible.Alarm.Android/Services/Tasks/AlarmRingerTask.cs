@@ -15,6 +15,7 @@ using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
 using MediaManager.Playback;
+using MediaManager.Player;
 using Microsoft.Extensions.Logging;
 using NLog;
 

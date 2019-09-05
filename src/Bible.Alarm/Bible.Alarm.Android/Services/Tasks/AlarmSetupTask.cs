@@ -11,7 +11,6 @@ using Bible.Alarm.Droid.Services.Tasks;
 namespace JW.Alarm.Services.Droid.Tasks
 {
     [Service(Enabled = true)]
-    [IntentFilter(new[] { "com.bible.alarm.SETUP" })]
     public class AlarmSetupTask : Service
     {
         private static Logger logger => LogManager.GetCurrentClassLogger();

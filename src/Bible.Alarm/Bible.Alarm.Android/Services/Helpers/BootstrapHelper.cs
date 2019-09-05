@@ -43,7 +43,6 @@ namespace JW.Alarm.Services.Droid.Helpers
         {
             var context = Application.Context;
             var intent = new Intent(context, typeof(AlarmSetupTask));
-            intent.SetAction("com.bible.alarm.SETUP");
 
             var pIntent = PendingIntent.GetService(
                     context,
@@ -70,7 +69,6 @@ namespace JW.Alarm.Services.Droid.Helpers
         {
             var context = Application.Context;
             var intent = new Intent(context, typeof(AlarmSetupTask));
-            intent.SetAction("com.bible.alarm.SETUP");
 
             var pIntent = PendingIntent.GetService(
                     context,

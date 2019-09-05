@@ -36,6 +36,8 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Animation.abc_slide_in_top = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_in_top;
 			global::MediaManager.Resource.Animation.abc_slide_out_bottom = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_out_bottom;
 			global::MediaManager.Resource.Animation.abc_slide_out_top = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_out_top;
+			global::MediaManager.Resource.Animation.abc_tooltip_enter = global::Bible.Alarm.Droid.Resource.Animation.abc_tooltip_enter;
+			global::MediaManager.Resource.Animation.abc_tooltip_exit = global::Bible.Alarm.Droid.Resource.Animation.abc_tooltip_exit;
 			global::MediaManager.Resource.Attribute.actionBarDivider = global::Bible.Alarm.Droid.Resource.Attribute.actionBarDivider;
 			global::MediaManager.Resource.Attribute.actionBarItemBackground = global::Bible.Alarm.Droid.Resource.Attribute.actionBarItemBackground;
 			global::MediaManager.Resource.Attribute.actionBarPopupTheme = global::Bible.Alarm.Droid.Resource.Attribute.actionBarPopupTheme;
@@ -103,6 +105,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.buttonBarPositiveButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
 			global::MediaManager.Resource.Attribute.buttonBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarStyle;
 			global::MediaManager.Resource.Attribute.buttonGravity = global::Bible.Alarm.Droid.Resource.Attribute.buttonGravity;
+			global::MediaManager.Resource.Attribute.buttonIconDimen = global::Bible.Alarm.Droid.Resource.Attribute.buttonIconDimen;
 			global::MediaManager.Resource.Attribute.buttonPanelSideLayout = global::Bible.Alarm.Droid.Resource.Attribute.buttonPanelSideLayout;
 			global::MediaManager.Resource.Attribute.buttonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonStyle;
 			global::MediaManager.Resource.Attribute.buttonStyleSmall = global::Bible.Alarm.Droid.Resource.Attribute.buttonStyleSmall;
@@ -135,9 +138,11 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.contentInsetStartWithNavigation = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetStartWithNavigation;
 			global::MediaManager.Resource.Attribute.controlBackground = global::Bible.Alarm.Droid.Resource.Attribute.controlBackground;
 			global::MediaManager.Resource.Attribute.controller_layout_id = global::Bible.Alarm.Droid.Resource.Attribute.controller_layout_id;
+			global::MediaManager.Resource.Attribute.coordinatorLayoutStyle = global::Bible.Alarm.Droid.Resource.Attribute.coordinatorLayoutStyle;
 			global::MediaManager.Resource.Attribute.customNavigationLayout = global::Bible.Alarm.Droid.Resource.Attribute.customNavigationLayout;
 			global::MediaManager.Resource.Attribute.defaultQueryHint = global::Bible.Alarm.Droid.Resource.Attribute.defaultQueryHint;
 			global::MediaManager.Resource.Attribute.default_artwork = global::Bible.Alarm.Droid.Resource.Attribute.default_artwork;
+			global::MediaManager.Resource.Attribute.dialogCornerRadius = global::Bible.Alarm.Droid.Resource.Attribute.dialogCornerRadius;
 			global::MediaManager.Resource.Attribute.dialogPreferredPadding = global::Bible.Alarm.Droid.Resource.Attribute.dialogPreferredPadding;
 			global::MediaManager.Resource.Attribute.dialogTheme = global::Bible.Alarm.Droid.Resource.Attribute.dialogTheme;
 			global::MediaManager.Resource.Attribute.displayOptions = global::Bible.Alarm.Droid.Resource.Attribute.displayOptions;
@@ -155,6 +160,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.elevation = global::Bible.Alarm.Droid.Resource.Attribute.elevation;
 			global::MediaManager.Resource.Attribute.expandActivityOverflowButtonDrawable = global::Bible.Alarm.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
 			global::MediaManager.Resource.Attribute.fastforward_increment = global::Bible.Alarm.Droid.Resource.Attribute.fastforward_increment;
+			global::MediaManager.Resource.Attribute.firstBaselineToTopHeight = global::Bible.Alarm.Droid.Resource.Attribute.firstBaselineToTopHeight;
 			global::MediaManager.Resource.Attribute.font = global::Bible.Alarm.Droid.Resource.Attribute.font;
 			global::MediaManager.Resource.Attribute.fontFamily = global::Bible.Alarm.Droid.Resource.Attribute.fontFamily;
 			global::MediaManager.Resource.Attribute.fontProviderAuthority = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderAuthority;
@@ -164,6 +170,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.fontProviderPackage = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderPackage;
 			global::MediaManager.Resource.Attribute.fontProviderQuery = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderQuery;
 			global::MediaManager.Resource.Attribute.fontStyle = global::Bible.Alarm.Droid.Resource.Attribute.fontStyle;
+			global::MediaManager.Resource.Attribute.fontVariationSettings = global::Bible.Alarm.Droid.Resource.Attribute.fontVariationSettings;
 			global::MediaManager.Resource.Attribute.fontWeight = global::Bible.Alarm.Droid.Resource.Attribute.fontWeight;
 			global::MediaManager.Resource.Attribute.gapBetweenBars = global::Bible.Alarm.Droid.Resource.Attribute.gapBetweenBars;
 			global::MediaManager.Resource.Attribute.goIcon = global::Bible.Alarm.Droid.Resource.Attribute.goIcon;
@@ -183,7 +190,16 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.isLightTheme = global::Bible.Alarm.Droid.Resource.Attribute.isLightTheme;
 			global::MediaManager.Resource.Attribute.itemPadding = global::Bible.Alarm.Droid.Resource.Attribute.itemPadding;
 			global::MediaManager.Resource.Attribute.keep_content_on_player_reset = global::Bible.Alarm.Droid.Resource.Attribute.keep_content_on_player_reset;
+			global::MediaManager.Resource.Attribute.keylines = global::Bible.Alarm.Droid.Resource.Attribute.keylines;
+			global::MediaManager.Resource.Attribute.lastBaselineToBottomHeight = global::Bible.Alarm.Droid.Resource.Attribute.lastBaselineToBottomHeight;
 			global::MediaManager.Resource.Attribute.layout = global::Bible.Alarm.Droid.Resource.Attribute.layout;
+			global::MediaManager.Resource.Attribute.layout_anchor = global::Bible.Alarm.Droid.Resource.Attribute.layout_anchor;
+			global::MediaManager.Resource.Attribute.layout_anchorGravity = global::Bible.Alarm.Droid.Resource.Attribute.layout_anchorGravity;
+			global::MediaManager.Resource.Attribute.layout_behavior = global::Bible.Alarm.Droid.Resource.Attribute.layout_behavior;
+			global::MediaManager.Resource.Attribute.layout_dodgeInsetEdges = global::Bible.Alarm.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::MediaManager.Resource.Attribute.layout_insetEdge = global::Bible.Alarm.Droid.Resource.Attribute.layout_insetEdge;
+			global::MediaManager.Resource.Attribute.layout_keyline = global::Bible.Alarm.Droid.Resource.Attribute.layout_keyline;
+			global::MediaManager.Resource.Attribute.lineHeight = global::Bible.Alarm.Droid.Resource.Attribute.lineHeight;
 			global::MediaManager.Resource.Attribute.listChoiceBackgroundIndicator = global::Bible.Alarm.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
 			global::MediaManager.Resource.Attribute.listDividerAlertDialog = global::Bible.Alarm.Droid.Resource.Attribute.listDividerAlertDialog;
 			global::MediaManager.Resource.Attribute.listItemLayout = global::Bible.Alarm.Droid.Resource.Attribute.listItemLayout;
@@ -256,6 +272,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.splitTrack = global::Bible.Alarm.Droid.Resource.Attribute.splitTrack;
 			global::MediaManager.Resource.Attribute.srcCompat = global::Bible.Alarm.Droid.Resource.Attribute.srcCompat;
 			global::MediaManager.Resource.Attribute.state_above_anchor = global::Bible.Alarm.Droid.Resource.Attribute.state_above_anchor;
+			global::MediaManager.Resource.Attribute.statusBarBackground = global::Bible.Alarm.Droid.Resource.Attribute.statusBarBackground;
 			global::MediaManager.Resource.Attribute.subMenuArrow = global::Bible.Alarm.Droid.Resource.Attribute.subMenuArrow;
 			global::MediaManager.Resource.Attribute.submitBackground = global::Bible.Alarm.Droid.Resource.Attribute.submitBackground;
 			global::MediaManager.Resource.Attribute.subtitle = global::Bible.Alarm.Droid.Resource.Attribute.subtitle;
@@ -308,9 +325,11 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.track = global::Bible.Alarm.Droid.Resource.Attribute.track;
 			global::MediaManager.Resource.Attribute.trackTint = global::Bible.Alarm.Droid.Resource.Attribute.trackTint;
 			global::MediaManager.Resource.Attribute.trackTintMode = global::Bible.Alarm.Droid.Resource.Attribute.trackTintMode;
+			global::MediaManager.Resource.Attribute.ttcIndex = global::Bible.Alarm.Droid.Resource.Attribute.ttcIndex;
 			global::MediaManager.Resource.Attribute.unplayed_color = global::Bible.Alarm.Droid.Resource.Attribute.unplayed_color;
 			global::MediaManager.Resource.Attribute.use_artwork = global::Bible.Alarm.Droid.Resource.Attribute.use_artwork;
 			global::MediaManager.Resource.Attribute.use_controller = global::Bible.Alarm.Droid.Resource.Attribute.use_controller;
+			global::MediaManager.Resource.Attribute.viewInflaterClass = global::Bible.Alarm.Droid.Resource.Attribute.viewInflaterClass;
 			global::MediaManager.Resource.Attribute.voiceIcon = global::Bible.Alarm.Droid.Resource.Attribute.voiceIcon;
 			global::MediaManager.Resource.Attribute.windowActionBar = global::Bible.Alarm.Droid.Resource.Attribute.windowActionBar;
 			global::MediaManager.Resource.Attribute.windowActionBarOverlay = global::Bible.Alarm.Droid.Resource.Attribute.windowActionBarOverlay;
@@ -367,6 +386,8 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Color.dim_foreground_disabled_material_light = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_disabled_material_light;
 			global::MediaManager.Resource.Color.dim_foreground_material_dark = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_material_dark;
 			global::MediaManager.Resource.Color.dim_foreground_material_light = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_material_light;
+			global::MediaManager.Resource.Color.error_color_material_dark = global::Bible.Alarm.Droid.Resource.Color.error_color_material_dark;
+			global::MediaManager.Resource.Color.error_color_material_light = global::Bible.Alarm.Droid.Resource.Color.error_color_material_light;
 			global::MediaManager.Resource.Color.exo_edit_mode_background_color = global::Bible.Alarm.Droid.Resource.Color.exo_edit_mode_background_color;
 			global::MediaManager.Resource.Color.exo_error_message_background_color = global::Bible.Alarm.Droid.Resource.Color.exo_error_message_background_color;
 			global::MediaManager.Resource.Color.foreground_material_dark = global::Bible.Alarm.Droid.Resource.Color.foreground_material_dark;
@@ -427,6 +448,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Dimension.abc_action_button_min_width_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_button_min_width_material;
 			global::MediaManager.Resource.Dimension.abc_action_button_min_width_overflow_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
 			global::MediaManager.Resource.Dimension.abc_alert_dialog_button_bar_height = global::Bible.Alarm.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::MediaManager.Resource.Dimension.abc_alert_dialog_button_dimen = global::Bible.Alarm.Droid.Resource.Dimension.abc_alert_dialog_button_dimen;
 			global::MediaManager.Resource.Dimension.abc_button_inset_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
 			global::MediaManager.Resource.Dimension.abc_button_inset_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_inset_vertical_material;
 			global::MediaManager.Resource.Dimension.abc_button_padding_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
@@ -436,6 +458,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Dimension.abc_control_corner_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_control_corner_material;
 			global::MediaManager.Resource.Dimension.abc_control_inset_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_control_inset_material;
 			global::MediaManager.Resource.Dimension.abc_control_padding_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_control_padding_material;
+			global::MediaManager.Resource.Dimension.abc_dialog_corner_radius_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_corner_radius_material;
 			global::MediaManager.Resource.Dimension.abc_dialog_fixed_height_major = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
 			global::MediaManager.Resource.Dimension.abc_dialog_fixed_height_minor = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
 			global::MediaManager.Resource.Dimension.abc_dialog_fixed_width_major = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
@@ -488,6 +511,8 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Dimension.compat_button_padding_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
 			global::MediaManager.Resource.Dimension.compat_button_padding_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_padding_vertical_material;
 			global::MediaManager.Resource.Dimension.compat_control_corner_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_control_corner_material;
+			global::MediaManager.Resource.Dimension.compat_notification_large_icon_max_height = global::Bible.Alarm.Droid.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::MediaManager.Resource.Dimension.compat_notification_large_icon_max_width = global::Bible.Alarm.Droid.Resource.Dimension.compat_notification_large_icon_max_width;
 			global::MediaManager.Resource.Dimension.disabled_alpha_material_dark = global::Bible.Alarm.Droid.Resource.Dimension.disabled_alpha_material_dark;
 			global::MediaManager.Resource.Dimension.disabled_alpha_material_light = global::Bible.Alarm.Droid.Resource.Dimension.disabled_alpha_material_light;
 			global::MediaManager.Resource.Dimension.exo_media_button_height = global::Bible.Alarm.Droid.Resource.Dimension.exo_media_button_height;
@@ -514,6 +539,10 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Dimension.notification_subtext_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_subtext_size;
 			global::MediaManager.Resource.Dimension.notification_top_pad = global::Bible.Alarm.Droid.Resource.Dimension.notification_top_pad;
 			global::MediaManager.Resource.Dimension.notification_top_pad_large_text = global::Bible.Alarm.Droid.Resource.Dimension.notification_top_pad_large_text;
+			global::MediaManager.Resource.Dimension.subtitle_corner_radius = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_corner_radius;
+			global::MediaManager.Resource.Dimension.subtitle_outline_width = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_outline_width;
+			global::MediaManager.Resource.Dimension.subtitle_shadow_offset = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_shadow_offset;
+			global::MediaManager.Resource.Dimension.subtitle_shadow_radius = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_shadow_radius;
 			global::MediaManager.Resource.Dimension.tooltip_corner_radius = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_corner_radius;
 			global::MediaManager.Resource.Dimension.tooltip_horizontal_padding = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_horizontal_padding;
 			global::MediaManager.Resource.Dimension.tooltip_margin = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_margin;
@@ -562,6 +591,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Drawable.abc_ic_voice_search_api_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_voice_search_api_material;
 			global::MediaManager.Resource.Drawable.abc_item_background_holo_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_item_background_holo_dark;
 			global::MediaManager.Resource.Drawable.abc_item_background_holo_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_item_background_holo_light;
+			global::MediaManager.Resource.Drawable.abc_list_divider_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_divider_material;
 			global::MediaManager.Resource.Drawable.abc_list_divider_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
 			global::MediaManager.Resource.Drawable.abc_list_focused_holo = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_focused_holo;
 			global::MediaManager.Resource.Drawable.abc_list_longpressed_holo = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_longpressed_holo;
@@ -686,9 +716,15 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.bottom = global::Bible.Alarm.Droid.Resource.Id.bottom;
 			global::MediaManager.Resource.Id.buttonPanel = global::Bible.Alarm.Droid.Resource.Id.buttonPanel;
 			global::MediaManager.Resource.Id.cancel_action = global::Bible.Alarm.Droid.Resource.Id.cancel_action;
+			global::MediaManager.Resource.Id.center = global::Bible.Alarm.Droid.Resource.Id.center;
+			global::MediaManager.Resource.Id.center_horizontal = global::Bible.Alarm.Droid.Resource.Id.center_horizontal;
+			global::MediaManager.Resource.Id.center_vertical = global::Bible.Alarm.Droid.Resource.Id.center_vertical;
 			global::MediaManager.Resource.Id.checkbox = global::Bible.Alarm.Droid.Resource.Id.checkbox;
 			global::MediaManager.Resource.Id.chronometer = global::Bible.Alarm.Droid.Resource.Id.chronometer;
+			global::MediaManager.Resource.Id.clip_horizontal = global::Bible.Alarm.Droid.Resource.Id.clip_horizontal;
+			global::MediaManager.Resource.Id.clip_vertical = global::Bible.Alarm.Droid.Resource.Id.clip_vertical;
 			global::MediaManager.Resource.Id.collapseActionView = global::Bible.Alarm.Droid.Resource.Id.collapseActionView;
+			global::MediaManager.Resource.Id.content = global::Bible.Alarm.Droid.Resource.Id.content;
 			global::MediaManager.Resource.Id.contentPanel = global::Bible.Alarm.Droid.Resource.Id.contentPanel;
 			global::MediaManager.Resource.Id.custom = global::Bible.Alarm.Droid.Resource.Id.custom;
 			global::MediaManager.Resource.Id.customPanel = global::Bible.Alarm.Droid.Resource.Id.customPanel;
@@ -723,10 +759,13 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.expand_activities_button = global::Bible.Alarm.Droid.Resource.Id.expand_activities_button;
 			global::MediaManager.Resource.Id.expanded_menu = global::Bible.Alarm.Droid.Resource.Id.expanded_menu;
 			global::MediaManager.Resource.Id.fill = global::Bible.Alarm.Droid.Resource.Id.fill;
+			global::MediaManager.Resource.Id.fill_horizontal = global::Bible.Alarm.Droid.Resource.Id.fill_horizontal;
+			global::MediaManager.Resource.Id.fill_vertical = global::Bible.Alarm.Droid.Resource.Id.fill_vertical;
 			global::MediaManager.Resource.Id.fit = global::Bible.Alarm.Droid.Resource.Id.fit;
 			global::MediaManager.Resource.Id.fixed_height = global::Bible.Alarm.Droid.Resource.Id.fixed_height;
 			global::MediaManager.Resource.Id.fixed_width = global::Bible.Alarm.Droid.Resource.Id.fixed_width;
 			global::MediaManager.Resource.Id.forever = global::Bible.Alarm.Droid.Resource.Id.forever;
+			global::MediaManager.Resource.Id.group_divider = global::Bible.Alarm.Droid.Resource.Id.group_divider;
 			global::MediaManager.Resource.Id.home = global::Bible.Alarm.Droid.Resource.Id.home;
 			global::MediaManager.Resource.Id.homeAsUp = global::Bible.Alarm.Droid.Resource.Id.homeAsUp;
 			global::MediaManager.Resource.Id.icon = global::Bible.Alarm.Droid.Resource.Id.icon;
@@ -735,6 +774,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.image = global::Bible.Alarm.Droid.Resource.Id.image;
 			global::MediaManager.Resource.Id.info = global::Bible.Alarm.Droid.Resource.Id.info;
 			global::MediaManager.Resource.Id.italic = global::Bible.Alarm.Droid.Resource.Id.italic;
+			global::MediaManager.Resource.Id.left = global::Bible.Alarm.Droid.Resource.Id.left;
 			global::MediaManager.Resource.Id.line1 = global::Bible.Alarm.Droid.Resource.Id.line1;
 			global::MediaManager.Resource.Id.line3 = global::Bible.Alarm.Droid.Resource.Id.line3;
 			global::MediaManager.Resource.Id.listMode = global::Bible.Alarm.Droid.Resource.Id.listMode;
@@ -754,6 +794,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.progress_circular = global::Bible.Alarm.Droid.Resource.Id.progress_circular;
 			global::MediaManager.Resource.Id.progress_horizontal = global::Bible.Alarm.Droid.Resource.Id.progress_horizontal;
 			global::MediaManager.Resource.Id.radio = global::Bible.Alarm.Droid.Resource.Id.radio;
+			global::MediaManager.Resource.Id.right = global::Bible.Alarm.Droid.Resource.Id.right;
 			global::MediaManager.Resource.Id.right_icon = global::Bible.Alarm.Droid.Resource.Id.right_icon;
 			global::MediaManager.Resource.Id.right_side = global::Bible.Alarm.Droid.Resource.Id.right_side;
 			global::MediaManager.Resource.Id.screen = global::Bible.Alarm.Droid.Resource.Id.screen;
@@ -781,12 +822,15 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.src_atop = global::Bible.Alarm.Droid.Resource.Id.src_atop;
 			global::MediaManager.Resource.Id.src_in = global::Bible.Alarm.Droid.Resource.Id.src_in;
 			global::MediaManager.Resource.Id.src_over = global::Bible.Alarm.Droid.Resource.Id.src_over;
+			global::MediaManager.Resource.Id.start = global::Bible.Alarm.Droid.Resource.Id.start;
 			global::MediaManager.Resource.Id.status_bar_latest_event_content = global::Bible.Alarm.Droid.Resource.Id.status_bar_latest_event_content;
 			global::MediaManager.Resource.Id.submenuarrow = global::Bible.Alarm.Droid.Resource.Id.submenuarrow;
 			global::MediaManager.Resource.Id.submit_area = global::Bible.Alarm.Droid.Resource.Id.submit_area;
 			global::MediaManager.Resource.Id.surface_view = global::Bible.Alarm.Droid.Resource.Id.surface_view;
 			global::MediaManager.Resource.Id.tabMode = global::Bible.Alarm.Droid.Resource.Id.tabMode;
 			global::MediaManager.Resource.Id.tag_transition_group = global::Bible.Alarm.Droid.Resource.Id.tag_transition_group;
+			global::MediaManager.Resource.Id.tag_unhandled_key_event_manager = global::Bible.Alarm.Droid.Resource.Id.tag_unhandled_key_event_manager;
+			global::MediaManager.Resource.Id.tag_unhandled_key_listeners = global::Bible.Alarm.Droid.Resource.Id.tag_unhandled_key_listeners;
 			global::MediaManager.Resource.Id.text = global::Bible.Alarm.Droid.Resource.Id.text;
 			global::MediaManager.Resource.Id.text2 = global::Bible.Alarm.Droid.Resource.Id.text2;
 			global::MediaManager.Resource.Id.textSpacerNoButtons = global::Bible.Alarm.Droid.Resource.Id.textSpacerNoButtons;
@@ -821,6 +865,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Layout.abc_alert_dialog_button_bar_material = global::Bible.Alarm.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
 			global::MediaManager.Resource.Layout.abc_alert_dialog_material = global::Bible.Alarm.Droid.Resource.Layout.abc_alert_dialog_material;
 			global::MediaManager.Resource.Layout.abc_alert_dialog_title_material = global::Bible.Alarm.Droid.Resource.Layout.abc_alert_dialog_title_material;
+			global::MediaManager.Resource.Layout.abc_cascading_menu_item_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_cascading_menu_item_layout;
 			global::MediaManager.Resource.Layout.abc_dialog_title_material = global::Bible.Alarm.Droid.Resource.Layout.abc_dialog_title_material;
 			global::MediaManager.Resource.Layout.abc_expanded_menu_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_expanded_menu_layout;
 			global::MediaManager.Resource.Layout.abc_list_menu_item_checkbox = global::Bible.Alarm.Droid.Resource.Layout.abc_list_menu_item_checkbox;
@@ -836,6 +881,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Layout.abc_search_dropdown_item_icons_2line = global::Bible.Alarm.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
 			global::MediaManager.Resource.Layout.abc_search_view = global::Bible.Alarm.Droid.Resource.Layout.abc_search_view;
 			global::MediaManager.Resource.Layout.abc_select_dialog_material = global::Bible.Alarm.Droid.Resource.Layout.abc_select_dialog_material;
+			global::MediaManager.Resource.Layout.abc_tooltip = global::Bible.Alarm.Droid.Resource.Layout.abc_tooltip;
 			global::MediaManager.Resource.Layout.exo_list_divider = global::Bible.Alarm.Droid.Resource.Layout.exo_list_divider;
 			global::MediaManager.Resource.Layout.exo_playback_control_view = global::Bible.Alarm.Droid.Resource.Layout.exo_playback_control_view;
 			global::MediaManager.Resource.Layout.exo_player_control_view = global::Bible.Alarm.Droid.Resource.Layout.exo_player_control_view;
@@ -881,6 +927,16 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.String.abc_font_family_menu_material = global::Bible.Alarm.Droid.Resource.String.abc_font_family_menu_material;
 			global::MediaManager.Resource.String.abc_font_family_subhead_material = global::Bible.Alarm.Droid.Resource.String.abc_font_family_subhead_material;
 			global::MediaManager.Resource.String.abc_font_family_title_material = global::Bible.Alarm.Droid.Resource.String.abc_font_family_title_material;
+			global::MediaManager.Resource.String.abc_menu_alt_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_alt_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_ctrl_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_ctrl_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_delete_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_delete_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_enter_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_enter_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_function_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_function_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_meta_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_meta_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_shift_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_shift_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_space_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_space_shortcut_label;
+			global::MediaManager.Resource.String.abc_menu_sym_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_sym_shortcut_label;
+			global::MediaManager.Resource.String.abc_prepend_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_prepend_shortcut_label;
 			global::MediaManager.Resource.String.abc_search_hint = global::Bible.Alarm.Droid.Resource.String.abc_search_hint;
 			global::MediaManager.Resource.String.abc_searchview_description_clear = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_clear;
 			global::MediaManager.Resource.String.abc_searchview_description_query = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_query;
@@ -890,7 +946,6 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.String.abc_shareactionprovider_share_with = global::Bible.Alarm.Droid.Resource.String.abc_shareactionprovider_share_with;
 			global::MediaManager.Resource.String.abc_shareactionprovider_share_with_application = global::Bible.Alarm.Droid.Resource.String.abc_shareactionprovider_share_with_application;
 			global::MediaManager.Resource.String.abc_toolbar_collapse_description = global::Bible.Alarm.Droid.Resource.String.abc_toolbar_collapse_description;
-			global::MediaManager.Resource.String.download_notification_channel_name = global::Bible.Alarm.Droid.Resource.String.download_notification_channel_name;
 			global::MediaManager.Resource.String.exo_controls_fastforward_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_fastforward_description;
 			global::MediaManager.Resource.String.exo_controls_fullscreen_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_fullscreen_description;
 			global::MediaManager.Resource.String.exo_controls_next_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_next_description;
@@ -1021,6 +1076,8 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Style.Base_V26_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V26_Theme_AppCompat;
 			global::MediaManager.Resource.Style.Base_V26_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light;
 			global::MediaManager.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::Bible.Alarm.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
+			global::MediaManager.Resource.Style.Base_V28_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V28_Theme_AppCompat;
+			global::MediaManager.Resource.Style.Base_V28_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V28_Theme_AppCompat_Light;
 			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat;
 			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
 			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
@@ -1109,7 +1166,10 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut;
+			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow;
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title;
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
 			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
@@ -1281,6 +1341,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
 			global::MediaManager.Resource.Style.Widget_Compat_NotificationActionContainer = global::Bible.Alarm.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
 			global::MediaManager.Resource.Style.Widget_Compat_NotificationActionText = global::Bible.Alarm.Droid.Resource.Style.Widget_Compat_NotificationActionText;
+			global::MediaManager.Resource.Style.Widget_Support_CoordinatorLayout = global::Bible.Alarm.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
 			global::MediaManager.Resource.Styleable.ActionBar = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar;
 			global::MediaManager.Resource.Styleable.ActionBar_background = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_background;
 			global::MediaManager.Resource.Styleable.ActionBar_backgroundSplit = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_backgroundSplit;
@@ -1328,12 +1389,28 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.ActivityChooserView_initialActivityCount = global::Bible.Alarm.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
 			global::MediaManager.Resource.Styleable.AlertDialog = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog;
 			global::MediaManager.Resource.Styleable.AlertDialog_android_layout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_android_layout;
+			global::MediaManager.Resource.Styleable.AlertDialog_buttonIconDimen = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_buttonIconDimen;
 			global::MediaManager.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
 			global::MediaManager.Resource.Styleable.AlertDialog_listItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_listItemLayout;
 			global::MediaManager.Resource.Styleable.AlertDialog_listLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_listLayout;
 			global::MediaManager.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
 			global::MediaManager.Resource.Styleable.AlertDialog_showTitle = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_showTitle;
 			global::MediaManager.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableItem = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableItem;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableItem_android_id = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_id;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible;
+			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId;
 			global::MediaManager.Resource.Styleable.AppCompatImageView = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView;
 			global::MediaManager.Resource.Styleable.AppCompatImageView_android_src = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView_android_src;
 			global::MediaManager.Resource.Styleable.AppCompatImageView_srcCompat = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
@@ -1359,7 +1436,10 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizePresetSizes = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizePresetSizes;
 			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity;
 			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizeTextType = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizeTextType;
+			global::MediaManager.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight;
 			global::MediaManager.Resource.Styleable.AppCompatTextView_fontFamily = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_fontFamily;
+			global::MediaManager.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight;
+			global::MediaManager.Resource.Styleable.AppCompatTextView_lineHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_lineHeight;
 			global::MediaManager.Resource.Styleable.AppCompatTextView_textAllCaps = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
 			global::MediaManager.Resource.Styleable.AppCompatTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarDivider = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider;
@@ -1421,6 +1501,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_controlBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_controlBackground;
+			global::MediaManager.Resource.Styleable.AppCompatTheme_dialogCornerRadius = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dialogCornerRadius;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_dialogTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dialogTheme;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal;
@@ -1471,6 +1552,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.AppCompatTheme_toolbarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_tooltipForegroundColor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_tooltipForegroundColor;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_tooltipFrameBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_tooltipFrameBackground;
+			global::MediaManager.Resource.Styleable.AppCompatTheme_viewInflaterClass = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_viewInflaterClass;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_windowActionBar = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowActionBar;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
 			global::MediaManager.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
@@ -1493,6 +1575,17 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.CompoundButton_android_button = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton_android_button;
 			global::MediaManager.Resource.Styleable.CompoundButton_buttonTint = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton_buttonTint;
 			global::MediaManager.Resource.Styleable.CompoundButton_buttonTintMode = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_keylines = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_ad_marker_color = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_ad_marker_color;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_ad_marker_width = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_ad_marker_width;
@@ -1526,10 +1619,30 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.FontFamilyFont = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_android_font = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_font;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_android_fontStyle = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::MediaManager.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_android_fontWeight = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::MediaManager.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_ttcIndex;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_font = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_font;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_fontStyle = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::MediaManager.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_fontVariationSettings;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_fontWeight = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::MediaManager.Resource.Styleable.FontFamilyFont_ttcIndex = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::MediaManager.Resource.Styleable.GradientColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor;
+			global::MediaManager.Resource.Styleable.GradientColor_android_centerColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_centerColor;
+			global::MediaManager.Resource.Styleable.GradientColor_android_centerX = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_centerX;
+			global::MediaManager.Resource.Styleable.GradientColor_android_centerY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_centerY;
+			global::MediaManager.Resource.Styleable.GradientColor_android_endColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_endColor;
+			global::MediaManager.Resource.Styleable.GradientColor_android_endX = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_endX;
+			global::MediaManager.Resource.Styleable.GradientColor_android_endY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_endY;
+			global::MediaManager.Resource.Styleable.GradientColor_android_gradientRadius = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::MediaManager.Resource.Styleable.GradientColor_android_startColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startColor;
+			global::MediaManager.Resource.Styleable.GradientColor_android_startX = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startX;
+			global::MediaManager.Resource.Styleable.GradientColor_android_startY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startY;
+			global::MediaManager.Resource.Styleable.GradientColor_android_tileMode = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_tileMode;
+			global::MediaManager.Resource.Styleable.GradientColor_android_type = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_type;
+			global::MediaManager.Resource.Styleable.GradientColorItem = global::Bible.Alarm.Droid.Resource.Styleable.GradientColorItem;
+			global::MediaManager.Resource.Styleable.GradientColorItem_android_color = global::Bible.Alarm.Droid.Resource.Styleable.GradientColorItem_android_color;
+			global::MediaManager.Resource.Styleable.GradientColorItem_android_offset = global::Bible.Alarm.Droid.Resource.Styleable.GradientColorItem_android_offset;
 			global::MediaManager.Resource.Styleable.LinearLayoutCompat = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat;
 			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
 			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
@@ -1648,6 +1761,15 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.Spinner_android_popupBackground = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_android_popupBackground;
 			global::MediaManager.Resource.Styleable.Spinner_android_prompt = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_android_prompt;
 			global::MediaManager.Resource.Styleable.Spinner_popupTheme = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_popupTheme;
+			global::MediaManager.Resource.Styleable.StateListDrawable = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable;
+			global::MediaManager.Resource.Styleable.StateListDrawable_android_constantSize = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_constantSize;
+			global::MediaManager.Resource.Styleable.StateListDrawable_android_dither = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_dither;
+			global::MediaManager.Resource.Styleable.StateListDrawable_android_enterFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_enterFadeDuration;
+			global::MediaManager.Resource.Styleable.StateListDrawable_android_exitFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_exitFadeDuration;
+			global::MediaManager.Resource.Styleable.StateListDrawable_android_variablePadding = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_variablePadding;
+			global::MediaManager.Resource.Styleable.StateListDrawable_android_visible = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_visible;
+			global::MediaManager.Resource.Styleable.StateListDrawableItem = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawableItem;
+			global::MediaManager.Resource.Styleable.StateListDrawableItem_android_drawable = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawableItem_android_drawable;
 			global::MediaManager.Resource.Styleable.SwitchCompat = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat;
 			global::MediaManager.Resource.Styleable.SwitchCompat_android_textOff = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_android_textOff;
 			global::MediaManager.Resource.Styleable.SwitchCompat_android_textOn = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_android_textOn;
@@ -9614,112 +9736,109 @@ namespace Bible.Alarm.Droid
 			public const int character_counter_pattern = 2131427395;
 			
 			// aapt resource value: 0x7f0b004e
-			public const int download_notification_channel_name = 2131427406;
+			public const int exo_controls_fastforward_description = 2131427406;
 			
 			// aapt resource value: 0x7f0b004f
-			public const int exo_controls_fastforward_description = 2131427407;
+			public const int exo_controls_fullscreen_description = 2131427407;
 			
 			// aapt resource value: 0x7f0b0050
-			public const int exo_controls_fullscreen_description = 2131427408;
+			public const int exo_controls_next_description = 2131427408;
 			
 			// aapt resource value: 0x7f0b0051
-			public const int exo_controls_next_description = 2131427409;
+			public const int exo_controls_pause_description = 2131427409;
 			
 			// aapt resource value: 0x7f0b0052
-			public const int exo_controls_pause_description = 2131427410;
+			public const int exo_controls_play_description = 2131427410;
 			
 			// aapt resource value: 0x7f0b0053
-			public const int exo_controls_play_description = 2131427411;
+			public const int exo_controls_previous_description = 2131427411;
 			
 			// aapt resource value: 0x7f0b0054
-			public const int exo_controls_previous_description = 2131427412;
+			public const int exo_controls_repeat_all_description = 2131427412;
 			
 			// aapt resource value: 0x7f0b0055
-			public const int exo_controls_repeat_all_description = 2131427413;
+			public const int exo_controls_repeat_off_description = 2131427413;
 			
 			// aapt resource value: 0x7f0b0056
-			public const int exo_controls_repeat_off_description = 2131427414;
+			public const int exo_controls_repeat_one_description = 2131427414;
 			
 			// aapt resource value: 0x7f0b0057
-			public const int exo_controls_repeat_one_description = 2131427415;
+			public const int exo_controls_rewind_description = 2131427415;
 			
 			// aapt resource value: 0x7f0b0058
-			public const int exo_controls_rewind_description = 2131427416;
+			public const int exo_controls_shuffle_description = 2131427416;
 			
 			// aapt resource value: 0x7f0b0059
-			public const int exo_controls_shuffle_description = 2131427417;
+			public const int exo_controls_stop_description = 2131427417;
 			
 			// aapt resource value: 0x7f0b005a
-			public const int exo_controls_stop_description = 2131427418;
+			public const int exo_download_completed = 2131427418;
 			
 			// aapt resource value: 0x7f0b005b
-			public const int exo_download_completed = 2131427419;
+			public const int exo_download_description = 2131427419;
 			
 			// aapt resource value: 0x7f0b005c
-			public const int exo_download_description = 2131427420;
+			public const int exo_download_downloading = 2131427420;
 			
 			// aapt resource value: 0x7f0b005d
-			public const int exo_download_downloading = 2131427421;
+			public const int exo_download_failed = 2131427421;
 			
 			// aapt resource value: 0x7f0b005e
-			public const int exo_download_failed = 2131427422;
+			public const int exo_download_notification_channel_name = 2131427422;
 			
 			// aapt resource value: 0x7f0b005f
-			public const int exo_download_notification_channel_name = 2131427423;
+			public const int exo_download_removing = 2131427423;
 			
 			// aapt resource value: 0x7f0b0060
-			public const int exo_download_removing = 2131427424;
-			
-			// aapt resource value: 0x7f0b0061
-			public const int exo_item_list = 2131427425;
-			
-			// aapt resource value: 0x7f0b006f
-			public const int exo_media_action_repeat_all_description = 2131427439;
-			
-			// aapt resource value: 0x7f0b0070
-			public const int exo_media_action_repeat_off_description = 2131427440;
-			
-			// aapt resource value: 0x7f0b0071
-			public const int exo_media_action_repeat_one_description = 2131427441;
-			
-			// aapt resource value: 0x7f0b0062
-			public const int exo_track_bitrate = 2131427426;
-			
-			// aapt resource value: 0x7f0b0063
-			public const int exo_track_mono = 2131427427;
-			
-			// aapt resource value: 0x7f0b0064
-			public const int exo_track_resolution = 2131427428;
-			
-			// aapt resource value: 0x7f0b0065
-			public const int exo_track_selection_auto = 2131427429;
-			
-			// aapt resource value: 0x7f0b0066
-			public const int exo_track_selection_none = 2131427430;
-			
-			// aapt resource value: 0x7f0b0067
-			public const int exo_track_selection_title_audio = 2131427431;
-			
-			// aapt resource value: 0x7f0b0068
-			public const int exo_track_selection_title_text = 2131427432;
-			
-			// aapt resource value: 0x7f0b0069
-			public const int exo_track_selection_title_video = 2131427433;
-			
-			// aapt resource value: 0x7f0b006a
-			public const int exo_track_stereo = 2131427434;
-			
-			// aapt resource value: 0x7f0b006b
-			public const int exo_track_surround = 2131427435;
-			
-			// aapt resource value: 0x7f0b006c
-			public const int exo_track_surround_5_point_1 = 2131427436;
-			
-			// aapt resource value: 0x7f0b006d
-			public const int exo_track_surround_7_point_1 = 2131427437;
+			public const int exo_item_list = 2131427424;
 			
 			// aapt resource value: 0x7f0b006e
-			public const int exo_track_unknown = 2131427438;
+			public const int exo_media_action_repeat_all_description = 2131427438;
+			
+			// aapt resource value: 0x7f0b006f
+			public const int exo_media_action_repeat_off_description = 2131427439;
+			
+			// aapt resource value: 0x7f0b0070
+			public const int exo_media_action_repeat_one_description = 2131427440;
+			
+			// aapt resource value: 0x7f0b0061
+			public const int exo_track_bitrate = 2131427425;
+			
+			// aapt resource value: 0x7f0b0062
+			public const int exo_track_mono = 2131427426;
+			
+			// aapt resource value: 0x7f0b0063
+			public const int exo_track_resolution = 2131427427;
+			
+			// aapt resource value: 0x7f0b0064
+			public const int exo_track_selection_auto = 2131427428;
+			
+			// aapt resource value: 0x7f0b0065
+			public const int exo_track_selection_none = 2131427429;
+			
+			// aapt resource value: 0x7f0b0066
+			public const int exo_track_selection_title_audio = 2131427430;
+			
+			// aapt resource value: 0x7f0b0067
+			public const int exo_track_selection_title_text = 2131427431;
+			
+			// aapt resource value: 0x7f0b0068
+			public const int exo_track_selection_title_video = 2131427432;
+			
+			// aapt resource value: 0x7f0b0069
+			public const int exo_track_stereo = 2131427433;
+			
+			// aapt resource value: 0x7f0b006a
+			public const int exo_track_surround = 2131427434;
+			
+			// aapt resource value: 0x7f0b006b
+			public const int exo_track_surround_5_point_1 = 2131427435;
+			
+			// aapt resource value: 0x7f0b006c
+			public const int exo_track_surround_7_point_1 = 2131427436;
+			
+			// aapt resource value: 0x7f0b006d
+			public const int exo_track_unknown = 2131427437;
 			
 			// aapt resource value: 0x7f0b0044
 			public const int fab_transformation_scrim_behavior = 2131427396;
