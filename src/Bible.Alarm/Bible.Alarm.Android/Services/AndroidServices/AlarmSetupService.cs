@@ -7,17 +7,18 @@ using MediaManager;
 using NLog;
 using System;
 using Bible.Alarm.Droid.Services.Tasks;
+using JW.Alarm.Services.Droid.Helpers;
 
 namespace JW.Alarm.Services.Droid.Tasks
 {
     [Service(Enabled = true)]
-    public class AlarmSetupTask : Service
+    public class AlarmSetupService : Service
     {
         private static Logger logger => LogManager.GetCurrentClassLogger();
 
         public static bool IsRunning = false;
-      
-        public AlarmSetupTask() : base()
+
+        public AlarmSetupService() : base()
         {
             LogSetup.Initialize();
 
@@ -42,7 +43,7 @@ namespace JW.Alarm.Services.Droid.Tasks
 
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
-        { 
+        {
             try
             {
                 var extra = intent.GetStringExtra("Action");
@@ -57,7 +58,9 @@ namespace JW.Alarm.Services.Droid.Tasks
                             AddNotification(this, long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
                             break;
                         }
-
+                    case "SetupBackgroundTasks":
+                        BootstrapHelper.VerifyBackgroundTasks(this);
+                        break;
                     default:
                         throw new NotImplementedException();
                 }
@@ -80,7 +83,7 @@ namespace JW.Alarm.Services.Droid.Tasks
         public static void AddNotification(Context context, long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            var alarmIntent = new Intent(context, typeof(AlarmRingerService));
+            var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
 
             var pIntent = PendingIntent.GetBroadcast(
@@ -92,7 +95,7 @@ namespace JW.Alarm.Services.Droid.Tasks
             var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
 
             // Figure out the alaram in milliseconds.
-            var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis() 
+            var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis()
                 + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
 
             if (Build.VERSION.SdkInt < BuildVersionCodes.Kitkat)

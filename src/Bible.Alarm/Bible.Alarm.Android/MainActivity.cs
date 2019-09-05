@@ -9,6 +9,7 @@ using Android.Content;
 using JW.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
+using JW.Alarm.Services.Droid.Tasks;
 
 namespace Bible.Alarm.Droid
 {
@@ -68,13 +69,13 @@ namespace Bible.Alarm.Droid
 
             try
             {
-                Intent intent = new Intent();
-                intent.SetAction("com.Bible.Alarm.Restart");
-                SendBroadcast(intent);
+                var intent = new Intent(this, typeof(AlarmSetupService));
+                intent.PutExtra("Action", "SetupBackgroundTasks");
+                StartService(intent);
             }
             catch (Exception e)
             {
-                logger.Fatal(e, "Failed to start restart service.");
+                logger.Fatal(e, "Failed to start alarm setup service.");
             }
         }
 

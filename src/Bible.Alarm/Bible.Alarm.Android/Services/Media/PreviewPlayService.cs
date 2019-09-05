@@ -40,7 +40,7 @@ namespace JW.Alarm.Services.Droid
                 var uri = Android.Net.Uri.Parse(url);
                 this.player.Reset();
                 this.player.SetOnCompletionListener(this);
-                this.player.SetDataSource(Application.Context, uri);
+                this.player.SetDataSource(IocSetup.Context, uri);
                 this.player.Prepare();
                 this.player.Start();
             });

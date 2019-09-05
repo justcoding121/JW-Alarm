@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Bible.Alarm.Droid.Services.Tasks;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Droid.Tasks;
 using Microsoft.Data.Sqlite;
@@ -23,11 +24,11 @@ namespace JW.Alarm.Services.Droid.Helpers
             await service.Verify();
         }
 
-        public static void VerifyBackgroundTasks()
+        public static void VerifyBackgroundTasks(Context context)
         {
-            if (!IsAlarmSetupTaskScheduled())
+            if (!IsScheduleTaskScheduled(context))
             {
-                scheduleSetupTask();
+                schedulerSetupTask(context);
             }
         }
 
@@ -39,12 +40,11 @@ namespace JW.Alarm.Services.Droid.Helpers
             }
         }
 
-        private static void scheduleSetupTask()
+        private static void schedulerSetupTask(Context context)
         {
-            var context = Application.Context;
-            var intent = new Intent(context, typeof(AlarmSetupTask));
+            var intent = new Intent(context, typeof(SchedulerReceiver));
 
-            var pIntent = PendingIntent.GetService(
+            var pIntent = PendingIntent.GetBroadcast(
                     context,
                     0,
                     intent,
@@ -56,21 +56,19 @@ namespace JW.Alarm.Services.Droid.Helpers
             var firstTrigger = Java.Lang.JavaSystem.CurrentTimeMillis();
 
             alarmService.SetRepeating(AlarmType.RtcWakeup, firstTrigger, interval, pIntent);
-
         }
 
-        private static bool IsAlarmSetupTaskScheduled()
+        private static bool IsScheduleTaskScheduled(Context context)
         {
-            var pIntent = findIntent();
+            var pIntent = findIntent(context);
             return pIntent != null;
         }
 
-        private static PendingIntent findIntent()
+        private static PendingIntent findIntent(Context context)
         {
-            var context = Application.Context;
-            var intent = new Intent(context, typeof(AlarmSetupTask));
+            var intent = new Intent(context, typeof(SchedulerReceiver));
 
-            var pIntent = PendingIntent.GetService(
+            var pIntent = PendingIntent.GetBroadcast(
                     context,
                     0,
                     intent,

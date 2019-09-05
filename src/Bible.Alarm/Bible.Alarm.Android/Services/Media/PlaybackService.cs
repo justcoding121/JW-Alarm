@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.Media;
 using Android.Runtime;
 using Java.IO;
@@ -133,7 +134,7 @@ namespace JW.Alarm.Services.Droid
                 }
 
                 var mediaItems = (await nextTracks
-                    .Select(x => this.cacheService.GetCacheFilePath(x.Url))
+                    .Select(x => new FileInfo(this.cacheService.GetCacheFilePath(x.Url)))
                     .CreateMediaItems())
                     .ToList();
 

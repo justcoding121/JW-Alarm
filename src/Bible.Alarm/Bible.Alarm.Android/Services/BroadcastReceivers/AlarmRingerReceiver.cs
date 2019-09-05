@@ -22,14 +22,14 @@ using NLog;
 namespace Bible.Alarm.Droid.Services.Tasks
 {
     [BroadcastReceiver(Enabled = true)]
-    public class AlarmRingerService : BroadcastReceiver
+    public class AlarmRingerReceiver : BroadcastReceiver
     {
         private static Logger logger => LogManager.GetCurrentClassLogger();
 
         private IPlaybackService playbackService;
         private Context context;
         private Intent intent;
-        public AlarmRingerService() : base()
+        public AlarmRingerReceiver() : base()
         {
             LogSetup.Initialize();
         }
@@ -60,7 +60,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 if (IocSetup.Container == null)
                 {
-                    IocSetup.Initialize(Application.Context, true);
+                    IocSetup.Initialize(context, true);
                     IocSetup.Container.Resolve<IMediaManager>().Init(Application.Context);
                 }
 

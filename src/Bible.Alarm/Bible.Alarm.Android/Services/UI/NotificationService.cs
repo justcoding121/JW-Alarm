@@ -24,17 +24,17 @@ namespace JW.Alarm.Services.Droid
         {
             if(IocSetup.IsService)
             {
-                AlarmSetupTask.AddNotification(Application.Context, scheduleId, time, title, body);
+                AlarmSetupService.AddNotification(IocSetup.Context, scheduleId, time, title, body);
             }
             else
             {
-                Intent intent = new Intent(Application.Context, typeof(AlarmSetupTask));
+                Intent intent = new Intent(IocSetup.Context, typeof(AlarmSetupService));
                 intent.PutExtra("Action", "Add");
                 intent.PutExtra("ScheduleId", scheduleId.ToString());
                 intent.PutExtra("Time", time.ToString());
                 intent.PutExtra("Title", title);
                 intent.PutExtra("Body", body);
-                Application.Context.StartService(intent);
+                IocSetup.Context.StartService(intent);
             }
            
         }
@@ -46,8 +46,7 @@ namespace JW.Alarm.Services.Droid
 
             if (pIntent != null)
             {
-                var context = this;
-                var alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+                var alarmManager = (AlarmManager)IocSetup.Context.GetSystemService(Context.AlarmService);
                 alarmManager?.Cancel(pIntent);
                 pIntent.Cancel();
             }
@@ -61,7 +60,7 @@ namespace JW.Alarm.Services.Droid
 
         private PendingIntent findIntent(long scheduleId)
         {
-            var context = Application.Context;
+            var context = IocSetup.Context;
 
             var alarmIntent = new Intent();
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());

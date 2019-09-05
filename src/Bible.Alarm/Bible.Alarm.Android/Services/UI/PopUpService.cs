@@ -12,7 +12,7 @@ namespace JW.Alarm.Services.Droid
     {
         public override Task ShowMessage(string message, int seconds)
         {
-            var context = Android.App.Application.Context;
+            var context = IocSetup.Context;
             var tostMessage = message;
             Toast.MakeText(context, message, ToastLength.Short).Show();
 
