@@ -55,6 +55,10 @@ namespace Bible.Alarm.Droid
                     await BootstrapHelper.VerifyMediaLookUpService();
                     await BootstrapHelper.InitializeDatabase();
                     await Messenger<bool>.Publish(Messages.Initialized, true);
+
+                    var intent = new Intent(this, typeof(AlarmSetupService));
+                    intent.PutExtra("Action", "SetupBackgroundTasks");
+                    StartService(intent);
                 }
                 catch (Exception e)
                 {
@@ -66,17 +70,6 @@ namespace Bible.Alarm.Droid
         protected override void OnStart()
         {
             base.OnStart();
-
-            try
-            {
-                var intent = new Intent(this, typeof(AlarmSetupService));
-                intent.PutExtra("Action", "SetupBackgroundTasks");
-                StartService(intent);
-            }
-            catch (Exception e)
-            {
-                logger.Fatal(e, "Failed to start alarm setup service.");
-            }
         }
 
     }

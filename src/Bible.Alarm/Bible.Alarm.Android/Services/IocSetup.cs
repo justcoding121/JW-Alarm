@@ -10,6 +10,7 @@
     using MediaManager;
     using JW.Alarm.Services.Droid.Tasks;
     using Android.Content;
+    using Com.Google.Android.Exoplayer2.UI;
 
     public static class IocSetup
     {

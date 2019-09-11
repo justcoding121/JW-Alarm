@@ -1,9 +1,5 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
 using Android.Media;
-using Android.Runtime;
-using Java.IO;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
@@ -13,10 +9,8 @@ using MediaManager.Playback;
 using MediaManager.Player;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JW.Alarm.Services.Droid
@@ -67,6 +61,12 @@ namespace JW.Alarm.Services.Droid
         private void stateChanged(object sender, StateChangedEventArgs e)
         {
             StateChanged?.Invoke(this, e.State);
+
+            //var notificationManager = (this.mediaManager as MediaManagerImplementation).Notification
+            //    as MediaManager.Platforms.Android.Notifications.NotificationManager;
+
+            //notificationManager.PlayerNotificationManager.SetOngoing(false);
+            //notificationManager.PlayerNotificationManager.Invalidate();
         }
 
         private async void markTrackAsPlayed(object sender, MediaItemEventArgs e)

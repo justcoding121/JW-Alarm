@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using MediaManager;
 
 namespace Bible.Alarm.Droid
 {
@@ -28,14 +29,17 @@ namespace Bible.Alarm.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            var startupWork = new Task(() => { SimulateStartup(); });
+
+            var startupWork = new Task(() => { doWork(); });
             startupWork.Start();
         }
 
-        // Simulates background work that happens behind the splash screen
-        void SimulateStartup()
+        // background work that happens behind the splash screen
+        void doWork()
         {
-            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            var intent = new Intent(Application.Context, typeof(MainActivity));
+            intent.SetFlags(ActivityFlags.ReorderToFront);
+            StartActivity(intent);
         }
     }
 }

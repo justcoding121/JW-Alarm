@@ -20,7 +20,12 @@ namespace JW.Alarm.Services.iOS
 
         public event Action OnStopped;
 
-        public void Play(string url)
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Play(string url)
         {
             throw new NotImplementedException();
         }
@@ -29,6 +34,5 @@ namespace JW.Alarm.Services.iOS
         {
             throw new NotImplementedException();
         }
-    
     }
 }

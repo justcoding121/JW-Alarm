@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.ViewModels;
+using Com.Google.Android.Exoplayer2.UI;
 using JW.Alarm.Common.Mvvm;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
@@ -82,7 +83,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                         {
                             await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>());
                         }
-
+                   
                         await playbackService.Play(id);
                     }
                     catch (Exception e)

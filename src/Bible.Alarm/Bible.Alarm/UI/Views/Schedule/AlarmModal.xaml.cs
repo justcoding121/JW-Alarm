@@ -12,6 +12,7 @@ namespace Bible.Alarm.UI.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AlarmModal : ContentPage
 	{
+        public static bool IsShown { get; set; }
 		public AlarmModal ()
 		{
 			InitializeComponent ();

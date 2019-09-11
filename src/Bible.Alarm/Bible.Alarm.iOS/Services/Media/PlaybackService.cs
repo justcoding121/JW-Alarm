@@ -32,7 +32,7 @@ namespace JW.Alarm.Services.iOS
             this.alarmService = alarmService;
         }
 
-        public event EventHandler<MediaPlayerState> StateChanged;
+        public event EventHandler<MediaManager.Player.MediaPlayerState> StateChanged;
 
         public void Dismiss()
         {
