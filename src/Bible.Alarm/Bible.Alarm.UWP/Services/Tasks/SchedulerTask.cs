@@ -25,7 +25,11 @@ namespace JW.Alarm.Services.Uwp.Tasks
         {
             await mediaCacheService.CleanUp();
 
-            var schedules = await scheduleDbContext.AlarmSchedules.AsNoTracking().Where(x => x.IsEnabled).ToListAsync();
+            var schedules = await scheduleDbContext
+                .AlarmSchedules
+                .AsNoTracking()
+                .Where(x => x.IsEnabled)
+                .ToListAsync();
 
             foreach (var schedule in schedules)
             {

@@ -122,7 +122,8 @@ namespace JW.Alarm.ViewModels
             Messenger<bool>.Subscribe(Messages.Initialized, async vm =>
             {
                 var alarmSchedules = await scheduleDbContext.AlarmSchedules
-                                    .AsNoTracking().ToListAsync();
+                                    .AsNoTracking()
+                                    .ToListAsync();
 
                 var initialSchedules = new ObservableHashSet<ScheduleListItem>();
                 foreach (var schedule in alarmSchedules)

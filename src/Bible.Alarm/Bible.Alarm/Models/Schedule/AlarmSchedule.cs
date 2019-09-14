@@ -14,19 +14,21 @@ namespace JW.Alarm.Models
 
         //24 hour based
         public int Hour { get; set; }
-        public int MeridienHour => Meridien == Meridien.AM ? Hour == 0 ? 12 : Hour : Hour % 12;
+        public int MeridienHour => Meridien == Meridien.AM ?
+                                    Hour == 0 ? 12
+                                    : Hour : (Hour == 12 ? 12 : Hour % 12);
         public int Minute { get; set; }
         public Meridien Meridien => Hour < 12 ? Meridien.AM : Meridien.PM;
         public int Second { get; set; }
 
         public DaysOfWeek DaysOfWeek { get; set; }
 
-
         public string TimeText => $"{MeridienHour.ToString("D2")}:{Minute.ToString("D2")} {Meridien}";
 
         public string CronExpression => getCronExpression();
 
         public bool MusicEnabled { get; set; }
+
         public virtual AlarmMusic Music { get; set; }
 
         public virtual BibleReadingSchedule BibleReadingSchedule { get; set; }

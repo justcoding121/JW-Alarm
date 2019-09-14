@@ -54,6 +54,9 @@
     <None Update="UI\Views\Music\TrackSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="UI\Views\Schedule\AlarmModal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="UI\Views\Schedule\Schedule.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

@@ -160,7 +160,9 @@ namespace JW.Alarm.ViewModels
                 //get the latest music track
                 if (Music == null || (!IsNewSchedule && !musicUpdated))
                 {
-                    Music = await scheduleDbContext.AlarmMusic.AsNoTracking().FirstAsync(x => x.AlarmScheduleId == scheduleId);
+                    Music = await scheduleDbContext.AlarmMusic
+                    .AsNoTracking()
+                    .FirstAsync(x => x.AlarmScheduleId == scheduleId);
                 }
 
                 ReduxContainer.Store.Dispatch(new MusicSelectionAction()
@@ -182,7 +184,9 @@ namespace JW.Alarm.ViewModels
                 //get the latest bible track
                 if (BibleReadingSchedule == null || (!IsNewSchedule && !bibleReadingUpdated))
                 {
-                    BibleReadingSchedule = await scheduleDbContext.BibleReadingSchedules.AsNoTracking().FirstAsync(x => x.AlarmScheduleId == scheduleId);
+                    BibleReadingSchedule = await scheduleDbContext.BibleReadingSchedules
+                                            .AsNoTracking()
+                                            .FirstAsync(x => x.AlarmScheduleId == scheduleId);
                 }
 
                 ReduxContainer.Store.Dispatch(new BibleSelectionAction()

@@ -22,9 +22,9 @@ namespace JW.Alarm.Services
         public async Task<PlayItem> NextTrack(long scheduleId)
         {
             var schedule = await scheduleDbContext.AlarmSchedules
+                .AsNoTracking()
                 .Include(x => x.Music)
                 .Include(x => x.BibleReadingSchedule)
-                .AsNoTracking()
                 .FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
@@ -40,9 +40,9 @@ namespace JW.Alarm.Services
         public async Task<PlayItem> NextTrack(NotificationDetail currentTrack)
         {
             var schedule = await scheduleDbContext.AlarmSchedules
+                                .AsNoTracking()
                                 .Include(x => x.Music)
                                 .Include(x => x.BibleReadingSchedule)
-                                .AsNoTracking()
                                 .FirstAsync(x => x.Id == currentTrack.ScheduleId);
 
             var bibleReadingSchedule = schedule.BibleReadingSchedule;
@@ -136,9 +136,9 @@ namespace JW.Alarm.Services
             var result = new List<PlayItem>();
 
             var schedule = await scheduleDbContext.AlarmSchedules
+                                    .AsNoTracking()
                                     .Include(x => x.Music)
                                     .Include(x => x.BibleReadingSchedule)
-                                    .AsNoTracking()
                                     .FirstAsync(x => x.Id == scheduleId);
 
             if (schedule.MusicEnabled)
