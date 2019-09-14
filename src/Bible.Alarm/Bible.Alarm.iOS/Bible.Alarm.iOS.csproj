@@ -197,9 +197,9 @@
       <Version>0.8.9</Version>
     </PackageReference>
     <PackageReference Include="System.Reactive.Linq">
-      <Version>4.1.5</Version>
+      <Version>4.1.6</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.778463" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
