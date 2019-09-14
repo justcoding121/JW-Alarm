@@ -36,6 +36,7 @@ namespace JW.Alarm.Services.Droid.Helpers
         {
             using (var db = IocSetup.Container.Resolve<ScheduleDbContext>())
             {
+
                 await db.Database.MigrateAsync();
             }
         }

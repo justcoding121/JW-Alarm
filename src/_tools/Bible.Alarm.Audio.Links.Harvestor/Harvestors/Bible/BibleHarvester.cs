@@ -109,7 +109,7 @@ namespace AudioLinkHarvester.Bible
                 {
                     model = JsonConvert.DeserializeObject<dynamic>(jsonString);
                 }
-                catch
+                catch (JsonReaderException)
                 {
                     bookNumber++;
                     harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
