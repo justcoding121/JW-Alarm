@@ -15,7 +15,8 @@ namespace JW.Alarm.ViewModels
                 container.Resolve<ScheduleDbContext>(),
                 container.Resolve<IToastService>(),
                 container.Resolve<INavigationService>(),
-                container.Resolve<IMediaCacheService>()), isSingleton: true);
+                container.Resolve<IMediaCacheService>(),
+                container.Resolve<IAlarmService>()), isSingleton: true);
 
             container.Register((x) => new ScheduleViewModel());
 

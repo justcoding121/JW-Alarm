@@ -24,7 +24,12 @@ namespace JW.Alarm.Services.Droid
 
         public void Stop()
         {
-            player.Stop();
+            try
+            {
+                player.Stop();
+            }
+            //ignored
+            catch { }
         }
 
         public void OnCompletion(MediaPlayer mp)
@@ -37,12 +42,17 @@ namespace JW.Alarm.Services.Droid
             await Task.Delay(500);
             await Task.Run(() =>
             {
-                var uri = Android.Net.Uri.Parse(url);
-                this.player.Reset();
-                this.player.SetOnCompletionListener(this);
-                this.player.SetDataSource(IocSetup.Context, uri);
-                this.player.Prepare();
-                this.player.Start();
+                try
+                {
+                    var uri = Android.Net.Uri.Parse(url);
+                    this.player.Reset();
+                    this.player.SetOnCompletionListener(this);
+                    this.player.SetDataSource(IocSetup.Context, uri);
+                    this.player.Prepare();
+                    this.player.Start();
+                }
+                //ignored
+                catch { }
             });
         }
 

@@ -1,10 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.OS;
+using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Infrastructure;
 using JW.Alarm.Services.Contracts;
 using JW.Alarm.Services.Droid.Tasks;
-using Microsoft.Extensions.Logging;
 using NLog;
 using System;
 
@@ -22,7 +21,7 @@ namespace JW.Alarm.Services.Droid
         public void Add(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            if(IocSetup.IsService)
+            if (IocSetup.IsService)
             {
                 AlarmSetupService.AddNotification(IocSetup.Context, scheduleId, time, title, body);
             }
@@ -36,7 +35,7 @@ namespace JW.Alarm.Services.Droid
                 intent.PutExtra("Body", body);
                 IocSetup.Context.StartService(intent);
             }
-           
+
         }
 
 
@@ -50,6 +49,7 @@ namespace JW.Alarm.Services.Droid
                 alarmManager?.Cancel(pIntent);
                 pIntent.Cancel();
             }
+
         }
 
         public bool IsScheduled(long scheduleId)
@@ -62,23 +62,18 @@ namespace JW.Alarm.Services.Droid
         {
             var context = IocSetup.Context;
 
-            var alarmIntent = new Intent();
+            var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-            alarmIntent.SetAction(buildActionName());
 
-            var pIntent = PendingIntent.GetService(
-                  context,
-                  (int)scheduleId,
-                  alarmIntent,
-                  PendingIntentFlags.NoCreate);
+            var pIntent = PendingIntent.GetBroadcast(
+                    context,
+                    (int)scheduleId,
+                    alarmIntent,
+                    PendingIntentFlags.NoCreate);
 
             return pIntent;
         }
 
-        internal static string buildActionName()
-        {
-            return "com.bible.alarm.RING";
-        }
     }
 
 }

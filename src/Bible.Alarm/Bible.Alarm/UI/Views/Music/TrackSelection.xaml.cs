@@ -29,13 +29,8 @@ namespace Bible.Alarm.UI.Views.Music
 
         protected override bool OnBackButtonPressed()
         {
-            if (base.OnBackButtonPressed())
-            {
-                ViewModel.BackCommand.Execute(null);
-                return true;
-            }
-
-            return false;
+            ViewModel.BackCommand.Execute(null);
+            return true;
         }
     }
 }
