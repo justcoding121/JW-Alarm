@@ -53,6 +53,8 @@ namespace JW.Alarm.ViewModels
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
             {
+                x.Schedule.IsEnabled = x.IsEnabled;
+                
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction()
                 {
                     SelectedScheduleListItem = x
@@ -211,7 +213,7 @@ namespace JW.Alarm.ViewModels
                                      {
                                          await popUpService.ShowScheduledNotification(y.Schedule);
                                      }
-                                    
+
                                      IsBusy = false;
                                  })
                                 .Subscribe();
@@ -257,7 +259,10 @@ namespace JW.Alarm.ViewModels
 
         public void RaisePropertiesChangedEvent()
         {
-            RaiseProperties(GetType().GetProperties().Select(x => x.Name).ToArray());
+            RaiseProperties(GetType()
+                .GetProperties()
+                .Where(x => x.Name != "IsEnabled")
+                .Select(x => x.Name).ToArray());
         }
 
         public int CompareTo(object obj)
