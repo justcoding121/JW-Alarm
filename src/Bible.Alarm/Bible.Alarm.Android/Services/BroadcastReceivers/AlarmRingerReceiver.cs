@@ -79,12 +79,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     try
                     {
                         var id = long.Parse(scheduleId);
+                 
+                        await playbackService.Play(id);
+
                         if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
                         {
                             await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>());
                         }
-                   
-                        await playbackService.Play(id);
                     }
                     catch (Exception e)
                     {

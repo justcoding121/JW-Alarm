@@ -41,19 +41,18 @@ namespace Bible.Alarm
                 homePage.BindingContext = IocSetup.Container.Resolve<JW.Alarm.ViewModels.HomeViewModel>();
                 MainPage = navigationPage;
             }
-
-            if (mediaManager.IsPlaying())
-            {
-                Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>()));
-            }
         }
 
-        protected async override void OnStart()
+        protected override void OnStart()
         {
             var navigator = IocSetup.Container.Resolve<INavigationService>();
             // Handle when your app starts  
             await navigator.NavigateToHome();
 
+            if (mediaManager.IsPlaying())
+            {
+                Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>()));
+            }
         }
 
         protected override void OnSleep()
@@ -64,6 +63,10 @@ namespace Bible.Alarm
         protected override void OnResume()
         {
             // Handle when your app resumes
+            if (mediaManager.IsPlaying())
+            {
+                Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>()));
+            }
         }
 
     }
