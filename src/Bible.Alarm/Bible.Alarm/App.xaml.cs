@@ -43,7 +43,7 @@ namespace Bible.Alarm
             }
         }
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
             var navigator = IocSetup.Container.Resolve<INavigationService>();
             // Handle when your app starts  
@@ -51,7 +51,7 @@ namespace Bible.Alarm
 
             if (mediaManager.IsPlaying())
             {
-                Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>()));
+                await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>());
             }
         }
 

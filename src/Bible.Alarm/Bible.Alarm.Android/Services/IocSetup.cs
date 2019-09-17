@@ -11,6 +11,8 @@
     using JW.Alarm.Services.Droid.Tasks;
     using Android.Content;
     using Com.Google.Android.Exoplayer2.UI;
+    using Bible.Alarm.Contracts.Network;
+    using Bible.Alarm.Droid.Services.Network;
 
     public static class IocSetup
     {
@@ -41,7 +43,9 @@
             container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
                 container.Resolve<IPlaylistService>(),
                 container.Resolve<IAlarmService>(),
-                container.Resolve<IMediaCacheService>()));
+                container.Resolve<IMediaCacheService>(),
+                container.Resolve<IStorageService>(),
+                container.Resolve<INetworkStatusService>()));
 
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
@@ -61,6 +65,7 @@
 
             }, true);
 
+            container.Register<INetworkStatusService>((x) => new NetworkStatusService());
 			Container = container;
             Context = context;
             IsService = isService;

@@ -21,7 +21,7 @@ namespace JW.Alarm.Services
             this.downloadService = downloadService;
             this.storageService = storageService;
 
-            indexRoot = new Lazy<string>(() => Path.Combine(this.storageService.StorageRoot));
+            indexRoot = new Lazy<string>(() => this.storageService.StorageRoot);
         }
 
         private readonly SemaphoreSlim @lock = new SemaphoreSlim(1);
@@ -74,7 +74,9 @@ namespace JW.Alarm.Services
         private async Task copyIndexFromResource()
         {
             var indexResourceFile = "index.zip";
-            var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
+            var defaultAlarmFile = "cool-alarm-tone-notification-sound.mp3";
+
+            var tmpIndexFilePath = Path.Combine(IndexRoot, indexResourceFile);
 
             if (await storageService.FileExists(tmpIndexFilePath))
             {
@@ -86,7 +88,13 @@ namespace JW.Alarm.Services
                 await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
             }
 
-            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, "index.zip");
+            if (!await storageService.FileExists(Path.Combine(IndexRoot, defaultAlarmFile)))
+            {
+                await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
+            }
+
+            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);
+         
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
             await storageService.DeleteFile(tmpIndexFilePath);
         }

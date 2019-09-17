@@ -1,4 +1,5 @@
-﻿using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Contracts.Network;
+using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -17,17 +18,21 @@ namespace JW.Alarm.Services
         private IDownloadService downloadService;
         private IPlaylistService mediaPlayService;
         private ScheduleDbContext scheduleDbContext;
+        private INetworkStatusService networkStatusService;
+
         private MediaService mediaService;
 
         public MediaCacheService(IStorageService storageService,
             IDownloadService downloadService, IPlaylistService mediaPlayService,
-            ScheduleDbContext dbContext, MediaService mediaService)
+            ScheduleDbContext dbContext, MediaService mediaService,
+            INetworkStatusService networkStatusService)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;
             this.mediaPlayService = mediaPlayService;
             this.scheduleDbContext = dbContext;
             this.mediaService = mediaService;
+            this.networkStatusService = networkStatusService;
 
             cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
         }
@@ -51,6 +56,12 @@ namespace JW.Alarm.Services
 
         public async Task SetupAlarmCache(long alarmScheduleId)
         {
+
+            if(!await networkStatusService.IsInternetAvailable())
+            {
+                return;
+            }
+
             var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromHours(1));
 
             foreach (var playItem in playlist)

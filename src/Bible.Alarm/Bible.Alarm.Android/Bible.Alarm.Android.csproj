@@ -106,6 +106,7 @@
     <Compile Include="Services\BroadcastReceivers\AlarmRingerReceiver.cs" />
     <Compile Include="Services\AndroidServices\AlarmSetupService.cs" />
     <Compile Include="Services\BroadcastReceivers\RestartReceiver.cs" />
+    <Compile Include="Services\Network\NetworkStatusService.cs" />
     <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\PopUpService.cs" />

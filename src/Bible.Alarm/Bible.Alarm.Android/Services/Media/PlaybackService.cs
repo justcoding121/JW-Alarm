@@ -1,5 +1,8 @@
-﻿using Android.App;
+﻿using Advanced.Algorithms.DataStructures.Foundation;
+using Android.App;
 using Android.Media;
+using Android.Net;
+using Bible.Alarm.Contracts.Network;
 using JW.Alarm.Models;
 using JW.Alarm.Services.Contracts;
 using MediaManager;
@@ -21,6 +24,8 @@ namespace JW.Alarm.Services.Droid
         private IAlarmService alarmService;
         private IPlaylistService playlistService;
         private IMediaCacheService cacheService;
+        private IStorageService storageService;
+        private INetworkStatusService networkStatusService;
 
         private long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
@@ -33,12 +38,16 @@ namespace JW.Alarm.Services.Droid
         public PlaybackService(IMediaManager mediaManager,
             IPlaylistService playlistService,
             IAlarmService alarmService,
-            IMediaCacheService cacheService)
+            IMediaCacheService cacheService,
+            IStorageService storageService,
+            INetworkStatusService networkStatusService)
         {
             this.mediaManager = mediaManager;
             this.playlistService = playlistService;
             this.alarmService = alarmService;
             this.cacheService = cacheService;
+            this.storageService = storageService;
+            this.networkStatusService = networkStatusService;
 
             this.mediaManager.MediaItemChanged += markTrackAsPlayed;
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
@@ -102,50 +111,78 @@ namespace JW.Alarm.Services.Droid
         {
             if (!this.mediaManager.IsPlaying())
             {
-                this.currentScheduleId = scheduleId;
+                this.mediaManager.RepeatMode = RepeatMode.Off;
 
-                await cacheService.SetupAlarmCache(scheduleId);
+                this.currentScheduleId = scheduleId;
 
                 var nextTracks = await playlistService.NextTracks(scheduleId, TimeSpan.FromHours(1));
 
-                //play default ring tone if we don't have the files downloaded.
-                if (await nextTracks.AnyAsync(async x => !await cacheService.Exists(x.Url)))
+                var downloadedTracks = new OrderedDictionary<int, FileInfo>();
+                var streamingTracks = new OrderedDictionary<int, string>();
+
+                var playDetailMap = new Dictionary<int, NotificationDetail>();
+
+                var internetOn = await networkStatusService.IsInternetAvailable();
+
+                var i = 0;
+                foreach (var item in nextTracks)
                 {
-                    var notification = RingtoneManager.GetDefaultUri(RingtoneType.Alarm);
+                    playDetailMap[i] = item.PlayDetail;
 
-                    if (notification == null)
+                    if (await cacheService.Exists(item.Url))
                     {
-                        // alert is null, using backup
-                        notification = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
-
-                        // I can't see this ever being null (as always have a default notification)
-                        // but just incase
-                        if (notification == null)
+                        downloadedTracks.Add(i, new FileInfo(this.cacheService.GetCacheFilePath(item.Url)));
+                    }
+                    else
+                    {
+                        if (internetOn)
                         {
-                            // alert backup is null, using 2nd backup
-                            notification = RingtoneManager.GetDefaultUri(RingtoneType.Ringtone);
+                            streamingTracks.Add(i, item.Url);
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
 
-                    var r = RingtoneManager.GetRingtone(Application.Context, notification);
-                    r.Play();
+                    i++;
+                }
 
+                var downloadedMediaItems = (await downloadedTracks.Select(x => x.Value).CreateMediaItems()).ToList();
+                var streamableMediaItems = (await streamingTracks.Select(x => x.Value).CreateMediaItems()).ToList();
+
+                var mergedMediaItems = new OrderedDictionary<int, IMediaItem>();
+
+                i = 0;
+                foreach (var item in downloadedTracks)
+                {
+                    mergedMediaItems.Add(item.Key, downloadedMediaItems[i]);
+                    i++;
+                }
+
+                i = 0;
+                foreach (var item in streamingTracks)
+                {
+                    mergedMediaItems.Add(item.Key, streamableMediaItems[i]);
+                    i++;
+                }
+
+                //play default ring tone if we don't have the files downloaded
+                //and internet is not available
+                if (!mergedMediaItems.Any())
+                {
+                    this.mediaManager.RepeatMode = RepeatMode.All;
+                    await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
                     return;
                 }
 
-                var mediaItems = (await nextTracks
-                    .Select(x => new FileInfo(this.cacheService.GetCacheFilePath(x.Url)))
-                    .CreateMediaItems())
-                    .ToList();
-
-                await this.mediaManager.Play(mediaItems);
+                await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
 
                 currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();
-                for (int i = 0; i < nextTracks.Count; i++)
+
+                foreach (var track in mergedMediaItems)
                 {
-                    var track = nextTracks[i];
-                    var mediaItem = mediaItems[i];
-                    currentlyPlaying.Add(mediaItem, track.PlayDetail);
+                    currentlyPlaying.Add(track.Value, playDetailMap[track.Key]);
                 }
             }
         }
