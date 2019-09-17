@@ -172,7 +172,8 @@ namespace JW.Alarm.Services.Droid
                 if (!mergedMediaItems.Any())
                 {
                     this.mediaManager.RepeatMode = RepeatMode.All;
-                    await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+                    var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+
                     return;
                 }
 
