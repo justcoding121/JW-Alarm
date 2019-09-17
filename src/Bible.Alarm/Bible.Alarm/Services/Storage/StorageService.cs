@@ -116,7 +116,7 @@ namespace Bible.Alarm.Services
                 file = new FileInfo(pathOrName);
             }
 
-            return Task.FromResult(new DateTimeOffset(file.CreationTime));
+            return Task.FromResult(new DateTimeOffset(new[] { file.LastAccessTime, file.LastWriteTime, file.CreationTime }.Max()));
         }
     }
 }

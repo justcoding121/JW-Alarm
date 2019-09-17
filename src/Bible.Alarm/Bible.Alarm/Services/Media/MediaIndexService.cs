@@ -36,9 +36,9 @@ namespace JW.Alarm.Services
                 {
                     return;
                 }
-                if (!await indexExists())
+                if (await indexDoNotExistOrIsOutdated())
                 {
-                    await copyIndexFromResource();
+                    await clearCopyIndexFromResource();
                     verified = true;
                 }
             }
@@ -48,13 +48,15 @@ namespace JW.Alarm.Services
             }
         }
 
-        private async Task<bool> indexExists()
+        private async Task<bool> indexDoNotExistOrIsOutdated()
         {
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
 
             var exists = await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db"))
-                //verify that any previous unzipping process was not incomplete
-                && !await storageService.FileExists(tmpIndexFilePath);
+                            //verify that any previous unzipping process was not incomplete
+                            && !await storageService.FileExists(tmpIndexFilePath);
+
+            var outdated = false;
 
             //delete the file if it was outdated by an app auto-update.
             if (exists)
@@ -62,16 +64,16 @@ namespace JW.Alarm.Services
                 var resourceFileCreationDate = await storageService.GetFileCreationDate("index.zip", true);
                 var creationDate = await storageService.GetFileCreationDate(Path.Combine(IndexRoot, "mediaIndex.db"), false);
 
-                if (creationDate < resourceFileCreationDate)
+                if (resourceFileCreationDate > creationDate)
                 {
-                    return false;
+                    outdated = true;
                 }
             }
 
-            return exists;
+            return !exists || outdated;
         }
 
-        private async Task copyIndexFromResource()
+        private async Task clearCopyIndexFromResource()
         {
             var indexResourceFile = "index.zip";
             var defaultAlarmFile = "cool-alarm-tone-notification-sound.mp3";
@@ -88,14 +90,15 @@ namespace JW.Alarm.Services
                 await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
             }
 
-            if (!await storageService.FileExists(Path.Combine(IndexRoot, defaultAlarmFile)))
+            if (await storageService.FileExists(Path.Combine(IndexRoot, defaultAlarmFile)))
             {
-                await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
+                await storageService.DeleteFile(Path.Combine(IndexRoot, defaultAlarmFile));
             }
 
-            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);
-         
+            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);   
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
+            await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
+
             await storageService.DeleteFile(tmpIndexFilePath);
         }
 
