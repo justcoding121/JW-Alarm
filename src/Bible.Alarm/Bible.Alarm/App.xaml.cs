@@ -39,8 +39,12 @@ namespace Bible.Alarm
                 IocSetup.Container.Register(x => navigationPage, isSingleton: true);
 
                 homePage.BindingContext = IocSetup.Container.Resolve<JW.Alarm.ViewModels.HomeViewModel>();
-                MainPage = navigationPage;
+
+                MainPage = navigationPage;          
             }
+
+            MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
+            MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
         }
 
         protected async override void OnStart()
