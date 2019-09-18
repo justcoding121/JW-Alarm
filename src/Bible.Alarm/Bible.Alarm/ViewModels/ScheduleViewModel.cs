@@ -108,24 +108,27 @@ namespace JW.Alarm.ViewModels
 
                 await navigationService.GoBack();
                 ReduxContainer.Store.Dispatch(new BackAction(this));
+
                 IsBusy = false;
             });
 
             SaveCommand = new Command(async () =>
             {
                 IsBusy = true;
-                await Task.Delay(100);
 
-                if (!IsNewSchedule)
+                await Task.Run(async () =>
                 {
-                    this.playbackService.Dismiss();
-                }
+                    if (!IsNewSchedule)
+                    {
+                        this.playbackService.Dismiss();
+                    }
 
-                if (await saveAsync())
-                {
-                    await navigationService.GoBack();
-                    ReduxContainer.Store.Dispatch(new BackAction(this));
-                }
+                    if (await saveAsync())
+                    {
+                        await navigationService.GoBack();
+                        ReduxContainer.Store.Dispatch(new BackAction(this));
+                    }
+                });
 
                 IsBusy = false;
             });
@@ -133,13 +136,16 @@ namespace JW.Alarm.ViewModels
             DeleteCommand = new Command(async () =>
             {
                 IsBusy = true;
-                await Task.Delay(100);
 
-                this.playbackService.Dismiss();
-                await deleteAsync();
-                await navigationService.GoBack();
+                await Task.Run(async () =>
+                {
 
-                ReduxContainer.Store.Dispatch(new BackAction(this));
+                    this.playbackService.Dismiss();
+                    await deleteAsync();
+                    await navigationService.GoBack();
+
+                    ReduxContainer.Store.Dispatch(new BackAction(this));
+                });
 
                 IsBusy = false;
             });
@@ -152,22 +158,24 @@ namespace JW.Alarm.ViewModels
             SelectMusicCommand = new Command(async () =>
             {
                 IsBusy = true;
-                await Task.Delay(100);
 
-                var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
-                await navigationService.Navigate(viewModel);
-
-                //get the latest music track
-                if (Music == null || (!IsNewSchedule && !musicUpdated))
+                await Task.Run(async () =>
                 {
-                    Music = await scheduleDbContext.AlarmMusic
-                    .AsNoTracking()
-                    .FirstAsync(x => x.AlarmScheduleId == scheduleId);
-                }
+                    var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
+                    await navigationService.Navigate(viewModel);
 
-                ReduxContainer.Store.Dispatch(new MusicSelectionAction()
-                {
-                    CurrentMusic = Music
+                    //get the latest music track
+                    if (Music == null || (!IsNewSchedule && !musicUpdated))
+                    {
+                        Music = await scheduleDbContext.AlarmMusic
+                        .AsNoTracking()
+                        .FirstAsync(x => x.AlarmScheduleId == scheduleId);
+                    }
+
+                    ReduxContainer.Store.Dispatch(new MusicSelectionAction()
+                    {
+                        CurrentMusic = Music
+                    });
                 });
 
                 IsBusy = false;
@@ -176,27 +184,29 @@ namespace JW.Alarm.ViewModels
             SelectBibleCommand = new Command(async () =>
             {
                 IsBusy = true;
-                await Task.Delay(100);
 
-                var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
-                await navigationService.Navigate(viewModel);
-
-                //get the latest bible track
-                if (BibleReadingSchedule == null || (!IsNewSchedule && !bibleReadingUpdated))
+                await Task.Run(async () =>
                 {
-                    BibleReadingSchedule = await scheduleDbContext.BibleReadingSchedules
-                                            .AsNoTracking()
-                                            .FirstAsync(x => x.AlarmScheduleId == scheduleId);
-                }
+                    var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
+                    await navigationService.Navigate(viewModel);
 
-                ReduxContainer.Store.Dispatch(new BibleSelectionAction()
-                {
-                    CurrentBibleReadingSchedule = BibleReadingSchedule,
-                    TentativeBibleReadingSchedule = new BibleReadingSchedule()
+                    //get the latest bible track
+                    if (BibleReadingSchedule == null || (!IsNewSchedule && !bibleReadingUpdated))
                     {
-                        PublicationCode = BibleReadingSchedule.PublicationCode,
-                        LanguageCode = BibleReadingSchedule.LanguageCode
+                        BibleReadingSchedule = await scheduleDbContext.BibleReadingSchedules
+                                                .AsNoTracking()
+                                                .FirstAsync(x => x.AlarmScheduleId == scheduleId);
                     }
+
+                    ReduxContainer.Store.Dispatch(new BibleSelectionAction()
+                    {
+                        CurrentBibleReadingSchedule = BibleReadingSchedule,
+                        TentativeBibleReadingSchedule = new BibleReadingSchedule()
+                        {
+                            PublicationCode = BibleReadingSchedule.PublicationCode,
+                            LanguageCode = BibleReadingSchedule.LanguageCode
+                        }
+                    });
                 });
 
                 IsBusy = false;

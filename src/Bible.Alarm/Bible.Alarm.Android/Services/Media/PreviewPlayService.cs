@@ -24,12 +24,7 @@ namespace JW.Alarm.Services.Droid
 
         public void Stop()
         {
-            try
-            {
-                player.Stop();
-            }
-            //ignored
-            catch { }
+            player.Stop();
         }
 
         public void OnCompletion(MediaPlayer mp)
@@ -37,23 +32,16 @@ namespace JW.Alarm.Services.Droid
             OnStopped?.Invoke();
         }
 
-        async Task IPreviewPlayService.Play(string url)
+        Task IPreviewPlayService.Play(string url)
         {
-            await Task.Delay(500);
-            await Task.Run(() =>
-            {
-                try
-                {
-                    var uri = Android.Net.Uri.Parse(url);
-                    this.player.Reset();
-                    this.player.SetOnCompletionListener(this);
-                    this.player.SetDataSource(IocSetup.Context, uri);
-                    this.player.Prepare();
-                    this.player.Start();
-                }
-                //ignored
-                catch { }
-            });
+            var uri = Android.Net.Uri.Parse(url);
+            this.player.Reset();
+            this.player.SetOnCompletionListener(this);
+            this.player.SetDataSource(IocSetup.Context, uri);
+            this.player.Prepare();
+            this.player.Start();
+
+            return Task.CompletedTask;
         }
 
         protected override void Dispose(bool disposing)

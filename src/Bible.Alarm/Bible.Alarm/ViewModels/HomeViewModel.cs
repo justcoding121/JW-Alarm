@@ -203,16 +203,19 @@ namespace JW.Alarm.ViewModels
                                  {
                                      IsBusy = true;
 
-                                     var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
-                                     existing.IsEnabled = y.IsEnabled;
-                                     await scheduleDbContext.SaveChangesAsync();
-
-                                     alarmService.Update(existing);
-
-                                     if (y.IsEnabled)
+                                     await Task.Run(async () =>
                                      {
-                                         await popUpService.ShowScheduledNotification(y.Schedule);
-                                     }
+                                         var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
+                                         existing.IsEnabled = y.IsEnabled;
+                                         await scheduleDbContext.SaveChangesAsync();
+
+                                         alarmService.Update(existing);
+
+                                         if (y.IsEnabled)
+                                         {
+                                             await popUpService.ShowScheduledNotification(y.Schedule);
+                                         }
+                                     });
 
                                      IsBusy = false;
                                  })

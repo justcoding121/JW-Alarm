@@ -38,5 +38,6 @@ namespace FontNameResources
         public static string Left = "\uf053";
         public static string Right = "\uf054";
         public static string Language = "\uf1ab";
+        public static string Bell = "\uf0f3";
     }
 }

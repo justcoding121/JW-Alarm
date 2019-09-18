@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -24,7 +25,7 @@ namespace JW.Alarm.ViewModels
     public class TrackSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IToastService popUpService;
+        private IToastService toastService;
         private IPreviewPlayService playService;
         private INavigationService navigationService;
 
@@ -36,7 +37,7 @@ namespace JW.Alarm.ViewModels
         public TrackSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IToastService>();
+            this.toastService = IocSetup.Container.Resolve<IToastService>();
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
@@ -112,6 +113,8 @@ namespace JW.Alarm.ViewModels
 
         private MusicTrackListViewItemModel currentlyPlaying;
 
+        private SemaphoreSlim @lock = new SemaphoreSlim(1);
+
         private async Task initialize(string languageCode, string publicationCode)
         {
             await populateTracks(languageCode, publicationCode);
@@ -130,18 +133,32 @@ namespace JW.Alarm.ViewModels
                                 }).Merge()
                                  .Do(async y =>
                                  {
-                                     if (currentlyPlaying != null)
+                                     await @lock.WaitAsync();
+
+                                     try
                                      {
-                                         currentlyPlaying.Play = false;
+                                         if (currentlyPlaying != null && currentlyPlaying !=y)
+                                         {
+                                             currentlyPlaying.Play = false;
+                                             currentlyPlaying.IsBusy = false;
+                                         }
+
+                                         currentlyPlaying = y;
+
+                                         currentlyPlaying.IsBusy = true;
+                                         try
+                                         {
+                                             await Task.Run(() => playService.Play(y.Url));
+                                         }
+                                         catch
+                                         {
+                                             currentlyPlaying.Play = false;
+                                             await toastService.ShowMessage("Failed to download the file.");
+                                         }
+
                                          currentlyPlaying.IsBusy = false;
                                      }
-
-                                     currentlyPlaying = y;
-
-                                     currentlyPlaying.IsBusy = true;
-                                     await Task.Delay(100);
-                                     await playService.Play(y.Url);
-                                     currentlyPlaying.IsBusy = false;
+                                     finally { @lock.Release(); }
 
                                  })
                                  .Subscribe();
@@ -167,13 +184,20 @@ namespace JW.Alarm.ViewModels
 
             var subscription3 = Observable.FromEvent(ev => playService.OnStopped += ev,
                                                      ev => playService.OnStopped -= ev)
-                                 .Do(y =>
+                                 .Do(async y =>
                                  {
-                                     if (currentlyPlaying != null)
+                                     await @lock.WaitAsync();
+
+                                     try
                                      {
-                                         currentlyPlaying.Play = false;
-                                         currentlyPlaying.IsBusy = false;
+                                         if (currentlyPlaying != null)
+                                         {
+                                             currentlyPlaying.Play = false;
+                                             currentlyPlaying.IsBusy = false;
+                                             currentlyPlaying = null;
+                                         }
                                      }
+                                     finally { @lock.Release(); }
                                  })
                                  .Subscribe();
 
