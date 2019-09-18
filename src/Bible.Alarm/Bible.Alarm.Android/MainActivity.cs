@@ -26,13 +26,13 @@ namespace Bible.Alarm.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-
-            base.OnCreate(savedInstanceState);
-
             try
             {
+                TabLayoutResource = Resource.Layout.Tabbar;
+                ToolbarResource = Resource.Layout.Toolbar;
+
+                base.OnCreate(savedInstanceState);
+
                 if (IocSetup.Container == null)
                 {
                     IocSetup.Initialize(this, false);

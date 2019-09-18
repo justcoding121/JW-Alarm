@@ -68,7 +68,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
 
                 playbackService.StateChanged += stateChanged;
-                logger.Info($"Alarm rang at {DateTime.Now}");
 
                 IocSetup.Container.Resolve<IMediaManager>().Init(Application.Context);
 

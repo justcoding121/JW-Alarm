@@ -12,15 +12,12 @@ namespace Bible.Alarm.Services.Infrastructure
         {
             if (!initialized)
             {
-                //var accessKey = "AKIA4L6DRN6IU62TWR34";
-                //var secretKey = "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";
-
                 setupLoggly();
 
                 var config = new LoggingConfiguration();
-                var awsTarget = new NLog.Targets.LogglyTarget();
-                config.AddTarget("aws", awsTarget);
-                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, awsTarget));
+                var logglyTarget = new NLog.Targets.LogglyTarget();
+                config.AddTarget("loggly", logglyTarget);
+                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
 
                 LogManager.Configuration = config;
 
@@ -36,8 +33,8 @@ namespace Bible.Alarm.Services.Infrastructure
             config.ApplicationName = $"Bible-Alarm-Android";
 
             config.Transport.EndpointHostname = "logs-01.loggly.com";
-            config.Transport.EndpointPort = 443;
-            config.Transport.LogTransport = LogTransport.Https;
+            config.Transport.EndpointPort = 514;
+            config.Transport.LogTransport = LogTransport.SyslogUdp;
 
             var ct = new ApplicationNameTag();
             ct.Formatter = "application-{0}";

@@ -32,15 +32,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public override void OnReceive(Context context, Intent intent)
         {
-            if (IocSetup.Container == null)
-            {
-                IocSetup.Initialize(context, true);
-            }
-
-            logger.Info($"Restart task fired.");
-
             try
             {
+                if (IocSetup.Container == null)
+                {
+                    IocSetup.Initialize(context, true);
+                }
+
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                 schedulerTask.Handle().Wait();
                 BootstrapHelper.VerifyBackgroundTasks(context);

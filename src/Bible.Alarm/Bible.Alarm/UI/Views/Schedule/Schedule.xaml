@@ -74,8 +74,10 @@
             <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
           </StackLayout.Resources>
           <Label HorizontalTextAlignment="Center" HorizontalOptions="Fill" Text="Alarm Time" Margin="0,3,0,3"></Label>
-          <TimePicker HorizontalOptions="Fill" Time="{Binding Time, Mode=TwoWay}" />
-          <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
+                    <TimePicker HorizontalOptions="Fill" Time="{Binding Time, Mode=TwoWay}" >
+                        <TimePicker.Format>hh:mm tt</TimePicker.Format>
+                    </TimePicker>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
             <Button WidthRequest="35"
                 Command="{Binding ToggleDayCommand}" CommandParameter="{StaticResource Sunday}"
                 TextColor="{Binding DaysOfWeek, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}"

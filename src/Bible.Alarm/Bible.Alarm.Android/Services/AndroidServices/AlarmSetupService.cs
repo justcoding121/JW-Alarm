@@ -21,12 +21,6 @@ namespace JW.Alarm.Services.Droid.Tasks
         public AlarmSetupService() : base()
         {
             LogSetup.Initialize();
-
-            if (IocSetup.Container == null)
-            {
-                Bible.Alarm.Droid.IocSetup.Initialize(this, true);
-                IocSetup.Container.Resolve<IMediaManager>().Init(this);
-            }
         }
 
         public override IBinder OnBind(Intent intent)
@@ -46,6 +40,12 @@ namespace JW.Alarm.Services.Droid.Tasks
         {
             try
             {
+                if (IocSetup.Container == null)
+                {
+                    Bible.Alarm.Droid.IocSetup.Initialize(this, true);
+                    IocSetup.Container.Resolve<IMediaManager>().Init(this);
+                }
+
                 var extra = intent.GetStringExtra("Action");
 
                 switch (extra)

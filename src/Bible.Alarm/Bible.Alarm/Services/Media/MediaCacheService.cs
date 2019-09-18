@@ -2,16 +2,21 @@
 using JW.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using NLog;
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JW.Alarm.Services
 {
     public class MediaCacheService : IMediaCacheService
     {
+        private static Logger logger => LogManager.GetCurrentClassLogger();
+
         private readonly string cacheRoot;
 
         private IStorageService storageService;
@@ -21,6 +26,9 @@ namespace JW.Alarm.Services
         private INetworkStatusService networkStatusService;
 
         private MediaService mediaService;
+
+        private static ConcurrentDictionary<long, SemaphoreSlim> lockStore =
+                    new ConcurrentDictionary<long, SemaphoreSlim>();
 
         public MediaCacheService(IStorageService storageService,
             IDownloadService downloadService, IPlaylistService mediaPlayService,
@@ -56,77 +64,90 @@ namespace JW.Alarm.Services
 
         public async Task SetupAlarmCache(long alarmScheduleId)
         {
-            if(!await networkStatusService.IsInternetAvailable())
-            {
-                return;
-            }
+            var @lock = lockStore.GetOrAdd(alarmScheduleId, new SemaphoreSlim(1));
 
-            try
+            if (await @lock.WaitAsync(500))
             {
-                var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromHours(1));
-
-                foreach (var playItem in playlist)
+                try
                 {
-                    if (!await Exists(playItem.Url))
+                    if (!await networkStatusService.IsInternetAvailable())
                     {
-                        byte[] bytes = null;
+                        return;
+                    }
 
-                        bytes = await downloadService.DownloadAsync(playItem.Url);
+                    var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromHours(1));
 
-                        if (bytes != null)
+                    foreach (var playItem in playlist)
+                    {
+                        if (!await Exists(playItem.Url))
                         {
-                            await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
-                        }
-                        else
-                        {
-                            var playDetail = playItem.PlayDetail;
+                            byte[] bytes = null;
 
-                            string url;
-
-                            if (playDetail.PlayType == Models.PlayType.Bible)
-                            {
-                                url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.LookUpPath);
-                                if (url != null)
-                                {
-                                    await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
-                                }
-                            }
-                            else
-                            {
-                                url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
-
-                                if (url != null)
-                                {
-                                    if (playDetail.LanguageCode == null)
-                                    {
-                                        await mediaService.UpdateMelodyTrackUrl(playDetail.PublicationCode, playDetail.TrackNumber, url);
-                                    }
-                                    else
-                                    {
-                                        await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
-                                    }
-                                }
-                            }
-                            if (url != null)
-                            {
-                                bytes = await downloadService.DownloadAsync(url);
-                            }
+                            bytes = await downloadService.DownloadAsync(playItem.Url);
 
                             if (bytes != null)
                             {
-                                await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
-                                continue;
+                                await storageService.SaveFile(cacheRoot, GetCacheFileName(playItem.Url), bytes);
+                            }
+                            else
+                            {
+                                var playDetail = playItem.PlayDetail;
+
+                                string url;
+
+                                if (playDetail.PlayType == Models.PlayType.Bible)
+                                {
+                                    url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.LookUpPath);
+                                    if (url != null)
+                                    {
+                                        await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
+                                    }
+                                }
+                                else
+                                {
+                                    url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
+
+                                    if (url != null)
+                                    {
+                                        if (playDetail.LanguageCode == null)
+                                        {
+                                            await mediaService.UpdateMelodyTrackUrl(playDetail.PublicationCode, playDetail.TrackNumber, url);
+                                        }
+                                        else
+                                        {
+                                            await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
+                                        }
+                                    }
+                                }
+                                if (url != null)
+                                {
+                                    bytes = await downloadService.DownloadAsync(url);
+                                }
+
+                                if (bytes != null)
+                                {
+                                    await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
+                                    continue;
+                                }
+
+                                break;
                             }
 
-                            break;
                         }
-
                     }
+
+                }
+                //TODO ignore network errors from getting logged
+                catch (Exception e)
+                {
+                    logger.Error(e, "An exception happened when downloading media files for caching.");
+                }
+                finally
+                {
+                    @lock.Release();
                 }
             }
-            //network failures ignored
-            //TODO ignore only network exceptions
-            catch { }
+
         }
 
         private static string[] urls = new string[] { "https://api.hag27.com/GETPUBMEDIALINKS",

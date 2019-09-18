@@ -4,7 +4,7 @@
              x:Class="Bible.Alarm.UI.Views.AlarmModal">
     <ContentPage.Content>
         <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Button CornerRadius="10"
+            <!--<Button CornerRadius="10"
                     Command="{Binding SnoozeCommand}"
                     Margin="5"
                     HeightRequest="45"
@@ -14,7 +14,7 @@
                     Text="Snooze"
                     FontSize="Medium"
                     TextColor="SlateBlue">
-            </Button>
+            </Button>-->
             <Button CornerRadius="10"
                     Command="{Binding DismissCommand}"
                     Margin="5"
@@ -22,7 +22,7 @@
                     MinimumHeightRequest="45"
                     WidthRequest="200"
                     MinimumWidthRequest="200"
-                    Text="Dismiss"
+                    Text="Dismiss Alarm"
                     FontSize="Medium"
                     TextColor="SlateBlue">
             </Button>
