@@ -36,7 +36,8 @@ namespace Bible.Alarm
                 var navigationPage = new NavigationPage(homePage);
 
                 IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
-                IocSetup.Container.Register(x => navigationPage, isSingleton: true);
+                IocSetup.Container.Register( 
+                    x => navigationPage, isSingleton: true);
 
                 homePage.BindingContext = IocSetup.Container.Resolve<JW.Alarm.ViewModels.HomeViewModel>();
 

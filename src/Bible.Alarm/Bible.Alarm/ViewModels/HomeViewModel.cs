@@ -209,13 +209,13 @@ namespace JW.Alarm.ViewModels
                                          existing.IsEnabled = y.IsEnabled;
                                          await scheduleDbContext.SaveChangesAsync();
 
-                                         alarmService.Update(existing);
-
-                                         if (y.IsEnabled)
-                                         {
-                                             await popUpService.ShowScheduledNotification(y.Schedule);
-                                         }
+                                         alarmService.Update(existing);                           
                                      });
+
+                                     if (y.IsEnabled)
+                                     {
+                                         await popUpService.ShowScheduledNotification(y.Schedule);
+                                     }
 
                                      IsBusy = false;
                                  })

@@ -109,7 +109,7 @@
     <Compile Include="Services\Network\NetworkStatusService.cs" />
     <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
-    <Compile Include="Services\UI\PopUpService.cs" />
+    <Compile Include="Services\UI\ToastService.cs" />
     <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>

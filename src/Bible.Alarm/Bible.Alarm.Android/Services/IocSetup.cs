@@ -23,7 +23,7 @@
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
-            container.Register<IToastService>((x) => new DroidPopUpService());
+            container.Register<IToastService>((x) => new DroidToastService());
 
             container.Register<INotificationService>((x) =>
             new DroidNotificationService());
