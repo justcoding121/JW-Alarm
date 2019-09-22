@@ -14,6 +14,7 @@ namespace AudioLinkHarvester.Audio
     internal class MusicHarverster
     {
         private static Dictionary<string, string> vocalsPublicationCodeToNameMappings = new Dictionary<string, string>(new KeyValuePair<string, string>[]{
+            new KeyValuePair<string, string>("osg","Original Songs"),
             new KeyValuePair<string, string>("sjjc","\"Sing Out Joyfully\" to Jehovah (2016)"),
             new KeyValuePair<string, string>("snv","Sing to Jehovah (2014) ")
         });
