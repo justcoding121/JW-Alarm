@@ -13,7 +13,7 @@ namespace Bible.Alarm.Services.Infrastructure.Schedule.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity("JW.Alarm.Models.AlarmMusic", b =>
                 {
@@ -22,13 +22,13 @@ namespace Bible.Alarm.Services.Infrastructure.Schedule.Migrations
 
                     b.Property<int>("AlarmScheduleId");
 
-                    b.Property<bool>("Fixed");
-
                     b.Property<string>("LanguageCode");
 
                     b.Property<int>("MusicType");
 
                     b.Property<string>("PublicationCode");
+
+                    b.Property<bool>("Repeat");
 
                     b.Property<int>("TrackNumber");
 

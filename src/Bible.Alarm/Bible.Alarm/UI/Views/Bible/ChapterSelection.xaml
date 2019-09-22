@@ -84,8 +84,8 @@
                                 <Grid HeightRequest="45" HorizontalOptions="Fill"  Margin="5,0,5,0"
                                  BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="8*"/>
-                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0"
                                      VerticalOptions="Center"
@@ -96,14 +96,11 @@
                                      Margin="10,0,0,0"
                                      Text="{Binding Title}">
                                     </Label>
-                                    <Grid Grid.Column="1" 
+                                    <StackLayout Grid.Column="1" 
                                      VerticalOptions="Center"
-                                     HorizontalOptions="End"
+                                     HorizontalOptions="Start"
+                                     Orientation="Horizontal"
                                      Margin="5,0,15,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="4*"/>
-                                        </Grid.ColumnDefinitions>
                                         <ActivityIndicator Color="SlateBlue"
                                            WidthRequest="45"
                                            Grid.Column="0"
@@ -117,7 +114,7 @@
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <OnPlatform.Platforms>
                                                         <On Platform="iOS" Value="4.0" />
-                                                        <On Platform="Android" Value="1.0" />
+                                                        <On Platform="Android" Value="0.5" />
                                                         <On Platform="UWP" Value="1.0" />
                                                     </OnPlatform.Platforms>
                                                 </OnPlatform>
@@ -126,14 +123,14 @@
                                         <Button VerticalOptions="Center"
                                         Grid.Column="1"
                                         HorizontalOptions="Start"
-                                        MinimumWidthRequest="100"
-                                        WidthRequest="100"
+                                        MinimumWidthRequest="45"
+                                        WidthRequest="45"
                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                                         Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}"
                                         TextColor="Gray"
                                         Command="{Binding TogglePlayCommand}">
                                         </Button>
-                                    </Grid>
+                                    </StackLayout>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

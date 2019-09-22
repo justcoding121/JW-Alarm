@@ -58,12 +58,14 @@ namespace JW.Alarm.ViewModels
                 if (SelectedTrack != null)
                 {
                     SelectedTrack.IsSelected = false;
+                    SelectedTrack.Repeat = false;
                 }
 
                 SelectedTrack = x;
                 SelectedTrack.IsSelected = true;
 
                 tentative.TrackNumber = x.Number;
+                tentative.Repeat = x.Repeat;
 
                 ReduxContainer.Store.Dispatch(new TrackSelectedAction()
                 {
@@ -72,9 +74,11 @@ namespace JW.Alarm.ViewModels
                         MusicType = tentative.MusicType,
                         LanguageCode = tentative.LanguageCode,
                         PublicationCode = tentative.PublicationCode,
-                        TrackNumber = tentative.TrackNumber
+                        TrackNumber = tentative.TrackNumber,
+                        Repeat = tentative.Repeat
                     }
                 });
+
                 IsBusy = false;
             });
 
@@ -137,7 +141,7 @@ namespace JW.Alarm.ViewModels
 
                                      try
                                      {
-                                         if (currentlyPlaying != null && currentlyPlaying !=y)
+                                         if (currentlyPlaying != null && currentlyPlaying != y)
                                          {
                                              currentlyPlaying.Play = false;
                                              currentlyPlaying.IsBusy = false;
@@ -201,7 +205,44 @@ namespace JW.Alarm.ViewModels
                                  })
                                  .Subscribe();
 
-            disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
+            var subscription4 = Tracks.Select(added =>
+            {
+                return Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, MusicTrackListViewItemModel>>(
+                               onNextHandler => (object sender, PropertyChangedEventArgs e)
+                                             => onNextHandler(new KeyValuePair<string, MusicTrackListViewItemModel>(e.PropertyName,
+                                                                        (MusicTrackListViewItemModel)sender)),
+                                               handler => added.PropertyChanged += handler,
+                                               handler => added.PropertyChanged -= handler)
+                                               .Where(kv => kv.Key == "Repeat")
+                                               .Select(y => y.Value);
+                             })
+                             .Merge()
+                             .Do(x =>
+                             {
+                                 tentative.Repeat = x.Repeat;
+                                 tentative.TrackNumber = x.Number;
+
+                                 ReduxContainer.Store.Dispatch(new TrackSelectedAction()
+                                 {
+                                     CurrentMusic = new AlarmMusic()
+                                     {
+                                         MusicType = tentative.MusicType,
+                                         LanguageCode = tentative.LanguageCode,
+                                         PublicationCode = tentative.PublicationCode,
+                                         TrackNumber = tentative.TrackNumber,
+                                         Repeat = tentative.Repeat
+                                     }
+                                 });
+
+                                 if (x.Repeat)
+                                 {
+                                     toastService.ShowMessage("Alarm will always repeat this track.");
+                                 }
+
+                             })
+                             .Subscribe();
+
+            disposables.AddRange(new[] { subscription1, subscription2, subscription3, subscription4 });
         }
 
         private async Task populateTracks(string languageCode, string publicationCode)
@@ -226,6 +267,7 @@ namespace JW.Alarm.ViewModels
                 {
                     SelectedTrack = musicTrackListViewItemViewModel;
                     SelectedTrack.IsSelected = true;
+                    SelectedTrack.Repeat = current.Repeat;
                 }
             }
 
@@ -242,11 +284,12 @@ namespace JW.Alarm.ViewModels
 
     public class MusicTrackListViewItemModel : ViewModel, IComparable
     {
-        private readonly MusicTrack chapter;
-        public MusicTrackListViewItemModel(MusicTrack chapter)
+        private readonly MusicTrack track;
+        public MusicTrackListViewItemModel(MusicTrack track)
         {
-            this.chapter = chapter;
+            this.track = track;
             TogglePlayCommand = new Command(() => Play = !Play);
+            ToggleRepeatCommand = new Command(() => Repeat = !Repeat);
         }
 
         private bool isSelected;
@@ -256,17 +299,24 @@ namespace JW.Alarm.ViewModels
             set => this.Set(ref isSelected, value);
         }
 
-        public int Number => chapter.Number;
+        public int Number => track.Number;
 
-        public string Title => chapter.Title;
-        public string Url => chapter.Source.Url;
-        public TimeSpan Duration => chapter.Source.Duration;
+        public string Title => track.Title;
+        public string Url => track.Source.Url;
+        public TimeSpan Duration => track.Source.Duration;
 
         private bool play;
         public bool Play
         {
             get => play;
             set => this.Set(ref play, value);
+        }
+
+        private bool repeat;
+        public bool Repeat
+        {
+            get => repeat;
+            set => this.Set(ref repeat, value);
         }
 
         private bool isBusy;
@@ -277,7 +327,7 @@ namespace JW.Alarm.ViewModels
         }
 
         public ICommand TogglePlayCommand { get; set; }
-
+        public ICommand ToggleRepeatCommand { get; set; }
         public int CompareTo(object obj)
         {
             return Number.CompareTo((obj as MusicTrackListViewItemModel).Number);

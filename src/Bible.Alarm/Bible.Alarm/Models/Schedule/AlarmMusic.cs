@@ -14,7 +14,7 @@ namespace JW.Alarm.Models
         public int TrackNumber { get; set; }
 
         //Always play current track.
-        public bool Fixed { get; set; }
+        public bool Repeat { get; set; }
 
         public virtual AlarmSchedule AlarmSchedule { get; set; }
         public int AlarmScheduleId { get; set; }

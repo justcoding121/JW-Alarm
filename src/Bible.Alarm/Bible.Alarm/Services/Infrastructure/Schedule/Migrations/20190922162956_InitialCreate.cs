@@ -37,7 +37,7 @@ namespace Bible.Alarm.Services.Infrastructure.Schedule.Migrations
                     PublicationCode = table.Column<string>(nullable: true),
                     LanguageCode = table.Column<string>(nullable: true),
                     TrackNumber = table.Column<int>(nullable: false),
-                    Fixed = table.Column<bool>(nullable: false),
+                    Repeat = table.Column<bool>(nullable: false),
                     AlarmScheduleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

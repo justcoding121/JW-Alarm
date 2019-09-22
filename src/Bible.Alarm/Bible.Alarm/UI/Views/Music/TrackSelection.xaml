@@ -12,6 +12,8 @@
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
         <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
         <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
+        <converters:IsEnabledColorConverter x:Key="isEnabledConverter" />
+        <converters:RepeatColorConverter x:Key="repeatColorConverter"/>
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid BackgroundColor="White">
@@ -82,57 +84,61 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid HeightRequest="45" HorizontalOptions="Fill"  Margin="5,0,5,0"
-                   BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="8*"/>
-                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0"
-                 VerticalOptions="Center"
-                 HorizontalOptions="Fill"
-                 HorizontalTextAlignment="Start"
-                 VerticalTextAlignment="Center"
-                 TextColor="Black"
-                 Margin="10,0,0,0"
-                 Text="{Binding Title}">
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Fill"
+                                     HorizontalTextAlignment="Start"
+                                     VerticalTextAlignment="Center"
+                                     TextColor="Black"
+                                     Margin="10,0,0,0"
+                                     Text="{Binding Title}">
                                     </Label>
-               <Grid Grid.Column="1" 
-                 VerticalOptions="Center"
-                 HorizontalOptions="End"
-                 Margin="5,0,15,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>   
-                <ActivityIndicator Color="SlateBlue"
-                   Grid.Column="0"
-                   WidthRequest="45"
-                   MinimumWidthRequest="45"
-                   HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
-                   IsVisible="{Binding IsBusy}"
-                   IsEnabled="True"
-                   Scale="1.0"
-                   IsRunning="{Binding IsBusy}" >
-                    <ActivityIndicator.Scale>
-                        <OnPlatform x:TypeArguments="x:Double">
-                            <OnPlatform.Platforms>
-                                <On Platform="iOS" Value="4.0" />
-                                <On Platform="Android" Value="1.0" />
-                                <On Platform="UWP" Value="1.0" />
-                            </OnPlatform.Platforms>
-                        </OnPlatform>
-                    </ActivityIndicator.Scale>
-                </ActivityIndicator>
-                <Button VerticalOptions="Center"
-                     Grid.Column="1"
-                     MinimumWidthRequest="100"
-                     WidthRequest="100"
-                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                     Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}"
-                     TextColor="Gray"
-                     Command="{Binding TogglePlayCommand}">
+                                    <StackLayout Grid.Column="1" 
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Start"
+                                     Orientation="Horizontal"
+                                     Margin="5,0,15,0"> 
+                                        <ActivityIndicator Color="SlateBlue"
+                                       WidthRequest="40"
+                                       MinimumWidthRequest="40"
+                                       HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                                       IsVisible="{Binding IsBusy}"
+                                       IsEnabled="True"
+                                       Scale="1.0"
+                                       IsRunning="{Binding IsBusy}" >       
+                                            <ActivityIndicator.Scale>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <OnPlatform.Platforms>
+                                                        <On Platform="iOS" Value="4.0" />
+                                                        <On Platform="Android" Value="0.5" />
+                                                        <On Platform="UWP" Value="1.0" />
+                                                    </OnPlatform.Platforms>
+                                                </OnPlatform>
+                                            </ActivityIndicator.Scale>
+                                        </ActivityIndicator>
+                                        <Button VerticalOptions="Center"
+                                         IsVisible="{Binding IsSelected}"
+                                         MinimumWidthRequest="40"
+                                         WidthRequest="40"
+                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                         Text="{x:Static fn:GlyphNames.Repeat}"
+                                         TextColor="{Binding Repeat, Converter={StaticResource repeatColorConverter}}"
+                                         Command="{Binding ToggleRepeatCommand}">
                                         </Button>
-                                    </Grid>
+                                        <Button VerticalOptions="Center"
+                                         MinimumWidthRequest="40"
+                                         WidthRequest="40"
+                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                         Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}"
+                                         TextColor="Gray"
+                                         Command="{Binding TogglePlayCommand}">     
+                                        </Button>
+                                    </StackLayout>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

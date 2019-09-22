@@ -370,7 +370,7 @@ namespace JW.Alarm.ViewModels
 
                     if (model.Music != null && musicUpdated)
                     {
-                        existing.Music.Fixed = model.Music.Fixed;
+                        existing.Music.Repeat = model.Music.Repeat;
                         existing.Music.LanguageCode = model.Music.LanguageCode;
                         existing.Music.MusicType = model.Music.MusicType;
                         existing.Music.PublicationCode = model.Music.PublicationCode;

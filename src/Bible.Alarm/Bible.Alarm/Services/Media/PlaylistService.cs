@@ -85,7 +85,7 @@ namespace JW.Alarm.Services
             if (trackDetail.PlayType == PlayType.Music)
             {
 
-                if (!schedule.Music.Fixed)
+                if (!schedule.Music.Repeat)
                 {
                     schedule.Music.TrackNumber = trackDetail.TrackNumber;
                     var next = await nextMusicUrlToPlay(schedule, true);
@@ -112,7 +112,7 @@ namespace JW.Alarm.Services
 
             if (trackDetail.PlayType == PlayType.Music)
             {
-                if (!schedule.Music.Fixed)
+                if (!schedule.Music.Repeat)
                 {
                     var next = await nextMusicUrlToPlay(schedule, true);
                     schedule.Music.TrackNumber = next.PlayDetail.TrackNumber;

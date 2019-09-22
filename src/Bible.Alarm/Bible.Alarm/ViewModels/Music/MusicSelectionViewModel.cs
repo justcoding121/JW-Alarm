@@ -76,7 +76,7 @@ namespace JW.Alarm.ViewModels
                     {
                         TentativeMusic = new AlarmMusic()
                         {
-                            Fixed = current.Fixed,
+                            Repeat = current.Repeat,
                             MusicType = MusicType.Melodies,
                             PublicationCode = "iam"
                         }

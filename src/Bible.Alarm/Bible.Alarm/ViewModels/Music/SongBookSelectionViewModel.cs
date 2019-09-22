@@ -79,7 +79,7 @@ namespace JW.Alarm.ViewModels
                 {
                     TentativeMusic = new AlarmMusic()
                     {
-                        Fixed = current.Fixed,
+                        Repeat = current.Repeat,
                         MusicType = MusicType.Vocals,
                         LanguageCode = CurrentLanguage.Code,
                         PublicationCode = x.Code

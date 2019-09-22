@@ -39,5 +39,6 @@ namespace FontNameResources
         public static string Right = "\uf054";
         public static string Language = "\uf1ab";
         public static string Bell = "\uf0f3";
+        public static string Repeat = "\uf0e2";
     }
 }
