@@ -25,6 +25,10 @@ namespace Bible.Alarm.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             IocSetup.Initialize();
+         
+            global::Xamarin.Forms.Forms.Init();
+            LoadApplication(new App());
+
             Task.Run(async () =>
             {
                 //BootstrapHelper.VerifyBackgroundTasks();
@@ -32,10 +36,6 @@ namespace Bible.Alarm.iOS
                 await BootstrapHelper.VerifyMediaLookUpService();
                 await Messenger<bool>.Publish(JW.Alarm.Common.Mvvm.Messages.Initialized, true);
             });
-
-
-            global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
         }
