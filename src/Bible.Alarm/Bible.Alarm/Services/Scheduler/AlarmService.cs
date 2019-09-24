@@ -1,12 +1,12 @@
-﻿using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public class AlarmService : IAlarmService
     {

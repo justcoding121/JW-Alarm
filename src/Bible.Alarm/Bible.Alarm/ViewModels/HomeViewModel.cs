@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using JW.Alarm.Common.DataStructures;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using Mvvmicro;
 using System.Reactive.Linq;
 using System.ComponentModel;
-using JW.Alarm.Services;
+using Bible.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Bible.Alarm.Services.Contracts;
-using JW.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux;
 using System.Reactive.Concurrency;
 using Bible.Alarm.ViewModels.Redux.Actions;
-using JW.Alarm.Common.Mvvm;
+using Bible.Alarm.Common.Mvvm;
 
-namespace JW.Alarm.ViewModels
+namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {

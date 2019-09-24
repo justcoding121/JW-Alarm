@@ -9,8 +9,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Bible.Alarm.Services.Infrastructure;
-using JW.Alarm.Services.Droid.Helpers;
-using JW.Alarm.Services.Droid.Tasks;
+using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Droid.Tasks;
 using Microsoft.Extensions.Logging;
 using NLog;
 

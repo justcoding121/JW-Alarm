@@ -1,4 +1,4 @@
-﻿using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;

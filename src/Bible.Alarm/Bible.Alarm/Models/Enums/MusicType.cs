@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JW.Alarm.Models
+namespace Bible.Alarm.Models
 {
     public enum MusicType
     {

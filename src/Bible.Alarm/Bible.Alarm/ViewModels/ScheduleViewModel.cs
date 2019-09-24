@@ -1,22 +1,22 @@
-﻿using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mvvmicro;
 using Redux;
-using JW.Alarm.Services;
+using Bible.Alarm.Services;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Bible.Alarm.Services.Contracts;
 using System.Linq;
-using JW.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Microsoft.EntityFrameworkCore;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 
-namespace JW.Alarm.ViewModels
+namespace Bible.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModel, IDisposable
     {

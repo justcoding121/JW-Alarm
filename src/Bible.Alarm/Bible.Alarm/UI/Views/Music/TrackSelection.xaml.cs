@@ -1,5 +1,5 @@
 ﻿using Bible.Alarm.UI.ViewHelpers;
-using JW.Alarm.ViewModels;
+using Bible.Alarm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

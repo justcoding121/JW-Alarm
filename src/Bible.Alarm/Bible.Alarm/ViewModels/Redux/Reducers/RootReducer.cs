@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JW.Alarm.ViewModels.Redux.Reducers
+namespace Bible.Alarm.ViewModels.Redux.Reducers
 {
     public static partial class RootReducer
     {

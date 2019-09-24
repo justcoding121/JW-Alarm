@@ -1,9 +1,9 @@
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Contracts;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     /// <summary>
     /// Download service

@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace JW.Alarm.UI.Views.Converters
+namespace Bible.Alarm.UI.Views.Converters
 {
     public class IsSelectedColorConverter : IValueConverter
     {

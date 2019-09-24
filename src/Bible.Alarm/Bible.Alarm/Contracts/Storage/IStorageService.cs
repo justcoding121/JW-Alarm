@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.Contracts
+namespace Bible.Alarm.Services.Contracts
 {
     public interface IStorageService
     {

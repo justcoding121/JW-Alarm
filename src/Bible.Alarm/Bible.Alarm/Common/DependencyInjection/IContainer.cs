@@ -1,4 +1,4 @@
-﻿namespace JW.Alarm
+﻿namespace Bible.Alarm
 {
     using System;
     using System.Collections.Generic;

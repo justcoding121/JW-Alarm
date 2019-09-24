@@ -1,11 +1,11 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Redux.Actions.Bible;
-using JW.Alarm.Common.DataStructures;
-using JW.Alarm.Models;
-using JW.Alarm.Services;
-using JW.Alarm.Services.Contracts;
-using JW.Alarm.ViewModels.Redux;
+using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace JW.Alarm.ViewModels
+namespace Bible.Alarm.ViewModels
 {
     public class BibleSelectionViewModel : ViewModel, IDisposable
     {

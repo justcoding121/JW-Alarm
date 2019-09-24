@@ -1,6 +1,6 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Contracts;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;

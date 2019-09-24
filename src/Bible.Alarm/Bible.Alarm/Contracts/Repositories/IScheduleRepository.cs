@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using JW.Alarm.Common.DataStructures;
-using JW.Alarm.Models;
+using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Models;
 
-namespace JW.Alarm.Services.Contracts
+namespace Bible.Alarm.Services.Contracts
 {
 
 }

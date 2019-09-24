@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Views.Bible.BookSelection"
              xmlns:fn="clr-namespace:FontNameResources"
-             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
-             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
+             xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+             xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
   <ContentPage.Resources>

@@ -1,11 +1,11 @@
-﻿using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public class MediaIndexService
     {

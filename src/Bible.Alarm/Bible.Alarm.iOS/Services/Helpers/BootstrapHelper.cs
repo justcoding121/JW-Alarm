@@ -1,11 +1,11 @@
-﻿using JW.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.iOS.Helpers
+namespace Bible.Alarm.Services.iOS.Helpers
 {
     public class BootstrapHelper
     {

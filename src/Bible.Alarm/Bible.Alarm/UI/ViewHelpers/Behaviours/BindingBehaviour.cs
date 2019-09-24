@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace JW.Alarm.UI.Views.Behaviours
+namespace Bible.Alarm.UI.Views.Behaviours
 {
     /// <summary>
     /// This base behavior class is aware of the binding context of its associated view,

@@ -1,7 +1,7 @@
 ﻿
 using AVFoundation;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using MediaManager.Playback;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.iOS
+namespace Bible.Alarm.Services.iOS
 {
     public class PlaybackService :
         IPlaybackService

@@ -1,9 +1,9 @@
-﻿using JW.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Common.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JW.Alarm
+namespace Bible.Alarm
 { 
     public static class ObservableDictionaryExtensions
     {

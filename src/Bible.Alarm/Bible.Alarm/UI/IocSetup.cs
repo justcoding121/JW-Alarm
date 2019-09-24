@@ -2,8 +2,8 @@
 using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
 using Bible.Alarm.UI.Views.Music;
-using JW.Alarm;
-using JW.Alarm.ViewModels;
+using Bible.Alarm;
+using Bible.Alarm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,5 +1,5 @@
 ﻿using Bible.Alarm.Services.Infrastructure;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using System.Threading;
 
-namespace JW.Alarm.Services.Droid.Tasks
+namespace Bible.Alarm.Services.Droid.Tasks
 {
     public class SchedulerTask
     {

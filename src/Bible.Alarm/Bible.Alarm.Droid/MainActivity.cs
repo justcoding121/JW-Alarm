@@ -3,13 +3,13 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using System.Threading.Tasks;
-using JW.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Droid.Helpers;
 using MediaManager;
 using Android.Content;
-using JW.Alarm.Common.Mvvm;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
-using JW.Alarm.Services.Droid.Tasks;
+using Bible.Alarm.Services.Droid.Tasks;
 using Java.Interop;
 
 namespace Bible.Alarm.Droid

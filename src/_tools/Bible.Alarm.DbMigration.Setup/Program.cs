@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JW.Alarm.DbMigration.Setup
+namespace Bible.Alarm.DbMigration.Setup
 {
     class Program
     {

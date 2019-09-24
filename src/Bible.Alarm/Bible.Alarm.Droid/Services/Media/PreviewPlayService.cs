@@ -1,6 +1,6 @@
 ﻿using Android.App;
 using Android.Media;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace JW.Alarm.Services.Droid
+namespace Bible.Alarm.Services.Droid
 {
     public class PreviewPlayService : Java.Lang.Object,
         MediaPlayer.IOnCompletionListener, IPreviewPlayService

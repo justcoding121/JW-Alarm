@@ -1,7 +1,7 @@
-﻿using JW.Alarm.Common.DataStructures;
-using JW.Alarm.Models;
+﻿using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Models;
 
-namespace JW.Alarm.ViewModels.Redux
+namespace Bible.Alarm.ViewModels.Redux
 {
     public class ApplicationState
     {

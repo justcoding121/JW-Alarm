@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace JW.Alarm.Models
+namespace Bible.Alarm.Models
 {
     public class BibleReadingSchedule : IEntity
     {

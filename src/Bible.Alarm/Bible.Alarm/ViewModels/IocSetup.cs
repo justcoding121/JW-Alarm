@@ -1,10 +1,7 @@
 ﻿using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.ViewModels;
-using JW.Alarm.Services;
-using JW.Alarm.Services.Contracts;
 
-namespace JW.Alarm.ViewModels
+namespace Bible.Alarm.ViewModels
 {
     public static class IocSetup
     {

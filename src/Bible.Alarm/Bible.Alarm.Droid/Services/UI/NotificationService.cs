@@ -2,12 +2,12 @@
 using Android.Content;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Infrastructure;
-using JW.Alarm.Services.Contracts;
-using JW.Alarm.Services.Droid.Tasks;
+using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Droid.Tasks;
 using NLog;
 using System;
 
-namespace JW.Alarm.Services.Droid
+namespace Bible.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {

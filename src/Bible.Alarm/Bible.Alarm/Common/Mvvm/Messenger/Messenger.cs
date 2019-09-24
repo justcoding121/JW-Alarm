@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Common.Mvvm
+namespace Bible.Alarm.Common.Mvvm
 {
     public enum Messages
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JW.Alarm.Models
+namespace Bible.Alarm.Models
 {
     public class MusicTrack : IComparable
     {

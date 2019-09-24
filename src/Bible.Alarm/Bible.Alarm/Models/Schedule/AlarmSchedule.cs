@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JW.Alarm.Models
+namespace Bible.Alarm.Models
 {
     public class AlarmSchedule : IEntity, IComparable
     {

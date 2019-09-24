@@ -1,5 +1,5 @@
 ﻿using Bible.Alarm.Contracts.Network;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NLog;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public class MediaCacheService : IMediaCacheService
     {

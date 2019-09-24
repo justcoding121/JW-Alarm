@@ -1,4 +1,4 @@
-﻿namespace JW.Alarm.Models
+﻿namespace Bible.Alarm.Models
 {
     public enum Meridien
     {

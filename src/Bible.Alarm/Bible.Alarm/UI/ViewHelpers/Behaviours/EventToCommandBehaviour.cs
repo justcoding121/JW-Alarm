@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace JW.Alarm.UI.Views.Behaviours
+namespace Bible.Alarm.UI.Views.Behaviours
 {
     /// <summary>
     /// This behavior allow you to bind any event on any View to an <see cref="ICommand"/>.

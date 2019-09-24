@@ -10,7 +10,7 @@ namespace Bible.Alarm.UITests
         {
             if (platform == Platform.Android)
             {
-                return ConfigureApp.Android.InstalledApp("com.companyname.Bible.Alarm").StartApp();
+                return ConfigureApp.Android.InstalledApp("com.jthomas.info.Bible.Alarm").StartApp();
             }
 
             return ConfigureApp.iOS.StartApp();

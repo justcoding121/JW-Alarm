@@ -1,7 +1,7 @@
 ﻿using AudioLinkHarvestor.Utility;
 using Bible.Alarm.Audio.Links.Harvestor.Utility;
-using JW.Alarm.Models;
-using JW.Alarm.Services;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading.Tasks;

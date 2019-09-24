@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 
-namespace JW.Alarm.UI.Views.Converters
+namespace Bible.Alarm.UI.Views.Converters
 {
     public class RepeatColorConverter : IValueConverter
     {

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
+             xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
              x:Class="Bible.Alarm.UI.Views.Bible.ChapterSelection"
              xmlns:fn="clr-namespace:FontNameResources"
-             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
+             xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
              NavigationPage.HasNavigationBar="False"
              NavigationPage.HasBackButton="False">
     <ContentPage.Resources>

@@ -3,7 +3,7 @@ using AudioLinkHarvester.Bible;
 using AudioLinkHarvester.Utility;
 using AudioLinkHarvestor.Utility;
 using Bible.Alarm.Audio.Links.Harvestor;
-using JW.Alarm.Services;
+using Bible.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;

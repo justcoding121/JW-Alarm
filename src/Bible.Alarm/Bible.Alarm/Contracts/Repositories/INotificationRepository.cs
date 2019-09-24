@@ -1,11 +1,11 @@
-﻿using JW.Alarm.Common.DataStructures;
-using JW.Alarm.Models;
+﻿using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public interface INotificationRepository
     {

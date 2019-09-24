@@ -1,12 +1,12 @@
-﻿using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JW.Alarm.Models;
-using JW.Alarm.Common.DataStructures;
+using Bible.Alarm.Models;
+using Bible.Alarm.Common.DataStructures;
 using Microsoft.EntityFrameworkCore;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public class ScheduleDbContext : DbContext
     {

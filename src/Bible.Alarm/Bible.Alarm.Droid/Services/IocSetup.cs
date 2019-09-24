@@ -1,14 +1,14 @@
-﻿namespace JW.Alarm.Services.Droid
+﻿namespace Bible.Alarm.Services.Droid
 {
     using Android.Media;
-    using JW.Alarm.Services.Contracts;
+    using Bible.Alarm.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
     using System.Net.Http;
     using Xamarin.Android.Net;
     using MediaManager;
-    using JW.Alarm.Services.Droid.Tasks;
+    using Bible.Alarm.Services.Droid.Tasks;
     using Android.Content;
     using Com.Google.Android.Exoplayer2.UI;
     using Bible.Alarm.Contracts.Network;

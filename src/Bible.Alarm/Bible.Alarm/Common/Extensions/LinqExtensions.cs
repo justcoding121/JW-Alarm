@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm
+namespace Bible.Alarm
 {
     public static class AsyncExtensions
     {

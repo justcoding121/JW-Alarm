@@ -1,9 +1,9 @@
-﻿using JW.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace JW.Alarm.UI.Views.Converters
+namespace Bible.Alarm.UI.Views.Converters
 {
     public class DayColorConverter : IValueConverter
     {

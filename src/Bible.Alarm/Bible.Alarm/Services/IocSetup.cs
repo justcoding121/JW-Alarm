@@ -1,8 +1,8 @@
-﻿namespace JW.Alarm.Services
+﻿namespace Bible.Alarm.Services
 {
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Services;
-    using JW.Alarm.Services.Contracts;
+    using Bible.Alarm.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;

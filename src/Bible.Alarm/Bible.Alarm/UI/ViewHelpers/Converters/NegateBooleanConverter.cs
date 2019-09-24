@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace JW.Alarm.UI.Views.Converters
+namespace Bible.Alarm.UI.Views.Converters
 {
     public class NegateBooleanConverter : IValueConverter
     {

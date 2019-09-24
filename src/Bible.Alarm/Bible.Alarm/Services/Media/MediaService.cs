@@ -1,12 +1,12 @@
 ﻿using Advanced.Algorithms.DataStructures.Foundation;
-using JW.Alarm.Models;
+using Bible.Alarm.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public class MediaService : IDisposable
     {

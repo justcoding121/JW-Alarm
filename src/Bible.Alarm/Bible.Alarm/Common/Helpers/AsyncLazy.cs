@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm
+namespace Bible.Alarm
 {
     /// <summary>
     /// Provides support for asynchronous lazy initialization. This type is fully threadsafe.

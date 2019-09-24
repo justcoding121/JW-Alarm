@@ -1,5 +1,5 @@
-﻿using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace JW.Alarm.Services.iOS
+namespace Bible.Alarm.Services.iOS
 {
     public class iOSNotificationService : INotificationService
     {

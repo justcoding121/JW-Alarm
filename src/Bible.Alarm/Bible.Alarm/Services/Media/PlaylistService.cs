@@ -1,11 +1,11 @@
-﻿using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public class PlaylistService : IPlaylistService
     {

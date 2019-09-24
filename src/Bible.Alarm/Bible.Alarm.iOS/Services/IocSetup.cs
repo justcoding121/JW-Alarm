@@ -1,9 +1,9 @@
-﻿namespace JW.Alarm.Services.iOS
+﻿namespace Bible.Alarm.Services.iOS
 {
     using AVFoundation;
     using Foundation;
-    using JW.Alarm.Services.Contracts;
-    using JW.Alarm.Services.iOS;
+    using Bible.Alarm.Services.Contracts;
+    using Bible.Alarm.Services.iOS;
     using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;

@@ -1,9 +1,9 @@
-﻿using JW.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JW.Alarm.Models
+namespace Bible.Alarm.Models
 {
     public class MelodyMusic : Publication
     {

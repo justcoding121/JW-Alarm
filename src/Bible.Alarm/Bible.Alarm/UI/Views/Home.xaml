@@ -2,10 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Bible.Alarm.UI.Home"
-             xmlns:converters="clr-namespace:JW.Alarm.UI.Views.Converters"
-             xmlns:models="clr-namespace:JW.Alarm.Models"
+             xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+             xmlns:models="clr-namespace:Bible.Alarm.Models"
              xmlns:fn="clr-namespace:FontNameResources"
-             xmlns:behaviours="clr-namespace:JW.Alarm.UI.Views.Behaviours"
+             xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
              NavigationPage.HasNavigationBar="False"
              Title="Bible Alarm">
     <ContentPage.Resources>

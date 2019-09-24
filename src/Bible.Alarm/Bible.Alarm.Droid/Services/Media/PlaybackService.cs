@@ -3,8 +3,8 @@ using Android.App;
 using Android.Media;
 using Android.Net;
 using Bible.Alarm.Contracts.Network;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using MediaManager;
 using MediaManager.Library;
 using MediaManager.Media;
@@ -16,7 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.Droid
+namespace Bible.Alarm.Services.Droid
 {
     public class PlaybackService : IPlaybackService, IDisposable
     {

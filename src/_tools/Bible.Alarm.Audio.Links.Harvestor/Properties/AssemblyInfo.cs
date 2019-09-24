@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JW.Alarm")]
+[assembly: AssemblyProduct("Bible.Alarm")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -7,9 +7,9 @@ using MediaManager;
 using NLog;
 using System;
 using Bible.Alarm.Droid.Services.Tasks;
-using JW.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Droid.Helpers;
 
-namespace JW.Alarm.Services.Droid.Tasks
+namespace Bible.Alarm.Services.Droid.Tasks
 {
     [Service(Enabled = true)]
     public class AlarmSetupService : Service

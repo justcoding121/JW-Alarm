@@ -1,5 +1,5 @@
 ﻿using Android.Content;
-using JW.Alarm;
+using Bible.Alarm;
 
 namespace Bible.Alarm.Droid
 {
@@ -11,12 +11,12 @@ namespace Bible.Alarm.Droid
         public static Context Context { get; private set; }
         public static void Initialize(Context context, bool isService)
         {
-            var container = JW.Alarm.Container.Default;
+            var container = Bible.Alarm.Container.Default;
 
             UI.IocSetup.Initialize(container);
-            JW.Alarm.Services.IocSetup.Initialize(container);
-            JW.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
-            JW.Alarm.ViewModels.IocSetup.Initialize(container);
+            Bible.Alarm.Services.IocSetup.Initialize(container);
+            Bible.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
+            Bible.Alarm.ViewModels.IocSetup.Initialize(container);
 
             Container = container;
             Context = context;

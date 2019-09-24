@@ -1,12 +1,12 @@
-﻿using JW.Alarm.Common.Mvvm;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services
+namespace Bible.Alarm.Services
 {
     public abstract class ToastService : IToastService
     {

@@ -1,5 +1,5 @@
-﻿using JW.Alarm.Common.DataStructures;
-using JW.Alarm.ViewModels;
+﻿using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.ViewModels;
 using Redux;
 using System;
 using System.Collections.Generic;

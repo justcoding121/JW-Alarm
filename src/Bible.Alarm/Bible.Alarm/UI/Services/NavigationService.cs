@@ -6,8 +6,8 @@ using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
 using Bible.Alarm.UI.Views.Music;
-using JW.Alarm.Common.Mvvm;
-using JW.Alarm.ViewModels;
+using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.ViewModels;
 using Mvvmicro;
 using Xamarin.Forms;
 

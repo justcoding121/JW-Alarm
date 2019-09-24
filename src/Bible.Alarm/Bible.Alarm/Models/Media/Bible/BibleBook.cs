@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JW.Alarm.Models
+namespace Bible.Alarm.Models
 {
     public class BibleBook : IComparable
     {

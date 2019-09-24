@@ -1,15 +1,15 @@
 ﻿using Android.App;
 using Android.Content;
 using Bible.Alarm.Droid.Services.Tasks;
-using JW.Alarm.Models;
-using JW.Alarm.Services.Droid.Tasks;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services.Droid.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.Droid.Helpers
+namespace Bible.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {

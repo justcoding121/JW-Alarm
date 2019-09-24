@@ -1,4 +1,4 @@
-﻿using JW.Alarm.ViewModels;
+﻿using Bible.Alarm.ViewModels;
 using Redux;
 using System;
 using System.Collections.Generic;

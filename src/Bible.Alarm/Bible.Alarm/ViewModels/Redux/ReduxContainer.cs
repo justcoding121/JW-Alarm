@@ -1,10 +1,10 @@
-﻿using JW.Alarm.ViewModels.Redux.Reducers;
+﻿using Bible.Alarm.ViewModels.Redux.Reducers;
 using Redux;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JW.Alarm.ViewModels.Redux
+namespace Bible.Alarm.ViewModels.Redux
 {
     public static class ReduxContainer
     {

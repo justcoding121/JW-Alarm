@@ -1,10 +1,10 @@
-﻿using JW.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JW.Alarm.ViewModels
+namespace Bible.Alarm.ViewModels
 {
     public class LanguageListViewItemModel : ViewModel, IComparable
     {
