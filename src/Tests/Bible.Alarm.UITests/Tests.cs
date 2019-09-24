@@ -28,7 +28,7 @@ namespace Bible.Alarm.UITests
         }
 
         [Test]
-        public void HomeScreenIsDisplayed()
+        public void Smoke_Test_Alarm()
         {
             app.WaitForElement(c => c.Marked("HomePage"),
             "Took more than 10 seconds to show home page.", TimeSpan.FromSeconds(300));
