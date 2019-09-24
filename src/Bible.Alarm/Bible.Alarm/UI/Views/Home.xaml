@@ -14,7 +14,7 @@
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
         <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
     </ContentPage.Resources>
-    <Grid BackgroundColor="White">
+    <Grid BackgroundColor="White" AutomationId="HomePage">
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>

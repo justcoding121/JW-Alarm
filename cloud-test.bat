@@ -1,0 +1,1 @@
+appcenter test run uitest --app "jehonathant/Bible-Alarm-1" --devices "jehonathant/all-devices" --app-path src\Bible.Alarm\Bible.Alarm.Android\bin\Release\com.companyname.Bible.Alarm.apk  --test-series "master" --locale "en_US" --build-dir src\Tests\Bible.Alarm.UITests\bin\Release --uitest-tools-dir src\_tools\Executables

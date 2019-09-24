@@ -10,6 +10,7 @@ using JW.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
 using JW.Alarm.Services.Droid.Tasks;
+using Java.Interop;
 
 namespace Bible.Alarm.Droid
 {
@@ -72,5 +73,17 @@ namespace Bible.Alarm.Droid
             base.OnStart();
         }
 
+        //For Unit tests
+        [Export]
+        public string GetDeviceTime()
+        {
+            return DateTime.Now.ToString();
+        }
+
+        [Export]
+        public string IsAlarmOn()
+        {
+            return IocSetup.Container.Resolve<IMediaManager>().IsPlaying().ToString();
+        }
     }
 }

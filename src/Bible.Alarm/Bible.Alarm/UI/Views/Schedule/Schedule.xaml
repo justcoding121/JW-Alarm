@@ -12,7 +12,7 @@
     <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
   </ContentPage.Resources>
   <ContentPage.Content>
-    <Grid BackgroundColor="White">
+    <Grid BackgroundColor="White" AutomationId="SchedulePage">
       <Grid.RowDefinitions>
         <RowDefinition />
       </Grid.RowDefinitions>
@@ -46,6 +46,7 @@
           </Grid.ColumnDefinitions>
           <Button Grid.Column="0"
           Padding="0"
+          AutomationId="CancelButton"
           Command="{Binding CancelCommand}"
           Margin="2,2,0,2"
           TextColor="SlateBlue"
@@ -55,6 +56,7 @@
           </Button>
           <Button Grid.Column="1"
           Padding="0"
+          AutomationId="SaveButton"
           Command="{Binding SaveCommand}"
           Text="SAVE"
           Margin="0,2,2,2"
@@ -74,7 +76,7 @@
             <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
           </StackLayout.Resources>
           <Label HorizontalTextAlignment="Center" HorizontalOptions="Fill" Text="Alarm Time" Margin="0,3,0,3"></Label>
-                    <TimePicker HorizontalOptions="Fill" Time="{Binding Time, Mode=TwoWay}" >
+                    <TimePicker AutomationId="AlarmTimePicker" HorizontalOptions="Fill" Time="{Binding Time, Mode=TwoWay}" >
                         <TimePicker.Format>hh:mm tt</TimePicker.Format>
                     </TimePicker>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,5,0,5">
