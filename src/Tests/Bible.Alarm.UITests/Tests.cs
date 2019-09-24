@@ -31,7 +31,7 @@ namespace Bible.Alarm.UITests
         public void Smoke_Test_Alarm()
         {
             app.WaitForElement(c => c.Marked("HomePage"),
-            "Took more than 10 seconds to show home page.", TimeSpan.FromSeconds(300));
+            "Took more than 1 minute to show home page.", TimeSpan.FromMinutes(1));
 
             app.WaitForElement(c => c.Marked("AddScheduleButton"), 
                 "Add Schedule Button is missing.", TimeSpan.FromSeconds(30));
@@ -40,7 +40,7 @@ namespace Bible.Alarm.UITests
 
             app.Tap(x => x.Marked("AddScheduleButton"));
             app.WaitForElement(c => c.Marked("SchedulePage"),
-            "Took more than 10 seconds to show add schedule page.", TimeSpan.FromSeconds(10));
+            "Took more than 30 seconds to show add schedule page.", TimeSpan.FromSeconds(30));
 
             app.WaitForElement(c => c.Marked("CancelButton"),
                 "Cancel Button is missing.", TimeSpan.FromSeconds(30));
@@ -54,7 +54,7 @@ namespace Bible.Alarm.UITests
 
             app.Tap(x => x.Marked("SaveButton"));
             app.WaitForElement(c => c.Marked("HomePage"),
-            "Took more than 5 seconds to show home page.", TimeSpan.FromSeconds(5));
+            "Took more than 30 seconds to show home page after save.", TimeSpan.FromSeconds(30));
 
             app.WaitForElement(c => c.Marked("Dismiss Alarm"), "Alarm did not trigger in time.", TimeSpan.FromMinutes(3));
 
@@ -67,7 +67,7 @@ namespace Bible.Alarm.UITests
             app.Tap(x => x.Marked("Dismiss Alarm"));
 
             app.WaitForElement(c => c.Marked("HomePage"),
-           "Took more than 5seconds to show home page after alarm dismissal.", TimeSpan.FromSeconds(5));
+           "Took more than 30 seconds to show home page after alarm dismissal.", TimeSpan.FromSeconds(30));
 
             isAlarmOn = bool.Parse((string)app.Invoke("IsAlarmOn"));
             Assert.IsFalse(isAlarmOn, "Alarm is not off after dismissal.");
