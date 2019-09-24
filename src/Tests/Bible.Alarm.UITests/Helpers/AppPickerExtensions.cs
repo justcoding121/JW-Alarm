@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,8 +55,10 @@ namespace Bible.Alarm.UITests.Helpers
             var minute = time.Minute;
             if (platform == Platform.Android)
             {
-                app.WaitForElement(x => x.Marked("AlarmTimePicker"), timeout: DefaultTimeout);
-                app.Tap(x => x.Marked("AlarmTimePicker"));
+                app.WaitForElement(x => x.Marked("12:00 AM"), timeout: DefaultTimeout);
+                app.Tap(x => x.Marked("12:00 AM"));
+
+                app.Screenshot("Timepicker modal.");
 
                 app.WaitForElement(x => x.Class(AndroidTimePickerClass), timeout: DefaultTimeout);
                 app.Query(c => c.Class(pickerClass).Invoke(AndroidTimePickerSetHourMethod, hours));
