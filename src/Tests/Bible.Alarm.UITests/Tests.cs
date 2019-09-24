@@ -31,10 +31,9 @@ namespace Bible.Alarm.UITests
         public void Smoke_Test_Alarm()
         {
             app.WaitForElement(c => c.Marked("HomePage"),
-            "Took more than 1 minute to show home page.", TimeSpan.FromMinutes(1));
+            "Took more than 30 seconds to show home page.", TimeSpan.FromSeconds(30));
 
-            app.WaitForElement(c => c.Marked("AddScheduleButton"), 
-                "Add Schedule Button is missing.", TimeSpan.FromSeconds(30));
+            app.WaitForElement(c => c.Marked("AddScheduleButton"));
 
             app.Screenshot("Home page.");
 
@@ -42,10 +41,8 @@ namespace Bible.Alarm.UITests
             app.WaitForElement(c => c.Marked("SchedulePage"),
             "Took more than 30 seconds to show add schedule page.", TimeSpan.FromSeconds(30));
 
-            app.WaitForElement(c => c.Marked("CancelButton"),
-                "Cancel Button is missing.", TimeSpan.FromSeconds(30));
-            app.WaitForElement(c => c.Marked("SaveButton"), 
-                "Save Button is missing.", TimeSpan.FromSeconds(30));
+            app.WaitForElement(c => c.Marked("CancelButton"));
+            app.WaitForElement(c => c.Marked("SaveButton"));
 
             var deviceTime = DateTime.Parse((string)app.Invoke("GetDeviceTime"));
             app.UpdateTimePicker(this.platform, deviceTime.Second <= 45 ? deviceTime.AddMinutes(1) : deviceTime.AddMinutes(2));
