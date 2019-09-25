@@ -45,7 +45,7 @@ namespace Bible.Alarm.UITests
             app.WaitForElement(c => c.Marked("SaveButton"));
 
             var deviceTime = DateTime.Parse((string)app.Invoke("GetDeviceTime"));
-            app.UpdateTimePicker(this.platform, deviceTime.Second <= 45 ? deviceTime.AddMinutes(1) : deviceTime.AddMinutes(2));
+            app.UpdateTimePicker(this.platform, deviceTime.AddMinutes(2));
 
             app.Screenshot("Schedule page.");
 
@@ -53,7 +53,7 @@ namespace Bible.Alarm.UITests
             app.WaitForElement(c => c.Marked("HomePage"),
             "Took more than 30 seconds to show home page after save.", TimeSpan.FromSeconds(30));
 
-            app.WaitForElement(c => c.Marked("Dismiss Alarm"), "Alarm did not trigger in time.", TimeSpan.FromMinutes(3));
+            app.WaitForElement(c => c.Marked("Dismiss Alarm"), "Alarm did not trigger in time.", TimeSpan.FromMinutes(4));
 
             var isAlarmOn = bool.Parse((string)app.Invoke("IsAlarmOn"));
 
