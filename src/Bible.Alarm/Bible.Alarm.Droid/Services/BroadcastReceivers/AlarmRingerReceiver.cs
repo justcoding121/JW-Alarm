@@ -32,7 +32,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         private Intent intent;
         public AlarmRingerReceiver() : base()
         {
-            LogSetup.Initialize();
+            LogSetup.Initialize("Android");
         }
 
         private void stateChanged(object sender, MediaPlayerState e)

@@ -2,17 +2,18 @@
 using Loggly.Config;
 using NLog;
 using NLog.Config;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Services.Infrastructure
 {
     public class LogSetup
     {
         private static bool initialized = false;
-        public static void Initialize()
+        public static void Initialize(string osName)
         {
             if (!initialized)
             {
-                setupLoggly();
+                setupLoggly(osName);
 
                 var config = new LoggingConfiguration();
                 var logglyTarget = new NLog.Targets.LogglyTarget();
@@ -25,12 +26,12 @@ namespace Bible.Alarm.Services.Infrastructure
             }
         }
 
-        private static void setupLoggly()
+        private static void setupLoggly(string osName)
         {
 
             var config = LogglyConfig.Instance;
             config.CustomerToken = "ca6fc8af-4beb-4548-8b6c-c5955a288cc6";
-            config.ApplicationName = $"Bible-Alarm-Android";
+            config.ApplicationName = $"Bible-Alarm-{osName}";
 
             config.Transport.EndpointHostname = "logs-01.loggly.com";
             config.Transport.EndpointPort = 514;

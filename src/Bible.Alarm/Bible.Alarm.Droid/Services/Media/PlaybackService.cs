@@ -177,6 +177,7 @@ namespace Bible.Alarm.Services.Droid
                     return;
                 }
 
+                this.mediaManager.Volume.CurrentVolume = this.mediaManager.Volume.MaxVolume;
                 await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
 
                 currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();

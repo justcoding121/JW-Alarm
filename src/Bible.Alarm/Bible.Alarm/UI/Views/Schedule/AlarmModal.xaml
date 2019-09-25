@@ -4,8 +4,8 @@
              xmlns:fn="clr-namespace:FontNameResources"
              x:Class="Bible.Alarm.UI.Views.AlarmModal">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
-                     AutomationId="AlarmModal">
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
+                     AutomationId="AlarmModal" Margin="0,0,0,125">
             <Label Margin="5"
                     HeightRequest="200"
                     MinimumHeightRequest="200"

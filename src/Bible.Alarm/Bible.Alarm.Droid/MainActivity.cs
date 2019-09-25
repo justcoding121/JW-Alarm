@@ -22,7 +22,7 @@ namespace Bible.Alarm.Droid
 
         public MainActivity() : base()
         {
-            LogSetup.Initialize();
+            LogSetup.Initialize("Android");
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -45,7 +45,7 @@ namespace Bible.Alarm.Droid
             }
             catch (Exception e)
             {
-                logger.Fatal(e, "Android Application Crashed.");
+                logger.Fatal(e, "Android application crashed.");
                 throw;
             }
 
@@ -63,7 +63,7 @@ namespace Bible.Alarm.Droid
                 }
                 catch (Exception e)
                 {
-                    logger.Fatal(e, "Android Initialization Crashed.");
+                    logger.Fatal(e, "Android initialization crashed.");
                 }
             });
         }

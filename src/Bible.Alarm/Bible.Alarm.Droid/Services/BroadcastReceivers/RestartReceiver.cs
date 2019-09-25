@@ -27,7 +27,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         public RestartReceiver()
             : base()
         {
-            LogSetup.Initialize();
+            LogSetup.Initialize("Android");
         }
 
         public override void OnReceive(Context context, Intent intent)

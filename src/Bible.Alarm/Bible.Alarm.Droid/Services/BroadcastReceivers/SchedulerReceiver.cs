@@ -29,7 +29,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public SchedulerReceiver() : base()
         {
-            LogSetup.Initialize();
+            LogSetup.Initialize("Android");
         }
 
         public override void OnReceive(Context context, Intent intent)

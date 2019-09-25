@@ -24,7 +24,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
               IAlarmService alarmService, INotificationService notificationService)
         {
-            LogSetup.Initialize();
+            LogSetup.Initialize("Android");
 
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;

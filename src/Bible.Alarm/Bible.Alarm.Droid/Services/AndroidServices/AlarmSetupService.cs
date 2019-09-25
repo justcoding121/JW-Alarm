@@ -20,7 +20,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
 
         public AlarmSetupService() : base()
         {
-            LogSetup.Initialize();
+            LogSetup.Initialize("Android");
         }
 
         public override IBinder OnBind(Intent intent)
