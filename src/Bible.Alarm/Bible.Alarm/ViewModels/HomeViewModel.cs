@@ -13,7 +13,6 @@ using Bible.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
 using System.Reactive.Concurrency;
 using Bible.Alarm.ViewModels.Redux.Actions;

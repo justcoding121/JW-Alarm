@@ -1,21 +1,16 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Redux.Actions.Music;
-using Bible.Alarm.Common.DataStructures;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
-using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
