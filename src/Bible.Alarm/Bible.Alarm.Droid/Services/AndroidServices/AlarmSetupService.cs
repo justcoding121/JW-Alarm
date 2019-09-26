@@ -85,7 +85,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-            alarmIntent.AddFlags(ActivityFlags.ReceiverForeground);
 
             var pIntent = PendingIntent.GetBroadcast(
                     context,

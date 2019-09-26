@@ -101,7 +101,7 @@
                                 <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Horizontal" HorizontalOptions="End" Margin="15,0,0,0">
                                     <Switch
                                           IsToggled="{Binding IsEnabled, Mode=TwoWay}"
-                                          Margin="0,0,5,0"></Switch>
+                                          Margin="0,0,10,0"></Switch>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>
