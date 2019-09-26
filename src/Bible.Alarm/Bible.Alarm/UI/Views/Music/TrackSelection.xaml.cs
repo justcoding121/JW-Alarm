@@ -1,11 +1,7 @@
 ﻿using Bible.Alarm.UI.ViewHelpers;
 using Bible.Alarm.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,6 +21,18 @@ namespace Bible.Alarm.UI.Views.Music
                 Command = new Command(() => AnimateUtils.FlickUponTouched(BackButton, 1500,
                 ColorUtils.ToHexString(Color.LightGray), ColorUtils.ToHexString(Color.WhiteSmoke), 1))
             });
+
+            this.Appearing += onAppearing;
+        }
+
+        private void onAppearing(object sender, EventArgs e)
+        {
+            Task.Delay(100).ContinueWith(x =>
+            {
+                trackListView.ScrollTo(ViewModel.SelectedTrack, ScrollToPosition.Center, true);
+                this.Appearing -= onAppearing;
+
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         protected override bool OnBackButtonPressed()
@@ -32,5 +40,6 @@ namespace Bible.Alarm.UI.Views.Music
             ViewModel.BackCommand.Execute(null);
             return true;
         }
+
     }
 }

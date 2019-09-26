@@ -68,6 +68,7 @@
           </Label>
         </Grid>
         <ListView Grid.Row="1"
+          x:Name="bookListView"
           HorizontalOptions="Fill"
           CachingStrategy="RecycleElement"
           ItemsSource="{Binding Books}"

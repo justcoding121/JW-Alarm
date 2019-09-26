@@ -69,10 +69,11 @@
                     </Label>
                 </Grid>
                 <ListView HorizontalOptions="Fill"
-          Grid.Row="1"
-          CachingStrategy="RecycleElement"
-          ItemsSource="{Binding Chapters}"
-          SelectionMode="None">
+                  x:Name="chapterListView"
+                  Grid.Row="1"
+                  CachingStrategy="RecycleElement"
+                  ItemsSource="{Binding Chapters}"
+                  SelectionMode="None">
                     <ListView.Behaviors>
                         <behaviours:EventToCommandBehavior EventName="ItemTapped"
                                            Command="{Binding SetChapterCommand}"

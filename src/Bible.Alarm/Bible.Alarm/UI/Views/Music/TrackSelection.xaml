@@ -71,10 +71,11 @@
                     </Label>
                 </Grid>
                 <ListView HorizontalOptions="Fill"
-          Grid.Row="1"
-          CachingStrategy="RecycleElement"
-          ItemsSource="{Binding Tracks}"
-          SelectionMode="None">
+                      x:Name="trackListView"
+                      Grid.Row="1"
+                      CachingStrategy="RecycleElement"
+                      ItemsSource="{Binding Tracks}"
+                      SelectionMode="None"> 
                     <ListView.Behaviors>
                         <behaviours:EventToCommandBehavior EventName="ItemTapped"
                                            Command="{Binding SetTrackCommand}"
