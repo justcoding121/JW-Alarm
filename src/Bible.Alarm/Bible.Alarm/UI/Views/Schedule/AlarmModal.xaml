@@ -5,8 +5,7 @@
              x:Class="Bible.Alarm.UI.Views.AlarmModal">
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
-                     AutomationId="AlarmModal" Margin="0,0,0,12
-                     5">
+                     AutomationId="AlarmModal" Margin="0,0,0,125">
             <Label Margin="5"
                     HeightRequest="200"
                     MinimumHeightRequest="200"

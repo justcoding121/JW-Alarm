@@ -1,10 +1,5 @@
 ﻿using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.UI;
-using Bible.Alarm.Services.Contracts;
 using Mvvmicro;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels

@@ -53,7 +53,7 @@ namespace Bible.Alarm.UITests
             app.WaitForElement(c => c.Marked("HomePage"),
             "Took more than 30 seconds to show home page after save.", TimeSpan.FromSeconds(30));
 
-            app.WaitForElement(c => c.Marked("Dismiss Alarm"), "Alarm did not trigger in time.", TimeSpan.FromMinutes(4));
+            app.WaitForElement(c => c.Marked("Dismiss Alarm"), "Alarm did not trigger in time.", TimeSpan.FromMinutes(5));
 
             var isAlarmOn = bool.Parse((string)app.Invoke("IsAlarmOn"));
 
