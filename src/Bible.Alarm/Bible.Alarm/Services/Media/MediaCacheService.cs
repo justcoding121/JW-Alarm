@@ -83,8 +83,17 @@ namespace Bible.Alarm.Services
 
                     foreach (var playItem in playlist)
                     {
+                        //do not download while playing
+                        if (mediaManager.IsPlaying()
+                            || mediaManager.IsBuffering()
+                            || mediaManager.IsPrepared())
+                        {
+                            break;
+                        }
+
                         if (!await Exists(playItem.Url))
                         {
+
                             byte[] bytes = null;
 
                             bytes = await downloadService.DownloadAsync(playItem.Url);

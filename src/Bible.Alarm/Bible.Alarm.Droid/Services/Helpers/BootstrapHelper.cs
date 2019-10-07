@@ -1,15 +1,9 @@
-﻿using Android.App;
-using Android.App.Job;
+﻿using Android.App.Job;
 using Android.Content;
 using Bible.Alarm.Droid.Services.Helpers;
-using Bible.Alarm.Droid.Services.Jobs;
 using Bible.Alarm.Droid.Services.Tasks;
-using Bible.Alarm.Models;
-using Bible.Alarm.Services.Droid.Tasks;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid.Helpers
@@ -43,7 +37,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
         private static bool schedulerSetupTask(Context context)
         {
             // Sample usage - creates a JobBuilder for a SchedulerJob and sets the Job ID to 1.
-            var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>((int)JobIdentifiers.SchedulerJob, 15);
+            var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>(SchedulerJob.JobId, 15);
 
             var jobInfo = jobBuilder.Build();  // creates a JobInfo object.
 

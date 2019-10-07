@@ -8,18 +8,20 @@ using Android.App.Job;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
-    [Service(Name = "com.jthomas.info.Bible.Alarm.SchedulerJob",
+    [Service(Name = "com.jthomas.info.Bible.Alarm.jobscheduler.SchedulerJob",
          Permission = "android.permission.BIND_JOB_SERVICE")]
     public class SchedulerJob : JobService
     {
+        public const int JobId = 1;
         private static Logger logger => LogManager.GetCurrentClassLogger();
         public SchedulerJob() : base()
         {
             LogSetup.Initialize("Android");
         }
-
         public override bool OnStartJob(JobParameters jobParams)
         {
+            logger.Info("SchedulerJob called!");
+
             Task.Run(async () =>
             {
                 try
