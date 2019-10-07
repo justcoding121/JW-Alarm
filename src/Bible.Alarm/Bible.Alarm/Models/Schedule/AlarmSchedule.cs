@@ -45,8 +45,17 @@ namespace Bible.Alarm.Models
             var expression = new CronExpression(CronExpression);
 
             validateNextFire(expression);
-
             return expression.GetNextValidTimeAfter(DateTimeOffset.Now).Value;
+        }
+
+        public DateTimeOffset NextFireDate(DateTimeOffset after)
+        {
+            validateTime();
+
+            var expression = new CronExpression(CronExpression);
+
+            validateNextFire(expression);
+            return expression.GetNextValidTimeAfter(after).Value;
         }
 
         private string getCronExpression()

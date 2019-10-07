@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Services.Contracts;
+using MediaManager;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NLog;
@@ -24,6 +25,7 @@ namespace Bible.Alarm.Services
         private IPlaylistService mediaPlayService;
         private ScheduleDbContext scheduleDbContext;
         private INetworkStatusService networkStatusService;
+        private IMediaManager mediaManager;
 
         private MediaService mediaService;
 
@@ -33,7 +35,8 @@ namespace Bible.Alarm.Services
         public MediaCacheService(IStorageService storageService,
             IDownloadService downloadService, IPlaylistService mediaPlayService,
             ScheduleDbContext dbContext, MediaService mediaService,
-            INetworkStatusService networkStatusService)
+            INetworkStatusService networkStatusService,
+            IMediaManager mediaManager)
         {
             this.storageService = storageService;
             this.downloadService = downloadService;
@@ -41,6 +44,7 @@ namespace Bible.Alarm.Services
             this.scheduleDbContext = dbContext;
             this.mediaService = mediaService;
             this.networkStatusService = networkStatusService;
+            this.mediaManager = mediaManager;
 
             cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
         }
@@ -194,6 +198,7 @@ namespace Bible.Alarm.Services
 
         public async Task CleanUp()
         {
+
             var schedules = await scheduleDbContext
                 .AlarmSchedules
                 .AsNoTracking()
@@ -203,6 +208,13 @@ namespace Bible.Alarm.Services
 
             foreach (var schedule in schedules)
             {
+                //skip if alarm will be fired soon or already fired
+                if (schedule.NextFireDate(DateTime.Now.AddMinutes(-5)) <= DateTimeOffset.Now.AddMinutes(5)
+                    || mediaManager.IsPlaying() || mediaManager.IsBuffering() || mediaManager.IsPrepared())
+                {
+                    continue;
+                }
+
                 var playlist = await mediaPlayService.NextTracks(schedule.Id, TimeSpan.FromHours(1));
                 var fileNames = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
 

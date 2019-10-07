@@ -113,8 +113,10 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BroadcastReceivers\SchedulerReceiver.cs" />
+    <Compile Include="Services\Jobs\JobIdentifiers.cs" />
+    <Compile Include="Services\Jobs\SchedulerJob.cs" />
     <Compile Include="Services\Helpers\BootstrapHelper.cs" />
+    <Compile Include="Services\Helpers\JobSchedulerHelper.cs" />
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />

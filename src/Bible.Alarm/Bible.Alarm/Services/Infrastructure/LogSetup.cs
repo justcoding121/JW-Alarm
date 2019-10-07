@@ -9,20 +9,25 @@ namespace Bible.Alarm.Services.Infrastructure
     public class LogSetup
     {
         private static bool initialized = false;
+
+        private static object @lock = new object();
         public static void Initialize(string osName)
         {
-            if (!initialized)
+            lock (@lock)
             {
-                setupLoggly(osName);
+                if (!initialized)
+                {
+                    setupLoggly(osName);
 
-                var config = new LoggingConfiguration();
-                var logglyTarget = new NLog.Targets.LogglyTarget();
-                config.AddTarget("loggly", logglyTarget);
-                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
+                    var config = new LoggingConfiguration();
+                    var logglyTarget = new NLog.Targets.LogglyTarget();
+                    config.AddTarget("loggly", logglyTarget);
+                    config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
 
-                LogManager.Configuration = config;
+                    LogManager.Configuration = config;
 
-                initialized = true;
+                    initialized = true;
+                }
             }
         }
 

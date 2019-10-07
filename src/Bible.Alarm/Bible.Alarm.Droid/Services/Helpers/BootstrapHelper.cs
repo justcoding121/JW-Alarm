@@ -1,5 +1,8 @@
 ﻿using Android.App;
+using Android.App.Job;
 using Android.Content;
+using Bible.Alarm.Droid.Services.Helpers;
+using Bible.Alarm.Droid.Services.Jobs;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services.Droid.Tasks;
@@ -26,10 +29,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
 
         public static void VerifyBackgroundTasks(Context context)
         {
-            if (!IsScheduleTaskScheduled(context))
-            {
-                schedulerSetupTask(context);
-            }
+            schedulerSetupTask(context);
         }
 
         public static async Task InitializeDatabase()
@@ -40,41 +40,23 @@ namespace Bible.Alarm.Services.Droid.Helpers
             }
         }
 
-        private static void schedulerSetupTask(Context context)
+        private static bool schedulerSetupTask(Context context)
         {
-            var intent = new Intent(context, typeof(SchedulerReceiver));
+            // Sample usage - creates a JobBuilder for a SchedulerJob and sets the Job ID to 1.
+            var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>((int)JobIdentifiers.SchedulerJob, 15);
 
-            var pIntent = PendingIntent.GetBroadcast(
-                    context,
-                    0,
-                    intent,
-                    PendingIntentFlags.UpdateCurrent);
+            var jobInfo = jobBuilder.Build();  // creates a JobInfo object.
 
-            var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
+            var jobScheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
+            var scheduleResult = jobScheduler.Schedule(jobInfo);
 
-            var interval = 30 * 1000 * 15;
-            var firstTrigger = Java.Lang.JavaSystem.CurrentTimeMillis();
+            if (JobScheduler.ResultSuccess == scheduleResult)
+            {
+                return true;
+            }
 
-            alarmService.SetRepeating(AlarmType.RtcWakeup, firstTrigger, interval, pIntent);
+            return false;
         }
 
-        private static bool IsScheduleTaskScheduled(Context context)
-        {
-            var pIntent = findIntent(context);
-            return pIntent != null;
-        }
-
-        private static PendingIntent findIntent(Context context)
-        {
-            var intent = new Intent(context, typeof(SchedulerReceiver));
-
-            var pIntent = PendingIntent.GetBroadcast(
-                    context,
-                    0,
-                    intent,
-                    PendingIntentFlags.NoCreate);
-
-            return pIntent;
-        }
     }
 }

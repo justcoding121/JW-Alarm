@@ -3,6 +3,7 @@
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Services;
     using Bible.Alarm.Services.Contracts;
+    using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
@@ -24,7 +25,8 @@
                 container.Resolve<IPlaylistService>(),
                 container.Resolve<ScheduleDbContext>(),
                 container.Resolve<MediaService>(),
-                container.Resolve<INetworkStatusService>()));
+                container.Resolve<INetworkStatusService>(),
+                container.Resolve<IMediaManager>()));
 
             container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<ScheduleDbContext>(),
                 container.Resolve<MediaService>()));
