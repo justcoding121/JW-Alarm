@@ -6,5 +6,6 @@
 	<uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<application android:label="Bible Alarm" android:icon="@mipmap/ic_launcher_round" android:roundIcon="@mipmap/ic_launcher_round" android:name="android.support.multidex.MultiDexApplication"></application>
 </manifest>
