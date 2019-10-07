@@ -93,6 +93,7 @@ namespace Bible.Alarm.Services
 
                         if (!await Exists(playItem.Url))
                         {
+                            logger.Info($"Cache miss. Downloading {playItem.ToString()}");
 
                             byte[] bytes = null;
 
@@ -104,6 +105,8 @@ namespace Bible.Alarm.Services
                             }
                             else
                             {
+                                logger.Info($"Download failed. Attempting to refresh URL for {playItem.ToString()}");
+
                                 var playDetail = playItem.PlayDetail;
 
                                 string url;
@@ -111,16 +114,24 @@ namespace Bible.Alarm.Services
                                 if (playDetail.PlayType == Models.PlayType.Bible)
                                 {
                                     url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.LookUpPath);
-                                    if (url != null)
+                                    if (url != null && url != playItem.Url)
                                     {
                                         await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
+                                        logger.Info($"Updated URL to {url} for {playItem.ToString()}");
+                                    }
+                                    else
+                                    {
+                                        //url haven't changed, just that download failed.
+                                        break;
                                     }
                                 }
                                 else
                                 {
+                                    logger.Info($"Url changed for {playItem.ToString()}");
+
                                     url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
 
-                                    if (url != null)
+                                    if (url != null && url != playItem.Url)
                                     {
                                         if (playDetail.LanguageCode == null)
                                         {
@@ -130,8 +141,16 @@ namespace Bible.Alarm.Services
                                         {
                                             await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
                                         }
+
+                                        logger.Info($"Updated URL to {url} for {playItem.ToString()}");
+                                    }
+                                    else
+                                    {
+                                        //url haven't changed, just that download failed.
+                                        break;
                                     }
                                 }
+
                                 if (url != null)
                                 {
                                     bytes = await downloadService.DownloadAsync(url);
@@ -140,12 +159,17 @@ namespace Bible.Alarm.Services
                                 if (bytes != null)
                                 {
                                     await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
+                                    logger.Info($"Downloaed using updated URL {url} for {playItem.ToString()}");
                                     continue;
                                 }
 
                                 break;
                             }
 
+                        }
+                        else
+                        {
+                            logger.Info($"Cache hit. Skipped downloading {playItem.ToString()}");
                         }
                     }
 
@@ -238,8 +262,14 @@ namespace Bible.Alarm.Services
 
             files.Select(x => x.Key).ToList().ForEach(x =>
             {
-                try { storageService.DeleteFile(x); }
-                catch { }
+                try {
+                    storageService.DeleteFile(x);
+                    logger.Info($"Deleted file {x}");
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, $"Failed to download file {x}");
+                }
             });
         }
     }

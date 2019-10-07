@@ -98,7 +98,8 @@ namespace Bible.Alarm.Services.Droid
 
         public async void Dismiss()
         {
-            if (this.mediaManager.IsPlaying() && !disposed)
+            if (this.mediaManager.IsPlaying() || this.mediaManager.IsPrepared()
+                || this.mediaManager.IsBuffering() && !disposed)
             {
                 await this.mediaManager.Stop();
             }

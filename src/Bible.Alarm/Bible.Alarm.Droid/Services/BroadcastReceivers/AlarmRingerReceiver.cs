@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.ViewModels;
-using Com.Google.Android.Exoplayer2.UI;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
-using MediaManager.Playback;
 using MediaManager.Player;
-using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace Bible.Alarm.Droid.Services.Tasks
@@ -54,6 +45,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public override void OnReceive(Context context, Intent intent)
         {
+            logger.Info("Alarm rang");
+
             try
             {
                 this.context = context;

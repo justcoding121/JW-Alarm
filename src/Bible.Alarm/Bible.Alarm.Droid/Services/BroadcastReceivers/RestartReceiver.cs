@@ -39,10 +39,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     IocSetup.Initialize(context, true);
                 }
 
-                var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
-                schedulerTask.Handle().Wait();
                 BootstrapHelper.VerifyBackgroundTasks(context);
 
+                var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
+                schedulerTask.Handle().Wait();
+           
                 context.StopService(intent);
             }
             catch (Exception e)

@@ -22,7 +22,7 @@ namespace Bible.Alarm.Droid.Services.Helpers
             var builder = new JobInfo.Builder(jobId, componentName);
             builder.SetRequiredNetworkType(NetworkType.Any);
             builder.SetRequiresBatteryNotLow(true);
-            builder.SetRequiresDeviceIdle(true);
+            //builder.SetRequiresDeviceIdle(true);
             builder.SetPeriodic(1000 * 60 * intervalMinutes);
 
             return builder;

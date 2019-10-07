@@ -37,7 +37,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
         private static bool schedulerSetupTask(Context context)
         {
             // Sample usage - creates a JobBuilder for a SchedulerJob and sets the Job ID to 1.
-            var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>(SchedulerJob.JobId, 15);
+            var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>(SchedulerJob.JobId, 30);
 
             var jobInfo = jobBuilder.Build();  // creates a JobInfo object.
 

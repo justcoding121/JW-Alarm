@@ -17,5 +17,12 @@ namespace Bible.Alarm.Models
             Duration = duration;
             Url = url;
         }
+
+        public override string ToString()
+        {
+            return PlayDetail.LanguageCode + " " + PlayDetail.PublicationCode + " "
+                + (PlayDetail.IsAlarmMusic ? PlayDetail.TrackNumber.ToString()
+                : PlayDetail.BookNumber.ToString() + " " + PlayDetail.ChapterNumber.ToString());
+        }
     }
 }
