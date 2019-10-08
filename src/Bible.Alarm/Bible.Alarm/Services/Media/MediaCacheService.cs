@@ -93,8 +93,6 @@ namespace Bible.Alarm.Services
 
                         if (!await Exists(playItem.Url))
                         {
-                            logger.Info($"Cache miss. Downloading {playItem.ToString()}");
-
                             byte[] bytes = null;
 
                             bytes = await downloadService.DownloadAsync(playItem.Url);
@@ -105,8 +103,6 @@ namespace Bible.Alarm.Services
                             }
                             else
                             {
-                                logger.Info($"Download failed. Attempting to refresh URL for {playItem.ToString()}");
-
                                 var playDetail = playItem.PlayDetail;
 
                                 string url;
@@ -121,13 +117,12 @@ namespace Bible.Alarm.Services
                                     }
                                     else
                                     {
-                                        //url haven't changed, just that download failed.
+                                       //url haven't changed, just that download failed.
                                         break;
                                     }
                                 }
                                 else
                                 {
-                                    logger.Info($"Url changed for {playItem.ToString()}");
 
                                     url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
 
@@ -159,17 +154,13 @@ namespace Bible.Alarm.Services
                                 if (bytes != null)
                                 {
                                     await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
-                                    logger.Info($"Downloaed using updated URL {url} for {playItem.ToString()}");
+                                    logger.Info($"Downloaded using updated URL {url} for {playItem.ToString()}");
                                     continue;
                                 }
 
                                 break;
                             }
 
-                        }
-                        else
-                        {
-                            logger.Info($"Cache hit. Skipped downloading {playItem.ToString()}");
                         }
                     }
 
@@ -264,11 +255,10 @@ namespace Bible.Alarm.Services
             {
                 try {
                     storageService.DeleteFile(x);
-                    logger.Info($"Deleted file {x}");
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, $"Failed to download file {x}");
+                    logger.Error(e, $"Failed to delete file {x}");
                 }
             });
         }

@@ -45,7 +45,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public override void OnReceive(Context context, Intent intent)
         {
-            logger.Info("Alarm rang");
 
             try
             {

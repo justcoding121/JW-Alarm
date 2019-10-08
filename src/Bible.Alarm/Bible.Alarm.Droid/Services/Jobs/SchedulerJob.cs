@@ -20,7 +20,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
         }
         public override bool OnStartJob(JobParameters jobParams)
         {
-            logger.Info("SchedulerJob called!");
 
             Task.Run(async () =>
             {
