@@ -8,6 +8,7 @@ using NLog;
 using System;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Droid.Helpers;
+using static Android.App.AlarmManager;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {
@@ -108,7 +109,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
             }
             else
             {
-                alarmService.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
+                alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, pIntent), pIntent);
             }
         }
     }

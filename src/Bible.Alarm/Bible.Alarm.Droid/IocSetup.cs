@@ -16,16 +16,20 @@ namespace Bible.Alarm.Droid
         {
             lock (@lock)
             {
-                var container = Bible.Alarm.Container.Default;
+                if(Container == null)
+                {
+                    var container = Bible.Alarm.Container.Default;
 
-                UI.IocSetup.Initialize(container);
-                Bible.Alarm.Services.IocSetup.Initialize(container);
-                Bible.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
-                Bible.Alarm.ViewModels.IocSetup.Initialize(container);
+                    UI.IocSetup.Initialize(container);
+                    Bible.Alarm.Services.IocSetup.Initialize(container);
+                    Bible.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
+                    Bible.Alarm.ViewModels.IocSetup.Initialize(container);
 
-                Container = container;
-                Context = context;
-                IsService = isService;
+                    Container = container;
+                    Context = context;
+                    IsService = isService;
+                }
+              
             }
         }
 
