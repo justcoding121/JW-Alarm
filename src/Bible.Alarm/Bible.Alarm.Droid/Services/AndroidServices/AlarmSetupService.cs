@@ -9,6 +9,7 @@ using System;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Droid.Helpers;
 using static Android.App.AlarmManager;
+using Bible.Alarm.Droid;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {
@@ -109,7 +110,17 @@ namespace Bible.Alarm.Services.Droid.Tasks
             }
             else
             {
-                alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, pIntent), pIntent);
+                var mainLauncherIntent = new Intent(Application.Context, typeof(SplashActivity));
+                mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
+
+                var mainLauncherPendingIntent = PendingIntent.GetActivity(
+                   Application.Context,
+                   0,
+                   mainLauncherIntent,
+                   PendingIntentFlags.UpdateCurrent);
+
+
+                alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
             }
         }
     }
