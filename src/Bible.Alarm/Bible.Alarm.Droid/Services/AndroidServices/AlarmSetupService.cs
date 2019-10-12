@@ -100,11 +100,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
             var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis()
                 + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
 
-            if (Build.VERSION.SdkInt < BuildVersionCodes.Kitkat)
-            {
-                alarmService.Set(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
-            }
-            else if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
                 alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
             }
