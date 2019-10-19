@@ -17,6 +17,7 @@ using Bible.Alarm.ViewModels.Redux;
 using System.Reactive.Concurrency;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.Common.Mvvm;
+using System.Threading;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -53,7 +54,7 @@ namespace Bible.Alarm.ViewModels
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
             {
                 x.Schedule.IsEnabled = x.IsEnabled;
-                
+
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction()
                 {
                     SelectedScheduleListItem = x
@@ -69,7 +70,6 @@ namespace Bible.Alarm.ViewModels
                .Select(state => state.Schedules)
                .Where(x => x != null)
                .DistinctUntilChanged()
-               .Take(1)
                .Subscribe(x =>
                {
                    Schedules = x;
@@ -118,23 +118,38 @@ namespace Bible.Alarm.ViewModels
             set => this.Set(ref selectedSchedule, value);
         }
 
+        private bool initialized = false;
+        private SemaphoreSlim @lock = new SemaphoreSlim(1);
         private void initialize()
         {
             Messenger<bool>.Subscribe(Messages.Initialized, async vm =>
             {
-                var alarmSchedules = await scheduleDbContext.AlarmSchedules
-                                    .AsNoTracking()
-                                    .ToListAsync();
+                await @lock.WaitAsync();
 
-                var initialSchedules = new ObservableHashSet<ScheduleListItem>();
-                foreach (var schedule in alarmSchedules)
+                try
                 {
-                    initialSchedules.Add(new ScheduleListItem(schedule));
+                    if (!initialized)
+                    {
+                        var alarmSchedules = await scheduleDbContext.AlarmSchedules
+                                            .AsNoTracking()
+                                            .ToListAsync();
+
+                        var initialSchedules = new ObservableHashSet<ScheduleListItem>();
+                        foreach (var schedule in alarmSchedules)
+                        {
+                            initialSchedules.Add(new ScheduleListItem(schedule));
+                        }
+
+                        ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
+
+                        initialized = true;
+                    }
                 }
-
-                ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
+                finally
+                {
+                    @lock.Release();
+                }
             });
-
         }
 
         private void listenIsEnabledChanges()
@@ -208,7 +223,7 @@ namespace Bible.Alarm.ViewModels
                                          existing.IsEnabled = y.IsEnabled;
                                          await scheduleDbContext.SaveChangesAsync();
 
-                                         alarmService.Update(existing);                           
+                                         alarmService.Update(existing);
                                      });
 
                                      if (y.IsEnabled)

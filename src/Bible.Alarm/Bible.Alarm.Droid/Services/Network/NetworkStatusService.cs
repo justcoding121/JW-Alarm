@@ -18,7 +18,7 @@ namespace Bible.Alarm.Droid.Services.Network
     {
         public Task<bool> IsInternetAvailable()
         {
-            var connectivityManager = (ConnectivityManager)Application.Context.GetSystemService(Android.Content.Context.ConnectivityService);
+            var connectivityManager = (ConnectivityManager)IocSetup.Context.GetSystemService(Android.Content.Context.ConnectivityService);
             var networkInfo = connectivityManager.ActiveNetwork;
 
             if (networkInfo == null)

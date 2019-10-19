@@ -42,11 +42,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             try
             {
-                if (IocSetup.Container == null)
-                {
-                    Bible.Alarm.Droid.IocSetup.Initialize(this, true);
-                    IocSetup.Container.Resolve<IMediaManager>().Init(this);
-                }
+                Bible.Alarm.Droid.IocSetup.Initialize(Application.Context, true);
 
                 var extra = intent.GetStringExtra("Action");
 
@@ -57,11 +53,11 @@ namespace Bible.Alarm.Services.Droid.Tasks
                             var time = DateTimeOffset.Parse(intent.GetStringExtra("Time"));
                             var title = intent.GetStringExtra("Title");
                             var body = intent.GetStringExtra("Body");
-                            AddNotification(this, long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
+                            AddNotification(IocSetup.Context, long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
                             break;
                         }
                     case "SetupBackgroundTasks":
-                        BootstrapHelper.VerifyBackgroundTasks(this);
+                        BootstrapHelper.VerifyBackgroundTasks(IocSetup.Context);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -106,11 +102,11 @@ namespace Bible.Alarm.Services.Droid.Tasks
             }
             else
             {
-                var mainLauncherIntent = new Intent(Application.Context, typeof(SplashActivity));
+                var mainLauncherIntent = new Intent(IocSetup.Context, typeof(SplashActivity));
                 mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
 
                 var mainLauncherPendingIntent = PendingIntent.GetActivity(
-                   Application.Context,
+                   IocSetup.Context,
                    0,
                    mainLauncherIntent,
                    PendingIntentFlags.UpdateCurrent);

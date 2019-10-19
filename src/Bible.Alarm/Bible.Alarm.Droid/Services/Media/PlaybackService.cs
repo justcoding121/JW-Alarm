@@ -168,6 +168,12 @@ namespace Bible.Alarm.Services.Droid
                     i++;
                 }
 
+                try
+                {
+                    this.mediaManager.Volume.CurrentVolume = this.mediaManager.Volume.MaxVolume;
+                }
+                catch { }
+
                 //play default ring tone if we don't have the files downloaded
                 //and internet is not available
                 if (!mergedMediaItems.Any())
@@ -178,7 +184,6 @@ namespace Bible.Alarm.Services.Droid
                     return;
                 }
 
-                this.mediaManager.Volume.CurrentVolume = this.mediaManager.Volume.MaxVolume;
                 await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
 
                 currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();

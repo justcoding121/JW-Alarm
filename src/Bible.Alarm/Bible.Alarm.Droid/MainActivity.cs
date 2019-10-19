@@ -34,11 +34,7 @@ namespace Bible.Alarm.Droid
 
                 base.OnCreate(savedInstanceState);
 
-                if (IocSetup.Container == null)
-                {
-                    IocSetup.Initialize(this, false);
-                    IocSetup.Container.Resolve<IMediaManager>().Init(this);
-                }
+                IocSetup.Initialize(Application.Context, false);
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
                 LoadApplication(new App());
@@ -49,6 +45,7 @@ namespace Bible.Alarm.Droid
                 throw;
             }
 
+
             Task.Run(async () =>
             {
                 try
@@ -57,7 +54,7 @@ namespace Bible.Alarm.Droid
                     await BootstrapHelper.InitializeDatabase();
                     await Messenger<bool>.Publish(Messages.Initialized, true);
 
-                    var intent = new Intent(this, typeof(AlarmSetupService));
+                    var intent = new Intent(IocSetup.Context, typeof(AlarmSetupService));
                     intent.PutExtra("Action", "SetupBackgroundTasks");
                     StartService(intent);
                 }

@@ -28,18 +28,18 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         private void stateChanged(object sender, MediaPlayerState e)
         {
-            if (e == MediaPlayerState.Stopped
-            || e == MediaPlayerState.Failed)
+            try
             {
-                try
+                if (e == MediaPlayerState.Stopped
+                    || e == MediaPlayerState.Failed)
                 {
                     playbackService.StateChanged -= stateChanged;
                     context.StopService(intent);
                 }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "An error happened when stopping the alarm after media failure.");
-                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "An error happened when stopping the alarm after media failure.");
             }
         }
 
@@ -51,17 +51,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.context = context;
                 this.intent = intent;
 
-                if (IocSetup.Container == null)
-                {
-                    IocSetup.Initialize(context, true);
-                    IocSetup.Container.Resolve<IMediaManager>().Init(Application.Context);
-                }
-
+                IocSetup.Initialize(Application.Context, true);
+      
                 this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
 
                 playbackService.StateChanged += stateChanged;
-
-                IocSetup.Container.Resolve<IMediaManager>().Init(Application.Context);
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
 
@@ -70,7 +64,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     try
                     {
                         var id = long.Parse(scheduleId);
-                 
+
                         await playbackService.Play(id);
 
                         if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))

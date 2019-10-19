@@ -13,7 +13,7 @@ namespace Bible.Alarm.ViewModels
                 container.Resolve<IToastService>(),
                 container.Resolve<INavigationService>(),
                 container.Resolve<IMediaCacheService>(),
-                container.Resolve<IAlarmService>()), isSingleton: true);
+                container.Resolve<IAlarmService>()));
 
             container.Register((x) => new ScheduleViewModel());
 

@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Bible.Alarm;
+using MediaManager;
 
 namespace Bible.Alarm.Droid
 {
@@ -12,7 +13,7 @@ namespace Bible.Alarm.Droid
 
         private static object @lock = new object();
 
-        public static void Initialize(Context context, bool isService)
+        public static bool Initialize(Context context, bool isService)
         {
             lock (@lock)
             {
@@ -25,11 +26,16 @@ namespace Bible.Alarm.Droid
                     Bible.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
                     Bible.Alarm.ViewModels.IocSetup.Initialize(container);
 
+                    container.Resolve<IMediaManager>().Init(context);
+
                     Container = container;
                     Context = context;
                     IsService = isService;
+
+                    return true;
                 }
-              
+
+                return false;
             }
         }
 
