@@ -98,8 +98,8 @@ namespace Bible.Alarm.Services.Droid
 
         public async void Dismiss()
         {
-            if (this.mediaManager.IsPlaying() || this.mediaManager.IsPrepared()
-                || this.mediaManager.IsBuffering() && !disposed)
+            if (this.mediaManager.IsPrepared()
+                 && !disposed)
             {
                 await this.mediaManager.Stop();
             }
@@ -110,7 +110,7 @@ namespace Bible.Alarm.Services.Droid
 
         public async Task Play(long scheduleId)
         {
-            if (!this.mediaManager.IsPlaying())
+            if (!this.mediaManager.IsPrepared())
             {
                 this.mediaManager.RepeatMode = RepeatMode.Off;
 
@@ -197,7 +197,7 @@ namespace Bible.Alarm.Services.Droid
 
         public async Task Snooze()
         {
-            if (this.mediaManager.IsPlaying() && !disposed)
+            if (this.mediaManager.IsPrepared() && !disposed)
             {
                 await this.mediaManager.Stop();
                 await this.alarmService.Snooze(this.currentScheduleId);

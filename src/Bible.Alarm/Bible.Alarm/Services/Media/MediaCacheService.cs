@@ -84,9 +84,7 @@ namespace Bible.Alarm.Services
                     foreach (var playItem in playlist)
                     {
                         //do not download while playing
-                        if (mediaManager.IsPlaying()
-                            || mediaManager.IsBuffering()
-                            || mediaManager.IsPrepared())
+                        if (mediaManager.IsPrepared())
                         {
                             break;
                         }
@@ -234,7 +232,7 @@ namespace Bible.Alarm.Services
             {
                 //skip if alarm will be fired soon or already fired
                 if (schedule.NextFireDate(DateTime.Now.AddMinutes(-5)) <= DateTimeOffset.Now.AddMinutes(5)
-                    || mediaManager.IsPlaying() || mediaManager.IsBuffering() || mediaManager.IsPrepared())
+                    || mediaManager.IsPrepared())
                 {
                     continue;
                 }

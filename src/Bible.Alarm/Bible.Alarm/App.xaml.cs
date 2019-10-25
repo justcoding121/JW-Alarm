@@ -50,7 +50,7 @@ namespace Bible.Alarm
             // Handle when your app starts  
             await navigator.NavigateToHome();
 
-            if (mediaManager.IsPlaying())
+            if (mediaManager.IsPrepared())
             {
                 await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
             }
@@ -64,7 +64,7 @@ namespace Bible.Alarm
         protected override void OnResume()
         {
             // Handle when your app resumes
-            if (mediaManager.IsPlaying())
+            if (mediaManager.IsPrepared())
             {
                 Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>()));
             }

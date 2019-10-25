@@ -25,7 +25,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 try
                 {
-                    IocSetup.Initialize(Application.Context, true);
+                    IocSetup.Initialize(this, true);
 
                     var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                     await schedulerTask.Handle();

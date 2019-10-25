@@ -42,7 +42,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             try
             {
-                Bible.Alarm.Droid.IocSetup.Initialize(Application.Context, true);
+                Bible.Alarm.Droid.IocSetup.Initialize(this, true);
 
                 var extra = intent.GetStringExtra("Action");
 
@@ -114,6 +114,8 @@ namespace Bible.Alarm.Services.Droid.Tasks
 
                 alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
             }
+
+            logger.Info($"An alarm was scheduled for {time.LocalDateTime}.");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using Android.App;
+using Android.Content;
 using Bible.Alarm;
 using MediaManager;
 
@@ -25,8 +26,6 @@ namespace Bible.Alarm.Droid
                     Bible.Alarm.Services.IocSetup.Initialize(container);
                     Bible.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
                     Bible.Alarm.ViewModels.IocSetup.Initialize(container);
-
-                    container.Resolve<IMediaManager>().Init(context);
 
                     Container = container;
                     Context = context;

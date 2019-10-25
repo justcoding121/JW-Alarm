@@ -35,7 +35,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             try
             {
 
-                IocSetup.Initialize(Application.Context, true);
+                IocSetup.Initialize(context, true);
 
                 BootstrapHelper.VerifyBackgroundTasks(IocSetup.Context);
 

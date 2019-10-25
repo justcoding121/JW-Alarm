@@ -34,7 +34,7 @@ namespace Bible.Alarm.Droid
 
                 base.OnCreate(savedInstanceState);
 
-                IocSetup.Initialize(Application.Context, false);
+                IocSetup.Initialize(this, false);
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
                 LoadApplication(new App());
@@ -80,7 +80,7 @@ namespace Bible.Alarm.Droid
         [Export]
         public string IsAlarmOn()
         {
-            return IocSetup.Container.Resolve<IMediaManager>().IsPlaying().ToString();
+            return IocSetup.Container.Resolve<IMediaManager>().IsPrepared().ToString();
         }
     }
 }
