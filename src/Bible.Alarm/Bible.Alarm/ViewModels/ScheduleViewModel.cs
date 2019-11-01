@@ -322,7 +322,7 @@ namespace Bible.Alarm.ViewModels
         {
             if ((DaysOfWeek & day) == day)
             {
-                DaysOfWeek = DaysOfWeek & ~day;
+                DaysOfWeek &= ~day;
             }
             else
             {

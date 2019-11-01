@@ -11,11 +11,8 @@ namespace Bible.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
-        private static Logger logger => LogManager.GetCurrentClassLogger();
-
         public DroidNotificationService() : base()
         {
-            LogSetup.Initialize("Android");
         }
 
         public void Add(long scheduleId, DateTimeOffset time,

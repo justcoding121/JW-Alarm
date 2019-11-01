@@ -21,7 +21,6 @@ namespace Bible.Alarm.ViewModels
     public class SongBookSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IToastService popUpService;
         private INavigationService navigationService;
 
         private AlarmMusic current;
@@ -32,7 +31,6 @@ namespace Bible.Alarm.ViewModels
         public SongBookSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             disposables.Add(mediaService);

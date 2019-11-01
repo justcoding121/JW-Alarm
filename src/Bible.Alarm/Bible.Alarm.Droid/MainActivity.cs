@@ -11,6 +11,7 @@ using Bible.Alarm.Services.Infrastructure;
 using NLog;
 using Bible.Alarm.Services.Droid.Tasks;
 using Java.Interop;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Droid
 {

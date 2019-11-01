@@ -33,7 +33,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (e == MediaPlayerState.Stopped
                     || e == MediaPlayerState.Failed)
                 {
-                    logger.Info($"Alarm stopped with the status {e.ToString()}.");
                     playbackService.StateChanged -= stateChanged;
                     context.StopService(intent);
                 }
@@ -46,7 +45,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public override void OnReceive(Context context, Intent intent)
         {
-            logger.Info($"Alarm Rang.");
 
             try
             {
@@ -64,10 +62,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (!mediaManager.IsPrepared())
                 {
                     mediaManager.Init(Application.Context);
-                }
-                else
-                {
-                    logger.Info("Media Manager was already initialized.");
                 }
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");

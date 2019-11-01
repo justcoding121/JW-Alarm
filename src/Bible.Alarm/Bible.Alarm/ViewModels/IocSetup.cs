@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Services;
+﻿using Bible.Alarm.Contracts.Battery;
+using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 
 namespace Bible.Alarm.ViewModels
@@ -13,7 +14,8 @@ namespace Bible.Alarm.ViewModels
                 container.Resolve<IToastService>(),
                 container.Resolve<INavigationService>(),
                 container.Resolve<IMediaCacheService>(),
-                container.Resolve<IAlarmService>()));
+                container.Resolve<IAlarmService>(),
+                container.Resolve<IBatteryOptimizationManager>()));
 
             container.Register((x) => new ScheduleViewModel());
 

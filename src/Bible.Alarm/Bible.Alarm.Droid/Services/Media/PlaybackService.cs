@@ -10,6 +10,7 @@ using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Player;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -133,9 +134,11 @@ namespace Bible.Alarm.Services.Droid
                     if (await cacheService.Exists(item.Url))
                     {
                         downloadedTracks.Add(i, new FileInfo(this.cacheService.GetCacheFilePath(item.Url)));
+
                     }
                     else
                     {
+
                         if (internetOn)
                         {
                             streamingTracks.Add(i, item.Url);

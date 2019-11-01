@@ -18,8 +18,6 @@ namespace Bible.Alarm.Droid
         MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
-        static readonly string TAG = "X:" + typeof(SplashActivity).Name;
-
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
             base.OnCreate(savedInstanceState, persistentState);

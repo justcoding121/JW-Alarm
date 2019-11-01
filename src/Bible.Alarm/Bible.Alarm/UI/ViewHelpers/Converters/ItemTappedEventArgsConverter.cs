@@ -10,7 +10,7 @@ namespace Bible.Alarm.UI.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var eventArgs = value as ItemTappedEventArgs;
+            ItemTappedEventArgs eventArgs = value as ItemTappedEventArgs;
             if (eventArgs == null)
                 throw new ArgumentException("Expected TappedEventArgs as value", "value");
 

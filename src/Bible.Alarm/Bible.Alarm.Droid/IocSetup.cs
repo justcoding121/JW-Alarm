@@ -18,17 +18,20 @@ namespace Bible.Alarm.Droid
         {
             lock (@lock)
             {
-                if(Container == null)
+                Context = context;
+                Bible.Alarm.Services.Droid.IocSetup.SetContext(context);
+
+                if (Container == null)
                 {
                     var container = Bible.Alarm.Container.Default;
 
                     UI.IocSetup.Initialize(container);
                     Bible.Alarm.Services.IocSetup.Initialize(container);
-                    Bible.Alarm.Services.Droid.IocSetup.Initialize(container, context, isService);
+                    Bible.Alarm.Services.Droid.IocSetup.Initialize(container, isService);
                     Bible.Alarm.ViewModels.IocSetup.Initialize(container);
 
                     Container = container;
-                    Context = context;
+                 
                     IsService = isService;
 
                     return true;

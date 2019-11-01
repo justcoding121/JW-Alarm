@@ -115,7 +115,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
                 alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
             }
 
-            logger.Info($"An alarm was scheduled for {time.LocalDateTime}.");
         }
     }
 }

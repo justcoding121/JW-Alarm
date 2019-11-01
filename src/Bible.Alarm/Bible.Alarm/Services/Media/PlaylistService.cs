@@ -192,8 +192,6 @@ namespace Bible.Alarm.Services
 
         private async Task<KeyValuePair<BibleBook, BibleChapter>> getNextBibleChapter(string languageCode, string publicationCode, int bookNumber, int chapter)
         {
-            var result = new KeyValuePair<BibleBook, BibleChapter>(new BibleBook(), new BibleChapter());
-
             var books = await mediaService.GetBibleBooks(languageCode, publicationCode);
             var currentBook = books[bookNumber];
 

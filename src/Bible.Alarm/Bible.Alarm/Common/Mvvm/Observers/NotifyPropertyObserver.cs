@@ -76,11 +76,11 @@
             var expression = (MemberExpression)property.Body;
             var propertyName = expression.Member.Name;
             var getter = property.Compile();
-            Action action = () =>
+            void action()
             {
                 var newValue = getter(this.observable);
-                whenChanged(this.observable,newValue);
-            };
+                whenChanged(this.observable, newValue);
+            }
             this.propertyObservers[propertyName] = action;
 
             return this;

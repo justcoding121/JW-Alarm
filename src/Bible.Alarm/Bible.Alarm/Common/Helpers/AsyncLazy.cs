@@ -48,7 +48,7 @@ namespace Bible.Alarm
         /// </summary>
         public void Start()
         {
-            var unused = instance.Value;
+            _ = instance.Value;
         }
     }
 }

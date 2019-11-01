@@ -18,6 +18,7 @@ using System.Reactive.Concurrency;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.Common.Mvvm;
 using System.Threading;
+using Bible.Alarm.Contracts.Battery;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -28,19 +29,22 @@ namespace Bible.Alarm.ViewModels
         private INavigationService navigationService;
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
+        private IBatteryOptimizationManager batteryOptimizationManager;
 
         private List<IDisposable> disposables = new List<IDisposable>();
 
         public HomeViewModel(ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
-            IAlarmService alarmService)
+            IAlarmService alarmService,
+            IBatteryOptimizationManager batteryOptimizationManager)
         {
             this.scheduleDbContext = scheduleDbContext;
             this.popUpService = popUpService;
             this.navigationService = navigationService;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
+            this.batteryOptimizationManager = batteryOptimizationManager;
 
             disposables.Add(scheduleDbContext);
 
@@ -74,12 +78,18 @@ namespace Bible.Alarm.ViewModels
                {
                    Schedules = x;
                    listenIsEnabledChanges();
+                   showBatteryOptimizationExclusionPage();
                    IsBusy = false;
                });
             disposables.Add(subscription);
 
             initialize();
 
+        }
+
+        private void showBatteryOptimizationExclusionPage()
+        {
+            this.batteryOptimizationManager.ShowBatteryOptimizationExclusionSettingsPage();
         }
 
         private ObservableHashSet<ScheduleListItem> schedules;

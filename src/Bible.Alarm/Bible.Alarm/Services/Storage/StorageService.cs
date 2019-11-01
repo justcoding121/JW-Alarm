@@ -105,8 +105,7 @@ namespace Bible.Alarm.Services
 
         public Task<DateTimeOffset> GetFileCreationDate(string pathOrName, bool isResourceFile)
         {
-            FileInfo file = null;
-
+            FileInfo file;
             if (isResourceFile)
             {
                 file = ResourceLoader.GetFileInfo(typeof(ResourceLoader).Assembly);

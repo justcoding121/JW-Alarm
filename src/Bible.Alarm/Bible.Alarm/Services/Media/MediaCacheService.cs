@@ -91,6 +91,7 @@ namespace Bible.Alarm.Services
 
                         if (!await Exists(playItem.Url))
                         {
+
                             byte[] bytes = null;
 
                             bytes = await downloadService.DownloadAsync(playItem.Url);

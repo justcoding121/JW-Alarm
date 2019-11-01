@@ -13,13 +13,15 @@
     using Com.Google.Android.Exoplayer2.UI;
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Droid.Services.Network;
+    using Bible.Alarm.Contracts.Battery;
+    using Bible.Alarm.Droid.Services.Battery;
 
     public static class IocSetup
     {
         internal static IContainer Container { private set; get; }
         public static bool IsService { get; private set; }
         public static Context Context { get; private set; }
-        public static void Initialize(IContainer container, Context context, bool isService)
+        public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
@@ -66,9 +68,15 @@
             }, true);
 
             container.Register<INetworkStatusService>((x) => new NetworkStatusService());
-			Container = container;
-            Context = context;
+            container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager());
+
+            Container = container;
             IsService = isService;
+        }
+
+        public static void SetContext(Context context)
+        {
+            Context = context;
         }
     }
 }
