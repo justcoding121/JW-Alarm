@@ -30,8 +30,11 @@ namespace Bible.Alarm.ViewModels
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
         private IBatteryOptimizationManager batteryOptimizationManager;
-
+        private TaskScheduler uiTaskScheduler;
         private List<IDisposable> disposables = new List<IDisposable>();
+
+        public Command BatteryOptimizationExcludeCommand { get; private set; }
+        public Command BatteryOptimizationDismissCommand { get; private set; }
 
         public HomeViewModel(ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
@@ -46,13 +49,15 @@ namespace Bible.Alarm.ViewModels
             this.alarmService = alarmService;
             this.batteryOptimizationManager = batteryOptimizationManager;
 
+            uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
             disposables.Add(scheduleDbContext);
 
             AddScheduleCommand = new Command(async () =>
             {
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction());
                 var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
-                await navigationService.Navigate(viewModel);
+                await this.navigationService.Navigate(viewModel);
             });
 
             ViewScheduleCommand = new Command<ScheduleListItem>(async x =>
@@ -65,8 +70,27 @@ namespace Bible.Alarm.ViewModels
                 });
 
                 var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
-                await navigationService.Navigate(viewModel);
+                await this.navigationService.Navigate(viewModel);
             });
+
+            BatteryOptimizationExcludeCommand = new Command(async () =>
+            {
+                await markBatteryOptimizationModalAsShown();
+
+                await navigationService.CloseModal();
+                await navigationService.NavigateToHome();
+
+                this.batteryOptimizationManager.ShowBatteryOptimizationExclusionSettingsPage();
+            });
+
+            BatteryOptimizationDismissCommand = new Command(async () =>
+            {
+                await markBatteryOptimizationModalAsShown();
+
+                await navigationService.CloseModal();
+                await navigationService.NavigateToHome();
+            });
+
 
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
@@ -74,12 +98,13 @@ namespace Bible.Alarm.ViewModels
                .Select(state => state.Schedules)
                .Where(x => x != null)
                .DistinctUntilChanged()
-               .Subscribe(x =>
+               .Subscribe(async x =>
                {
                    Schedules = x;
                    listenIsEnabledChanges();
-                   showBatteryOptimizationExclusionPage();
                    IsBusy = false;
+
+                   await Task.Delay(0).ContinueWith(async (y) => await showBatteryOptimizationExclusionPage(), uiTaskScheduler);
                });
             disposables.Add(subscription);
 
@@ -87,9 +112,26 @@ namespace Bible.Alarm.ViewModels
 
         }
 
-        private void showBatteryOptimizationExclusionPage()
+        private async Task markBatteryOptimizationModalAsShown()
         {
-            this.batteryOptimizationManager.ShowBatteryOptimizationExclusionSettingsPage();
+            if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
+            {
+                scheduleDbContext.GeneralSettings.Add(new GeneralSettings()
+                {
+                    Key = "AndroidBatteryOptimizationExclusionPromptShown",
+                    Value = "True"
+                });
+
+                await scheduleDbContext.SaveChangesAsync();
+            }
+        }
+
+        private async Task showBatteryOptimizationExclusionPage()
+        {
+            if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
+            {
+                await navigationService.ShowModal("BatteryOptimizationExclusionModal", this);
+            }
         }
 
         private ObservableHashSet<ScheduleListItem> schedules;
@@ -159,6 +201,7 @@ namespace Bible.Alarm.ViewModels
                 {
                     @lock.Release();
                 }
+               
             });
         }
 

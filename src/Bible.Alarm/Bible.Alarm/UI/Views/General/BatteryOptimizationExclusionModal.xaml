@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Bible.Alarm.UI.Views.General.BatteryOptimizationExclusionModal">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
+                     AutomationId="BatteryOptimizationModal" Margin="0,0,0,125">
+            <Label Margin="5"
+                    HeightRequest="200"
+                    MinimumHeightRequest="200"
+                    WidthRequest="200"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="End"
+                    VerticalTextAlignment="End"
+                    MinimumWidthRequest="200"
+                    FontSize="Default"
+                    Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization suppressing notifications in early morning hours. This application guarantees to use minimal battery. We recommend to exclude this app from battery optimization list."
+                    TextColor="SlateBlue">
+            </Label>
+            <Button CornerRadius="10"
+                    Command="{Binding BatteryOptimizationExcludeCommand}"
+                    Margin="5"
+                    HeightRequest="45"
+                    MinimumHeightRequest="45"
+                    WidthRequest="200"
+                    MinimumWidthRequest="200"
+                    Text="Exclude Now"
+                    FontSize="Medium"
+                    TextColor="SlateBlue">
+            </Button>
+            <Button CornerRadius="10"
+                    AutomationId="BatteryOptimizationDismissButton"
+                    Command="{Binding BatteryOptimizationDismissCommand}"
+                    Margin="5"
+                    HeightRequest="45"
+                    MinimumHeightRequest="45"
+                    WidthRequest="200"
+                    MinimumWidthRequest="200"
+                    Text="Dismiss"
+                    FontSize="Medium"
+                    TextColor="SlateBlue">
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

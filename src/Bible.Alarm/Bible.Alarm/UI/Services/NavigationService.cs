@@ -10,6 +10,7 @@ using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.ViewModels;
 using Mvvmicro;
 using Xamarin.Forms;
+using Bible.Alarm.UI.Views.General;
 
 namespace Bible.Alarm.UI
 {
@@ -76,6 +77,15 @@ namespace Bible.Alarm.UI
                         await navigater.PushModalAsync(modal);
                         break;
                     }
+
+                case "BatteryOptimizationExclusionModal":
+                    {
+                        var modal = IocSetup.Container.Resolve<BatteryOptimizationExclusionModal>();
+                        modal.BindingContext = viewModel;
+                        await navigater.PushModalAsync(modal);
+                        break;
+                    }
+
                 default:
                     throw new ArgumentException("Modal not defined.", name);
             }

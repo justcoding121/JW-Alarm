@@ -35,6 +35,8 @@ namespace Bible.Alarm.Models
 
         public int SnoozeMinutes { get; set; } = 5;
 
+        public int NumberOfChaptersToRead { get; set; } = 3;
+
         //state
         public PlayType CurrentPlayItem { get; set; }
 

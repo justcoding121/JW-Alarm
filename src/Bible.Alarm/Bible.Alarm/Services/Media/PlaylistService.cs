@@ -131,7 +131,7 @@ namespace Bible.Alarm.Services
             await scheduleDbContext.SaveChangesAsync();
         }
 
-        public async Task<List<PlayItem>> NextTracks(long scheduleId, TimeSpan duration)
+        public async Task<List<PlayItem>> NextTracks(long scheduleId)
         {
             var result = new List<PlayItem>();
 
@@ -140,6 +140,8 @@ namespace Bible.Alarm.Services
                                     .Include(x => x.Music)
                                     .Include(x => x.BibleReadingSchedule)
                                     .FirstAsync(x => x.Id == scheduleId);
+
+            var numberOfChaptersToRead = schedule.NumberOfChaptersToRead;
 
             if (schedule.MusicEnabled)
             {
@@ -160,7 +162,7 @@ namespace Bible.Alarm.Services
             var trackDuration = chapterDetail.Source.Duration;
             var lookUpPath = chapterDetail.Source.LookUpPath;
 
-            while (duration.TotalSeconds > 0)
+            while (numberOfChaptersToRead > 0)
             {
                 result.Add(new PlayItem(new NotificationDetail()
                 {
@@ -174,7 +176,7 @@ namespace Bible.Alarm.Services
 
                 }, trackDuration, url));
 
-                duration = duration.Subtract(trackDuration);
+                numberOfChaptersToRead--;
 
                 var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode,
                     bibleReadingSchedule.PublicationCode,

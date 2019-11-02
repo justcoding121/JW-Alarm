@@ -71,6 +71,11 @@ namespace Bible.Alarm.Services.Droid
             return pIntent;
         }
 
+        public void ClearAll()
+        {
+            NotificationManager notificationManager = (NotificationManager)IocSetup.Context.GetSystemService(Context.NotificationService);
+            notificationManager.CancelAll();
+        }
     }
 
 }

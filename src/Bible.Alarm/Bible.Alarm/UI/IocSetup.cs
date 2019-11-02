@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Bible.Alarm.UI.Views.General;
 
 namespace Bible.Alarm.UI
 {
@@ -33,6 +34,7 @@ namespace Bible.Alarm.UI
             Container.Register(x => new LanguageModal());
 
             Container.Register(x => new AlarmModal());
+            Container.Register(x => new BatteryOptimizationExclusionModal());
         }
     }
 }

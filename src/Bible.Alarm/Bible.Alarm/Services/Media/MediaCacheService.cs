@@ -79,7 +79,7 @@ namespace Bible.Alarm.Services
                         return;
                     }
 
-                    var playlist = await mediaPlayService.NextTracks(alarmScheduleId, TimeSpan.FromHours(1));
+                    var playlist = await mediaPlayService.NextTracks(alarmScheduleId);
 
                     foreach (var playItem in playlist)
                     {
@@ -238,7 +238,7 @@ namespace Bible.Alarm.Services
                     continue;
                 }
 
-                var playlist = await mediaPlayService.NextTracks(schedule.Id, TimeSpan.FromHours(1));
+                var playlist = await mediaPlayService.NextTracks(schedule.Id);
                 var fileNames = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
 
                 fileNames.ForEach(x =>

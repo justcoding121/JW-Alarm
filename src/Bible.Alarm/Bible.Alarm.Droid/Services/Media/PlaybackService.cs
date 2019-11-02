@@ -1,5 +1,6 @@
 ﻿using Advanced.Algorithms.DataStructures.Foundation;
 using Android.App;
+using Android.Content;
 using Android.Media;
 using Android.Net;
 using Bible.Alarm.Contracts.Network;
@@ -27,6 +28,7 @@ namespace Bible.Alarm.Services.Droid
         private IMediaCacheService cacheService;
         private IStorageService storageService;
         private INetworkStatusService networkStatusService;
+        private INotificationService notificationService;
 
         private long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
@@ -41,7 +43,8 @@ namespace Bible.Alarm.Services.Droid
             IAlarmService alarmService,
             IMediaCacheService cacheService,
             IStorageService storageService,
-            INetworkStatusService networkStatusService)
+            INetworkStatusService networkStatusService,
+            INotificationService notificationService)
         {
             this.mediaManager = mediaManager;
             this.playlistService = playlistService;
@@ -49,6 +52,7 @@ namespace Bible.Alarm.Services.Droid
             this.cacheService = cacheService;
             this.storageService = storageService;
             this.networkStatusService = networkStatusService;
+            this.notificationService = notificationService;
 
             this.mediaManager.MediaItemChanged += markTrackAsPlayed;
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
@@ -94,6 +98,8 @@ namespace Bible.Alarm.Services.Droid
             {
                 var track = currentlyPlaying[e.MediaItem];
                 await playlistService.MarkTrackAsFinished(track);
+
+                this.notificationService.ClearAll();
             }
         }
 
@@ -117,7 +123,7 @@ namespace Bible.Alarm.Services.Droid
 
                 this.currentScheduleId = scheduleId;
 
-                var nextTracks = await playlistService.NextTracks(scheduleId, TimeSpan.FromHours(1));
+                var nextTracks = await playlistService.NextTracks(scheduleId);
 
                 var downloadedTracks = new OrderedDictionary<int, FileInfo>();
                 var streamingTracks = new OrderedDictionary<int, string>();

@@ -47,7 +47,8 @@
                 container.Resolve<IAlarmService>(),
                 container.Resolve<IMediaCacheService>(),
                 container.Resolve<IStorageService>(),
-                container.Resolve<INetworkStatusService>()));
+                container.Resolve<INetworkStatusService>(),
+                container.Resolve<INotificationService>()));
 
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
