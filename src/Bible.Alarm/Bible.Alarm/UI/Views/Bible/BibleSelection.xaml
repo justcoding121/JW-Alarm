@@ -22,13 +22,13 @@
                         HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
                         IsVisible="{Binding IsBusy}"
                         IsEnabled="True"
-                        Scale="1.0"
+                        Scale="0.5"
                         IsRunning="{Binding IsBusy}" >
         <ActivityIndicator.Scale>
           <OnPlatform x:TypeArguments="x:Double">
             <OnPlatform.Platforms>
               <On Platform="iOS" Value="4.0" />
-              <On Platform="Android" Value="3.0" />
+              <On Platform="Android" Value="1.0" />
               <On Platform="UWP" Value="1.0" />
             </OnPlatform.Platforms>
           </OnPlatform>
