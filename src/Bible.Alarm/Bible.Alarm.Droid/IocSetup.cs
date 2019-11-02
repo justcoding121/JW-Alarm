@@ -8,7 +8,6 @@ namespace Bible.Alarm.Droid
 
     public static class IocSetup
     {
-        public static bool IsService { get; private set; }
         public static IContainer Container { get; private set; }
         public static Context Context { get; private set; }
 
@@ -18,6 +17,7 @@ namespace Bible.Alarm.Droid
         {
             lock (@lock)
             {
+                //use the latest
                 Context = context;
                 Bible.Alarm.Services.Droid.IocSetup.SetContext(context);
 
@@ -31,9 +31,6 @@ namespace Bible.Alarm.Droid
                     Bible.Alarm.ViewModels.IocSetup.Initialize(container);
 
                     Container = container;
-                 
-                    IsService = isService;
-
                     return true;
                 }
 

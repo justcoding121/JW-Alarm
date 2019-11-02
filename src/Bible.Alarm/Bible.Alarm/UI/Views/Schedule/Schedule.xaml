@@ -64,7 +64,6 @@
           Font="Bold,18"
           HorizontalOptions="FillAndExpand"></Button>
                 </Grid>
-
                 <StackLayout Orientation="Vertical" Grid.Row="1" VerticalOptions="Start"  HorizontalOptions="Fill" Margin="0,0,0,0">
                     <StackLayout.Resources>
                         <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
@@ -151,11 +150,11 @@
                         </StackLayout>
                     </Grid>
                     <Grid HeightRequest="40"
-              MinimumHeightRequest="40"
-              x:Name="BibleButton"
-              BackgroundColor="WhiteSmoke"
-              Margin="5,0,5,0"
-              HorizontalOptions="Fill">
+                      MinimumHeightRequest="40"
+                      x:Name="BibleButton"
+                      BackgroundColor="WhiteSmoke"
+                      Margin="5,0,5,0"
+                      HorizontalOptions="Fill">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*"/>
                             <ColumnDefinition Width="4*"/>
@@ -174,15 +173,32 @@
                     FontSize="Medium">
                         </Label>
                     </Grid>
+                    <Grid HeightRequest="40"
+                      MinimumHeightRequest="40"
+                      x:Name="ChaptersButton"
+                      BackgroundColor="WhiteSmoke"
+                      Margin="5,0,5,0"
+                      HorizontalOptions="Fill">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectBibleCommand}"/>
+                        </Grid.GestureRecognizers>
+
+                        <Label Grid.Column="0" VerticalOptions="Center"
+                          HorizontalTextAlignment="Start" TextColor="Black" Text="Number of chapters to read: 20" Margin="5,0,0,0"></Label>
+                    </Grid>
                 </StackLayout>
 
                 <Grid Grid.Row="2" >
                     <Button IsVisible="{Binding IsExistingSchedule}"
-      Padding="0"
-      Command="{Binding DeleteCommand}"
-      TextColor="SlateBlue"
-      HorizontalOptions="FillAndExpand"
-      Text="REMOVE" Font="Bold,16" Margin="2">
+                      Padding="0"
+                      Command="{Binding DeleteCommand}"
+                      TextColor="SlateBlue"
+                      HorizontalOptions="FillAndExpand"
+                      Text="REMOVE" Font="Bold,16" Margin="2">
                     </Button>
                 </Grid>
 
