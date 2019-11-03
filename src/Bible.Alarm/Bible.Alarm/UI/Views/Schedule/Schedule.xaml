@@ -184,11 +184,17 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectBibleCommand}"/>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenModalCommand}"/>
                         </Grid.GestureRecognizers>
 
                         <Label Grid.Column="0" VerticalOptions="Center"
-                          HorizontalTextAlignment="Start" TextColor="Black" Text="Number of chapters to read: 20" Margin="5,0,0,0"></Label>
+                          HorizontalTextAlignment="Start" TextColor="Black" Text="Number of chapters to read" Margin="5,0,0,0"></Label>
+                        <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End"
+                            TextColor="SlateBlue"
+                            Margin="0,0,5,0"
+                            Text="{Binding CurrentNumberOfChapters.Text}"
+                            FontSize="Medium">
+                        </Label>
                     </Grid>
                 </StackLayout>
 

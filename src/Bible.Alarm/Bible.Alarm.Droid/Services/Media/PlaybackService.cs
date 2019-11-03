@@ -119,8 +119,6 @@ namespace Bible.Alarm.Services.Droid
         {
             if (!this.mediaManager.IsPrepared())
             {
-                this.mediaManager.RepeatMode = RepeatMode.Off;
-
                 this.currentScheduleId = scheduleId;
 
                 var nextTracks = await playlistService.NextTracks(scheduleId);

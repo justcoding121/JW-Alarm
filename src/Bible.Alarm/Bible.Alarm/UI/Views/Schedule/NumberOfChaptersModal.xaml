@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Bible.Alarm.UI.Views.NumberOfChaptersModal"
+             xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+             xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours">
+    <ContentPage.Resources>
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+        <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="0" ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" 
+                   Text="Number of chapters to read" 
+                   VerticalTextAlignment="Center"
+                   HeightRequest="32"
+                   Font="Bold,18"
+                   Margin="10,2,2,2" 
+                   VerticalOptions="Fill">
+            </Label>
+            <BoxView HorizontalOptions="Fill" Color="Gray" HeightRequest="1" Grid.Row="1" />
+            <ListView HorizontalOptions="Fill"
+                  BackgroundColor="White"
+                  x:Name="LanguageListView" 
+                  MinimumHeightRequest="300"
+                  MinimumWidthRequest="250"
+                  Grid.Row="2" 
+                  ItemsSource="{Binding NumberOfChaptersList}" 
+                  SelectionMode="None">
+                <ListView.Behaviors>
+                    <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding SelectNumberOfChaptersCommand}"
+                                                       EventArgsConverter="{StaticResource itemTappedConverter}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid  BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
+                                   HorizontalOptions="Fill">
+                                <Label HeightRequest="45" 
+                                   HorizontalOptions="Start"
+                                   Margin="8,0,0,0"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
+                                   Text="{Binding Text}"></Label>
+                            </Grid>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Grid.Row="3" HorizontalOptions="Fill" 
+                VerticalOptions="Fill"
+                Margin="2"
+                Padding="0"
+                Command="{Binding CloseModalCommand}"
+                TextColor="SlateBlue"
+                Font="Bold,18"
+                x:Name="CloseButton"
+                Text="Close"></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -18,9 +18,15 @@ namespace Bible.Alarm.Droid
         MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
-        public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
+        protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(savedInstanceState, persistentState);
+            base.OnCreate(bundle);
+
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
+            Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+            Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
+
+            SetContentView(Resource.Layout.SplashScreen);
         }
 
         // Launches the startup task

@@ -35,6 +35,7 @@ namespace Bible.Alarm.UI
 
             Container.Register(x => new AlarmModal());
             Container.Register(x => new BatteryOptimizationExclusionModal());
+            Container.Register(x => new NumberOfChaptersModal());
         }
     }
 }

@@ -14,6 +14,7 @@ using Bible.Alarm.ViewModels.Redux.Actions;
 using Microsoft.EntityFrameworkCore;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
+using System.Collections.ObjectModel;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -48,6 +49,7 @@ namespace Bible.Alarm.ViewModels
                .Subscribe(x =>
                {
                    scheduleListItem = x;
+
                    var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
@@ -207,6 +209,39 @@ namespace Bible.Alarm.ViewModels
 
                 IsBusy = false;
             });
+
+
+            OpenModalCommand = new Command(async () =>
+            {
+                IsBusy = true;
+                await navigationService.ShowModal("NumberOfChaptersModal", this);
+                IsBusy = false;
+            });
+
+
+            CloseModalCommand = new Command(async () =>
+            {
+                IsBusy = true;
+                await navigationService.CloseModal();
+                IsBusy = false;
+            });
+
+            SelectNumberOfChaptersCommand = new Command<NumberOfChaptersListViewItemModel>(async x =>
+            {
+                IsBusy = true;
+                if (CurrentNumberOfChapters != null)
+                {
+                    CurrentNumberOfChapters.IsSelected = false;
+                }
+
+                CurrentNumberOfChapters = x;
+                CurrentNumberOfChapters.IsSelected = true;
+
+                await navigationService.CloseModal();
+
+                IsBusy = false;
+            });
+
         }
 
         private ScheduleListItem scheduleListItem;
@@ -223,6 +258,45 @@ namespace Bible.Alarm.ViewModels
 
         public AlarmSchedule Model { get; private set; }
 
+        public ICommand OpenModalCommand { get; set; }
+        public ICommand CloseModalCommand { get; set; }
+        public ICommand SelectNumberOfChaptersCommand { get; set; }
+
+        private ObservableCollection<NumberOfChaptersListViewItemModel> numberOfChaptersList;
+        public ObservableCollection<NumberOfChaptersListViewItemModel> NumberOfChaptersList
+        {
+            get => numberOfChaptersList;
+            set => this.Set(ref numberOfChaptersList, value);
+        }
+
+        private NumberOfChaptersListViewItemModel currentNumberOfChapters;
+        public NumberOfChaptersListViewItemModel CurrentNumberOfChapters
+        {
+            get => currentNumberOfChapters;
+            set => this.Set(ref currentNumberOfChapters, value);
+        }
+
+        private void populateNumberOfChaptersListView(AlarmSchedule model)
+        {
+
+            var chapterVMs = new ObservableCollection<NumberOfChaptersListViewItemModel>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                var chaptersVM = new NumberOfChaptersListViewItemModel(i);
+
+                if (model.NumberOfChaptersToRead == i)
+                {
+                    chaptersVM.IsSelected = true;
+                    CurrentNumberOfChapters = chaptersVM;
+                }
+
+                chapterVMs.Add(chaptersVM);
+            }
+
+            NumberOfChaptersList = chapterVMs;
+        }
+
         private AlarmSchedule getModel()
         {
             Model.Id = scheduleId;
@@ -233,6 +307,7 @@ namespace Bible.Alarm.ViewModels
             Model.Hour = Time.Hours;
             Model.Minute = Time.Minutes;
             Model.MusicEnabled = musicEnabled;
+            Model.NumberOfChaptersToRead = CurrentNumberOfChapters.Value;
 
             return Model;
         }
@@ -247,6 +322,9 @@ namespace Bible.Alarm.ViewModels
             daysOfWeek = model.DaysOfWeek;
             time = new TimeSpan(model.Hour, model.Minute, model.Second);
             musicEnabled = model.MusicEnabled;
+
+            populateNumberOfChaptersListView(model);
+
         }
 
         private int scheduleId;
@@ -350,7 +428,7 @@ namespace Bible.Alarm.ViewModels
                     await scheduleDbContext.SaveChangesAsync();
                     await alarmService.Create(model);
                 });
-               
+
                 ReduxContainer.Store.Dispatch(new AddScheduleAction() { ScheduleListItem = new ScheduleListItem(model) });
             }
             else

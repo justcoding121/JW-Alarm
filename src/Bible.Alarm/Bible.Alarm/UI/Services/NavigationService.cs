@@ -86,6 +86,14 @@ namespace Bible.Alarm.UI
                         break;
                     }
 
+                case "NumberOfChaptersModal":
+                    {
+                        var modal = IocSetup.Container.Resolve<NumberOfChaptersModal>();
+                        modal.BindingContext = viewModel;
+                        await navigater.PushModalAsync(modal);
+                        break;
+                    }
+
                 default:
                     throw new ArgumentException("Modal not defined.", name);
             }

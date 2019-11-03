@@ -9539,13 +9539,16 @@ namespace Bible.Alarm.Droid
 			public const int ShellContent = 2131427415;
 			
 			// aapt resource value: 0x7F0B0058
-			public const int support_simple_spinner_dropdown_item = 2131427416;
+			public const int SplashScreen = 2131427416;
 			
 			// aapt resource value: 0x7F0B0059
-			public const int Tabbar = 2131427417;
+			public const int support_simple_spinner_dropdown_item = 2131427417;
 			
 			// aapt resource value: 0x7F0B005A
-			public const int Toolbar = 2131427418;
+			public const int Tabbar = 2131427418;
+			
+			// aapt resource value: 0x7F0B005B
+			public const int Toolbar = 2131427419;
 			
 			static Layout()
 			{

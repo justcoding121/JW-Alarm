@@ -17,10 +17,7 @@ namespace Bible.Alarm.Droid
         {
             lock (@lock)
             {
-                //use the latest
-                Context = context;
-                Bible.Alarm.Services.Droid.IocSetup.SetContext(context);
-
+              
                 if (Container == null)
                 {
                     var container = Bible.Alarm.Container.Default;
@@ -29,8 +26,11 @@ namespace Bible.Alarm.Droid
                     Bible.Alarm.Services.IocSetup.Initialize(container);
                     Bible.Alarm.Services.Droid.IocSetup.Initialize(container, isService);
                     Bible.Alarm.ViewModels.IocSetup.Initialize(container);
+                    Bible.Alarm.Services.Droid.IocSetup.SetContext(context);
 
-                    Container = container;
+                    Context = context;
+                    Container = container;    
+
                     return true;
                 }
 
