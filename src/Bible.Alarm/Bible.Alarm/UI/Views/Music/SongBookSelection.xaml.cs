@@ -5,7 +5,6 @@ using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm.UI.Views.Music
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SongBookSelection : ContentPage
     {
         public SongBookSelectionViewModel ViewModel => BindingContext as SongBookSelectionViewModel;

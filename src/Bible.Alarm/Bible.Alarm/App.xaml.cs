@@ -14,13 +14,9 @@ namespace Bible.Alarm
 {
     public partial class App : Application
     {
-        private readonly IMediaManager mediaManager;
-
         public App()
         {
             InitializeComponent();
-
-            mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
 
             if (UI.IocSetup.Container.RegisteredTypes.Any(x => x == typeof(NavigationPage)))
             {
@@ -32,28 +28,32 @@ namespace Bible.Alarm
                 var navigationPage = new NavigationPage(homePage);
 
                 UI.IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
-                UI.IocSetup.Container.Register( 
+                UI.IocSetup.Container.Register(
                     x => navigationPage, isSingleton: true);
 
                 homePage.BindingContext = UI.IocSetup.Container.Resolve<Bible.Alarm.ViewModels.HomeViewModel>();
 
-                MainPage = navigationPage;          
+                MainPage = navigationPage;
             }
 
             MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
             MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
         }
 
-        protected async override void OnStart()
+        protected override void OnStart()
         {
-            var navigator = UI.IocSetup.Container.Resolve<INavigationService>();
-            // Handle when your app starts  
-            await navigator.NavigateToHome();
-
-            if (mediaManager.IsPrepared())
+            Task.Run(async () =>
             {
-                await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
-            }
+                var navigator = UI.IocSetup.Container.Resolve<INavigationService>();
+                // Handle when your app starts  
+                await navigator.NavigateToHome();
+
+                var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
+                if (mediaManager.IsPrepared())
+                {
+                    await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                }
+            });
         }
 
         protected override void OnSleep()
@@ -63,11 +63,15 @@ namespace Bible.Alarm
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
-            if (mediaManager.IsPrepared())
+            Task.Run(async () =>
             {
-                Task.Run(() => Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>()));
-            }
+                var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
+                // Handle when your app resumes
+                if (mediaManager.IsPrepared())
+                {
+                    await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                }
+            });
         }
 
     }

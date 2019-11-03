@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,14 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NLog" Version="4.6.7" />
-    <PackageReference Include="NLog.Targets.Loggly" Version="4.8.10" />
-    <PackageReference Include="Plugin.MediaManager" Version="0.8.9" />
-    <PackageReference Include="System.Reactive.Linq" Version="4.1.6" />
-    <PackageReference Include="Xamarin.Forms" Version="4.2.0.778463" />
+    <PackageReference Include="NLog.Targets.Loggly" Version="4.8.16" />
+    <PackageReference Include="Plugin.MediaManager" Version="0.8.18" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.2.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.3.0.947036" />
   </ItemGroup>
 
   <ItemGroup>

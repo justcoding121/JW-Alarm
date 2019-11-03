@@ -9,7 +9,6 @@ using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm.UI.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AlarmModal : ContentPage
 	{
 		public AlarmModal ()

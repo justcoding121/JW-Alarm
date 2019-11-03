@@ -9,7 +9,6 @@ using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm.UI.Views.General
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BatteryOptimizationExclusionModal : ContentPage
     {
         public BatteryOptimizationExclusionModal()

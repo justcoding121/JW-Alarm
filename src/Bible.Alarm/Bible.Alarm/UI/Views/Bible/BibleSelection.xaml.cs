@@ -5,7 +5,6 @@ using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm.UI.Views.Bible
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BibleSelection : ContentPage
     {
         public BibleSelectionViewModel ViewModel => BindingContext as BibleSelectionViewModel;

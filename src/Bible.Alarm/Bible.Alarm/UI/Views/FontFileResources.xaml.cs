@@ -4,7 +4,6 @@ using Xamarin.Forms.Xaml;
 
 namespace FontNameResources
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FontFileResources : ResourceDictionary
     {
         private static readonly FontFileResources instance = new FontFileResources();
