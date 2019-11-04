@@ -31,13 +31,15 @@ namespace Bible.Alarm.Droid
 
             IocSetup.Initialize(Application.Context, false);
 
-            Task.Delay(1000).ContinueWith(async (x) =>
+            Task.Delay(100).ContinueWith(async (x) =>
             {
                 try
                 {
                     await BootstrapHelper.VerifyMediaLookUpService();
                     await BootstrapHelper.InitializeDatabase();
                     await Messenger<bool>.Publish(Messages.Initialized, true);
+
+                    await Task.Delay(1000);
 
                     var i = new Intent(IocSetup.Context, typeof(AlarmSetupService));
                     i.PutExtra("Action", "SetupBackgroundTasks");

@@ -34,7 +34,7 @@ namespace Bible.Alarm
                 MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
                 MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
 
-                Task.Delay(0).ContinueWith((y) =>
+                Task.Delay(100).ContinueWith((y) =>
                 {
                     homePage.BindingContext = UI.IocSetup.Container.Resolve<Bible.Alarm.ViewModels.HomeViewModel>();
 
