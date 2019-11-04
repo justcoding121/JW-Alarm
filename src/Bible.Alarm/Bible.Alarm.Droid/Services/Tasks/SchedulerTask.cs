@@ -12,7 +12,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
 {
     public class SchedulerTask
     {
-        private static Logger logger => LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;
@@ -24,8 +24,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
               IAlarmService alarmService, INotificationService notificationService)
         {
-            LogSetup.Initialize("Android");
-
+ 
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;

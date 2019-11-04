@@ -16,14 +16,9 @@ namespace Bible.Alarm.Services.Droid.Tasks
     [Service(Enabled = true)]
     public class AlarmSetupService : Service
     {
-        private static Logger logger => LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
         public static bool IsRunning = false;
-
-        public AlarmSetupService() : base()
-        {
-            LogSetup.Initialize("Android");
-        }
 
         public override IBinder OnBind(Intent intent)
         {

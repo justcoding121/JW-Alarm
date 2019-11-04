@@ -22,13 +22,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON", "com.Bible.Alarm.Restart"})]
     public class RestartReceiver : BroadcastReceiver
     {
-        private static Logger logger => LogManager.GetCurrentClassLogger();
-
-        public RestartReceiver()
-            : base()
-        {
-            LogSetup.Initialize("Android");
-        }
+        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
         public override void OnReceive(Context context, Intent intent)
         {

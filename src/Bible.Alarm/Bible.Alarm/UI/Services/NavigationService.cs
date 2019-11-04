@@ -26,7 +26,7 @@ namespace Bible.Alarm.UI
 
             var syncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
-            Messenger<object>.Subscribe(Messages.ShowSnoozeDismissModal, async vm =>
+            var task = Messenger<object>.Subscribe(Messages.ShowSnoozeDismissModal, async vm =>
             {
                 await Task.Factory.StartNew(async () =>
                 {

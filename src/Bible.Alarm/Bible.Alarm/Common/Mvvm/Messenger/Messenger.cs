@@ -13,7 +13,7 @@ namespace Bible.Alarm.Common.Mvvm
     public static class Messenger<T>
     {
         private static Dictionary<Messages, List<Func<T, Task>>> subscribers = new Dictionary<Messages, List<Func<T, Task>>>();
-
+        private static Dictionary<Messages, T> cache = new Dictionary<Messages, T>();
         public async static Task Publish(Messages stream, T @object)
         {
             if (subscribers.ContainsKey(stream))
@@ -25,9 +25,11 @@ namespace Bible.Alarm.Common.Mvvm
                     await listener(@object);
                 }
             }
+
+            cache[stream] = @object;
         }
 
-        public static void Subscribe(Messages stream, Func<T, Task> action)
+        public async static Task Subscribe(Messages stream, Func<T, Task> action)
         {
             if (subscribers.ContainsKey(stream))
             {
@@ -38,6 +40,11 @@ namespace Bible.Alarm.Common.Mvvm
                 subscribers[stream] = new List<Func<T, Task>>(new[] { action });
             }
 
+            if (cache.ContainsKey(stream))
+            {
+                var @object = cache[stream];
+                await action(@object);
+            }
         }
     }
 

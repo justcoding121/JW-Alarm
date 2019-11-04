@@ -1,5 +1,4 @@
-﻿using Bible.Alarm.Services;
-using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI;
 using Bible.Alarm.ViewModels;
 using Bible.Alarm.Common.Mvvm;
@@ -7,7 +6,6 @@ using MediaManager;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm
 {
@@ -30,13 +28,19 @@ namespace Bible.Alarm
                 UI.IocSetup.Container.Register(
                     x => navigationPage, isSingleton: true);
 
-                homePage.BindingContext = UI.IocSetup.Container.Resolve<Bible.Alarm.ViewModels.HomeViewModel>();
 
                 MainPage = navigationPage;
+
+                MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
+                MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
+
+                Task.Delay(0).ContinueWith((y) =>
+                {
+                    homePage.BindingContext = UI.IocSetup.Container.Resolve<Bible.Alarm.ViewModels.HomeViewModel>();
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
             }
 
-            MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
-            MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
         }
 
         protected override void OnStart()

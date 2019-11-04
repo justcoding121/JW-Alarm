@@ -13,11 +13,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
     public class SchedulerJob : JobService
     {
         public const int JobId = 1;
-        private static Logger logger => LogManager.GetCurrentClassLogger();
-        public SchedulerJob() : base()
-        {
-            LogSetup.Initialize("Android");
-        }
+        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+
         public override bool OnStartJob(JobParameters jobParams)
         {
 

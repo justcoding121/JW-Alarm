@@ -2,16 +2,10 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using System.Threading.Tasks;
-using Bible.Alarm.Services.Droid.Helpers;
 using MediaManager;
-using Android.Content;
-using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Services.Infrastructure;
 using NLog;
-using Bible.Alarm.Services.Droid.Tasks;
 using Java.Interop;
-using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace Bible.Alarm.Droid
 {
@@ -19,12 +13,7 @@ namespace Bible.Alarm.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
-
-        public MainActivity() : base()
-        {
-            LogSetup.Initialize("Android");
-        }
+        private Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,10 +24,9 @@ namespace Bible.Alarm.Droid
 
                 base.OnCreate(savedInstanceState);
 
-                IocSetup.Initialize(this, false);
-
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
                 LoadApplication(new App());
+
             }
             catch (Exception e)
             {
@@ -46,24 +34,6 @@ namespace Bible.Alarm.Droid
                 throw;
             }
 
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    await BootstrapHelper.VerifyMediaLookUpService();
-                    await BootstrapHelper.InitializeDatabase();
-                    await Messenger<bool>.Publish(Messages.Initialized, true);
-
-                    var intent = new Intent(IocSetup.Context, typeof(AlarmSetupService));
-                    intent.PutExtra("Action", "SetupBackgroundTasks");
-                    StartService(intent);
-                }
-                catch (Exception e)
-                {
-                    logger.Fatal(e, "Android initialization crashed.");
-                }
-            });
         }
 
         protected override void OnStart()

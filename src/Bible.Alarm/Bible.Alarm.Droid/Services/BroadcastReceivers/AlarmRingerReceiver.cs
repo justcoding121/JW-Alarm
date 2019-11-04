@@ -16,15 +16,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
     [BroadcastReceiver(Enabled = true)]
     public class AlarmRingerReceiver : BroadcastReceiver
     {
-        private static Logger logger => LogManager.GetCurrentClassLogger();
+        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
         private IPlaybackService playbackService;
         private Context context;
         private Intent intent;
-        public AlarmRingerReceiver() : base()
-        {
-            LogSetup.Initialize("Android");
-        }
 
         private void stateChanged(object sender, MediaPlayerState e)
         {

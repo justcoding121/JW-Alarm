@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
-using Android.Widget;
-using MediaManager;
+using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Droid.Tasks;
+using NLog;
 
 namespace Bible.Alarm.Droid
 {
@@ -18,6 +17,8 @@ namespace Bible.Alarm.Droid
         MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
+        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -27,6 +28,27 @@ namespace Bible.Alarm.Droid
             Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
 
             SetContentView(Resource.Layout.SplashScreen);
+
+            IocSetup.Initialize(Application.Context, false);
+
+            Task.Delay(1000).ContinueWith(async (x) =>
+            {
+                try
+                {
+                    await BootstrapHelper.VerifyMediaLookUpService();
+                    await BootstrapHelper.InitializeDatabase();
+                    await Messenger<bool>.Publish(Messages.Initialized, true);
+
+                    var i = new Intent(IocSetup.Context, typeof(AlarmSetupService));
+                    i.PutExtra("Action", "SetupBackgroundTasks");
+                    StartService(i);
+                }
+                catch (Exception e)
+                {
+                    logger.Fatal(e, "Android initialization crashed.");
+                }
+            });
+
         }
 
         // Launches the startup task
@@ -34,8 +56,7 @@ namespace Bible.Alarm.Droid
         {
             base.OnResume();
 
-            var startupWork = new Task(() => { doWork(); });
-            startupWork.Start();
+            Task.Run(() => doWork());
         }
 
         // background work that happens behind the splash screen
