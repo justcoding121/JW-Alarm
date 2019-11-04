@@ -2,22 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\Notification\**" />
-    <EmbeddedResource Remove="Models\Notification\**" />
-    <None Remove="Models\Notification\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\cool-alarm-tone-notification-sound.mp3" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
@@ -25,70 +11,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NLog" Version="4.6.7" />
     <PackageReference Include="NLog.Targets.Loggly" Version="4.8.16" />
-    <PackageReference Include="Plugin.MediaManager" Version="0.8.18" />
     <PackageReference Include="System.Reactive.Linq" Version="4.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.947036" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Bible\BibleSelection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Bible\BookSelection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Bible\ChapterSelection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\FontFileResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Home.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Music\MusicSelection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Music\SongBookSelection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Music\TrackSelection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Schedule\AlarmModal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Schedule\Schedule.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="UI\Views\Shared\LanguageModal.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
+    <PackageReference Include="Plugin.MediaManager" Version="0.8.18"/>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="..\..\_tools\_index\index.zip" Link="Resources\index.zip" />
     <EmbeddedResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="UI\Views\Schedule\NumberOfChaptersModal.xaml.cs">
-      <DependentUpon>NumberOfChaptersModal.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="UI\Views\General\BatteryOptimizationExclusionModal.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UI\Views\Schedule\AlarmModal.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UI\Views\Schedule\NumberOfChaptersModal.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>
