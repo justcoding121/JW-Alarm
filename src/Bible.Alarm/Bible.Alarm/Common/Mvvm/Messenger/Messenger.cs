@@ -29,7 +29,7 @@ namespace Bible.Alarm.Common.Mvvm
             cache[stream] = @object;
         }
 
-        public async static Task Subscribe(Messages stream, Func<T, Task> action)
+        public static void Subscribe(Messages stream, Func<T, Task> action)
         {
             if (subscribers.ContainsKey(stream))
             {
@@ -43,7 +43,7 @@ namespace Bible.Alarm.Common.Mvvm
             if (cache.ContainsKey(stream))
             {
                 var @object = cache[stream];
-                await action(@object);
+                action(@object);
             }
         }
     }

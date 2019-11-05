@@ -174,7 +174,7 @@ namespace Bible.Alarm.ViewModels
         private SemaphoreSlim @lock = new SemaphoreSlim(1);
         private void initialize()
         {
-            var task = Messenger<bool>.Subscribe(Messages.Initialized, async vm =>
+            Messenger<bool>.Subscribe(Messages.Initialized, async vm =>
             {
                 await @lock.WaitAsync();
 

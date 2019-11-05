@@ -33,29 +33,30 @@ namespace Bible.Alarm.Droid
 
             SetContentView(Resource.Layout.SplashScreen);
 
-            IocSetup.Initialize(Application.Context, false);
-
-            Task.Delay(10).ContinueWith(async (x) =>
+            if (IocSetup.Initialize(Application.Context, false))
             {
-                try
+                Task.Run(async () =>
                 {
-                    await BootstrapHelper.VerifyMediaLookUpService();
-                    await BootstrapHelper.InitializeDatabase();
-                    await Messenger<bool>.Publish(Messages.Initialized, true);
+                    try
+                    {
+                        await BootstrapHelper.VerifyMediaLookUpService();
+                        await BootstrapHelper.InitializeDatabase();
+                        await Messenger<bool>.Publish(Messages.Initialized, true);
 
-                    await Task.Delay(1000);
+                        await Task.Delay(1000);
 
-                    var i = new Intent(IocSetup.Context, typeof(AlarmSetupService));
-                    i.PutExtra("Action", "SetupBackgroundTasks");
-                    StartService(i);
+                        var i = new Intent(IocSetup.Context, typeof(AlarmSetupService));
+                        i.PutExtra("Action", "SetupBackgroundTasks");
+                        StartService(i);
 
-                }
-                catch (Exception e)
-                {
-                    logger.Fatal(e, "Android initialization crashed.");
-                }
-            });
-
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Fatal(e, "Android initialization crashed.");
+                    }
+                });
+            }
+            
         }
 
         // Launches the startup task
