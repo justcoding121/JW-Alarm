@@ -18,7 +18,7 @@
                     VerticalTextAlignment="End"
                     MinimumWidthRequest="200"
                     FontSize="Default"
-                    Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization suppressing notifications in early morning hours. This application guarantees to use minimal battery. We recommend to exclude this app from battery optimization list."
+                    Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization. This application would not drain your device battery. We recommend to exclude this app from battery optimization."
                     TextColor="SlateBlue">
             </Label>
             <Button CornerRadius="10"

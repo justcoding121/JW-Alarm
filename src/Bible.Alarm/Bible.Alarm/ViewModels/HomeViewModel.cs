@@ -104,7 +104,7 @@ namespace Bible.Alarm.ViewModels
                    listenIsEnabledChanges();
                    IsBusy = false;
 
-                   await Task.Delay(0).ContinueWith(async (y) => await showBatteryOptimizationExclusionPage(), uiTaskScheduler);
+                   await Task.Delay(10).ContinueWith(async (y) => await showBatteryOptimizationExclusionPage(), uiTaskScheduler);
                });
             disposables.Add(subscription);
 

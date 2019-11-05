@@ -25,6 +25,8 @@ namespace Bible.Alarm.Models
 
         public TimeSpan Duration { get; set; }
 
+        public TimeSpan FinishedDuration { get; set; }
+
         public bool IsAlarmMusic => TrackNumber > 0;
         public bool IsBibleReading => ChapterNumber > 0;
     }

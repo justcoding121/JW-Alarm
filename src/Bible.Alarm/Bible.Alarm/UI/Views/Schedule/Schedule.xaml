@@ -196,6 +196,26 @@
                             FontSize="Medium">
                         </Label>
                     </Grid>
+                    <Grid BackgroundColor="WhiteSmoke"
+              HeightRequest="40"
+              x:Name="AlwaysPlayFromStartButton"
+              MinimumHeightRequest="40"
+              HorizontalOptions="Fill"
+              Margin="5,0,5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" VerticalOptions="Center"  HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Start" TextColor="Black" Margin="5,0,0,0">Resume chapters from beginning</Label>
+                        <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal">
+                            <Switch IsToggled="{Binding AlwaysPlayFromStart, Mode=TwoWay}"
+                      HeightRequest="30" HorizontalOptions="End"
+                      VerticalOptions="Center" Margin="0,0,0,5">
+                            </Switch>
+                        </StackLayout>
+                    </Grid>
                 </StackLayout>
 
                 <Grid Grid.Row="2" >

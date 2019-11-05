@@ -34,6 +34,8 @@ namespace Bible.Alarm.Services.Droid
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
             = new Dictionary<IMediaItem, NotificationDetail>();
 
+        private IMediaItem firstChapter;
+
         private bool disposed;
 
         public event EventHandler<MediaPlayerState> StateChanged;
@@ -54,7 +56,6 @@ namespace Bible.Alarm.Services.Droid
             this.networkStatusService = networkStatusService;
             this.notificationService = notificationService;
 
-            this.mediaManager.MediaItemChanged += markTrackAsPlayed;
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
 
@@ -63,6 +64,22 @@ namespace Bible.Alarm.Services.Droid
                 while (true)
                 {
                     await Task.Delay(1000);
+
+                    if (this.mediaManager.IsPlaying())
+                    {
+                        var mediaItem = this.mediaManager.Queue.Current;
+                        if (currentlyPlaying.ContainsKey(mediaItem))
+                        {
+                            var track = currentlyPlaying[mediaItem];
+
+                            if (!mediaManager.Position.Equals(default(TimeSpan)))
+                            {
+                                track.FinishedDuration = mediaManager.Position;
+                                await playlistService.MarkTrackAsPlayed(track);
+                            }
+                        }
+                    }
+
                     if (disposed)
                     {
                         Dispose();
@@ -72,24 +89,27 @@ namespace Bible.Alarm.Services.Droid
             });
         }
 
-        private void stateChanged(object sender, StateChangedEventArgs e)
+        private async void stateChanged(object sender, StateChangedEventArgs e)
         {
-            StateChanged?.Invoke(this, e.State);
-
-            //var notificationManager = (this.mediaManager as MediaManagerImplementation).Notification
-            //    as MediaManager.Platforms.Android.Notifications.NotificationManager;
-
-            //notificationManager.PlayerNotificationManager.SetOngoing(false);
-            //notificationManager.PlayerNotificationManager.Invalidate();
-        }
-
-        private async void markTrackAsPlayed(object sender, MediaItemEventArgs e)
-        {
-            if (currentlyPlaying.ContainsKey(e.MediaItem))
+            var mediaItem = this.mediaManager.Queue.Current;
+            if (currentlyPlaying.ContainsKey(mediaItem))
             {
-                var track = currentlyPlaying[e.MediaItem];
-                await playlistService.MarkTrackAsPlayed(track);
+                var track = currentlyPlaying[mediaItem];
+
+                switch (e.State)
+                {
+                    case MediaPlayerState.Playing:
+                        if (!track.FinishedDuration.Equals(default(TimeSpan)) && mediaItem == firstChapter)
+                        {
+                            await this.mediaManager.SeekTo(track.FinishedDuration);
+                            firstChapter = null;
+                        }
+                        break;
+                }
             }
+
+
+            StateChanged?.Invoke(this, e.State);
         }
 
         private async void markTrackAsFinished(object sender, MediaItemEventArgs e)
@@ -175,23 +195,14 @@ namespace Bible.Alarm.Services.Droid
                     i++;
                 }
 
-                try
-                {
-                    this.mediaManager.Volume.CurrentVolume = this.mediaManager.Volume.MaxVolume;
-                }
-                catch { }
-
                 //play default ring tone if we don't have the files downloaded
                 //and internet is not available
                 if (!mergedMediaItems.Any())
                 {
                     this.mediaManager.RepeatMode = RepeatMode.All;
                     var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
-
                     return;
                 }
-
-                await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
 
                 currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();
 
@@ -199,6 +210,10 @@ namespace Bible.Alarm.Services.Droid
                 {
                     currentlyPlaying.Add(track.Value, playDetailMap[track.Key]);
                 }
+
+                firstChapter = currentlyPlaying.First(x => x.Value.IsBibleReading).Key;
+
+                await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
             }
         }
 
@@ -215,7 +230,6 @@ namespace Bible.Alarm.Services.Droid
 
         public void Dispose()
         {
-            this.mediaManager.MediaItemChanged -= markTrackAsPlayed;
             this.mediaManager.MediaItemFinished -= markTrackAsFinished;
         }
     }

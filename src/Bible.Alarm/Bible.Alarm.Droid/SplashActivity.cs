@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -7,8 +8,11 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
+using MediaManager;
 using NLog;
 
 namespace Bible.Alarm.Droid
@@ -31,7 +35,7 @@ namespace Bible.Alarm.Droid
 
             IocSetup.Initialize(Application.Context, false);
 
-            Task.Delay(100).ContinueWith(async (x) =>
+            Task.Delay(10).ContinueWith(async (x) =>
             {
                 try
                 {
@@ -44,6 +48,7 @@ namespace Bible.Alarm.Droid
                     var i = new Intent(IocSetup.Context, typeof(AlarmSetupService));
                     i.PutExtra("Action", "SetupBackgroundTasks");
                     StartService(i);
+
                 }
                 catch (Exception e)
                 {

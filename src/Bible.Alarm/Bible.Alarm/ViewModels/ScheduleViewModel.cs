@@ -307,6 +307,7 @@ namespace Bible.Alarm.ViewModels
             Model.Hour = Time.Hours;
             Model.Minute = Time.Minutes;
             Model.MusicEnabled = musicEnabled;
+            Model.AlwaysPlayFromStart = alwaysPlayFromStart;
             Model.NumberOfChaptersToRead = CurrentNumberOfChapters.Value;
 
             return Model;
@@ -322,6 +323,7 @@ namespace Bible.Alarm.ViewModels
             daysOfWeek = model.DaysOfWeek;
             time = new TimeSpan(model.Hour, model.Minute, model.Second);
             musicEnabled = model.MusicEnabled;
+            alwaysPlayFromStart = model.AlwaysPlayFromStart;
 
             populateNumberOfChaptersListView(model);
 
@@ -385,6 +387,13 @@ namespace Bible.Alarm.ViewModels
         {
             get => musicEnabled;
             set => this.Set(ref musicEnabled, value);
+        }
+
+        private bool alwaysPlayFromStart;
+        public bool AlwaysPlayFromStart
+        {
+            get => alwaysPlayFromStart;
+            set => this.Set(ref alwaysPlayFromStart, value);
         }
 
         private bool musicUpdated { get; set; }
@@ -463,6 +472,8 @@ namespace Bible.Alarm.ViewModels
                     }
 
                     existing.MusicEnabled = model.MusicEnabled;
+                    existing.AlwaysPlayFromStart = model.AlwaysPlayFromStart;
+                    existing.NumberOfChaptersToRead = model.NumberOfChaptersToRead;
                     existing.Name = model.Name;
                     existing.Second = model.Second;
                     existing.SnoozeMinutes = model.SnoozeMinutes;

@@ -28,7 +28,6 @@ namespace Bible.Alarm.Models
         public string CronExpression => getCronExpression();
 
         public bool MusicEnabled { get; set; }
-
         public virtual AlarmMusic Music { get; set; }
 
         public virtual BibleReadingSchedule BibleReadingSchedule { get; set; }
@@ -36,6 +35,8 @@ namespace Bible.Alarm.Models
         public int SnoozeMinutes { get; set; } = 5;
 
         public int NumberOfChaptersToRead { get; set; } = 3;
+
+        public bool AlwaysPlayFromStart { get; set; } = false;
 
         //state
         public PlayType CurrentPlayItem { get; set; }

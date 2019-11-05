@@ -98,6 +98,7 @@ namespace Bible.Alarm.Services
 
                 bibleReadingSchedule.BookNumber = trackDetail.BookNumber;
                 bibleReadingSchedule.ChapterNumber = trackDetail.ChapterNumber;
+                bibleReadingSchedule.FinishedDuration = trackDetail.FinishedDuration;
             }
 
             await scheduleDbContext.SaveChangesAsync();
@@ -126,6 +127,7 @@ namespace Bible.Alarm.Services
 
                 bibleReadingSchedule.BookNumber = next.Key.Number;
                 bibleReadingSchedule.ChapterNumber = next.Value.Number;
+                bibleReadingSchedule.FinishedDuration = default(TimeSpan);
             }
 
             await scheduleDbContext.SaveChangesAsync();
@@ -162,9 +164,11 @@ namespace Bible.Alarm.Services
             var trackDuration = chapterDetail.Source.Duration;
             var lookUpPath = chapterDetail.Source.LookUpPath;
 
+            bool markedSeekTrack = false;
+
             while (numberOfChaptersToRead > 0)
             {
-                result.Add(new PlayItem(new NotificationDetail()
+                var notificationDetail = new NotificationDetail()
                 {
                     ScheduleId = scheduleId,
                     PublicationCode = publicationCode,
@@ -174,7 +178,22 @@ namespace Bible.Alarm.Services
                     ChapterNumber = chapter,
                     Duration = trackDuration
 
-                }, trackDuration, url));
+                };
+
+                //resume from where it was stopped last time
+                if (!markedSeekTrack
+                    && !schedule.AlwaysPlayFromStart
+                    && !bibleReadingSchedule.FinishedDuration.Equals(default(TimeSpan))
+                    && bibleReadingSchedule.LanguageCode == notificationDetail.LanguageCode
+                    && bibleReadingSchedule.PublicationCode == notificationDetail.PublicationCode
+                    && bookNumber == notificationDetail.BookNumber)
+                {
+                    notificationDetail.FinishedDuration = bibleReadingSchedule.FinishedDuration; 
+                }
+
+                markedSeekTrack = true;
+
+                result.Add(new PlayItem(notificationDetail, trackDuration, url));
 
                 numberOfChaptersToRead--;
 
