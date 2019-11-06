@@ -56,6 +56,13 @@ namespace Bible.Alarm.Droid
                     }
                 });
             }
+            else
+            {
+                Task.Run(async () =>
+                {
+                    await Messenger<bool>.Publish(Messages.Initialized, true);
+                });
+            }
             
         }
 
