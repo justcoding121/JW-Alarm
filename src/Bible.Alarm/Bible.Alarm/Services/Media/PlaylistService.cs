@@ -123,7 +123,7 @@ namespace Bible.Alarm.Services
             {
                 var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
-                var next = await getNextBibleChapter(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber, bibleReadingSchedule.ChapterNumber);
+                var next = await getNextBibleChapter(trackDetail.LanguageCode, trackDetail.PublicationCode, trackDetail.BookNumber, trackDetail.ChapterNumber);
 
                 bibleReadingSchedule.BookNumber = next.Key.Number;
                 bibleReadingSchedule.ChapterNumber = next.Value.Number;
