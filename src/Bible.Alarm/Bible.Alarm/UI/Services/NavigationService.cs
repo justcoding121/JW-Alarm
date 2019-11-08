@@ -182,14 +182,6 @@ namespace Bible.Alarm.UI
             {
                 await navigater.PopAsync();
             }
-
-            if (navigater.NavigationStack.Count == 0)
-            {
-                var home = IocSetup.Container.Resolve<Home>();
-                await navigater.PushAsync(home);
-                return;
-            }
-
         }
     }
 }

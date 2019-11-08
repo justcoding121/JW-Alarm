@@ -21,26 +21,33 @@ namespace Bible.Alarm
             }
             else
             {
-                var homePage = new Home();
-                var navigationPage = new NavigationPage(homePage);
+                var navigationPage = new NavigationPage();
 
                 UI.IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
                 UI.IocSetup.Container.Register(
                     x => navigationPage, isSingleton: true);
-
 
                 MainPage = navigationPage;
 
                 MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
                 MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
 
-                Task.Delay(10).ContinueWith((y) =>
+                Task.Delay(100).ContinueWith(async (a) =>
                 {
-                    homePage.BindingContext = UI.IocSetup.Container.Resolve<Bible.Alarm.ViewModels.HomeViewModel>();
+                    var homePage = new Home();
+                    homePage.BindingContext = UI.IocSetup.Container.Resolve<HomeViewModel>();
+                    await navigationPage.Navigation.PushAsync(homePage);
 
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                }, TaskScheduler.FromCurrentSynchronizationContext())
+                    .ContinueWith(async x =>
+                    {
+                        var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
+                        if (mediaManager.IsPrepared())
+                        {
+                            await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                        }
+                    });
             }
-
         }
 
         protected override void OnStart()
