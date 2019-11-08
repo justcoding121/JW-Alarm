@@ -39,8 +39,11 @@ namespace Bible.Alarm.Droid
                 {
                     try
                     {
-                        await BootstrapHelper.VerifyMediaLookUpService();
-                        await BootstrapHelper.InitializeDatabase();
+                        var task1 = BootstrapHelper.VerifyMediaLookUpService();
+                        var task2 = BootstrapHelper.InitializeDatabase();
+
+                        await Task.WhenAll(task1, task2);
+
                         await Messenger<bool>.Publish(Messages.Initialized, true);
 
                         await Task.Delay(1000);
@@ -63,7 +66,6 @@ namespace Bible.Alarm.Droid
                     await Messenger<bool>.Publish(Messages.Initialized, true);
                 });
             }
-            
         }
 
         // Launches the startup task
