@@ -431,7 +431,7 @@ namespace Bible.Alarm.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    await scheduleDbContext.AddAsync(model);
+                    scheduleDbContext.AlarmSchedules.Add(model);
                     await scheduleDbContext.SaveChangesAsync();
                     await alarmService.Create(model);
                 });
