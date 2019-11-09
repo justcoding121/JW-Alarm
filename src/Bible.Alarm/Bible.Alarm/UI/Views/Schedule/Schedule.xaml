@@ -122,7 +122,7 @@
                         <Entry MinimumWidthRequest="200"
                          WidthRequest="200"      
                          Text="{Binding Name, Mode=TwoWay}"
-                         MaxLength="25"
+                         MaxLength="15"
                          HorizontalOptions="Fill"
                          VerticalOptions="Center"/>
                     </StackLayout>
@@ -217,11 +217,11 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" VerticalOptions="Center"  HorizontalOptions="Fill"
-                           HorizontalTextAlignment="Start" TextColor="Black" Margin="5,0,0,0">Resume chapters from beginning</Label>
+                           HorizontalTextAlignment="Start" TextColor="Black" Margin="5,0,0,0">Resume unfinished chapters from beginning after dismissal</Label>
                         <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal">
                             <Switch IsToggled="{Binding AlwaysPlayFromStart, Mode=TwoWay}"
                       HeightRequest="30" HorizontalOptions="End"
-                      VerticalOptions="Center" Margin="0,0,0,5">
+                      VerticalOptions="Center" Margin="0,0,10,0">
                             </Switch>
                         </StackLayout>
                     </Grid>
