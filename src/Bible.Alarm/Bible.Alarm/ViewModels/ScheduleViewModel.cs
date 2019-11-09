@@ -25,7 +25,6 @@ namespace Bible.Alarm.ViewModels
         IToastService popUpService;
         INavigationService navigationService;
         IPlaybackService playbackService;
-        INotificationService notificationService;
 
         private List<IDisposable> disposables = new List<IDisposable>();
 
@@ -36,7 +35,6 @@ namespace Bible.Alarm.ViewModels
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
-            this.notificationService = IocSetup.Container.Resolve<INotificationService>();
 
             disposables.Add(scheduleDbContext);
 
