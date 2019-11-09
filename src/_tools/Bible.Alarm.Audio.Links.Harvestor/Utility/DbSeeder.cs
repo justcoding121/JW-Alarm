@@ -107,7 +107,7 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                         }
                     }
 
-                    db.BibleTranslations.Add(bibleTranslation);
+                    await db.BibleTranslations.AddAsync(bibleTranslation);
                     await db.SaveChangesAsync();
                 }
             }
@@ -147,7 +147,7 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                     newMelodyMusic.Tracks.Add(newTrack);
                 }
 
-                db.MelodyMusic.Add(newMelodyMusic);
+                await db.MelodyMusic.AddAsync(newMelodyMusic);
                 //db.Music
                 await db.SaveChangesAsync();
             }
@@ -204,7 +204,7 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                         newVocalMusic.Tracks.Add(newTrack);
                     }
 
-                    db.VocalMusic.Add(newVocalMusic);
+                    await db.VocalMusic.AddAsync(newVocalMusic);
                     await db.SaveChangesAsync();
                 }
             }

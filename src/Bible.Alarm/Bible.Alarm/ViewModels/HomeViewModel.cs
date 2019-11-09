@@ -116,7 +116,7 @@ namespace Bible.Alarm.ViewModels
         {
             if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
-                scheduleDbContext.GeneralSettings.Add(new GeneralSettings()
+                await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
                 {
                     Key = "AndroidBatteryOptimizationExclusionPromptShown",
                     Value = "True"

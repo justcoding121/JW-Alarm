@@ -147,7 +147,6 @@ namespace Bible.Alarm.Services
                    .FirstOrDefaultAsync();
 
             track.Source.Url = url;
-
             await dbContext.SaveChangesAsync();
         }
 

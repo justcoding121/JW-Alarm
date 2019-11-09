@@ -431,7 +431,7 @@ namespace Bible.Alarm.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    scheduleDbContext.AlarmSchedules.Add(model);
+                    await scheduleDbContext.AlarmSchedules.AddAsync(model);
                     await scheduleDbContext.SaveChangesAsync();
                     await alarmService.Create(model);
                 });
@@ -510,7 +510,7 @@ namespace Bible.Alarm.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    var model = scheduleDbContext.AlarmSchedules.FirstOrDefault(x => x.Id == scheduleId);
+                    var model = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == scheduleId);
                     scheduleDbContext.AlarmSchedules.Remove(model);
                     await scheduleDbContext.SaveChangesAsync();
                     alarmService.Delete(scheduleId);
