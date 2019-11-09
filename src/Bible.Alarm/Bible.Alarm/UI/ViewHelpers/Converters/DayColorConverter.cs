@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.Models;
+using Bible.Alarm.ViewModels;
 using System;
 using System.Globalization;
 using Xamarin.Forms;
@@ -9,9 +10,31 @@ namespace Bible.Alarm.UI.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var isEnabled = ((DaysOfWeek)value & (DaysOfWeek)parameter) == (DaysOfWeek)parameter;
+            if(value is null)
+            {
+                return Color.LightGray;
+            }
 
-            return isEnabled ? Color.Black :  Color.Gray;
+            if (value is DaysOfWeek)
+            {
+                var isEnabled = ((DaysOfWeek)value & (DaysOfWeek)parameter) == (DaysOfWeek)parameter;
+                return isEnabled ? Color.SlateBlue : Color.LightGray;
+            }
+            else
+            {
+                var schedule = value as ScheduleListItem;
+
+                var isEnabled = ((DaysOfWeek)schedule.DaysOfWeek & (DaysOfWeek)parameter) == (DaysOfWeek)parameter;
+
+                if (schedule.IsEnabled)
+                {
+                    return isEnabled ? Color.SlateBlue : Color.LightGray;
+                }
+                else
+                {
+                    return isEnabled ? Color.LightGray : Color.WhiteSmoke;
+                }
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

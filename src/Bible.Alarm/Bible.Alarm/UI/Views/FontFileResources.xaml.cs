@@ -13,7 +13,6 @@ namespace FontNameResources
         }
 
         public static string FontAwesomeSolid => instance.GetStringResourceForPlatform("FontAwesomeSolidId");
-
         private string GetStringResourceForPlatform(string resourceKey)
         {
             if (!instance.ContainsKey(resourceKey)) return null;

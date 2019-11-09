@@ -23,7 +23,7 @@ namespace Bible.Alarm.Models
 
         public DaysOfWeek DaysOfWeek { get; set; }
 
-        public string TimeText => $"{MeridienHour.ToString("D2")}:{Minute.ToString("D2")} {Meridien}";
+        public string TimeText => $"{MeridienHour.ToString("D2")}:{Minute.ToString("D2")}";
 
         public string CronExpression => getCronExpression();
 

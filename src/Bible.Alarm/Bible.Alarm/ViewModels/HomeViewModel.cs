@@ -284,6 +284,8 @@ namespace Bible.Alarm.ViewModels
                                          await popUpService.ShowScheduledNotification(y.Schedule);
                                      }
 
+                                     y.RaisePropertiesChangedEvent();
+
                                      IsBusy = false;
                                  })
                                 .Subscribe();
@@ -327,6 +329,7 @@ namespace Bible.Alarm.ViewModels
 
         public Meridien Meridien => Schedule.Meridien;
 
+        public ScheduleListItem This => this;
         public void RaisePropertiesChangedEvent()
         {
             RaiseProperties(GetType()
