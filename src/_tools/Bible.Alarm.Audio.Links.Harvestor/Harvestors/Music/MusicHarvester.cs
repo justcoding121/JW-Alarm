@@ -90,7 +90,6 @@ namespace AudioLinkHarvester.Audio
         }
 
         private static Dictionary<string, string> melodyPublicationCodeToNameMappings = new Dictionary<string, string>(new KeyValuePair<string, string>[]{
-            new KeyValuePair<string, string>("sjji","\"Sing Out Joyfully\" to Jehovah (2016)"),
             new KeyValuePair<string, string>("iam","Sing Praises to Jehovah (1984)")
         });
 

@@ -29,5 +29,7 @@ namespace Bible.Alarm.Models
 
         public bool IsAlarmMusic => TrackNumber > 0;
         public bool IsBibleReading => ChapterNumber > 0;
+
+        public bool IsLastTrack { get; set; }
     }
 }

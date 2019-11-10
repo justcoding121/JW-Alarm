@@ -24,8 +24,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
     {
         private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
-        public override void OnReceive(Context context, Intent intent)
+        public override async void OnReceive(Context context, Intent intent)
         {
+            var pendingIntent = GoAsync();
+
             try
             {
 
@@ -34,13 +36,17 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 BootstrapHelper.VerifyBackgroundTasks(IocSetup.Context);
 
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
-                schedulerTask.Handle().Wait();
+                await schedulerTask.Handle();
 
                 context.StopService(intent);
             }
             catch (Exception e)
             {
                 logger.Error(e, "Failed to process restart task.");
+            }
+            finally
+            {
+                pendingIntent.Finish();
             }
         }
     }

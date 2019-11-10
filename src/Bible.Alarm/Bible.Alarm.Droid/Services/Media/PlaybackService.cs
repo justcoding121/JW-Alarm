@@ -133,9 +133,14 @@ namespace Bible.Alarm.Services.Droid
                 if (currentlyPlaying.ContainsKey(e.MediaItem))
                 {
                     var track = currentlyPlaying[e.MediaItem];
-                    await playlistService.MarkTrackAsFinished(track);
+                   
+                    if (track.IsLastTrack)
+                    {
+                        await playlistService.MarkTrackAsFinished(track);
+                        await Dismiss();
+                        this.notificationService.ClearAll();
+                    }
 
-                    this.notificationService.ClearAll();
                 }
             }
             finally
@@ -144,7 +149,7 @@ namespace Bible.Alarm.Services.Droid
             }
         }
 
-        public async void Dismiss()
+        public async Task Dismiss()
         {
             if (this.mediaManager.IsPrepared()
                  && !disposed)

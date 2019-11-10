@@ -78,7 +78,6 @@ namespace Bible.Alarm.ViewModels
                 await markBatteryOptimizationModalAsShown();
 
                 await navigationService.CloseModal();
-                await navigationService.NavigateToHome();
 
                 this.batteryOptimizationManager.ShowBatteryOptimizationExclusionSettingsPage();
             });
@@ -88,7 +87,6 @@ namespace Bible.Alarm.ViewModels
                 await markBatteryOptimizationModalAsShown();
 
                 await navigationService.CloseModal();
-                await navigationService.NavigateToHome();
             });
 
 

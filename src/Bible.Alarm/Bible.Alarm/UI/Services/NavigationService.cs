@@ -11,6 +11,8 @@ using Bible.Alarm.ViewModels;
 using Mvvmicro;
 using Xamarin.Forms;
 using Bible.Alarm.UI.Views.General;
+using Bible.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux.Actions;
 
 namespace Bible.Alarm.UI
 {
@@ -38,19 +40,6 @@ namespace Bible.Alarm.UI
                 );
 
             });
-        }
-
-        public async Task CloseModal()
-        {
-            await navigater.PopModalAsync();
-
-            var currentPage = navigater.NavigationStack.FirstOrDefault();
-
-            if (currentPage != null)
-            {
-                NavigatedBack?.Invoke(currentPage.BindingContext);
-            }
-
         }
 
         public async Task ShowModal(string name, object viewModel)
@@ -96,18 +85,6 @@ namespace Bible.Alarm.UI
 
                 default:
                     throw new ArgumentException("Modal not defined.", name);
-            }
-        }
-
-        public async Task GoBack()
-        {
-            await navigater.PopAsync();
-
-            var currentPage = navigater.NavigationStack.LastOrDefault();
-
-            if (currentPage != null)
-            {
-                NavigatedBack?.Invoke(currentPage.BindingContext);
             }
         }
 
@@ -171,17 +148,69 @@ namespace Bible.Alarm.UI
             }
         }
 
+        public async Task GoBack()
+        {
+            if (navigater.ModalStack.Count > 0)
+            {
+                await CloseModal();
+                return;
+            }
+
+            if (navigater.NavigationStack.Count > 1)
+            {
+                var top = navigater.NavigationStack.Last();
+                ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
+                await navigater.PopAsync();
+            }
+
+            var currentPage = navigater.NavigationStack.LastOrDefault();
+
+            if (currentPage != null)
+            {
+                NavigatedBack?.Invoke(currentPage.BindingContext);
+            }
+        }
+
+
+        public async Task CloseModal()
+        {
+            var top = navigater.ModalStack.Last();
+            ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
+
+            await navigater.PopModalAsync();
+
+            var currentPage = navigater.NavigationStack.FirstOrDefault();
+
+            if (currentPage != null)
+            {
+                NavigatedBack?.Invoke(currentPage.BindingContext);
+            }
+
+        }
+
         public async Task NavigateToHome()
         {
             while (navigater.ModalStack.Count > 0)
             {
+                var top = navigater.ModalStack.Last();
+                ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
                 await navigater.PopModalAsync();
             }
 
             while (navigater.NavigationStack.Count > 1)
             {
+                var top = navigater.NavigationStack.Last();
+                ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
                 await navigater.PopAsync();
             }
+
+            var currentPage = navigater.NavigationStack.FirstOrDefault();
+
+            if (currentPage != null)
+            {
+                NavigatedBack?.Invoke(currentPage.BindingContext);
+            }
+
         }
     }
 }

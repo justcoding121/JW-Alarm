@@ -42,7 +42,6 @@ namespace Bible.Alarm.ViewModels
                 IsBusy = true;
                 playService.Stop();
                 await navigationService.GoBack();
-                ReduxContainer.Store.Dispatch(new BackAction(this));
                 IsBusy = false;
             });
 
@@ -204,8 +203,6 @@ namespace Bible.Alarm.ViewModels
                                 .Subscribe();
 
             disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
-
-
         }
 
         private async Task populateChapters(string languageCode, string publicationCode, int bookNumber)

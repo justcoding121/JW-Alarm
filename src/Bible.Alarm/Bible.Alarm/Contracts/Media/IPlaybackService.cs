@@ -10,7 +10,7 @@ namespace Bible.Alarm.Services.Contracts
     public interface IPlaybackService
     {
         Task Play(long scheduleId);
-        void Dismiss();
+        Task Dismiss();
         Task Snooze();
         event EventHandler<MediaPlayerState> StateChanged;
     }

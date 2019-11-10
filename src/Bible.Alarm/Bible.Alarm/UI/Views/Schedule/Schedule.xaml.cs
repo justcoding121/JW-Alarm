@@ -28,13 +28,8 @@ namespace Bible.Alarm.UI.Views
 
         protected override bool OnBackButtonPressed()
         {
-            if (base.OnBackButtonPressed())
-            {
-                ViewModel.CancelCommand.Execute(null);
-                return true;
-            }
-
-            return false;
+            ViewModel.CancelCommand.Execute(null);
+            return true;
         }
 
     }

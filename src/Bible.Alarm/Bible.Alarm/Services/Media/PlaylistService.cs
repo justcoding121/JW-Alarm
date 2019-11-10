@@ -19,62 +19,6 @@ namespace Bible.Alarm.Services
             this.mediaService = mediaService;
         }
 
-        public async Task<PlayItem> NextTrack(long scheduleId)
-        {
-            var schedule = await scheduleDbContext.AlarmSchedules
-                .AsNoTracking()
-                .Include(x => x.Music)
-                .Include(x => x.BibleReadingSchedule)
-                .FirstAsync(x => x.Id == scheduleId);
-
-            if (schedule.MusicEnabled)
-            {
-                return await nextMusicUrlToPlay(schedule);
-            }
-            else
-            {
-                return await nextBibleUrlToPlay(scheduleId, schedule.BibleReadingSchedule);
-            }
-        }
-
-        public async Task<PlayItem> NextTrack(NotificationDetail currentTrack)
-        {
-            var schedule = await scheduleDbContext.AlarmSchedules
-                                .AsNoTracking()
-                                .Include(x => x.Music)
-                                .Include(x => x.BibleReadingSchedule)
-                                .FirstAsync(x => x.Id == currentTrack.ScheduleId);
-
-            var bibleReadingSchedule = schedule.BibleReadingSchedule;
-
-            if (currentTrack.PlayType == PlayType.Music)
-            {
-                return await nextBibleUrlToPlay(currentTrack.ScheduleId, bibleReadingSchedule);
-            }
-
-            int bookNumber = currentTrack.BookNumber;
-            int chapter = currentTrack.ChapterNumber;
-
-            var bibleChapter = await getNextBibleChapter(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bookNumber, chapter);
-            bookNumber = bibleChapter.Key.Number;
-            chapter = bibleChapter.Value.Number;
-
-            var bibleTracks = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bookNumber);
-            var bibleTrack = bibleTracks[chapter];
-
-            return new PlayItem(new NotificationDetail()
-            {
-                ScheduleId = currentTrack.ScheduleId,
-                BookNumber = bookNumber,
-                PublicationCode = currentTrack.PublicationCode,
-                LanguageCode = currentTrack.LanguageCode,
-                ChapterNumber = chapter,
-                Duration = bibleTrack.Source.Duration,
-                LookUpPath = bibleTrack.Source.LookUpPath
-
-            }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
-        }
-
         public async Task MarkTrackAsPlayed(NotificationDetail trackDetail)
         {
             var schedule = await scheduleDbContext.AlarmSchedules
@@ -176,8 +120,8 @@ namespace Bible.Alarm.Services
                     LookUpPath = lookUpPath,
                     BookNumber = bookNumber,
                     ChapterNumber = chapter,
-                    Duration = trackDuration
-
+                    Duration = trackDuration,
+                    IsLastTrack = numberOfChaptersToRead == 1 ? true : false
                 };
 
                 //resume from where it was stopped last time

@@ -26,12 +26,13 @@ namespace Bible.Alarm.Services
             this.scheduleDbContext = scheduleDbContext;
         }
 
-        public async Task Create(AlarmSchedule schedule, bool downloadAlarmMedia)
+        public Task Create(AlarmSchedule schedule, bool downloadAlarmMedia)
         {
-            var nextTrack = await playlistService.NextTrack(schedule.Id);
-            nextTrack.PlayDetail.NotificationTime = schedule.NextFireDate();
             scheduleNotification(schedule, false);
+
             var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
+
+            return Task.CompletedTask;
         }
 
         public void Update(AlarmSchedule schedule)

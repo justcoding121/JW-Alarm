@@ -1,16 +1,19 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Mvvmicro;
+using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {
-    public class AlarmViewModal : ViewModel
+    public class AlarmViewModal : ViewModel, IDisposable
     {
         private IPlaybackService playbackService;
         private INavigationService navigationService;
 
         public Command SnoozeCommand { get; private set; }
         public Command DismissCommand { get; private set; }
+        public ICommand CancelCommand { get; set; }
 
         public AlarmViewModal()
         {
@@ -21,15 +24,23 @@ namespace Bible.Alarm.ViewModels
             {
                 await playbackService.Snooze();
                 await navigationService.CloseModal();
-                await navigationService.NavigateToHome();
             });
 
             DismissCommand = new Command(async () =>
             {
-                playbackService.Dismiss();
+                await playbackService.Dismiss();
                 await navigationService.CloseModal();
-                await navigationService.NavigateToHome();
             });
+
+            CancelCommand = new Command(async () =>
+            {
+                await navigationService.GoBack();
+            });
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

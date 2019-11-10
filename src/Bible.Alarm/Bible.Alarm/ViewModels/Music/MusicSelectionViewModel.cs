@@ -88,7 +88,6 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
                 await navigationService.GoBack();
-                ReduxContainer.Store.Dispatch(new BackAction(this));
                 IsBusy = false;
             });
 

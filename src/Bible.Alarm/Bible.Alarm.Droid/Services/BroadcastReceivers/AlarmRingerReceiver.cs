@@ -39,8 +39,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
         }
 
-        public override void OnReceive(Context context, Intent intent)
+        public async override void OnReceive(Context context, Intent intent)
         {
+            var pendingIntent = GoAsync();
 
             try
             {
@@ -48,6 +49,12 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.intent = intent;
 
                 IocSetup.Initialize(context, true);
+
+                if (IocSetup.Container.Resolve<IMediaManager>().IsPrepared())
+                {
+                    context.StopService(intent);
+                    return;
+                }
 
                 this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
 
@@ -62,7 +69,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
 
-                Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     try
                     {
@@ -84,6 +91,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
+            }
+            finally
+            {
+                pendingIntent.Finish();
             }
 
         }

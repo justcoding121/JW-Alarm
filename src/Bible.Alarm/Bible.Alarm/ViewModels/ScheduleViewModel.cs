@@ -30,6 +30,7 @@ namespace Bible.Alarm.ViewModels
 
         public ScheduleViewModel()
         {
+
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
@@ -58,12 +59,11 @@ namespace Bible.Alarm.ViewModels
                        DaysOfWeek = DaysOfWeek.All,
                        Music = new AlarmMusic()
                        {
-                           MusicType = MusicType.Melodies,
-                           PublicationCode = "iam",
+                           MusicType = MusicType.Vocals,
+                           PublicationCode = "sjjc",
                            LanguageCode = "E",
-                           TrackNumber = 89
+                           TrackNumber = 4
                        },
-
                        BibleReadingSchedule = new BibleReadingSchedule()
                        {
                            BookNumber = 23,
@@ -76,7 +76,6 @@ namespace Bible.Alarm.ViewModels
                    IsBusy = false;
                });
             disposables.Add(subscription);
-
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
            .Select(state => state.CurrentMusic)
@@ -106,7 +105,6 @@ namespace Bible.Alarm.ViewModels
                 IsBusy = true;
 
                 await navigationService.GoBack();
-                ReduxContainer.Store.Dispatch(new BackAction(this));
 
                 IsBusy = false;
             });
@@ -118,13 +116,12 @@ namespace Bible.Alarm.ViewModels
 
                 if (!IsNewSchedule)
                 {
-                    this.playbackService.Dismiss();
+                    await this.playbackService.Dismiss();
                 }
 
                 if (await saveAsync())
                 {
                     await navigationService.GoBack();
-                    ReduxContainer.Store.Dispatch(new BackAction(this));
                 }
 
                 IsBusy = false;
@@ -134,12 +131,10 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
 
-                this.playbackService.Dismiss();
+                await this.playbackService.Dismiss();
                 await deleteAsync();
 
                 await navigationService.GoBack();
-
-                ReduxContainer.Store.Dispatch(new BackAction(this));
 
                 IsBusy = false;
             });
@@ -236,6 +231,11 @@ namespace Bible.Alarm.ViewModels
                 CurrentNumberOfChapters.IsSelected = true;
 
                 await navigationService.CloseModal();
+
+                if(CurrentNumberOfChapters.Value == 1)
+                {
+                    AlwaysPlayFromStart = true;
+                }
 
                 IsBusy = false;
             });
@@ -394,10 +394,11 @@ namespace Bible.Alarm.ViewModels
             set => this.Set(ref alwaysPlayFromStart, value);
         }
 
-        private bool musicUpdated { get; set; }
+        private bool musicUpdated;
+
         public AlarmMusic Music { get => Model.Music; set => Model.Music = value; }
 
-        private bool bibleReadingUpdated { get; set; }
+        private bool bibleReadingUpdated;
         public BibleReadingSchedule BibleReadingSchedule { get => Model.BibleReadingSchedule; set => Model.BibleReadingSchedule = value; }
 
         public bool IsNewSchedule { get; private set; }
