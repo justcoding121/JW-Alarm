@@ -32,15 +32,18 @@ namespace Bible.Alarm.Services
             try
             {
                 await @lock.WaitAsync();
+
                 if (verified)
                 {
                     return;
                 }
+
                 if (await indexDoNotExistOrIsOutdated())
                 {
                     await clearCopyIndexFromResource();
-                    verified = true;
                 }
+
+                verified = true;
             }
             finally
             {
