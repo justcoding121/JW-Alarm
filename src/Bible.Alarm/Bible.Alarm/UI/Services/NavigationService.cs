@@ -174,9 +174,6 @@ namespace Bible.Alarm.UI
 
         public async Task CloseModal()
         {
-            var top = navigater.ModalStack.Last();
-            ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
-
             await navigater.PopModalAsync();
 
             var currentPage = navigater.NavigationStack.FirstOrDefault();
@@ -192,8 +189,6 @@ namespace Bible.Alarm.UI
         {
             while (navigater.ModalStack.Count > 0)
             {
-                var top = navigater.ModalStack.Last();
-                ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
                 await navigater.PopModalAsync();
             }
 

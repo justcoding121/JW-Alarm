@@ -1,4 +1,6 @@
 ﻿using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux.Actions;
 using Mvvmicro;
 using System;
 using System.Windows.Input;
@@ -6,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {
-    public class AlarmViewModal : ViewModel, IDisposable
+    public class AlarmViewModal : ViewModel
     {
         private IPlaybackService playbackService;
         private INavigationService navigationService;
@@ -36,11 +38,6 @@ namespace Bible.Alarm.ViewModels
             {
                 await navigationService.GoBack();
             });
-        }
-
-        public void Dispose()
-        {
-            
         }
     }
 }
