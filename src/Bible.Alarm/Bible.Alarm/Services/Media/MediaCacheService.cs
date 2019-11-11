@@ -231,15 +231,15 @@ namespace Bible.Alarm.Services
 
             foreach (var schedule in schedules)
             {
-                //skip if alarm will be fired soon or already fired
+                var playlist = await mediaPlayService.NextTracks(schedule.Id);
+                var fileNames = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
+
+                //do not delete anything when alarm is playing!
                 if (schedule.NextFireDate(DateTime.Now.AddMinutes(-5)) <= DateTimeOffset.Now.AddMinutes(5)
                     || mediaManager.IsPrepared())
                 {
-                    continue;
-                }
-
-                var playlist = await mediaPlayService.NextTracks(schedule.Id);
-                var fileNames = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
+                    return;
+                }      
 
                 fileNames.ForEach(x =>
                 {
