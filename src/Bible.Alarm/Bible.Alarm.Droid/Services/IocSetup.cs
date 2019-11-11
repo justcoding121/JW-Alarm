@@ -51,7 +51,7 @@
                 container.Resolve<INotificationService>()));
 
 
-            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            string databasePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
                 .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;

@@ -55,7 +55,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, "Failed to process scheduler task.");
+                    logger.Error(e, $"Failed to process scheduler task. Db directory: {Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}");
                 }
                 finally
                 {

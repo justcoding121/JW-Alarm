@@ -227,7 +227,7 @@ namespace Bible.Alarm.Services
                 .AsNoTracking()
                 .ToListAsync();
 
-            var files = (await storageService.GetAllFiles(cacheRoot)).ToDictionary(x => x, null);
+            var filesToDelete = (await storageService.GetAllFiles(cacheRoot)).ToDictionary(x => x, null);
 
             foreach (var schedule in schedules)
             {
@@ -243,14 +243,14 @@ namespace Bible.Alarm.Services
 
                 fileNames.ForEach(x =>
                 {
-                    if (files.ContainsKey(x))
+                    if (filesToDelete.ContainsKey(x))
                     {
-                        files.Remove(x);
+                        filesToDelete.Remove(x);
                     }
                 });
             }
 
-            files.Select(x => x.Key).ToList().ForEach(x =>
+            filesToDelete.Select(x => x.Key).ToList().ForEach(x =>
             {
                 try {
                     storageService.DeleteFile(x);
