@@ -13,6 +13,7 @@ using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
 using Microsoft.Extensions.Logging;
 using NLog;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -33,7 +34,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 IocSetup.Initialize(context, true);
 
-                BootstrapHelper.VerifyBackgroundTasks(IocSetup.Context);
+                var task1 = BootstrapHelper.VerifyMediaLookUpService();
+                var task2 = BootstrapHelper.InitializeDatabase();
+
+                await Task.WhenAll(task1, task2);
 
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                 await schedulerTask.Handle();

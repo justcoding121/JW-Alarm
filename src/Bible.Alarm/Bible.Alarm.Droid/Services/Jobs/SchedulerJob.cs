@@ -5,6 +5,7 @@ using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Droid.Tasks;
 using NLog;
 using Android.App.Job;
+using Bible.Alarm.Services.Droid.Helpers;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -23,6 +24,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 try
                 {
                     IocSetup.Initialize(this, true);
+
+                    var task1 = BootstrapHelper.VerifyMediaLookUpService();
+                    var task2 = BootstrapHelper.InitializeDatabase();
+
+                    await Task.WhenAll(task1, task2);
 
                     var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                     await schedulerTask.Handle();
