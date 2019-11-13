@@ -15,12 +15,17 @@ namespace Bible.Alarm.Services.Droid
         {
         }
 
-        public void Add(long scheduleId, DateTimeOffset time,
+        public void ShowNotification(long scheduleId)
+        {
+            AlarmSetupService.ShowNotification(IocSetup.Context, scheduleId);
+        }
+
+        public void ScheduleNotification(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
             if (IocSetup.IsService)
             {
-                AlarmSetupService.AddNotification(IocSetup.Context, scheduleId, time, title, body);
+                AlarmSetupService.ScheduleNotification(IocSetup.Context, scheduleId, time, title, body);
             }
             else
             {
@@ -76,6 +81,7 @@ namespace Bible.Alarm.Services.Droid
             NotificationManager notificationManager = (NotificationManager)IocSetup.Context.GetSystemService(Context.NotificationService);
             notificationManager.CancelAll();
         }
+
     }
 
 }

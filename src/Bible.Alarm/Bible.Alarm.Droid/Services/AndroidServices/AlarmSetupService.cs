@@ -48,7 +48,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
                             var time = DateTimeOffset.Parse(intent.GetStringExtra("Time"));
                             var title = intent.GetStringExtra("Title");
                             var body = intent.GetStringExtra("Body");
-                            AddNotification(IocSetup.Context, long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
+                            ScheduleNotification(IocSetup.Context, long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
                             break;
                         }
                     case "SetupBackgroundTasks":
@@ -73,7 +73,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
             IsRunning = false;
         }
 
-        public static void AddNotification(Context context, long scheduleId, DateTimeOffset time,
+        public static void ScheduleNotification(Context context, long scheduleId, DateTimeOffset time,
             string title, string body)
         {
             var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
@@ -110,6 +110,14 @@ namespace Bible.Alarm.Services.Droid.Tasks
                 alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
             }
 
+        }
+
+        public static void ShowNotification(Context context, long scheduleId)
+        {
+            var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
+            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+
+            context.SendBroadcast(alarmIntent);
         }
     }
 }

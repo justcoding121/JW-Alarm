@@ -96,10 +96,16 @@
                                     </StackLayout>
                                     <Label Margin="2,0,0,0" MaxLines="1" Text="{Binding Name}" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"/>
                                 </StackLayout>
-                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Horizontal" HorizontalOptions="End" Margin="15,0,0,0">
-                                    <Switch
-                                          IsToggled="{Binding IsEnabled, Mode=TwoWay}"
-                                          Margin="0,0,15,0"></Switch>
+                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Vertical" HorizontalOptions="End" Margin="15,0,15,0">
+                                    <Button MinimumWidthRequest="30"
+                                         WidthRequest="30"
+                                         BackgroundColor="White"
+                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                         Text="{x:Static fn:GlyphNames.Play}"
+                                         TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"
+                                         Command="{Binding PlayCommand}">
+                                    </Button>
+                                    <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" ></Switch>
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

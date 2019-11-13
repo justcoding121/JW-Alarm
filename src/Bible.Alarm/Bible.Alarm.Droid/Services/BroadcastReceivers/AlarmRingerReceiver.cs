@@ -61,7 +61,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 playbackService.StateChanged += stateChanged;
 
                 var mediaManager = IocSetup.Container.Resolve<IMediaManager>();
-
                 if (!mediaManager.IsPrepared())
                 {
                     mediaManager.Init(Application.Context);

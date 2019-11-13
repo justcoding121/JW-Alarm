@@ -8,7 +8,8 @@ namespace Bible.Alarm.Services.Contracts
 {
     public interface INotificationService
     {
-        void Add(long scheduleId, DateTimeOffset time, string title, string body);
+        void ShowNotification(long scheduleId);
+        void ScheduleNotification(long scheduleId, DateTimeOffset time, string title, string body);
         void Remove(long scheduleId);
         bool IsScheduled(long scheduleId);
 

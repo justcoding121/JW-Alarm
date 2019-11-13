@@ -279,7 +279,7 @@ namespace Bible.Alarm.ViewModels
 
             var chapterVMs = new ObservableCollection<NumberOfChaptersListViewItemModel>();
 
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 21; i++)
             {
                 var chaptersVM = new NumberOfChaptersListViewItemModel(i);
 

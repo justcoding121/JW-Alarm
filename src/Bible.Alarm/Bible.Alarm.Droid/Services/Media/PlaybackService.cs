@@ -188,7 +188,6 @@ namespace Bible.Alarm.Services.Droid
                         if (await cacheService.Exists(item.Url))
                         {
                             downloadedTracks.Add(i, new FileInfo(this.cacheService.GetCacheFilePath(item.Url)));
-
                         }
                         else
                         {

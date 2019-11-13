@@ -199,7 +199,7 @@ namespace Bible.Alarm.ViewModels
                 {
                     @lock.Release();
                 }
-               
+
             });
         }
 
@@ -304,6 +304,20 @@ namespace Bible.Alarm.ViewModels
         {
             Schedule = schedule;
             isEnabled = schedule.IsEnabled;
+
+            PlayCommand = new Command(async () =>
+            {
+                if (Schedule.Id > 0)
+                {
+                    var toastService = IocSetup.Container.Resolve<IToastService>();
+                    await toastService.ShowMessage("Your alarm will play in few seconds.", 5);
+
+                    var playbackService = IocSetup.Container.Resolve<INotificationService>();
+                    playbackService.ShowNotification(Schedule.Id);
+
+                }
+
+            });
         }
 
         public long ScheduleId => Schedule.Id;
@@ -328,6 +342,9 @@ namespace Bible.Alarm.ViewModels
         public Meridien Meridien => Schedule.Meridien;
 
         public ScheduleListItem This => this;
+
+        public ICommand PlayCommand { get; private set; }
+
         public void RaisePropertiesChangedEvent()
         {
             RaiseProperties(GetType()

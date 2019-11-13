@@ -14,7 +14,15 @@ namespace Bible.Alarm.Services.Droid
         {
             var context = IocSetup.Context;
 
-            Toast.MakeText(context, message, ToastLength.Short).Show();
+            if(seconds <= 3)
+            {
+                Toast.MakeText(context, message, ToastLength.Short).Show();
+            }
+            else
+            {
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+            }
+          
 
             return Task.CompletedTask;
         }
