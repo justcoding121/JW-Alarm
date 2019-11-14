@@ -65,12 +65,12 @@ namespace Bible.Alarm.ViewModels
                            MusicType = MusicType.Vocals,
                            PublicationCode = "sjjc",
                            LanguageCode = "E",
-                           TrackNumber = 4
+                           TrackNumber = 16
                        },
                        BibleReadingSchedule = new BibleReadingSchedule()
                        {
                            BookNumber = 23,
-                           ChapterNumber = 1,
+                           ChapterNumber = 36,
                            LanguageCode = "E",
                            PublicationCode = "nwt"
                        }
