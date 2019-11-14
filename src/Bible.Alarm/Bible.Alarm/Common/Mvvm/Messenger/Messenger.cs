@@ -7,7 +7,8 @@ namespace Bible.Alarm.Common.Mvvm
     public enum Messages
     {
         Initialized,
-        ShowSnoozeDismissModal
+        ShowSnoozeDismissModal,
+        HideSnoozeDismissModal
     }
 
     public static class Messenger<T>

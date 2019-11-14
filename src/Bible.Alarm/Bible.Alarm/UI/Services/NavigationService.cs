@@ -40,6 +40,20 @@ namespace Bible.Alarm.UI
                 );
 
             });
+
+
+            Messenger<object>.Subscribe(Messages.HideSnoozeDismissModal, async vm =>
+            {
+                await Task.Factory.StartNew(async () =>
+                {
+                    await CloseModal();
+                },
+                CancellationToken.None,
+                TaskCreationOptions.None,
+                syncContext
+                );
+
+            });
         }
 
         public async Task ShowModal(string name, object viewModel)
@@ -56,7 +70,7 @@ namespace Bible.Alarm.UI
 
                 case "AlarmModal":
                     {
-                        if(navigater.ModalStack.FirstOrDefault()?.GetType() == typeof(AlarmModal))
+                        if (navigater.ModalStack.FirstOrDefault()?.GetType() == typeof(AlarmModal))
                         {
                             return;
                         }
@@ -174,15 +188,17 @@ namespace Bible.Alarm.UI
 
         public async Task CloseModal()
         {
-            await navigater.PopModalAsync();
-
-            var currentPage = navigater.NavigationStack.FirstOrDefault();
-
-            if (currentPage != null)
+            if (navigater.ModalStack.Count > 0)
             {
-                NavigatedBack?.Invoke(currentPage.BindingContext);
-            }
+                await navigater.PopModalAsync();
 
+                var currentPage = navigater.NavigationStack.FirstOrDefault();
+
+                if (currentPage != null)
+                {
+                    NavigatedBack?.Invoke(currentPage.BindingContext);
+                }
+            }
         }
 
         public async Task NavigateToHome()

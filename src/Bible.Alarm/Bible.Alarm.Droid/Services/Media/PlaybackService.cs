@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.Media;
 using Android.Net;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
@@ -89,6 +90,7 @@ namespace Bible.Alarm.Services.Droid
                                 }
                             }
                         }
+
                     }
                     catch (Exception e)
                     {
@@ -104,6 +106,7 @@ namespace Bible.Alarm.Services.Droid
                         Dispose();
                         break;
                     }
+
                 }
             });
         }
@@ -145,6 +148,7 @@ namespace Bible.Alarm.Services.Droid
                     {
                         await playlistService.MarkTrackAsFinished(track);
                         await Dismiss();
+                        await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
                         this.notificationService.ClearAll();
                     }
 
@@ -174,7 +178,7 @@ namespace Bible.Alarm.Services.Droid
 
         public async Task Play(long scheduleId)
         {
-            await @lock.WaitAsync();
+            await @lock.WaitAsync();    
 
             try
             {
@@ -240,7 +244,7 @@ namespace Bible.Alarm.Services.Droid
                     if (!mergedMediaItems.Any())
                     {
                         this.mediaManager.RepeatMode = RepeatMode.All;
-                        var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+                        var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));   
                         return;
                     }
 
@@ -272,6 +276,7 @@ namespace Bible.Alarm.Services.Droid
                 {
                     await this.mediaManager.Stop();
                     await this.alarmService.Snooze(currentScheduleId);
+                    currentScheduleId = 0;
                 }
             }
             finally
