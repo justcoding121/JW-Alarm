@@ -23,6 +23,8 @@ namespace Bible.Alarm.Services.Droid
 {
     public class PlaybackService : IPlaybackService, IDisposable
     {
+        private Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+
         private readonly IMediaManager mediaManager;
         private IAlarmService alarmService;
         private IPlaylistService playlistService;
@@ -31,7 +33,7 @@ namespace Bible.Alarm.Services.Droid
         private INetworkStatusService networkStatusService;
         private INotificationService notificationService;
 
-        private long currentScheduleId;
+        private static long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
             = new Dictionary<IMediaItem, NotificationDetail>();
 
@@ -40,6 +42,7 @@ namespace Bible.Alarm.Services.Droid
         private IMediaItem firstChapter;
 
         private bool disposed;
+        long IPlaybackService.CurrentlyPlayingScheduleId => currentScheduleId;
 
         public event EventHandler<MediaPlayerState> StateChanged;
 
@@ -87,6 +90,10 @@ namespace Bible.Alarm.Services.Droid
                             }
                         }
                     }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened when updating finished track duration.");
+                    }
                     finally
                     {
                         @lock.Release();
@@ -133,7 +140,7 @@ namespace Bible.Alarm.Services.Droid
                 if (currentlyPlaying.ContainsKey(e.MediaItem))
                 {
                     var track = currentlyPlaying[e.MediaItem];
-                   
+
                     if (track.IsLastTrack)
                     {
                         await playlistService.MarkTrackAsFinished(track);
@@ -142,6 +149,10 @@ namespace Bible.Alarm.Services.Droid
                     }
 
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "An error happened when marking track as finished.");
             }
             finally
             {
@@ -157,7 +168,7 @@ namespace Bible.Alarm.Services.Droid
                 await this.mediaManager.Stop();
             }
 
-            this.currentScheduleId = 0;
+            currentScheduleId = 0;
             disposed = true;
         }
 
@@ -169,7 +180,7 @@ namespace Bible.Alarm.Services.Droid
             {
                 if (!this.mediaManager.IsPrepared())
                 {
-                    this.currentScheduleId = scheduleId;
+                    currentScheduleId = scheduleId;
 
                     var nextTracks = await playlistService.NextTracks(scheduleId);
 
@@ -260,7 +271,7 @@ namespace Bible.Alarm.Services.Droid
                 if (this.mediaManager.IsPrepared() && !disposed)
                 {
                     await this.mediaManager.Stop();
-                    await this.alarmService.Snooze(this.currentScheduleId);
+                    await this.alarmService.Snooze(currentScheduleId);
                 }
             }
             finally

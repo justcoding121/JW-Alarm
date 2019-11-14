@@ -11,17 +11,14 @@ namespace Bible.Alarm.Services
     public class AlarmService : IAlarmService
     {
         private INotificationService notificationService;
-        private IPlaylistService playlistService;
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
         public AlarmService(INotificationService notificationService,
-            IPlaylistService mediaPlayService,
             IMediaCacheService mediaCacheService,
             ScheduleDbContext scheduleDbContext)
         {
             this.notificationService = notificationService;
-            this.playlistService = mediaPlayService;
             this.mediaCacheService = mediaCacheService;
             this.scheduleDbContext = scheduleDbContext;
         }

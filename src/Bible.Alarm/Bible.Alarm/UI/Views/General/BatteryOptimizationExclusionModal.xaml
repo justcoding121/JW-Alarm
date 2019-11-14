@@ -6,9 +6,10 @@
              mc:Ignorable="d"
              x:Class="Bible.Alarm.UI.Views.General.BatteryOptimizationExclusionModal">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
+        <ScrollView>
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
                      AutomationId="BatteryOptimizationModal" Margin="0,0,0,125">
-            <Label Margin="5"
+                <Label Margin="5"
                     HeightRequest="200"
                     MinimumHeightRequest="200"
                     WidthRequest="200"
@@ -20,8 +21,8 @@
                     FontSize="Default"
                     Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization. This application would not drain your device battery. We recommend to exclude this app from battery optimization."
                     TextColor="SlateBlue">
-            </Label>
-            <Button CornerRadius="10"
+                </Label>
+                <Button CornerRadius="10"
                     Command="{Binding BatteryOptimizationExcludeCommand}"
                     Margin="5"
                     HeightRequest="45"
@@ -31,8 +32,8 @@
                     Text="Exclude Now"
                     FontSize="Medium"
                     TextColor="SlateBlue">
-            </Button>
-            <Button CornerRadius="10"
+                </Button>
+                <Button CornerRadius="10"
                     AutomationId="BatteryOptimizationDismissButton"
                     Command="{Binding BatteryOptimizationDismissCommand}"
                     Margin="5"
@@ -43,7 +44,8 @@
                     Text="Later"
                     FontSize="Medium"
                     TextColor="SlateBlue">
-            </Button>
-        </StackLayout>
+                </Button>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

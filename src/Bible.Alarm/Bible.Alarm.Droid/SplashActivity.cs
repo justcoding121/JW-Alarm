@@ -19,7 +19,7 @@ using NLog;
 namespace Bible.Alarm.Droid
 {
     [Activity(Label = "Bible Alarm", Theme = "@style/MyTheme.Splash", Icon = "@mipmap/ic_launcher",
-        MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
+        MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
         private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);

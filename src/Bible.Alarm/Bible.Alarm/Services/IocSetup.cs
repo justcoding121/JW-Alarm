@@ -35,7 +35,6 @@
 
             container.Register<IAlarmService>((x) => new AlarmService(
               container.Resolve<INotificationService>(),
-              container.Resolve<IPlaylistService>(),
               container.Resolve<IMediaCacheService>(),
               container.Resolve<ScheduleDbContext>()));
 

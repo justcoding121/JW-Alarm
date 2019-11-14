@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Collections.ObjectModel;
+using MediaManager;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -25,6 +26,7 @@ namespace Bible.Alarm.ViewModels
         IToastService popUpService;
         INavigationService navigationService;
         IPlaybackService playbackService;
+        IMediaManager mediaManager;
 
         private List<IDisposable> disposables = new List<IDisposable>();
 
@@ -36,6 +38,7 @@ namespace Bible.Alarm.ViewModels
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
+            this.mediaManager = IocSetup.Container.Resolve<IMediaManager>();
 
             disposables.Add(scheduleDbContext);
 
@@ -113,10 +116,13 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
 
-
-                if (!IsNewSchedule)
+                if (!IsNewSchedule && bibleReadingUpdated)
                 {
-                    await this.playbackService.Dismiss();
+                    if (this.mediaManager.IsPrepared()
+                        && scheduleId == this.playbackService.CurrentlyPlayingScheduleId)
+                    {
+                        await this.playbackService.Dismiss();
+                    }
                 }
 
                 if (await saveAsync())
@@ -131,7 +137,12 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
 
-                await this.playbackService.Dismiss();
+                if (this.mediaManager.IsPrepared()
+                       && scheduleId == this.playbackService.CurrentlyPlayingScheduleId)
+                {
+                    await this.playbackService.Dismiss();
+                }
+
                 await deleteAsync();
 
                 await navigationService.GoBack();
@@ -232,7 +243,7 @@ namespace Bible.Alarm.ViewModels
 
                 await navigationService.CloseModal();
 
-                if(CurrentNumberOfChapters.Value == 1)
+                if (CurrentNumberOfChapters.Value == 1)
                 {
                     AlwaysPlayFromStart = true;
                 }
@@ -468,6 +479,7 @@ namespace Bible.Alarm.ViewModels
                         existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
                         existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
                         existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
+                        existing.BibleReadingSchedule.FinishedDuration = default(TimeSpan);
                     }
 
                     existing.MusicEnabled = model.MusicEnabled;

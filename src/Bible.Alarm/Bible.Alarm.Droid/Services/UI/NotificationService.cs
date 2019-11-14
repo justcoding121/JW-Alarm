@@ -11,10 +11,6 @@ namespace Bible.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
-        public DroidNotificationService() : base()
-        {
-        }
-
         public void ShowNotification(long scheduleId)
         {
             AlarmSetupService.ShowNotification(IocSetup.Context, scheduleId);

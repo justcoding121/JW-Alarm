@@ -106,7 +106,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
                    mainLauncherIntent,
                    PendingIntentFlags.UpdateCurrent);
 
-
                 alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
             }
 

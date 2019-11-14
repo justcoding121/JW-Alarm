@@ -10,6 +10,11 @@ namespace Bible.Alarm.UI.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(parameter is Color)
+            {
+                return bool.Parse(value.ToString()) ? (Color)parameter : Color.LightGray;
+            }
+
             return bool.Parse(value.ToString()) ? Color.Black : Color.LightGray;
         }
 

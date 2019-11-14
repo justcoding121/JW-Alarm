@@ -4,9 +4,10 @@
              xmlns:fn="clr-namespace:FontNameResources"
              x:Class="Bible.Alarm.UI.Views.AlarmModal">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
+        <ScrollView>
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
                      AutomationId="AlarmModal" Margin="0,0,0,125">
-            <Label Margin="5"
+                <Label Margin="5"
                     HeightRequest="200"
                     MinimumHeightRequest="200"
                     WidthRequest="200"
@@ -19,8 +20,8 @@
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                     Text="{x:Static fn:GlyphNames.Bell}"
                     TextColor="SlateBlue">
-            </Label>
-            <!--<Button CornerRadius="10"
+                </Label>
+                <!--<Button CornerRadius="10"
                     Command="{Binding SnoozeCommand}"
                     Margin="5"
                     HeightRequest="45"
@@ -31,7 +32,7 @@
                     FontSize="Medium"
                     TextColor="SlateBlue">
             </Button>-->
-            <Button CornerRadius="10"
+                <Button CornerRadius="10"
                     AutomationId="AlarmDismissButton"
                     Command="{Binding DismissCommand}"
                     Margin="5"
@@ -42,7 +43,8 @@
                     Text="Dismiss Alarm"
                     FontSize="Medium"
                     TextColor="SlateBlue">
-            </Button>
-        </StackLayout>
+                </Button>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

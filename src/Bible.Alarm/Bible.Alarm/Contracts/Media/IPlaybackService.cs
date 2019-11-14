@@ -9,6 +9,8 @@ namespace Bible.Alarm.Services.Contracts
 {
     public interface IPlaybackService
     {
+        long CurrentlyPlayingScheduleId { get; }
+
         Task Play(long scheduleId);
         Task Dismiss();
         Task Snooze();

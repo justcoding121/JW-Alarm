@@ -9,28 +9,29 @@
         <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowSpacing="0" ColumnSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" 
+        <ScrollView>
+            <Grid RowSpacing="0" ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" 
                    Text="Languages" 
                    VerticalTextAlignment="Center"
                    HeightRequest="32"
                    Font="Bold,18"
                    Margin="10,2,2,2" 
                    VerticalOptions="Fill">
-            </Label>
-            <BoxView HorizontalOptions="Fill" Color="Gray" HeightRequest="1" Grid.Row="1" />
-            <Grid HorizontalOptions="Fill" Grid.Row="2" Margin="2" BackgroundColor="White">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <SearchBar Grid.Column="0" 
+                </Label>
+                <BoxView HorizontalOptions="Fill" Color="Gray" HeightRequest="1" Grid.Row="1" />
+                <Grid HorizontalOptions="Fill" Grid.Row="2" Margin="2" BackgroundColor="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <SearchBar Grid.Column="0" 
                              Placeholder="Search languages"
                              HorizontalTextAlignment="Start"
                              HeightRequest="40"
@@ -40,8 +41,8 @@
                              Text="{Binding LanguageSearchTerm, Mode=TwoWay}"
                              Grid.ColumnSpan="2"/>
 
-            </Grid>
-            <ListView HorizontalOptions="Fill"
+                </Grid>
+                <ListView HorizontalOptions="Fill"
                   BackgroundColor="White"
                   x:Name="LanguageListView" 
                   MinimumHeightRequest="300"
@@ -49,28 +50,28 @@
                   Grid.Row="3" 
                   ItemsSource="{Binding Languages}" 
                   SelectionMode="None">
-                <ListView.Behaviors>
-                    <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding SelectLanguageCommand}"
+                    <ListView.Behaviors>
+                        <behaviours:EventToCommandBehavior EventName="ItemTapped" Command="{Binding SelectLanguageCommand}"
                                                        EventArgsConverter="{StaticResource itemTappedConverter}" />
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid  BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid  BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
                                    HorizontalOptions="Fill">
-                                <Label HeightRequest="45" 
+                                    <Label HeightRequest="45" 
                                    HorizontalOptions="Start"
                                    Margin="8,0,0,0"
                                    HorizontalTextAlignment="Start"
                                    VerticalTextAlignment="Center"
                                    Text="{Binding Name}"></Label>
-                            </Grid>
+                                </Grid>
 
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button Grid.Row="4" HorizontalOptions="Fill" 
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Grid.Row="4" HorizontalOptions="Fill" 
                 VerticalOptions="Fill"
                 Margin="2"
                 Padding="0"
@@ -79,6 +80,7 @@
                 Font="Bold,18"
                 x:Name="CloseButton"
                 Text="Close"></Button>
-        </Grid>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
