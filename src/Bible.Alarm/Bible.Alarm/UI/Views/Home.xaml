@@ -82,11 +82,11 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="0" Orientation="Vertical" Padding="0" Margin="10,0,0,0">
+                                <StackLayout Grid.Column="0" Orientation="Vertical" Padding="0" Margin="10,3,0,0">
                                     <Button Padding="0" Margin="0"
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center"
-                                         BackgroundColor="White"
+                                         BackgroundColor="WhiteSmoke"
                                          FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                                          Text="{x:Static fn:GlyphNames.Play}"
                                          TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}, ConverterParameter = {StaticResource SlateBlue}}"

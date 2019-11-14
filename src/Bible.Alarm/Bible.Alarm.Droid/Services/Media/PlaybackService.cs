@@ -66,49 +66,6 @@ namespace Bible.Alarm.Services.Droid
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
 
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await Task.Delay(1000);
-
-                    await @lock.WaitAsync();
-
-                    try
-                    {
-                        if (this.mediaManager.IsPlaying())
-                        {
-                            var mediaItem = this.mediaManager.Queue.Current;
-                            if (currentlyPlaying.ContainsKey(mediaItem))
-                            {
-                                var track = currentlyPlaying[mediaItem];
-
-                                if (!mediaManager.Position.Equals(default(TimeSpan)))
-                                {
-                                    track.FinishedDuration = mediaManager.Position;
-                                    await this.playlistService.MarkTrackAsPlayed(track);
-                                }
-                            }
-                        }
-
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "An error happened when updating finished track duration.");
-                    }
-                    finally
-                    {
-                        @lock.Release();
-                    }
-
-                    if (disposed)
-                    {
-                        Dispose();
-                        break;
-                    }
-
-                }
-            });
         }
 
         private async void stateChanged(object sender, StateChangedEventArgs e)
@@ -176,9 +133,15 @@ namespace Bible.Alarm.Services.Droid
             disposed = true;
         }
 
+        private Task watcher;
+        private bool wasPlaying;
+        private DateTime playStartTime = DateTime.Now.AddDays(7);
+
         public async Task Play(long scheduleId)
         {
-            await @lock.WaitAsync();    
+            playStartTime = DateTime.Now;
+
+            await @lock.WaitAsync();
 
             try
             {
@@ -244,7 +207,7 @@ namespace Bible.Alarm.Services.Droid
                     if (!mergedMediaItems.Any())
                     {
                         this.mediaManager.RepeatMode = RepeatMode.All;
-                        var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));   
+                        var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
                         return;
                     }
 
@@ -263,6 +226,63 @@ namespace Bible.Alarm.Services.Droid
             finally
             {
                 @lock.Release();
+            }
+
+            if (watcher == null)
+            {
+                watcher = Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        await Task.Delay(1000);
+
+                        await @lock.WaitAsync();
+
+                        try
+                        {
+                            if (this.mediaManager.IsPlaying())
+                            {
+                                wasPlaying = true;
+
+                                var mediaItem = this.mediaManager.Queue.Current;
+                                if (currentlyPlaying.ContainsKey(mediaItem))
+                                {
+                                    var track = currentlyPlaying[mediaItem];
+
+                                    if (!mediaManager.Position.Equals(default(TimeSpan)))
+                                    {
+                                        track.FinishedDuration = mediaManager.Position;
+                                        await this.playlistService.MarkTrackAsPlayed(track);
+                                    }
+                                }
+                            }
+
+                            //was playing and now stopped or play stopped without even getting played for last 60 seconds
+                            if ((wasPlaying || DateTime.Now.Subtract(playStartTime).TotalSeconds > 60)
+                                && this.mediaManager.IsStopped())
+                            {
+                                await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
+                                this.notificationService.ClearAll();
+                                disposed = true;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, "An error happened when updating finished track duration.");
+                        }
+                        finally
+                        {
+                            @lock.Release();
+                        }
+
+                        if (disposed)
+                        {
+                            Dispose();
+                            break;
+                        }
+
+                    }
+                });
             }
         }
 

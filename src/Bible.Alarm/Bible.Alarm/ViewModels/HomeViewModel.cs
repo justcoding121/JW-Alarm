@@ -310,7 +310,7 @@ namespace Bible.Alarm.ViewModels
                 if (Schedule.Id > 0)
                 {
                     var toastService = IocSetup.Container.Resolve<IToastService>();
-                    await toastService.ShowMessage("Your alarm will play in few seconds.", 5);
+                    await toastService.ShowMessage("Your music and or Bible audio will start in few seconds.", 5);
 
                     var playbackService = IocSetup.Container.Resolve<INotificationService>();
                     playbackService.ShowNotification(Schedule.Id);
