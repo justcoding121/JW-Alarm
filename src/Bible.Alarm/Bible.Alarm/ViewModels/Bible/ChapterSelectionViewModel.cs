@@ -28,7 +28,7 @@ namespace Bible.Alarm.ViewModels
         private BibleReadingSchedule tentative;
         private INavigationService navigationService;
 
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly List<IDisposable> subscriptions = new List<IDisposable>();
 
         public ChapterSelectionViewModel()
         {
@@ -74,7 +74,7 @@ namespace Bible.Alarm.ViewModels
 
             //set schedules from initial state.
             //this should fire only once 
-            var subscription1 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
+            var subscription = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
                    .Select(state => new { state.CurrentBibleReadingSchedule, state.TentativeBibleReadingSchedule })
                    .Where(x => x.CurrentBibleReadingSchedule != null && x.TentativeBibleReadingSchedule != null)
                    .DistinctUntilChanged()
@@ -88,7 +88,7 @@ namespace Bible.Alarm.ViewModels
                    });
 
 
-            disposables.Add(subscription1);
+            subscriptions.Add(subscription);
         }
 
         public ICommand BackCommand { get; set; }
@@ -202,7 +202,7 @@ namespace Bible.Alarm.ViewModels
                                 })
                                 .Subscribe();
 
-            disposables.AddRange(new[] { subscription1, subscription2, subscription3 });
+            subscriptions.AddRange(new[] { subscription1, subscription2, subscription3 });
         }
 
         private async Task populateChapters(string languageCode, string publicationCode, int bookNumber)
@@ -231,9 +231,12 @@ namespace Bible.Alarm.ViewModels
 
         public void Dispose()
         {
-            disposables.ForEach(x => x.Dispose());
-            disposables.Clear();
-            playService.Dispose();
+            subscriptions.ForEach(x => x.Dispose());
+
+            mediaService.Dispose();
+            toastService.Dispose();
+            playService.Dispose(); 
+            @lock.Dispose();
         }
     }
 

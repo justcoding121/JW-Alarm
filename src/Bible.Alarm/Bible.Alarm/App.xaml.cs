@@ -22,10 +22,10 @@ namespace Bible.Alarm
             else
             {
                 var navigationPage = new NavigationPage();
-
+              
+                UI.IocSetup.Container.Register(x => navigationPage, isSingleton: true);
                 UI.IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
-                UI.IocSetup.Container.Register(
-                    x => navigationPage, isSingleton: true);
+                UI.IocSetup.Container.Register<INavigationService>(x => new NavigationService(navigationPage.Navigation), isSingleton: true);
 
                 MainPage = navigationPage;
 
@@ -54,9 +54,9 @@ namespace Bible.Alarm
         {
             Task.Run(async () =>
             {
-                var navigator = UI.IocSetup.Container.Resolve<INavigationService>();
+                var navigationService = UI.IocSetup.Container.Resolve<INavigationService>();
                 // Handle when your app starts  
-                await navigator.NavigateToHome();
+                await navigationService.NavigateToHome();
 
                 var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
                 if (mediaManager.IsPrepared())

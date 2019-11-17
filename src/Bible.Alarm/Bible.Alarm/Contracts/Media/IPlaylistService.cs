@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface IPlaylistService
+    public interface IPlaylistService : IDisposable
     {
         Task MarkTrackAsPlayed(NotificationDetail trackDetail);
         Task MarkTrackAsFinished(NotificationDetail trackDetail);

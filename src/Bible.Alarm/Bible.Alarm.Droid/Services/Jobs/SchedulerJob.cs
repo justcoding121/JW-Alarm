@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Android.App;
-using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Droid.Tasks;
 using NLog;
 using Android.App.Job;
@@ -30,8 +29,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                     await Task.WhenAll(task1, task2);
 
-                    var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
-                    await schedulerTask.Handle();
+                    using (var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>())
+                    {
+                        await schedulerTask.Handle();
+                    }
                 }
                 catch (Exception e)
                 {

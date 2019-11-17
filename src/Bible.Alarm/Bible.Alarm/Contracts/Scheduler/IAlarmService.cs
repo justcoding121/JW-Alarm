@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface IAlarmService
+    public interface IAlarmService : IDisposable
     {
         Task Create(AlarmSchedule schedule, bool downloadAlarmMedia = false);
         void Update(AlarmSchedule schedule);

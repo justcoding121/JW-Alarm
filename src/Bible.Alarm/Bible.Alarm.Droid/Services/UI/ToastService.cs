@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid
 {
-    public class DroidToastService : ToastService
+    public class DroidToastService : ToastService, IDisposable
     {
         public override Task ShowMessage(string message, int seconds)
         {

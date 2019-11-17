@@ -168,6 +168,7 @@ namespace Bible.Alarm.Services
         public void Dispose()
         {
             dbContext.Dispose();
+            mediaLookUpService.Dispose();
         }
     }
 }

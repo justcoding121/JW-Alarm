@@ -32,5 +32,11 @@ namespace Bible.Alarm.Droid.Services.Network
                 && (capabilities.HasTransport(TransportType.Wifi)
                 || capabilities.HasTransport(TransportType.Cellular)));
         }
+        public void Dispose()
+        {
+
+        }
+
+
     }
 }

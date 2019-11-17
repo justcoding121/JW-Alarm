@@ -1,8 +1,4 @@
 ﻿using Advanced.Algorithms.DataStructures.Foundation;
-using Android.App;
-using Android.Content;
-using Android.Media;
-using Android.Net;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models;
@@ -42,7 +38,7 @@ namespace Bible.Alarm.Services.Droid
 
         private IMediaItem firstChapter;
 
-        private bool disposed;
+        private bool readyTodispose;
         long IPlaybackService.CurrentlyPlayingScheduleId => currentScheduleId;
 
         public event EventHandler<MediaPlayerState> StateChanged;
@@ -124,13 +120,13 @@ namespace Bible.Alarm.Services.Droid
         public async Task Dismiss()
         {
             if (this.mediaManager.IsPrepared()
-                 && !disposed)
+                 && !readyTodispose)
             {
                 await this.mediaManager.Stop();
             }
 
             currentScheduleId = 0;
-            disposed = true;
+            readyTodispose = true;
         }
 
         private Task watcher;
@@ -232,10 +228,8 @@ namespace Bible.Alarm.Services.Droid
             {
                 watcher = Task.Run(async () =>
                 {
-                    while (true)
+                    while (!disposed)
                     {
-                        await Task.Delay(1000);
-
                         await @lock.WaitAsync();
 
                         try
@@ -263,7 +257,7 @@ namespace Bible.Alarm.Services.Droid
                             {
                                 await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
                                 this.notificationService.ClearAll();
-                                disposed = true;
+                                readyTodispose = true;
                             }
                         }
                         catch (Exception e)
@@ -275,12 +269,13 @@ namespace Bible.Alarm.Services.Droid
                             @lock.Release();
                         }
 
-                        if (disposed)
+                        if (readyTodispose)
                         {
                             Dispose();
                             break;
                         }
 
+                        await Task.Delay(1000);
                     }
                 });
             }
@@ -292,7 +287,7 @@ namespace Bible.Alarm.Services.Droid
 
             try
             {
-                if (this.mediaManager.IsPrepared() && !disposed)
+                if (this.mediaManager.IsPrepared() && !readyTodispose)
                 {
                     await this.mediaManager.Stop();
                     await this.alarmService.Snooze(currentScheduleId);
@@ -304,12 +299,33 @@ namespace Bible.Alarm.Services.Droid
                 @lock.Release();
             }
 
-            disposed = true;
+            readyTodispose = true;
         }
+
+        private bool disposed;
 
         public void Dispose()
         {
-            this.mediaManager.MediaItemFinished -= markTrackAsFinished;
+            try
+            {
+                if (!disposed)
+                {
+                    disposed = true;
+
+                    this.mediaManager.MediaItemFinished -= markTrackAsFinished;
+
+                    this.playlistService.Dispose();
+                    this.alarmService.Dispose();
+                    this.cacheService.Dispose();
+                    this.storageService.Dispose();
+                    this.networkStatusService.Dispose();
+                    this.notificationService.Dispose();
+
+                    @lock.Dispose();
+                }
+                 
+            }
+            catch { }
         }
     }
 }

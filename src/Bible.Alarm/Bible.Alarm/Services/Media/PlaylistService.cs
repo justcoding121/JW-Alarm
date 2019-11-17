@@ -132,7 +132,7 @@ namespace Bible.Alarm.Services
                     && bibleReadingSchedule.PublicationCode == notificationDetail.PublicationCode
                     && bookNumber == notificationDetail.BookNumber)
                 {
-                    notificationDetail.FinishedDuration = bibleReadingSchedule.FinishedDuration; 
+                    notificationDetail.FinishedDuration = bibleReadingSchedule.FinishedDuration;
                 }
 
                 markedSeekTrack = true;
@@ -219,21 +219,10 @@ namespace Bible.Alarm.Services
             }
         }
 
-        private async Task<PlayItem> nextBibleUrlToPlay(long scheduleId, BibleReadingSchedule bibleReadingSchedule)
+        public void Dispose()
         {
-            var bibleTracks = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bibleReadingSchedule.BookNumber);
-            var bibleTrack = bibleTracks[bibleReadingSchedule.ChapterNumber];
-            return new PlayItem(new NotificationDetail()
-            {
-                ScheduleId = scheduleId,
-                PublicationCode = bibleReadingSchedule.PublicationCode,
-                LanguageCode = bibleReadingSchedule.LanguageCode,
-                BookNumber = bibleReadingSchedule.BookNumber,
-                ChapterNumber = bibleReadingSchedule.ChapterNumber,
-                Duration = bibleTrack.Source.Duration,
-                LookUpPath = bibleTrack.Source.LookUpPath
-
-            }, bibleTrack.Source.Duration, bibleTrack.Source.Url);
+            scheduleDbContext.Dispose();
+            mediaService.Dispose();
         }
     }
 }

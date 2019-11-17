@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {
-    public class SchedulerTask
+    public class SchedulerTask : IDisposable
     {
         private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
@@ -24,7 +24,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
               IAlarmService alarmService, INotificationService notificationService)
         {
- 
+
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
@@ -63,5 +63,14 @@ namespace Bible.Alarm.Services.Droid.Tasks
                 }
             }
         }
+
+        public void Dispose()
+        {
+            scheduleDbContext.Dispose();
+            mediaCacheService.Dispose();
+            alarmService.Dispose();
+            notificationService.Dispose();
+        }
+
     }
 }

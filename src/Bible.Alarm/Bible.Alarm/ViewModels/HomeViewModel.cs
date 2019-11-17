@@ -31,7 +31,8 @@ namespace Bible.Alarm.ViewModels
         private IAlarmService alarmService;
         private IBatteryOptimizationManager batteryOptimizationManager;
         private TaskScheduler uiTaskScheduler;
-        private List<IDisposable> disposables = new List<IDisposable>();
+
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public Command BatteryOptimizationExcludeCommand { get; private set; }
         public Command BatteryOptimizationDismissCommand { get; private set; }
@@ -51,7 +52,7 @@ namespace Bible.Alarm.ViewModels
 
             uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            disposables.Add(scheduleDbContext);
+            subscriptions.Add(scheduleDbContext);
 
             AddScheduleCommand = new Command(async () =>
             {
@@ -104,7 +105,7 @@ namespace Bible.Alarm.ViewModels
 
                    await Task.Delay(10).ContinueWith(async (y) => await showBatteryOptimizationExclusionPage(), uiTaskScheduler);
                });
-            disposables.Add(subscription);
+            subscriptions.Add(subscription);
 
             initialize();
 
@@ -288,12 +289,19 @@ namespace Bible.Alarm.ViewModels
                                  })
                                 .Subscribe();
 
-            disposables.Add(subscription);
+            subscriptions.Add(subscription);
         }
 
         public void Dispose()
         {
-            disposables.ForEach(x => x.Dispose());
+            subscriptions.ForEach(x => x.Dispose());
+
+            this.scheduleDbContext.Dispose();
+            this.popUpService.Dispose();
+            this.mediaCacheService.Dispose();
+            this.alarmService.Dispose();
+            this.batteryOptimizationManager.Dispose();
+            @lock.Dispose();
         }
     }
 
@@ -312,8 +320,12 @@ namespace Bible.Alarm.ViewModels
                     var toastService = IocSetup.Container.Resolve<IToastService>();
                     await toastService.ShowMessage("Your music and or Bible audio will start in few seconds.", 5);
 
-                    var playbackService = IocSetup.Container.Resolve<INotificationService>();
-                    playbackService.ShowNotification(Schedule.Id);
+                    toastService.Dispose();
+
+                    var notificationService = IocSetup.Container.Resolve<INotificationService>();
+                    notificationService.ShowNotification(Schedule.Id);
+
+                    notificationService.Dispose();
 
                 }
 

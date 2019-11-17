@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface IStorageService
+    public interface IStorageService : IDisposable
     {
         string StorageRoot { get; }
         Task<bool> DirectoryExists(string path);

@@ -19,8 +19,6 @@ namespace Bible.Alarm.UI
         {
             Container = container;
 
-            Container.Register<INavigationService>(x => new NavigationService(container.Resolve<INavigation>()), isSingleton: true);
-
             Container.Register(x => new Schedule());
 
             Container.Register(x => new MusicSelection());

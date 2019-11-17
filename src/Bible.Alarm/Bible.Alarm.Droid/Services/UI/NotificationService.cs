@@ -78,6 +78,10 @@ namespace Bible.Alarm.Services.Droid
             notificationManager.CancelAll();
         }
 
+        public void Dispose()
+        {
+        
+        }
     }
 
 }

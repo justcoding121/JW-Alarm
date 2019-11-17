@@ -10,7 +10,6 @@
     using MediaManager;
     using Bible.Alarm.Services.Droid.Tasks;
     using Android.Content;
-    using Com.Google.Android.Exoplayer2.UI;
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Droid.Services.Network;
     using Bible.Alarm.Contracts.Battery;
@@ -62,11 +61,11 @@
                 .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
-            container.Register<IMediaManager>((x) =>
+            container.Register((x) =>
             {
                 return CrossMediaManager.Current;
 
-            }, true);
+            }, isSingleton: true);
 
             container.Register<INetworkStatusService>((x) => new NetworkStatusService());
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager());

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface IPlaybackService
+    public interface IPlaybackService : IDisposable
     {
         long CurrentlyPlayingScheduleId { get; }
 

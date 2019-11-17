@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bible.Alarm.Contracts.Battery
 {
-    public interface IBatteryOptimizationManager
+    public interface IBatteryOptimizationManager : IDisposable
     {
         void ShowBatteryOptimizationExclusionSettingsPage();
     }

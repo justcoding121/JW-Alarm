@@ -117,5 +117,9 @@ namespace Bible.Alarm.Services
 
             return Task.FromResult(new DateTimeOffset(new[] { file.LastAccessTime, file.LastWriteTime, file.CreationTime }.Max()));
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

@@ -14,7 +14,7 @@ using NLog;
 namespace Bible.Alarm.Droid.Services.Tasks
 {
     [BroadcastReceiver(Enabled = true)]
-    public class AlarmRingerReceiver : BroadcastReceiver
+    public class AlarmRingerReceiver : BroadcastReceiver, IDisposable
     {
         private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
@@ -30,7 +30,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     || e == MediaPlayerState.Failed)
                 {
                     playbackService.StateChanged -= stateChanged;
-                    context.StopService(intent);
+                    playbackService.Dispose();
+
+                    context.StopService(intent); 
                 }
             }
             catch (Exception ex)

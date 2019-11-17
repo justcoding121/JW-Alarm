@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services
 {
-    public class MediaIndexService
+    public class MediaIndexService : IDisposable
     {
         private readonly Lazy<string> indexRoot;
 
-        private IDownloadService downloadService;
         private IStorageService storageService;
 
         public string IndexRoot => indexRoot.Value;
 
-        public MediaIndexService(IDownloadService downloadService, IStorageService storageService)
+        public MediaIndexService(IStorageService storageService)
         {
-            this.downloadService = downloadService;
             this.storageService = storageService;
 
             indexRoot = new Lazy<string>(() => this.storageService.StorageRoot);
@@ -105,5 +103,10 @@ namespace Bible.Alarm.Services
             await storageService.DeleteFile(tmpIndexFilePath);
         }
 
+        public void Dispose()
+        {
+            storageService.Dispose();
+            @lock.Dispose();
+        }
     }
 }

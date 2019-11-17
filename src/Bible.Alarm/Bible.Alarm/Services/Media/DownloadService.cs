@@ -74,5 +74,10 @@ namespace Bible.Alarm.Services
                 return default(T);
             }
         }
+
+        public void Dispose()
+        {
+            handler.Dispose();
+        }
     }
 }

@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
-using Microsoft.Extensions.Logging;
 using NLog;
 using System.Threading.Tasks;
 
@@ -41,6 +32,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
                 await schedulerTask.Handle();
+                schedulerTask.Dispose();
 
                 context.StopService(intent);
             }

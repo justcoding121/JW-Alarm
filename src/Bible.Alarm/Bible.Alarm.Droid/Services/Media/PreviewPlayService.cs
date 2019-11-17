@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Bible.Alarm.Services.Droid
 {
     public class PreviewPlayService : Java.Lang.Object,
-        MediaPlayer.IOnCompletionListener, IPreviewPlayService
+        MediaPlayer.IOnCompletionListener, IPreviewPlayService, IDisposable
     {
         private MediaPlayer player;
 
@@ -46,8 +46,8 @@ namespace Bible.Alarm.Services.Droid
 
         protected override void Dispose(bool disposing)
         {
-            this.player.Dispose();
             base.Dispose(disposing);
+            this.player.Dispose();
         }
     }
 }

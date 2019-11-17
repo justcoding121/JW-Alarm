@@ -117,7 +117,7 @@ namespace Bible.Alarm.Services
                                     }
                                     else
                                     {
-                                       //url haven't changed, just that download failed.
+                                        //url haven't changed, just that download failed.
                                         break;
                                     }
                                 }
@@ -240,7 +240,7 @@ namespace Bible.Alarm.Services
                     || mediaManager.IsPrepared())
                 {
                     return;
-                }      
+                }
 
                 fileNames.ForEach(x =>
                 {
@@ -253,7 +253,8 @@ namespace Bible.Alarm.Services
 
             filesToDelete.Select(x => x.Key).ToList().ForEach(x =>
             {
-                try {
+                try
+                {
                     storageService.DeleteFile(x);
                 }
                 catch (Exception e)
@@ -261,6 +262,17 @@ namespace Bible.Alarm.Services
                     logger.Error(e, $"Failed to delete file {x}");
                 }
             });
+        }
+
+        public void Dispose()
+        {
+            storageService.Dispose();
+            downloadService.Dispose();
+            mediaPlayService.Dispose();
+            scheduleDbContext.Dispose();
+            networkStatusService.Dispose();
+            mediaService.Dispose();
+
         }
     }
 }

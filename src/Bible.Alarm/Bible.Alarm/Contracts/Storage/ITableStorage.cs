@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface ITableStorage
+    public interface ITableStorage : IDisposable
     {
         Task<IEnumerable<T>> ReadAll<T>() where T : IEntity;
         Task<int> Count<T>() where T : IEntity;

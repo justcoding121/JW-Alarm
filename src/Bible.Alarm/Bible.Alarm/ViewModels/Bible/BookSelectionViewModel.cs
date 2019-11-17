@@ -23,18 +23,16 @@ namespace Bible.Alarm.ViewModels
         private BibleReadingSchedule tentative;
 
         private MediaService mediaService;
-        private IToastService popUpService;
         private INavigationService navigationService;
 
         public ICommand BackCommand { get; set; }
         public ICommand ChapterSelectionCommand { get; set; }
 
-        private List<IDisposable> disposables = new List<IDisposable>();
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public BookSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             BackCommand = new Command(async () =>
@@ -89,8 +87,8 @@ namespace Bible.Alarm.ViewModels
                        current = x;
                    });
 
-            disposables.Add(subscription1);
-            disposables.Add(subscription2);
+            subscriptions.Add(subscription1);
+            subscriptions.Add(subscription2);
 
             navigationService.NavigatedBack += onNavigated;
         }
@@ -170,7 +168,10 @@ namespace Bible.Alarm.ViewModels
         public void Dispose()
         {
             navigationService.NavigatedBack -= onNavigated;
-            disposables.ForEach(x => x.Dispose());
+           
+            subscriptions.ForEach(x => x.Dispose());
+            mediaService.Dispose();
+           
         }
     }
 

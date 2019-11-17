@@ -27,5 +27,9 @@ namespace Bible.Alarm.Services
             }
 
         }
+        public void Dispose()
+        {
+
+        }
     }
 }

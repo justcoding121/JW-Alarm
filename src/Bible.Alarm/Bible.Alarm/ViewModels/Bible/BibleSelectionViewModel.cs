@@ -21,13 +21,12 @@ namespace Bible.Alarm.ViewModels
     public class BibleSelectionViewModel : ViewModel, IDisposable
     {
         private MediaService mediaService;
-        private IToastService popUpService;
         private INavigationService navigationService;
 
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
 
-        private List<IDisposable> disposables = new List<IDisposable>();
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public ICommand BackCommand { get; set; }
         public ICommand BookSelectionCommand { get; set; }
@@ -39,10 +38,7 @@ namespace Bible.Alarm.ViewModels
         public BibleSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
-
-            disposables.Add(mediaService);
 
             //set schedules from initial state.
             //this should fire only once 
@@ -61,7 +57,7 @@ namespace Bible.Alarm.ViewModels
                      IsBusy = false;
                  });
 
-            disposables.Add(subscription1);
+            subscriptions.Add(subscription1);
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
              .Select(state => new { state.CurrentBibleReadingSchedule, state.TentativeBibleReadingSchedule })
@@ -74,7 +70,7 @@ namespace Bible.Alarm.ViewModels
                  tentative = x.TentativeBibleReadingSchedule;
              });
 
-            disposables.Add(subscription2);
+            subscriptions.Add(subscription2);
 
             BookSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
@@ -206,7 +202,7 @@ namespace Bible.Alarm.ViewModels
             await populateLanguages();
             await populateTranslations(languageCode);
 
-            var subscription2 = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
+            var subscription = Observable.FromEvent<PropertyChangedEventHandler, KeyValuePair<string, object>>(
                                               onNextHandler => (object sender, PropertyChangedEventArgs e)
                                               => onNextHandler(new KeyValuePair<string, object>(e.PropertyName, sender)),
                                               handler => PropertyChanged += handler,
@@ -215,7 +211,7 @@ namespace Bible.Alarm.ViewModels
                           .Do(async x => await populateLanguages(LanguageSearchTerm))
                           .Subscribe();
 
-            disposables.Add(subscription2);
+            subscriptions.Add(subscription);
         }
 
         private async Task populateLanguages(string searchTerm = null)
@@ -272,7 +268,9 @@ namespace Bible.Alarm.ViewModels
         public void Dispose()
         {
             navigationService.NavigatedBack -= onNavigated;
-            disposables.ForEach(x => x.Dispose());
+
+            subscriptions.ForEach(x => x.Dispose());
+            mediaService.Dispose();   
         }
     }
 }

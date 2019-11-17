@@ -10,15 +10,13 @@ namespace Bible.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {
-        public static void VerifyPermissions()
-        {
-            throw new NotImplementedException();
-        }
-
         public async static Task VerifyMediaLookUpService()
         {
-            var service = IocSetup.Container.Resolve<MediaIndexService>();
-            await service.Verify();
+            using (var service = IocSetup.Container.Resolve<MediaIndexService>())
+            {
+                await service.Verify();
+            }
+               
         }
 
         public static void VerifyBackgroundTasks(Context context)

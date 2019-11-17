@@ -26,14 +26,13 @@ namespace Bible.Alarm.ViewModels
         private AlarmMusic current;
         private AlarmMusic tentative;
 
-        private List<IDisposable> disposables = new List<IDisposable>();
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public SongBookSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            disposables.Add(mediaService);
 
             //set schedules from initial state.
             //this should fire only once 
@@ -52,7 +51,7 @@ namespace Bible.Alarm.ViewModels
                      IsBusy = false;
                  });
 
-            disposables.Add(subscription1);
+            subscriptions.Add(subscription1);
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
              .Select(state => new { state.CurrentMusic, state.TentativeMusic })
@@ -65,7 +64,7 @@ namespace Bible.Alarm.ViewModels
                  tentative = x.TentativeMusic;
              });
 
-            disposables.Add(subscription2);
+            subscriptions.Add(subscription2);
 
             TrackSelectionCommand = new Command<PublicationListViewItemModel>(async x =>
             {
@@ -223,7 +222,7 @@ namespace Bible.Alarm.ViewModels
                           .Do(async x => await populateLanguages(LanguageSearchTerm))
                           .Subscribe();
 
-            disposables.Add(subscription1);
+            subscriptions.Add(subscription1);
         }
 
         private async Task populateLanguages(string searchTerm = null)
@@ -282,7 +281,9 @@ namespace Bible.Alarm.ViewModels
         public void Dispose()
         {
             navigationService.NavigatedBack -= onNavigated;
-            disposables.ForEach(x => x.Dispose());
+            subscriptions.ForEach(x => x.Dispose());
+
+            mediaService.Dispose();
         }
     }
 }

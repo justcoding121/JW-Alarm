@@ -23,14 +23,12 @@ namespace Bible.Alarm.ViewModels
         private readonly MediaService mediaService;
         private readonly INavigationService navigationService;
 
-        private List<IDisposable> disposables = new List<IDisposable>();
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public MusicSelectionViewModel()
         {
             this.mediaService = IocSetup.Container.Resolve<MediaService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
-
-            disposables.Add(mediaService);
 
             //set schedules from initial state.
             //this should fire only once 
@@ -45,7 +43,7 @@ namespace Bible.Alarm.ViewModels
                     IsBusy = false;
                 });
 
-            disposables.Add(subscription1);
+            subscriptions.Add(subscription1);
 
 
             SongBookSelectionCommand = new Command<MusicTypeListItemViewModel>(async x =>
@@ -146,7 +144,9 @@ namespace Bible.Alarm.ViewModels
         public void Dispose()
         {
             navigationService.NavigatedBack -= onNavigated;
-            disposables.ForEach(x => x.Dispose());
+            subscriptions.ForEach(x => x.Dispose());
+
+            mediaService.Dispose();
         }
     }
 

@@ -28,11 +28,10 @@ namespace Bible.Alarm.ViewModels
         IPlaybackService playbackService;
         IMediaManager mediaManager;
 
-        private List<IDisposable> disposables = new List<IDisposable>();
+        private List<IDisposable> subscriptions = new List<IDisposable>();
 
         public ScheduleViewModel()
         {
-
             this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
             this.popUpService = IocSetup.Container.Resolve<IToastService>();
             this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
@@ -40,7 +39,7 @@ namespace Bible.Alarm.ViewModels
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
             this.mediaManager = IocSetup.Container.Resolve<IMediaManager>();
 
-            disposables.Add(scheduleDbContext);
+            subscriptions.Add(scheduleDbContext);
 
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
@@ -78,7 +77,7 @@ namespace Bible.Alarm.ViewModels
 
                    IsBusy = false;
                });
-            disposables.Add(subscription);
+            subscriptions.Add(subscription);
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
            .Select(state => state.CurrentMusic)
@@ -89,7 +88,7 @@ namespace Bible.Alarm.ViewModels
                musicUpdated = true;
            });
 
-            disposables.Add(subscription2);
+            subscriptions.Add(subscription2);
 
             var subscription3 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
             .Select(state => state.CurrentBibleReadingSchedule)
@@ -101,7 +100,7 @@ namespace Bible.Alarm.ViewModels
                 bibleReadingUpdated = true;
             });
 
-            disposables.Add(subscription3);
+            subscriptions.Add(subscription3);
 
             CancelCommand = new Command(async () =>
             {
@@ -536,7 +535,12 @@ namespace Bible.Alarm.ViewModels
 
         public void Dispose()
         {
-            disposables.ForEach(x => x.Dispose());
+            subscriptions.ForEach(x => x.Dispose());
+
+            this.scheduleDbContext.Dispose();
+            this.popUpService.Dispose();
+            this.alarmService.Dispose();
+            this.playbackService.Dispose();
         }
     }
 }

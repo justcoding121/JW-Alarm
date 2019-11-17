@@ -27,7 +27,13 @@ namespace Bible.Alarm.Services
         {
             scheduleNotification(schedule, false);
 
-            var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
+            var task = Task.Run(async () =>
+            {
+                using (var mediaCacheService = IocSetup.Container.Resolve<IMediaCacheService>())
+                {
+                    await mediaCacheService.SetupAlarmCache(schedule.Id);
+                }
+            });
 
             return Task.CompletedTask;
         }
@@ -39,7 +45,14 @@ namespace Bible.Alarm.Services
             if (schedule.IsEnabled)
             {
                 scheduleNotification(schedule, false);
-                var task = Task.Run(async () => await mediaCacheService.SetupAlarmCache(schedule.Id));
+
+                var task = Task.Run(async () =>
+                {
+                    using (var mediaCacheService = IocSetup.Container.Resolve<IMediaCacheService>())
+                    {
+                        await mediaCacheService.SetupAlarmCache(schedule.Id);
+                    }
+                });
             }
         }
 
@@ -68,6 +81,13 @@ namespace Bible.Alarm.Services
         private void removeNotification(long scheduleId)
         {
             notificationService.Remove(scheduleId);
+        }
+
+        public void Dispose()
+        {
+            scheduleDbContext.Dispose();
+            notificationService.Dispose();
+            mediaCacheService.Dispose();
         }
     }
 }

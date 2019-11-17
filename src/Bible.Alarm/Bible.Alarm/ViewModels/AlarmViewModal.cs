@@ -8,10 +8,9 @@ using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {
-    public class AlarmViewModal : ViewModel
+    public class AlarmViewModal : ViewModel, IDisposable
     {
         private IPlaybackService playbackService;
-        private INavigationService navigationService;
 
         public Command SnoozeCommand { get; private set; }
         public Command DismissCommand { get; private set; }
@@ -20,24 +19,32 @@ namespace Bible.Alarm.ViewModels
         public AlarmViewModal()
         {
             this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
             SnoozeCommand = new Command(async () =>
             {
                 await playbackService.Snooze();
-                await navigationService.CloseModal();
+
+                var navigationService = IocSetup.Container.Resolve<INavigationService>();
+                await navigationService?.CloseModal();
             });
 
             DismissCommand = new Command(async () =>
             {
                 await playbackService.Dismiss();
-                await navigationService.CloseModal();
+                var navigationService = IocSetup.Container.Resolve<INavigationService>();
+                await navigationService?.CloseModal();
             });
 
             CancelCommand = new Command(async () =>
             {
-                await navigationService.GoBack();
+                var navigationService = IocSetup.Container.Resolve<INavigationService>();
+                await navigationService?.GoBack();
             });
+        }
+
+        public void Dispose()
+        {
+            playbackService.Dispose();
         }
     }
 }

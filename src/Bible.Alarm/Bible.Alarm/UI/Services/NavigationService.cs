@@ -30,29 +30,21 @@ namespace Bible.Alarm.UI
 
             Messenger<object>.Subscribe(Messages.ShowSnoozeDismissModal, async vm =>
             {
-                await Task.Factory.StartNew(async () =>
+                await Task.Delay(0).ContinueWith(async (x) =>
                 {
                     await ShowModal("AlarmModal", vm);
-                },
-                CancellationToken.None,
-                TaskCreationOptions.None,
-                syncContext
-                );
 
+                }, syncContext);
             });
 
 
             Messenger<object>.Subscribe(Messages.HideSnoozeDismissModal, async vm =>
             {
-                await Task.Factory.StartNew(async () =>
+                await Task.Delay(0).ContinueWith(async (x) =>
                 {
                     await CloseModal();
-                },
-                CancellationToken.None,
-                TaskCreationOptions.None,
-                syncContext
-                );
 
+                }, syncContext);
             });
         }
 
@@ -185,7 +177,6 @@ namespace Bible.Alarm.UI
             }
         }
 
-
         public async Task CloseModal()
         {
             if (navigater.ModalStack.Count > 0)
@@ -200,7 +191,6 @@ namespace Bible.Alarm.UI
                 }
             }
         }
-
         public async Task NavigateToHome()
         {
             while (navigater.ModalStack.Count > 0)
@@ -223,5 +213,6 @@ namespace Bible.Alarm.UI
             }
 
         }
+
     }
 }

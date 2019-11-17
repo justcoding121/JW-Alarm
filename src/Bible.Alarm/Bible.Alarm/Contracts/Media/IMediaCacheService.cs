@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface IMediaCacheService
+    public interface IMediaCacheService : IDisposable
     {
         Task<bool> Exists(string url);
         string GetCacheFileName(string url);

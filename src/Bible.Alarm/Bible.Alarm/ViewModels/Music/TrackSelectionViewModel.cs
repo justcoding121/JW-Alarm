@@ -29,7 +29,7 @@ namespace Bible.Alarm.ViewModels
         private AlarmMusic current;
         private AlarmMusic tentative;
 
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly List<IDisposable> subscriptions = new List<IDisposable>();
 
         public TrackSelectionViewModel()
         {
@@ -38,7 +38,7 @@ namespace Bible.Alarm.ViewModels
             this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
             this.navigationService = IocSetup.Container.Resolve<INavigationService>();
 
-            disposables.Add(mediaService);
+            subscriptions.Add(mediaService);
 
             BackCommand = new Command(async () =>
             {
@@ -94,7 +94,7 @@ namespace Bible.Alarm.ViewModels
                        IsBusy = false;
                    });
 
-            disposables.Add(subscription1);
+            subscriptions.Add(subscription1);
         }
 
         public ICommand BackCommand { get; set; }
@@ -211,7 +211,7 @@ namespace Bible.Alarm.ViewModels
                                                handler => added.PropertyChanged -= handler)
                                                .Where(kv => kv.Key == "Repeat")
                                                .Select(y => y.Value);
-                             })
+            })
                              .Merge()
                              .Do(x =>
                              {
@@ -238,7 +238,7 @@ namespace Bible.Alarm.ViewModels
                              })
                              .Subscribe();
 
-            disposables.AddRange(new[] { subscription1, subscription2, subscription3, subscription4 });
+            subscriptions.AddRange(new[] { subscription1, subscription2, subscription3, subscription4 });
         }
 
         private async Task populateTracks(string languageCode, string publicationCode)
@@ -272,9 +272,12 @@ namespace Bible.Alarm.ViewModels
 
         public void Dispose()
         {
-            disposables.ForEach(x => x.Dispose());
-            disposables.Clear();
+            subscriptions.ForEach(x => x.Dispose());
+         
+            mediaService.Dispose();
+            toastService.Dispose();
             playService.Dispose();
+            @lock.Dispose();
         }
     }
 

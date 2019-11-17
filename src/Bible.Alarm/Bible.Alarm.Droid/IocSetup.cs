@@ -23,10 +23,10 @@ namespace Bible.Alarm.Droid
                     var container = Bible.Alarm.Container.Default;
 
                     UI.IocSetup.Initialize(container);
-                    Bible.Alarm.Services.IocSetup.Initialize(container);
-                    Bible.Alarm.Services.Droid.IocSetup.Initialize(container, isService);
-                    Bible.Alarm.ViewModels.IocSetup.Initialize(container);
-                    Bible.Alarm.Services.Droid.IocSetup.SetContext(context);
+                    Alarm.Services.IocSetup.Initialize(container);
+                    Alarm.Services.Droid.IocSetup.Initialize(container, isService);
+                    ViewModels.IocSetup.Initialize(container);
+                    Alarm.Services.Droid.IocSetup.SetContext(context);
 
                     Context = context;
                     Container = container;    

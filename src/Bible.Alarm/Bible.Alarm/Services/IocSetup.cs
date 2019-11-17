@@ -16,7 +16,7 @@
         public static void Initialize(IContainer container)
         {
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpMessageHandler>()));
-            container.Register((x) => new MediaIndexService(container.Resolve<IDownloadService>(), container.Resolve<IStorageService>()));
+            container.Register((x) => new MediaIndexService(container.Resolve<IStorageService>()));
             container.Register((x) => new MediaService(container.Resolve<MediaIndexService>(), container.Resolve<MediaDbContext>()));
 
             container.Register<IMediaCacheService>((x) =>

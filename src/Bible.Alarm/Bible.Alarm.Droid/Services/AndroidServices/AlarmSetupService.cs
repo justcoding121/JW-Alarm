@@ -2,8 +2,6 @@
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Bible.Alarm.Services.Infrastructure;
-using MediaManager;
 using NLog;
 using System;
 using Bible.Alarm.Droid.Services.Tasks;
@@ -14,7 +12,7 @@ using Bible.Alarm.Droid;
 namespace Bible.Alarm.Services.Droid.Tasks
 {
     [Service(Enabled = true)]
-    public class AlarmSetupService : Service
+    public class AlarmSetupService : Service, IDisposable
     {
         private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
 
@@ -37,7 +35,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             try
             {
-                Bible.Alarm.Droid.IocSetup.Initialize(this, true);
+                Alarm.Droid.IocSetup.Initialize(this, true);
 
                 var extra = intent.GetStringExtra("Action");
 
@@ -118,5 +116,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
 
             context.SendBroadcast(alarmIntent);
         }
+
     }
 }
