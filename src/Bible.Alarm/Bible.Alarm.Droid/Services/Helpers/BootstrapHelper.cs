@@ -16,7 +16,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
             {
                 await service.Verify();
             }
-               
+
         }
 
         public static void VerifyBackgroundTasks(Context context)
@@ -35,19 +35,20 @@ namespace Bible.Alarm.Services.Droid.Helpers
         private static bool schedulerSetupTask(Context context)
         {
             // Sample usage - creates a JobBuilder for a SchedulerJob and sets the Job ID to 1.
-            var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>(SchedulerJob.JobId, 30);
-
-            var jobInfo = jobBuilder.Build();  // creates a JobInfo object.
-
-            var jobScheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
-            var scheduleResult = jobScheduler.Schedule(jobInfo);
-
-            if (JobScheduler.ResultSuccess == scheduleResult)
+            using (var jobBuilder = context.CreateJobBuilderUsingJobId<SchedulerJob>(SchedulerJob.JobId, 30))
             {
-                return true;
-            }
+                var jobInfo = jobBuilder.Build();  // creates a JobInfo object.
 
-            return false;
+                var jobScheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
+                var scheduleResult = jobScheduler.Schedule(jobInfo);
+
+                if (JobScheduler.ResultSuccess == scheduleResult)
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
 
     }

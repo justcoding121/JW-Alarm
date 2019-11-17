@@ -74,47 +74,52 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public static void ScheduleNotification(Context context, long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
-            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-
-            var pIntent = PendingIntent.GetBroadcast(
-                    context,
-                    (int)scheduleId,
-                    alarmIntent,
-                    PendingIntentFlags.UpdateCurrent);
-
-            var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
-
-            // Figure out the alaram in milliseconds.
-            var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis()
-                + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
-
-            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            using (var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver)))
             {
-                alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
+                alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+
+                using (var pIntent = PendingIntent.GetBroadcast(
+                         context,
+                         (int)scheduleId,
+                         alarmIntent,
+                         PendingIntentFlags.UpdateCurrent))
+                using (var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService))
+                {
+
+                    // Figure out the alaram in milliseconds.
+                    var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis()
+                        + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
+
+                    if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+                    {
+                        alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
+                    }
+                    else
+                    {
+                        using (var mainLauncherIntent = new Intent(IocSetup.Context, typeof(SplashActivity)))
+                        {
+                            mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
+
+                            var mainLauncherPendingIntent = PendingIntent.GetActivity(
+                               IocSetup.Context,
+                               0,
+                               mainLauncherIntent,
+                               PendingIntentFlags.UpdateCurrent);
+
+                            alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
+                        }
+                    }
+                }
             }
-            else
-            {
-                var mainLauncherIntent = new Intent(IocSetup.Context, typeof(SplashActivity));
-                mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
-
-                var mainLauncherPendingIntent = PendingIntent.GetActivity(
-                   IocSetup.Context,
-                   0,
-                   mainLauncherIntent,
-                   PendingIntentFlags.UpdateCurrent);
-
-                alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
-            }
-
         }
 
         public static void ShowNotification(Context context, long scheduleId)
         {
-            var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
-            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-
-            context.SendBroadcast(alarmIntent);
+            using (var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver)))
+            {
+                alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+                context.SendBroadcast(alarmIntent);
+            }
         }
 
     }

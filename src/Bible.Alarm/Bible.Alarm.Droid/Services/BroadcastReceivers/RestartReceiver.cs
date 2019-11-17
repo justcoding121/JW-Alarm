@@ -30,10 +30,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 await Task.WhenAll(task1, task2);
 
-                var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>();
-                await schedulerTask.Handle();
-                schedulerTask.Dispose();
-
+                using (var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>())
+                {
+                    await schedulerTask.Handle();
+                }
+                  
                 context.StopService(intent);
             }
             catch (Exception e)
