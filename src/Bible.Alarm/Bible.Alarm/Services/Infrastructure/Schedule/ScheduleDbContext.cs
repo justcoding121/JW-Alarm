@@ -23,6 +23,7 @@ namespace Bible.Alarm.Services
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            base.OnConfiguring(optionsBuilder);
 #if DEBUG
             //only for seed migration
             if (!optionsBuilder.IsConfigured)
