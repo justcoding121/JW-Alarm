@@ -41,7 +41,7 @@ namespace Bible.Alarm.Services.Droid
         private bool readyTodispose;
         long IPlaybackService.CurrentlyPlayingScheduleId => currentScheduleId;
 
-        public event EventHandler<MediaPlayerState> StateChanged;
+        public event EventHandler<MediaPlayerState> Stopped;
 
         public PlaybackService(IMediaManager mediaManager,
             IPlaylistService playlistService,
@@ -61,7 +61,6 @@ namespace Bible.Alarm.Services.Droid
 
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
-
         }
 
         private async void stateChanged(object sender, StateChangedEventArgs e)
@@ -74,7 +73,9 @@ namespace Bible.Alarm.Services.Droid
                 switch (e.State)
                 {
                     case MediaPlayerState.Playing:
-                        if (!track.FinishedDuration.Equals(default(TimeSpan)) && mediaItem == firstChapter)
+                        if (track.FinishedDuration.TotalSeconds > 0
+                            && firstChapter != null
+                            && mediaItem == firstChapter)
                         {
                             await this.mediaManager.SeekTo(track.FinishedDuration);
                             firstChapter = null;
@@ -83,8 +84,6 @@ namespace Bible.Alarm.Services.Droid
                 }
             }
 
-
-            StateChanged?.Invoke(this, e.State);
         }
 
         private async void markTrackAsFinished(object sender, MediaItemEventArgs e)
@@ -101,8 +100,6 @@ namespace Bible.Alarm.Services.Droid
                     {
                         await playlistService.MarkTrackAsFinished(track);
                         await Dismiss();
-                        await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
-                        this.notificationService.ClearAll();
                     }
 
                 }
@@ -135,78 +132,85 @@ namespace Bible.Alarm.Services.Droid
 
         public async Task Play(long scheduleId)
         {
+            //already playing
+            if (this.mediaManager.IsPrepared())
+            {
+                Dispose();
+                Stopped?.Invoke(this, MediaPlayerState.Stopped);
+                return;
+            }
+
             playStartTime = DateTime.Now;
 
             await @lock.WaitAsync();
 
             try
             {
-                if (!this.mediaManager.IsPrepared())
+                currentScheduleId = scheduleId;
+
+                var nextTracks = await playlistService.NextTracks(scheduleId);
+
+                var downloadedTracks = new OrderedDictionary<int, FileInfo>();
+                var streamingTracks = new OrderedDictionary<int, string>();
+
+                var playDetailMap = new Dictionary<int, NotificationDetail>();
+
+                var internetOn = await networkStatusService.IsInternetAvailable();
+
+                var i = 0;
+                foreach (var item in nextTracks)
                 {
-                    currentScheduleId = scheduleId;
+                    playDetailMap[i] = item.PlayDetail;
 
-                    var nextTracks = await playlistService.NextTracks(scheduleId);
-
-                    var downloadedTracks = new OrderedDictionary<int, FileInfo>();
-                    var streamingTracks = new OrderedDictionary<int, string>();
-
-                    var playDetailMap = new Dictionary<int, NotificationDetail>();
-
-                    var internetOn = await networkStatusService.IsInternetAvailable();
-
-                    var i = 0;
-                    foreach (var item in nextTracks)
+                    if (await cacheService.Exists(item.Url))
                     {
-                        playDetailMap[i] = item.PlayDetail;
+                        downloadedTracks.Add(i, new FileInfo(this.cacheService.GetCacheFilePath(item.Url)));
+                    }
+                    else
+                    {
 
-                        if (await cacheService.Exists(item.Url))
+                        if (internetOn)
                         {
-                            downloadedTracks.Add(i, new FileInfo(this.cacheService.GetCacheFilePath(item.Url)));
+                            streamingTracks.Add(i, item.Url);
                         }
                         else
                         {
-
-                            if (internetOn)
-                            {
-                                streamingTracks.Add(i, item.Url);
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            break;
                         }
-
-                        i++;
                     }
 
-                    var downloadedMediaItems = (await downloadedTracks.Select(x => x.Value).CreateMediaItems()).ToList();
-                    var streamableMediaItems = (await streamingTracks.Select(x => x.Value).CreateMediaItems()).ToList();
+                    i++;
+                }
 
-                    var mergedMediaItems = new OrderedDictionary<int, IMediaItem>();
+                var downloadedMediaItems = (await downloadedTracks.Select(x => x.Value).CreateMediaItems()).ToList();
+                var streamableMediaItems = (await streamingTracks.Select(x => x.Value).CreateMediaItems()).ToList();
 
-                    i = 0;
-                    foreach (var item in downloadedTracks)
-                    {
-                        mergedMediaItems.Add(item.Key, downloadedMediaItems[i]);
-                        i++;
-                    }
+                var mergedMediaItems = new OrderedDictionary<int, IMediaItem>();
 
-                    i = 0;
-                    foreach (var item in streamingTracks)
-                    {
-                        mergedMediaItems.Add(item.Key, streamableMediaItems[i]);
-                        i++;
-                    }
+                i = 0;
+                foreach (var item in downloadedTracks)
+                {
+                    mergedMediaItems.Add(item.Key, downloadedMediaItems[i]);
+                    i++;
+                }
 
-                    //play default ring tone if we don't have the files downloaded
-                    //and internet is not available
-                    if (!mergedMediaItems.Any())
-                    {
-                        this.mediaManager.RepeatMode = RepeatMode.All;
-                        var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
-                        return;
-                    }
+                i = 0;
+                foreach (var item in streamingTracks)
+                {
+                    mergedMediaItems.Add(item.Key, streamableMediaItems[i]);
+                    i++;
+                }
 
+                //play default ring tone if we don't have the files downloaded
+                //and internet is not available
+                if (!mergedMediaItems.Any())
+                {
+                    this.mediaManager.RepeatMode = RepeatMode.All;
+                    var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+
+                }
+                else
+                {
                     currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();
 
                     foreach (var track in mergedMediaItems)
@@ -243,8 +247,20 @@ namespace Bible.Alarm.Services.Droid
                                 {
                                     var track = currentlyPlaying[mediaItem];
 
-                                    if (!mediaManager.Position.Equals(default(TimeSpan)))
+                                    if (track.FinishedDuration.TotalSeconds > 0
+                                        && firstChapter != null
+                                        && mediaItem == firstChapter)
                                     {
+                                        await this.mediaManager.SeekTo(track.FinishedDuration);
+                                        firstChapter = null;
+                                    }
+                                    else if (mediaManager.Position.TotalSeconds > 0)
+                                    {
+                                        if (mediaItem == firstChapter)
+                                        {
+                                            firstChapter = null;
+                                        }
+
                                         track.FinishedDuration = mediaManager.Position;
                                         await this.playlistService.MarkTrackAsPlayed(track);
                                     }
@@ -255,8 +271,6 @@ namespace Bible.Alarm.Services.Droid
                             if ((wasPlaying || DateTime.Now.Subtract(playStartTime).TotalSeconds > 60)
                                 && this.mediaManager.IsStopped())
                             {
-                                await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
-                                this.notificationService.ClearAll();
                                 readyTodispose = true;
                             }
                         }
@@ -271,7 +285,11 @@ namespace Bible.Alarm.Services.Droid
 
                         if (readyTodispose)
                         {
+                            await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
+                            this.notificationService.ClearAll();
                             Dispose();
+                            Stopped?.Invoke(this, MediaPlayerState.Stopped);
+
                             break;
                         }
 
@@ -306,26 +324,21 @@ namespace Bible.Alarm.Services.Droid
 
         public void Dispose()
         {
-            try
+            if (!disposed)
             {
-                if (!disposed)
-                {
-                    disposed = true;
+                disposed = true;
 
-                    this.mediaManager.MediaItemFinished -= markTrackAsFinished;
+                this.mediaManager.MediaItemFinished -= markTrackAsFinished;
 
-                    this.playlistService.Dispose();
-                    this.alarmService.Dispose();
-                    this.cacheService.Dispose();
-                    this.storageService.Dispose();
-                    this.networkStatusService.Dispose();
-                    this.notificationService.Dispose();
+                this.playlistService.Dispose();
+                this.alarmService.Dispose();
+                this.cacheService.Dispose();
+                this.storageService.Dispose();
+                this.networkStatusService.Dispose();
+                this.notificationService.Dispose();
 
-                    @lock.Dispose();
-                }
-                 
+                @lock.Dispose();
             }
-            catch { }
         }
     }
 }

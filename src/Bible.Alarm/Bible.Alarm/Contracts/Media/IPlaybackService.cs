@@ -14,6 +14,6 @@ namespace Bible.Alarm.Services.Contracts
         Task Play(long scheduleId);
         Task Dismiss();
         Task Snooze();
-        event EventHandler<MediaPlayerState> StateChanged;
+        event EventHandler<MediaPlayerState> Stopped;
     }
 }

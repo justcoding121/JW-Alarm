@@ -103,7 +103,14 @@ namespace Bible.Alarm.ViewModels
                    listenIsEnabledChanges();
                    IsBusy = false;
 
-                   await Task.Delay(10).ContinueWith(async (y) => await showBatteryOptimizationExclusionPage(), uiTaskScheduler);
+                   await Task.Delay(10).ContinueWith(async (y) =>
+                   {
+                       if (Device.RuntimePlatform == Device.Android)
+                       {
+                           await showBatteryOptimizationExclusionPage();
+                       }
+
+                   }, uiTaskScheduler);
                });
             subscriptions.Add(subscription);
 
@@ -130,6 +137,47 @@ namespace Bible.Alarm.ViewModels
             if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
                 await navigationService.ShowModal("BatteryOptimizationExclusionModal", this);
+            }
+        }
+
+        private async Task seedDefaultAlarm()
+        {
+            if (!await scheduleDbContext.AlarmSchedules.AnyAsync()
+                && !await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AlarmSeeded")
+                //for existing apps before version 1.30
+                && !await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
+            {
+                await scheduleDbContext.AlarmSchedules.AddAsync(new AlarmSchedule()
+                {
+                    IsEnabled = false,
+                    MusicEnabled = true,
+                    DaysOfWeek = DaysOfWeek.All,
+                    Name = "A sample alarm.",
+                    Hour = 6,
+                    Minute = 0,
+                    Music = new AlarmMusic()
+                    {
+                        MusicType = MusicType.Vocals,
+                        PublicationCode = "sjjc",
+                        LanguageCode = "E",
+                        TrackNumber = 16
+                    },
+                    BibleReadingSchedule = new BibleReadingSchedule()
+                    {
+                        BookNumber = 23,
+                        ChapterNumber = 36,
+                        LanguageCode = "E",
+                        PublicationCode = "nwt"
+                    }
+                });
+
+                await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
+                {
+                    Key = "AlarmSeeded",
+                    Value = "True"
+                });
+
+                await scheduleDbContext.SaveChangesAsync();
             }
         }
 
@@ -181,6 +229,8 @@ namespace Bible.Alarm.ViewModels
                 {
                     if (!initialized)
                     {
+                        await seedDefaultAlarm();
+
                         var alarmSchedules = await scheduleDbContext.AlarmSchedules
                                             .AsNoTracking()
                                             .ToListAsync();

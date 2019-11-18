@@ -21,18 +21,16 @@ namespace Bible.Alarm.Droid.Services.Tasks
         private IPlaybackService playbackService;
         private Context context;
         private Intent intent;
-
+        private IMediaManager mediaManager;
         private void stateChanged(object sender, MediaPlayerState e)
         {
             try
             {
-                if (e == MediaPlayerState.Stopped
-                    || e == MediaPlayerState.Failed)
+                if (e == MediaPlayerState.Stopped)
                 {
-                    playbackService.StateChanged -= stateChanged;
-                    playbackService.Dispose();
-
-                    context.StopService(intent); 
+                    playbackService.Stopped -= stateChanged;
+                    mediaManager?.Dispose();
+                    context.StopService(intent);
                 }
             }
             catch (Exception ex)
@@ -60,9 +58,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
 
-                playbackService.StateChanged += stateChanged;
+                playbackService.Stopped += stateChanged;
 
-                var mediaManager = IocSetup.Container.Resolve<IMediaManager>();
+                mediaManager = IocSetup.Container.Resolve<IMediaManager>();
                 if (!mediaManager.IsPrepared())
                 {
                     mediaManager.Init(Application.Context);
