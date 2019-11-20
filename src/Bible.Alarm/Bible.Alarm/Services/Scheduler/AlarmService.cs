@@ -23,7 +23,7 @@ namespace Bible.Alarm.Services
             this.scheduleDbContext = scheduleDbContext;
         }
 
-        public Task Create(AlarmSchedule schedule, bool downloadAlarmMedia)
+        public Task Create(AlarmSchedule schedule)
         {
             scheduleNotification(schedule, false);
 

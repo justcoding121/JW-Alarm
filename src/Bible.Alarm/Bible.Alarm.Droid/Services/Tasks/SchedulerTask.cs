@@ -45,7 +45,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
                     {
                         if (!notificationService.IsScheduled(schedule.Id))
                         {
-                            await alarmService.Create(schedule, true);
+                            await alarmService.Create(schedule);
                         }
                         else
                         {

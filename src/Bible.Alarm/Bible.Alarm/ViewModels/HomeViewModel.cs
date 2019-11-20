@@ -147,7 +147,7 @@ namespace Bible.Alarm.ViewModels
                 //for existing apps before version 1.30
                 && !await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
-                await scheduleDbContext.AlarmSchedules.AddAsync(new AlarmSchedule()
+                var schedule = new AlarmSchedule()
                 {
                     IsEnabled = false,
                     MusicEnabled = true,
@@ -169,7 +169,9 @@ namespace Bible.Alarm.ViewModels
                         LanguageCode = "E",
                         PublicationCode = "nwt"
                     }
-                });
+                };
+
+                await scheduleDbContext.AlarmSchedules.AddAsync(schedule);
 
                 await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
                 {
@@ -178,6 +180,8 @@ namespace Bible.Alarm.ViewModels
                 });
 
                 await scheduleDbContext.SaveChangesAsync();
+
+                await alarmService.Create(schedule);
             }
         }
 
