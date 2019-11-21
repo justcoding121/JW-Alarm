@@ -149,14 +149,21 @@ namespace Bible.Alarm.Services.Droid
                {
                    return Task.Run(async () =>
                    {
-                       var item = await mediaExtractor.CreateMediaItem(x.Value);
-                       if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
+                       try
                        {
-                           await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
-                           await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                       }
+                           var item = await mediaExtractor.CreateMediaItem(x.Value);
+                           if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
+                           {
+                               await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
+                               await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                           }
 
-                       return item;
+                           return item;
+                       }
+                       catch
+                       {
+                           return null;
+                       }
                    });
 
                }))).ToList();
@@ -173,7 +180,11 @@ namespace Bible.Alarm.Services.Droid
                 i = 0;
                 foreach (var item in streamingTracks)
                 {
-                    mergedMediaItems.Add(item.Key, streamableMediaItems[i]);
+                    if (streamableMediaItems[i] != null)
+                    {
+                        mergedMediaItems.Add(item.Key, streamableMediaItems[i]);
+                    }
+
                     i++;
                 }
 
@@ -186,21 +197,34 @@ namespace Bible.Alarm.Services.Droid
                 //and internet is not available
                 if (!downloadedMediaItems.Any() && !await networkStatusService.IsInternetAvailable())
                 {
-                    this.mediaManager.RepeatMode = RepeatMode.All;
-                    var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+                    await playBeep();
                 }
                 else
                 {
                     currentlyPlaying = new Dictionary<IMediaItem, NotificationDetail>();
 
+                    i = 0;
                     foreach (var track in mergedMediaItems)
                     {
+                        if (track.Key != i)
+                        {
+                            break;
+                        }
+
                         currentlyPlaying.Add(track.Value, playDetailMap[track.Key]);
+                        i++;
                     }
 
-                    firstChapter = currentlyPlaying.First(x => x.Value.IsBibleReading).Key;
+                    if (!currentlyPlaying.Any())
+                    {
+                        await playBeep();
+                    }
+                    else
+                    {
+                        firstChapter = currentlyPlaying.FirstOrDefault(x => x.Value.IsBibleReading).Key;
 
-                    await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
+                        await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
+                    }
                 }
             }
             finally
@@ -277,6 +301,12 @@ namespace Bible.Alarm.Services.Droid
                     }
                 });
             }
+        }
+
+        private async Task playBeep()
+        {
+            this.mediaManager.RepeatMode = RepeatMode.All;
+            await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
         }
 
         public async Task Snooze()
