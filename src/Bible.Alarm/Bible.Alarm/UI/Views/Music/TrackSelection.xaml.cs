@@ -32,7 +32,7 @@ namespace Bible.Alarm.UI.Views.Music
                 trackListView.ScrollTo(ViewModel.SelectedTrack, ScrollToPosition.Center, true);
                 this.Appearing -= onAppearing;
 
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, IocSetup.Container.Resolve<TaskScheduler>());
         }
 
         protected override bool OnBackButtonPressed()

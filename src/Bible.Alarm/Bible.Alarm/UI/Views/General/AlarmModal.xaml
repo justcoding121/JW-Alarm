@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fn="clr-namespace:FontNameResources"
+             x:Class="Bible.Alarm.UI.Views.AlarmModal">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"  
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand"
+                AutomationId="AlarmModal">
+            <Label  
+                    FontSize="75"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                    Text="{x:Static fn:GlyphNames.Bell}"
+                    Margin="5"
+                    TextColor="SlateBlue">
+            </Label>
+            <Button CornerRadius="10"
+                    AutomationId="AlarmDismissButton"
+                    Command="{Binding DismissCommand}"
+                    HeightRequest="45"
+                    Margin="5"
+                    WidthRequest="200"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Text="Dismiss Alarm"
+                    FontSize="Medium"
+                    TextColor="SlateBlue">
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

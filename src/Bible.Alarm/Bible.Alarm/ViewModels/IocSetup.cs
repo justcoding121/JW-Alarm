@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Contracts.Battery;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Shared;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -9,13 +10,16 @@ namespace Bible.Alarm.ViewModels
         internal static IContainer Container { private set; get; }
         public static void Initialize(IContainer container)
         {
+            //marking as singleton because this is the starting point
+            //and it has calls to Messenger.Subscribe
             container.Register((x) => new HomeViewModel(
                 container.Resolve<ScheduleDbContext>(),
                 container.Resolve<IToastService>(),
                 container.Resolve<INavigationService>(),
                 container.Resolve<IMediaCacheService>(),
                 container.Resolve<IAlarmService>(),
-                container.Resolve<IBatteryOptimizationManager>()));
+                container.Resolve<IBatteryOptimizationManager>()),
+                isSingleton: true);
 
             container.Register((x) => new ScheduleViewModel());
 
@@ -28,6 +32,9 @@ namespace Bible.Alarm.ViewModels
             container.Register((x) => new ChapterSelectionViewModel());
 
             container.Register((x) => new AlarmViewModal());
+
+            //marked as singleton due to call to Messenger.Subscribe
+            container.Register((x) => new MediaProgressViewModal(), isSingleton: true);
 
             Container = container;
         }

@@ -50,7 +50,7 @@ namespace Bible.Alarm.ViewModels
             this.alarmService = alarmService;
             this.batteryOptimizationManager = batteryOptimizationManager;
 
-            uiTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            uiTaskScheduler = IocSetup.Container.Resolve<TaskScheduler>();
 
             subscriptions.Add(scheduleDbContext);
 

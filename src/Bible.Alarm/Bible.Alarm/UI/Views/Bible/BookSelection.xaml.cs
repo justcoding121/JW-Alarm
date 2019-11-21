@@ -31,7 +31,7 @@ namespace Bible.Alarm.UI.Views.Bible
                 bookListView.ScrollTo(ViewModel.SelectedBook, ScrollToPosition.Center, true);
                 this.Appearing -= onAppearing;
 
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, IocSetup.Container.Resolve<TaskScheduler>());
         }
 
         protected override bool OnBackButtonPressed()

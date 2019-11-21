@@ -78,7 +78,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                         if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
                         {
-                            await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, IocSetup.Container.Resolve<AlarmViewModal>());
+                            await Messenger<object>.Publish(Messages.ShowAlarmModal, IocSetup.Container.Resolve<AlarmViewModal>());
                         }
                     }
                     catch (Exception e)

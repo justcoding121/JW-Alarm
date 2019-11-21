@@ -3,6 +3,7 @@ using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Shared;
 using MediaManager;
 using MediaManager.Library;
 using MediaManager.Media;
@@ -63,72 +64,11 @@ namespace Bible.Alarm.Services.Droid
             this.mediaManager.StateChanged += stateChanged;
         }
 
-        private async void stateChanged(object sender, StateChangedEventArgs e)
-        {
-            var mediaItem = this.mediaManager.Queue.Current;
-            if (currentlyPlaying.ContainsKey(mediaItem))
-            {
-                var track = currentlyPlaying[mediaItem];
-
-                switch (e.State)
-                {
-                    case MediaPlayerState.Playing:
-                        if (track.FinishedDuration.TotalSeconds > 0
-                            && firstChapter != null
-                            && mediaItem == firstChapter)
-                        {
-                            await this.mediaManager.SeekTo(track.FinishedDuration);
-                            firstChapter = null;
-                        }
-                        break;
-                }
-            }
-
-        }
-
-        private async void markTrackAsFinished(object sender, MediaItemEventArgs e)
-        {
-            await @lock.WaitAsync();
-
-            try
-            {
-                if (currentlyPlaying.ContainsKey(e.MediaItem))
-                {
-                    var track = currentlyPlaying[e.MediaItem];
-
-                    if (track.IsLastTrack)
-                    {
-                        await playlistService.MarkTrackAsFinished(track);
-                        await Dismiss();
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "An error happened when marking track as finished.");
-            }
-            finally
-            {
-                @lock.Release();
-            }
-        }
-
-        public async Task Dismiss()
-        {
-            if (this.mediaManager.IsPrepared()
-                 && !readyTodispose)
-            {
-                await this.mediaManager.Stop();
-            }
-
-            currentScheduleId = 0;
-            readyTodispose = true;
-        }
-
         private Task watcher;
         private bool wasPlaying;
         private DateTime playStartTime = DateTime.Now.AddDays(7);
+
+        private static IMediaExtractor mediaExtractor => CrossMediaManager.Current.Extractor;
 
         public async Task Play(long scheduleId)
         {
@@ -178,12 +118,58 @@ namespace Bible.Alarm.Services.Droid
                             break;
                         }
                     }
-
                     i++;
                 }
 
-                var downloadedMediaItems = (await downloadedTracks.Select(x => x.Value).CreateMediaItems()).ToList();
-                var streamableMediaItems = (await streamingTracks.Select(x => x.Value).CreateMediaItems()).ToList();
+                if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
+                {
+                    await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
+                }
+
+                var preparedTracks = 0;
+                var totalTracks = nextTracks.Count;
+
+                if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
+                {
+                    await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
+                }
+
+                var downloadedMediaItems = (await Task.WhenAll(downloadedTracks.Select(x =>
+                {
+                    return Task.Run(async () =>
+                    {
+                        var item = await mediaExtractor.CreateMediaItem(x.Value);
+                        if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
+                        {
+                            await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
+                            await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                        }
+
+                        return item;
+                    });
+
+                }))).ToList();
+
+                var streamableMediaItems = (await Task.WhenAll(streamingTracks.Select(x =>
+               {
+                   return Task.Run(async () =>
+                   {
+                       var item = await mediaExtractor.CreateMediaItem(x.Value);
+                       if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
+                       {
+                           await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
+                           await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                       }
+
+                       return item;
+                   });
+
+               }))).ToList();
+
+                if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
+                {
+                    await Messenger<object>.Publish(Messages.HideMediaProgressModal, null);
+                }
 
                 var mergedMediaItems = new OrderedDictionary<int, IMediaItem>();
 
@@ -203,11 +189,10 @@ namespace Bible.Alarm.Services.Droid
 
                 //play default ring tone if we don't have the files downloaded
                 //and internet is not available
-                if (!mergedMediaItems.Any())
+                if (!downloadedMediaItems.Any() && !await networkStatusService.IsInternetAvailable())
                 {
                     this.mediaManager.RepeatMode = RepeatMode.All;
                     var item = await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
-
                 }
                 else
                 {
@@ -285,7 +270,7 @@ namespace Bible.Alarm.Services.Droid
 
                         if (readyTodispose)
                         {
-                            await Messenger<object>.Publish(Messages.HideSnoozeDismissModal, null);
+                            await Messenger<object>.Publish(Messages.HideAlarmModal, null);
                             this.notificationService.ClearAll();
                             Dispose();
                             Stopped?.Invoke(this, MediaPlayerState.Stopped);
@@ -318,6 +303,71 @@ namespace Bible.Alarm.Services.Droid
             }
 
             readyTodispose = true;
+        }
+
+        public async Task Dismiss()
+        {
+            if (this.mediaManager.IsPrepared()
+                 && !readyTodispose)
+            {
+                await this.mediaManager.Stop();
+            }
+
+            currentScheduleId = 0;
+            readyTodispose = true;
+        }
+
+
+
+        private async void stateChanged(object sender, StateChangedEventArgs e)
+        {
+            var mediaItem = this.mediaManager.Queue.Current;
+            if (currentlyPlaying.ContainsKey(mediaItem))
+            {
+                var track = currentlyPlaying[mediaItem];
+
+                switch (e.State)
+                {
+                    case MediaPlayerState.Playing:
+                        if (track.FinishedDuration.TotalSeconds > 0
+                            && firstChapter != null
+                            && mediaItem == firstChapter)
+                        {
+                            await this.mediaManager.SeekTo(track.FinishedDuration);
+                            firstChapter = null;
+                        }
+                        break;
+                }
+            }
+
+        }
+
+        private async void markTrackAsFinished(object sender, MediaItemEventArgs e)
+        {
+            await @lock.WaitAsync();
+
+            try
+            {
+                if (currentlyPlaying.ContainsKey(e.MediaItem))
+                {
+                    var track = currentlyPlaying[e.MediaItem];
+
+                    if (track.IsLastTrack)
+                    {
+                        await playlistService.MarkTrackAsFinished(track);
+                        await Dismiss();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "An error happened when marking track as finished.");
+            }
+            finally
+            {
+                @lock.Release();
+            }
         }
 
         private bool disposed;

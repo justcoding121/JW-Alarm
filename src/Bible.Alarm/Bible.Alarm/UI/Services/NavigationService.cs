@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
 using Bible.Alarm.UI.Views.Music;
 using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.ViewModels;
-using Mvvmicro;
 using Xamarin.Forms;
 using Bible.Alarm.UI.Views.General;
 using Bible.Alarm.ViewModels.Redux;
@@ -26,9 +23,9 @@ namespace Bible.Alarm.UI
         {
             navigater = navigation;
 
-            var syncContext = TaskScheduler.FromCurrentSynchronizationContext();
+            var syncContext = IocSetup.Container.Resolve<TaskScheduler>();
 
-            Messenger<object>.Subscribe(Messages.ShowSnoozeDismissModal, async vm =>
+            Messenger<object>.Subscribe(Messages.ShowAlarmModal, async vm =>
             {
                 await Task.Delay(0).ContinueWith(async (x) =>
                 {
@@ -38,7 +35,25 @@ namespace Bible.Alarm.UI
             });
 
 
-            Messenger<object>.Subscribe(Messages.HideSnoozeDismissModal, async vm =>
+            Messenger<object>.Subscribe(Messages.HideAlarmModal, async vm =>
+            {
+                await Task.Delay(0).ContinueWith(async (x) =>
+                {
+                    await CloseModal();
+
+                }, syncContext);
+            });
+
+            Messenger<object>.Subscribe(Messages.ShowMediaProgessModal, async vm =>
+            {
+                await Task.Delay(0).ContinueWith(async (x) =>
+                {
+                    await ShowModal("MediaProgressModal", vm);
+
+                }, syncContext);
+            });
+
+            Messenger<object>.Subscribe(Messages.HideMediaProgressModal, async vm =>
             {
                 await Task.Delay(0).ContinueWith(async (x) =>
                 {
@@ -84,6 +99,19 @@ namespace Bible.Alarm.UI
                 case "NumberOfChaptersModal":
                     {
                         var modal = IocSetup.Container.Resolve<NumberOfChaptersModal>();
+                        modal.BindingContext = viewModel;
+                        await navigater.PushModalAsync(modal);
+                        break;
+                    }
+
+                case "MediaProgressModal":
+                    {
+                        if (navigater.ModalStack.FirstOrDefault()?.GetType() == typeof(MediaProgressModal))
+                        {
+                            return;
+                        }
+
+                        var modal = IocSetup.Container.Resolve<MediaProgressModal>();
                         modal.BindingContext = viewModel;
                         await navigater.PushModalAsync(modal);
                         break;
@@ -181,8 +209,11 @@ namespace Bible.Alarm.UI
         {
             if (navigater.ModalStack.Count > 0)
             {
-                await navigater.PopModalAsync();
-
+               var modal = await navigater.PopModalAsync();
+                if(modal.BindingContext is IDisposableModal)
+                {
+                    (modal.BindingContext as IDisposableModal).Dispose();
+                }
                 var currentPage = navigater.NavigationStack.FirstOrDefault();
 
                 if (currentPage != null)

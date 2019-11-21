@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Mvvmicro;
@@ -8,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {
-    public class AlarmViewModal : ViewModel, IDisposable
+    public class AlarmViewModal : ViewModel, IDisposableModal
     {
         private IPlaybackService playbackService;
 

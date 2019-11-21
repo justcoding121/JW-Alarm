@@ -22,7 +22,10 @@ namespace Bible.Alarm
             else
             {
                 var navigationPage = new NavigationPage();
-              
+
+                var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+                UI.IocSetup.Container.Register<TaskScheduler>(x => taskScheduler);
                 UI.IocSetup.Container.Register(x => navigationPage, isSingleton: true);
                 UI.IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
                 UI.IocSetup.Container.Register<INavigationService>(x => new NavigationService(navigationPage.Navigation), isSingleton: true);
@@ -38,13 +41,13 @@ namespace Bible.Alarm
                     homePage.BindingContext = UI.IocSetup.Container.Resolve<HomeViewModel>();
                     await navigationPage.Navigation.PushAsync(homePage);
 
-                }, TaskScheduler.FromCurrentSynchronizationContext())
+                }, taskScheduler)
                     .ContinueWith(async x =>
                     {
                         var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
                         if (mediaManager.IsPrepared())
                         {
-                            await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                            await Messenger<object>.Publish(Messages.ShowAlarmModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
                         }
                     });
             }
@@ -61,7 +64,7 @@ namespace Bible.Alarm
                 var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                    await Messenger<object>.Publish(Messages.ShowAlarmModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
                 }
             });
         }
@@ -79,7 +82,7 @@ namespace Bible.Alarm
                 // Handle when your app resumes
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(Messages.ShowSnoozeDismissModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                    await Messenger<object>.Publish(Messages.ShowAlarmModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
                 }
             });
         }
