@@ -108,7 +108,6 @@ namespace Bible.Alarm.Services.Droid
                     }
                     else
                     {
-
                         if (internetOn)
                         {
                             streamingTracks.Add(i, item.Url);
@@ -121,16 +120,12 @@ namespace Bible.Alarm.Services.Droid
                     i++;
                 }
 
-                if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
-                {
-                    await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
-                }
-
                 var preparedTracks = 0;
                 var totalTracks = nextTracks.Count;
 
                 if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
                 {
+                    await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
                     await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
                 }
 
@@ -166,11 +161,6 @@ namespace Bible.Alarm.Services.Droid
 
                }))).ToList();
 
-                if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
-                {
-                    await Messenger<object>.Publish(Messages.HideMediaProgressModal, null);
-                }
-
                 var mergedMediaItems = new OrderedDictionary<int, IMediaItem>();
 
                 i = 0;
@@ -185,6 +175,11 @@ namespace Bible.Alarm.Services.Droid
                 {
                     mergedMediaItems.Add(item.Key, streamableMediaItems[i]);
                     i++;
+                }
+
+                if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
+                {
+                    await Messenger<object>.Publish(Messages.HideMediaProgressModal, null);
                 }
 
                 //play default ring tone if we don't have the files downloaded
