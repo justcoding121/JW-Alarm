@@ -222,7 +222,7 @@ namespace Bible.Alarm.Services.Droid
                     else
                     {
                         firstChapter = currentlyPlaying.FirstOrDefault(x => x.Value.IsBibleReading).Key;
-
+                        this.mediaManager.RepeatMode = RepeatMode.Off;
                         await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
                     }
                 }
