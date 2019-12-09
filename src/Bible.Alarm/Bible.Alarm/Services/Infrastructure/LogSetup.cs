@@ -1,15 +1,18 @@
-﻿using Loggly;
+﻿using Bible.Alarm.Contracts.Platform;
+using Loggly;
 using Loggly.Config;
 using NLog;
+using NLog.Common;
 using NLog.Config;
-using Xamarin.Forms;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Bible.Alarm.Services.Infrastructure
 {
     public class LogSetup
     {
         private static bool initialized = false;
-
         private static object @lock = new object();
         public static void Initialize(string osName)
         {
@@ -21,9 +24,11 @@ namespace Bible.Alarm.Services.Infrastructure
 
                     var config = new LoggingConfiguration();
                     var logglyTarget = new NLog.Targets.LogglyTarget();
+                    logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty() { Name = getVersionName() });
+                   
                     config.AddTarget("loggly", logglyTarget);
                     config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
-
+                   
                     LogManager.Configuration = config;
 
                     initialized = true;
@@ -46,5 +51,19 @@ namespace Bible.Alarm.Services.Infrastructure
             ct.Formatter = "application-{0}";
             config.TagConfig.Tags.Add(ct);
         }
+
+        private static string getVersionName()
+        {
+            try
+            {
+                var versionFinder = IocSetup.Container.Resolve<IVersionFinder>();
+                return versionFinder.GetVersionName();
+            }
+            catch
+            {
+                return "AssemblyVersionNotFound";
+            }
+        }
+
     }
 }

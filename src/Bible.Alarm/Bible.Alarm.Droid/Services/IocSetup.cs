@@ -14,6 +14,8 @@
     using Bible.Alarm.Droid.Services.Network;
     using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Droid.Services.Battery;
+    using Bible.Alarm.Contracts.Platform;
+    using Bible.Alarm.Droid.Services.Platform;
 
     public static class IocSetup
     {
@@ -69,6 +71,7 @@
 
             container.Register<INetworkStatusService>((x) => new NetworkStatusService());
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager());
+            container.Register<IVersionFinder>((x) => new VersionFinder());
 
             Container = container;
             IsService = isService;

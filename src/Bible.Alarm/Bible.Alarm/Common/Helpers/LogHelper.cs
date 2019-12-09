@@ -1,8 +1,5 @@
 ﻿using Bible.Alarm.Services.Infrastructure;
 using NLog;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm
 {
@@ -14,4 +11,5 @@ namespace Bible.Alarm
             return LogManager.GetLogger("GlobalLogger");
         }
     }
+
 }
