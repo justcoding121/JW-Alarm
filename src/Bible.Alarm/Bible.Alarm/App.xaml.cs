@@ -58,9 +58,14 @@ namespace Bible.Alarm
                         {
                             await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                         }
+                        else
+                        {
+                            container.Resolve<INotificationService>().ClearAll();
+                        }
                     });
             }
         }
+
         protected override void OnStart()
         {
             Task.Run(async () =>
@@ -73,6 +78,10 @@ namespace Bible.Alarm
                 if (mediaManager.IsPrepared())
                 {
                     await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                }
+                else
+                {
+                    container.Resolve<INotificationService>().ClearAll();
                 }
             });
         }
@@ -91,6 +100,10 @@ namespace Bible.Alarm
                 if (mediaManager.IsPrepared())
                 {
                     await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                }
+                else
+                {
+                    container.Resolve<INotificationService>().ClearAll();
                 }
             });
         }

@@ -78,6 +78,11 @@ namespace Bible.Alarm.Services
         public async Task CopyResourceFile(string resourceFileName,
             string destinationDirectoryPath, string destinationFileName)
         {
+            if (!await DirectoryExists(destinationDirectoryPath))
+            {
+                await createDirectory(destinationDirectoryPath);
+            }
+
             using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFileName))
             {
                 var buffer = new byte[1024];
