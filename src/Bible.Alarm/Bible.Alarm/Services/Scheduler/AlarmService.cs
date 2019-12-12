@@ -10,14 +10,17 @@ namespace Bible.Alarm.Services
 {
     public class AlarmService : IAlarmService
     {
+        private IContainer container;
         private INotificationService notificationService;
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
-        public AlarmService(INotificationService notificationService,
+        public AlarmService(IContainer container, 
+            INotificationService notificationService,
             IMediaCacheService mediaCacheService,
             ScheduleDbContext scheduleDbContext)
         {
+            this.container = container;
             this.notificationService = notificationService;
             this.mediaCacheService = mediaCacheService;
             this.scheduleDbContext = scheduleDbContext;
@@ -29,7 +32,7 @@ namespace Bible.Alarm.Services
 
             var task = Task.Run(async () =>
             {
-                using (var mediaCacheService = IocSetup.Container.Resolve<IMediaCacheService>())
+                using (var mediaCacheService = container.Resolve<IMediaCacheService>())
                 {
                     await mediaCacheService.SetupAlarmCache(schedule.Id);
                 }
@@ -48,7 +51,7 @@ namespace Bible.Alarm.Services
 
                 var task = Task.Run(async () =>
                 {
-                    using (var mediaCacheService = IocSetup.Container.Resolve<IMediaCacheService>())
+                    using (var mediaCacheService = container.Resolve<IMediaCacheService>())
                     {
                         await mediaCacheService.SetupAlarmCache(schedule.Id);
                     }

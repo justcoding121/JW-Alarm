@@ -7,36 +7,35 @@ namespace Bible.Alarm.ViewModels
 {
     public static class IocSetup
     {
-        internal static IContainer Container { private set; get; }
-        public static void Initialize(IContainer container)
+        public static void Initialize(IContainer container, bool isService)
         {
-            //marking as singleton because this is the starting point
-            //and it has calls to Messenger.Subscribe
-            container.Register((x) => new HomeViewModel(
-                container.Resolve<ScheduleDbContext>(),
-                container.Resolve<IToastService>(),
-                container.Resolve<INavigationService>(),
-                container.Resolve<IMediaCacheService>(),
-                container.Resolve<IAlarmService>(),
-                container.Resolve<IBatteryOptimizationManager>()),
-                isSingleton: true);
+            if (!isService)
+            {
+                //marking as singleton because this is the starting point
+                //and it has calls to Messenger.Subscribe
+                container.RegisterInstance((x) => new HomeViewModel(container,
+                    container.Resolve<ScheduleDbContext>(),
+                    container.Resolve<IToastService>(),
+                    container.Resolve<INavigationService>(),
+                    container.Resolve<IMediaCacheService>(),
+                    container.Resolve<IAlarmService>(),
+                    container.Resolve<IBatteryOptimizationManager>()));
 
-            container.Register((x) => new ScheduleViewModel());
+                container.Register((x) => new ScheduleViewModel(container));
 
-            container.Register((x) => new MusicSelectionViewModel());
-            container.Register((x) => new SongBookSelectionViewModel());
-            container.Register((x) => new TrackSelectionViewModel());
+                container.Register((x) => new MusicSelectionViewModel(container));
+                container.Register((x) => new SongBookSelectionViewModel(container));
+                container.Register((x) => new TrackSelectionViewModel(container));
 
-            container.Register((x) => new BibleSelectionViewModel());
-            container.Register((x) => new BookSelectionViewModel());
-            container.Register((x) => new ChapterSelectionViewModel());
+                container.Register((x) => new BibleSelectionViewModel(container));
+                container.Register((x) => new BookSelectionViewModel(container));
+                container.Register((x) => new ChapterSelectionViewModel(container));
 
-            container.Register((x) => new AlarmViewModal());
+                container.Register((x) => new AlarmViewModal(container));
 
-            //marked as singleton due to call to Messenger.Subscribe
-            container.Register((x) => new MediaProgressViewModal(), isSingleton: true);
-
-            Container = container;
+                //marked as singleton due to call to Messenger.Subscribe
+                container.RegisterInstance((x) => new MediaProgressViewModal(container));
+            }
         }
 
     }

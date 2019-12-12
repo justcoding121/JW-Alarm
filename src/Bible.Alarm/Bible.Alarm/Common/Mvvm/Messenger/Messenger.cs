@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Common.Mvvm
@@ -16,15 +17,17 @@ namespace Bible.Alarm.Common.Mvvm
 
     public static class Messenger<T>
     {
+        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
+
         private static Dictionary<Messages, List<Func<T, Task>>> subscribers = new Dictionary<Messages, List<Func<T, Task>>>();
         private static Dictionary<Messages, T> cache = new Dictionary<Messages, T>();
-        public async static Task Publish(Messages stream, T @object)
+        public async static Task Publish(Messages stream, T @object = default)
         {
             if (subscribers.ContainsKey(stream))
             {
                 var listeners = subscribers[stream];
 
-                foreach (var listener in listeners)
+                foreach (var listener in listeners.ToArray())
                 {
                     await listener(@object);
                 }
@@ -49,6 +52,8 @@ namespace Bible.Alarm.Common.Mvvm
                 var @object = cache[stream];
                 action(@object);
             }
+
+
         }
     }
 

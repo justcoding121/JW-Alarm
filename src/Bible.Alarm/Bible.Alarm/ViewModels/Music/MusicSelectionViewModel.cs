@@ -18,6 +18,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class MusicSelectionViewModel : ViewModel, IDisposable
     {
+        private IContainer container;
+
         private AlarmMusic current;
 
         private readonly MediaService mediaService;
@@ -25,10 +27,12 @@ namespace Bible.Alarm.ViewModels
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public MusicSelectionViewModel()
+        public MusicSelectionViewModel(IContainer container)
         {
-            this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.container = container;
+
+            this.mediaService = this.container.Resolve<MediaService>();
+            this.navigationService = this.container.Resolve<INavigationService>();
 
             //set schedules from initial state.
             //this should fire only once 
@@ -60,7 +64,7 @@ namespace Bible.Alarm.ViewModels
                             LanguageCode = current.LanguageCode
                         }
                     });
-                    var viewModel = IocSetup.Container.Resolve<SongBookSelectionViewModel>();
+                    var viewModel = this.container.Resolve<SongBookSelectionViewModel>();
                     await navigationService.Navigate(viewModel);
                 }
                 else
@@ -74,7 +78,7 @@ namespace Bible.Alarm.ViewModels
                             PublicationCode = "iam"
                         }
                     });
-                    var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
+                    var viewModel = this.container.Resolve<TrackSelectionViewModel>();
                     await navigationService.Navigate(viewModel);
                 }
 

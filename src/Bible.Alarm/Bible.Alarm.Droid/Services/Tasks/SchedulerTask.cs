@@ -12,7 +12,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
 {
     public class SchedulerTask : IDisposable
     {
-        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;

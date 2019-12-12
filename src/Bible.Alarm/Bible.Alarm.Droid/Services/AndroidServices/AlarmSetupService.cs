@@ -8,15 +8,24 @@ using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Droid.Helpers;
 using static Android.App.AlarmManager;
 using Bible.Alarm.Droid;
+using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Droid.Services.Platform;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {
     [Service(Enabled = true)]
     public class AlarmSetupService : Service, IDisposable
     {
-        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+        private IContainer container;
+        private Logger logger;
 
         public static bool IsRunning = false;
+
+        public AlarmSetupService()
+        {
+            LogSetup.Initialize(VersionFinder.Default);
+            logger = LogManager.GetCurrentClassLogger();
+        }
 
         public override IBinder OnBind(Intent intent)
         {
@@ -35,7 +44,9 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             try
             {
-                Alarm.Droid.IocSetup.Initialize(this, true);
+                var result = Alarm.Droid.IocSetup.Initialize(this, true);
+
+                this.container = result.Item1;
 
                 var extra = intent.GetStringExtra("Action");
 
@@ -46,11 +57,11 @@ namespace Bible.Alarm.Services.Droid.Tasks
                             var time = DateTimeOffset.Parse(intent.GetStringExtra("Time"));
                             var title = intent.GetStringExtra("Title");
                             var body = intent.GetStringExtra("Body");
-                            ScheduleNotification(IocSetup.Context, long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
+                            ScheduleNotification(container.AndroidContext(), long.Parse(intent.GetStringExtra("ScheduleId")), time, title, body);
                             break;
                         }
                     case "SetupBackgroundTasks":
-                        BootstrapHelper.VerifyBackgroundTasks(IocSetup.Context);
+                        BootstrapHelper.VerifyBackgroundTasks(container.AndroidContext());
                         break;
                     default:
                         throw new NotImplementedException();
@@ -96,12 +107,12 @@ namespace Bible.Alarm.Services.Droid.Tasks
                     }
                     else
                     {
-                        using (var mainLauncherIntent = new Intent(IocSetup.Context, typeof(SplashActivity)))
+                        using (var mainLauncherIntent = new Intent(context, typeof(SplashActivity)))
                         {
                             mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
 
                             var mainLauncherPendingIntent = PendingIntent.GetActivity(
-                               IocSetup.Context,
+                               context,
                                0,
                                mainLauncherIntent,
                                PendingIntentFlags.UpdateCurrent);

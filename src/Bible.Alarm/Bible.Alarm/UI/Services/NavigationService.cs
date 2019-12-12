@@ -10,23 +10,29 @@ using Xamarin.Forms;
 using Bible.Alarm.UI.Views.General;
 using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
+using Bible.Alarm.ViewModels.Shared;
+using Bible.Alarm.ViewModels;
 
 namespace Bible.Alarm.UI
 {
     public class NavigationService : INavigationService
     {
+        private IContainer container;
+
         private readonly INavigation navigater;
 
         public event Action<object> NavigatedBack;
 
-        public NavigationService(INavigation navigation)
+        public NavigationService(IContainer container, INavigation navigater)
         {
-            navigater = navigation;
+            this.container = container;
+            this.navigater = navigater;
 
-            var syncContext = IocSetup.Container.Resolve<TaskScheduler>();
+            var syncContext = this.container.Resolve<TaskScheduler>();
 
-            Messenger<object>.Subscribe(Messages.ShowAlarmModal, async vm =>
+            Messenger<object>.Subscribe(Messages.ShowAlarmModal, async @param =>
             {
+                var vm = container.Resolve<AlarmViewModal>();
                 await Task.Delay(0).ContinueWith(async (x) =>
                 {
                     await ShowModal("AlarmModal", vm);
@@ -44,8 +50,9 @@ namespace Bible.Alarm.UI
                 }, syncContext);
             });
 
-            Messenger<object>.Subscribe(Messages.ShowMediaProgessModal, async vm =>
+            Messenger<object>.Subscribe(Messages.ShowMediaProgessModal, async @param =>
             {
+                var vm = this.container.Resolve<MediaProgressViewModal>();
                 await Task.Delay(0).ContinueWith(async (x) =>
                 {
                     await ShowModal("MediaProgressModal", vm);
@@ -69,7 +76,7 @@ namespace Bible.Alarm.UI
             {
                 case "LanguageModal":
                     {
-                        var modal = IocSetup.Container.Resolve<LanguageModal>();
+                        var modal = container.Resolve<LanguageModal>();
                         modal.BindingContext = viewModel;
                         await navigater.PushModalAsync(modal);
                         break;
@@ -82,7 +89,7 @@ namespace Bible.Alarm.UI
                             return;
                         }
 
-                        var modal = IocSetup.Container.Resolve<AlarmModal>();
+                        var modal = container.Resolve<AlarmModal>();
                         modal.BindingContext = viewModel;
                         await navigater.PushModalAsync(modal);
                         break;
@@ -90,7 +97,7 @@ namespace Bible.Alarm.UI
 
                 case "BatteryOptimizationExclusionModal":
                     {
-                        var modal = IocSetup.Container.Resolve<BatteryOptimizationExclusionModal>();
+                        var modal = container.Resolve<BatteryOptimizationExclusionModal>();
                         modal.BindingContext = viewModel;
                         await navigater.PushModalAsync(modal);
                         break;
@@ -98,7 +105,7 @@ namespace Bible.Alarm.UI
 
                 case "NumberOfChaptersModal":
                     {
-                        var modal = IocSetup.Container.Resolve<NumberOfChaptersModal>();
+                        var modal = container.Resolve<NumberOfChaptersModal>();
                         modal.BindingContext = viewModel;
                         await navigater.PushModalAsync(modal);
                         break;
@@ -111,7 +118,7 @@ namespace Bible.Alarm.UI
                             return;
                         }
 
-                        var modal = IocSetup.Container.Resolve<MediaProgressModal>();
+                        var modal = container.Resolve<MediaProgressModal>();
                         modal.BindingContext = viewModel;
                         await navigater.PushModalAsync(modal);
                         break;
@@ -129,7 +136,7 @@ namespace Bible.Alarm.UI
             {
                 case "ScheduleViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<Schedule>();
+                        var view = container.Resolve<Schedule>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;
@@ -137,42 +144,42 @@ namespace Bible.Alarm.UI
 
                 case "MusicSelectionViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<MusicSelection>();
+                        var view = container.Resolve<MusicSelection>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;
                     }
                 case "SongBookSelectionViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<SongBookSelection>();
+                        var view = container.Resolve<SongBookSelection>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;
                     }
                 case "TrackSelectionViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<TrackSelection>();
+                        var view = container.Resolve<TrackSelection>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;
                     }
                 case "BibleSelectionViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<BibleSelection>();
+                        var view = container.Resolve<BibleSelection>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;
                     }
                 case "BookSelectionViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<BookSelection>();
+                        var view = container.Resolve<BookSelection>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;
                     }
                 case "ChapterSelectionViewModel":
                     {
-                        var view = IocSetup.Container.Resolve<ChapterSelection>();
+                        var view = container.Resolve<ChapterSelection>();
                         view.BindingContext = viewModel;
                         await navigater.PushAsync(view);
                         break;

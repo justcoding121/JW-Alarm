@@ -24,6 +24,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {
+        private IContainer container;
+
         private ScheduleDbContext scheduleDbContext;
         private IToastService popUpService;
         private INavigationService navigationService;
@@ -37,12 +39,13 @@ namespace Bible.Alarm.ViewModels
         public Command BatteryOptimizationExcludeCommand { get; private set; }
         public Command BatteryOptimizationDismissCommand { get; private set; }
 
-        public HomeViewModel(ScheduleDbContext scheduleDbContext,
+        public HomeViewModel(IContainer container, ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
             IAlarmService alarmService,
             IBatteryOptimizationManager batteryOptimizationManager)
         {
+            this.container = container;
             this.scheduleDbContext = scheduleDbContext;
             this.popUpService = popUpService;
             this.navigationService = navigationService;
@@ -50,14 +53,14 @@ namespace Bible.Alarm.ViewModels
             this.alarmService = alarmService;
             this.batteryOptimizationManager = batteryOptimizationManager;
 
-            uiTaskScheduler = IocSetup.Container.Resolve<TaskScheduler>();
+            uiTaskScheduler = this.container.Resolve<TaskScheduler>();
 
             subscriptions.Add(scheduleDbContext);
 
             AddScheduleCommand = new Command(async () =>
             {
                 ReduxContainer.Store.Dispatch(new ViewScheduleAction());
-                var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
+                var viewModel = this.container.Resolve<ScheduleViewModel>();
                 await this.navigationService.Navigate(viewModel);
             });
 
@@ -70,7 +73,7 @@ namespace Bible.Alarm.ViewModels
                     SelectedScheduleListItem = x
                 });
 
-                var viewModel = IocSetup.Container.Resolve<ScheduleViewModel>();
+                var viewModel = this.container.Resolve<ScheduleViewModel>();
                 await this.navigationService.Navigate(viewModel);
             });
 
@@ -242,7 +245,7 @@ namespace Bible.Alarm.ViewModels
                         var initialSchedules = new ObservableHashSet<ScheduleListItem>();
                         foreach (var schedule in alarmSchedules)
                         {
-                            initialSchedules.Add(new ScheduleListItem(schedule));
+                            initialSchedules.Add(new ScheduleListItem(container, schedule));
                         }
 
                         ReduxContainer.Store.Dispatch(new InitializeAction() { ScheduleList = initialSchedules });
@@ -361,9 +364,13 @@ namespace Bible.Alarm.ViewModels
 
     public class ScheduleListItem : ViewModel, IComparable
     {
+        private IContainer container;
+
         public AlarmSchedule Schedule;
-        public ScheduleListItem(AlarmSchedule schedule)
+        public ScheduleListItem(IContainer container, AlarmSchedule schedule)
         {
+            this.container = container;
+
             Schedule = schedule;
             isEnabled = schedule.IsEnabled;
 
@@ -371,12 +378,12 @@ namespace Bible.Alarm.ViewModels
             {
                 if (Schedule.Id > 0)
                 {
-                    var toastService = IocSetup.Container.Resolve<IToastService>();
+                    var toastService = container.Resolve<IToastService>();
                     await toastService.ShowMessage("Your music and or Bible audio will start in few seconds.", 5);
 
                     toastService.Dispose();
 
-                    var notificationService = IocSetup.Container.Resolve<INotificationService>();
+                    var notificationService = container.Resolve<INotificationService>();
                     notificationService.ShowNotification(Schedule.Id);
 
                     notificationService.Dispose();
@@ -410,7 +417,7 @@ namespace Bible.Alarm.ViewModels
         public ScheduleListItem This => this;
 
         public ICommand PlayCommand { get; private set; }
-
+    
         public void RaisePropertiesChangedEvent()
         {
             RaiseProperties(GetType()

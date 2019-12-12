@@ -1,21 +1,16 @@
 ﻿namespace Bible.Alarm
 {
+    using Bible.Alarm.Contracts;
     using System;
     using System.Collections.Generic;
 
     public class Container : IContainer
     {
-        #region Default
-
-        private static Lazy<IContainer> instance = new Lazy<IContainer>(() => new Container());
-
-        /// <summary>
-        /// Gets the default container.
-        /// </summary>
-        /// <value>The default.</value>
-        public static IContainer Default => instance.Value;
-
-        #endregion
+        public Dictionary<string, object> Context { get; private set; }
+        public Container(Dictionary<string, object> context)
+        {
+            Context = context;
+        }
 
         #region Fields
 
@@ -54,9 +49,14 @@
 
         public T Resolve<T>() => (T)Resolve(typeof(T));
 
-        public void Register<T>(Func<IContainer, T> factory, bool isInstance = false)
+        public void Register<T>(Func<IContainer, T> factory)
         {
-            this.factories[typeof(T)] = new Tuple<bool, Func<object>>(isInstance, () => factory(this));
+            this.factories[typeof(T)] = new Tuple<bool, Func<object>>(false, () => factory(this));
+        }
+
+        public void RegisterInstance<T>(Func<IContainer, T> factory)
+        {
+            this.factories[typeof(T)] = new Tuple<bool, Func<object>>(false, () => factory(this));
         }
 
         public bool IsRegistered<T>() => factories.ContainsKey(typeof(T));

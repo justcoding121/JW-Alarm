@@ -2,40 +2,67 @@
 using Android.Content;
 using Bible.Alarm;
 using MediaManager;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Bible.Alarm.Droid
 {
-
-    public static class IocSetup
+    public class IocSetup
     {
-        public static IContainer Container { get; private set; }
-        public static Context Context { get; private set; }
-
-        private static object @lock = new object();
-
-        public static bool Initialize(Context context, bool isService)
+        private static ConcurrentDictionary<string, IContainer> containers
+            = new ConcurrentDictionary<string, IContainer>();
+        public static Tuple<IContainer, bool> Initialize(Context androidContext,
+                           bool isService)
         {
-            lock (@lock)
+            return Initialize(null, androidContext, isService);
+        }
+
+        public static Tuple<IContainer, bool> Initialize(string containerName,
+                        Context androidContext,
+                        bool isService)
+        {
+            if (containerName != null)
             {
-              
-                if (Container == null)
+                containers.TryGetValue(containerName, out var existing);
+
+                if (existing != null)
                 {
-                    var container = Bible.Alarm.Container.Default;
-
-                    UI.IocSetup.Initialize(container);
-                    Alarm.Services.IocSetup.Initialize(container);
-                    Alarm.Services.Droid.IocSetup.Initialize(container, isService);
-                    ViewModels.IocSetup.Initialize(container);
-                    Alarm.Services.Droid.IocSetup.SetContext(context);
-
-                    Context = context;
-                    Container = container;    
-
-                    return true;
+                    return new Tuple<IContainer, bool>(existing, false);
                 }
-
-                return false;
             }
+
+            var context = new Dictionary<string, object>();
+
+            context.Add("AndroidContext", androidContext);
+            context.Add("IsAndroidService", isService);
+
+            IContainer container;
+
+            if (containerName != null)
+            {
+                container = containers.GetOrAdd(containerName, new Container(context));
+            }
+            else
+            {
+                container = new Container(context);
+            }
+
+            UI.IocSetup.Initialize(container, isService);
+            Alarm.Services.IocSetup.Initialize(container, isService);
+            Alarm.Services.Droid.IocSetup.Initialize(container, isService);
+            ViewModels.IocSetup.Initialize(container, isService);
+
+            return new Tuple<IContainer, bool>(container, true);
+        }
+
+        public static IContainer GetContainer(string containerName)
+        {
+            return containers[containerName];
+        }
+        public bool Remove(string containerName)
+        {
+            return containers.TryRemove(containerName, out _);
         }
 
     }

@@ -20,6 +20,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class BibleSelectionViewModel : ViewModel, IDisposable
     {
+        private IContainer container;
+
         private MediaService mediaService;
         private INavigationService navigationService;
 
@@ -35,10 +37,12 @@ namespace Bible.Alarm.ViewModels
         public ICommand SelectLanguageCommand { get; set; }
         public ICommand SelectSongBookCommand { get; set; }
 
-        public BibleSelectionViewModel()
+        public BibleSelectionViewModel(IContainer container)
         {
-            this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.container = container;
+
+            this.mediaService = this.container.Resolve<MediaService>();
+            this.navigationService = this.container.Resolve<INavigationService>();
 
             //set schedules from initial state.
             //this should fire only once 
@@ -83,7 +87,7 @@ namespace Bible.Alarm.ViewModels
                         LanguageCode = CurrentLanguage.Code
                     }
                 });
-                var viewModel = IocSetup.Container.Resolve<BookSelectionViewModel>();
+                var viewModel = this.container.Resolve<BookSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
 
                 IsBusy = false;

@@ -8,11 +8,14 @@ using Xamarin.Forms.Xaml;
 namespace Bible.Alarm.UI.Views.Bible
 {
 	public partial class ChapterSelection : ContentPage
-	{
+    {
+        private IContainer container;
         public ChapterSelectionViewModel ViewModel => BindingContext as ChapterSelectionViewModel;
 
-        public ChapterSelection ()
+        public ChapterSelection (IContainer container)
 		{
+            this.container = container;
+
 			InitializeComponent ();
 
             BackButton.GestureRecognizers.Add(new TapGestureRecognizer
@@ -31,7 +34,7 @@ namespace Bible.Alarm.UI.Views.Bible
                 chapterListView.ScrollTo(ViewModel.SelectedChapter, ScrollToPosition.Center, true);
                 this.Appearing -= onAppearing;
 
-            }, IocSetup.Container.Resolve<TaskScheduler>());
+            }, container.Resolve<TaskScheduler>());
         }
 
 

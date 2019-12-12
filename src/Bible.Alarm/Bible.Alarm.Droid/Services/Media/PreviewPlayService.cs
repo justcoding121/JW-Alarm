@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Media;
+using Bible.Alarm.Droid;
 using Bible.Alarm.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace Bible.Alarm.Services.Droid
     public class PreviewPlayService : Java.Lang.Object,
         MediaPlayer.IOnCompletionListener, IPreviewPlayService, IDisposable
     {
+        private IContainer container;
         private MediaPlayer player;
 
-        public PreviewPlayService(MediaPlayer player)
+        public PreviewPlayService(IContainer container, MediaPlayer player)
         {
+            this.container = container;
             this.player = player;
         }
 
@@ -37,7 +40,7 @@ namespace Bible.Alarm.Services.Droid
             var uri = Android.Net.Uri.Parse(url);
             this.player.Reset();
             this.player.SetOnCompletionListener(this);
-            this.player.SetDataSource(IocSetup.Context, uri);
+            this.player.SetDataSource(container.AndroidContext(), uri);
             this.player.Prepare();
             this.player.Start();
 

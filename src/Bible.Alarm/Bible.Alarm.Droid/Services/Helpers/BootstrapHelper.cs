@@ -10,9 +10,9 @@ namespace Bible.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {
-        public async static Task VerifyMediaLookUpService()
+        public async static Task VerifyMediaLookUpService(IContainer container)
         {
-            using (var service = IocSetup.Container.Resolve<MediaIndexService>())
+            using (var service = container.Resolve<MediaIndexService>())
             {
                 await service.Verify();
             }
@@ -24,9 +24,9 @@ namespace Bible.Alarm.Services.Droid.Helpers
             schedulerSetupTask(context);
         }
 
-        public static async Task InitializeDatabase()
+        public static async Task InitializeDatabase(IContainer container)
         {
-            using (var db = IocSetup.Container.Resolve<ScheduleDbContext>())
+            using (var db = container.Resolve<ScheduleDbContext>())
             {
                 await db.Database.MigrateAsync();
             }

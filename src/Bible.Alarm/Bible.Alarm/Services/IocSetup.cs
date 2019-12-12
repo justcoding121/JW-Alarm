@@ -12,8 +12,7 @@
 
     public static class IocSetup
     {
-        public static IContainer Container { private set; get; }
-        public static void Initialize(IContainer container)
+        public static void Initialize(IContainer container, bool isService)
         {
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpMessageHandler>()));
             container.Register((x) => new MediaIndexService(container.Resolve<IStorageService>()));
@@ -33,14 +32,11 @@
 
             container.Register<IStorageService>((x) => new StorageService());
 
-            container.Register<IAlarmService>((x) => new AlarmService(
+            container.Register<IAlarmService>((x) => new AlarmService(container,
               container.Resolve<INotificationService>(),
               container.Resolve<IMediaCacheService>(),
               container.Resolve<ScheduleDbContext>()));
-
-            Container = container;
         }
-
 
     }
 }

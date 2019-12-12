@@ -21,7 +21,7 @@ namespace Bible.Alarm.Services.Droid
 {
     public class PlaybackService : IPlaybackService, IDisposable
     {
-        private Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly IMediaManager mediaManager;
         private IAlarmService alarmService;
@@ -123,22 +123,17 @@ namespace Bible.Alarm.Services.Droid
                 var preparedTracks = 0;
                 var totalTracks = nextTracks.Count;
 
-                if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
-                {
-                    await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
-                    await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
-                }
+                await Messenger<object>.Publish(Messages.ShowMediaProgessModal);
+                await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
 
                 var downloadedMediaItems = (await Task.WhenAll(downloadedTracks.Select(x =>
                 {
                     return Task.Run(async () =>
                     {
                         var item = await mediaExtractor.CreateMediaItem(x.Value);
-                        if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
-                        {
-                            await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
-                            await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                        }
+
+                        await Messenger<object>.Publish(Messages.ShowMediaProgessModal);
+                        await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
 
                         return item;
                     });
@@ -152,11 +147,9 @@ namespace Bible.Alarm.Services.Droid
                        try
                        {
                            var item = await mediaExtractor.CreateMediaItem(x.Value);
-                           if (IocSetup.Container.RegisteredTypes.Any(y => y == typeof(Xamarin.Forms.INavigation)))
-                           {
-                               await Messenger<object>.Publish(Messages.ShowMediaProgessModal, IocSetup.Container.Resolve<MediaProgressViewModal>());
-                               await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                           }
+
+                           await Messenger<object>.Publish(Messages.ShowMediaProgessModal);
+                           await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
 
                            return item;
                        }
@@ -188,10 +181,7 @@ namespace Bible.Alarm.Services.Droid
                     i++;
                 }
 
-                if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
-                {
-                    await Messenger<object>.Publish(Messages.HideMediaProgressModal, null);
-                }
+                await Messenger<object>.Publish(Messages.HideMediaProgressModal, null);
 
                 //play default ring tone if we don't have the files downloaded
                 //and internet is not available

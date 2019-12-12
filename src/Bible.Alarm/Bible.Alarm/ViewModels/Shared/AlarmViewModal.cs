@@ -11,34 +11,38 @@ namespace Bible.Alarm.ViewModels
 {
     public class AlarmViewModal : ViewModel, IDisposableModal
     {
+        private IContainer container;
+
         private IPlaybackService playbackService;
 
         public Command SnoozeCommand { get; private set; }
         public Command DismissCommand { get; private set; }
         public ICommand CancelCommand { get; set; }
 
-        public AlarmViewModal()
+        public AlarmViewModal(IContainer container)
         {
-            this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
+            this.container = container;
+
+            this.playbackService = this.container.Resolve<IPlaybackService>();
 
             SnoozeCommand = new Command(async () =>
             {
                 await playbackService.Snooze();
 
-                var navigationService = IocSetup.Container.Resolve<INavigationService>();
+                var navigationService = this.container.Resolve<INavigationService>();
                 await navigationService?.CloseModal();
             });
 
             DismissCommand = new Command(async () =>
             {
                 await playbackService.Dismiss();
-                var navigationService = IocSetup.Container.Resolve<INavigationService>();
+                var navigationService = this.container.Resolve<INavigationService>();
                 await navigationService?.CloseModal();
             });
 
             CancelCommand = new Command(async () =>
             {
-                var navigationService = IocSetup.Container.Resolve<INavigationService>();
+                var navigationService = this.container.Resolve<INavigationService>();
                 await navigationService?.GoBack();
             });
         }

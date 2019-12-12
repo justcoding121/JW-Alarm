@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bible.Alarm.Contracts.Platform
 {
-    public interface IVersionFinder
+    public interface IVersionFinder 
     {
         string GetVersionName();
     }

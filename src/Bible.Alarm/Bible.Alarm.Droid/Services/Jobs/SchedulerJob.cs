@@ -5,6 +5,8 @@ using Bible.Alarm.Services.Droid.Tasks;
 using NLog;
 using Android.App.Job;
 using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Droid.Services.Platform;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -13,8 +15,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
     public class SchedulerJob : JobService
     {
         public const int JobId = 1;
-        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
-
+        private IContainer container;
+        private Logger logger;
+        public SchedulerJob()
+        {
+            LogSetup.Initialize(VersionFinder.Default);
+            logger = LogManager.GetCurrentClassLogger();
+        }
         public override bool OnStartJob(JobParameters jobParams)
         {
 
@@ -22,14 +29,15 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 try
                 {
-                    IocSetup.Initialize(this, true);
+                    var result = IocSetup.Initialize(this, true);
+                    this.container = result.Item1;
 
-                    var task1 = BootstrapHelper.VerifyMediaLookUpService();
-                    var task2 = BootstrapHelper.InitializeDatabase();
+                    var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
+                    var task2 = BootstrapHelper.InitializeDatabase(container);
 
                     await Task.WhenAll(task1, task2);
 
-                    using (var schedulerTask = IocSetup.Container.Resolve<SchedulerTask>())
+                    using (var schedulerTask = container.Resolve<SchedulerTask>())
                     {
                         await schedulerTask.Handle();
                     }

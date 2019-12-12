@@ -14,21 +14,21 @@ namespace Bible.Alarm.Services.Infrastructure
     {
         private static bool initialized = false;
         private static object @lock = new object();
-        public static void Initialize(string osName)
+        public static void Initialize(IVersionFinder versionFinder)
         {
             lock (@lock)
             {
                 if (!initialized)
                 {
-                    setupLoggly(osName);
+                    setupLoggly();
 
                     var config = new LoggingConfiguration();
                     var logglyTarget = new NLog.Targets.LogglyTarget();
-                    logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty() { Name = getVersionName() });
-                   
+                    logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty() { Name = getVersionName(versionFinder) });
+
                     config.AddTarget("loggly", logglyTarget);
                     config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
-                   
+
                     LogManager.Configuration = config;
 
                     initialized = true;
@@ -36,12 +36,12 @@ namespace Bible.Alarm.Services.Infrastructure
             }
         }
 
-        private static void setupLoggly(string osName)
+        private static void setupLoggly()
         {
 
             var config = LogglyConfig.Instance;
             config.CustomerToken = "ca6fc8af-4beb-4548-8b6c-c5955a288cc6";
-            config.ApplicationName = $"Bible-Alarm-{osName}";
+            config.ApplicationName = $"Bible-Alarm";
 
             config.Transport.EndpointHostname = "logs-01.loggly.com";
             config.Transport.EndpointPort = 514;
@@ -52,11 +52,10 @@ namespace Bible.Alarm.Services.Infrastructure
             config.TagConfig.Tags.Add(ct);
         }
 
-        private static string getVersionName()
+        private static string getVersionName(IVersionFinder versionFinder)
         {
             try
             {
-                var versionFinder = IocSetup.Container.Resolve<IVersionFinder>();
                 return versionFinder.GetVersionName();
             }
             catch

@@ -6,6 +6,8 @@ using MediaManager;
 using NLog;
 using Java.Interop;
 using System.Diagnostics;
+using Bible.Alarm.Droid.Services.Platform;
+using Bible.Alarm.Services.Infrastructure;
 
 namespace Bible.Alarm.Droid
 {
@@ -13,10 +15,13 @@ namespace Bible.Alarm.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        private Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+        private IContainer container;
 
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            container = IocSetup.GetContainer("SplashActivity");
+
             try
             {
                 TabLayoutResource = Resource.Layout.Tabbar;
@@ -25,7 +30,7 @@ namespace Bible.Alarm.Droid
                 base.OnCreate(savedInstanceState);
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-                LoadApplication(new App());
+                LoadApplication(new App(container));
 
             }
             catch (Exception e)
@@ -51,7 +56,7 @@ namespace Bible.Alarm.Droid
         [Export]
         public string IsAlarmOn()
         {
-            return IocSetup.Container.Resolve<IMediaManager>().IsPrepared().ToString();
+            return container.Resolve<IMediaManager>().IsPrepared().ToString();
         }
     }
 }

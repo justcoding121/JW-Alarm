@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace Bible.Alarm.UI.Views
 {
 	public partial class AlarmModal : ContentPage
-	{
+    {
         public AlarmViewModal ViewModel => BindingContext as AlarmViewModal;
         public AlarmModal ()
 		{

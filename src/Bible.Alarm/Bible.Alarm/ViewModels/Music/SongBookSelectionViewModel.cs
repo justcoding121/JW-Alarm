@@ -20,6 +20,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class SongBookSelectionViewModel : ViewModel, IDisposable
     {
+        private IContainer container;
+
         private MediaService mediaService;
         private INavigationService navigationService;
 
@@ -28,10 +30,12 @@ namespace Bible.Alarm.ViewModels
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public SongBookSelectionViewModel()
+        public SongBookSelectionViewModel(IContainer container)
         {
-            this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.container = container;
+
+            this.mediaService = this.container.Resolve<MediaService>();
+            this.navigationService = this.container.Resolve<INavigationService>();
 
 
             //set schedules from initial state.
@@ -81,7 +85,7 @@ namespace Bible.Alarm.ViewModels
                     }
                 });
 
-                var viewModel = IocSetup.Container.Resolve<TrackSelectionViewModel>();
+                var viewModel = this.container.Resolve<TrackSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
 
                 IsBusy = false;

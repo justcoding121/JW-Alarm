@@ -19,24 +19,23 @@
 
     public static class IocSetup
     {
-        internal static IContainer Container { private set; get; }
-        public static bool IsService { get; private set; }
-        public static Context Context { get; private set; }
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
-            container.Register<IToastService>((x) => new DroidToastService());
-
-            container.Register<INotificationService>((x) =>
-            new DroidNotificationService());
+            if (!isService)
+            {
+                container.Register<IToastService>((x) => new DroidToastService(container));
+            }
+          
+            container.Register<INotificationService>((x) => new DroidNotificationService(container));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
                                     container.Resolve<INotificationService>()));
 
 
-            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()));
+            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<MediaPlayer>()));
             container.Register((x) =>
             {
                 var player = new MediaPlayer();
@@ -63,23 +62,16 @@
                 .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
-            container.Register((x) =>
+            container.RegisterInstance((x) =>
             {
                 return CrossMediaManager.Current;
 
-            }, isSingleton: true);
+            });
 
-            container.Register<INetworkStatusService>((x) => new NetworkStatusService());
-            container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager());
+            container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
+            container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));
             container.Register<IVersionFinder>((x) => new VersionFinder());
 
-            Container = container;
-            IsService = isService;
-        }
-
-        public static void SetContext(Context context)
-        {
-            Context = context;
         }
     }
 }

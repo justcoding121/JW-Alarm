@@ -16,9 +16,15 @@ namespace Bible.Alarm.Droid.Services.Network
 {
     public class NetworkStatusService : INetworkStatusService
     {
+        public IContainer container { get; set; }
+        public NetworkStatusService(IContainer container)
+        {
+            this.container = container;
+        }
+
         public Task<bool> IsInternetAvailable()
         {
-            var connectivityManager = (ConnectivityManager)IocSetup.Context.GetSystemService(Android.Content.Context.ConnectivityService);
+            var connectivityManager = (ConnectivityManager)container.AndroidContext().GetSystemService(Android.Content.Context.ConnectivityService);
             var networkInfo = connectivityManager.ActiveNetwork;
 
             if (networkInfo == null)

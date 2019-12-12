@@ -10,18 +10,27 @@ using Bible.Alarm.Services.Contracts;
 using MediaManager;
 using MediaManager.Player;
 using NLog;
+using Bible.Alarm.Droid.Services.Platform;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
     [BroadcastReceiver(Enabled = true)]
     public class AlarmRingerReceiver : BroadcastReceiver, IDisposable
     {
-        private static Logger logger => LogHelper.GetLogger(global::Xamarin.Forms.Forms.IsInitialized);
+        private IContainer container;
+        private Logger logger;
 
         private IPlaybackService playbackService;
         private Context context;
         private Intent intent;
         private IMediaManager mediaManager;
+
+        public AlarmRingerReceiver()
+        {
+            LogSetup.Initialize(VersionFinder.Default);
+            logger = LogManager.GetCurrentClassLogger();
+        }
+
         private void stateChanged(object sender, MediaPlayerState e)
         {
             try
@@ -48,19 +57,20 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.context = context;
                 this.intent = intent;
 
-                IocSetup.Initialize(context, true);
+                var result = IocSetup.Initialize(context, true);
+                this.container = result.Item1;
 
-                if (IocSetup.Container.Resolve<IMediaManager>().IsPrepared())
+                if (container.Resolve<IMediaManager>().IsPrepared())
                 {
                     context.StopService(intent);
                     return;
                 }
 
-                this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
+                this.playbackService = container.Resolve<IPlaybackService>();
 
                 playbackService.Stopped += stateChanged;
 
-                mediaManager = IocSetup.Container.Resolve<IMediaManager>();
+                mediaManager = container.Resolve<IMediaManager>();
                 if (!mediaManager.IsPrepared())
                 {
                     mediaManager.Init(Application.Context);
@@ -76,10 +86,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                         await playbackService.Play(id);
 
-                        if (IocSetup.Container.RegisteredTypes.Any(x => x == typeof(Xamarin.Forms.INavigation)))
-                        {
-                            await Messenger<object>.Publish(Messages.ShowAlarmModal, IocSetup.Container.Resolve<AlarmViewModal>());
-                        }
+                        await Messenger<object>.Publish(Messages.ShowAlarmModal);
                     }
                     catch (Exception e)
                     {

@@ -21,6 +21,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class TrackSelectionViewModel : ViewModel, IDisposable
     {
+        private IContainer container;
+
         private MediaService mediaService;
         private IToastService toastService;
         private IPreviewPlayService playService;
@@ -31,12 +33,14 @@ namespace Bible.Alarm.ViewModels
 
         private readonly List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public TrackSelectionViewModel()
+        public TrackSelectionViewModel(IContainer container)
         {
-            this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.toastService = IocSetup.Container.Resolve<IToastService>();
-            this.playService = IocSetup.Container.Resolve<IPreviewPlayService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.container = container;
+
+            this.mediaService = this.container.Resolve<MediaService>();
+            this.toastService = this.container.Resolve<IToastService>();
+            this.playService = this.container.Resolve<IPreviewPlayService>();
+            this.navigationService = this.container.Resolve<INavigationService>();
 
             subscriptions.Add(mediaService);
 

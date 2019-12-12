@@ -11,13 +11,22 @@ namespace Bible.Alarm
 {
     public partial class App : Application
     {
-        public App()
+        private IContainer container;
+
+        public App(IContainer container) 
+        {
+            this.container = container;
+
+            init();
+        }
+
+        private void init()
         {
             InitializeComponent();
 
-            if (UI.IocSetup.Container.RegisteredTypes.Any(x => x == typeof(NavigationPage)))
+            if (container.RegisteredTypes.Any(x => x == typeof(NavigationPage)))
             {
-                MainPage = UI.IocSetup.Container.Resolve<NavigationPage>();
+                MainPage = container.Resolve<NavigationPage>();
             }
             else
             {
@@ -25,10 +34,10 @@ namespace Bible.Alarm
 
                 var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-                UI.IocSetup.Container.Register<TaskScheduler>(x => taskScheduler);
-                UI.IocSetup.Container.Register(x => navigationPage, isSingleton: true);
-                UI.IocSetup.Container.Register(x => navigationPage.Navigation, isSingleton: true);
-                UI.IocSetup.Container.Register<INavigationService>(x => new NavigationService(navigationPage.Navigation), isSingleton: true);
+                container.Register<TaskScheduler>(x => taskScheduler);
+                container.RegisterInstance(x => navigationPage);
+                container.RegisterInstance(x => navigationPage.Navigation);
+                container.RegisterInstance<INavigationService>(x => new NavigationService(container, navigationPage.Navigation));
 
                 MainPage = navigationPage;
 
@@ -38,33 +47,32 @@ namespace Bible.Alarm
                 Task.Delay(100).ContinueWith(async (a) =>
                 {
                     var homePage = new Home();
-                    homePage.BindingContext = UI.IocSetup.Container.Resolve<HomeViewModel>();
+                    homePage.BindingContext = container.Resolve<HomeViewModel>();
                     await navigationPage.Navigation.PushAsync(homePage);
 
                 }, taskScheduler)
                     .ContinueWith(async x =>
                     {
-                        var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
+                        var mediaManager = container.Resolve<IMediaManager>();
                         if (mediaManager.IsPrepared())
                         {
-                            await Messenger<object>.Publish(Messages.ShowAlarmModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                            await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                         }
                     });
             }
         }
-
         protected override void OnStart()
         {
             Task.Run(async () =>
             {
-                var navigationService = UI.IocSetup.Container.Resolve<INavigationService>();
+                var navigationService = container.Resolve<INavigationService>();
                 // Handle when your app starts  
                 await navigationService.NavigateToHome();
 
-                var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
+                var mediaManager = container.Resolve<IMediaManager>();
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(Messages.ShowAlarmModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                    await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
             });
         }
@@ -78,11 +86,11 @@ namespace Bible.Alarm
         {
             Task.Run(async () =>
             {
-                var mediaManager = UI.IocSetup.Container.Resolve<IMediaManager>();
+                var mediaManager = container.Resolve<IMediaManager>();
                 // Handle when your app resumes
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(Messages.ShowAlarmModal, UI.IocSetup.Container.Resolve<AlarmViewModal>());
+                    await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
             });
         }

@@ -1,5 +1,6 @@
 ﻿namespace Bible.Alarm
 {
+    using Bible.Alarm.Contracts;
     using System;
     using System.Collections.Generic;
 
@@ -8,6 +9,8 @@
     /// </summary>
     public interface IContainer
     {
+        Dictionary<string, object> Context { get; }
+
         /// <summary>
         /// Gets all the registered types.
         /// </summary>
@@ -20,7 +23,16 @@
         /// <returns>The register.</returns>
         /// <param name="factory">Factory.</param>
         /// <typeparam name="T">The registered type.</typeparam>
-        void Register<T>(Func<IContainer, T> factory, bool isSingleton = false);
+        void Register<T>(Func<IContainer, T> factory);
+
+
+        /// <summary>
+        /// Register a factory for the given type.
+        /// </summary>
+        /// <returns>The register.</returns>
+        /// <param name="factory">Factory.</param>
+        /// <typeparam name="T">The registered type.</typeparam>
+        void RegisterInstance<T>(Func<IContainer, T> factory);
 
         /// <summary>
         /// Get an instance of the given type.

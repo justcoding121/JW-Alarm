@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRederers\CustomSwitchRenderer.cs" />
+    <Compile Include="Extensions\ContainerExtension.cs" />
     <Compile Include="IocSetup.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

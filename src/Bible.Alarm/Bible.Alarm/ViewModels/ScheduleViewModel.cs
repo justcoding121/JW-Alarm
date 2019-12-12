@@ -21,6 +21,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModel, IDisposable
     {
+        private IContainer container;
+
         ScheduleDbContext scheduleDbContext;
         IAlarmService alarmService;
         IToastService popUpService;
@@ -30,14 +32,16 @@ namespace Bible.Alarm.ViewModels
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public ScheduleViewModel()
+        public ScheduleViewModel(IContainer container)
         {
-            this.scheduleDbContext = IocSetup.Container.Resolve<ScheduleDbContext>();
-            this.popUpService = IocSetup.Container.Resolve<IToastService>();
-            this.alarmService = IocSetup.Container.Resolve<IAlarmService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
-            this.playbackService = IocSetup.Container.Resolve<IPlaybackService>();
-            this.mediaManager = IocSetup.Container.Resolve<IMediaManager>();
+            this.container = container;
+
+            this.scheduleDbContext = this.container.Resolve<ScheduleDbContext>();
+            this.popUpService = this.container.Resolve<IToastService>();
+            this.alarmService = this.container.Resolve<IAlarmService>();
+            this.navigationService = this.container.Resolve<INavigationService>();
+            this.playbackService = this.container.Resolve<IPlaybackService>();
+            this.mediaManager = this.container.Resolve<IMediaManager>();
 
             subscriptions.Add(scheduleDbContext);
 
@@ -158,7 +162,7 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
 
-                var viewModel = IocSetup.Container.Resolve<MusicSelectionViewModel>();
+                var viewModel = this.container.Resolve<MusicSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
 
                 await Task.Run(async () =>
@@ -185,7 +189,7 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
 
-                var viewModel = IocSetup.Container.Resolve<BibleSelectionViewModel>();
+                var viewModel = this.container.Resolve<BibleSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
 
                 await Task.Run(async () =>
@@ -447,7 +451,10 @@ namespace Bible.Alarm.ViewModels
                     await alarmService.Create(model);
                 });
 
-                ReduxContainer.Store.Dispatch(new AddScheduleAction() { ScheduleListItem = new ScheduleListItem(model) });
+                ReduxContainer.Store.Dispatch(new AddScheduleAction()
+                {
+                    ScheduleListItem = new ScheduleListItem(container, model)
+                });
             }
             else
             {

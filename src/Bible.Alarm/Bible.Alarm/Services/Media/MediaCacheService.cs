@@ -17,7 +17,7 @@ namespace Bible.Alarm.Services
 {
     public class MediaCacheService : IMediaCacheService
     {
-        private static Logger logger => LogHelper.GetLogger(false);
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly string cacheRoot;
 

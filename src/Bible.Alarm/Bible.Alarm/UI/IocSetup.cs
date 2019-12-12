@@ -14,27 +14,27 @@ namespace Bible.Alarm.UI
 {
     public static class IocSetup
     {
-        internal static IContainer Container { private set; get; }
-        public static void Initialize(IContainer container)
+        public static void Initialize(IContainer container, bool isService)
         {
-            Container = container;
+            if (!isService)
+            {
+                container.Register(x => new Schedule());
 
-            Container.Register(x => new Schedule());
+                container.Register(x => new MusicSelection());
+                container.Register(x => new SongBookSelection());
+                container.Register(x => new TrackSelection(container));
 
-            Container.Register(x => new MusicSelection());
-            Container.Register(x => new SongBookSelection());
-            Container.Register(x => new TrackSelection());
+                container.Register(x => new BibleSelection());
+                container.Register(x => new BookSelection(container));
+                container.Register(x => new ChapterSelection(container));
 
-            Container.Register(x => new BibleSelection());
-            Container.Register(x => new BookSelection());
-            Container.Register(x => new ChapterSelection());
+                container.Register(x => new LanguageModal());
 
-            Container.Register(x => new LanguageModal());
-
-            Container.Register(x => new AlarmModal());
-            Container.Register(x => new BatteryOptimizationExclusionModal());
-            Container.Register(x => new NumberOfChaptersModal());
-            Container.Register(x => new MediaProgressModal());
+                container.Register(x => new AlarmModal());
+                container.Register(x => new BatteryOptimizationExclusionModal());
+                container.Register(x => new NumberOfChaptersModal());
+                container.Register(x => new MediaProgressModal());
+            }
         }
     }
 }

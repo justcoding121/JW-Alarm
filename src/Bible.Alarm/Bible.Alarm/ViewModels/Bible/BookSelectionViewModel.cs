@@ -19,6 +19,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class BookSelectionViewModel : ViewModel, IDisposable
     {
+        public IContainer container { get; set; }
+
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
 
@@ -30,10 +32,12 @@ namespace Bible.Alarm.ViewModels
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public BookSelectionViewModel()
+        public BookSelectionViewModel(IContainer container)
         {
-            this.mediaService = IocSetup.Container.Resolve<MediaService>();
-            this.navigationService = IocSetup.Container.Resolve<INavigationService>();
+            this.container = container;
+
+            this.mediaService = this.container.Resolve<MediaService>();
+            this.navigationService = this.container.Resolve<INavigationService>();
 
             BackCommand = new Command(async () =>
             {
@@ -55,7 +59,7 @@ namespace Bible.Alarm.ViewModels
                     }
                 });
 
-                var viewModel = IocSetup.Container.Resolve<ChapterSelectionViewModel>();
+                var viewModel = this.container.Resolve<ChapterSelectionViewModel>();
                 await navigationService.Navigate(viewModel);
                 IsBusy = false;
             });
