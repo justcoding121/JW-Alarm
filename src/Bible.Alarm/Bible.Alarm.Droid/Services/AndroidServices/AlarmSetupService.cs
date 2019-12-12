@@ -10,6 +10,7 @@ using static Android.App.AlarmManager;
 using Bible.Alarm.Droid;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Droid.Services.Platform;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {
@@ -62,6 +63,13 @@ namespace Bible.Alarm.Services.Droid.Tasks
                         }
                     case "SetupBackgroundTasks":
                         BootstrapHelper.VerifyBackgroundTasks(container.AndroidContext());
+                        Task.Run(async () =>
+                        {
+                            using (var schedulerTask = container.Resolve<SchedulerTask>())
+                            {
+                                await schedulerTask.Handle();
+                            }
+                        });
                         break;
                     default:
                         throw new NotImplementedException();

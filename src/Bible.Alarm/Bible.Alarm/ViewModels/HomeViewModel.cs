@@ -258,7 +258,7 @@ namespace Bible.Alarm.ViewModels
                     @lock.Release();
                 }
 
-            });
+            }, true);
         }
 
         private void listenIsEnabledChanges()

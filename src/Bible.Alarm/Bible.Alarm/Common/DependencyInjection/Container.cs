@@ -54,7 +54,7 @@
             this.factories[typeof(T)] = new Tuple<bool, Func<object>>(false, () => factory(this));
         }
 
-        public void RegisterInstance<T>(Func<IContainer, T> factory)
+        public void RegisterSingleton<T>(Func<IContainer, T> factory)
         {
             this.factories[typeof(T)] = new Tuple<bool, Func<object>>(false, () => factory(this));
         }

@@ -35,9 +35,9 @@ namespace Bible.Alarm
                 var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
                 container.Register<TaskScheduler>(x => taskScheduler);
-                container.RegisterInstance(x => navigationPage);
-                container.RegisterInstance(x => navigationPage.Navigation);
-                container.RegisterInstance<INavigationService>(x => new NavigationService(container, navigationPage.Navigation));
+                container.RegisterSingleton(x => navigationPage);
+                container.RegisterSingleton(x => navigationPage.Navigation);
+                container.RegisterSingleton<INavigationService>(x => new NavigationService(container, navigationPage.Navigation));
 
                 MainPage = navigationPage;
 

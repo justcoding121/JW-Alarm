@@ -32,7 +32,7 @@
         /// <returns>The register.</returns>
         /// <param name="factory">Factory.</param>
         /// <typeparam name="T">The registered type.</typeparam>
-        void RegisterInstance<T>(Func<IContainer, T> factory);
+        void RegisterSingleton<T>(Func<IContainer, T> factory);
 
         /// <summary>
         /// Get an instance of the given type.

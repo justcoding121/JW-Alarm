@@ -13,7 +13,7 @@ namespace Bible.Alarm.ViewModels
             {
                 //marking as singleton because this is the starting point
                 //and it has calls to Messenger.Subscribe
-                container.RegisterInstance((x) => new HomeViewModel(container,
+                container.RegisterSingleton((x) => new HomeViewModel(container,
                     container.Resolve<ScheduleDbContext>(),
                     container.Resolve<IToastService>(),
                     container.Resolve<INavigationService>(),
@@ -34,7 +34,7 @@ namespace Bible.Alarm.ViewModels
                 container.Register((x) => new AlarmViewModal(container));
 
                 //marked as singleton due to call to Messenger.Subscribe
-                container.RegisterInstance((x) => new MediaProgressViewModal(container));
+                container.RegisterSingleton((x) => new MediaProgressViewModal(container));
             }
         }
 

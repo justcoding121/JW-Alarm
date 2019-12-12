@@ -36,7 +36,7 @@ namespace Bible.Alarm.Common.Mvvm
             cache[stream] = @object;
         }
 
-        public static void Subscribe(Messages stream, Func<T, Task> action)
+        public static void Subscribe(Messages stream, Func<T, Task> action, bool getMostRecentEvent = false)
         {
             if (subscribers.ContainsKey(stream))
             {
@@ -47,7 +47,7 @@ namespace Bible.Alarm.Common.Mvvm
                 subscribers[stream] = new List<Func<T, Task>>(new[] { action });
             }
 
-            if (cache.ContainsKey(stream))
+            if (getMostRecentEvent && cache.ContainsKey(stream))
             {
                 var @object = cache[stream];
                 action(@object);
