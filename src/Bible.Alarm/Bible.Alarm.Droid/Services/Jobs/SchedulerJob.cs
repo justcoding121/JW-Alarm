@@ -44,7 +44,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, "An error happened when handliing the repeating scheduler task.");
+                    logger.Error(e, "An error happened when handling the repeating scheduler task.");
                 }
 
 
