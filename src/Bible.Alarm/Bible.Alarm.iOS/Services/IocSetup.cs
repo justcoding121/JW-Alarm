@@ -1,75 +1,68 @@
 ﻿namespace Bible.Alarm.Services.iOS
 {
-    using AVFoundation;
-    using Foundation;
     using Bible.Alarm.Services.Contracts;
-    using Bible.Alarm.Services.iOS;
-    using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
     using System.Net.Http;
+    using MediaManager;
+    using Bible.Alarm.Services.iOS.Tasks;
+    using Bible.Alarm.Contracts.Network;
+    using Bible.Alarm.iOS.Services.Network;
+    using Bible.Alarm.Contracts.Battery;
+    using Bible.Alarm.Contracts.Platform;
+    using Bible.Alarm.iOS.Services.Platform;
 
     public static class IocSetup
     {
-        internal static IContainer Container;
-        public static void Initialize(IContainer container)
+        public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new NSUrlSessionHandler());
 
-            container.Register<IToastService>((x) => new iOSPopUpService());
-
-            container.Register<INotificationService>((x) =>
-            new iOSNotificationService(container.Resolve<IMediaCacheService>()));
-
-
-            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<AVPlayer>()));
-            container.Register((x) =>
+            if (!isService)
             {
-                var player = new AVQueuePlayer();
-                return player;
-            });
-
-            container.Register((x) =>
-            {
-                var player = new AVPlayer();
-                return player;
-            });
-
-            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<AVQueuePlayer>(),
-                                                            container.Resolve<IPlaylistService>(),
-                                                            container.Resolve<IMediaCacheService>(),
-                                                            container.Resolve<IAlarmService>()));
+                container.Register<IToastService>((x) => new iOSToastService(container));
+            }
           
-            SQLitePCL.Batteries_V2.Init();
+            container.Register<INotificationService>((x) => new iOSNotificationService(container));
 
-            container.Register<IMediaManager>((x) =>
-            {
-                return CrossMediaManager.Current;
+            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
+                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
+                                    container.Resolve<INotificationService>()));
 
-            }, true);
 
-            string bibleAlarmDatabasePath = getDatabasePath(dbName: "bibleAlarm.db");
+            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container));
+
+            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
+                container.Resolve<IPlaylistService>(),
+                container.Resolve<IAlarmService>(),
+                container.Resolve<IMediaCacheService>(),
+                container.Resolve<IStorageService>(),
+                container.Resolve<INetworkStatusService>(),
+                container.Resolve<INotificationService>()));
+
+
+            string databasePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite($"Filename={bibleAlarmDatabasePath}").Options;
+                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
 
             container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
 
-            string mediaIndexDatabasePath = getDatabasePath(dbName: "mediaIndex.db");
             var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite($"Filename={mediaIndexDatabasePath}").Options;
+                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
+            container.RegisterSingleton((x) =>
+            {
+                return CrossMediaManager.Current;
 
-			Container = container;
-        }
+            });
 
-        private static string getDatabasePath(string dbName)
-        {
-            return Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData),
-                dbName);
+            container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
+            
+            container.Register<IVersionFinder>((x) => new VersionFinder());
+
         }
     }
 }

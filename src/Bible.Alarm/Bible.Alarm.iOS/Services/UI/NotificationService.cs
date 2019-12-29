@@ -1,29 +1,31 @@
-﻿using Bible.Alarm.Models;
+﻿using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Contracts;
-using Newtonsoft.Json;
+using Bible.Alarm.Services.iOS.Tasks;
+using NLog;
 using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
+using Bible.Alarm.iOS;
 
 namespace Bible.Alarm.Services.iOS
 {
     public class iOSNotificationService : INotificationService
     {
-        IMediaCacheService mediaCacheService;
+        private IContainer container;
 
-        public iOSNotificationService(IMediaCacheService mediaCacheService)
+        public iOSNotificationService(IContainer container)
         {
-            this.mediaCacheService = mediaCacheService;
+            this.container = container;
         }
 
-        public void Add(long scheduleId, DateTimeOffset time,
-            string title, string body)
+        public void ShowNotification(long scheduleId)
         {
             throw new NotImplementedException();
         }
 
+        public void ScheduleNotification(long scheduleId, DateTimeOffset time,
+            string title, string body)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Remove(long scheduleId)
         {
@@ -33,6 +35,17 @@ namespace Bible.Alarm.Services.iOS
         public bool IsScheduled(long scheduleId)
         {
             throw new NotImplementedException();
+        }
+
+  
+        public void ClearAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 

@@ -1,38 +1,35 @@
-﻿using AVFoundation;
-using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 
 namespace Bible.Alarm.Services.iOS
 {
-    public class PreviewPlayService :  IPreviewPlayService
+    public class PreviewPlayService : IPreviewPlayService, IDisposable
     {
-        private AVPlayer player;
+        private IContainer container;
 
-        public PreviewPlayService(AVPlayer player)
+        public PreviewPlayService(IContainer container)
         {
-            this.player = player;
+            this.container = container;
         }
 
         public event Action OnStopped;
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Play(string url)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Stop()
         {
             throw new NotImplementedException();
+        }
+
+
+        Task IPreviewPlayService.Play(string url)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+         
         }
     }
 }

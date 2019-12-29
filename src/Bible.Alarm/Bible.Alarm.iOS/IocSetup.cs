@@ -1,23 +1,64 @@
 ﻿using Bible.Alarm;
+using MediaManager;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Bible.Alarm.iOS
 {
- 
-    public static class IocSetup
+    public class IocSetup
     {
-        public static IContainer Container;
-        public static void Initialize()
+        private static ConcurrentDictionary<string, IContainer> containers
+            = new ConcurrentDictionary<string, IContainer>();
+        public static Tuple<IContainer, bool> Initialize(bool isService)
         {
-            var container = Bible.Alarm.Container.Default;
-
-            UI.IocSetup.Initialize(container);
-            Bible.Alarm.Services.IocSetup.Initialize(container);
-            Bible.Alarm.Services.iOS.IocSetup.Initialize(container);
-            Bible.Alarm.ViewModels.IocSetup.Initialize(container);
-
-            Container = container;
+            return Initialize(null, isService);
         }
 
+        public static Tuple<IContainer, bool> Initialize(string containerName,
+                        bool isService)
+        {
+            if (containerName != null)
+            {
+                containers.TryGetValue(containerName, out var existing);
+
+                if (existing != null)
+                {
+                    return new Tuple<IContainer, bool>(existing, false);
+                }
+            }
+
+            var context = new Dictionary<string, object>();
+
+            context.Add("IsiOSService", isService);
+
+            IContainer container;
+
+            if (containerName != null)
+            {
+                container = containers.GetOrAdd(containerName, new Container(context));
+            }
+            else
+            {
+                container = new Container(context);
+            }
+
+            UI.IocSetup.Initialize(container, isService);
+            Alarm.Services.IocSetup.Initialize(container, isService);
+            Alarm.Services.iOS.IocSetup.Initialize(container, isService);
+            ViewModels.IocSetup.Initialize(container, isService);
+
+            return new Tuple<IContainer, bool>(container, true);
+        }
+
+        public static IContainer GetContainer(string containerName)
+        {
+            return containers[containerName];
+        }
+        public bool Remove(string containerName)
+        {
+            return containers.TryRemove(containerName, out _);
+        }
 
     }
 }

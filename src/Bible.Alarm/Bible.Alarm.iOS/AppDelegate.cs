@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
 using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Services.iOS.Helpers;
 using UIKit;
 using NLog;
 using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.iOS.Services.Platform;
+using Bible.Alarm.Services.iOS.Helpers;
 
 namespace Bible.Alarm.iOS
 {
@@ -17,13 +16,8 @@ namespace Bible.Alarm.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
-
-        public AppDelegate() : base()
-        {
-            LogSetup.Initialize("iOS");
-        }
-
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private IContainer container;
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -33,34 +27,18 @@ namespace Bible.Alarm.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            logger.Info("ios App launch started.");
+            container = IocSetup.GetContainer("SplashActivity");
 
             try
             {
-                IocSetup.Initialize();
-
                 global::Xamarin.Forms.Forms.Init();
-                LoadApplication(new App());
+                LoadApplication(new App(container));
             }
             catch (Exception e)
             {
                 logger.Fatal(e, "iOS application crashed.");
                 throw;
             }
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    await BootstrapHelper.InitializeDatabase();
-                    await BootstrapHelper.VerifyMediaLookUpService();
-                    await Messenger<bool>.Publish(Bible.Alarm.Common.Mvvm.Messages.Initialized, true);
-                }
-                catch (Exception e)
-                {
-                    logger.Fatal(e, "iOS initialization crashed.");
-                }
-            });
 
             return base.FinishedLaunching(app, options);
         }
