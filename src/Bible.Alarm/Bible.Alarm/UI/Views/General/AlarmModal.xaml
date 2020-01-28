@@ -25,7 +25,7 @@
                     WidthRequest="200"
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="CenterAndExpand"
-                    Text="Dismiss Alarm"
+                    Text="Dismiss"
                     FontSize="Medium"
                     TextColor="SlateBlue">
             </Button>
