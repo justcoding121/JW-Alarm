@@ -24,7 +24,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         public RestartReceiver()
         {
             LogSetup.Initialize(VersionFinder.Default,
-            new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
             logger = LogManager.GetCurrentClassLogger();
         }
         public override async void OnReceive(Context context, Intent intent)
@@ -33,9 +33,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
             try
             {
-
                 var result = IocSetup.Initialize(context, true);
                 this.container = result.Item1;
+
+                BootstrapHelper.VerifyBackgroundTasks(container.AndroidContext());
 
                 var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
                 var task2 = BootstrapHelper.InitializeDatabase(container);
@@ -51,7 +52,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
             catch (Exception e)
             {
-                logger.Error(e, "Failed to process restart task.");
+                logger.Error(e, $"Failed to process restart task. Intent action {intent.Action}");
             }
             finally
             {

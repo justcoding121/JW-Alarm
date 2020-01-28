@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.jthomas.info.Bible.Alarm" android:installLocation="auto" android:versionCode="28" android:versionName="1.36">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.jthomas.info.Bible.Alarm" android:installLocation="auto" android:versionCode="29" android:versionName="1.37">
 	<uses-sdk android:targetSdkVersion="29" android:minSdkVersion="21" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -7,7 +7,5 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<application android:label="Bible Alarm" android:icon="@mipmap/ic_launcher_round" android:roundIcon="@mipmap/ic_launcher_round" android:name="android.support.multidex.MultiDexApplication"></application>
 </manifest>

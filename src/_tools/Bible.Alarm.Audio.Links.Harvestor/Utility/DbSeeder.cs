@@ -12,7 +12,7 @@ namespace Bible.Alarm.Audio.Links.Harvestor
     {
         public async static Task Seed(string indexDir)
         {
-            var zipDir = Path.Combine(indexDir, "db");
+            var zipDir = Path.Combine(new DirectoryInfo(indexDir).FullName, "db");
 
             if (!Directory.Exists(zipDir))
             {

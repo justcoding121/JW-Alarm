@@ -63,6 +63,7 @@ namespace Bible.Alarm.ViewModels
                        IsEnabled = true,
                        MusicEnabled = false,
                        DaysOfWeek = DaysOfWeek.All,
+                       Name = "Sample schedule",
                        Music = new AlarmMusic()
                        {
                            MusicType = MusicType.Vocals,
