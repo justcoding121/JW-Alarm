@@ -11,6 +11,7 @@ using MediaManager;
 using MediaManager.Player;
 using NLog;
 using Bible.Alarm.Droid.Services.Platform;
+using Android.OS;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -27,7 +28,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public AlarmRingerReceiver()
         {
-            LogSetup.Initialize(VersionFinder.Default);
+            LogSetup.Initialize(VersionFinder.Default,
+             new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+
             logger = LogManager.GetCurrentClassLogger();
         }
 

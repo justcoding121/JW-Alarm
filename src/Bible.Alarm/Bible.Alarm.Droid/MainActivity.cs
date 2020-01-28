@@ -8,6 +8,9 @@ using Java.Interop;
 using System.Diagnostics;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
+using Android.Support.V4.Content;
+using Android.Support.V4.App;
+using Android;
 
 namespace Bible.Alarm.Droid
 {
@@ -21,6 +24,16 @@ namespace Bible.Alarm.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             container = IocSetup.GetContainer("SplashActivity");
+
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            {
+                ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.WriteExternalStorage }, 0);
+            }
+
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted)
+            {
+                ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.ReadExternalStorage }, 0);
+            }
 
             try
             {

@@ -29,7 +29,9 @@ namespace Bible.Alarm.Droid
 
         public SplashActivity()
         {
-            LogSetup.Initialize(VersionFinder.Default);
+            LogSetup.Initialize(VersionFinder.Default,
+           new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+
             logger = LogManager.GetCurrentClassLogger();
         }
 

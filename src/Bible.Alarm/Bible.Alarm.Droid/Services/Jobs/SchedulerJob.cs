@@ -7,6 +7,7 @@ using Android.App.Job;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Droid.Services.Platform;
+using Android.OS;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -19,7 +20,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
         private Logger logger;
         public SchedulerJob()
         {
-            LogSetup.Initialize(VersionFinder.Default);
+            LogSetup.Initialize(VersionFinder.Default,
+           new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+
             logger = LogManager.GetCurrentClassLogger();
         }
         public override bool OnStartJob(JobParameters jobParams)

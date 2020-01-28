@@ -7,6 +7,7 @@ using NLog;
 using System.Threading.Tasks;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Droid.Services.Platform;
+using Android.OS;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -22,7 +23,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public RestartReceiver()
         {
-            LogSetup.Initialize(VersionFinder.Default);
+            LogSetup.Initialize(VersionFinder.Default,
+            new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
             logger = LogManager.GetCurrentClassLogger();
         }
         public override async void OnReceive(Context context, Intent intent)

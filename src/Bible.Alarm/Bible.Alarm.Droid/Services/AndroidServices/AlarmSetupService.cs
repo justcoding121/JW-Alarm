@@ -24,7 +24,9 @@ namespace Bible.Alarm.Services.Droid.Tasks
 
         public AlarmSetupService()
         {
-            LogSetup.Initialize(VersionFinder.Default);
+            LogSetup.Initialize(VersionFinder.Default,
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+
             logger = LogManager.GetCurrentClassLogger();
         }
 

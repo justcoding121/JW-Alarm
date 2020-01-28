@@ -14,7 +14,7 @@ namespace Bible.Alarm.Services.Infrastructure
     {
         private static bool initialized = false;
         private static object @lock = new object();
-        public static void Initialize(IVersionFinder versionFinder)
+        public static void Initialize(IVersionFinder versionFinder, string[] tags)
         {
             lock (@lock)
             {
@@ -24,7 +24,22 @@ namespace Bible.Alarm.Services.Infrastructure
 
                     var config = new LoggingConfiguration();
                     var logglyTarget = new NLog.Targets.LogglyTarget();
-                    logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty() { Name = getVersionName(versionFinder) });
+                    logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
+                    {
+                        Name = getVersionName(versionFinder)
+                    });
+
+                    if (tags != null)
+                    {
+                        foreach (var tag in tags)
+                        {
+                            logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
+                            {
+                                Name = tag
+                            });
+                        }
+
+                    }
 
                     config.AddTarget("loggly", logglyTarget);
                     config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));

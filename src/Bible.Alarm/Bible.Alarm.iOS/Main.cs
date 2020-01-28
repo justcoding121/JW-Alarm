@@ -20,7 +20,7 @@ namespace Bible.Alarm.iOS
 
         public Application()
         {
-            LogSetup.Initialize(VersionFinder.Default);
+            LogSetup.Initialize(VersionFinder.Default, new string[] { });
             logger = LogManager.GetCurrentClassLogger();
         }
 
@@ -45,14 +45,17 @@ namespace Bible.Alarm.iOS
 
                         await Task.Delay(1000);
 
-                
-
                     }
                     catch (Exception e)
                     {
                         logger.Fatal(e, "Android initialization crashed.");
                     }
-                });
+                }).ContinueWith((x) =>
+                {
+                    // if you want to use a different Application Delegate class from "AppDelegate"
+                    // you can specify it here.
+                    UIApplication.Main(args, null, "AppDelegate");
+                }, TaskScheduler.FromCurrentSynchronizationContext());
             }
             else
             {
@@ -61,10 +64,7 @@ namespace Bible.Alarm.iOS
                     await Messenger<bool>.Publish(Bible.Alarm.Common.Mvvm.Messages.Initialized, true);
                 });
             }
-
-            // if you want to use a different Application Delegate class from "AppDelegate"
-            // you can specify it here.
-            UIApplication.Main(args, null, "AppDelegate");
+         
         }
     }
 }

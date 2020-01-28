@@ -14,7 +14,7 @@ namespace Bible.Alarm.Services
         {
             get
             {
-                return Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }
 
