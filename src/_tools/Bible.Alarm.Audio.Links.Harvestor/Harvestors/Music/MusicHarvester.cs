@@ -31,10 +31,10 @@ namespace AudioLinkHarvester.Audio
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
                 var model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                foreach (var item in model.languages)
+                foreach (var item in model["languages"])
                 {
                     var languageCode = item.Name;
-                    var language = model.languages[item.Name]["name"].Value;
+                    var language = model["languages"][item.Name]["name"].Value;
 
                     Console.WriteLine($"Harvesting Music track links for {publication.Value} of {language} language.");
 
@@ -148,21 +148,29 @@ namespace AudioLinkHarvester.Audio
 
                 var model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                var musicFiles = model.files[languageCode ?? "E"].MP3;
+                var lc = languageCode ?? "E";
+
+                //patch for bad data
+                if(lc == "LAH")
+                {
+                    lc = "LAHU";
+                }
+
+                var musicFiles = model["files"][lc]["MP3"];
                 foreach (var musicFile in musicFiles)
                 {
-                    string url = musicFile.file.url;
-                    int track = musicFile.track;
+                    string url = musicFile["file"]["url"].Value;
+                    int track = (int)musicFile["track"].Value;
 
                     if (track == 0
                         || url.EndsWith(".zip"))
                         continue;
 
-                    double duration = musicFile.duration;
+                    double duration = (double)musicFile["duration"];
                     musicTracks.Add(new MusicTrack()
                     {
                         Number = trackNumber,
-                        Title = musicFile.title,
+                        Title = musicFile["title"].Value,
                         Url = url,
                         Duration = TimeSpan.FromMilliseconds(duration * 1000),
                         LookUpPath = $"?output=json&pub={publicationDownloadCode}&fileformat=MP3" +

@@ -211,7 +211,15 @@ namespace Bible.Alarm.Services
                 string jsonString = Encoding.Default.GetString(@bytes);
                 dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                return model.files[languageCode == null ? "E" : languageCode].MP3[0].file.url;
+                var lc = languageCode ?? "E";
+
+                //patch for bad data
+                if (lc == "LAH")
+                {
+                    lc = "LAHU";
+                }
+
+                return model.files[lc].MP3[0].file.url;
             }
             catch
             {

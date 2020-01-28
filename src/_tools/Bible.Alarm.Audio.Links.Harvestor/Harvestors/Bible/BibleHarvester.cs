@@ -18,7 +18,6 @@ namespace AudioLinkHarvester.Bible
             new KeyValuePair<string, string>("bi12","New World Translation (1984)")
         });
 
-
         internal async static Task Harvest_Bible_Links()
         {
             var tasks = new List<Task>();
@@ -35,10 +34,10 @@ namespace AudioLinkHarvester.Bible
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
                 var model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                foreach (var item in model.languages)
+                foreach (var item in model["languages"])
                 {
                     var languageCode = item.Name;
-                    var language = model.languages[item.Name]["name"].Value;
+                    var language = model["languages"][item.Name]["name"].Value;
 
                     languageCodeToNameMappings[languageCode] = language;
 
@@ -67,6 +66,7 @@ namespace AudioLinkHarvester.Bible
                 {
                     Code = x.Key,
                     Name = languageCodeToNameMappings[x.Key]
+
                 }).OrderBy(x => x.Code).ToList()));
 
             foreach (var languageEditionsMap in languageCodeToEditionsMapping)
@@ -117,29 +117,29 @@ namespace AudioLinkHarvester.Bible
                     continue;
                 }
 
-                var bookFiles = model.files[languageCode].MP3;
+                var bookFiles = model["files"][languageCode]["MP3"];
                 foreach (var bookFile in bookFiles)
                 {
-                    string url = bookFile.file.url;
+                    string url = bookFile["file"]["url"].Value;
 
-                    if (bookFile.track == 0
+                    if (bookFile["track"].Value == 0
                     || url.EndsWith(".zip")) continue;
 
-                    bookNumber = bookFile.booknum;
+                    bookNumber = (int)bookFile["booknum"].Value;
 
                     if (!bookNumberBookMap.ContainsKey(bookNumber))
                     {
-                        var name = harvestLink.Contains("booknum=") ? model.pubName : bookFile.title.ToString().Split('-')[0].Trim();
+                        var name = harvestLink.Contains("booknum=") ? model["pubName"].Value : bookFile["title"].Value.ToString().Split('-')[0].Trim();
                         name = name == "Psalm 1" ? "Psalms" : name;
                         bookNumberBookMap[bookNumber] = new BibleBook()
                         {
-                            Number = bookFile.booknum,
+                            Number = (int)bookFile["booknum"].Value,
                             Name = name
                         };
                     }
 
-                    int trackNumber = bookFile.track;
-                    double duration = bookFile.duration;
+                    int trackNumber = (int)bookFile["track"].Value;
+                    double duration = (double)bookFile["duration"].Value;
                     if (!bookNumberChapterMap.ContainsKey(bookNumber))
                     {
                         bookNumberChapterMap[bookNumber] = new Dictionary<int, BibleChapter>();
@@ -151,7 +151,7 @@ namespace AudioLinkHarvester.Bible
                         new BibleChapter()
                         {
                             Number = trackNumber,
-                            Url = bookFile.file.url,
+                            Url = bookFile["file"]["url"].Value,
                             Duration = TimeSpan.FromMilliseconds(duration * 1000)
                         });
                     }

@@ -61,7 +61,7 @@ namespace Bible.Alarm.ViewModels
                    setModel(model ?? new AlarmSchedule()
                    {
                        IsEnabled = true,
-                       MusicEnabled = true,
+                       MusicEnabled = false,
                        DaysOfWeek = DaysOfWeek.All,
                        Music = new AlarmMusic()
                        {
