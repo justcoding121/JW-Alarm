@@ -1,6 +1,7 @@
 ﻿namespace Bible.Alarm.Services
 {
     using Bible.Alarm.Contracts.Network;
+    using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Services;
     using Bible.Alarm.Services.Contracts;
     using MediaManager;
@@ -15,7 +16,7 @@
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpMessageHandler>()));
-            container.Register((x) => new MediaIndexService(container.Resolve<IStorageService>()));
+            container.Register((x) => new MediaIndexService(container.Resolve<IStorageService>(), container.Resolve<IVersionFinder>()));
             container.Register((x) => new MediaService(container.Resolve<MediaIndexService>(), container.Resolve<MediaDbContext>()));
 
             container.Register<IMediaCacheService>((x) =>

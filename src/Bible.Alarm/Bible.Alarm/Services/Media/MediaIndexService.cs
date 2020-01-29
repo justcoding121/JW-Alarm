@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Contracts.Platform;
+using Bible.Alarm.Services.Contracts;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -12,12 +13,14 @@ namespace Bible.Alarm.Services
         private readonly Lazy<string> indexRoot;
 
         private IStorageService storageService;
+        private IVersionFinder versionFinder;
 
         public string IndexRoot => indexRoot.Value;
 
-        public MediaIndexService(IStorageService storageService)
+        public MediaIndexService(IStorageService storageService, IVersionFinder versionFinder)
         {
             this.storageService = storageService;
+            this.versionFinder = versionFinder;
 
             indexRoot = new Lazy<string>(() => this.storageService.StorageRoot);
         }
@@ -53,25 +56,32 @@ namespace Bible.Alarm.Services
         {
             var tmpIndexFilePath = Path.Combine(IndexRoot, "index.zip");
 
-            var exists = await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db"))
+            var mediaIndexDbExists = await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db"))
                             //verify that any previous unzipping process was not incomplete
                             && !await storageService.FileExists(tmpIndexFilePath);
 
-            var outdated = false;
-
+            var versionFileExists = false;
+            var isOutdatedVersion = false;
+           
             //delete the file if it was outdated by an app auto-update.
-            if (exists)
+            if (mediaIndexDbExists)
             {
-                var resourceFileCreationDate = await storageService.GetFileCreationDate("index.zip", true);
-                var creationDate = await storageService.GetFileCreationDate(Path.Combine(IndexRoot, "mediaIndex.db"), false);
+                var versionFilePath = Path.Combine(IndexRoot, "version.dat");
+                versionFileExists = await storageService.FileExists(versionFilePath);
 
-                if (resourceFileCreationDate > creationDate)
+                if (versionFileExists)
                 {
-                    outdated = true;
+                    var version = await storageService.ReadFile(versionFilePath);
+                    var currentVersion = versionFinder.GetVersionName();
+
+                    if (version != currentVersion)
+                    {
+                        isOutdatedVersion = true;
+                    }
                 }
             }
 
-            return !exists || outdated;
+            return !mediaIndexDbExists || !versionFileExists || isOutdatedVersion;
         }
 
         private async Task clearCopyIndexFromResource()
@@ -86,7 +96,7 @@ namespace Bible.Alarm.Services
                 await storageService.DeleteFile(tmpIndexFilePath);
             }
 
-            if(await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db")))
+            if (await storageService.FileExists(Path.Combine(IndexRoot, "mediaIndex.db")))
             {
                 await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
             }
@@ -96,11 +106,13 @@ namespace Bible.Alarm.Services
                 await storageService.DeleteFile(Path.Combine(IndexRoot, defaultAlarmFile));
             }
 
-            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);   
+            await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
             await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
 
             await storageService.DeleteFile(tmpIndexFilePath);
+
+            await storageService.SaveFile(IndexRoot, "version.dat", versionFinder.GetVersionName());
         }
 
         public void Dispose()
