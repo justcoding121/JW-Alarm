@@ -37,7 +37,6 @@ namespace Bible.Alarm.ViewModels
             this.mediaService = this.container.Resolve<MediaService>();
             this.navigationService = this.container.Resolve<INavigationService>();
 
-
             //set schedules from initial state.
             //this should fire only once 
             var subscription1 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
@@ -147,9 +146,7 @@ namespace Bible.Alarm.ViewModels
                     SelectedSongBook.IsSelected = true;
                 }
             }
-
         }
-
 
         public ICommand BackCommand { get; set; }
         public ICommand TrackSelectionCommand { get; set; }
@@ -234,8 +231,10 @@ namespace Bible.Alarm.ViewModels
             var languages = await mediaService.GetVocalMusicLanguages();
             var languageVMs = new ObservableCollection<LanguageListViewItemModel>();
 
-            foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
-                    || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
+            foreach (var language in languages.Select(x => x.Value)
+                .Where(x => searchTerm == null
+                    || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                .OrderBy(x=>x.Name))
             {
                 var languageVM = new LanguageListViewItemModel(language);
 

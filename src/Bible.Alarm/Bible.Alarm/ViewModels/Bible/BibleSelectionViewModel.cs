@@ -223,8 +223,10 @@ namespace Bible.Alarm.ViewModels
             var languages = await mediaService.GetBibleLanguages();
             var languageVMs = new ObservableCollection<LanguageListViewItemModel>();
 
-            foreach (var language in languages.Select(x => x.Value).Where(x => searchTerm == null
-                    || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0))
+            foreach (var language in languages.Select(x => x.Value)
+                .Where(x => searchTerm == null
+                    || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                .OrderBy(x => x.Name))
             {
                 var languageVM = new LanguageListViewItemModel(language);
 
@@ -274,7 +276,7 @@ namespace Bible.Alarm.ViewModels
             navigationService.NavigatedBack -= onNavigated;
 
             subscriptions.ForEach(x => x.Dispose());
-            mediaService.Dispose();   
+            mediaService.Dispose();
         }
     }
 }
