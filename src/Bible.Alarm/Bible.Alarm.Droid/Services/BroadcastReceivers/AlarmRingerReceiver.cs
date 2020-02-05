@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.ViewModels;
+using Android.OS;
 using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Infrastructure;
 using MediaManager;
 using MediaManager.Player;
 using NLog;
-using Bible.Alarm.Droid.Services.Platform;
-using Android.OS;
+using System;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {

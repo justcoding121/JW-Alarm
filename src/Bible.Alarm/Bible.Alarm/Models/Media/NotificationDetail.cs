@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.Models
 {
-    public class NotificationDetail 
+    public class NotificationDetail
     {
         public long ScheduleId { get; set; }
         public DateTimeOffset NotificationTime { get; set; }

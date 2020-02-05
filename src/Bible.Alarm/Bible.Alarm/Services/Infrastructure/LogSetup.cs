@@ -2,11 +2,7 @@
 using Loggly;
 using Loggly.Config;
 using NLog;
-using NLog.Common;
 using NLog.Config;
-using System;
-using System.Linq;
-using System.Reflection;
 
 namespace Bible.Alarm.Services.Infrastructure
 {

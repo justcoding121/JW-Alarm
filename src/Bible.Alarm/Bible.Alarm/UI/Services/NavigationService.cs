@@ -1,17 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
-using Bible.Alarm.UI.Views.Music;
-using Bible.Alarm.Common.Mvvm;
-using Xamarin.Forms;
 using Bible.Alarm.UI.Views.General;
+using Bible.Alarm.UI.Views.Music;
+using Bible.Alarm.ViewModels;
 using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Shared;
-using Bible.Alarm.ViewModels;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.UI
 {
@@ -216,8 +216,8 @@ namespace Bible.Alarm.UI
         {
             if (navigater.ModalStack.Count > 0)
             {
-               var modal = await navigater.PopModalAsync();
-                if(modal.BindingContext is IDisposableModal)
+                var modal = await navigater.PopModalAsync();
+                if (modal.BindingContext is IDisposableModal)
                 {
                     (modal.BindingContext as IDisposableModal).Dispose();
                 }

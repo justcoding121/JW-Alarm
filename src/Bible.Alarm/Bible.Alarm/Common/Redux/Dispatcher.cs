@@ -6,5 +6,5 @@
 
 namespace Redux
 {
-  public delegate IAction Dispatcher(IAction action);
+    public delegate IAction Dispatcher(IAction action);
 }

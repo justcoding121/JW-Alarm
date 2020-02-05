@@ -1,6 +1,5 @@
 ﻿namespace Bible.Alarm
 {
-    using Bible.Alarm.Contracts;
     using System;
     using System.Collections.Generic;
 

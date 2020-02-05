@@ -1,8 +1,5 @@
-﻿using Bible.Alarm.Models;
-using Mvvmicro;
+﻿using Mvvmicro;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.ViewModels
 {

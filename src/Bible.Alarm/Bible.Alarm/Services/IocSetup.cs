@@ -2,14 +2,9 @@
 {
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
-    using Bible.Alarm.Services;
     using Bible.Alarm.Services.Contracts;
     using MediaManager;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.IO;
     using System.Net.Http;
-    using Xamarin.Forms;
 
     public static class IocSetup
     {

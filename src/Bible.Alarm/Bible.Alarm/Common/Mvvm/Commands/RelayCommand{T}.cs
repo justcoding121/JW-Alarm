@@ -1,44 +1,44 @@
 ﻿namespace Mvvmicro
 {
-	using System;
+    using System;
 
-	/// <summary>
-	/// An helper command to create implementations of ICommand with a typed argument.
-	/// </summary>
-	public class RelayCommand<T> : IRelayCommand
-	{
-		#region Constructors
+    /// <summary>
+    /// An helper command to create implementations of ICommand with a typed argument.
+    /// </summary>
+    public class RelayCommand<T> : IRelayCommand
+    {
+        #region Constructors
 
-		public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
-		{
-			this.execute = execute;
-			this.canExecute = canExecute ?? ((o) => true);
-		}
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute ?? ((o) => true);
+        }
 
-		#endregion
+        #endregion
 
-		#region Fields
+        #region Fields
 
-		private Action<T> execute;
+        private Action<T> execute;
 
-		private Func<T, bool> canExecute;
+        private Func<T, bool> canExecute;
 
-		#endregion
+        #endregion
 
-		#region Events
+        #region Events
 
-		public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public void RaiseCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-		public bool CanExecute(object parameter) => this.canExecute((T)parameter);
+        public bool CanExecute(object parameter) => this.canExecute((T)parameter);
 
-		public void Execute(object parameter) => this.execute((T)parameter);
+        public void Execute(object parameter) => this.execute((T)parameter);
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -1,9 +1,9 @@
 ﻿namespace Mvvmicro
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq.Expressions;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Subscribes to Observable property changes according to a viable application lifecycle.
@@ -68,7 +68,7 @@
         /// <param name="property">Property.</param>
         /// <param name="whenChanged">When changed.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public NotifyPropertyObserver<TObserver, TObservable> Observe<T>(Expression<Func<TObservable, T>> property, Action<TObservable,T> whenChanged)
+        public NotifyPropertyObserver<TObserver, TObservable> Observe<T>(Expression<Func<TObservable, T>> property, Action<TObservable, T> whenChanged)
         {
             if (this.IsActive)
                 throw new InvalidOperationException("Property observers can only be configured before activation.");
@@ -101,7 +101,7 @@
                     }
                 }
 
-                if(this.ShouldTriggerPendingChanges)
+                if (this.ShouldTriggerPendingChanges)
                 {
                     foreach (var change in this.pendingChanges)
                     {
@@ -109,7 +109,7 @@
                         {
                             action();
                         }
-                    } 
+                    }
                 }
 
                 this.pendingChanges = new HashSet<string>();
@@ -136,12 +136,12 @@
             {
                 if (this.IsActive)
                 {
-                    if(this.propertyObservers.TryGetValue(e.PropertyName, out Action action))
+                    if (this.propertyObservers.TryGetValue(e.PropertyName, out Action action))
                     {
                         action();
                     }
                 }
-                else 
+                else
                 {
                     this.pendingChanges.Add(e.PropertyName);
                 }

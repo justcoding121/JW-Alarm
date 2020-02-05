@@ -1,8 +1,6 @@
 ﻿using Bible.Alarm.Models;
 using Mvvmicro;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -17,7 +15,7 @@ namespace Bible.Alarm.ViewModels
             get => isSelected;
             set => this.Set(ref isSelected, value);
         }
-      
+
         public LanguageListViewItemModel(Language language)
         {
             Name = language.Name;

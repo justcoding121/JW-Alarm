@@ -8,7 +8,7 @@ namespace Bible.Alarm.Models
 
         public int Number { get; set; }
         public string Title { get; set; }
-      
+
         public AudioSource Source { get; set; }
 
         public int CompareTo(object obj)

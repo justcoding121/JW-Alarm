@@ -1,9 +1,6 @@
 ﻿using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.ViewModels.Redux;
-using Bible.Alarm.ViewModels.Redux.Actions;
 using Mvvmicro;
-using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 

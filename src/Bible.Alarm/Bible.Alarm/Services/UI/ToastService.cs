@@ -1,9 +1,6 @@
-﻿using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services

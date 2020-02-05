@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AudioLinkHarvester.Models
+﻿namespace AudioLinkHarvester.Models
 {
     public class Publication
     {

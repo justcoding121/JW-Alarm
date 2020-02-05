@@ -1,16 +1,12 @@
 ﻿using AudioLinkHarvester.Audio;
 using AudioLinkHarvester.Bible;
-using AudioLinkHarvester.Utility;
 using AudioLinkHarvestor.Utility;
 using Bible.Alarm.Audio.Links.Harvestor;
-using Bible.Alarm.Services;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AudioLinkHarvester
@@ -72,7 +68,7 @@ namespace AudioLinkHarvester
         /// </summary>
         private static void deleteDirectory(string path)
         {
-            if(!Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 return;
             }

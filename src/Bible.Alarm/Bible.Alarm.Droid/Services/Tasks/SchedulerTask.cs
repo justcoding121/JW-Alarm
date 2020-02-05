@@ -1,13 +1,10 @@
-﻿using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using NLog;
 using System.Threading;
-using Bible.Alarm.Services.Droid.Helpers;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {

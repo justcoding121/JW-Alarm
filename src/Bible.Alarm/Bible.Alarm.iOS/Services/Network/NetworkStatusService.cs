@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Bible.Alarm.Contracts.Network;
+using System;
 using System.Threading.Tasks;
-
-using Bible.Alarm.Contracts.Network;
 
 namespace Bible.Alarm.iOS.Services.Network
 {

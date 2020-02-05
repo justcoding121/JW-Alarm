@@ -3,7 +3,6 @@ using Android.Content;
 using Bible.Alarm.Droid.Services.Helpers;
 using Bible.Alarm.Droid.Services.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid.Helpers

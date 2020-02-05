@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bible.Alarm.Contracts.Platform;
+﻿using Bible.Alarm.Contracts.Platform;
 using Foundation;
+using System;
 
 namespace Bible.Alarm.iOS.Services.Platform
 {

@@ -2,9 +2,6 @@
 using Bible.Alarm.ViewModels.Redux.Actions.Bible;
 using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using Redux;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.ViewModels.Redux.Reducers
 {

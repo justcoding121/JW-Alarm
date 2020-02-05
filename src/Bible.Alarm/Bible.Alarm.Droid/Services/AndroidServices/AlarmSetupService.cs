@@ -2,15 +2,15 @@
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using NLog;
-using System;
+using Bible.Alarm.Droid;
+using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Droid.Helpers;
-using static Android.App.AlarmManager;
-using Bible.Alarm.Droid;
 using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.Droid.Services.Platform;
+using NLog;
+using System;
 using System.Threading.Tasks;
+using static Android.App.AlarmManager;
 
 namespace Bible.Alarm.Services.Droid.Tasks
 {

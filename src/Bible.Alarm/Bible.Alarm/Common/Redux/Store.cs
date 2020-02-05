@@ -9,54 +9,54 @@ using System.Reactive.Subjects;
 
 namespace Redux
 {
-  public class Store<TState> : IStore<TState>, IObservable<TState>
-  {
-    private readonly object _syncRoot = new object();
-    private readonly ReplaySubject<TState> _stateSubject = new ReplaySubject<TState>(1);
-    private readonly Dispatcher _dispatcher;
-    private readonly Reducer<TState> _reducer;
-    private TState _lastState;
-
-    public Store(
-      Reducer<TState> reducer,
-      TState initialState = default(TState),
-      params Middleware<TState>[] middlewares)
+    public class Store<TState> : IStore<TState>, IObservable<TState>
     {
-      this._reducer = reducer;
-      this._dispatcher = this.ApplyMiddlewares(middlewares);
-      this._lastState = initialState;
-      this._stateSubject.OnNext(this._lastState);
-    }
+        private readonly object _syncRoot = new object();
+        private readonly ReplaySubject<TState> _stateSubject = new ReplaySubject<TState>(1);
+        private readonly Dispatcher _dispatcher;
+        private readonly Reducer<TState> _reducer;
+        private TState _lastState;
 
-    public IAction Dispatch(IAction action)
-    {
-      return this._dispatcher(action);
-    }
+        public Store(
+          Reducer<TState> reducer,
+          TState initialState = default(TState),
+          params Middleware<TState>[] middlewares)
+        {
+            this._reducer = reducer;
+            this._dispatcher = this.ApplyMiddlewares(middlewares);
+            this._lastState = initialState;
+            this._stateSubject.OnNext(this._lastState);
+        }
 
-    public TState GetState()
-    {
-      return this._lastState;
-    }
+        public IAction Dispatch(IAction action)
+        {
+            return this._dispatcher(action);
+        }
 
-    public IDisposable Subscribe(IObserver<TState> observer)
-    {
-      return this._stateSubject.Subscribe(observer);
-    }
+        public TState GetState()
+        {
+            return this._lastState;
+        }
 
-    private Dispatcher ApplyMiddlewares(params Middleware<TState>[] middlewares)
-    {
-      Dispatcher dispatcher = new Dispatcher(this.InnerDispatch);
-      foreach (Middleware<TState> middleware in middlewares)
-        dispatcher = middleware((IStore<TState>) this)(dispatcher);
-      return dispatcher;
-    }
+        public IDisposable Subscribe(IObserver<TState> observer)
+        {
+            return this._stateSubject.Subscribe(observer);
+        }
 
-    private IAction InnerDispatch(IAction action)
-    {
-      lock (this._syncRoot)
-        this._lastState = this._reducer(this._lastState, action);
-      this._stateSubject.OnNext(this._lastState);
-      return action;
+        private Dispatcher ApplyMiddlewares(params Middleware<TState>[] middlewares)
+        {
+            Dispatcher dispatcher = new Dispatcher(this.InnerDispatch);
+            foreach (Middleware<TState> middleware in middlewares)
+                dispatcher = middleware((IStore<TState>)this)(dispatcher);
+            return dispatcher;
+        }
+
+        private IAction InnerDispatch(IAction action)
+        {
+            lock (this._syncRoot)
+                this._lastState = this._reducer(this._lastState, action);
+            this._stateSubject.OnNext(this._lastState);
+            return action;
+        }
     }
-  }
 }

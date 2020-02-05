@@ -1,21 +1,20 @@
 ﻿namespace Bible.Alarm.Services.Droid
 {
     using Android.Media;
+    using Bible.Alarm.Contracts.Battery;
+    using Bible.Alarm.Contracts.Network;
+    using Bible.Alarm.Contracts.Platform;
+    using Bible.Alarm.Droid.Services.Battery;
+    using Bible.Alarm.Droid.Services.Network;
+    using Bible.Alarm.Droid.Services.Platform;
     using Bible.Alarm.Services.Contracts;
+    using Bible.Alarm.Services.Droid.Tasks;
+    using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
     using System.Net.Http;
     using Xamarin.Android.Net;
-    using MediaManager;
-    using Bible.Alarm.Services.Droid.Tasks;
-    using Android.Content;
-    using Bible.Alarm.Contracts.Network;
-    using Bible.Alarm.Droid.Services.Network;
-    using Bible.Alarm.Contracts.Battery;
-    using Bible.Alarm.Droid.Services.Battery;
-    using Bible.Alarm.Contracts.Platform;
-    using Bible.Alarm.Droid.Services.Platform;
 
     public static class IocSetup
     {
@@ -27,7 +26,7 @@
             {
                 container.Register<IToastService>((x) => new DroidToastService(container));
             }
-          
+
             container.Register<INotificationService>((x) => new DroidNotificationService(container));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),

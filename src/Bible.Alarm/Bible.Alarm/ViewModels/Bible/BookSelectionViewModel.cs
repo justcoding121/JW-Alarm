@@ -1,9 +1,8 @@
-﻿using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.ViewModels.Redux.Actions;
-using Bible.Alarm.ViewModels.Redux.Actions.Bible;
-using Bible.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux.Actions.Bible;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
@@ -172,10 +171,10 @@ namespace Bible.Alarm.ViewModels
         public void Dispose()
         {
             navigationService.NavigatedBack -= onNavigated;
-           
+
             subscriptions.ForEach(x => x.Dispose());
             mediaService.Dispose();
-           
+
         }
     }
 

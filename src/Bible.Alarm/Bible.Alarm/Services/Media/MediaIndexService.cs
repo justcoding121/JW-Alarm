@@ -62,7 +62,7 @@ namespace Bible.Alarm.Services
 
             var versionFileExists = false;
             var isOutdatedVersion = false;
-           
+
             //delete the file if it was outdated by an app auto-update.
             if (mediaIndexDbExists)
             {

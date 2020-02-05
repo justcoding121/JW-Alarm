@@ -1,9 +1,7 @@
 ﻿using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services
@@ -15,7 +13,7 @@ namespace Bible.Alarm.Services
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
-        public AlarmService(IContainer container, 
+        public AlarmService(IContainer container,
             INotificationService notificationService,
             IMediaCacheService mediaCacheService,
             ScheduleDbContext scheduleDbContext)

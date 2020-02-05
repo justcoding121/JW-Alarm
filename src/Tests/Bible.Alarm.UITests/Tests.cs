@@ -1,11 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using Bible.Alarm.UITests.Helpers;
 using NUnit.Framework;
+using System;
 using Xamarin.UITest;
-using Xamarin.UITest.Queries;
-using Bible.Alarm.UITests.Helpers;
-using System.Threading;
 
 namespace Bible.Alarm.UITests
 {

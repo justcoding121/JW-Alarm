@@ -1,9 +1,9 @@
-﻿using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Models;
+using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Redux.Actions.Music;
-using Bible.Alarm.Models;
-using Bible.Alarm.Services;
-using Bible.Alarm.ViewModels.Redux;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;

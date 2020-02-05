@@ -1,9 +1,6 @@
 ﻿using Bible.Alarm.Common.Mvvm;
 using Mvvmicro;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.ViewModels.Shared

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Foundation;
-using Bible.Alarm.Common.Mvvm;
-using UIKit;
+﻿using Foundation;
 using NLog;
-using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.iOS.Services.Platform;
-using Bible.Alarm.Services.iOS.Helpers;
+using System;
+using UIKit;
 
 namespace Bible.Alarm.iOS
 {

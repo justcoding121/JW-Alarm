@@ -1,44 +1,44 @@
 ﻿namespace Mvvmicro
 {
-	using System;
+    using System;
 
-	/// <summary>
-	/// An helper command to create implementations of ICommand.
-	/// </summary>
+    /// <summary>
+    /// An helper command to create implementations of ICommand.
+    /// </summary>
     public class RelayCommand : IRelayCommand
-	{
-		#region Constructors
+    {
+        #region Constructors
 
-		public RelayCommand(Action execute, Func<bool> canExecute = null)
-		{
-			this.execute = execute;
-			this.canExecute = canExecute ?? (() => true);
-		}
+        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute ?? (() => true);
+        }
 
-		#endregion
+        #endregion
 
-		#region Fields
+        #region Fields
 
-		private Action execute;
+        private Action execute;
 
-		private Func<bool> canExecute;
+        private Func<bool> canExecute;
 
-		#endregion
+        #endregion
 
-		#region Events
+        #region Events
 
-		public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public void RaiseCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-		public bool CanExecute(object parameter) => this.canExecute();
+        public bool CanExecute(object parameter) => this.canExecute();
 
-		public void Execute(object parameter) => this.execute();
+        public void Execute(object parameter) => this.execute();
 
-		#endregion
-	}
+        #endregion
+    }
 }

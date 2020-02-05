@@ -1,9 +1,4 @@
-﻿using Bible.Alarm.Services.Contracts;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bible.Alarm.Models;
-using Bible.Alarm.Common.DataStructures;
+﻿using Bible.Alarm.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bible.Alarm.Services

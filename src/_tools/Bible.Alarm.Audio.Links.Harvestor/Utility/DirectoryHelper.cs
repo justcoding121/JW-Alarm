@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace AudioLinkHarvestor.Utility
 {
@@ -10,7 +7,7 @@ namespace AudioLinkHarvestor.Utility
         internal static string IndexDirectory = "../../../../_index";
         public static void Ensure(string directory)
         {
-            if(!Directory.Exists(directory))
+            if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }

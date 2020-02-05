@@ -151,7 +151,7 @@ namespace AudioLinkHarvester.Audio
                 var lc = languageCode ?? "E";
 
                 //patch for bad data
-                if(lc == "LAH")
+                if (lc == "LAH")
                 {
                     lc = "LAHU";
                 }

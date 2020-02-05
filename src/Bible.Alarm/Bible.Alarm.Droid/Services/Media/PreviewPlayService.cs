@@ -1,11 +1,7 @@
-﻿using Android.App;
-using Android.Media;
+﻿using Android.Media;
 using Bible.Alarm.Droid;
 using Bible.Alarm.Services.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 

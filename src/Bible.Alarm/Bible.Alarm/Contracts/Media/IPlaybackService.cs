@@ -1,8 +1,5 @@
-﻿using MediaManager.Playback;
-using MediaManager.Player;
+﻿using MediaManager.Player;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts

@@ -1,9 +1,8 @@
-﻿using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.ViewModels.Redux.Actions;
-using Bible.Alarm.ViewModels.Redux.Actions.Music;
-using Bible.Alarm.Models;
+﻿using Bible.Alarm.Models;
 using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using Mvvmicro;
 using System;
 using System.Collections.Generic;
@@ -234,7 +233,7 @@ namespace Bible.Alarm.ViewModels
             foreach (var language in languages.Select(x => x.Value)
                 .Where(x => searchTerm == null
                     || x.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
-                .OrderBy(x=>x.Name))
+                .OrderBy(x => x.Name))
             {
                 var languageVM = new LanguageListViewItemModel(language);
 

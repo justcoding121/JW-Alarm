@@ -1,9 +1,5 @@
-﻿using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.Services.iOS.Tasks;
-using NLog;
+﻿using Bible.Alarm.Services.Contracts;
 using System;
-using Bible.Alarm.iOS;
 
 namespace Bible.Alarm.Services.iOS
 {
@@ -37,7 +33,7 @@ namespace Bible.Alarm.Services.iOS
             throw new NotImplementedException();
         }
 
-  
+
         public void ClearAll()
         {
             throw new NotImplementedException();

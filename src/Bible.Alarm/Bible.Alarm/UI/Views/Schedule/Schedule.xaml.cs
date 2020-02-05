@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Bible.Alarm.Contracts;
-using Bible.Alarm.UI.ViewHelpers;
+﻿using Bible.Alarm.UI.ViewHelpers;
 using Bible.Alarm.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm.UI.Views
 {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Bible.Alarm.Common.Mvvm;
+﻿using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.Services.iOS;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
 using NLog;
+using System;
+using System.Threading.Tasks;
 using UIKit;
 
 [assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
@@ -27,7 +24,7 @@ namespace Bible.Alarm.iOS
         // This is the main entry point of the application.
         static void Main(string[] args)
         {
-            var result = IocSetup.Initialize("SplashActivity",  false);
+            var result = IocSetup.Initialize("SplashActivity", false);
             var container = result.Item1;
             var containerCreated = result.Item2;
             if (containerCreated)
@@ -64,7 +61,7 @@ namespace Bible.Alarm.iOS
                     await Messenger<bool>.Publish(Bible.Alarm.Common.Mvvm.Messages.Initialized, true);
                 });
             }
-         
+
         }
     }
 }

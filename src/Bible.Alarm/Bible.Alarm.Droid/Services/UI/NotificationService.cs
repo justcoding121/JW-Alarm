@@ -1,12 +1,10 @@
 ﻿using Android.App;
 using Android.Content;
+using Bible.Alarm.Droid;
 using Bible.Alarm.Droid.Services.Tasks;
-using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Tasks;
-using NLog;
 using System;
-using Bible.Alarm.Droid;
 
 namespace Bible.Alarm.Services.Droid
 {

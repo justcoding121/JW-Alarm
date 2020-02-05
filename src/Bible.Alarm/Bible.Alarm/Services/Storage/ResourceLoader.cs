@@ -22,7 +22,7 @@ namespace Bible.Alarm.Services
         public static Stream GetEmbeddedResourceStream(Assembly assembly, string resourceFileName)
         {
             var resourceNames = assembly.GetManifestResourceNames();
-        
+
             var resourcePaths = resourceNames
                 .Where(x => x.EndsWith(resourceFileName, StringComparison.CurrentCultureIgnoreCase))
                 .ToArray();

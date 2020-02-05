@@ -14,7 +14,7 @@ namespace Bible.Alarm.Models
 
         public int BibleBookId { get; set; }
         public BibleBook Book { get; set; }
-  
+
         public int CompareTo(object obj)
         {
             return Number.CompareTo((obj as BibleChapter).Number);

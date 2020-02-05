@@ -98,7 +98,7 @@ namespace Bible.Alarm.Common.DataStructures
         public bool Remove(T item)
         {
             var index = sortedHashSet.Remove(item);
-            if (index>=0)
+            if (index >= 0)
             {
                 onNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
                 return true;

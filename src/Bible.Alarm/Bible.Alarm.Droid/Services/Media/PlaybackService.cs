@@ -3,7 +3,6 @@ using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.ViewModels.Shared;
 using MediaManager;
 using MediaManager.Library;
 using MediaManager.Media;

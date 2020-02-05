@@ -1,10 +1,9 @@
 ﻿using Bible.Alarm.Common.DataStructures;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm
-{ 
+{
     public static class ObservableDictionaryExtensions
     {
         public static ObservableDictionary<TKey, TElement> ToObservableDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector) where TKey : IComparable
@@ -20,6 +19,6 @@ namespace Bible.Alarm
             return d;
         }
 
-      
+
     }
 }

@@ -4,7 +4,7 @@
 
     public static class ObserversExtensions
     {
-        public static NotifyPropertyObserver<TObserver, TObservable> CreateObserver<TObservable, TObserver>(this TObservable observable, TObserver observer) 
+        public static NotifyPropertyObserver<TObserver, TObservable> CreateObserver<TObservable, TObserver>(this TObservable observable, TObserver observer)
             where TObservable : INotifyPropertyChanged
             where TObserver : class
         {

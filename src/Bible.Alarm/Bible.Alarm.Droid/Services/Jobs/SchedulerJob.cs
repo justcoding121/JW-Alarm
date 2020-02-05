@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Android.App;
-using Bible.Alarm.Services.Droid.Tasks;
-using NLog;
+﻿using Android.App;
 using Android.App.Job;
-using Bible.Alarm.Services.Droid.Helpers;
-using Bible.Alarm.Services.Infrastructure;
-using Bible.Alarm.Droid.Services.Platform;
 using Android.OS;
+using Bible.Alarm.Droid.Services.Platform;
+using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Droid.Tasks;
+using Bible.Alarm.Services.Infrastructure;
+using NLog;
+using System;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {

@@ -10,7 +10,7 @@ namespace Bible.Alarm.UI.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is null)
+            if (value is null)
             {
                 return Color.LightGray;
             }

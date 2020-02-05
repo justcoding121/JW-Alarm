@@ -1,14 +1,7 @@
-﻿using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.UI.Views;
+﻿using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
-using Bible.Alarm.UI.Views.Music;
-using Bible.Alarm;
-using Bible.Alarm.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 using Bible.Alarm.UI.Views.General;
+using Bible.Alarm.UI.Views.Music;
 
 namespace Bible.Alarm.UI
 {

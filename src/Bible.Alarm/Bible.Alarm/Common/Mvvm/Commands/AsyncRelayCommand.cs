@@ -1,94 +1,94 @@
 ﻿namespace Mvvmicro
 {
-	using System;
-	using System.ComponentModel;
-	using System.Threading;
-	using System.Threading.Tasks;
+    using System;
+    using System.ComponentModel;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-	/// <summary>
-	/// An helper command to create asynchronous implementations of ICommand.
-	/// </summary>
-	public class AsyncRelayCommand : IAsyncRelayCommand
-	{
-		#region Fields 
+    /// <summary>
+    /// An helper command to create asynchronous implementations of ICommand.
+    /// </summary>
+    public class AsyncRelayCommand : IAsyncRelayCommand
+    {
+        #region Fields 
 
-		private readonly Func<object, CancellationToken, Task> execute;
+        private readonly Func<object, CancellationToken, Task> execute;
 
-		private readonly Func<bool> canExecute;
+        private readonly Func<bool> canExecute;
 
-		private DateTime? lastExecution;
+        private DateTime? lastExecution;
 
-		private Task execution;
+        private Task execution;
 
-		private CancellationTokenSource cts;
+        private CancellationTokenSource cts;
 
-		#endregion
+        #endregion
 
-		#region Events
+        #region Events
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler<Exception> ExecutionFailed;
+        public event EventHandler<Exception> ExecutionFailed;
 
-		public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public bool IsExecuting => execution != null;
+        public bool IsExecuting => execution != null;
 
-		public DateTime? LastSuccededExecution => this.lastExecution;
+        public DateTime? LastSuccededExecution => this.lastExecution;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public AsyncRelayCommand(Func<object, CancellationToken, Task> execute, Func<bool> canExecute = null)
-		{
-			this.execute = execute;
-			this.canExecute = canExecute ?? (() => true);
-		}
+        public AsyncRelayCommand(Func<object, CancellationToken, Task> execute, Func<bool> canExecute = null)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute ?? (() => true);
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public void RaiseCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-		private void RaiseIsExecuting()
-		{
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExecuting)));
-			this.RaiseCanExecuteChanged();
-		}
+        private void RaiseIsExecuting()
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExecuting)));
+            this.RaiseCanExecuteChanged();
+        }
 
-		public async void Execute(object parameter)
-		{
-			try
-			{
-				this.cts = new CancellationTokenSource();
-				this.execution = execute(parameter, cts.Token);
-				this.RaiseIsExecuting();
-				await this.execution;
-				this.lastExecution = DateTime.Now;
-				this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LastSuccededExecution)));
-			}
-			catch (Exception e)
-			{
-				this.ExecutionFailed?.Invoke(this, e);
-			}
-			finally
-			{
-				this.cts = null;
-				this.execution = null;
-				this.RaiseIsExecuting();
-			}
-		}
+        public async void Execute(object parameter)
+        {
+            try
+            {
+                this.cts = new CancellationTokenSource();
+                this.execution = execute(parameter, cts.Token);
+                this.RaiseIsExecuting();
+                await this.execution;
+                this.lastExecution = DateTime.Now;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LastSuccededExecution)));
+            }
+            catch (Exception e)
+            {
+                this.ExecutionFailed?.Invoke(this, e);
+            }
+            finally
+            {
+                this.cts = null;
+                this.execution = null;
+                this.RaiseIsExecuting();
+            }
+        }
 
-		public void Cancel() => this.cts?.Cancel();
+        public void Cancel() => this.cts?.Cancel();
 
-		public bool CanExecute(object parameter) => !this.IsExecuting && this.canExecute();
+        public bool CanExecute(object parameter) => !this.IsExecuting && this.canExecute();
 
-		#endregion
-	}
+        #endregion
+    }
 }

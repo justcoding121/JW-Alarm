@@ -59,7 +59,7 @@
                 field = result.NewValue;
                 obs.RaiseProperty(name);
             }
-    
+
             return result;
         }
 

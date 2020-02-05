@@ -8,10 +8,10 @@ using System;
 
 namespace Redux
 {
-  public interface IStore<TState> : IObservable<TState>
-  {
-    IAction Dispatch(IAction action);
+    public interface IStore<TState> : IObservable<TState>
+    {
+        IAction Dispatch(IAction action);
 
-    TState GetState();
-  }
+        TState GetState();
+    }
 }

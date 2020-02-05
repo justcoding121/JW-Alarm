@@ -142,7 +142,7 @@ namespace Quartz.Util
                     }
                     catch
                     {
-                        
+
                     }
                 }
 

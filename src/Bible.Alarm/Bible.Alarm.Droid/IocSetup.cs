@@ -1,7 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using Bible.Alarm;
-using MediaManager;
+﻿using Android.Content;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -3,20 +3,19 @@ using Bible.Alarm.ViewModels;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Bible.Alarm.UI.Views.Bible
 {
-	public partial class ChapterSelection : ContentPage
+    public partial class ChapterSelection : ContentPage
     {
         private IContainer container;
         public ChapterSelectionViewModel ViewModel => BindingContext as ChapterSelectionViewModel;
 
-        public ChapterSelection (IContainer container)
-		{
+        public ChapterSelection(IContainer container)
+        {
             this.container = container;
 
-			InitializeComponent ();
+            InitializeComponent();
 
             BackButton.GestureRecognizers.Add(new TapGestureRecognizer
             {

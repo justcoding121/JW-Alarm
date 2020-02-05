@@ -36,7 +36,7 @@ namespace Bible.Alarm.Services
                 }
                 catch
                 {
-                    if(alternativeUrl == null)
+                    if (alternativeUrl == null)
                     {
                         throw;
                     }

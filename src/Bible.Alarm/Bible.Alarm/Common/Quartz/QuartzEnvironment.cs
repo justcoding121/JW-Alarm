@@ -20,9 +20,6 @@
 
 #endregion
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security;
 
 namespace Quartz.Util
 {
@@ -36,6 +33,6 @@ namespace Quartz.Util
         /// Return whether we are currently running under Mono runtime.
         /// </summary>
         public static bool IsRunningOnMono { get; } = Type.GetType("Mono.Runtime") != null;
- 
+
     }
 }

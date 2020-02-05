@@ -1,21 +1,21 @@
 ﻿
 using Bible.Alarm.Models;
-using Bible.Alarm.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Mvvmicro;
 using Bible.Alarm.Services;
-using System.Windows.Input;
-using Xamarin.Forms;
-using System.Linq;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
-using Microsoft.EntityFrameworkCore;
-using System.Reactive.Linq;
-using System.Reactive.Concurrency;
-using System.Collections.ObjectModel;
 using MediaManager;
+using Microsoft.EntityFrameworkCore;
+using Mvvmicro;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {

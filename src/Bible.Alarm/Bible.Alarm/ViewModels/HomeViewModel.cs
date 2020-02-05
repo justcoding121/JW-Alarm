@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Contracts.Battery;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels.Redux;
+using Bible.Alarm.ViewModels.Redux.Actions;
+using Microsoft.EntityFrameworkCore;
+using Mvvmicro;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
-using Bible.Alarm.Common.DataStructures;
-using Bible.Alarm.Models;
-using Bible.Alarm.Services.Contracts;
-using Mvvmicro;
-using System.Reactive.Linq;
 using System.ComponentModel;
-using Bible.Alarm.Services;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Bible.Alarm.ViewModels.Redux;
-using System.Reactive.Concurrency;
-using Bible.Alarm.ViewModels.Redux.Actions;
-using Bible.Alarm.Common.Mvvm;
-using System.Threading;
-using Bible.Alarm.Contracts.Battery;
 
 namespace Bible.Alarm.ViewModels
 {
@@ -417,7 +417,7 @@ namespace Bible.Alarm.ViewModels
         public ScheduleListItem This => this;
 
         public ICommand PlayCommand { get; private set; }
-    
+
         public void RaisePropertiesChangedEvent()
         {
             RaiseProperties(GetType()

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-namespace Bible.Alarm.Models
+﻿namespace Bible.Alarm.Models
 {
     public class AlarmMusic : IEntity
     {

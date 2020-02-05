@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bible.Alarm.Contracts.Platform
+﻿namespace Bible.Alarm.Contracts.Platform
 {
-    public interface IVersionFinder 
+    public interface IVersionFinder
     {
         string GetVersionName();
     }

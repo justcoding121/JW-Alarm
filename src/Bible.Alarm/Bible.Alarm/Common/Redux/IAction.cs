@@ -6,7 +6,7 @@
 
 namespace Redux
 {
-  public interface IAction
-  {
-  }
+    public interface IAction
+    {
+    }
 }

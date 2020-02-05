@@ -1,6 +1,4 @@
-﻿using System;
-using Xamarin.UITest;
-using Xamarin.UITest.Queries;
+﻿using Xamarin.UITest;
 
 namespace Bible.Alarm.UITests
 {

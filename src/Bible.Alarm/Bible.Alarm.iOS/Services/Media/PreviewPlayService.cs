@@ -29,7 +29,7 @@ namespace Bible.Alarm.Services.iOS
 
         public void Dispose()
         {
-         
+
         }
     }
 }

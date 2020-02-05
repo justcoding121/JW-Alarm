@@ -1,7 +1,7 @@
-﻿using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI;
 using Bible.Alarm.ViewModels;
-using Bible.Alarm.Common.Mvvm;
 using MediaManager;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace Bible.Alarm
     {
         private IContainer container;
 
-        public App(IContainer container) 
+        public App(IContainer container)
         {
             this.container = container;
 

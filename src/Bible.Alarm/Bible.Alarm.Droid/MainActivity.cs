@@ -1,10 +1,10 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Java.Interop;
 using MediaManager;
 using NLog;
-using Java.Interop;
+using System;
 using System.Diagnostics;
 
 namespace Bible.Alarm.Droid

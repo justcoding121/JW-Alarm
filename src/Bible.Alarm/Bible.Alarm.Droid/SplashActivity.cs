@@ -1,22 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Droid.Services.Platform;
-using Bible.Alarm.Services;
-using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
 using Bible.Alarm.Services.Infrastructure;
-using MediaManager;
 using NLog;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Droid
 {
@@ -62,7 +57,7 @@ namespace Bible.Alarm.Droid
                         await Messenger<bool>.Publish(Messages.Initialized, true);
 
                         await Task.Delay(1000);
-                        
+
                         var i = new Intent(container.AndroidContext(), typeof(AlarmSetupService));
                         i.PutExtra("Action", "SetupBackgroundTasks");
                         StartService(i);
