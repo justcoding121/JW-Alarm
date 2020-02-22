@@ -101,12 +101,10 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Services\Battery\BatteryOptimizationManager.cs" />
-    <Compile Include="Services\Helpers\BootstrapHelper.cs" />
+    <Compile Include="Helpers\BootstrapHelper.cs" />
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
-    <Compile Include="Services\Network\NetworkStatusService.cs" />
     <Compile Include="Services\Platform\VersionFinder.cs" />
     <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />

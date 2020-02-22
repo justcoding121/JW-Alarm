@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using Android.App;
+using Android.Content;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,15 +10,25 @@ namespace Bible.Alarm.Droid
     {
         private static ConcurrentDictionary<string, IContainer> containers
             = new ConcurrentDictionary<string, IContainer>();
-        public static Tuple<IContainer, bool> Initialize(Context androidContext,
-                           bool isService)
+        public static Tuple<IContainer, bool> Initialize(
+            Context androidContext,
+            bool isService)
         {
-            return Initialize(null, androidContext, isService);
+            var result = InitializeWithContainerName(null, androidContext, isService);
+            var containerCreated = result.Item2;
+            if (containerCreated)
+            {
+                var application = (Application)androidContext.ApplicationContext;
+                Xamarin.Essentials.Platform.Init(application);
+            }
+
+            return result;
         }
 
-        public static Tuple<IContainer, bool> Initialize(string containerName,
-                        Context androidContext,
-                        bool isService)
+        public static Tuple<IContainer, bool> InitializeWithContainerName(
+            string containerName,
+            Context androidContext,
+            bool isService)
         {
             if (containerName != null)
             {

@@ -3,7 +3,6 @@
     using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
-    using Bible.Alarm.iOS.Services.Network;
     using Bible.Alarm.iOS.Services.Platform;
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.iOS.Tasks;
@@ -12,8 +11,7 @@
     using System;
     using System.IO;
     using System.Net.Http;
-    using Bible.Alarm.iOS.Services.Battery;
-    
+
     public static class IocSetup
     {
         public static void Initialize(IContainer container, bool isService)
@@ -42,8 +40,7 @@
                 container.Resolve<INetworkStatusService>(),
                 container.Resolve<INotificationService>()));
 
-
-            string databasePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
 
             var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
                 .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
@@ -60,9 +57,8 @@
 
             });
 
-            container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
-
             container.Register<IVersionFinder>((x) => new VersionFinder());
-            container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));        }
+
+        }
     }
 }

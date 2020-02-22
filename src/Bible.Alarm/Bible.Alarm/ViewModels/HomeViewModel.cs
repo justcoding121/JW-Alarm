@@ -42,8 +42,7 @@ namespace Bible.Alarm.ViewModels
         public HomeViewModel(IContainer container, ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
-            IAlarmService alarmService,
-            IBatteryOptimizationManager batteryOptimizationManager)
+            IAlarmService alarmService)
         {
             this.container = container;
             this.scheduleDbContext = scheduleDbContext;
@@ -51,7 +50,11 @@ namespace Bible.Alarm.ViewModels
             this.navigationService = navigationService;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
-            this.batteryOptimizationManager = batteryOptimizationManager;
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                this.batteryOptimizationManager = container.Resolve<IBatteryOptimizationManager>();
+            }
 
             uiTaskScheduler = this.container.Resolve<TaskScheduler>();
 
@@ -357,7 +360,7 @@ namespace Bible.Alarm.ViewModels
             this.popUpService.Dispose();
             this.mediaCacheService.Dispose();
             this.alarmService.Dispose();
-            this.batteryOptimizationManager.Dispose();
+            this.batteryOptimizationManager?.Dispose();
             @lock.Dispose();
         }
     }

@@ -97,15 +97,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Battery\BatteryOptimizationManager.cs" />
     <Compile Include="Services\Jobs\SchedulerJob.cs" />
-    <Compile Include="Services\Helpers\BootstrapHelper.cs" />
-    <Compile Include="Services\Helpers\JobSchedulerHelper.cs" />
+    <Compile Include="Helpers\BootstrapHelper.cs" />
+    <Compile Include="Helpers\JobSchedulerHelper.cs" />
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
     <Compile Include="Services\BroadcastReceivers\AlarmRingerReceiver.cs" />
     <Compile Include="Services\AndroidServices\AlarmSetupService.cs" />
     <Compile Include="Services\BroadcastReceivers\RestartReceiver.cs" />
-    <Compile Include="Services\Network\NetworkStatusService.cs" />
     <Compile Include="Services\Platform\VersionFinder.cs" />
     <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />

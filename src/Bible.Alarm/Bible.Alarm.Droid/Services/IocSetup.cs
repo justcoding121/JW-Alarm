@@ -5,7 +5,6 @@
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Droid.Services.Battery;
-    using Bible.Alarm.Droid.Services.Network;
     using Bible.Alarm.Droid.Services.Platform;
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.Droid.Tasks;
@@ -67,7 +66,6 @@
 
             });
 
-            container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));
             container.Register<IVersionFinder>((x) => new VersionFinder());
 

@@ -40,11 +40,13 @@ namespace Bible.Alarm.Droid
 
             SetContentView(Resource.Layout.SplashScreen);
 
-            var result = IocSetup.Initialize("SplashActivity", Application.Context, false);
+            var result = IocSetup.InitializeWithContainerName("SplashActivity", Application.Context, false);
             this.container = result.Item1;
             var containerCreated = result.Item2;
             if (containerCreated)
             {
+                Xamarin.Essentials.Platform.Init(Application);
+
                 Task.Run(async () =>
                 {
                     try

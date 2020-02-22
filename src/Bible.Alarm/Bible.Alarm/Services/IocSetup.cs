@@ -3,6 +3,7 @@
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Services.Contracts;
+    using Bible.Alarm.Services.Network;
     using MediaManager;
     using System.Net.Http;
 
@@ -32,6 +33,8 @@
               container.Resolve<INotificationService>(),
               container.Resolve<IMediaCacheService>(),
               container.Resolve<ScheduleDbContext>()));
+
+            container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
         }
 
     }

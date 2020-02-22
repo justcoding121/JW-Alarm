@@ -18,8 +18,7 @@ namespace Bible.Alarm.ViewModels
                     container.Resolve<IToastService>(),
                     container.Resolve<INavigationService>(),
                     container.Resolve<IMediaCacheService>(),
-                    container.Resolve<IAlarmService>(),
-                    container.Resolve<IBatteryOptimizationManager>()));
+                    container.Resolve<IAlarmService>()));
 
                 container.Register((x) => new ScheduleViewModel(container));
 
