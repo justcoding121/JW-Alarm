@@ -3,6 +3,7 @@ using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI;
 using Bible.Alarm.ViewModels;
 using MediaManager;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -44,25 +45,38 @@ namespace Bible.Alarm
                 MainPage.SetValue(NavigationPage.BarBackgroundColorProperty, Color.SlateBlue);
                 MainPage.SetValue(NavigationPage.BarTextColorProperty, Color.White);
 
-                Task.Delay(100).ContinueWith(async (a) =>
+                Func<Task> homePageSetter = async () =>
                 {
                     var homePage = new Home();
                     homePage.BindingContext = container.Resolve<HomeViewModel>();
                     await navigationPage.Navigation.PushAsync(homePage);
+                };
+
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    homePageSetter().Wait();
+                }
+
+                Task.Delay(100).ContinueWith(async (a) =>
+                {
+                    if (Device.RuntimePlatform == Device.Android)
+                    {
+                        await homePageSetter();
+                    }
 
                 }, taskScheduler)
-                    .ContinueWith(async x =>
+                .ContinueWith(async x =>
+                {
+                    var mediaManager = container.Resolve<IMediaManager>();
+                    if (mediaManager.IsPrepared())
                     {
-                        var mediaManager = container.Resolve<IMediaManager>();
-                        if (mediaManager.IsPrepared())
-                        {
-                            await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
-                        }
-                        else
-                        {
-                            container.Resolve<INotificationService>().ClearAll();
-                        }
-                    });
+                        await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    }
+                    else
+                    {
+                        container.Resolve<INotificationService>().ClearAll();
+                    }
+                });
             }
         }
 

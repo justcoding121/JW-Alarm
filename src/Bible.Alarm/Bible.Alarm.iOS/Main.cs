@@ -47,12 +47,11 @@ namespace Bible.Alarm.iOS
                     {
                         logger.Fatal(e, "Android initialization crashed.");
                     }
-                }).ContinueWith((x) =>
-                {
-                    // if you want to use a different Application Delegate class from "AppDelegate"
-                    // you can specify it here.
-                    UIApplication.Main(args, null, "AppDelegate");
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                });
+
+                // if you want to use a different Application Delegate class from "AppDelegate"
+                // you can specify it here.
+                UIApplication.Main(args, null, "AppDelegate");
             }
             else
             {

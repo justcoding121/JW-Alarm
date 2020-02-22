@@ -1,5 +1,6 @@
 ﻿namespace Bible.Alarm.Services.iOS
 {
+    using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.iOS.Services.Network;
@@ -11,7 +12,8 @@
     using System;
     using System.IO;
     using System.Net.Http;
-
+    using Bible.Alarm.iOS.Services.Battery;
+    
     public static class IocSetup
     {
         public static void Initialize(IContainer container, bool isService)
@@ -61,7 +63,6 @@
             container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
 
             container.Register<IVersionFinder>((x) => new VersionFinder());
-
-        }
+            container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));        }
     }
 }

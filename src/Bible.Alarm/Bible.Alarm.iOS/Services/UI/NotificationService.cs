@@ -36,7 +36,7 @@ namespace Bible.Alarm.Services.iOS
 
         public void ClearAll()
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
 
         public void Dispose()

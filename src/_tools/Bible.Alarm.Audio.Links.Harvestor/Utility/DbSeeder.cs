@@ -2,6 +2,7 @@
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -50,6 +51,8 @@ namespace Bible.Alarm.Audio.Links.Harvestor
 
             foreach (var language in bibleLanguages)
             {
+                Console.WriteLine($"Seeding language code {language.Key} Bible audio links to database.");
+
                 var newLanguage = await db.Languages.FirstOrDefaultAsync(x => x.Code == language.Value.Code
                                                                         && x.Name == language.Value.Name);
                 if (newLanguage == null)
@@ -120,6 +123,8 @@ namespace Bible.Alarm.Audio.Links.Harvestor
 
             foreach (var melodyMusicRelease in melodyMusicReleases)
             {
+                Console.WriteLine($"Seeding melody code {melodyMusicRelease.Key} music to database.");
+
                 var newMelodyMusic = new MelodyMusic()
                 {
                     Code = melodyMusicRelease.Value.Code,
@@ -161,6 +166,8 @@ namespace Bible.Alarm.Audio.Links.Harvestor
 
             foreach (var language in melodyLanguages)
             {
+                Console.WriteLine($"Seeding language code {language.Key} vocals to database.");
+               
                 var newLanguage = await db.Languages.FirstOrDefaultAsync(x => x.Code == language.Value.Code
                                                                         && x.Name == language.Value.Name);
                 if (newLanguage == null)
