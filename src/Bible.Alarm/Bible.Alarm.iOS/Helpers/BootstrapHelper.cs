@@ -21,7 +21,6 @@ namespace Bible.Alarm.Services.iOS.Helpers
 
         public static async Task InitializeDatabase(IContainer container)
         {
-            SQLitePCL.Batteries_V2.Init();
             using (var db = container.Resolve<ScheduleDbContext>())
             {
                 await db.Database.MigrateAsync();

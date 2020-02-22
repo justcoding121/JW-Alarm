@@ -20,7 +20,7 @@ namespace Bible.Alarm.Services.iOS
         public void ScheduleNotification(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Remove(long scheduleId)

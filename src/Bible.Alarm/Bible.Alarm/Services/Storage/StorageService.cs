@@ -7,15 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services
 {
-    public class StorageService : IStorageService
+    public abstract class StorageService : IStorageService
     {
-        public string StorageRoot
-        {
-            get
-            {
-                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            }
-        }
+        public abstract string StorageRoot { get; }
 
         public Task DeleteFile(string path)
         {

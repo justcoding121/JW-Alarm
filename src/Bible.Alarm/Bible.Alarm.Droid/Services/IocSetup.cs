@@ -6,6 +6,7 @@
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Droid.Services.Battery;
     using Bible.Alarm.Droid.Services.Platform;
+    using Bible.Alarm.Droid.Services.Storage;
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.Droid.Tasks;
     using MediaManager;
@@ -68,7 +69,7 @@
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));
             container.Register<IVersionFinder>((x) => new VersionFinder());
-
+            container.Register<IStorageService>((x) => new AndroidStorageService());
         }
     }
 }

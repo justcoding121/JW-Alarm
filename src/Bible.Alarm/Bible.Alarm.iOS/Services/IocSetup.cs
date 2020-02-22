@@ -3,6 +3,7 @@
     using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
+    using Bible.Alarm.Droid.Services.Storage;
     using Bible.Alarm.iOS.Services.Platform;
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.iOS.Tasks;
@@ -58,7 +59,7 @@
             });
 
             container.Register<IVersionFinder>((x) => new VersionFinder());
-
+            container.Register<IStorageService>((x) => new iOSStorageService());
         }
     }
 }
