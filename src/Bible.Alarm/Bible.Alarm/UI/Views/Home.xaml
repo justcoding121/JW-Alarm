@@ -65,7 +65,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" ColumnSpacing="{OnPlatform iOS='0'}">
                                 <Grid.Resources>
                                     <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
                                     <models:DaysOfWeek x:Key="Monday">Monday</models:DaysOfWeek>
@@ -80,13 +80,15 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="0" Orientation="Vertical" Padding="0" Margin="10,3,0,0">
+                                <StackLayout Grid.Column="0" Orientation="Vertical" Padding="0" Margin="{OnPlatform Default='10,3,0,0', iOS='5,3,0,0'}">
                                     <Button Padding="0" Margin="0"
                                          VerticalOptions="Center"
                                          HorizontalOptions="Center"
                                          BackgroundColor="WhiteSmoke"
                                          FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                                          Text="{x:Static fn:GlyphNames.Play}"
+                                         WidthRequest="{OnPlatform iOS='50'}"
+                                         MinimumWidthRequest="{OnPlatform iOS='50'}"
                                          TextColor="SlateBlue"
                                          Command="{Binding PlayCommand}">
                                     </Button>
@@ -95,7 +97,7 @@
                                         <Label Text="{Binding Meridien}" TextColor="{Binding IsEnabled, Converter={StaticResource isEnabledColorConverter}}"  FontSize="Small"  Margin="0" Padding="0" VerticalTextAlignment="Center"/>
                                     </StackLayout>
                                 </StackLayout>
-                                <StackLayout VerticalOptions="Center" Grid.Column="1" Orientation="Vertical" Margin="20,0,0,0" HorizontalOptions="Center">
+                                <StackLayout VerticalOptions="Center" Grid.Column="1" Orientation="Vertical" Margin="{OnPlatform Default='20,0,0,0', iOS='5,0,0,0'}" HorizontalOptions="Center">
                                     <StackLayout Orientation="Horizontal">
                                         <Label TextColor="{Binding This, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Sunday}}" Text="S" Margin="5,0,0,0" FontAttributes="Bold"  FontSize="12"  />
                                         <Label TextColor="{Binding This, Converter={StaticResource dayColorConverter}, ConverterParameter = {StaticResource Monday}}" Text="M" Margin="0,0,0,0"  FontAttributes="Bold"  FontSize="12"  />
@@ -107,7 +109,7 @@
                                     </StackLayout>
                                     <Label Margin="2,0,0,0" MaxLines="1" Text="{Binding Name}" TextColor="Black"/>
                                 </StackLayout>
-                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Vertical" HorizontalOptions="End" Margin="15,0,15,0">
+                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Vertical" HorizontalOptions="End" Margin="{OnPlatform Default='15,0,15,0', iOS='5,0,10,0'}">
                                     <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" ></Switch>
                                 </StackLayout>
                             </Grid>

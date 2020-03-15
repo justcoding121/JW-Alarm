@@ -39,10 +39,9 @@ namespace Bible.Alarm.iOS
 
                         await Task.WhenAll(task1, task2);
 
-                        await Messenger<bool>.Publish(Bible.Alarm.Common.Mvvm.Messages.Initialized, true);
+                        await Messenger<bool>.Publish(Common.Mvvm.Messages.Initialized, true);
 
                         await Task.Delay(1000);
-
                     }
                     catch (Exception e)
                     {
