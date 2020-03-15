@@ -12,9 +12,9 @@
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="NLog.Targets.Loggly" Version="4.8.26" />
     <PackageReference Include="System.Reactive.Linq" Version="4.3.2" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.4.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991640" />
-    <PackageReference Include="Plugin.MediaManager" Version="0.9.6" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
+    <PackageReference Include="Plugin.MediaManager" Version="0.9.7" />
   </ItemGroup>
 
   <ItemGroup>
