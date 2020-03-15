@@ -58,8 +58,9 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
-    <MtouchLink>None</MtouchLink>
-    <MtouchInterpreter>-all</MtouchInterpreter>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchInterpreter>
+    </MtouchInterpreter>
     <IntermediateOutputPath>obj\iPhone\Debug</IntermediateOutputPath>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
   </PropertyGroup>
