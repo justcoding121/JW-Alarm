@@ -109,7 +109,8 @@
                                     </StackLayout>
                                     <Label Margin="2,0,0,0" MaxLines="1" Text="{Binding Name}" TextColor="Black"/>
                                 </StackLayout>
-                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Vertical" HorizontalOptions="End" Margin="{OnPlatform Default='15,0,15,0', iOS='5,0,10,0'}">
+                                <StackLayout VerticalOptions="Center" Grid.Column="2" Orientation="Vertical" HorizontalOptions="End" 
+                                             Margin="{OnPlatform Default='15,0,15,0', iOS='5,0,10,0'}">
                                     <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" ></Switch>
                                 </StackLayout>
                             </Grid>

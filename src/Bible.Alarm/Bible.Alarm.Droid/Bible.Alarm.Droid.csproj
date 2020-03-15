@@ -89,7 +89,6 @@
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomRederers\CustomSwitchRenderer.cs" />
     <Compile Include="Extensions\ContainerExtension.cs" />
     <Compile Include="IocSetup.cs" />
     <Compile Include="MainActivity.cs" />
