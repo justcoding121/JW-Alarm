@@ -167,22 +167,25 @@
                           Margin="5,0,5,0"
                           HorizontalOptions="Fill">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SelectBibleCommand}"/>
                             </Grid.GestureRecognizers>
 
                             <Label Grid.Column="0" VerticalOptions="Center"
-                              HorizontalTextAlignment="Start" TextColor="Black" Text="Bible Reading" Margin="5,0,0,0"></Label>
-                            <Label Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End"
+                              HorizontalTextAlignment="Start" TextColor="Black"  Text="Bible reading" Margin="5,0,0,0"></Label>
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" Orientation="Horizontal" HorizontalOptions="End">
+                                <Label HorizontalTextAlignment="End" TextColor="SlateBlue"  Text="{Binding BibleReadingTitleText}" Margin="5,0,0,0"></Label>
+                                <Label Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End"
                                     TextColor="Gray"
                                     Margin="0,0,2,0"
                                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                                     Text="{x:Static fn:GlyphNames.Right}"
                                     FontSize="Medium">
-                            </Label>
+                                </Label>
+                            </StackLayout>
                         </Grid>
                         <Grid HeightRequest="40"
                               MinimumHeightRequest="40"
@@ -204,7 +207,7 @@
                                     TextColor="SlateBlue"
                                     Margin="0,0,5,0"
                                     Text="{Binding CurrentNumberOfChapters.Text}"
-                                    FontSize="Medium">
+                                    >
                             </Label>
                         </Grid>
                         <Grid BackgroundColor="WhiteSmoke"

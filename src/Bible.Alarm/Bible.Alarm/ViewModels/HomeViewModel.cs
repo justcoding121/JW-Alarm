@@ -242,6 +242,8 @@ namespace Bible.Alarm.ViewModels
                         await seedDefaultAlarm();
 
                         var alarmSchedules = await scheduleDbContext.AlarmSchedules
+                                            .Include(x => x.BibleReadingSchedule)
+                                            .Include(x => x.Music)
                                             .AsNoTracking()
                                             .ToListAsync();
 
@@ -394,11 +396,15 @@ namespace Bible.Alarm.ViewModels
                 }
 
             });
+
+            RefreshChapterName();
         }
 
         public long ScheduleId => Schedule.Id;
 
         public string Name => Schedule.Name;
+
+        public string SubTitle { get; private set; }
 
         private bool isEnabled;
         public bool IsEnabled
@@ -427,6 +433,34 @@ namespace Bible.Alarm.ViewModels
                 .GetProperties()
                 .Where(x => x.Name != "IsEnabled")
                 .Select(x => x.Name).ToArray());
+        }
+
+        public void RefreshChapterName()
+        {
+            var syncContext = this.container.Resolve<TaskScheduler>();
+
+            Task.Run(async () =>
+            {
+                using var mediaDbContext = container.Resolve<MediaDbContext>();
+
+                var bookName = await mediaDbContext.BibleBook
+                                .Where(x => x.BibleTranslation.Code == Schedule.BibleReadingSchedule.PublicationCode
+                                        && x.BibleTranslation.Language.Code == Schedule.BibleReadingSchedule.LanguageCode
+                                        && x.Number == Schedule.BibleReadingSchedule.BookNumber)
+                                .Select(x => x.Name)
+                                .FirstOrDefaultAsync();
+
+                return bookName;
+            })
+            .ContinueWith((x) =>
+            {
+                if (x.IsCompleted)
+                {
+                    SubTitle = $"{x.Result} {Schedule.BibleReadingSchedule.ChapterNumber}";
+                    RaiseProperty("SubTitle");
+                }
+
+            }, syncContext);
         }
 
         public int CompareTo(object obj)

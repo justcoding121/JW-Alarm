@@ -103,6 +103,7 @@ namespace Bible.Alarm.ViewModels
             {
                 BibleReadingSchedule = x;
                 bibleReadingUpdated = true;
+                refreshChapterName();
             });
 
             subscriptions.Add(subscription3);
@@ -339,7 +340,7 @@ namespace Bible.Alarm.ViewModels
             alwaysPlayFromStart = model.AlwaysPlayFromStart;
 
             populateNumberOfChaptersListView(model);
-
+            refreshChapterName();
         }
 
         private int scheduleId;
@@ -416,6 +417,13 @@ namespace Bible.Alarm.ViewModels
         private bool bibleReadingUpdated;
         public BibleReadingSchedule BibleReadingSchedule { get => Model.BibleReadingSchedule; set => Model.BibleReadingSchedule = value; }
 
+        private string bibleReadingTitleText;
+        public string BibleReadingTitleText
+        {
+            get => bibleReadingTitleText;
+            set => this.Set(ref bibleReadingTitleText, value);
+        }
+
         public bool IsNewSchedule { get; private set; }
         public bool IsExistingSchedule => !IsNewSchedule;
 
@@ -441,7 +449,6 @@ namespace Bible.Alarm.ViewModels
             }
 
             var model = getModel();
-
 
             if (IsNewSchedule)
             {
@@ -501,6 +508,8 @@ namespace Bible.Alarm.ViewModels
                 });
 
                 scheduleListItem.RaisePropertiesChangedEvent();
+                scheduleListItem.RefreshChapterName();
+
                 ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
             }
 
@@ -539,6 +548,34 @@ namespace Bible.Alarm.ViewModels
                 ReduxContainer.Store.Dispatch(new RemoveScheduleAction() { ScheduleListItem = scheduleListItem });
             }
 
+        }
+
+        private void refreshChapterName()
+        {
+            var syncContext = this.container.Resolve<TaskScheduler>();
+
+            Task.Run(async () =>
+            {
+                using var mediaDbContext = container.Resolve<MediaDbContext>();
+
+                var bookName = await mediaDbContext.BibleBook
+                                .Where(x => x.BibleTranslation.Code == BibleReadingSchedule.PublicationCode
+                                        && x.BibleTranslation.Language.Code == BibleReadingSchedule.LanguageCode
+                                        && x.Number == BibleReadingSchedule.BookNumber)
+                                .Select(x => x.Name)
+                                .FirstOrDefaultAsync();
+
+                return bookName;
+            })
+            .ContinueWith((x) =>
+            {
+                if (x.IsCompleted)
+                {
+                    BibleReadingTitleText = $"{x.Result} {BibleReadingSchedule.ChapterNumber}";
+                    RaiseProperty("SubTitle");
+                }
+
+            }, syncContext);
         }
 
         public void Dispose()

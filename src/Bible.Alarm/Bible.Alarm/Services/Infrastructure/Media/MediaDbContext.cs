@@ -15,7 +15,8 @@ namespace Bible.Alarm.Services
         public DbSet<Language> Languages { get; set; }
 
         public DbSet<BibleTranslation> BibleTranslations { get; set; }
-
+        public DbSet<BibleBook> BibleBook { get; set; }
+        public DbSet<BibleChapter> BibleChapter { get; set; }
         public DbSet<MelodyMusic> MelodyMusic { get; set; }
         public DbSet<VocalMusic> VocalMusic { get; set; }
 
