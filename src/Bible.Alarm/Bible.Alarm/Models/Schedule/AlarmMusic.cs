@@ -1,5 +1,8 @@
-﻿namespace Bible.Alarm.Models
+﻿using System;
+
+namespace Bible.Alarm.Models
 {
+    [Serializable]
     public class AlarmMusic : IEntity
     {
         public int Id { get; set; }

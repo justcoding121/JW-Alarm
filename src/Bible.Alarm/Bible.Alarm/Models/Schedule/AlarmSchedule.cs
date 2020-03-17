@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Bible.Alarm.Models
 {
+    [Serializable]
     public class AlarmSchedule : IEntity, IComparable
     {
         public int Id { get; set; }

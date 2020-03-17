@@ -1,4 +1,5 @@
 ﻿
+using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -329,7 +330,7 @@ namespace Bible.Alarm.ViewModels
 
         private void setModel(AlarmSchedule model)
         {
-            this.Model = model;
+            this.Model = model.DeepClone();
 
             scheduleId = model.Id;
             name = model.Name;
@@ -507,6 +508,7 @@ namespace Bible.Alarm.ViewModels
                     alarmService.Update(model);
                 });
 
+                scheduleListItem.Schedule = model;
                 scheduleListItem.RaisePropertiesChangedEvent();
                 scheduleListItem.RefreshChapterName();
 
