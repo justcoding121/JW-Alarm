@@ -29,8 +29,17 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>Bible Alarm Push Development Profile</CodesignProvision>
     <CodesignKey>iPhone Developer: Jehonathan Thomas (3J6S84282U)</CodesignKey>
+    <MtouchSdkVersion>
+    </MtouchSdkVersion>
+    <MtouchFloat32>false</MtouchFloat32>
+    <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <MtouchFastDev>false</MtouchFastDev>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
+    <CodesignEntitlements />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -54,14 +63,18 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer: Jehonathan Thomas (3J6S84282U)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
-    <MtouchLink>None</MtouchLink>
-    <MtouchInterpreter>-all</MtouchInterpreter>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
+    <CodesignProvision>Bible Alarm Push Development Profile</CodesignProvision>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchInterpreter>
+    </MtouchInterpreter>
     <IntermediateOutputPath>obj\iPhone\Debug</IntermediateOutputPath>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <CodesignExtraArgs />
+    <CodesignResourceRules />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>

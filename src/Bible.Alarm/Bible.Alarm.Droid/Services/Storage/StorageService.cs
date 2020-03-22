@@ -12,5 +12,13 @@ namespace Bible.Alarm.Droid.Services.Storage
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }
+
+        public override string CacheRoot
+        {
+            get
+            {
+                return System.IO.Path.GetTempPath();
+            }
+        }
     }
 }

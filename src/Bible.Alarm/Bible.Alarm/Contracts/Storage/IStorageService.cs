@@ -7,6 +7,8 @@ namespace Bible.Alarm.Services.Contracts
     public interface IStorageService : IDisposable
     {
         string StorageRoot { get; }
+        string CacheRoot { get; }
+
         Task<bool> DirectoryExists(string path);
         Task<bool> FileExists(string path);
         Task<List<string>> GetAllFiles(string path);

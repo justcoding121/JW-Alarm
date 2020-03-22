@@ -10,6 +10,7 @@ namespace Bible.Alarm.Services
     public abstract class StorageService : IStorageService
     {
         public abstract string StorageRoot { get; }
+        public abstract string CacheRoot { get; }
 
         public Task DeleteFile(string path)
         {

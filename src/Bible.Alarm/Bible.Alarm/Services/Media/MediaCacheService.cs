@@ -46,7 +46,7 @@ namespace Bible.Alarm.Services
             this.networkStatusService = networkStatusService;
             this.mediaManager = mediaManager;
 
-            cacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
+            cacheRoot = Path.Combine(storageService.CacheRoot, "MediaCache");
         }
 
         public string GetCacheFileName(string url)
