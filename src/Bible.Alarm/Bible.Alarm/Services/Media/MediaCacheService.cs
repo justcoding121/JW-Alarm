@@ -266,9 +266,25 @@ namespace Bible.Alarm.Services
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, $"Failed to delete file {x}");
+                    logger.Error(e, $"Failed to delete file: {x}");
                 }
             });
+
+            var prevCacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
+
+            var oldFilesToDelete = await storageService.GetAllFiles(prevCacheRoot);
+
+            foreach (var file in oldFilesToDelete)
+            {
+                try
+                {
+                    await storageService.DeleteFile(file);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, $"Failed to delete file: {file}");
+                }
+            }
         }
 
         public void Dispose()
