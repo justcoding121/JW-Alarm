@@ -1,3 +1,4 @@
+using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Services.Contracts;
 using System;
 using System.Net.Http;
@@ -25,7 +26,7 @@ namespace Bible.Alarm.Services
         /// <returns></returns>
         public async Task<byte[]> DownloadAsync(string url, string alternativeUrl = null)
         {
-            return await retry(async () =>
+            return await RetryHelper.Retry(async () =>
             {
                 try
                 {
@@ -50,30 +51,6 @@ namespace Bible.Alarm.Services
             }, retryAttempts);
         }
 
-        private static async Task<T> retry<T>(Func<Task<T>> func, int retryCount)
-        {
-            var delay = 1000;
-
-            try
-            {
-                while (true)
-                {
-                    try
-                    {
-                        return await func();
-                    }
-                    catch when (retryCount-- > 0)
-                    {
-                        await Task.Delay(delay);
-                        delay *= 2;
-                    }
-                }
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
 
         public void Dispose()
         {
