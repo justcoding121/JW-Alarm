@@ -100,22 +100,29 @@ namespace Bible.Alarm.iOS
                     DeviceToken = DeviceToken
                 };
 
+                try
+                {
 #if DEBUG
-                var url = "https://192.168.1.64:5011/api/v1/RegisterDevice";
+                    var url = "https://192.168.1.64:5011/api/v1/RegisterDevice";
 #else
-                 var url = "https://production-push.jthomas.info/api/v1/RegisterDevice";
+                    var url = "https://production-push.jthomas.info/api/v1/RegisterDevice";
 #endif
 
-                var result = await RetryHelper.Retry(async () =>
-                {
-                    using var client = new HttpClient();
-                    var payload = JsonConvert.SerializeObject(request);
-                    HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
-                    return await client.PostAsync(url, content);
+                    var result = await RetryHelper.Retry(async () =>
+                    {
+                        using var client = new HttpClient();
+                        var payload = JsonConvert.SerializeObject(request);
+                        HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                        return await client.PostAsync(url, content);
 
-                }, 3);
+                    }, 3);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "Error happenned when updating ios device token.");
+                }
             }
-       
+
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
