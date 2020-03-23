@@ -272,18 +272,23 @@ namespace Bible.Alarm.Services
 
             var prevCacheRoot = Path.Combine(storageService.StorageRoot, "MediaCache");
 
-            var oldFilesToDelete = await storageService.GetAllFiles(prevCacheRoot);
-
-            foreach (var file in oldFilesToDelete)
+            if (await storageService.DirectoryExists(prevCacheRoot))
             {
-                try
+                var oldFilesToDelete = await storageService.GetAllFiles(prevCacheRoot);
+
+                foreach (var file in oldFilesToDelete)
                 {
-                    await storageService.DeleteFile(file);
+                    try
+                    {
+                        await storageService.DeleteFile(file);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, $"Failed to delete file: {file}");
+                    }
                 }
-                catch (Exception e)
-                {
-                    logger.Error(e, $"Failed to delete file: {file}");
-                }
+
+                await storageService.DeleteDirectory(prevCacheRoot);
             }
         }
 
