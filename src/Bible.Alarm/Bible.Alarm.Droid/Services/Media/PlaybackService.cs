@@ -122,8 +122,8 @@ namespace Bible.Alarm.Services.Droid
                 var preparedTracks = 0;
                 var totalTracks = nextTracks.Count;
 
-                await Messenger<object>.Publish(Messages.ShowMediaProgessModal);
-                await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
+                await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
+                await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
 
                 var downloadedMediaItems = (await Task.WhenAll(downloadedTracks.Select(x =>
                 {
@@ -131,8 +131,8 @@ namespace Bible.Alarm.Services.Droid
                     {
                         var item = await mediaExtractor.CreateMediaItem(x.Value);
 
-                        await Messenger<object>.Publish(Messages.ShowMediaProgessModal);
-                        await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                        await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
+                        await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
 
                         return item;
                     });
@@ -147,8 +147,8 @@ namespace Bible.Alarm.Services.Droid
                        {
                            var item = await mediaExtractor.CreateMediaItem(x.Value);
 
-                           await Messenger<object>.Publish(Messages.ShowMediaProgessModal);
-                           await Messenger<object>.Publish(Messages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                           await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
+                           await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
 
                            return item;
                        }
@@ -180,7 +180,7 @@ namespace Bible.Alarm.Services.Droid
                     i++;
                 }
 
-                await Messenger<object>.Publish(Messages.HideMediaProgressModal, null);
+                await Messenger<object>.Publish(MvvmMessages.HideMediaProgressModal, null);
 
                 //play default ring tone if we don't have the files downloaded
                 //and internet is not available
@@ -278,7 +278,7 @@ namespace Bible.Alarm.Services.Droid
 
                         if (readyTodispose)
                         {
-                            await Messenger<object>.Publish(Messages.HideAlarmModal, null);
+                            await Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
                             this.notificationService.ClearAll();
                             Dispose();
                             Stopped?.Invoke(this, MediaPlayerState.Stopped);

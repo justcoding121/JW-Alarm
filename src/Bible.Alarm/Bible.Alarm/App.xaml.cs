@@ -70,7 +70,7 @@ namespace Bible.Alarm
                     var mediaManager = container.Resolve<IMediaManager>();
                     if (mediaManager.IsPrepared())
                     {
-                        await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                        await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }
                     else
                     {
@@ -91,7 +91,7 @@ namespace Bible.Alarm
                 var mediaManager = container.Resolve<IMediaManager>();
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
                 else
                 {
@@ -113,7 +113,7 @@ namespace Bible.Alarm
                 // Handle when your app resumes
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(Messages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
                 else
                 {

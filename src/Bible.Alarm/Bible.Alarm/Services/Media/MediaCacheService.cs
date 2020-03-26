@@ -229,7 +229,6 @@ namespace Bible.Alarm.Services
 
         public async Task CleanUp()
         {
-
             var schedules = await scheduleDbContext
                 .AlarmSchedules
                 .AsNoTracking()
@@ -284,7 +283,7 @@ namespace Bible.Alarm.Services
                     }
                     catch (Exception e)
                     {
-                        logger.Error(e, $"Failed to delete file: {file}");
+                        logger.Error(e, $"Failed to delete old file: {file}");
                     }
                 }
 

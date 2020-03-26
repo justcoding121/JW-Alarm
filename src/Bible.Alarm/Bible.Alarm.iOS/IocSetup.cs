@@ -51,7 +51,12 @@ namespace Bible.Alarm.iOS
 
         public static IContainer GetContainer(string containerName)
         {
-            return containers[containerName];
+            if (containers.TryGetValue(containerName, out var @value))
+            {
+                return value;
+            }
+
+            return null;
         }
         public bool Remove(string containerName)
         {

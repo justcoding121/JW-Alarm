@@ -13,12 +13,6 @@ namespace Bible.Alarm.Services.iOS.Helpers
             }
 
         }
-
-        public static void VerifyBackgroundTasks()
-        {
-
-        }
-
         public static async Task InitializeDatabase(IContainer container)
         {
             using (var db = container.Resolve<ScheduleDbContext>())

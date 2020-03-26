@@ -30,7 +30,7 @@ namespace Bible.Alarm.UI
 
             var syncContext = this.container.Resolve<TaskScheduler>();
 
-            Messenger<object>.Subscribe(Messages.ShowAlarmModal, async @param =>
+            Messenger<object>.Subscribe(MvvmMessages.ShowAlarmModal, async @param =>
             {
                 var vm = container.Resolve<AlarmViewModal>();
                 await Task.Delay(0).ContinueWith(async (x) =>
@@ -41,7 +41,7 @@ namespace Bible.Alarm.UI
             });
 
 
-            Messenger<object>.Subscribe(Messages.HideAlarmModal, async vm =>
+            Messenger<object>.Subscribe(MvvmMessages.HideAlarmModal, async vm =>
             {
                 await Task.Delay(0).ContinueWith(async (x) =>
                 {
@@ -50,7 +50,7 @@ namespace Bible.Alarm.UI
                 }, syncContext);
             });
 
-            Messenger<object>.Subscribe(Messages.ShowMediaProgessModal, async @param =>
+            Messenger<object>.Subscribe(MvvmMessages.ShowMediaProgessModal, async @param =>
             {
                 var vm = this.container.Resolve<MediaProgressViewModal>();
                 await Task.Delay(0).ContinueWith(async (x) =>
@@ -60,7 +60,7 @@ namespace Bible.Alarm.UI
                 }, syncContext);
             });
 
-            Messenger<object>.Subscribe(Messages.HideMediaProgressModal, async vm =>
+            Messenger<object>.Subscribe(MvvmMessages.HideMediaProgressModal, async vm =>
             {
                 await Task.Delay(0).ContinueWith(async (x) =>
                 {

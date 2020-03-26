@@ -3,6 +3,7 @@ using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
+using MediaManager;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -38,14 +39,12 @@ namespace Bible.Alarm.iOS
                         var task2 = BootstrapHelper.InitializeDatabase(container);
 
                         await Task.WhenAll(task1, task2);
-
-                        await Messenger<bool>.Publish(Common.Mvvm.Messages.Initialized, true);
-
+                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                         await Task.Delay(1000);
                     }
                     catch (Exception e)
                     {
-                        logger.Fatal(e, "Android initialization crashed.");
+                        logger.Fatal(e, "iOS initialization crashed.");
                     }
                 });
 
@@ -57,7 +56,7 @@ namespace Bible.Alarm.iOS
             {
                 Task.Run(async () =>
                 {
-                    await Messenger<bool>.Publish(Bible.Alarm.Common.Mvvm.Messages.Initialized, true);
+                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                 });
             }
 

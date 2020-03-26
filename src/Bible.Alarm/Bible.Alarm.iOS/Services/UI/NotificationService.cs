@@ -1,20 +1,21 @@
-﻿using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.iOS.Services.Handlers;
+using Bible.Alarm.Services.Contracts;
 using System;
 
 namespace Bible.Alarm.Services.iOS
 {
     public class iOSNotificationService : INotificationService
     {
-        private IContainer container;
+        private iOSAlarmHandler alarmHandler;
 
-        public iOSNotificationService(IContainer container)
+        public iOSNotificationService(iOSAlarmHandler alarmHandler)
         {
-            this.container = container;
+            this.alarmHandler = alarmHandler;
         }
 
-        public void ShowNotification(long scheduleId)
+        public async void ShowNotification(long scheduleId)
         {
-            throw new NotImplementedException();
+            await alarmHandler.Handle(scheduleId);
         }
 
         public void ScheduleNotification(long scheduleId, DateTimeOffset time,
@@ -36,7 +37,7 @@ namespace Bible.Alarm.Services.iOS
 
         public void ClearAll()
         {
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public void Dispose()

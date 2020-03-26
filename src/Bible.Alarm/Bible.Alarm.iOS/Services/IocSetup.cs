@@ -4,6 +4,7 @@
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Droid.Services.Storage;
+    using Bible.Alarm.iOS.Services.Handlers;
     using Bible.Alarm.iOS.Services.Platform;
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.iOS.Tasks;
@@ -24,7 +25,7 @@
                 container.Register<IToastService>((x) => new iOSToastService(container));
             }
 
-            container.Register<INotificationService>((x) => new iOSNotificationService(container));
+            container.Register<INotificationService>((x) => new iOSNotificationService(container.Resolve<iOSAlarmHandler>()));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
@@ -60,6 +61,8 @@
 
             container.Register<IVersionFinder>((x) => new VersionFinder());
             container.Register<IStorageService>((x) => new iOSStorageService());
+            container.Register<iOSAlarmHandler>((x) => new iOSAlarmHandler(container.Resolve<IPlaybackService>(),
+                                                            container.Resolve<IMediaManager>()));
         }
     }
 }

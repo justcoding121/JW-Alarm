@@ -56,7 +56,7 @@ namespace Bible.Alarm.Droid
 
                         await Task.WhenAll(task1, task2);
 
-                        await Messenger<bool>.Publish(Messages.Initialized, true);
+                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
 
                         await Task.Delay(1000);
 
@@ -75,7 +75,7 @@ namespace Bible.Alarm.Droid
             {
                 Task.Run(async () =>
                 {
-                    await Messenger<bool>.Publish(Messages.Initialized, true);
+                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                 });
             }
         }

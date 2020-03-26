@@ -1,76 +1,57 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Contracts;
-using Bible.Alarm.Services.Infrastructure;
+using Foundation;
 using MediaManager;
 using MediaManager.Player;
 using NLog;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using UIKit;
 
-namespace Bible.Alarm.Droid.Services.Tasks
+namespace Bible.Alarm.iOS.Services.Handlers
 {
-    [BroadcastReceiver(Enabled = true)]
-    public class AlarmRingerReceiver : BroadcastReceiver, IDisposable
+    public class iOSAlarmHandler
     {
-        private Logger logger;
+        private static ILogger logger = LogManager.GetCurrentClassLogger();
 
         private IPlaybackService playbackService;
-        private Context context;
-        private Intent intent;
         private IMediaManager mediaManager;
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
-        public AlarmRingerReceiver()
-        {
-            LogSetup.Initialize(VersionFinder.Default,
-             new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
 
-            logger = LogManager.GetCurrentClassLogger();
+        public iOSAlarmHandler(IPlaybackService playbackService, IMediaManager mediaManager)
+        {
+            this.playbackService = playbackService;
+            this.mediaManager = mediaManager;
         }
 
-        public async override void OnReceive(Context context, Intent intent)
+        public async Task Handle(long scheduleId)
         {
-            var pendingIntent = GoAsync();
-
             try
             {
                 await @lock.WaitAsync();
 
-                var result = IocSetup.Initialize(context, true);
-
-                this.context = context;
-                this.intent = intent;
-
-                var container = result.Item1;
-                this.mediaManager = container.Resolve<IMediaManager>();
-                this.playbackService = container.Resolve<IPlaybackService>();
-
                 if (mediaManager.IsPrepared())
                 {
-                    context.StopService(intent);
+                    await Task.CompletedTask;
                     return;
                 }
                 else
                 {
-                    mediaManager.Init(Application.Context);
+                    mediaManager.Init();
                 }
 
                 playbackService.Stopped += stateChanged;
-
-                var scheduleId = intent.GetStringExtra("ScheduleId");
 
                 await Task.Run(async () =>
                 {
                     try
                     {
-                        var id = long.Parse(scheduleId);
-
-                        await playbackService.Play(id);
+                        await playbackService.Play(scheduleId);
                         await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                     catch (Exception e)
@@ -79,20 +60,18 @@ namespace Bible.Alarm.Droid.Services.Tasks
                         throw;
                     }
                 });
+
             }
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
                 playbackService.Stopped -= stateChanged;
                 mediaManager?.Dispose();
-                context.StopService(intent);
             }
             finally
             {
                 @lock.Release();
-                pendingIntent.Finish();
             }
-
         }
 
         private void stateChanged(object sender, MediaPlayerState e)
@@ -103,7 +82,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 {
                     playbackService.Stopped -= stateChanged;
                     mediaManager?.Dispose();
-                    context.StopService(intent);
                 }
             }
             catch (Exception ex)
@@ -111,5 +89,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 logger.Error(ex, "An error happened when stopping the alarm after media failure.");
             }
         }
+
     }
 }

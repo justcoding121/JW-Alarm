@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Common.Mvvm
 {
-    public enum Messages
+    public enum MvvmMessages
     {
         Initialized,
         ShowAlarmModal,
@@ -19,9 +19,9 @@ namespace Bible.Alarm.Common.Mvvm
     {
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
 
-        private static Dictionary<Messages, List<Func<T, Task>>> subscribers = new Dictionary<Messages, List<Func<T, Task>>>();
-        private static Dictionary<Messages, T> cache = new Dictionary<Messages, T>();
-        public async static Task Publish(Messages stream, T @object = default)
+        private static Dictionary<MvvmMessages, List<Func<T, Task>>> subscribers = new Dictionary<MvvmMessages, List<Func<T, Task>>>();
+        private static Dictionary<MvvmMessages, T> cache = new Dictionary<MvvmMessages, T>();
+        public async static Task Publish(MvvmMessages stream, T @object = default)
         {
             if (subscribers.ContainsKey(stream))
             {
@@ -36,7 +36,7 @@ namespace Bible.Alarm.Common.Mvvm
             cache[stream] = @object;
         }
 
-        public static void Subscribe(Messages stream, Func<T, Task> action, bool getMostRecentEvent = false)
+        public static void Subscribe(MvvmMessages stream, Func<T, Task> action, bool getMostRecentEvent = false)
         {
             if (subscribers.ContainsKey(stream))
             {

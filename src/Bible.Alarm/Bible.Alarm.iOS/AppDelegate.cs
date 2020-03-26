@@ -1,12 +1,16 @@
 ﻿using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.iOS.Models;
+using Bible.Alarm.iOS.Services.Handlers;
+using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
 using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using UIKit;
+using UserNotifications;
 
 namespace Bible.Alarm.iOS
 {
@@ -18,6 +22,36 @@ namespace Bible.Alarm.iOS
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private IContainer container;
+
+        public AppDelegate()
+        {
+            container = IocSetup.GetContainer("SplashActivity");
+
+            if (container == null)
+            {
+                var result = IocSetup.Initialize("SplashActivity", true);
+                container = result.Item1;
+                var containerCreated = result.Item2;
+                if (containerCreated)
+                {
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            SQLitePCL.Batteries_V2.Init();
+                            var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
+                            var task2 = BootstrapHelper.InitializeDatabase(container);
+
+                            await Task.WhenAll(task1, task2);
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Fatal(e, "iOS initialization crashed.");
+                        }
+                    });
+                }
+            }
+        }
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -35,8 +69,6 @@ namespace Bible.Alarm.iOS
                 return sslPolicyErrors == System.Net.Security.SslPolicyErrors.None;
             };
 #endif
-
-            container = IocSetup.GetContainer("SplashActivity");
 
             try
             {
@@ -128,6 +160,57 @@ namespace Bible.Alarm.iOS
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
             logger.Error($"Error registering push notifications. Description: {error.LocalizedDescription}");
+        }
+
+        public override async void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+            try
+            {
+                var alarmId = getAlarmId(userInfo);
+                var handler = container.Resolve<iOSAlarmHandler>();
+                await handler.Handle(alarmId);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Failed to handle remote notification while on backgroundd.");
+            }
+        }
+
+        public override async void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            try
+            {
+                var alarmId = getAlarmId(userInfo);
+                var handler = container.Resolve<iOSAlarmHandler>();
+                await handler.Handle(alarmId);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Failed to handle remote notification while on foreground.");
+            }
+
+            completionHandler(UIBackgroundFetchResult.NewData);
+        }
+
+        private long getAlarmId(NSDictionary userInfo)
+        {
+            if (null != userInfo && userInfo.ContainsKey(new NSString("aps")))
+            {
+                //Get the aps dictionary
+                NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+
+                string alarmId = string.Empty;
+
+                if (aps.ContainsKey(new NSString("alarmId")))
+                    alarmId = (aps[new NSString("alarmId")] as NSString).ToString();
+
+                if (!string.IsNullOrEmpty(alarmId))
+                {
+                    return long.Parse(alarmId);
+                }
+            }
+
+            throw new ArgumentException("Failed to parse alarmId");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Bible.Alarm.ViewModels.Shared
 
             var syncContext = this.container.Resolve<TaskScheduler>();
 
-            Messenger<object>.Subscribe(Messages.MediaProgress, async vm =>
+            Messenger<object>.Subscribe(MvvmMessages.MediaProgress, async vm =>
             {
                 await Task.Delay(0).ContinueWith((x) =>
                 {
