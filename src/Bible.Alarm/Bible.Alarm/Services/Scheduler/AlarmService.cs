@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using System;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Bible.Alarm.Services
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         public AlarmService(IContainer container,
             INotificationService notificationService,
             IMediaCacheService mediaCacheService,
@@ -30,9 +32,16 @@ namespace Bible.Alarm.Services
 
             var task = Task.Run(async () =>
             {
-                using (var mediaCacheService = container.Resolve<IMediaCacheService>())
+                try
                 {
-                    await mediaCacheService.SetupAlarmCache(schedule.Id);
+                    using (var mediaCacheService = container.Resolve<IMediaCacheService>())
+                    {
+                        await mediaCacheService.SetupAlarmCache(schedule.Id);
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened in SetupAlarmCache task.");
                 }
             });
 

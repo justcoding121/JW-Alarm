@@ -1,7 +1,9 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Infrastructure;
 using Java.Interop;
 using MediaManager;
 using NLog;
@@ -16,7 +18,16 @@ namespace Bible.Alarm.Droid
     {
         private IContainer container;
 
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Logger logger;
+
+        public MainActivity() 
+        {
+            LogSetup.Initialize(VersionFinder.Default,
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+
+            logger = LogManager.GetCurrentClassLogger();
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             container = BootstrapHelper.InitializeUI(this, logger, Application);
