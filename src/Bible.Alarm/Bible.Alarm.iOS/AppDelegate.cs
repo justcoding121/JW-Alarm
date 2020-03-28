@@ -1,6 +1,8 @@
 ﻿using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.iOS.Models;
 using Bible.Alarm.iOS.Services.Handlers;
+using Bible.Alarm.iOS.Services.Platform;
+using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
 using Newtonsoft.Json;
@@ -25,6 +27,8 @@ namespace Bible.Alarm.iOS
 
         public AppDelegate()
         {
+            LogSetup.Initialize(VersionFinder.Default, new string[] { });
+
             container = IocSetup.GetContainer("SplashActivity");
 
             if (container == null)

@@ -26,7 +26,9 @@ namespace Bible.Alarm.ViewModels.Redux.Reducers
 
             if (action is RemoveScheduleAction)
             {
-                previousState.Schedules.Remove((action as RemoveScheduleAction).ScheduleListItem);
+                var item = (action as RemoveScheduleAction).ScheduleListItem;
+                previousState.Schedules.Remove(item);
+                item.Dispose();
                 return previousState;
             }
 

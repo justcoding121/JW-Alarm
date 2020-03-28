@@ -43,7 +43,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 await @lock.WaitAsync();
 
                 var container = BootstrapHelper.InitializeService(context);
-                var result = IocSetup.Initialize(context, true);
 
                 this.context = context;
                 this.intent = intent;

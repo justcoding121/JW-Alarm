@@ -60,14 +60,5 @@ namespace Bible.Alarm.Droid
             return new Tuple<IContainer, bool>(container, true);
         }
 
-        public static IContainer GetContainer(string containerName)
-        {
-            return containers[containerName];
-        }
-        public bool Remove(string containerName)
-        {
-            return containers.TryRemove(containerName, out _);
-        }
-
     }
 }
