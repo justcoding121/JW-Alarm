@@ -30,23 +30,7 @@ namespace Bible.Alarm.iOS
             var containerCreated = result.Item2;
             if (containerCreated)
             {
-                Task.Run(async () =>
-                {
-                    try
-                    {
-                        SQLitePCL.Batteries_V2.Init();
-                        var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
-                        var task2 = BootstrapHelper.InitializeDatabase(container);
-
-                        await Task.WhenAll(task1, task2);
-                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
-                        await Task.Delay(1000);
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Fatal(e, "iOS initialization crashed.");
-                    }
-                });
+                BootstrapHelper.Initialize(container, logger);
 
                 // if you want to use a different Application Delegate class from "AppDelegate"
                 // you can specify it here.

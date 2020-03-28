@@ -58,6 +58,7 @@ namespace Bible.Alarm.iOS
 
             return null;
         }
+
         public bool Remove(string containerName)
         {
             return containers.TryRemove(containerName, out _);

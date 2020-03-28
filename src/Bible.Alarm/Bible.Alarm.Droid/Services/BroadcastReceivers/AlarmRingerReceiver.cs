@@ -4,6 +4,7 @@ using Android.OS;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using MediaManager;
 using MediaManager.Player;
@@ -41,12 +42,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 await @lock.WaitAsync();
 
+                var container = BootstrapHelper.InitializeService(context);
                 var result = IocSetup.Initialize(context, true);
 
                 this.context = context;
                 this.intent = intent;
 
-                var container = result.Item1;
+
                 this.mediaManager = container.Resolve<IMediaManager>();
                 this.playbackService = container.Resolve<IPlaybackService>();
 

@@ -45,21 +45,17 @@ namespace Bible.Alarm.Droid
             context.Add("AndroidContext", androidContext);
             context.Add("IsAndroidService", isService);
 
-            IContainer container;
-
-            if (containerName != null)
-            {
-                container = containers.GetOrAdd(containerName, new Container(context));
-            }
-            else
-            {
-                container = new Container(context);
-            }
+            IContainer container = new Container(context);
 
             UI.IocSetup.Initialize(container, isService);
             Alarm.Services.IocSetup.Initialize(container, isService);
             Alarm.Services.Droid.IocSetup.Initialize(container, isService);
             ViewModels.IocSetup.Initialize(container, isService);
+
+            if (containerName != null)
+            {
+                container = containers.GetOrAdd(containerName, container);
+            }
 
             return new Tuple<IContainer, bool>(container, true);
         }

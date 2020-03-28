@@ -47,9 +47,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             try
             {
-                var result = Alarm.Droid.IocSetup.Initialize(this, true);
-
-                this.container = result.Item1;
+                this.container = BootstrapHelper.InitializeService(this);
 
                 var extra = intent.GetStringExtra("Action");
 

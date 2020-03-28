@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog;
+using System;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.iOS.Helpers
@@ -21,6 +23,23 @@ namespace Bible.Alarm.Services.iOS.Helpers
             }
         }
 
+        public static Task Initialize(IContainer container, Logger logger)
+        {
+            return Task.Run(async () =>
+            {
+                try
+                {
+                    SQLitePCL.Batteries_V2.Init();
+                    var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
+                    var task2 = BootstrapHelper.InitializeDatabase(container);
 
+                    await Task.WhenAll(task1, task2);
+                }
+                catch (Exception e)
+                {
+                    logger.Fatal(e, "iOS initialization crashed.");
+                }
+            });
+        }
     }
 }

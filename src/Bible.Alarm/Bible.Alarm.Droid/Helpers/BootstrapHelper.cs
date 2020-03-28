@@ -1,34 +1,87 @@
-﻿using Android.App.Job;
+﻿using Android.App;
+using Android.App.Job;
 using Android.Content;
+using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Droid;
 using Bible.Alarm.Droid.Services.Helpers;
 using Bible.Alarm.Droid.Services.Tasks;
+using Bible.Alarm.Services.Droid.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using System;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {
-        public async static Task VerifyMediaLookUpService(IContainer container)
+        public static IContainer InitializeService(Context context)
+        {
+            var result = Alarm.Droid.IocSetup.Initialize(context, true);
+            return result.Item1;
+        }
+
+        public static IContainer InitializeUI(Activity mainActivity, Logger logger, Application application)
+        {
+            var result = Alarm.Droid.IocSetup.InitializeWithContainerName("MainActivity", Application.Context, false);
+            var container = result.Item1;
+            var containerCreated = result.Item2;
+            if (containerCreated)
+            {
+                Xamarin.Essentials.Platform.Init(application);
+
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        await VerifyServices(container);
+
+                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+
+                        await Task.Delay(1000);
+
+                        var i = new Intent(container.AndroidContext(), typeof(AlarmSetupService));
+                        i.PutExtra("Action", "SetupBackgroundTasks");
+                        mainActivity.StartService(i);
+
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Fatal(e, "Android initialization crashed.");
+                    }
+                });
+
+            }
+            else
+            {
+                Task.Run(async () =>
+                {
+                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                });
+            }
+
+            return container;
+        }
+
+        public async static Task VerifyServices(IContainer container)
+        {
+            var task1 = BootstrapHelper.verifyMediaLookUp(container);
+            var task2 = BootstrapHelper.initializeDatabase(container);
+
+            await Task.WhenAll(task1, task2);
+        }
+
+        private async static Task verifyMediaLookUp(IContainer container)
         {
             using (var service = container.Resolve<MediaIndexService>())
             {
                 await service.Verify();
             }
-
         }
 
         public static void VerifyBackgroundTasks(Context context)
         {
             schedulerSetupTask(context);
-        }
-
-        public static async Task InitializeDatabase(IContainer container)
-        {
-            using (var db = container.Resolve<ScheduleDbContext>())
-            {
-                await db.Database.MigrateAsync();
-            }
         }
 
         private static bool schedulerSetupTask(Context context)
@@ -47,6 +100,14 @@ namespace Bible.Alarm.Services.Droid.Helpers
                 }
 
                 return false;
+            }
+        }
+
+        private static async Task initializeDatabase(IContainer container)
+        {
+            using (var db = container.Resolve<ScheduleDbContext>())
+            {
+                await db.Database.MigrateAsync();
             }
         }
 

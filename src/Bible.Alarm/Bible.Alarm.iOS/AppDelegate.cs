@@ -34,24 +34,11 @@ namespace Bible.Alarm.iOS
                 var containerCreated = result.Item2;
                 if (containerCreated)
                 {
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            SQLitePCL.Batteries_V2.Init();
-                            var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
-                            var task2 = BootstrapHelper.InitializeDatabase(container);
-
-                            await Task.WhenAll(task1, task2);
-                        }
-                        catch (Exception e)
-                        {
-                            logger.Fatal(e, "iOS initialization crashed.");
-                        }
-                    });
+                    BootstrapHelper.Initialize(container, logger);
                 }
             }
         }
+
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window

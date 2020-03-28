@@ -32,13 +32,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 try
                 {
-                    var result = IocSetup.Initialize(this, true);
-                    this.container = result.Item1;
+                    this.container = BootstrapHelper.InitializeService(this);
 
-                    var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
-                    var task2 = BootstrapHelper.InitializeDatabase(container);
-
-                    await Task.WhenAll(task1, task2);
+                    await BootstrapHelper.VerifyServices(container);
 
                     using (var schedulerTask = container.Resolve<SchedulerTask>())
                     {
