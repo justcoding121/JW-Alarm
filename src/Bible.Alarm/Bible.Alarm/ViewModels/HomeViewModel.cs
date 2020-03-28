@@ -485,10 +485,13 @@ namespace Bible.Alarm.ViewModels
                                             && x.BibleTranslation.Language.Code == schedule.BibleReadingSchedule.LanguageCode
                                             && x.Number == schedule.BibleReadingSchedule.BookNumber)
                                     .Select(x => x.Name)
+                                    .AsNoTracking()
                                     .FirstOrDefaultAsync();
 
                     if (bookName != null)
                     {
+                        Schedule.BibleReadingSchedule.BookNumber = schedule.BibleReadingSchedule.BookNumber;
+                        Schedule.BibleReadingSchedule.ChapterNumber = schedule.BibleReadingSchedule.ChapterNumber;
                         return new Tuple<string, int>(bookName, schedule.BibleReadingSchedule.ChapterNumber);
                     }
                 }
@@ -500,7 +503,7 @@ namespace Bible.Alarm.ViewModels
                 if (x.IsCompleted && x.Result != null)
                 {
                     SubTitle = $"{x.Result.Item1} {x.Result.Item2}";
-                    RaiseProperty("SubTitle");
+                    RaiseProperty("SubTitle");    
                 }
 
             }, syncContext);

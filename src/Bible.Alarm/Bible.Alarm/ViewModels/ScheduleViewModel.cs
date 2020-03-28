@@ -104,7 +104,6 @@ namespace Bible.Alarm.ViewModels
             {
                 BibleReadingSchedule = x;
                 bibleReadingUpdated = true;
-                refreshChapterName();
             });
 
             subscriptions.Add(subscription3);
@@ -257,7 +256,18 @@ namespace Bible.Alarm.ViewModels
                 IsBusy = false;
             });
 
+            Task.Run(async () =>
+            {
+                while (refreshChapter)
+                {
+                    await Task.Delay(1500);
+                    refreshChapterName();
+                }
+            });
+
         }
+
+        private bool refreshChapter = true;
 
         private ScheduleListItem scheduleListItem;
 
@@ -565,6 +575,7 @@ namespace Bible.Alarm.ViewModels
                                         && x.BibleTranslation.Language.Code == BibleReadingSchedule.LanguageCode
                                         && x.Number == BibleReadingSchedule.BookNumber)
                                 .Select(x => x.Name)
+                                .AsNoTracking()
                                 .FirstOrDefaultAsync();
 
                 return bookName;
@@ -582,6 +593,7 @@ namespace Bible.Alarm.ViewModels
 
         public void Dispose()
         {
+            refreshChapter = false;
             subscriptions.ForEach(x => x.Dispose());
 
             this.scheduleDbContext.Dispose();
