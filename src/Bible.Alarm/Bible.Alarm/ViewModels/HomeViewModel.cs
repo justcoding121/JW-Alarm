@@ -408,7 +408,7 @@ namespace Bible.Alarm.ViewModels
 
             });
 
-            RefreshChapterName();
+            RefreshChapterName(true);
 
             Task.Run(async () =>
             {
@@ -455,7 +455,7 @@ namespace Bible.Alarm.ViewModels
                 .Select(x => x.Name).ToArray());
         }
 
-        public void RefreshChapterName()
+        public void RefreshChapterName(bool force = false)
         {
             var syncContext = this.container.Resolve<TaskScheduler>();
 
@@ -463,7 +463,7 @@ namespace Bible.Alarm.ViewModels
             {
                 var mediaManager = container.Resolve<IMediaManager>();
 
-                if (Schedule == null || !mediaManager.IsPrepared())
+                if (Schedule == null || (!force && !mediaManager.IsPrepared()))
                 {
                     return null;
                 }

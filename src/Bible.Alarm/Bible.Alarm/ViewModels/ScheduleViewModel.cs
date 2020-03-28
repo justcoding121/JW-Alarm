@@ -510,7 +510,7 @@ namespace Bible.Alarm.ViewModels
 
                 scheduleListItem.Schedule = model;
                 scheduleListItem.RaisePropertiesChangedEvent();
-                scheduleListItem.RefreshChapterName();
+                scheduleListItem.RefreshChapterName(true);
 
                 ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
             }
