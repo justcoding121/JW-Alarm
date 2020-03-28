@@ -65,9 +65,16 @@ namespace Bible.Alarm.Services.Droid.Tasks
                         BootstrapHelper.VerifyBackgroundTasks(container.AndroidContext());
                         Task.Run(async () =>
                         {
-                            using (var schedulerTask = container.Resolve<SchedulerTask>())
+                            try
                             {
-                                await schedulerTask.Handle();
+                                using (var schedulerTask = container.Resolve<SchedulerTask>())
+                                {
+                                    await schedulerTask.Handle();
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                logger.Error(e, "An error happened in handling scheduler task.");
                             }
                         });
                         break;

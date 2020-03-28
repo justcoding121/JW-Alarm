@@ -40,7 +40,14 @@ namespace Bible.Alarm.iOS
             {
                 Task.Run(async () =>
                 {
-                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                    try
+                    {
+                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened in Messenger Publish call.");
+                    }
                 });
             }
 

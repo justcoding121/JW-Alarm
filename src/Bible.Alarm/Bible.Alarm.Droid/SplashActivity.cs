@@ -7,6 +7,7 @@ using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -57,9 +58,16 @@ namespace Bible.Alarm.Droid
         // background work that happens behind the splash screen
         void doWork()
         {
-            var intent = new Intent(Application.Context, typeof(MainActivity));
-            intent.SetFlags(ActivityFlags.ReorderToFront);
-            StartActivity(intent);
+            try
+            {
+                var intent = new Intent(Application.Context, typeof(MainActivity));
+                intent.SetFlags(ActivityFlags.ReorderToFront);
+                StartActivity(intent);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened in doWork() task under SplashActivity.");
+            }
         }
     }
 }

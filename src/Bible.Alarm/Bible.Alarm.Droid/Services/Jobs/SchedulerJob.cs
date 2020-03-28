@@ -46,7 +46,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     logger.Error(e, "An error happened when handling the repeating scheduler task.");
                 }
 
-
                 // Have to tell the JobScheduler the work is done. 
                 JobFinished(jobParams, false);
             });

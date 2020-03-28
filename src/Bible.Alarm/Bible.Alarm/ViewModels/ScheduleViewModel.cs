@@ -8,6 +8,7 @@ using Bible.Alarm.ViewModels.Redux.Actions;
 using MediaManager;
 using Microsoft.EntityFrameworkCore;
 using Mvvmicro;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class ScheduleViewModel : ViewModel, IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private IContainer container;
 
         ScheduleDbContext scheduleDbContext;
@@ -568,24 +571,40 @@ namespace Bible.Alarm.ViewModels
 
             Task.Run(async () =>
             {
-                using var mediaDbContext = container.Resolve<MediaDbContext>();
+                try
+                {
+                    using var mediaDbContext = container.Resolve<MediaDbContext>();
 
-                var bookName = await mediaDbContext.BibleBook
-                                .Where(x => x.BibleTranslation.Code == BibleReadingSchedule.PublicationCode
-                                        && x.BibleTranslation.Language.Code == BibleReadingSchedule.LanguageCode
-                                        && x.Number == BibleReadingSchedule.BookNumber)
-                                .Select(x => x.Name)
-                                .AsNoTracking()
-                                .FirstOrDefaultAsync();
+                    var bookName = await mediaDbContext.BibleBook
+                                    .Where(x => x.BibleTranslation.Code == BibleReadingSchedule.PublicationCode
+                                            && x.BibleTranslation.Language.Code == BibleReadingSchedule.LanguageCode
+                                            && x.Number == BibleReadingSchedule.BookNumber)
+                                    .Select(x => x.Name)
+                                    .AsNoTracking()
+                                    .FirstOrDefaultAsync();
 
-                return bookName;
+                    return bookName;
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened in refreshChapterName task under schedule view model.");
+                }
+
+                return null;
             })
             .ContinueWith((x) =>
             {
                 if (x.IsCompleted)
                 {
-                    BibleReadingTitleText = $"{x.Result} {BibleReadingSchedule.ChapterNumber}";
-                    RaiseProperty("SubTitle");
+                    try
+                    {
+                        BibleReadingTitleText = $"{x.Result} {BibleReadingSchedule.ChapterNumber}";
+                        RaiseProperty("SubTitle");
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened in refreshChapterName task continue with under schedule view model.");
+                    }
                 }
 
             }, syncContext);

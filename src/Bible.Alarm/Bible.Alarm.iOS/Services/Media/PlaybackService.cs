@@ -131,8 +131,8 @@ namespace Bible.Alarm.Services.iOS
                     {
                         var item = await mediaExtractor.CreateMediaItem(x.Value);
 
-                        await Messenger<object>.Publish(Bible.Alarm.Common.Mvvm.MvvmMessages.ShowMediaProgessModal);
-                        await Messenger<object>.Publish(Bible.Alarm.Common.Mvvm.MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                        await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
+                        await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
 
                         return item;
                     });
@@ -147,8 +147,8 @@ namespace Bible.Alarm.Services.iOS
                        {
                            var item = await mediaExtractor.CreateMediaItem(x.Value);
 
-                           await Messenger<object>.Publish(Bible.Alarm.Common.Mvvm.MvvmMessages.ShowMediaProgessModal);
-                           await Messenger<object>.Publish(Bible.Alarm.Common.Mvvm.MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                           await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
+                           await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
 
                            return item;
                        }

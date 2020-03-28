@@ -58,7 +58,14 @@ namespace Bible.Alarm.Services.Droid.Helpers
             {
                 Task.Run(async () =>
                 {
-                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                    try
+                    {
+                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened bootstrap helper Messenger publish.");
+                    }
                 });
             }
 

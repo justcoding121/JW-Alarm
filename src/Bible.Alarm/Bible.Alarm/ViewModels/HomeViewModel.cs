@@ -9,6 +9,7 @@ using Bible.Alarm.ViewModels.Redux.Actions;
 using MediaManager;
 using Microsoft.EntityFrameworkCore;
 using Mvvmicro;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -25,6 +26,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private IContainer container;
 
         private ScheduleDbContext scheduleDbContext;
@@ -370,6 +373,8 @@ namespace Bible.Alarm.ViewModels
 
     public class ScheduleListItem : ViewModel, IComparable, IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private IContainer container;
 
         public AlarmSchedule Schedule;
@@ -461,49 +466,64 @@ namespace Bible.Alarm.ViewModels
 
             Task.Run(async () =>
             {
-                var mediaManager = container.Resolve<IMediaManager>();
-
-                if (Schedule == null || (!force && !mediaManager.IsPrepared()))
+                try
                 {
-                    return null;
-                }
+                    var mediaManager = container.Resolve<IMediaManager>();
 
-                using var scheduleDbContext = container.Resolve<ScheduleDbContext>();
+                    if (Schedule == null || (!force && !mediaManager.IsPrepared()))
+                    {
+                        return null;
+                    }
 
-                var schedule = await scheduleDbContext.AlarmSchedules
-                                        .Include(x => x.BibleReadingSchedule)
+                    using var scheduleDbContext = container.Resolve<ScheduleDbContext>();
+
+                    var schedule = await scheduleDbContext.AlarmSchedules
+                                            .Include(x => x.BibleReadingSchedule)
+                                            .AsNoTracking()
+                                            .Where(x => x.Id == Schedule.Id)
+                                            .FirstOrDefaultAsync();
+
+                    if (schedule != null)
+                    {
+                        using var mediaDbContext = container.Resolve<MediaDbContext>();
+
+                        var bookName = await mediaDbContext.BibleBook
+                                        .Where(x => x.BibleTranslation.Code == schedule.BibleReadingSchedule.PublicationCode
+                                                && x.BibleTranslation.Language.Code == schedule.BibleReadingSchedule.LanguageCode
+                                                && x.Number == schedule.BibleReadingSchedule.BookNumber)
+                                        .Select(x => x.Name)
                                         .AsNoTracking()
-                                        .Where(x => x.Id == Schedule.Id)
                                         .FirstOrDefaultAsync();
 
-                if (schedule != null)
-                {
-                    using var mediaDbContext = container.Resolve<MediaDbContext>();
-
-                    var bookName = await mediaDbContext.BibleBook
-                                    .Where(x => x.BibleTranslation.Code == schedule.BibleReadingSchedule.PublicationCode
-                                            && x.BibleTranslation.Language.Code == schedule.BibleReadingSchedule.LanguageCode
-                                            && x.Number == schedule.BibleReadingSchedule.BookNumber)
-                                    .Select(x => x.Name)
-                                    .AsNoTracking()
-                                    .FirstOrDefaultAsync();
-
-                    if (bookName != null)
-                    {
-                        Schedule.BibleReadingSchedule.BookNumber = schedule.BibleReadingSchedule.BookNumber;
-                        Schedule.BibleReadingSchedule.ChapterNumber = schedule.BibleReadingSchedule.ChapterNumber;
-                        return new Tuple<string, int>(bookName, schedule.BibleReadingSchedule.ChapterNumber);
+                        if (bookName != null)
+                        {
+                            Schedule.BibleReadingSchedule.BookNumber = schedule.BibleReadingSchedule.BookNumber;
+                            Schedule.BibleReadingSchedule.ChapterNumber = schedule.BibleReadingSchedule.ChapterNumber;
+                            return new Tuple<string, int>(bookName, schedule.BibleReadingSchedule.ChapterNumber);
+                        }
                     }
+
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened in RefreshChapterName task under list item.");
                 }
 
                 return null;
             })
             .ContinueWith((x) =>
             {
-                if (x.IsCompleted && x.Result != null)
+                try
                 {
-                    SubTitle = $"{x.Result.Item1} {x.Result.Item2}";
-                    RaiseProperty("SubTitle");    
+                    if (x.IsCompleted && x.Result != null)
+                    {
+                        SubTitle = $"{x.Result.Item1} {x.Result.Item2}";
+                        RaiseProperty("SubTitle");
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened in RefreshChapterName continue with task under list item.");
                 }
 
             }, syncContext);
