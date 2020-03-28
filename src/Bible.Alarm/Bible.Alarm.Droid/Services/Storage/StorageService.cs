@@ -17,7 +17,7 @@ namespace Bible.Alarm.Droid.Services.Storage
         {
             get
             {
-                return System.IO.Path.GetTempPath();
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }
     }

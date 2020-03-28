@@ -22,7 +22,7 @@ namespace Bible.Alarm.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private Logger logger => LogManager.GetCurrentClassLogger();
         private IContainer container;
 
         public AppDelegate()

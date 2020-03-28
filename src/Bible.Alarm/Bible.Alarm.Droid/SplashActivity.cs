@@ -17,14 +17,12 @@ namespace Bible.Alarm.Droid
         MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
-        private Logger logger;
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         public SplashActivity()
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
-
-            logger = LogManager.GetCurrentClassLogger();
         }
 
         protected override void OnCreate(Bundle bundle)

@@ -20,7 +20,7 @@ namespace Bible.Alarm.Services.Droid
 {
     public class PlaybackService : IPlaybackService, IDisposable
     {
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         private readonly IMediaManager mediaManager;
         private IAlarmService alarmService;

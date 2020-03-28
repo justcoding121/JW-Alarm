@@ -18,14 +18,14 @@ namespace Bible.Alarm.Droid.Services.Tasks
         "com.Bible.Alarm.Restart"})]
     public class RestartReceiver : BroadcastReceiver
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private IContainer container;
-        private Logger logger;
 
         public RestartReceiver()
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
-            logger = LogManager.GetCurrentClassLogger();
         }
         public override async void OnReceive(Context context, Intent intent)
         {

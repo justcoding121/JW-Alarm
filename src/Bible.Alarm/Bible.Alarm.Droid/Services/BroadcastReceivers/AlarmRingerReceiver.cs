@@ -18,7 +18,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
     [BroadcastReceiver(Enabled = true)]
     public class AlarmRingerReceiver : BroadcastReceiver, IDisposable
     {
-        private Logger logger;
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         private IPlaybackService playbackService;
         private Context context;
@@ -30,8 +30,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
         {
             LogSetup.Initialize(VersionFinder.Default,
              new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
-
-            logger = LogManager.GetCurrentClassLogger();
         }
 
         public async override void OnReceive(Context context, Intent intent)

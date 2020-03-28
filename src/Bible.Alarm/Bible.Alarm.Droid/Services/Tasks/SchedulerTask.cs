@@ -10,7 +10,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
 {
     public class SchedulerTask : IDisposable
     {
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;

@@ -17,13 +17,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
     {
         public const int JobId = 1;
         private IContainer container;
-        private Logger logger;
+        private Logger logger => LogManager.GetCurrentClassLogger();
         public SchedulerJob()
         {
             LogSetup.Initialize(VersionFinder.Default,
            new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
-
-            logger = LogManager.GetCurrentClassLogger();
         }
         public override bool OnStartJob(JobParameters jobParams)
         {

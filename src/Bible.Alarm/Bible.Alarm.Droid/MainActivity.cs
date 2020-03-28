@@ -9,6 +9,8 @@ using MediaManager;
 using NLog;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Droid
 {
@@ -18,14 +20,12 @@ namespace Bible.Alarm.Droid
     {
         private IContainer container;
 
-        private readonly Logger logger;
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
-        public MainActivity() 
+        public MainActivity()
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
-
-            logger = LogManager.GetCurrentClassLogger();
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -41,6 +41,24 @@ namespace Bible.Alarm.Droid
 
                 global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
                 LoadApplication(new App(container));
+
+                //legacy
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        var cachePath = Path.Combine(Path.GetTempPath(), "MediaCache");
+
+                        // If exist, delete the cache directory and everything in it recursivly
+                        if (Directory.Exists(cachePath))
+                            Directory.Delete(cachePath, true);
+
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "Deleting cache directory failed in android.");
+                    }
+                });
 
             }
             catch (Exception e)

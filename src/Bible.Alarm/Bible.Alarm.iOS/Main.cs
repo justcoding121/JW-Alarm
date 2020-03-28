@@ -14,12 +14,11 @@ namespace Bible.Alarm.iOS
 {
     public class Application
     {
-        private static Logger logger;
+        private static Logger logger => LogManager.GetCurrentClassLogger();
 
         public Application()
         {
             LogSetup.Initialize(VersionFinder.Default, new string[] { });
-            logger = LogManager.GetCurrentClassLogger();
         }
 
         // This is the main entry point of the application.

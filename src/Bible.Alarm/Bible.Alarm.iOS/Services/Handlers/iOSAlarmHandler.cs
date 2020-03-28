@@ -16,7 +16,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
 {
     public class iOSAlarmHandler
     {
-        private static ILogger logger = LogManager.GetCurrentClassLogger();
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         private IPlaybackService playbackService;
         private IMediaManager mediaManager;

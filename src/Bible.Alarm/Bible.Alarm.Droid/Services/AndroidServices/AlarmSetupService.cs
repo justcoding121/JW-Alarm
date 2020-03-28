@@ -18,7 +18,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
     public class AlarmSetupService : Service, IDisposable
     {
         private IContainer container;
-        private Logger logger;
+        private Logger logger => LogManager.GetCurrentClassLogger();
 
         public static bool IsRunning = false;
 
@@ -26,8 +26,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
-
-            logger = LogManager.GetCurrentClassLogger();
         }
 
         public override IBinder OnBind(Intent intent)
