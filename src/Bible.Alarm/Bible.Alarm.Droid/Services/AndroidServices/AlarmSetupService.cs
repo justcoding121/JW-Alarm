@@ -36,7 +36,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public override void OnCreate()
         {
             base.OnCreate();
-
             IsRunning = true;
         }
 
@@ -65,10 +64,8 @@ namespace Bible.Alarm.Services.Droid.Tasks
                         {
                             try
                             {
-                                using (var schedulerTask = container.Resolve<SchedulerTask>())
-                                {
-                                    await schedulerTask.Handle();
-                                }
+                                using var schedulerTask = container.Resolve<SchedulerTask>();
+                                await schedulerTask.Handle();
                             }
                             catch (Exception e)
                             {
@@ -98,52 +95,52 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public static void ScheduleNotification(Context context, long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            using (var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver)))
+            using var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
+            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+
+            using var pIntent = PendingIntent.GetBroadcast(
+                     context,
+                     (int)scheduleId,
+                     alarmIntent,
+                     PendingIntentFlags.UpdateCurrent);
+            using var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService);
+
+            // Figure out the alaram in milliseconds.
+            var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis()
+                + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
+
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
-                alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-
-                using (var pIntent = PendingIntent.GetBroadcast(
-                         context,
-                         (int)scheduleId,
-                         alarmIntent,
-                         PendingIntentFlags.UpdateCurrent))
-                using (var alarmService = (AlarmManager)context.GetSystemService(Context.AlarmService))
+                alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
+            }
+            else
+            {
+                using (var mainLauncherIntent = new Intent(context, typeof(SplashActivity)))
                 {
+                    mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
 
-                    // Figure out the alaram in milliseconds.
-                    var milliSecondsRemaining = Java.Lang.JavaSystem.CurrentTimeMillis()
-                        + (long)time.Subtract(DateTimeOffset.Now).TotalSeconds * 1000;
+                    var mainLauncherPendingIntent = PendingIntent.GetActivity(
+                       context,
+                       0,
+                       mainLauncherIntent,
+                       PendingIntentFlags.UpdateCurrent);
 
-                    if (Build.VERSION.SdkInt < BuildVersionCodes.M)
-                    {
-                        alarmService.SetExact(AlarmType.RtcWakeup, milliSecondsRemaining, pIntent);
-                    }
-                    else
-                    {
-                        using (var mainLauncherIntent = new Intent(context, typeof(SplashActivity)))
-                        {
-                            mainLauncherIntent.SetFlags(ActivityFlags.ReorderToFront);
-
-                            var mainLauncherPendingIntent = PendingIntent.GetActivity(
-                               context,
-                               0,
-                               mainLauncherIntent,
-                               PendingIntentFlags.UpdateCurrent);
-
-                            alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
-                        }
-                    }
+                    alarmService.SetAlarmClock(new AlarmClockInfo(milliSecondsRemaining, mainLauncherPendingIntent), pIntent);
                 }
             }
         }
 
         public static void ShowNotification(Context context, long scheduleId)
         {
-            using (var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver)))
-            {
-                alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-                context.SendBroadcast(alarmIntent);
-            }
+            using var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
+            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+            context.SendBroadcast(alarmIntent);
+        }
+
+        public new void Dispose()
+        {
+            base.Dispose();
+            container = null;
         }
 
     }

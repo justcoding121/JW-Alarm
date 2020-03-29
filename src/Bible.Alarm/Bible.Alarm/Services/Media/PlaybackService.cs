@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Bible.Alarm.Services.Droid
+namespace Bible.Alarm.Services
 {
     public class PlaybackService : IPlaybackService, IDisposable
     {
@@ -279,7 +279,6 @@ namespace Bible.Alarm.Services.Droid
                         if (readyTodispose)
                         {
                             await Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
-                            this.notificationService.ClearAll();
                             Dispose();
                             Stopped?.Invoke(this, MediaPlayerState.Stopped);
 

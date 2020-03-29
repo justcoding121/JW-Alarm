@@ -75,12 +75,6 @@ namespace Bible.Alarm.Services.Droid
             return pIntent;
         }
 
-        public void ClearAll()
-        {
-            NotificationManager notificationManager = (NotificationManager)container.AndroidContext().GetSystemService(Context.NotificationService);
-            notificationManager.CancelAll();
-        }
-
         public void Dispose()
         {
 

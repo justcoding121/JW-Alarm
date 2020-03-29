@@ -125,7 +125,6 @@ namespace Bible.Alarm.ViewModels
             subscriptions.Add(subscription);
 
             initialize();
-
         }
 
         private async Task markBatteryOptimizationModalAsShown()

@@ -16,7 +16,7 @@ namespace Bible.Alarm.iOS
     {
         private static Logger logger => LogManager.GetCurrentClassLogger();
 
-        public Application()
+        static Application()
         {
             LogSetup.Initialize(VersionFinder.Default, new string[] { });
         }

@@ -14,7 +14,7 @@ using UIKit;
 
 namespace Bible.Alarm.iOS.Services.Handlers
 {
-    public class iOSAlarmHandler
+    public class iOSAlarmHandler : IDisposable
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
 
@@ -81,7 +81,8 @@ namespace Bible.Alarm.iOS.Services.Handlers
                 if (e == MediaPlayerState.Stopped)
                 {
                     playbackService.Stopped -= stateChanged;
-                    mediaManager?.Dispose();
+                    playbackService.Dispose();
+                    mediaManager.Dispose();
                 }
             }
             catch (Exception ex)
@@ -90,5 +91,10 @@ namespace Bible.Alarm.iOS.Services.Handlers
             }
         }
 
+        public void Dispose()
+        {
+            this.playbackService.Dispose();
+            this.mediaManager.Dispose();
+        }
     }
 }

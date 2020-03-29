@@ -99,7 +99,6 @@
     <Compile Include="Helpers\BootstrapHelper.cs" />
     <Compile Include="Helpers\JobSchedulerHelper.cs" />
     <Compile Include="Services\IocSetup.cs" />
-    <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
     <Compile Include="Services\BroadcastReceivers\AlarmRingerReceiver.cs" />
     <Compile Include="Services\AndroidServices\AlarmSetupService.cs" />

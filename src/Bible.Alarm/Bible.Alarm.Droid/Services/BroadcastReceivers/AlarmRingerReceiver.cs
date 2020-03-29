@@ -20,6 +20,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
 
+        private IContainer container;
         private IPlaybackService playbackService;
         private Context context;
         private Intent intent;
@@ -40,11 +41,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 await @lock.WaitAsync();
 
-                var container = BootstrapHelper.InitializeService(context);
+                container = BootstrapHelper.InitializeService(context);
 
                 this.context = context;
                 this.intent = intent;
-
 
                 this.mediaManager = container.Resolve<IMediaManager>();
                 this.playbackService = container.Resolve<IPlaybackService>();
@@ -82,8 +82,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
-                playbackService.Stopped -= stateChanged;
-                mediaManager?.Dispose();
+
+                Dispose();
                 context.StopService(intent);
             }
             finally
@@ -100,8 +100,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 if (e == MediaPlayerState.Stopped)
                 {
-                    playbackService.Stopped -= stateChanged;
-                    mediaManager?.Dispose();
+                    Dispose();
                     context.StopService(intent);
                 }
             }
@@ -109,6 +108,21 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 logger.Error(ex, "An error happened when stopping the alarm after media failure.");
             }
+        }
+
+        public new void Dispose()
+        {
+            if (playbackService != null)
+            {
+                playbackService.Stopped -= stateChanged;
+            }
+
+            playbackService?.Dispose();
+            mediaManager?.Dispose();
+
+            container = null;
+
+            base.Dispose();
         }
     }
 }

@@ -8,7 +8,5 @@ namespace Bible.Alarm.Services.Contracts
         void ScheduleNotification(long scheduleId, DateTimeOffset time, string title, string body);
         void Remove(long scheduleId);
         bool IsScheduled(long scheduleId);
-
-        void ClearAll();
     }
 }

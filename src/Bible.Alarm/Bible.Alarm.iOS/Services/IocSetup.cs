@@ -25,14 +25,14 @@
                 container.Register<IToastService>((x) => new iOSToastService(container));
             }
 
-            container.Register<INotificationService>((x) => new iOSNotificationService(container.Resolve<iOSAlarmHandler>()));
+            container.Register<INotificationService>((x) => new iOSNotificationService(container));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
                                     container.Resolve<INotificationService>()));
 
 
-            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container));
+            container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<IDownloadService>()));
 
             container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
                 container.Resolve<IPlaylistService>(),
@@ -61,8 +61,9 @@
 
             container.Register<IVersionFinder>((x) => new VersionFinder());
             container.Register<IStorageService>((x) => new iOSStorageService());
-            container.Register<iOSAlarmHandler>((x) => new iOSAlarmHandler(container.Resolve<IPlaybackService>(),
-                                                            container.Resolve<IMediaManager>()));
+            container.Register((x) => 
+                    new iOSAlarmHandler(container.Resolve<IPlaybackService>(),
+                                container.Resolve<IMediaManager>()));
         }
     }
 }

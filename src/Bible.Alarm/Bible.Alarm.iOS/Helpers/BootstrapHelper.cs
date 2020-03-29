@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bible.Alarm.Common.Mvvm;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -34,6 +35,8 @@ namespace Bible.Alarm.Services.iOS.Helpers
                     var task2 = BootstrapHelper.InitializeDatabase(container);
 
                     await Task.WhenAll(task1, task2);
+
+                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                 }
                 catch (Exception e)
                 {

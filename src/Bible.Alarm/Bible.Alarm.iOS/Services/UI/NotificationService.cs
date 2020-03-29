@@ -6,16 +6,16 @@ namespace Bible.Alarm.Services.iOS
 {
     public class iOSNotificationService : INotificationService
     {
-        private iOSAlarmHandler alarmHandler;
-
-        public iOSNotificationService(iOSAlarmHandler alarmHandler)
+        private IContainer container;
+        public iOSNotificationService(IContainer container)
         {
-            this.alarmHandler = alarmHandler;
+            this.container = container;
         }
 
         public async void ShowNotification(long scheduleId)
         {
-            await alarmHandler.Handle(scheduleId);
+            var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
+            await iosAlarmHandler.Handle(scheduleId);
         }
 
         public void ScheduleNotification(long scheduleId, DateTimeOffset time,

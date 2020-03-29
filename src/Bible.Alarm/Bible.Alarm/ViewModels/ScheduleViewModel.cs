@@ -124,7 +124,7 @@ namespace Bible.Alarm.ViewModels
             {
                 IsBusy = true;
 
-                if (!IsNewSchedule && bibleReadingUpdated)
+                if (!IsNewSchedule)
                 {
                     if (this.mediaManager.IsPrepared()
                         && scheduleId == this.playbackService.CurrentlyPlayingScheduleId)

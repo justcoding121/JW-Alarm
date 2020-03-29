@@ -126,7 +126,6 @@
     <Compile Include="Models\ScheduleAlarmRequest.cs" />
     <Compile Include="Services\Handlers\iOSAlarmHandler.cs" />
     <Compile Include="Services\IocSetup.cs" />
-    <Compile Include="Services\Media\PlaybackService.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
     <Compile Include="Services\Platform\VersionFinder.cs" />
     <Compile Include="Services\Storage\StorageService.cs" />

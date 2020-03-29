@@ -16,7 +16,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
     [IntentFilter(new[] { Intent.ActionBootCompleted, Intent.ActionLockedBootCompleted,
         "android.intent.action.QUICKBOOT_POWERON", "com.htc.intent.action.QUICKBOOT_POWERON",
         "com.Bible.Alarm.Restart"})]
-    public class RestartReceiver : BroadcastReceiver
+    public class RestartReceiver : BroadcastReceiver, IDisposable
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
 
@@ -39,10 +39,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 await BootstrapHelper.VerifyServices(container);
 
-                using (var schedulerTask = container.Resolve<SchedulerTask>())
-                {
-                    await schedulerTask.Handle();
-                }
+                using var schedulerTask = container.Resolve<SchedulerTask>();
+                await schedulerTask.Handle();
 
                 context.StopService(intent);
             }
@@ -54,6 +52,12 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 pendingIntent.Finish();
             }
+        }
+
+        public new void Dispose()
+        {
+            base.Dispose();
+            container = null;
         }
     }
 }

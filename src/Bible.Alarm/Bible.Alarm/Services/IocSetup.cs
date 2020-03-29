@@ -33,6 +33,14 @@
               container.Resolve<ScheduleDbContext>()));
 
             container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
+
+            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
+                  container.Resolve<IPlaylistService>(),
+                  container.Resolve<IAlarmService>(),
+                  container.Resolve<IMediaCacheService>(),
+                  container.Resolve<IStorageService>(),
+                  container.Resolve<INetworkStatusService>(),
+                  container.Resolve<INotificationService>()));
         }
 
     }

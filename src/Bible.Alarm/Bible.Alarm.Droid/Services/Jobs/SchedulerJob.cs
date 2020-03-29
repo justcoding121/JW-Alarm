@@ -13,7 +13,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 {
     [Service(Name = "com.jthomas.info.Bible.Alarm.jobscheduler.SchedulerJob",
          Permission = "android.permission.BIND_JOB_SERVICE")]
-    public class SchedulerJob : JobService
+    public class SchedulerJob : JobService, IDisposable
     {
         public const int JobId = 1;
         private IContainer container;
@@ -34,10 +34,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                     await BootstrapHelper.VerifyServices(container);
 
-                    using (var schedulerTask = container.Resolve<SchedulerTask>())
-                    {
-                        await schedulerTask.Handle();
-                    }
+                    using var schedulerTask = container.Resolve<SchedulerTask>();
+                    await schedulerTask.Handle();
                 }
                 catch (Exception e)
                 {
@@ -54,8 +52,16 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public override bool OnStopJob(JobParameters jobParams)
         {
-            // we don't want to reschedule the job if it is stopped or cancelled.
+            // we don't want to reschedule the job 
+            // if it is stopped or cancelled.
             return false;
         }
+        
+        public new void Dispose()
+        {
+            base.Dispose();
+            container = null;
+        }
+        
     }
 }

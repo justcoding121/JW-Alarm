@@ -72,10 +72,7 @@ namespace Bible.Alarm
                     {
                         await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }
-                    else
-                    {
-                        container.Resolve<INotificationService>().ClearAll();
-                    }
+
                 });
             }
         }
@@ -93,10 +90,7 @@ namespace Bible.Alarm
                 {
                     await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
-                else
-                {
-                    container.Resolve<INotificationService>().ClearAll();
-                }
+            
             });
         }
 
@@ -115,10 +109,7 @@ namespace Bible.Alarm
                 {
                     await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
-                else
-                {
-                    container.Resolve<INotificationService>().ClearAll();
-                }
+                
             });
         }
 
