@@ -501,7 +501,7 @@ namespace Bible.Alarm.ViewModels
                         existing.Music.TrackNumber = model.Music.TrackNumber;
                     }
 
-                    if (model.BibleReadingSchedule != null && bibleReadingUpdated)
+                    if (model.BibleReadingSchedule != null)
                     {
                         existing.BibleReadingSchedule.BookNumber = model.BibleReadingSchedule.BookNumber;
                         existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
