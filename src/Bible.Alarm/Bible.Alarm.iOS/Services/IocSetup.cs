@@ -25,7 +25,7 @@
                 container.Register<IToastService>((x) => new iOSToastService(container.Resolve<TaskScheduler>()));
             }
 
-            container.Register<INotificationService>((x) => new iOSNotificationService(container));
+            container.Register<INotificationService>((x) => new iOSNotificationService(container, container.Resolve<ScheduleDbContext>()));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
@@ -63,7 +63,8 @@
             container.Register<IStorageService>((x) => new iOSStorageService());
             container.Register((x) =>
                     new iOSAlarmHandler(container.Resolve<IPlaybackService>(),
-                                container.Resolve<IMediaManager>()));
+                                container.Resolve<IMediaManager>(),
+                                container.Resolve<ScheduleDbContext>()));
         }
     }
 }

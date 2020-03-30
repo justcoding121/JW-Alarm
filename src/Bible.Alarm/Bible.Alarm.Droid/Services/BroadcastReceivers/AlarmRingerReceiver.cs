@@ -37,6 +37,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
         {
             var pendingIntent = GoAsync();
 
+            var isBusy = false;
+
             try
             {
                 await @lock.WaitAsync();
@@ -52,6 +54,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (mediaManager.IsPrepared())
                 {
                     context.StopService(intent);
+                    isBusy = true;
                     return;
                 }
                 else
@@ -90,6 +93,11 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 @lock.Release();
                 pendingIntent.Finish();
+
+                if (isBusy)
+                {
+                    Dispose();
+                }
             }
 
         }

@@ -4,7 +4,7 @@ using System;
 namespace Bible.Alarm.Models
 {
     [Serializable]
-    public class BibleReadingSchedule : IEntity
+    public class BibleReadingSchedule
     {
         public int Id { get; set; }
 

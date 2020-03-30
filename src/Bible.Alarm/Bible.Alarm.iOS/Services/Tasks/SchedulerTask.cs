@@ -41,7 +41,7 @@ namespace Bible.Alarm.Services.iOS.Tasks
 
                     foreach (var schedule in schedules)
                     {
-                        if (!notificationService.IsScheduled(schedule.Id))
+                        if (!await notificationService.IsScheduled(schedule.Id))
                         {
                             await alarmService.Create(schedule);
                         }

@@ -450,7 +450,10 @@ namespace Bible.Alarm.ViewModels
                 {
                     await scheduleDbContext.AlarmSchedules.AddAsync(model);
                     await scheduleDbContext.SaveChangesAsync();
-                    await alarmService.Create(model);
+                    if (model.IsEnabled)
+                    {
+                        await alarmService.Create(model);
+                    }
                 });
 
                 ReduxContainer.Store.Dispatch(new AddScheduleAction()
@@ -534,10 +537,11 @@ namespace Bible.Alarm.ViewModels
             {
                 await Task.Run(async () =>
                 {
+                    alarmService.Delete(scheduleId);
                     var model = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == scheduleId);
                     scheduleDbContext.AlarmSchedules.Remove(model);
                     await scheduleDbContext.SaveChangesAsync();
-                    alarmService.Delete(scheduleId);
+
                 });
 
                 ReduxContainer.Store.Dispatch(new RemoveScheduleAction() { ScheduleListItem = scheduleListItem });

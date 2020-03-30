@@ -1,11 +1,14 @@
+using Bible.Alarm.Models.Schedule;
 using Quartz;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Bible.Alarm.Models
 {
     [Serializable]
-    public class AlarmSchedule : IEntity, IComparable
+    public class AlarmSchedule : IComparable
     {
         public int Id { get; set; }
 
@@ -40,6 +43,9 @@ namespace Bible.Alarm.Models
 
         //state
         public PlayType CurrentPlayItem { get; set; }
+
+        public long LatestAlarmNotificationId { get; set; }
+        public virtual ICollection<AlarmNotification> AlarmNotifications { get; set; }
 
         public DateTimeOffset NextFireDate()
         {

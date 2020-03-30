@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.Models;
+using Bible.Alarm.Models.Schedule;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bible.Alarm.Services
@@ -13,6 +14,7 @@ namespace Bible.Alarm.Services
         }
 
         public DbSet<AlarmSchedule> AlarmSchedules { get; set; }
+        public DbSet<AlarmNotification> AlarmNotifications { get; set; }
         public DbSet<AlarmMusic> AlarmMusic { get; set; }
         public DbSet<BibleReadingSchedule> BibleReadingSchedules { get; set; }
         public DbSet<GeneralSettings> GeneralSettings { get; set; }

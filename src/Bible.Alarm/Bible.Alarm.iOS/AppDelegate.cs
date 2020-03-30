@@ -11,6 +11,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using UIKit;
+using UserNotifications;
 
 namespace Bible.Alarm.iOS
 {
@@ -18,7 +19,8 @@ namespace Bible.Alarm.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate,
+                                        IUNUserNotificationCenterDelegate
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
         private readonly IContainer container;
@@ -29,15 +31,23 @@ namespace Bible.Alarm.iOS
 
             container = IocSetup.GetContainer("SplashActivity");
 
-            if (container == null)
+            try
             {
-                var result = IocSetup.Initialize("SplashActivity", true);
-                container = result.Item1;
-                var containerCreated = result.Item2;
-                if (containerCreated)
+                if (container == null)
                 {
-                    BootstrapHelper.Initialize(container, logger);
+                    var result = IocSetup.Initialize("SplashActivity", true);
+                    container = result.Item1;
+                    var containerCreated = result.Item2;
+                    if (containerCreated)
+                    {
+                        BootstrapHelper.Initialize(container, logger);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                logger.Fatal(e, "AppDelegate initialization failed.");
+                throw;
             }
         }
 
@@ -91,59 +101,67 @@ namespace Bible.Alarm.iOS
         public async override void RegisteredForRemoteNotifications(
             UIApplication application, NSData deviceToken)
         {
-            var deviceId = NSUserDefaults.StandardUserDefaults.StringForKey("DeviceId");
-
-            if (string.IsNullOrEmpty(deviceId))
+            try
             {
-                deviceId = Guid.NewGuid().ToString();
-                NSUserDefaults.StandardUserDefaults.SetString(deviceId, "DeviceId");
-            }
+                var deviceId = NSUserDefaults.StandardUserDefaults.StringForKey("DeviceId");
 
-            // Get current device token
-            var DeviceToken = deviceToken.Description;
-            if (!string.IsNullOrWhiteSpace(DeviceToken))
-            {
-                DeviceToken = DeviceToken.Trim('<').Trim('>');
-            }
-
-            // Get previous device token
-            var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
-
-            // Save new device token
-            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
-
-            // Has the token changed?
-            if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
-            {
-                var request = new RegisterDeviceRequest()
+                if (string.IsNullOrEmpty(deviceId))
                 {
-                    DeviceId = deviceId,
-                    DeviceToken = DeviceToken
-                };
+                    deviceId = Guid.NewGuid().ToString();
+                    NSUserDefaults.StandardUserDefaults.SetString(deviceId, "DeviceId");
+                }
 
-                try
+                // Get current device token
+                var DeviceToken = deviceToken.Description;
+                if (!string.IsNullOrWhiteSpace(DeviceToken))
                 {
+                    DeviceToken = DeviceToken.Trim('<').Trim('>');
+                }
+
+                // Get previous device token
+                var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
+
+                // Has the token changed?
+                if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
+                {
+                    var request = new RegisterDeviceRequest()
+                    {
+                        DeviceId = deviceId,
+                        DeviceToken = DeviceToken
+                    };
+
+                    try
+                    {
 #if DEBUG
-                    var url = "https://192.168.1.64:5011/api/v1/RegisterDevice";
+                        var url = "https://192.168.1.64:5011/api/v1/RegisterDevice";
 #else
                     var url = "https://production-push.jthomas.info/api/v1/RegisterDevice";
 #endif
 
-                    var result = await RetryHelper.Retry(async () =>
-                    {
-                        using var client = new HttpClient();
-                        var payload = JsonConvert.SerializeObject(request);
-                        HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
-                        return await client.PostAsync(url, content);
+                        var result = await RetryHelper.Retry(async () =>
+                        {
+                            using var client = new HttpClient();
+                            var payload = JsonConvert.SerializeObject(request);
+                            HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                            return await client.PostAsync(url, content);
 
-                    }, 3);
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "Error happenned when updating ios device token.");
+                        }, 3);
+
+                        // Save new device token
+                        NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "Error happenned when updating ios device token.");
+                    }
                 }
             }
-
+            catch (Exception e)
+            {
+                logger.Error(e, "Error happenned inside RegisteredForRemoteNotifications.");
+                throw;
+            }
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
@@ -155,9 +173,9 @@ namespace Bible.Alarm.iOS
         {
             try
             {
-                var alarmId = getAlarmId(userInfo);
+                var notificationId = getNotificationId(userInfo);
                 var handler = container.Resolve<iOSAlarmHandler>();
-                await handler.Handle(alarmId);
+                await handler.HandleNotification(notificationId);
             }
             catch (Exception e)
             {
@@ -169,9 +187,9 @@ namespace Bible.Alarm.iOS
         {
             try
             {
-                var alarmId = getAlarmId(userInfo);
+                var notificationId = getNotificationId(userInfo);
                 var handler = container.Resolve<iOSAlarmHandler>();
-                await handler.Handle(alarmId);
+                await handler.HandleNotification(notificationId);
             }
             catch (Exception e)
             {
@@ -181,21 +199,21 @@ namespace Bible.Alarm.iOS
             completionHandler(UIBackgroundFetchResult.NewData);
         }
 
-        private long getAlarmId(NSDictionary userInfo)
+        private long getNotificationId(NSDictionary userInfo)
         {
             if (null != userInfo && userInfo.ContainsKey(new NSString("aps")))
             {
                 //Get the aps dictionary
                 NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
 
-                string alarmId = string.Empty;
+                string notificationId = string.Empty;
 
-                if (aps.ContainsKey(new NSString("alarmId")))
-                    alarmId = (aps[new NSString("alarmId")] as NSString).ToString();
+                if (aps.ContainsKey(new NSString("notificationId")))
+                    notificationId = (aps[new NSString("notificationId")] as NSString).ToString();
 
-                if (!string.IsNullOrEmpty(alarmId))
+                if (!string.IsNullOrEmpty(notificationId))
                 {
-                    return long.Parse(alarmId);
+                    return long.Parse(notificationId);
                 }
             }
 

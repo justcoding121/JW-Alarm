@@ -5,6 +5,7 @@ using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Tasks;
 using System;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid
 {
@@ -22,7 +23,7 @@ namespace Bible.Alarm.Services.Droid
             AlarmSetupService.ShowNotification(container.AndroidContext(), scheduleId);
         }
 
-        public void ScheduleNotification(long scheduleId, DateTimeOffset time,
+        public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
             if (container.IsAndroidService())
@@ -39,9 +40,11 @@ namespace Bible.Alarm.Services.Droid
                 intent.PutExtra("Body", body);
                 container.AndroidContext().StartService(intent);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void Remove(long scheduleId)
+        public Task Remove(long scheduleId)
         {
             var pIntent = findIntent(scheduleId);
 
@@ -51,12 +54,14 @@ namespace Bible.Alarm.Services.Droid
                 alarmManager?.Cancel(pIntent);
                 pIntent.Cancel();
             }
+
+            return Task.CompletedTask;
         }
 
-        public bool IsScheduled(long scheduleId)
+        public Task<bool> IsScheduled(long scheduleId)
         {
             var pIntent = findIntent(scheduleId);
-            return pIntent != null;
+            return Task.FromResult(pIntent != null);
         }
 
         private PendingIntent findIntent(long scheduleId)
