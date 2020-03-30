@@ -19,7 +19,7 @@ namespace Bible.Alarm.ViewModels
 {
     public class BibleSelectionViewModel : ViewModel, IDisposable
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         private MediaService mediaService;
         private INavigationService navigationService;

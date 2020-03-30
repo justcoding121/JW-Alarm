@@ -10,12 +10,10 @@ namespace Bible.Alarm.Services.iOS
 {
     public class iOSToastService : ToastService, IDisposable
     {
-        private IContainer container;
-        private TaskScheduler taskScheduler;
+        private readonly TaskScheduler taskScheduler;
 
-        public iOSToastService(IContainer container, TaskScheduler taskScheduler)
+        public iOSToastService(TaskScheduler taskScheduler)
         {
-            this.container = container;
             this.taskScheduler = taskScheduler;
         }
 

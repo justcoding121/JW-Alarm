@@ -7,7 +7,7 @@ namespace Bible.Alarm.Services.Droid
 {
     public class DroidToastService : ToastService, IDisposable
     {
-        private IContainer container;
+        private readonly IContainer container;
         public DroidToastService(IContainer container)
         {
             this.container = container;

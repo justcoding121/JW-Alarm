@@ -18,7 +18,7 @@ namespace Bible.Alarm.ViewModels
 {
     public class MusicSelectionViewModel : ViewModel, IDisposable
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         private AlarmMusic current;
 

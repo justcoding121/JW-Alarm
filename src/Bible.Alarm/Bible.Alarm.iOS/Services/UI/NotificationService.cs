@@ -6,7 +6,7 @@ namespace Bible.Alarm.Services.iOS
 {
     public class iOSNotificationService : INotificationService
     {
-        private IContainer container;
+        private readonly IContainer container;
         public iOSNotificationService(IContainer container)
         {
             this.container = container;

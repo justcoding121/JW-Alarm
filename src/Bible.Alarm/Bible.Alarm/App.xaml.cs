@@ -12,7 +12,7 @@ namespace Bible.Alarm
 {
     public partial class App : Application
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         public App(IContainer container)
         {

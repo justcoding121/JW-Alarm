@@ -8,7 +8,7 @@ namespace Bible.Alarm.ViewModels
 {
     public class AlarmViewModal : ViewModel, IDisposableModal
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         private IPlaybackService playbackService;
 

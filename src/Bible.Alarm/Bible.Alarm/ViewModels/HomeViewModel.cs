@@ -26,8 +26,6 @@ namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
-
         private IContainer container;
 
         private ScheduleDbContext scheduleDbContext;
@@ -352,7 +350,7 @@ namespace Bible.Alarm.ViewModels
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
 
-        private IContainer container;
+        private readonly IContainer container;
 
         public AlarmSchedule Schedule;
         private bool refreshChapter = true;

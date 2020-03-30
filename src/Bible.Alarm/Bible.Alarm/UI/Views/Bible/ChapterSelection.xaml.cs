@@ -8,7 +8,7 @@ namespace Bible.Alarm.UI.Views.Bible
 {
     public partial class ChapterSelection : ContentPage
     {
-        private IContainer container;
+        private readonly IContainer container;
         public ChapterSelectionViewModel ViewModel => BindingContext as ChapterSelectionViewModel;
 
         public ChapterSelection(IContainer container)

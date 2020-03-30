@@ -17,7 +17,7 @@ namespace Bible.Alarm.UI
 {
     public class NavigationService : INavigationService
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         private readonly INavigation navigater;
 

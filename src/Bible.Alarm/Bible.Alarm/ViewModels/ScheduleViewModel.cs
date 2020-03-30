@@ -25,7 +25,7 @@ namespace Bible.Alarm.ViewModels
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
 
-        private IContainer container;
+        private readonly IContainer container;
 
         ScheduleDbContext scheduleDbContext;
         IAlarmService alarmService;

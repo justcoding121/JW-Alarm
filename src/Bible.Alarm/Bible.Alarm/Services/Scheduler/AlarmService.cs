@@ -9,7 +9,7 @@ namespace Bible.Alarm.Services
 {
     public class AlarmService : IAlarmService
     {
-        private IContainer container;
+        private readonly IContainer container;
         private INotificationService notificationService;
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
@@ -35,10 +35,8 @@ namespace Bible.Alarm.Services
             {
                 try
                 {
-                    using (var mediaCacheService = container.Resolve<IMediaCacheService>())
-                    {
-                        await mediaCacheService.SetupAlarmCache(schedule.Id);
-                    }
+                    using var mediaCacheService = container.Resolve<IMediaCacheService>();
+                    await mediaCacheService.SetupAlarmCache(schedule.Id);
                 }
                 catch (Exception e)
                 {

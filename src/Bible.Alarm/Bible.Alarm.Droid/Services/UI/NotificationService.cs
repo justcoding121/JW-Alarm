@@ -10,7 +10,7 @@ namespace Bible.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         public DroidNotificationService(IContainer container)
         {

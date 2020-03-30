@@ -7,7 +7,7 @@ namespace Bible.Alarm.ViewModels.Shared
 {
     public class MediaProgressViewModal : ViewModel
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         public MediaProgressViewModal(IContainer container)
         {

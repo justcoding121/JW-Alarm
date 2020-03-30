@@ -10,7 +10,7 @@ namespace Bible.Alarm.Services.Droid
     public class PreviewPlayService : Java.Lang.Object,
         MediaPlayer.IOnCompletionListener, IPreviewPlayService, IDisposable
     {
-        private IContainer container;
+        private readonly IContainer container;
         private MediaPlayer player;
 
         public PreviewPlayService(IContainer container, MediaPlayer player)

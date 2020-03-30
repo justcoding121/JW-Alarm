@@ -9,7 +9,7 @@ namespace Bible.Alarm.UI.Views.Music
 
     public partial class TrackSelection : ContentPage
     {
-        private IContainer container;
+        private readonly IContainer container;
         public TrackSelectionViewModel ViewModel => BindingContext as TrackSelectionViewModel;
 
         public TrackSelection(IContainer container)

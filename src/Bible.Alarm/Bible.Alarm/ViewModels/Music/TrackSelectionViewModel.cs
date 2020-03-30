@@ -20,7 +20,7 @@ namespace Bible.Alarm.ViewModels
 {
     public class TrackSelectionViewModel : ViewModel, IDisposable
     {
-        private IContainer container;
+        private readonly IContainer container;
 
         private MediaService mediaService;
         private IToastService toastService;
