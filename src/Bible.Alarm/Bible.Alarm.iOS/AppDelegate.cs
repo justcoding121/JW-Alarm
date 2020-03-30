@@ -118,6 +118,9 @@ namespace Bible.Alarm.iOS
                     DeviceToken = DeviceToken.Trim('<').Trim('>');
                 }
 
+#if DEBUG
+                NSUserDefaults.StandardUserDefaults.SetString(string.Empty, "PushDeviceToken");
+#endif
                 // Get previous device token
                 var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
 
@@ -203,7 +206,6 @@ namespace Bible.Alarm.iOS
         {
             if (null != userInfo && userInfo.ContainsKey(new NSString("aps")))
             {
-                //Get the aps dictionary
                 NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
 
                 string notificationId = string.Empty;
