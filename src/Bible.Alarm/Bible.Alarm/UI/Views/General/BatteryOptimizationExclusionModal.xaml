@@ -1,50 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="Bible.Alarm.UI.Views.General.BatteryOptimizationExclusionModal">
+<ContentPage
+    x:Class="Bible.Alarm.UI.Views.General.BatteryOptimizationExclusionModal"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout VerticalOptions="Center" HorizontalOptions="Center"
-                     AutomationId="BatteryOptimizationModal" Margin="0,0,0,125">
-                <Label Margin="5"
+            <StackLayout
+                Margin="0,0,0,125"
+                AutomationId="BatteryOptimizationModal"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Margin="5"
+                    FontSize="Default"
                     HeightRequest="200"
-                    MinimumHeightRequest="200"
-                    WidthRequest="200"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
+                    MinimumHeightRequest="200"
+                    MinimumWidthRequest="200"
+                    Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization. This application would not drain your device battery. We recommend to exclude this app from battery optimization."
+                    TextColor="SlateBlue"
                     VerticalOptions="End"
                     VerticalTextAlignment="End"
-                    MinimumWidthRequest="200"
-                    FontSize="Default"
-                    Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization. This application would not drain your device battery. We recommend to exclude this app from battery optimization."
-                    TextColor="SlateBlue">
-                </Label>
-                <Button CornerRadius="10"
-                    Command="{Binding BatteryOptimizationExcludeCommand}"
+                    WidthRequest="200" />
+                <Button
                     Margin="5"
+                    Command="{Binding BatteryOptimizationExcludeCommand}"
+                    CornerRadius="10"
+                    FontSize="Medium"
                     HeightRequest="45"
                     MinimumHeightRequest="45"
-                    WidthRequest="200"
                     MinimumWidthRequest="200"
                     Text="Exclude Now"
-                    FontSize="Medium"
-                    TextColor="SlateBlue">
-                </Button>
-                <Button CornerRadius="10"
+                    TextColor="SlateBlue"
+                    WidthRequest="200" />
+                <Button
+                    Margin="5"
                     AutomationId="BatteryOptimizationDismissButton"
                     Command="{Binding BatteryOptimizationDismissCommand}"
-                    Margin="5"
+                    CornerRadius="10"
+                    FontSize="Medium"
                     HeightRequest="45"
                     MinimumHeightRequest="45"
-                    WidthRequest="200"
                     MinimumWidthRequest="200"
                     Text="Later"
-                    FontSize="Medium"
-                    TextColor="SlateBlue">
-                </Button>
+                    TextColor="SlateBlue"
+                    WidthRequest="200" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

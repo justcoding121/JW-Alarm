@@ -156,29 +156,7 @@ namespace Bible.Alarm.ViewModels
                 //for existing apps before version 1.30
                 && !await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
-                var schedule = new AlarmSchedule()
-                {
-                    IsEnabled = false,
-                    MusicEnabled = true,
-                    DaysOfWeek = DaysOfWeek.All,
-                    Name = "A sample alarm.",
-                    Hour = 6,
-                    Minute = 0,
-                    Music = new AlarmMusic()
-                    {
-                        MusicType = MusicType.Vocals,
-                        PublicationCode = "sjjc",
-                        LanguageCode = "E",
-                        TrackNumber = 16
-                    },
-                    BibleReadingSchedule = new BibleReadingSchedule()
-                    {
-                        BookNumber = 23,
-                        ChapterNumber = 36,
-                        LanguageCode = "E",
-                        PublicationCode = "nwt"
-                    }
-                };
+                var schedule = AlarmSchedule.GetSampleSchedule();
 
                 await scheduleDbContext.AlarmSchedules.AddAsync(schedule);
 

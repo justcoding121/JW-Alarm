@@ -69,9 +69,8 @@
     <CodesignEntitlements>
     </CodesignEntitlements>
     <CodesignProvision>Bible Alarm Push Development Profile</CodesignProvision>
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchInterpreter>
-    </MtouchInterpreter>
+    <MtouchLink>None</MtouchLink>
+    <MtouchInterpreter>-all</MtouchInterpreter>
     <IntermediateOutputPath>obj\iPhone\Debug</IntermediateOutputPath>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <CodesignExtraArgs />

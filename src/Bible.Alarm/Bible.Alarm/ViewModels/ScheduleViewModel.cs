@@ -62,27 +62,7 @@ namespace Bible.Alarm.ViewModels
                    var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
-                   setModel(model ?? new AlarmSchedule()
-                   {
-                       IsEnabled = true,
-                       MusicEnabled = false,
-                       DaysOfWeek = DaysOfWeek.All,
-                       Name = "Sample schedule",
-                       Music = new AlarmMusic()
-                       {
-                           MusicType = MusicType.Vocals,
-                           PublicationCode = "sjjc",
-                           LanguageCode = "E",
-                           TrackNumber = 16
-                       },
-                       BibleReadingSchedule = new BibleReadingSchedule()
-                       {
-                           BookNumber = 23,
-                           ChapterNumber = 36,
-                           LanguageCode = "E",
-                           PublicationCode = "nwt"
-                       }
-                   });
+                   setModel(model ?? AlarmSchedule.GetSampleSchedule(true));
 
                    IsBusy = false;
                });

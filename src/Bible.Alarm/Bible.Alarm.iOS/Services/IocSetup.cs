@@ -13,6 +13,7 @@
     using System;
     using System.IO;
     using System.Net.Http;
+    using System.Threading.Tasks;
 
     public static class IocSetup
     {
@@ -22,7 +23,8 @@
 
             if (!isService)
             {
-                container.Register<IToastService>((x) => new iOSToastService(container));
+                container.Register<IToastService>((x) => new iOSToastService(container, 
+                                                    container.Resolve<TaskScheduler>()));
             }
 
             container.Register<INotificationService>((x) => new iOSNotificationService(container));

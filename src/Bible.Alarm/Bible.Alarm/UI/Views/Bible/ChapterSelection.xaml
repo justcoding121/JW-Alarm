@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
-             x:Class="Bible.Alarm.UI.Views.Bible.ChapterSelection"
-             xmlns:fn="clr-namespace:FontNameResources"
-             xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
-             NavigationPage.HasNavigationBar="False"
-             NavigationPage.HasBackButton="False">
+<ContentPage
+    x:Class="Bible.Alarm.UI.Views.Bible.ChapterSelection"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
+    xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+    xmlns:fn="clr-namespace:FontNameResources"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <converters:PlayStatusIconConverter x:Key="playStatusIconConverter" />
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
@@ -18,13 +19,15 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <ActivityIndicator Color="SlateBlue"
-                         Grid.Row="0"
-                         HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
-                         IsVisible="{Binding IsBusy}"
-                         IsEnabled="True"
-                         Scale="0.5"
-                         IsRunning="{Binding IsBusy}" >
+            <ActivityIndicator
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                IsEnabled="True"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Scale="0.5"
+                VerticalOptions="CenterAndExpand"
+                Color="SlateBlue">
                 <ActivityIndicator.Scale>
                     <OnPlatform x:TypeArguments="x:Double">
                         <OnPlatform.Platforms>
@@ -35,102 +38,119 @@
                     </OnPlatform>
                 </ActivityIndicator.Scale>
             </ActivityIndicator>
-            <Grid Grid.Row="0" RowSpacing="0" IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}" >
+            <Grid
+                Grid.Row="0"
+                IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}"
+                RowSpacing="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-          HeightRequest="45"
-          MinimumHeightRequest="45"
-          HorizontalOptions="Fill"
-          BackgroundColor="WhiteSmoke"
-          x:Name="BackButton"
-          Margin="{OnPlatform Default='0', iOS='0,18,0,0'}">
+                <Grid
+                    x:Name="BackButton"
+                    Grid.Row="0"
+                    Margin="{OnPlatform Default='0',
+                                        iOS='0,18,0,0'}"
+                    BackgroundColor="WhiteSmoke"
+                    HeightRequest="45"
+                    HorizontalOptions="Fill"
+                    MinimumHeightRequest="45">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="8*" />
                     </Grid.ColumnDefinitions>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" NumberOfTapsRequired="1" />
                     </Grid.GestureRecognizers>
-                    <StackLayout Grid.Column="0"
-                         VerticalOptions="Center"
-                         HorizontalOptions="Start">
-                        <Label Margin="5,0,0,0" TextColor="Gray"
-                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                    Text="{x:Static fn:GlyphNames.Left}"
-                    FontSize="Medium"/>
+                    <StackLayout
+                        Grid.Column="0"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center">
+                        <Label
+                            Margin="5,0,0,0"
+                            FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                            FontSize="Medium"
+                            Text="{x:Static fn:GlyphNames.Left}"
+                            TextColor="Gray" />
                     </StackLayout>
-                    <Label Grid.Column="1" VerticalOptions="Center"
-                         HorizontalOptions="Fill"
-                         HorizontalTextAlignment="Start"
-                         TextColor="Black">
-                    </Label>
+                    <Label
+                        Grid.Column="1"
+                        HorizontalOptions="Fill"
+                        HorizontalTextAlignment="Start"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
                 </Grid>
-                <ListView HorizontalOptions="Fill"
-                  x:Name="chapterListView"
-                  Grid.Row="1"
-                  CachingStrategy="RecycleElement"
-                  ItemsSource="{Binding Chapters}"
-                  SelectionMode="None">
+                <ListView
+                    x:Name="chapterListView"
+                    Grid.Row="1"
+                    CachingStrategy="RecycleElement"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding Chapters}"
+                    SelectionMode="None">
                     <ListView.Behaviors>
-                        <behaviours:EventToCommandBehavior EventName="ItemTapped"
-                                           Command="{Binding SetChapterCommand}"
-                                           EventArgsConverter="{StaticResource itemTappedConverter}" />
+                        <behaviours:EventToCommandBehavior
+                            Command="{Binding SetChapterCommand}"
+                            EventArgsConverter="{StaticResource itemTappedConverter}"
+                            EventName="ItemTapped" />
                     </ListView.Behaviors>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid HeightRequest="45" HorizontalOptions="Fill"  Margin="5,0,5,0"
-                                 BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
+                                <Grid
+                                    Margin="5,0,5,0"
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
+                                    HeightRequest="45"
+                                    HorizontalOptions="Fill">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0"
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Fill"
-                                     HorizontalTextAlignment="Start"
-                                     VerticalTextAlignment="Center"
-                                     TextColor="Black"
-                                     Margin="10,0,0,0"
-                                     Text="{Binding Title}">
-                                    </Label>
-                                    <StackLayout Grid.Column="1" 
-                                     VerticalOptions="Center"
-                                     HorizontalOptions="Start"
-                                     Orientation="Horizontal"
-                                     Margin="5,0,15,0">
-                                        <ActivityIndicator Color="SlateBlue"
-                                           WidthRequest="45"
-                                           Grid.Column="0"
-                                           MinimumWidthRequest="45"
-                                           HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
-                                           IsVisible="{Binding IsBusy}"
-                                           IsEnabled="True"
-                                           Scale="0.5"
-                                           IsRunning="{Binding IsBusy}" >
+                                    <Label
+                                        Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        HorizontalOptions="Fill"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding Title}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center" />
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Margin="5,0,15,0"
+                                        HorizontalOptions="Start"
+                                        Orientation="Horizontal"
+                                        VerticalOptions="Center">
+                                        <ActivityIndicator
+                                            Grid.Column="0"
+                                            HorizontalOptions="Center"
+                                            IsEnabled="True"
+                                            IsRunning="{Binding IsBusy}"
+                                            IsVisible="{Binding IsBusy}"
+                                            MinimumWidthRequest="45"
+                                            Scale="0.5"
+                                            VerticalOptions="CenterAndExpand"
+                                            WidthRequest="45"
+                                            Color="SlateBlue">
                                             <ActivityIndicator.Scale>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <OnPlatform.Platforms>
-                                                        <On Platform="iOS" Value="4.0" />
+                                                        <On Platform="iOS" Value="1.0" />
                                                         <On Platform="Android" Value="0.5" />
                                                         <On Platform="UWP" Value="1.0" />
                                                     </OnPlatform.Platforms>
                                                 </OnPlatform>
                                             </ActivityIndicator.Scale>
                                         </ActivityIndicator>
-                                        <Button VerticalOptions="Center"
-                                        Grid.Column="1"
-                                        HorizontalOptions="Start"
-                                        MinimumWidthRequest="45"
-                                        WidthRequest="45"
-                                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                                        Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}"
-                                        TextColor="Gray"
-                                        Command="{Binding TogglePlayCommand}">
-                                        </Button>
+                                        <Button
+                                            Grid.Column="1"
+                                            Command="{Binding TogglePlayCommand}"
+                                            FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                            HorizontalOptions="Start"
+                                            MinimumWidthRequest="45"
+                                            Text="{Binding Play, Converter={StaticResource playStatusIconConverter}}"
+                                            TextColor="Gray"
+                                            VerticalOptions="Center"
+                                            WidthRequest="45" />
                                     </StackLayout>
                                 </Grid>
                             </ViewCell>

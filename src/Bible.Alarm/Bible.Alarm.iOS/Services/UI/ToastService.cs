@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Services.iOS;
 using Foundation;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
 
@@ -10,41 +11,40 @@ namespace Bible.Alarm.Services.iOS
     public class iOSToastService : ToastService, IDisposable
     {
         private IContainer container;
-        public iOSToastService(IContainer container)
+        private TaskScheduler taskScheduler;
+
+        public iOSToastService(IContainer container, TaskScheduler taskScheduler)
         {
             this.container = container;
-        }
-        public override Task ShowMessage(string message, int seconds)
-        {
-            showAlert(message, (double)seconds);
-
-            return Task.CompletedTask;
+            this.taskScheduler = taskScheduler;
         }
 
-        NSTimer alertDelay;
-        UIAlertController alert;
-
-        private void showAlert(string message, double seconds)
+        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
+        public async override Task ShowMessage(string message, int seconds)
         {
-            alertDelay = NSTimer.CreateScheduledTimer(seconds, (obj) =>
+            await @lock.WaitAsync();
+
+            try
             {
-                dismissMessage();
-            });
+                await Task.Delay(0)
+                    .ContinueWith(async (x) =>
+                        await showAlert(message, (double)seconds), taskScheduler);
 
-            alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
+            }
+            finally
+            {
+                @lock.Release();
+            }
+        }
+
+        private async Task showAlert(string message, double seconds)
+        {
+            var alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
             UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
-        }
 
-        private void dismissMessage()
-        {
-            if (alert != null)
-            {
-                alert.DismissViewController(true, null);
-            }
-            if (alertDelay != null)
-            {
-                alertDelay.Dispose();
-            }
+            await Task.Delay((int)(seconds * 1000)).ConfigureAwait(true);
+
+            alert.DismissViewController(true, null);
         }
     }
 }

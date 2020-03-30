@@ -1,34 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:fn="clr-namespace:FontNameResources"
-             x:Class="Bible.Alarm.UI.Views.AlarmModal">
+<ContentPage
+    x:Class="Bible.Alarm.UI.Views.AlarmModal"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fn="clr-namespace:FontNameResources">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical"  
-                VerticalOptions="CenterAndExpand" 
+        <StackLayout
+            AutomationId="AlarmModal"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Vertical"
+            VerticalOptions="CenterAndExpand">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding DismissCommand}" NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
+            <Label
+                Margin="5"
+                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                FontSize="{OnPlatform Default='75'}"
                 HorizontalOptions="CenterAndExpand"
-                AutomationId="AlarmModal">
-            <Label  
-                    FontSize="75"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                    Text="{x:Static fn:GlyphNames.Bell}"
-                    Margin="5"
-                    TextColor="SlateBlue">
-            </Label>
-            <Button CornerRadius="10"
-                    AutomationId="AlarmDismissButton"
-                    Command="{Binding DismissCommand}"
-                    HeightRequest="45"
-                    Margin="5"
-                    WidthRequest="200"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    Text="Dismiss"
-                    FontSize="Medium"
-                    TextColor="SlateBlue">
-            </Button>
+                Text="{x:Static fn:GlyphNames.Bell}"
+                TextColor="SlateBlue"
+                VerticalOptions="CenterAndExpand" />
+            <Button
+                Margin="5"
+                AutomationId="AlarmDismissButton"
+                BackgroundColor="{OnPlatform iOS='WhiteSmoke'}"
+                Command="{Binding DismissCommand}"
+                CornerRadius="10"
+                FontSize="{OnPlatform Default='Medium',
+                                      iOS='Title'}"
+                HeightRequest="45"
+                HorizontalOptions="CenterAndExpand"
+                Text="Dismiss"
+                TextColor="SlateBlue"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="200" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

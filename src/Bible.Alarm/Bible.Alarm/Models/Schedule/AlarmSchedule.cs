@@ -101,6 +101,33 @@ namespace Bible.Alarm.Models
         {
             return Id.CompareTo((obj as AlarmSchedule).Id);
         }
+
+        internal static AlarmSchedule GetSampleSchedule(bool isNew = false)
+        {
+            return new AlarmSchedule()
+            {
+                IsEnabled = false,
+                MusicEnabled = false,
+                DaysOfWeek = DaysOfWeek.All,
+                Name = $"{(isNew ? "New" : "Sample")} schedule",
+                Hour = 6,
+                Minute = 0,
+                Music = new AlarmMusic()
+                {
+                    MusicType = MusicType.Melodies,
+                    PublicationCode = "iam",
+                    LanguageCode = null,
+                    TrackNumber = 89
+                },
+                BibleReadingSchedule = new BibleReadingSchedule()
+                {
+                    BookNumber = 23,
+                    ChapterNumber = 1,
+                    LanguageCode = "E",
+                    PublicationCode = "nwt"
+                }
+            };
+        }
     }
 
 }

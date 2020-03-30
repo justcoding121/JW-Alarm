@@ -1,138 +1,175 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Bible.Alarm.UI.Views.Music.SongBookSelection"
-             xmlns:fn="clr-namespace:FontNameResources"
-             xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
-             xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
-             NavigationPage.HasNavigationBar="False"
-             NavigationPage.HasBackButton="False">
-  <ContentPage.Resources>
-    <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
-    <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
-    <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
-  </ContentPage.Resources>
-  <ContentPage.Content>
-    <Grid BackgroundColor="White">
-      <Grid.RowDefinitions>
-        <RowDefinition />
-      </Grid.RowDefinitions>
-      <ActivityIndicator Color="SlateBlue"
-                         Grid.Row="0"
-                         HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
-                         IsVisible="{Binding IsBusy}"
-                         IsEnabled="True"
-                         Scale="0.5"
-                         IsRunning="{Binding IsBusy}" >
-        <ActivityIndicator.Scale>
-          <OnPlatform x:TypeArguments="x:Double">
-            <OnPlatform.Platforms>
-              <On Platform="iOS" Value="4.0" />
-              <On Platform="Android" Value="1.0" />
-              <On Platform="UWP" Value="1.0" />
-            </OnPlatform.Platforms>
-          </OnPlatform>
-        </ActivityIndicator.Scale>
-      </ActivityIndicator>
-      <Grid Grid.Row="0" RowSpacing="0" IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}" >
-        <Grid.RowDefinitions>
-          <RowDefinition Height="auto"/>
-          <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.GestureRecognizers>
-          <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
-        </Grid.GestureRecognizers>
-        <Grid Grid.Row="0"
-          HeightRequest="45"
-          MinimumHeightRequest="45"
-          HorizontalOptions="Fill"
-          BackgroundColor="WhiteSmoke"
-          VerticalOptions="Fill"
-          Margin="{OnPlatform Default='0', iOS='0,18,0,0'}">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto"/>
-          </Grid.ColumnDefinitions>
-          <Label Grid.Row="0" Grid.Column="0"
-          Margin="5,0,0,0"
-          HorizontalOptions="Fill"
-          VerticalOptions="Center"
-          HorizontalTextAlignment="Start"
-          VerticalTextAlignment="Center"
-          FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-          FontSize="Medium"
-          x:Name="BackButton"
-          Text="{x:Static fn:GlyphNames.Left}"
-          TextColor="SlateBlue">
-            <Label.GestureRecognizers>
-              <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding BackCommand}"/>
-            </Label.GestureRecognizers>
-          </Label>
-          <Grid Grid.Row="0" Grid.Column="1" MinimumWidthRequest="100" VerticalOptions="Fill"
-                     Margin="0,1,1,1" HorizontalOptions="End">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="6*"/>
-              <ColumnDefinition Width="4*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" VerticalOptions="Fill"  VerticalTextAlignment="Center" HorizontalOptions="End"
-                       HorizontalTextAlignment="End"  Margin="5,0,2,0"
-                       TextColor="SlateBlue"
-                       BindingContext="{Binding Path=CurrentLanguage, Mode=TwoWay}"
-                       Text="{Binding Path=Name, Mode=OneWay}">
-            </Label>
-            <StackLayout Grid.Column="1" VerticalOptions="Fill"
-                     HorizontalOptions="End"  Orientation="Horizontal">
-              <Button TextColor="SlateBlue"      VerticalOptions="Fill"
-                  FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                  Text="{x:Static fn:GlyphNames.Language}"
-                  Command="{Binding OpenModalCommand}"
-                  FontSize="Medium"/>
-            </StackLayout>
-          </Grid>
-        </Grid>
-        <ListView HorizontalOptions="Fill"
-          Grid.Row="1"
-          CachingStrategy="RecycleElement"
-          ItemsSource="{Binding SongBooks}"
-          SelectionMode="None">
-          <ListView.Behaviors>
-            <behaviours:EventToCommandBehavior EventName="ItemTapped"
-                                           Command="{Binding TrackSelectionCommand}"
-                                           EventArgsConverter="{StaticResource itemTappedConverter}" />
-          </ListView.Behaviors>
-          <ListView.ItemTemplate>
-            <DataTemplate>
-              <ViewCell>
-                <Grid HeightRequest="45" HorizontalOptions="Fill"  Margin="5,0,5,0"
-                   BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="8*"/>
-                    <ColumnDefinition Width="2*"/>
-                  </Grid.ColumnDefinitions>
-                  <Label Grid.Column="0" VerticalOptions="Center"
-                 HorizontalOptions="Fill"
-                 HorizontalTextAlignment="Start"
-                 VerticalTextAlignment="Center"
-                 TextColor="Black"
-                 Margin="5,0,0,0"
-                 Text="{Binding Name}">
-                  </Label>
-                  <StackLayout Grid.Column="1"
-                 VerticalOptions="Center"
-                 HorizontalOptions="End"
-                 Margin="5,0,0,0">
-                    <Label TextColor="Gray"
-                    VerticalTextAlignment="Center"
-                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                    Text="{x:Static fn:GlyphNames.Right}"
-                    FontSize="Medium"/>
-                  </StackLayout>
+<ContentPage
+    x:Class="Bible.Alarm.UI.Views.Music.SongBookSelection"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
+    xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+    xmlns:fn="clr-namespace:FontNameResources"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
+        <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
+        <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <ActivityIndicator
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                IsEnabled="True"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Scale="0.5"
+                VerticalOptions="CenterAndExpand"
+                Color="SlateBlue">
+                <ActivityIndicator.Scale>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <OnPlatform.Platforms>
+                            <On Platform="iOS" Value="4.0" />
+                            <On Platform="Android" Value="1.0" />
+                            <On Platform="UWP" Value="1.0" />
+                        </OnPlatform.Platforms>
+                    </OnPlatform>
+                </ActivityIndicator.Scale>
+            </ActivityIndicator>
+            <Grid
+                Grid.Row="0"
+                IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}"
+                RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" NumberOfTapsRequired="1" />
+                </Grid.GestureRecognizers>
+                <Grid
+                    Grid.Row="0"
+                    Margin="{OnPlatform Default='0',
+                                        iOS='0,18,0,0'}"
+                    BackgroundColor="WhiteSmoke"
+                    HeightRequest="45"
+                    HorizontalOptions="Fill"
+                    MinimumHeightRequest="45"
+                    VerticalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        x:Name="BackButton"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="5,0,0,0"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Medium"
+                        HorizontalOptions="Fill"
+                        HorizontalTextAlignment="Start"
+                        Text="{x:Static fn:GlyphNames.Left}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BackCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,1,1,1"
+                        HorizontalOptions="End"
+                        VerticalOptions="Fill">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenModalCommand}" NumberOfTapsRequired="1" />
+                        </Grid.GestureRecognizers>
+                        <StackLayout
+                            Grid.Column="0"
+                            HorizontalOptions="End"
+                            Orientation="Horizontal"
+                            VerticalOptions="Fill">
+                            <Label
+                                Grid.Column="0"
+                                Margin="5,0,2,0"
+                                BindingContext="{Binding Path=CurrentLanguage, Mode=TwoWay}"
+                                HorizontalOptions="End"
+                                HorizontalTextAlignment="End"
+                                Text="{Binding Path=Name, Mode=OneWay}"
+                                TextColor="SlateBlue"
+                                VerticalOptions="Fill"
+                                VerticalTextAlignment="Center" />
+                            <Button
+                                Margin="3"
+                                BackgroundColor="LightGray"
+                                Command="{Binding OpenModalCommand}"
+                                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                FontSize="{OnPlatform Default='Large'}"
+                                MinimumWidthRequest="{OnPlatform Default='65'}"
+                                Text="{x:Static fn:GlyphNames.Language}"
+                                TextColor="SlateBlue"
+                                VerticalOptions="Fill"
+                                WidthRequest="{OnPlatform Default='65'}" />
+                        </StackLayout>
+                    </Grid>
                 </Grid>
-              </ViewCell>
-            </DataTemplate>
-          </ListView.ItemTemplate>
-        </ListView>
-      </Grid>
-    </Grid>
-  </ContentPage.Content>
+                <ListView
+                    Grid.Row="1"
+                    CachingStrategy="RecycleElement"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding SongBooks}"
+                    SelectionMode="None">
+                    <ListView.Behaviors>
+                        <behaviours:EventToCommandBehavior
+                            Command="{Binding TrackSelectionCommand}"
+                            EventArgsConverter="{StaticResource itemTappedConverter}"
+                            EventName="ItemTapped" />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid
+                                    Margin="5,0,5,0"
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
+                                    HeightRequest="45"
+                                    HorizontalOptions="Fill">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                        Margin="5,0,0,0"
+                                        HorizontalOptions="Fill"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding Name}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center" />
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Margin="5,0,0,0"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                            FontSize="Medium"
+                                            Text="{x:Static fn:GlyphNames.Right}"
+                                            TextColor="Gray"
+                                            VerticalTextAlignment="Center" />
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>
