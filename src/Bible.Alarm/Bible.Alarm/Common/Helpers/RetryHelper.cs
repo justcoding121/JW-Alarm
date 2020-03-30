@@ -5,7 +5,7 @@ namespace Bible.Alarm.Common.Helpers
 {
     public static class RetryHelper
     {
-        public static async Task<T> Retry<T>(Func<Task<T>> func, int retryCount)
+        public static async Task<T> Retry<T>(Func<Task<T>> func, int retryCount, bool @throw = false)
         {
             var delay = 1000;
 
@@ -26,6 +26,11 @@ namespace Bible.Alarm.Common.Helpers
             }
             catch
             {
+                if (@throw)
+                {
+                    throw;
+                }
+
                 return default(T);
             }
         }

@@ -17,7 +17,6 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,8 +32,6 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>Bible Alarm Push Development Profile</CodesignProvision>
     <CodesignKey>iPhone Developer: Jehonathan Thomas (3J6S84282U)</CodesignKey>
-    <MtouchSdkVersion>
-    </MtouchSdkVersion>
     <MtouchFloat32>false</MtouchFloat32>
     <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
@@ -74,13 +71,10 @@
     <MtouchInterpreter>
     </MtouchInterpreter>
     <IntermediateOutputPath>obj\iPhone\Debug</IntermediateOutputPath>
-    <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-    <MtouchFastDev>true</MtouchFastDev>
-    <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
-    <DeviceSpecificBuild>false</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>

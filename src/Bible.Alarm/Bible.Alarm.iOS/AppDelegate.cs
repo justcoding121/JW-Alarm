@@ -6,10 +6,13 @@ using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using UIKit;
 using UserNotifications;
 
@@ -136,7 +139,7 @@ namespace Bible.Alarm.iOS
                     try
                     {
 #if DEBUG
-                        var url = "https://192.168.1.64:5011/api/v1/RegisterDevice";
+                        var url = "http://192.168.1.64:5010/api/v1/RegisterDevice";
 #else
                     var url = "https://production-push.jthomas.info/api/v1/RegisterDevice";
 #endif
@@ -148,10 +151,14 @@ namespace Bible.Alarm.iOS
                             HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
                             return await client.PostAsync(url, content);
 
-                        }, 3);
+                        }, 3, true);
 
-                        // Save new device token
-                        NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+
+                        if(result.StatusCode == System.Net.HttpStatusCode.Accepted)
+                        {
+                            // Save new device token
+                            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
+                        }
 
                     }
                     catch (Exception e)
@@ -208,14 +215,19 @@ namespace Bible.Alarm.iOS
             {
                 NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
 
-                string notificationId = string.Empty;
-
-                if (aps.ContainsKey(new NSString("notificationId")))
-                    notificationId = (aps[new NSString("notificationId")] as NSString).ToString();
-
-                if (!string.IsNullOrEmpty(notificationId))
+                if (aps.ContainsKey(new NSString("alert")))
                 {
-                    return long.Parse(notificationId);
+                    var alert = (aps.ObjectForKey(new NSString("alert")) as NSString).ToString();
+
+                    var unescaped = Regex.Unescape(alert);
+                    dynamic json = JsonConvert.DeserializeObject(unescaped);
+
+                    string notificationId = json["notificationId"];
+
+                    if (!string.IsNullOrEmpty(notificationId))
+                    {
+                        return long.Parse(notificationId);
+                    }
                 }
             }
 
