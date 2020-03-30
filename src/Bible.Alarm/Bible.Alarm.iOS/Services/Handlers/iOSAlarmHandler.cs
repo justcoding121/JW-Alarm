@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Bible.Alarm.Common.Mvvm;
+﻿using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Contracts;
-using Foundation;
 using MediaManager;
 using MediaManager.Player;
 using NLog;
-using UIKit;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.iOS.Services.Handlers
 {

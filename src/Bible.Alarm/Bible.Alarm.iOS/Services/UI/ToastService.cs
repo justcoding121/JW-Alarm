@@ -1,5 +1,4 @@
 ﻿using Bible.Alarm.Services.iOS;
-using Foundation;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

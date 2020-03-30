@@ -167,7 +167,7 @@ namespace Bible.Alarm.Audio.Links.Harvestor
             foreach (var language in melodyLanguages)
             {
                 Console.WriteLine($"Seeding language code {language.Key} vocals to database.");
-               
+
                 var newLanguage = await db.Languages.FirstOrDefaultAsync(x => x.Code == language.Value.Code
                                                                         && x.Name == language.Value.Name);
                 if (newLanguage == null)

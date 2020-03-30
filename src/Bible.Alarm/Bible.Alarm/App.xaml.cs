@@ -90,7 +90,7 @@ namespace Bible.Alarm
                 {
                     await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
-            
+
             });
         }
 
@@ -109,7 +109,7 @@ namespace Bible.Alarm
                 {
                     await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
-                
+
             });
         }
 

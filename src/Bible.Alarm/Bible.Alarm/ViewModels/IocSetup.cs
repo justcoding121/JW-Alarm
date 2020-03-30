@@ -1,5 +1,4 @@
-﻿using Bible.Alarm.Contracts.Battery;
-using Bible.Alarm.Services;
+﻿using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Shared;
 

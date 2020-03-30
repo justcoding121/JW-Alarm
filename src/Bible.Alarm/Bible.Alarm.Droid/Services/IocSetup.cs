@@ -2,7 +2,6 @@
 {
     using Android.Media;
     using Bible.Alarm.Contracts.Battery;
-    using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Droid.Services.Battery;
     using Bible.Alarm.Droid.Services.Platform;

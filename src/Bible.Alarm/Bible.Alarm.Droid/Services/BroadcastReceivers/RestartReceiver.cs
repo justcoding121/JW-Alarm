@@ -7,7 +7,6 @@ using Bible.Alarm.Services.Droid.Tasks;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
 using System;
-using System.Threading.Tasks;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {

@@ -1,6 +1,5 @@
 ﻿namespace Bible.Alarm.Services.iOS
 {
-    using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Contracts.Network;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Droid.Services.Storage;
@@ -23,8 +22,7 @@
 
             if (!isService)
             {
-                container.Register<IToastService>((x) => new iOSToastService(container, 
-                                                    container.Resolve<TaskScheduler>()));
+                container.Register<IToastService>((x) => new iOSToastService(container.Resolve<TaskScheduler>()));
             }
 
             container.Register<INotificationService>((x) => new iOSNotificationService(container));
@@ -63,7 +61,7 @@
 
             container.Register<IVersionFinder>((x) => new VersionFinder());
             container.Register<IStorageService>((x) => new iOSStorageService());
-            container.Register((x) => 
+            container.Register((x) =>
                     new iOSAlarmHandler(container.Resolve<IPlaybackService>(),
                                 container.Resolve<IMediaManager>()));
         }

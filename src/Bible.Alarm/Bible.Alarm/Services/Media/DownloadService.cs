@@ -1,6 +1,5 @@
 using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Services.Contracts;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 

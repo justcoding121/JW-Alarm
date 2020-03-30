@@ -56,12 +56,12 @@ namespace Bible.Alarm.Droid.Services.Tasks
             // if it is stopped or cancelled.
             return false;
         }
-        
+
         public new void Dispose()
         {
             base.Dispose();
             container = null;
         }
-        
+
     }
 }

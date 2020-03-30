@@ -1,5 +1,5 @@
-﻿using System;
-using Bible.Alarm.Services;
+﻿using Bible.Alarm.Services;
+using System;
 
 namespace Bible.Alarm.Droid.Services.Storage
 {
