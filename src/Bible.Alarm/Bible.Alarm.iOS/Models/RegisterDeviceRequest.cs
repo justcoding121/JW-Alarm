@@ -1,6 +1,6 @@
 ﻿namespace Bible.Alarm.iOS.Models
 {
-    public class RegisterDeviceRequest
+    public class DeviceRequest
     {
         public string DeviceId { get; set; }
         public string DeviceToken { get; set; }

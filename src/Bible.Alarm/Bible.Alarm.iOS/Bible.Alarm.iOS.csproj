@@ -137,6 +137,7 @@
     <BundleResource Include="Resources\Font Awesome 5 Free-Solid-900.otf" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
+    <Compile Include="Models\RemoveAlarmRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">

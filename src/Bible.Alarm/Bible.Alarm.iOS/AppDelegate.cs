@@ -130,7 +130,7 @@ namespace Bible.Alarm.iOS
                 // Has the token changed?
                 if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
                 {
-                    var request = new RegisterDeviceRequest()
+                    var request = new DeviceRequest()
                     {
                         DeviceId = deviceId,
                         DeviceToken = DeviceToken
@@ -153,8 +153,8 @@ namespace Bible.Alarm.iOS
 
                         }, 3, true);
 
-
-                        if(result.StatusCode == System.Net.HttpStatusCode.Accepted)
+                        
+                        if(result.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             // Save new device token
                             NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");

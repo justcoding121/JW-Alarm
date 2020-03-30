@@ -1,10 +1,16 @@
-﻿using Bible.Alarm.iOS.Services.Handlers;
+﻿using Bible.Alarm.Common.Helpers;
+using Bible.Alarm.iOS.Models;
+using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.Models.Schedule;
 using Bible.Alarm.Services.Contracts;
+using Foundation;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.iOS
@@ -33,11 +39,12 @@ namespace Bible.Alarm.Services.iOS
                 .Include(x => x.AlarmNotifications)
                 .FirstAsync(x => x.Id == scheduleId);
 
+            var alarmTime = alarmSchedule.NextFireDate();
             var notification = new Models.Schedule.AlarmNotification()
             {
                 AlarmScheduleId = alarmSchedule.Id,
                 Fired = false,
-                ScheduledTime = alarmSchedule.NextFireDate(),
+                ScheduledTime = alarmTime,
                 Sent = false
             };
 
@@ -47,8 +54,43 @@ namespace Bible.Alarm.Services.iOS
             alarmSchedule.LatestAlarmNotificationId = notification.Id;
             await dbContext.SaveChangesAsync();
 
+            var deviceId = NSUserDefaults.StandardUserDefaults.StringForKey("DeviceId");
+
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                deviceId = Guid.NewGuid().ToString();
+                NSUserDefaults.StandardUserDefaults.SetString(deviceId, "DeviceId");
+            }
+
+#if DEBUG
+            var url = "http://192.168.1.64:5010/api/v1/ScheduleAlarm";
+#else
+                    var url = "https://production-push.jthomas.info/api/v1/ScheduleAlarm";
+#endif
+
+            var request = new ScheduleAlarmRequest()
+            {
+                DeviceId = deviceId,
+                DeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken"),
+                AlarmTime = alarmTime.UtcDateTime,
+                NotificationId = notification.Id
+            };
 
             //Send to server
+            var result = await RetryHelper.Retry(async () =>
+            {
+                using var client = new HttpClient();
+                var payload = JsonConvert.SerializeObject(request);
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                return await client.PostAsync(url, content);
+
+            }, 3, true);
+
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+
+            }
         }
 
         public async Task Remove(long scheduleId)
@@ -65,6 +107,7 @@ namespace Bible.Alarm.Services.iOS
                 await dbContext.SaveChangesAsync();
 
                 //Send to server
+
 
                 notification.Cancelled = true;
                 await dbContext.SaveChangesAsync();
