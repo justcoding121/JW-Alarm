@@ -26,9 +26,10 @@ namespace Bible.Alarm.iOS
                 }
             }
 
-            var context = new Dictionary<string, object>();
-
-            context.Add("IsiOSService", isService);
+            var context = new Dictionary<string, object>
+            {
+                { "IsiOSService", isService }
+            };
 
             IContainer container;
 

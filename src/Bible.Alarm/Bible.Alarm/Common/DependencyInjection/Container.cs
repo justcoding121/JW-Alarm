@@ -55,23 +55,8 @@
 
         public void RegisterSingleton<T>(Func<IContainer, T> factory)
         {
-            this.factories[typeof(T)] = new Tuple<bool, Func<object>>(false, () => factory(this));
+            this.factories[typeof(T)] = new Tuple<bool, Func<object>>(true, () => factory(this));
         }
-
-        public bool IsRegistered<T>() => factories.ContainsKey(typeof(T));
-
-        public void Unregister<T>()
-        {
-            if (this.IsRegistered<T>())
-            {
-                instances.Remove(typeof(T));
-                factories.Remove(typeof(T));
-            }
-        }
-
-        public object New(Type type) => this.factories[type].Item2();
-
-        public T New<T>() => (T)this.New(typeof(T));
 
         public void WipeContainer()
         {

@@ -7,7 +7,7 @@ namespace Bible.Alarm.Services
 {
     public abstract class ToastService : IToastService
     {
-        public abstract Task ShowMessage(string message, int seconds = 3);
+        public abstract Task ShowMessage(string message, int seconds = 2);
 
         public async Task ShowScheduledNotification(AlarmSchedule schedule, int seconds = 3)
         {
