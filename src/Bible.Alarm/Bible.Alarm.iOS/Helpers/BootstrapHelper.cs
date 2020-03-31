@@ -36,7 +36,7 @@ namespace Bible.Alarm.Services.iOS.Helpers
 
                     await Task.WhenAll(task1, task2);
 
-                    await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                    Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                 }
                 catch (Exception e)
                 {

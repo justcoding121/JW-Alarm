@@ -74,7 +74,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                     try
                     {
                         await playbackService.Play(scheduleId);
-                        await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                     catch (Exception e)
                     {

@@ -38,7 +38,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
                     {
                         await VerifyServices(container);
 
-                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                        Messenger<bool>.Publish(MvvmMessages.Initialized, true);
 
                         await Task.Delay(1000);
 
@@ -56,11 +56,11 @@ namespace Bible.Alarm.Services.Droid.Helpers
             }
             else
             {
-                Task.Run(async () =>
+                Task.Run(() =>
                 {
                     try
                     {
-                        await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                        Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                     }
                     catch (Exception e)
                     {

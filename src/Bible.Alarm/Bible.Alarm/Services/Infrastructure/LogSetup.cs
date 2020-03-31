@@ -37,8 +37,8 @@ namespace Bible.Alarm.Services.Infrastructure
 
                     }
 
-                    config.AddTarget("loggly", logglyTarget);
-                    config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
+                    //config.AddTarget("loggly", logglyTarget);
+                    //config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
 
                     LogManager.Configuration = config;
 

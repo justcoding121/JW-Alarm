@@ -26,10 +26,10 @@ namespace Bible.Alarm.Services.iOS
             this.dbContext = dbContext;
         }
 
-        public async void ShowNotification(long scheduleId)
+        public void ShowNotification(long scheduleId)
         {
             var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
-            await iosAlarmHandler.Handle(scheduleId);
+            var task = iosAlarmHandler.Handle(scheduleId);
         }
 
         public async Task ScheduleNotification(long scheduleId, DateTimeOffset time,

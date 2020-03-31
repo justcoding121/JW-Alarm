@@ -38,11 +38,11 @@ namespace Bible.Alarm.iOS
                 }
                 else
                 {
-                    Task.Run(async () =>
+                    Task.Run(() =>
                     {
                         try
                         {
-                            await Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                            Messenger<bool>.Publish(MvvmMessages.Initialized, true);
                         }
                         catch (Exception e)
                         {

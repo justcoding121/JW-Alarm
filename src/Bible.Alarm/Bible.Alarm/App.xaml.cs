@@ -65,14 +65,13 @@ namespace Bible.Alarm
                     }
 
                 }, taskScheduler)
-                .ContinueWith(async x =>
+                .ContinueWith(x =>
                 {
                     var mediaManager = container.Resolve<IMediaManager>();
                     if (mediaManager.IsPrepared())
                     {
-                        await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }
-
                 });
             }
         }
@@ -88,7 +87,7 @@ namespace Bible.Alarm
                 var mediaManager = container.Resolve<IMediaManager>();
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
 
             });
@@ -101,13 +100,13 @@ namespace Bible.Alarm
 
         protected override void OnResume()
         {
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 var mediaManager = container.Resolve<IMediaManager>();
                 // Handle when your app resumes
                 if (mediaManager.IsPrepared())
                 {
-                    await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }
 
             });

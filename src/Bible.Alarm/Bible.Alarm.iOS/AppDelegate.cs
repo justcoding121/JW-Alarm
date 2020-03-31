@@ -179,13 +179,13 @@ namespace Bible.Alarm.iOS
             logger.Error($"Error registering push notifications. Description: {error.LocalizedDescription}");
         }
 
-        public override async void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
             try
             {
                 var notificationId = getNotificationId(userInfo);
                 var handler = container.Resolve<iOSAlarmHandler>();
-                await handler.HandleNotification(notificationId);
+                var task = handler.HandleNotification(notificationId);
             }
             catch (Exception e)
             {
@@ -193,13 +193,13 @@ namespace Bible.Alarm.iOS
             }
         }
 
-        public override async void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             try
             {
                 var notificationId = getNotificationId(userInfo);
                 var handler = container.Resolve<iOSAlarmHandler>();
-                await handler.HandleNotification(notificationId);
+                var task = handler.HandleNotification(notificationId);
             }
             catch (Exception e)
             {

@@ -73,7 +73,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                         var id = long.Parse(scheduleId);
 
                         await playbackService.Play(id);
-                        await Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                     catch (Exception e)
                     {
@@ -86,8 +86,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
 
-                Dispose();
                 context.StopService(intent);
+                Dispose();
             }
             finally
             {
@@ -96,6 +96,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 if (isBusy)
                 {
+                    context.StopService(intent);
                     Dispose();
                 }
             }
@@ -108,8 +109,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
             {
                 if (e == MediaPlayerState.Stopped)
                 {
-                    Dispose();
                     context.StopService(intent);
+                    Dispose();         
                 }
             }
             catch (Exception ex)

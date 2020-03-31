@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,43 +21,41 @@ namespace Bible.Alarm.Common.Mvvm
 
     public static class Messenger<T>
     {
-        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
-
-        private static Dictionary<MvvmMessages, List<Func<T, Task>>> subscribers = new Dictionary<MvvmMessages, List<Func<T, Task>>>();
-        private static Dictionary<MvvmMessages, T> cache = new Dictionary<MvvmMessages, T>();
-        public async static Task Publish(MvvmMessages stream, T @object = default)
+        private class MessageWrapper
         {
-            if (subscribers.ContainsKey(stream))
+            public T Parameter { get; private set; }
+
+            public MessageWrapper(T parameter)
             {
-                var listeners = subscribers[stream];
-
-                foreach (var listener in listeners.ToArray())
-                {
-                    await listener(@object);
-                }
+                Parameter = parameter;
             }
-
-            cache[stream] = @object;
         }
 
-        public static void Subscribe(MvvmMessages stream, Func<T, Task> action, bool getMostRecentEvent = false)
+        private static ConcurrentDictionary<MvvmMessages, BehaviorSubject<MessageWrapper>> cache
+            = new ConcurrentDictionary<MvvmMessages, BehaviorSubject<MessageWrapper>>();
+        public static void Publish(MvvmMessages stream, T parameter = default)
         {
-            if (subscribers.ContainsKey(stream))
+            var subject = cache.GetOrAdd(stream, new BehaviorSubject<MessageWrapper>(null));
+            subject.OnNext(new MessageWrapper(parameter));
+        }
+
+        public static IDisposable Subscribe(MvvmMessages stream,
+            Func<T, Task> action,
+            bool getMostRecentEvent = false)
+        {
+            var subject = cache.GetOrAdd(stream, new BehaviorSubject<MessageWrapper>(null));
+
+            if (getMostRecentEvent)
             {
-                subscribers[stream].Add(action);
+                return subject.Where(x => x != null)
+                    .Subscribe(x => action(x.Parameter));
             }
             else
             {
-                subscribers[stream] = new List<Func<T, Task>>(new[] { action });
+                return subject
+                 .Skip(1)
+                 .Subscribe(x => action(x.Parameter));
             }
-
-            if (getMostRecentEvent && cache.ContainsKey(stream))
-            {
-                var @object = cache[stream];
-                action(@object);
-            }
-
-
         }
     }
 

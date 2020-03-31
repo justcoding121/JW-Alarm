@@ -122,18 +122,15 @@ namespace Bible.Alarm.Services
                 var preparedTracks = 0;
                 var totalTracks = nextTracks.Count;
 
-                await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
-                await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
+                Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
+                Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
 
                 var downloadedMediaItems = (await Task.WhenAll(downloadedTracks.Select(x =>
                 {
                     return Task.Run(async () =>
                     {
                         var item = await mediaExtractor.CreateMediaItem(x.Value);
-
-                        await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
-                        await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-
+                        Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                         return item;
                     });
 
@@ -146,10 +143,7 @@ namespace Bible.Alarm.Services
                        try
                        {
                            var item = await mediaExtractor.CreateMediaItem(x.Value);
-
-                           await Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
-                           await Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-
+                           Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                            return item;
                        }
                        catch
@@ -180,7 +174,7 @@ namespace Bible.Alarm.Services
                     i++;
                 }
 
-                await Messenger<object>.Publish(MvvmMessages.HideMediaProgressModal, null);
+                Messenger<object>.Publish(MvvmMessages.HideMediaProgressModal, null);
 
                 //play default ring tone if we don't have the files downloaded
                 //and internet is not available
@@ -278,7 +272,7 @@ namespace Bible.Alarm.Services
 
                         if (readyTodispose)
                         {
-                            await Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
+                            Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
                             Dispose();
                             Stopped?.Invoke(this, MediaPlayerState.Stopped);
 
