@@ -104,7 +104,9 @@ namespace Bible.Alarm
             {
                 var mediaManager = container.Resolve<IMediaManager>();
                 // Handle when your app resumes
-                if (mediaManager.IsPrepared())
+                if (mediaManager.IsPrepared()
+                    && (Device.RuntimePlatform != Device.iOS
+                        || mediaManager.Duration.TotalMilliseconds > 0))
                 {
                     Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                 }

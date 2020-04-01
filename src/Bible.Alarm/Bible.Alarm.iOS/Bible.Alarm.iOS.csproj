@@ -78,7 +78,7 @@
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
-    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchFastDev>false</MtouchFastDev>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
   </PropertyGroup>
