@@ -393,7 +393,11 @@ namespace Bible.Alarm.ViewModels
             subscription = Messenger<object>.Subscribe(MvvmMessages.TrackChanged,
                    (x) =>
                    {
-                       RefreshChapterName();
+                       if ((int)x == Schedule.Id)
+                       {
+                           RefreshChapterName();
+                       }
+
                        return Task.CompletedTask;
                    });
         }

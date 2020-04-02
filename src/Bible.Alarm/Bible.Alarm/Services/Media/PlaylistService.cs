@@ -57,7 +57,7 @@ namespace Bible.Alarm.Services
 
             if (trackChanged)
             {
-                Messenger<object>.Publish(MvvmMessages.TrackChanged);
+                Messenger<object>.Publish(MvvmMessages.TrackChanged, schedule.Id);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Bible.Alarm.Services
 
             await scheduleDbContext.SaveChangesAsync();
 
-            Messenger<object>.Publish(MvvmMessages.TrackChanged);
+            Messenger<object>.Publish(MvvmMessages.TrackChanged, schedule.Id);
         }
 
         public async Task<List<PlayItem>> NextTracks(long scheduleId)

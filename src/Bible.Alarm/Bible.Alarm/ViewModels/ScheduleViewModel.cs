@@ -88,6 +88,7 @@ namespace Bible.Alarm.ViewModels
             {
                 BibleReadingSchedule = x;
                 bibleReadingUpdated = true;
+                refreshChapterName(Model.Id);
             });
 
             subscriptions.Add(subscription3);
@@ -186,6 +187,8 @@ namespace Bible.Alarm.ViewModels
                         BibleReadingSchedule = await scheduleDbContext.BibleReadingSchedules
                                                 .AsNoTracking()
                                                 .FirstAsync(x => x.AlarmScheduleId == scheduleId);
+
+                        refreshChapterName(Model.Id);
                     }
 
                 });
@@ -239,14 +242,6 @@ namespace Bible.Alarm.ViewModels
 
                 IsBusy = false;
             });
-
-            subscriptions.Add(Messenger<object>.Subscribe(
-                MvvmMessages.TrackChanged,
-                (x) =>
-                {
-                    refreshChapterName();
-                    return Task.CompletedTask;
-                }));
         }
 
         private ScheduleListItem scheduleListItem;
@@ -331,7 +326,7 @@ namespace Bible.Alarm.ViewModels
             alwaysPlayFromStart = model.AlwaysPlayFromStart;
 
             populateNumberOfChaptersListView(model);
-            refreshChapterName();
+            refreshChapterName(Model.Id);
         }
 
         private int scheduleId;
@@ -546,49 +541,52 @@ namespace Bible.Alarm.ViewModels
 
         }
 
-        private void refreshChapterName()
+        private void refreshChapterName(int scheduleId)
         {
-            var syncContext = this.container.Resolve<TaskScheduler>();
-
-            Task.Run(async () =>
+            if (scheduleId > 0 && Model.Id == scheduleId)
             {
-                try
-                {
-                    using var mediaDbContext = container.Resolve<MediaDbContext>();
+                var syncContext = this.container.Resolve<TaskScheduler>();
 
-                    var bookName = await mediaDbContext.BibleBook
-                                    .Where(x => x.BibleTranslation.Code == BibleReadingSchedule.PublicationCode
-                                            && x.BibleTranslation.Language.Code == BibleReadingSchedule.LanguageCode
-                                            && x.Number == BibleReadingSchedule.BookNumber)
-                                    .Select(x => x.Name)
-                                    .AsNoTracking()
-                                    .FirstOrDefaultAsync();
-
-                    return bookName;
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error happened in refreshChapterName task under schedule view model.");
-                }
-
-                return null;
-            })
-            .ContinueWith((x) =>
-            {
-                if (x.IsCompleted)
+                Task.Run(async () =>
                 {
                     try
                     {
-                        BibleReadingTitleText = $"{x.Result} {BibleReadingSchedule.ChapterNumber}";
-                        RaiseProperty("SubTitle");
+                        using var mediaDbContext = container.Resolve<MediaDbContext>();
+
+                        var bookName = await mediaDbContext.BibleBook
+                                        .Where(x => x.BibleTranslation.Code == BibleReadingSchedule.PublicationCode
+                                                && x.BibleTranslation.Language.Code == BibleReadingSchedule.LanguageCode
+                                                && x.Number == BibleReadingSchedule.BookNumber)
+                                        .Select(x => x.Name)
+                                        .AsNoTracking()
+                                        .FirstOrDefaultAsync();
+
+                        return bookName;
                     }
                     catch (Exception e)
                     {
-                        logger.Error(e, "An error happened in refreshChapterName task continue with under schedule view model.");
+                        logger.Error(e, "An error happened in refreshChapterName task under schedule view model.");
                     }
-                }
 
-            }, syncContext);
+                    return null;
+                })
+                .ContinueWith((x) =>
+                {
+                    if (x.IsCompleted)
+                    {
+                        try
+                        {
+                            BibleReadingTitleText = $"{x.Result} {BibleReadingSchedule.ChapterNumber}";
+                            RaiseProperty("SubTitle");
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, "An error happened in refreshChapterName task continue with under schedule view model.");
+                        }
+                    }
+
+                }, syncContext);
+            }
         }
 
         public void Dispose()
