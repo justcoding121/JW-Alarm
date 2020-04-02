@@ -1,5 +1,6 @@
 ﻿
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -239,18 +240,14 @@ namespace Bible.Alarm.ViewModels
                 IsBusy = false;
             });
 
-            Task.Run(async () =>
-            {
-                while (refreshChapter)
+            subscriptions.Add(Messenger<object>.Subscribe(
+                MvvmMessages.TrackChanged,
+                (x) =>
                 {
-                    await Task.Delay(1500);
                     refreshChapterName();
-                }
-            });
-
+                    return Task.CompletedTask;
+                }));
         }
-
-        private bool refreshChapter = true;
 
         private ScheduleListItem scheduleListItem;
 
@@ -596,8 +593,8 @@ namespace Bible.Alarm.ViewModels
 
         public void Dispose()
         {
-            refreshChapter = false;
             subscriptions.ForEach(x => x.Dispose());
+            subscriptions.Clear();
 
             this.scheduleDbContext.Dispose();
             this.popUpService.Dispose();

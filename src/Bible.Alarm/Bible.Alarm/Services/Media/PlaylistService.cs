@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Models;
+﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,6 +22,8 @@ namespace Bible.Alarm.Services
 
         public async Task MarkTrackAsPlayed(NotificationDetail trackDetail)
         {
+            var trackChanged = false;
+
             var schedule = await scheduleDbContext.AlarmSchedules
                                     .Include(x => x.Music)
                                     .Include(x => x.BibleReadingSchedule)
@@ -28,7 +31,6 @@ namespace Bible.Alarm.Services
 
             if (trackDetail.PlayType == PlayType.Music)
             {
-
                 if (!schedule.Music.Repeat)
                 {
                     schedule.Music.TrackNumber = trackDetail.TrackNumber;
@@ -40,12 +42,23 @@ namespace Bible.Alarm.Services
             {
                 var bibleReadingSchedule = schedule.BibleReadingSchedule;
 
+                if (bibleReadingSchedule.BookNumber != trackDetail.BookNumber
+                      || bibleReadingSchedule.ChapterNumber != trackDetail.ChapterNumber)
+                {
+                    trackChanged = true;
+                }
+
                 bibleReadingSchedule.BookNumber = trackDetail.BookNumber;
                 bibleReadingSchedule.ChapterNumber = trackDetail.ChapterNumber;
                 bibleReadingSchedule.FinishedDuration = trackDetail.FinishedDuration;
             }
 
             await scheduleDbContext.SaveChangesAsync();
+
+            if (trackChanged)
+            {
+                Messenger<object>.Publish(MvvmMessages.TrackChanged);
+            }
         }
 
         public async Task MarkTrackAsFinished(NotificationDetail trackDetail)
@@ -75,6 +88,8 @@ namespace Bible.Alarm.Services
             }
 
             await scheduleDbContext.SaveChangesAsync();
+
+            Messenger<object>.Publish(MvvmMessages.TrackChanged);
         }
 
         public async Task<List<PlayItem>> NextTracks(long scheduleId)

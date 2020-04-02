@@ -46,7 +46,10 @@ namespace Bible.Alarm.Services.Droid
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            this.player.Dispose();
+
+            this.player?.Stop();
+            this.player?.Dispose();
+            this.player = null;
         }
     }
 }

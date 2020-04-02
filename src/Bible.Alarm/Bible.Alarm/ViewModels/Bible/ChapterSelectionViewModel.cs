@@ -43,7 +43,6 @@ namespace Bible.Alarm.ViewModels
             BackCommand = new Command(async () =>
             {
                 IsBusy = true;
-                playService.Stop();
                 await navigationService.GoBack();
                 IsBusy = false;
             });

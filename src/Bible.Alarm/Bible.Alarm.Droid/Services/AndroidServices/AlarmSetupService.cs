@@ -76,15 +76,16 @@ namespace Bible.Alarm.Services.Droid.Tasks
                     default:
                         throw new NotImplementedException();
                 }
+
+                StopSelf();
+
+                return base.OnStartCommand(intent, flags, startId);
             }
             catch (Exception e)
             {
                 logger.Error(e, "An error happened in alarm setup task.");
+                throw;
             }
-
-            StopSelf();
-
-            return base.OnStartCommand(intent, flags, startId);
         }
 
         public override void OnDestroy()

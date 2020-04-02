@@ -30,10 +30,10 @@ namespace Bible.Alarm.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            container = BootstrapHelper.InitializeUI(this, logger, Application);
-
             try
             {
+                container = BootstrapHelper.InitializeUI(this, logger, Application);
+
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
 
@@ -49,9 +49,12 @@ namespace Bible.Alarm.Droid
                     {
                         var cachePath = Path.Combine(Path.GetTempPath(), "MediaCache");
 
-                        // If exist, delete the cache directory and everything in it recursivly
+                        // If exist, delete the cache directory
+                        // and everything in it recursivly
                         if (Directory.Exists(cachePath))
+                        {
                             Directory.Delete(cachePath, true);
+                        }
 
                     }
                     catch (Exception e)
@@ -71,7 +74,14 @@ namespace Bible.Alarm.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            try
+            {
+                Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened inside OnRequestpermissionResult.");
+            }
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }

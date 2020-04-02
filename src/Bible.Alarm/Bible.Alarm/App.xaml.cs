@@ -3,6 +3,7 @@ using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI;
 using Bible.Alarm.ViewModels;
 using MediaManager;
+using NLog;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Bible.Alarm
     public partial class App : Application
     {
         private readonly IContainer container;
-
+        private static Logger logger => LogManager.GetCurrentClassLogger();
         public App(IContainer container)
         {
             this.container = container;
@@ -80,16 +81,22 @@ namespace Bible.Alarm
         {
             Task.Run(async () =>
             {
-                var navigationService = container.Resolve<INavigationService>();
-                // Handle when your app starts  
-                await navigationService.NavigateToHome();
-
-                var mediaManager = container.Resolve<IMediaManager>();
-                if (mediaManager.IsPrepared())
+                try
                 {
-                    Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
-                }
+                    var navigationService = container.Resolve<INavigationService>();
+                    // Handle when your app starts  
+                    await navigationService.NavigateToHome();
 
+                    var mediaManager = container.Resolve<IMediaManager>();
+                    if (mediaManager.IsPrepared())
+                    {
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened inside OnStart task.");
+                }
             });
         }
 
@@ -102,13 +109,20 @@ namespace Bible.Alarm
         {
             Task.Run(() =>
             {
-                var mediaManager = container.Resolve<IMediaManager>();
-                // Handle when your app resumes
-                if (mediaManager.IsPrepared()
-                    && (Device.RuntimePlatform != Device.iOS
-                        || mediaManager.Duration.TotalMilliseconds > 0))
+                try
                 {
-                    Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    var mediaManager = container.Resolve<IMediaManager>();
+                    // Handle when your app resumes
+                    if (mediaManager.IsPrepared()
+                        && (Device.RuntimePlatform != Device.iOS
+                            || mediaManager.Duration.TotalMilliseconds > 0))
+                    {
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened inside OnResume task.");
                 }
 
             });

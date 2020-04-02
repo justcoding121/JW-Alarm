@@ -29,18 +29,33 @@ namespace Bible.Alarm.Droid
         {
             base.OnCreate(bundle);
 
-            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
-            Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
-            Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
+            try
+            {
+                Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
+                Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+                Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
 
-            SetContentView(Resource.Layout.SplashScreen);
+                SetContentView(Resource.Layout.SplashScreen);
 
-            BootstrapHelper.InitializeUI(this, logger, Application);
+                BootstrapHelper.InitializeUI(this, logger, Application);
+            }
+            catch (Exception e)
+            {
+                logger.Fatal(e, "An error happened inside OnCreate.");
+                throw;
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            try
+            {
+                Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened inside OnRequestpermissionResult.");
+            }
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }

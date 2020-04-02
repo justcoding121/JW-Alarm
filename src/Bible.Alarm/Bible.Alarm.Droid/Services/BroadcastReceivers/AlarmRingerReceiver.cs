@@ -37,12 +37,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
         {
             var pendingIntent = GoAsync();
 
-            var isBusy = false;
+            await @lock.WaitAsync();
 
             try
-            {
-                await @lock.WaitAsync();
-
+            {          
                 container = BootstrapHelper.InitializeService(context);
 
                 this.context = context;
@@ -54,7 +52,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (mediaManager.IsPrepared())
                 {
                     context.StopService(intent);
-                    isBusy = true;
+                    Dispose();
                     return;
                 }
                 else
@@ -88,19 +86,13 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 context.StopService(intent);
                 Dispose();
+                throw;
             }
             finally
             {
                 @lock.Release();
                 pendingIntent.Finish();
-
-                if (isBusy)
-                {
-                    context.StopService(intent);
-                    Dispose();
-                }
             }
-
         }
 
         private void stateChanged(object sender, MediaPlayerState e)
