@@ -130,6 +130,7 @@ namespace Bible.Alarm.Services
                     return Task.Run(async () =>
                     {
                         var item = await mediaExtractor.CreateMediaItem(x.Value);
+                        
                         Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                         return item;
                     });
