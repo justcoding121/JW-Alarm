@@ -110,7 +110,7 @@
                                 BackgroundColor="LightGray"
                                 Command="{Binding OpenModalCommand}"
                                 FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                                FontSize="{OnPlatform Default='Large'}"
+                                FontSize="{OnPlatform Default='Medium'}"
                                 MinimumWidthRequest="{OnPlatform Default='65'}"
                                 Text="{x:Static fn:GlyphNames.Language}"
                                 TextColor="SlateBlue"

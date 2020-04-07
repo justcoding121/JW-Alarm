@@ -1,5 +1,7 @@
 using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Services.Contracts;
+using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -29,10 +31,8 @@ namespace Bible.Alarm.Services
             {
                 try
                 {
-                    using (var client = new HttpClient(handler, false))
-                    {
-                        return await client.GetByteArrayAsync(url);
-                    }
+                    using var client = new HttpClient(handler, false);
+                    return await client.GetByteArrayAsync(url);
                 }
                 catch
                 {
@@ -54,6 +54,31 @@ namespace Bible.Alarm.Services
         public void Dispose()
         {
             handler.Dispose();
+        }
+
+        public async Task<bool> FileExists(string url)
+        {
+            return await RetryHelper.Retry(async () =>
+            {
+                using var client = new HttpClient(handler, false)
+                {
+                    Timeout = TimeSpan.FromSeconds(5)
+                };
+
+                HttpResponseMessage result = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, url));
+                var statusCode = result.StatusCode;
+
+                switch (statusCode)
+                {
+
+                    case HttpStatusCode.Accepted:
+                    case HttpStatusCode.OK:
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }, retryAttempts);
         }
     }
 }

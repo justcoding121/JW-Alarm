@@ -42,14 +42,22 @@ namespace Bible.Alarm.Services.Droid.Helpers
 
                         await Task.Delay(1000);
 
-                        var i = new Intent(container.AndroidContext(), typeof(AlarmSetupService));
-                        i.PutExtra("Action", "SetupBackgroundTasks");
-                        mainActivity.StartService(i);
+                        try
+                        {
+                            var i = new Intent(container.AndroidContext(), typeof(AlarmSetupService));
+                            i.PutExtra("Action", "SetupBackgroundTasks");
+                            mainActivity.StartService(i);
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, "An error happened when calling setup background task upon app launch.");
+                        }
 
                     }
                     catch (Exception e)
                     {
                         logger.Fatal(e, "Android initialization crashed.");
+                        throw;
                     }
                 });
 

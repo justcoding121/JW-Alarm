@@ -7,20 +7,32 @@ namespace Bible.Alarm.Common.Helpers
 {
     public class BgSourceHelper
     {
-        private static string[] booksList = new string[] { "Gen", "Exod", "Lev", "Num", "Deut", "Josh", "Judg", "Ruth", "1Sam", "2Sam", "1Kgs", "2Kgs", "1Chr", "2Chr", "Ezra", "Neh", "Esth", "Job", "Ps", "Prov", "Eccl", "Song", "Isa", "Jer", "Lam", "Ezek", "Dan", "Hos", "Joel", "Amos", "Obad", "Jonah", "Mic", "Nah", "Hab", "Zeph", "Hag", "Zech", "Mal", "Matt", "Mark", "Luke", "John", "Acts", "Rom", "1Cor", "2Cor", "Gal", "Eph", "Phil", "Col", "1Thess", "2Thess", "1Tim", "2Tim", "Titus", "Phlm", "Heb", "Jas", "1Pet", "2Pet", "1John", "2John", "3John", "Jude", "Rev" };
-        public static Dictionary<int, string> BooksKeyMap = booksList
+        private static string[] bookCodes = new string[] { "Gen", "Exod", "Lev", "Num", "Deut", "Josh", "Judg", "Ruth", "1Sam", "2Sam", "1Kgs", "2Kgs", "1Chr", "2Chr", "Ezra", "Neh", "Esth", "Job", "Ps", "Prov", "Eccl", "Song", "Isa", "Jer", "Lam", "Ezek", "Dan", "Hos", "Joel", "Amos", "Obad", "Jonah", "Mic", "Nah", "Hab", "Zeph", "Hag", "Zech", "Mal", "Matt", "Mark", "Luke", "John", "Acts", "Rom", "1Cor", "2Cor", "Gal", "Eph", "Phil", "Col", "1Thess", "2Thess", "1Tim", "2Tim", "Titus", "Phlm", "Heb", "Jas", "1Pet", "2Pet", "1John", "2John", "3John", "Jude", "Rev" };
+        public static Dictionary<int, string> BookNumberToBookCodeMap = bookCodes
                                                        .Select((s, i) => new { i = i + 1, s })
                                                        .ToDictionary(x => x.i, x => x.s);
 
-        public static Dictionary<string, string> AuthorsKeyMap = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()
+        public static Dictionary<string, string> PublisherCodeToAuthorsCodeMap = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()
         {
             new KeyValuePair<string, string>("kjv", "mims"),
             new KeyValuePair<string, string>("nivuk", "suchet")
         });
 
-        public static Dictionary<int, string> BookNames = getBookNames();
+        public static Dictionary<string, string> AuthorCodeToAuthorNameMap = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()
+        {
+            new KeyValuePair<string, string>("mims", "David suchet"),
+            new KeyValuePair<string, string>("suchet","Paul Mims")
+        });
 
-        public static Dictionary<string, int> ChapterNumbers = getChapterNumbers();
+        public static Dictionary<string, string> PublicationCodeToNameMappings =
+                new Dictionary<string, string>(new KeyValuePair<string, string>[]{
+                    new KeyValuePair<string, string>("kjv","King James Version (1987)"),
+                    new KeyValuePair<string, string>("nivuk","New International Version—Anglicised (1984)")
+                });
+
+        public static Dictionary<int, string> BookNumberToNamesMap = getBookNames();
+
+        public static Dictionary<string, int> BookCodeToTotalChaptersMap = getChapterNumbers();
 
         private static Dictionary<string, int> getChapterNumbers()
         {

@@ -110,7 +110,7 @@ namespace Bible.Alarm.Services
 
                                 if (playDetail.PlayType == Models.PlayType.Bible)
                                 {
-                                    url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.PublicationCode,
+                                    url = await GetBibleChapterUrl(playDetail.LanguageCode, playDetail.PublicationCode,
                                                     playDetail.BookNumber, playDetail.ChapterNumber, playDetail.LookUpPath);
                                     if (url != null && url != playItem.Url)
                                     {
@@ -126,7 +126,7 @@ namespace Bible.Alarm.Services
                                 else
                                 {
 
-                                    url = await getMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
+                                    url = await GetMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
 
                                     if (url != null && url != playItem.Url)
                                     {
@@ -184,7 +184,7 @@ namespace Bible.Alarm.Services
                                                       "https://apps.jw.org/GETPUBMEDIALINKS"};
 
         private static string bibleGateWayUrl = UrlHelper.BibleGatewayIndexServiceBaseUrl;
-        private async Task<string> getBibleChapterUrl(string languageCode, string pubCode, int bookNumber, int chapter, string lookUpPath)
+        public async Task<string> GetBibleChapterUrl(string languageCode, string pubCode, int bookNumber, int chapter, string lookUpPath)
         {
             try
             {
@@ -200,7 +200,7 @@ namespace Bible.Alarm.Services
                     string jsonString = Encoding.Default.GetString(@bytes);
                     dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                    return model.files[languageCode].MP3[0].file.url;
+                    return model["files"][languageCode]["MP3"][0]["file"]["url"];
                 }
                 else
                 {
@@ -209,11 +209,11 @@ namespace Bible.Alarm.Services
                     string jsonString = Encoding.Default.GetString(@bytes);
                     dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
                     var hashKey = model["curHash"];
-                    var bookKey = BgSourceHelper.BooksKeyMap[bookNumber];
-                    var author = BgSourceHelper.AuthorsKeyMap[pubCode];
+                    var bookKey = BgSourceHelper.BookNumberToBookCodeMap[bookNumber];
+                    var author = BgSourceHelper.PublisherCodeToAuthorsCodeMap[pubCode];
                     return $"https://stream.biblegateway.com/bibles/32/{pubCode}-{author}/{bookKey}.{chapter}.{hashKey}.mp3";
                 }
-               
+
             }
             catch
             {
@@ -221,7 +221,7 @@ namespace Bible.Alarm.Services
             }
         }
 
-        private async Task<string> getMusicTrackUrl(string languageCode, string lookUpPath)
+        public async Task<string> GetMusicTrackUrl(string languageCode, string lookUpPath)
         {
             try
             {

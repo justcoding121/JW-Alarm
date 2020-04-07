@@ -11,5 +11,8 @@ namespace Bible.Alarm.Services.Contracts
 
         Task SetupAlarmCache(long alarmScheduleId);
         Task CleanUp();
+
+        Task<string> GetMusicTrackUrl(string languageCode, string lookUpPath);
+        Task<string> GetBibleChapterUrl(string languageCode, string pubCode, int bookNumber, int chapter, string lookUpPath);
     }
 }

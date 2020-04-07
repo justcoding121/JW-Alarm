@@ -15,13 +15,13 @@ namespace AudioLinkHarvester.Bible
 {
     internal class BgBibleHarvester
     {
-        private static Dictionary<int, string> booksKeyMap = BgSourceHelper.BooksKeyMap;
+        private static Dictionary<int, string> booksKeyMap = BgSourceHelper.BookNumberToBookCodeMap;
 
-        private static Dictionary<string, string> authorsKeyMap = BgSourceHelper.AuthorsKeyMap;
+        private static Dictionary<string, string> authorsKeyMap = BgSourceHelper.PublisherCodeToAuthorsCodeMap;
 
-        private static Dictionary<int, string> bookNames = BgSourceHelper.BookNames;
+        private static Dictionary<int, string> bookNames = BgSourceHelper.BookNumberToNamesMap;
 
-        private static Dictionary<string, int> chapterNumbers = BgSourceHelper.ChapterNumbers;
+        private static Dictionary<string, int> chapterNumbers = BgSourceHelper.BookCodeToTotalChaptersMap;
 
         internal async static
             Task Harvest_Bible_Links(Dictionary<string, string> biblePublicationCodeToNameMappings,

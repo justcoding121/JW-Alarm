@@ -16,7 +16,6 @@ namespace AudioLinkHarvester.Bible
     internal class JwBibleHarvester
     {
 
-
         internal async static
             Task Harvest_Bible_Links(Dictionary<string, string> biblePublicationCodeToNameMappings,
                                     ConcurrentDictionary<string, string> languageCodeToNameMappings,

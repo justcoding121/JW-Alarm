@@ -1,4 +1,5 @@
 ﻿using Advanced.Algorithms.DataStructures.Foundation;
+using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models;
@@ -8,11 +9,13 @@ using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Player;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,6 +32,7 @@ namespace Bible.Alarm.Services
         private IStorageService storageService;
         private INetworkStatusService networkStatusService;
         private INotificationService notificationService;
+        private IDownloadService downloadService;
 
         private static long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
@@ -49,7 +53,8 @@ namespace Bible.Alarm.Services
             IMediaCacheService cacheService,
             IStorageService storageService,
             INetworkStatusService networkStatusService,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            IDownloadService downloadService)
         {
             this.mediaManager = mediaManager;
             this.playlistService = playlistService;
@@ -58,6 +63,7 @@ namespace Bible.Alarm.Services
             this.storageService = storageService;
             this.networkStatusService = networkStatusService;
             this.notificationService = notificationService;
+            this.downloadService = downloadService;
 
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
@@ -130,7 +136,7 @@ namespace Bible.Alarm.Services
                     return Task.Run(async () =>
                     {
                         var item = await mediaExtractor.CreateMediaItem(x.Value);
-                        
+                        item.SetDisplay(playDetailMap[x.Key]);
                         Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                         return item;
                     });
@@ -141,16 +147,54 @@ namespace Bible.Alarm.Services
                {
                    return Task.Run(async () =>
                    {
+                       var playDetail = playDetailMap[x.Key];
+
                        try
                        {
-                           var item = await mediaExtractor.CreateMediaItem(x.Value);
-                           Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                           return item;
-                       }
-                       catch
-                       {
+                           if (await downloadService.FileExists(x.Value))
+                           {
+                               var item = await mediaExtractor.CreateMediaItem(x.Value);
+                               item.SetDisplay(playDetail);
+                               Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                               return item;
+                           }
+                           else
+                           if (playDetail.IsBibleReading)
+                           {
+                               var url = await cacheService.GetBibleChapterUrl(playDetail.LanguageCode,
+                                                playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber,
+                                                playDetail.LookUpPath);
+
+                               if (await downloadService.FileExists(url))
+                               {
+                                   var item = await mediaExtractor.CreateMediaItem(url);
+                                   item.SetDisplay(playDetail);
+                                   Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                                   return item;
+                               }
+                           }
+                           else
+                           {
+                               var url = await cacheService.GetMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
+
+                               if (await downloadService.FileExists(url))
+                               {
+                                   var item = await mediaExtractor.CreateMediaItem(url);
+                                   item.SetDisplay(playDetail);
+                                   Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                                   return item;
+                               }
+                           }
+
+                           logger.Error($"Could'nt download the streaming file: {x.Value}.");
                            return null;
                        }
+                       catch (Exception e)
+                       {
+                           logger.Error(e, $"An error happened when streaming file: {x.Value}.");
+                           return null;
+                       }
+
                    });
 
                }))).ToList();

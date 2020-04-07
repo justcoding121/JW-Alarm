@@ -105,10 +105,10 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                             }
                             else
                             {
-                                var bookKey = BgSourceHelper.BooksKeyMap[book.Value.Number];
-                                var author = BgSourceHelper.AuthorsKeyMap[bibleTranslation.Code];
+                                var bookKey = BgSourceHelper.BookNumberToBookCodeMap[book.Value.Number];
+                                var author = BgSourceHelper.PublisherCodeToAuthorsCodeMap[bibleTranslation.Code];
 
-                                lookUpPath = $"?osis={bookKey}.{chapter}&version={bibleTranslation.Code}&author={author}";
+                                lookUpPath = $"?osis={bookKey}.{chapter.Value.Number}&version={bibleTranslation.Code}&author={author}";
                             }
 
                             var newChapter = new BibleChapter()

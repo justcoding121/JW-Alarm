@@ -16,7 +16,7 @@ namespace Bible.Alarm.Common.Helpers
 
             switch (pubCode)
             {
-                case "kjw":
+                case "kjv":
                 case "nivuk":
                     return SourceWebsite.BibleGateway;
                 default:

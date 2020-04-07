@@ -3,6 +3,7 @@ using AudioLinkHarvester.Bible;
 using AudioLinkHarvester.Models;
 using AudioLinkHarvestor.Utility;
 using Bible.Alarm.Audio.Links.Harvestor;
+using Bible.Alarm.Common.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -17,22 +18,9 @@ namespace AudioLinkHarvester
     public class Program
     {
 
-        private static Dictionary<string, string> jwBiblePublicationCodeToNameMappings =
-            new Dictionary<string, string>(new KeyValuePair<string, string>[]{
-                new KeyValuePair<string, string>("nwt","New World Translation (2013)"),
-                new KeyValuePair<string, string>("bi12","New World Translation (1984)"),
-        });
-
-
-        private static Dictionary<string, string> bgBiblePublicationCodeToNameMappings =
-            new Dictionary<string, string>(new KeyValuePair<string, string>[]{
-                new KeyValuePair<string, string>("kjv","King James Version (1987)"),
-                new KeyValuePair<string, string>("nivuk","New International Version—Anglicised (1984)")
-        });
-
         private static Dictionary<string, string> biblePublicationCodeToNameMappings =
-            jwBiblePublicationCodeToNameMappings.Select(x => x)
-                .Concat(bgBiblePublicationCodeToNameMappings).Select(x => x)
+            JwSourceHelper.PublicationCodeToNameMappings.Select(x => x)
+                .Concat(BgSourceHelper.PublicationCodeToNameMappings).Select(x => x)
                     .ToDictionary(x => x.Key, x => x.Value);
 
 
@@ -50,8 +38,8 @@ namespace AudioLinkHarvester
             var languageCodeToEditionsMapping = new ConcurrentDictionary<string, List<string>>();
 
             //////Bible
-            bibleTasks.Add(JwBibleHarvester.Harvest_Bible_Links(jwBiblePublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
-            bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(bgBiblePublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
+            bibleTasks.Add(JwBibleHarvester.Harvest_Bible_Links(JwSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
+            bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(BgSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
 
             var musicTasks = new List<Task>();
 

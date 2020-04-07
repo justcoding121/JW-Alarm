@@ -40,7 +40,8 @@
                   container.Resolve<IMediaCacheService>(),
                   container.Resolve<IStorageService>(),
                   container.Resolve<INetworkStatusService>(),
-                  container.Resolve<INotificationService>()));
+                  container.Resolve<INotificationService>(),
+                  container.Resolve<IDownloadService>()));
         }
 
     }
