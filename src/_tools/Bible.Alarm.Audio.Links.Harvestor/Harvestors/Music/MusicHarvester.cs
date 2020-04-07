@@ -2,6 +2,7 @@
 using AudioLinkHarvester.Models.Music;
 using AudioLinkHarvester.Utility;
 using AudioLinkHarvestor.Utility;
+using Bible.Alarm.Common.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace AudioLinkHarvester.Audio
 
             foreach (var publication in vocalsPublicationCodeToNameMappings)
             {
-                var harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?booknum=0&output=json&pub={publication.Key}&fileformat=MP3&alllangs=1&langwritten=E&txtCMSLang=E";
+                var harvestLink = $"{UrlHelper.JwOrgIndexServiceBaseUrl}?booknum=0&output=json&pub={publication.Key}&fileformat=MP3&alllangs=1&langwritten=E&txtCMSLang=E";
 
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
                 var model = JsonConvert.DeserializeObject<dynamic>(jsonString);
@@ -142,7 +143,7 @@ namespace AudioLinkHarvester.Audio
 
             foreach (var publicationDownloadCode in publicationDownloadCodes)
             {
-                var harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?output=json&pub={publicationDownloadCode}&fileformat=MP3&alllangs=0{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}&txtCMSLang=E";
+                var harvestLink = $"{UrlHelper.JwOrgIndexServiceBaseUrl}?output=json&pub={publicationDownloadCode}&fileformat=MP3&alllangs=0{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}&txtCMSLang=E";
 
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
 
