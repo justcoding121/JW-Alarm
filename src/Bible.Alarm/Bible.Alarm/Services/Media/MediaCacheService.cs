@@ -1,4 +1,6 @@
-﻿using Bible.Alarm.Contracts.Network;
+﻿using Bible.Alarm.Common.Helpers;
+using Bible.Alarm.Contracts.Network;
+using Bible.Alarm.Models.Enums;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
 using Microsoft.EntityFrameworkCore;
@@ -108,7 +110,7 @@ namespace Bible.Alarm.Services
 
                                 if (playDetail.PlayType == Models.PlayType.Bible)
                                 {
-                                    url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.LookUpPath);
+                                    url = await getBibleChapterUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.LookUpPath);
                                     if (url != null && url != playItem.Url)
                                     {
                                         await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
@@ -177,17 +179,30 @@ namespace Bible.Alarm.Services
 
         }
 
-        private static string[] urls = new string[] { "https://api.hag27.com/GETPUBMEDIALINKS",
+        private static string[] jwOrgUrls = new string[] { UrlHelper.JwOrgIndexServiceBaseUrl,
                                                       "https://apps.jw.org/GETPUBMEDIALINKS"};
 
-        private async Task<string> getBibleChapterUrl(string languageCode, string lookUpPath)
+        private static string bibleGateWayUrl = UrlHelper.BibleGatewayIndexServiceBaseUrl;
+        private async Task<string> getBibleChapterUrl(string languageCode, string pubCode, string lookUpPath)
         {
             try
             {
-                var harvestLink1 = $"{urls[0]}{lookUpPath}";
-                var harvestLink2 = $"{urls[1]}{lookUpPath}";
+                var sourceWebsite = SourceHelper.GetSourceWebsite(pubCode);
 
-                var @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
+                byte[] @bytes;
+
+                if (sourceWebsite == SourceWebsite.JwOrg)
+                {
+                    var harvestLink1 = $"{jwOrgUrls[0]}{lookUpPath}";
+                    var harvestLink2 = $"{jwOrgUrls[1]}{lookUpPath}";
+                    @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
+                }
+                else
+                {
+                    var harvestLink = $"{bibleGateWayUrl}{lookUpPath}";
+                    @bytes = await downloadService.DownloadAsync(harvestLink);
+                }
+               
                 string jsonString = Encoding.Default.GetString(@bytes);
                 dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
@@ -203,8 +218,8 @@ namespace Bible.Alarm.Services
         {
             try
             {
-                var harvestLink1 = $"{urls[0]}{lookUpPath}";
-                var harvestLink2 = $"{urls[1]}{lookUpPath}";
+                var harvestLink1 = $"{jwOrgUrls[0]}{lookUpPath}";
+                var harvestLink2 = $"{jwOrgUrls[1]}{lookUpPath}";
 
                 var @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
                 string jsonString = Encoding.Default.GetString(@bytes);

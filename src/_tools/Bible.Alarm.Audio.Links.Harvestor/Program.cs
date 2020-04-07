@@ -26,8 +26,8 @@ namespace AudioLinkHarvester
 
         private static Dictionary<string, string> bgBiblePublicationCodeToNameMappings =
             new Dictionary<string, string>(new KeyValuePair<string, string>[]{
-                new KeyValuePair<string, string>("kjv","King James Version"),
-                new KeyValuePair<string, string>("nivuk","New International Version")
+                new KeyValuePair<string, string>("kjv","King James Version (1987)"),
+                new KeyValuePair<string, string>("nivuk","New International Version—Anglicised (1984)")
         });
 
         private static Dictionary<string, string> biblePublicationCodeToNameMappings =

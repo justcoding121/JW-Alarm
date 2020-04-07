@@ -14,16 +14,13 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2");
+                .HasAnnotation("ProductVersion", "3.1.3");
 
             modelBuilder.Entity("Bible.Alarm.Models.AudioSource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("LookUpPath")
                         .HasColumnType("TEXT");

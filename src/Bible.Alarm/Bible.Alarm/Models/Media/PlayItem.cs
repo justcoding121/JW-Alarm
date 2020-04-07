@@ -7,12 +7,10 @@ namespace Bible.Alarm.Models
         public NotificationDetail PlayDetail { get; set; }
 
         public string Url { get; set; }
-        public TimeSpan Duration { get; set; }
 
-        public PlayItem(NotificationDetail detail, TimeSpan duration, string url)
+        public PlayItem(NotificationDetail detail, string url)
         {
             PlayDetail = detail;
-            Duration = duration;
             Url = url;
         }
 

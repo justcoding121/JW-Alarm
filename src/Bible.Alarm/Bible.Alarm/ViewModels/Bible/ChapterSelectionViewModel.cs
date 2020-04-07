@@ -264,7 +264,6 @@ namespace Bible.Alarm.ViewModels
 
         public string Title => chapter.Title;
         public string Url => chapter.Source.Url;
-        public TimeSpan Duration => chapter.Source.Duration;
 
         private bool play;
         public bool Play

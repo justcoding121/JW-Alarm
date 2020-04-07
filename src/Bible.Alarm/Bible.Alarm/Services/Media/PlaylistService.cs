@@ -120,7 +120,6 @@ namespace Bible.Alarm.Services
             var publicationCode = bibleReadingSchedule.PublicationCode;
             var languageCode = bibleReadingSchedule.LanguageCode;
             var url = chapterDetail.Source.Url;
-            var trackDuration = chapterDetail.Source.Duration;
             var lookUpPath = chapterDetail.Source.LookUpPath;
 
             bool markedSeekTrack = false;
@@ -135,7 +134,6 @@ namespace Bible.Alarm.Services
                     LookUpPath = lookUpPath,
                     BookNumber = bookNumber,
                     ChapterNumber = chapter,
-                    Duration = trackDuration,
                     IsLastTrack = numberOfChaptersToRead == 1 ? true : false
                 };
 
@@ -152,7 +150,7 @@ namespace Bible.Alarm.Services
 
                 markedSeekTrack = true;
 
-                result.Add(new PlayItem(notificationDetail, trackDuration, url));
+                result.Add(new PlayItem(notificationDetail, url));
 
                 numberOfChaptersToRead--;
 
@@ -162,7 +160,6 @@ namespace Bible.Alarm.Services
 
                 bookNumber = next.Key.Number;
                 chapter = next.Value.Number;
-                trackDuration = next.Value.Source.Duration;
                 url = next.Value.Source.Url;
                 lookUpPath = next.Value.Source.LookUpPath;
             }
@@ -211,9 +208,8 @@ namespace Bible.Alarm.Services
                         ScheduleId = schedule.Id,
                         PublicationCode = melodyMusic.PublicationCode,
                         TrackNumber = melodyTrack.Number,
-                        Duration = melodyTrack.Source.Duration,
                         LookUpPath = melodyTrack.Source.LookUpPath
-                    }, melodyTrack.Source.Duration, melodyTrack.Source.Url);
+                    }, melodyTrack.Source.Url);
 
                 case MusicType.Vocals:
                     var vocalMusic = schedule.Music;
@@ -225,9 +221,8 @@ namespace Bible.Alarm.Services
                         PublicationCode = vocalMusic.PublicationCode,
                         LanguageCode = vocalMusic.LanguageCode,
                         TrackNumber = vocalTrack.Number,
-                        Duration = vocalTrack.Source.Duration,
                         LookUpPath = vocalTrack.Source.LookUpPath
-                    }, vocalTrack.Source.Duration, vocalTrack.Source.Url);
+                    }, vocalTrack.Source.Url);
 
                 default:
                     throw new ApplicationException("Invalid MusicType.");

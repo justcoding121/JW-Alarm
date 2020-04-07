@@ -7,7 +7,6 @@ namespace AudioLinkHarvester.Models.Bible
     {
         public int Number { get; set; }
         public string Url { get; set; }
-        public TimeSpan Duration { get; set; }
 
         [JsonIgnore]
         public string Title => $"Chapter {Number}";

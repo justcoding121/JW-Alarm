@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bible.Alarm.Models.Enums;
+using System;
 
 namespace Bible.Alarm.Models
 {
@@ -6,7 +7,6 @@ namespace Bible.Alarm.Models
     {
         public int Id { get; set; }
 
-        public TimeSpan Duration { get; set; }
         public string Url { get; set; }
 
         public string LookUpPath { get; set; }

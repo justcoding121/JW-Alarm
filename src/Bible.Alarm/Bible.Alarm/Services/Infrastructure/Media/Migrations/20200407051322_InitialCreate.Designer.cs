@@ -9,23 +9,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
 {
     [DbContext(typeof(MediaDbContext))]
-    [Migration("20200316013026_Add_Missing_DbContext_Tables")]
-    partial class Add_Missing_DbContext_Tables
+    [Migration("20200407051322_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2");
+                .HasAnnotation("ProductVersion", "3.1.3");
 
             modelBuilder.Entity("Bible.Alarm.Models.AudioSource", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("LookUpPath")
                         .HasColumnType("TEXT");

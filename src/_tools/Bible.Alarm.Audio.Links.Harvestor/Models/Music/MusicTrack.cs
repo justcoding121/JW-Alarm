@@ -7,7 +7,6 @@ namespace AudioLinkHarvester.Models.Music
         public int Number { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
-        public TimeSpan Duration { get; set; }
 
         public string LookUpPath { get; set; }
 

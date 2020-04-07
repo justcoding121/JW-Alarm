@@ -304,7 +304,6 @@ namespace Bible.Alarm.ViewModels
 
         public string Title => track.Title;
         public string Url => track.Source.Url;
-        public TimeSpan Duration => track.Source.Duration;
 
         private bool play;
         public bool Play

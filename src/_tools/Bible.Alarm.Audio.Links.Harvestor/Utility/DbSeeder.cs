@@ -1,5 +1,8 @@
-﻿using Bible.Alarm.Audio.Links.Harvestor.Utility;
+﻿using AudioLinkHarvester.Bible;
+using Bible.Alarm.Audio.Links.Harvestor.Utility;
+using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Models;
+using Bible.Alarm.Models.Enums;
 using Bible.Alarm.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -92,16 +95,29 @@ namespace Bible.Alarm.Audio.Links.Harvestor
 
                         foreach (var chapter in chapters)
                         {
+                            string lookUpPath;
+
+                            if (SourceHelper.GetSourceWebsite(bibleTranslation.Code) == SourceWebsite.JwOrg)
+                            {
+                                lookUpPath = $"?output=json&pub={bibleTranslation.Code}" +
+                                                 $"&fileformat=MP3&langwritten={bibleTranslation.Language.Code}" +
+                                                 $"&txtCMSLang=E&booknum={newBook.Number}&track={chapter.Value.Number}";
+                            }
+                            else
+                            {
+                                var bookKey = BgSourceHelper.BooksKeyMap[book.Value.Number];
+                                var author = BgSourceHelper.AuthorsKeyMap[bibleTranslation.Code];
+
+                                lookUpPath = $"?osis={bookKey}.{chapter}&version={bibleTranslation.Code}&author={author}";
+                            }
+
                             var newChapter = new BibleChapter()
                             {
                                 Number = chapter.Value.Number,
                                 Source = new AudioSource()
                                 {
                                     Url = chapter.Value.Url,
-                                    Duration = chapter.Value.Duration,
-                                    LookUpPath = $"?output=json&pub={bibleTranslation.Code}" +
-                                                 $"&fileformat=MP3&langwritten={bibleTranslation.Language.Code}" +
-                                                 $"&txtCMSLang=E&booknum={newBook.Number}&track={chapter.Value.Number}"
+                                    LookUpPath = lookUpPath
                                 }
                             };
 
@@ -143,7 +159,6 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                         Source = new AudioSource()
                         {
                             Url = track.Value.Url,
-                            Duration = track.Value.Duration,
                             LookUpPath = track.Value.LookUpPath
                         }
                     };
@@ -202,7 +217,6 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                             Source = new AudioSource()
                             {
                                 Url = track.Value.Url,
-                                Duration = track.Value.Duration,
                                 LookUpPath = track.Value.LookUpPath
                             }
                         };

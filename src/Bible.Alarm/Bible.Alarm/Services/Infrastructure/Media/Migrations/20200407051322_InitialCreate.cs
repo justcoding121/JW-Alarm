@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
 {
@@ -13,7 +12,6 @@ namespace Bible.Alarm.Services.Infrastructure.Media.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Duration = table.Column<TimeSpan>(nullable: false),
                     Url = table.Column<string>(nullable: true),
                     LookUpPath = table.Column<string>(nullable: true)
                 },
