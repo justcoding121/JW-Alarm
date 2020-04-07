@@ -1,18 +1,40 @@
 ﻿using AudioLinkHarvester.Audio;
 using AudioLinkHarvester.Bible;
+using AudioLinkHarvester.Models;
 using AudioLinkHarvestor.Utility;
 using Bible.Alarm.Audio.Links.Harvestor;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AudioLinkHarvester
 {
     public class Program
     {
+
+        private static Dictionary<string, string> jwBiblePublicationCodeToNameMappings =
+            new Dictionary<string, string>(new KeyValuePair<string, string>[]{
+                new KeyValuePair<string, string>("nwt","New World Translation (2013)"),
+                new KeyValuePair<string, string>("bi12","New World Translation (1984)"),
+        });
+
+
+        private static Dictionary<string, string> bgBiblePublicationCodeToNameMappings =
+            new Dictionary<string, string>(new KeyValuePair<string, string>[]{
+                new KeyValuePair<string, string>("kjv","King James Version"),
+                new KeyValuePair<string, string>("nivuk","New International Version")
+        });
+
+        private static Dictionary<string, string> biblePublicationCodeToNameMappings =
+            jwBiblePublicationCodeToNameMappings.Select(x => x)
+                .Concat(bgBiblePublicationCodeToNameMappings).Select(x => x)
+                    .ToDictionary(x => x.Key, x => x.Value);
+
 
         /// <summary>
         /// Harvest URL links to get the mp3 files liks for Bible & Music 
@@ -22,16 +44,24 @@ namespace AudioLinkHarvester
         {
             deleteDirectory(DirectoryHelper.IndexDirectory);
 
-            var tasks = new List<Task>();
+            var bibleTasks = new List<Task>();
+
+            var languageCodeToNameMappings = new ConcurrentDictionary<string, string>();
+            var languageCodeToEditionsMapping = new ConcurrentDictionary<string, List<string>>();
 
             //////Bible
-            tasks.Add(BibleHarvester.Harvest_Bible_Links());
+            bibleTasks.Add(JwBibleHarvester.Harvest_Bible_Links(jwBiblePublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
+            bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(bgBiblePublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
 
-            //////Music
-            tasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
-            tasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
+            var musicTasks = new List<Task>();
 
-            Task.WaitAll(tasks.ToArray());
+            ////////Music
+            musicTasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
+            musicTasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
+
+            Task.WhenAll(bibleTasks.Concat(musicTasks).ToArray()).Wait();
+
+            writeBibleIndex(languageCodeToNameMappings, languageCodeToEditionsMapping);
 
             var index = new
             {
@@ -50,6 +80,42 @@ namespace AudioLinkHarvester
 
             zipFiles();
         }
+
+        private static void writeBibleIndex(ConcurrentDictionary<string, string> languageCodeToNameMappings, 
+                ConcurrentDictionary<string, List<string>> languageCodeToEditionsMapping)
+        {
+            if (!Directory.Exists($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible"))
+            {
+                Directory.CreateDirectory($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible");
+            }
+
+            File.WriteAllText($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/languages.json", JsonConvert.SerializeObject(
+                languageCodeToEditionsMapping.Select(x =>
+                new Language
+                {
+                    Code = x.Key,
+                    Name = languageCodeToNameMappings[x.Key]
+
+                }).OrderBy(x => x.Code).ToList()));
+
+            foreach (var languageEditionsMap in languageCodeToEditionsMapping)
+            {
+                if (!Directory.Exists($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/{languageEditionsMap.Key}"))
+                {
+                    Directory.CreateDirectory($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/{languageEditionsMap.Key}");
+                }
+
+                File.WriteAllText($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/{languageEditionsMap.Key}/publications.json", JsonConvert.SerializeObject(
+                languageEditionsMap.Value.Select(x =>
+                new Publication
+                {
+                    Code = x,
+                    Name = biblePublicationCodeToNameMappings[x]
+                }).OrderBy(x => x.Code)));
+            }
+
+        }
+
 
         private static void zipFiles()
         {

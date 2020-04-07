@@ -2,6 +2,7 @@
 {
     public class UrlHelper
     {
-        public static string IndexServiceBaseUrl = "https://api.hag27.com/GETPUBMEDIALINKS";
+        public static string JwIndexServiceBaseUrl = "https://api.hag27.com/GETPUBMEDIALINKS";
+        public static string BgIndexServiceBaseUrl = "https://www.biblegateway.com/audio/bible_data";
     }
 }

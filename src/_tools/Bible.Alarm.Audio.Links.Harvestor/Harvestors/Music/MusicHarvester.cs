@@ -26,7 +26,7 @@ namespace AudioLinkHarvester.Audio
 
             foreach (var publication in vocalsPublicationCodeToNameMappings)
             {
-                var harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?booknum=0&output=json&pub={publication.Key}&fileformat=MP3&alllangs=1&langwritten=E&txtCMSLang=E";
+                var harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?booknum=0&output=json&pub={publication.Key}&fileformat=MP3&alllangs=1&langwritten=E&txtCMSLang=E";
 
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
                 var model = JsonConvert.DeserializeObject<dynamic>(jsonString);
@@ -142,7 +142,7 @@ namespace AudioLinkHarvester.Audio
 
             foreach (var publicationDownloadCode in publicationDownloadCodes)
             {
-                var harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?output=json&pub={publicationDownloadCode}&fileformat=MP3&alllangs=0{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}&txtCMSLang=E";
+                var harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?output=json&pub={publicationDownloadCode}&fileformat=MP3&alllangs=0{(languageCode == null ? $"&langwritten=E" : $"&langwritten={languageCode}")}&txtCMSLang=E";
 
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
 

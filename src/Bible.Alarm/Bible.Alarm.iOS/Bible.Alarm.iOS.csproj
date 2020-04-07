@@ -31,8 +31,9 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>Bible Alarm Push Development Profile</CodesignProvision>
-    <CodesignKey>iPhone Developer: Jehonathan Thomas (3J6S84282U)</CodesignKey>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchSdkVersion>
     </MtouchSdkVersion>
     <MtouchFloat32>false</MtouchFloat32>
@@ -69,7 +70,8 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>Bible Alarm Push Development Profile</CodesignProvision>
+    <CodesignProvision>
+    </CodesignProvision>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>
     </MtouchInterpreter>

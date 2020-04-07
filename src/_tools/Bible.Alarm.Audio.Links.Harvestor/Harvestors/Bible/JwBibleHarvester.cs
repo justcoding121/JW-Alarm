@@ -4,6 +4,7 @@ using AudioLinkHarvester.Utility;
 using AudioLinkHarvestor.Utility;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,25 +12,21 @@ using System.Threading.Tasks;
 
 namespace AudioLinkHarvester.Bible
 {
-    internal class BibleHarvester
+    internal class JwBibleHarvester
     {
-        private static Dictionary<string, string> biblePublicationCodeToNameMappings = new Dictionary<string, string>(new KeyValuePair<string, string>[]{
-            new KeyValuePair<string, string>("nwt","New World Translation (2013)"),
-            new KeyValuePair<string, string>("bi12","New World Translation (1984)")
-        });
 
-        internal async static Task Harvest_Bible_Links()
+
+        internal async static
+            Task Harvest_Bible_Links(Dictionary<string, string> biblePublicationCodeToNameMappings,
+                                    ConcurrentDictionary<string, string> languageCodeToNameMappings,
+                                    ConcurrentDictionary<string, List<string>> languageCodeToEditionsMapping)
         {
-            var tasks = new List<Task>();
-
-            var languageCodeToEditionsMapping = new Dictionary<string, List<string>>();
-            var languageCodeToNameMappings = new Dictionary<string, string>();
 
             foreach (var publication in biblePublicationCodeToNameMappings)
             {
                 var publicationCode = publication.Key;
 
-                var harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?booknum=0&output=json&pub={publicationCode}&fileformat=MP3&alllangs=1&langwritten=E&txtCMSLang=E";
+                var harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?booknum=0&output=json&pub={publicationCode}&fileformat=MP3&alllangs=1&langwritten=E&txtCMSLang=E";
 
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
                 var model = JsonConvert.DeserializeObject<dynamic>(jsonString);
@@ -39,50 +36,17 @@ namespace AudioLinkHarvester.Bible
                     var languageCode = item.Name;
                     var language = model["languages"][item.Name]["name"].Value;
 
-                    languageCodeToNameMappings[languageCode] = language;
+                    languageCodeToNameMappings.TryAdd(languageCode, language);
 
                     Console.WriteLine($"Harvesting Bible chapter links for {publication.Value} of {language} language.");
-                    await BibleHarvester.harvestBibleLinks(languageCode, publicationCode);
+                    await harvestBibleLinks(languageCode, publicationCode);
 
-                    if (languageCodeToEditionsMapping.ContainsKey(languageCode))
+                    if (!languageCodeToEditionsMapping.TryAdd(languageCode, new List<string>(new[] { publication.Key })))
                     {
                         languageCodeToEditionsMapping[languageCode].Add(publication.Key);
                     }
-                    else
-                    {
-                        languageCodeToEditionsMapping[languageCode] = new List<string>(new[] { publication.Key });
-                    }
+
                 }
-            }
-
-            if (!Directory.Exists($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible"))
-            {
-                Directory.CreateDirectory($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible");
-            }
-
-            File.WriteAllText($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/languages.json", JsonConvert.SerializeObject(
-                languageCodeToEditionsMapping.Select(x =>
-                new Language
-                {
-                    Code = x.Key,
-                    Name = languageCodeToNameMappings[x.Key]
-
-                }).OrderBy(x => x.Code).ToList()));
-
-            foreach (var languageEditionsMap in languageCodeToEditionsMapping)
-            {
-                if (!Directory.Exists($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/{languageEditionsMap.Key}"))
-                {
-                    Directory.CreateDirectory($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/{languageEditionsMap.Key}");
-                }
-
-                File.WriteAllText($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible/{languageEditionsMap.Key}/publications.json", JsonConvert.SerializeObject(
-                languageEditionsMap.Value.Select(x =>
-                new Publication
-                {
-                    Code = x,
-                    Name = biblePublicationCodeToNameMappings[x]
-                }).OrderBy(x => x.Code)));
             }
 
         }
@@ -97,7 +61,7 @@ namespace AudioLinkHarvester.Bible
 
             var bookNumber = 1;
 
-            var harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?output=json&pub={publicationCode}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
+            var harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?output=json&pub={publicationCode}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
 
             while (bookNumber <= 66)
             {
@@ -112,7 +76,7 @@ namespace AudioLinkHarvester.Bible
                 catch (JsonReaderException)
                 {
                     bookNumber++;
-                    harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
+                    harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
 
                     continue;
                 }
@@ -162,7 +126,7 @@ namespace AudioLinkHarvester.Bible
                     bookNumber++;
                 }
 
-                harvestLink = $"{UrlHelper.IndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
+                harvestLink = $"{UrlHelper.JwIndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
             }
 
             if (bookNumberBookMap.Count > 0)
