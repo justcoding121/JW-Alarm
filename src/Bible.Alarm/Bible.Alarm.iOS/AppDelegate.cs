@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UIKit;
 using UserNotifications;
 
@@ -79,12 +80,8 @@ namespace Bible.Alarm.iOS
                 LoadApplication(new App(container));
 
 
-                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
-                                   UIUserNotificationType.None,
-                                   new NSSet());
-
-                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
                 UIApplication.SharedApplication.RegisterForRemoteNotifications();
+                UNUserNotificationCenter.Current.Delegate = this;
 
             }
             catch (Exception e)
@@ -147,27 +144,35 @@ namespace Bible.Alarm.iOS
             logger.Error($"Error registering push notifications. Description: {error.LocalizedDescription}");
         }
 
-        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        public async override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
             base.ReceivedRemoteNotification(application, userInfo);
 
-            handleNotification(userInfo);
+            await handleNotification(userInfo);
         }
+
+        [Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
-            handleNotification(userInfo);
-
-            completionHandler(UIBackgroundFetchResult.NewData);
+            var schuler = TaskScheduler.FromCurrentSynchronizationContext();
+            handleNotification(userInfo).ContinueWith((x) =>
+            {
+              completionHandler(UIBackgroundFetchResult.NewData);
+            }, schuler);
         }
 
-        private void handleNotification(NSDictionary userInfo)
+        private async Task handleNotification(NSDictionary userInfo)
         {
             try
             {
                 //cancel local notifications here
                 var notificationId = getNotificationId(userInfo);
-                var handler = container.Resolve<iOSAlarmHandler>();
-                var task = handler.HandleNotification(notificationId);
+
+                if (notificationId >= 0)
+                {
+                    var handler = container.Resolve<iOSAlarmHandler>();
+                    await handler.HandleNotification(notificationId);
+                }
             }
             catch (Exception e)
             {
@@ -177,27 +182,19 @@ namespace Bible.Alarm.iOS
 
         private long getNotificationId(NSDictionary userInfo)
         {
-            if (null != userInfo && userInfo.ContainsKey(new NSString("aps")))
+            if (null != userInfo && userInfo.ContainsKey(new NSString("notificationId")))
             {
-                NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+                var s = userInfo.ValueForKey(new NSString("notificationId"));
+                var notificationId = (s as NSNumber).ToString();
 
-                if (aps.ContainsKey(new NSString("alert")))
+                if (!string.IsNullOrEmpty(notificationId))
                 {
-                    var alert = (aps.ObjectForKey(new NSString("alert")) as NSString).ToString();
-
-                    var unescaped = Regex.Unescape(alert);
-                    dynamic json = JsonConvert.DeserializeObject(unescaped);
-
-                    string notificationId = json["notificationId"];
-
-                    if (!string.IsNullOrEmpty(notificationId))
-                    {
-                        return long.Parse(notificationId);
-                    }
+                    return long.Parse(notificationId);
                 }
+
             }
 
-            throw new ArgumentException("Failed to parse alarmId");
+            return -1;
         }
     }
 }

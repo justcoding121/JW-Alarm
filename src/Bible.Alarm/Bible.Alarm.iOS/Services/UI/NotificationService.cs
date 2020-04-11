@@ -111,7 +111,7 @@ namespace Bible.Alarm.Services.iOS
                 {
                     var deviceId = NSUserDefaults.StandardUserDefaults.StringForKey("DeviceId");
                     var deviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
-
+                    
                     //Send to server
                     var result = await PnsService.RemoveAlarm(deviceId, deviceToken, notification.Id);
 
