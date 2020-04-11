@@ -179,20 +179,6 @@ namespace Bible.Alarm.iOS
             logger.Error($"Error registering push notifications. Description: {error.LocalizedDescription}");
         }
 
-        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
-        {
-            try
-            {
-                var notificationId = getNotificationId(userInfo);
-                var handler = container.Resolve<iOSAlarmHandler>();
-                var task = handler.HandleNotification(notificationId);
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Failed to handle remote notification while on backgroundd.");
-            }
-        }
-
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             try
