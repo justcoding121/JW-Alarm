@@ -125,9 +125,11 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\PnsService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Helpers\BootstrapHelper.cs" />
+    <Compile Include="Models\CancelAlarmRequest.cs" />
     <Compile Include="Models\RegisterDeviceRequest.cs" />
     <Compile Include="Models\ScheduleAlarmRequest.cs" />
     <Compile Include="Services\Handlers\iOSAlarmHandler.cs" />

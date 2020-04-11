@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.Common.Helpers;
+using Bible.Alarm.iOS.Helpers;
 using Bible.Alarm.iOS.Models;
 using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.iOS.Services.Platform;
@@ -115,10 +116,10 @@ namespace Bible.Alarm.iOS
                 }
 
                 // Get current device token
-                var DeviceToken = deviceToken.Description;
-                if (!string.IsNullOrWhiteSpace(DeviceToken))
+                var currentDeviceToken = deviceToken.Description;
+                if (!string.IsNullOrWhiteSpace(currentDeviceToken))
                 {
-                    DeviceToken = DeviceToken.Trim('<').Trim('>');
+                    currentDeviceToken = currentDeviceToken.Trim('<').Trim('>');
                 }
 
 #if DEBUG
@@ -128,49 +129,22 @@ namespace Bible.Alarm.iOS
                 var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
 
                 // Has the token changed?
-                if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
+                if (string.IsNullOrEmpty(oldDeviceToken) 
+                    || !oldDeviceToken.Equals(currentDeviceToken))
                 {
-                    var request = new DeviceRequest()
+                    var result = await PnsService.RegisterDevice(deviceId, currentDeviceToken);
+
+                    if (result.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        DeviceId = deviceId,
-                        DeviceToken = DeviceToken
-                    };
-
-                    try
-                    {
-#if DEBUG
-                        var url = "http://192.168.1.64:5010/api/v1/RegisterDevice";
-#else
-                    var url = "https://production-push.jthomas.info/api/v1/RegisterDevice";
-#endif
-
-                        var result = await RetryHelper.Retry(async () =>
-                        {
-                            using var client = new HttpClient();
-                            var payload = JsonConvert.SerializeObject(request);
-                            HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
-                            return await client.PostAsync(url, content);
-
-                        }, 3, true);
-
-                        
-                        if(result.StatusCode == System.Net.HttpStatusCode.OK)
-                        {
-                            // Save new device token
-                            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
-                        }
-
+                        // Save new device token
+                        NSUserDefaults.StandardUserDefaults.SetString(currentDeviceToken, "PushDeviceToken");
                     }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "Error happenned when updating ios device token.");
-                    }
+
                 }
             }
             catch (Exception e)
             {
                 logger.Error(e, "Error happenned inside RegisteredForRemoteNotifications.");
-                throw;
             }
         }
 
@@ -183,6 +157,7 @@ namespace Bible.Alarm.iOS
         {
             try
             {
+                //cancel local notifications here
                 var notificationId = getNotificationId(userInfo);
                 var handler = container.Resolve<iOSAlarmHandler>();
                 var task = handler.HandleNotification(notificationId);
