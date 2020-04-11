@@ -78,20 +78,14 @@ namespace Bible.Alarm.iOS
                 global::Xamarin.Forms.Forms.Init();
                 LoadApplication(new App(container));
 
-                if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
-                {
-                    var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
-                                       UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
-                                       new NSSet());
 
-                    UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
-                    UIApplication.SharedApplication.RegisterForRemoteNotifications();
-                }
-                else
-                {
-                    UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
-                    UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
-                }
+                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                                   UIUserNotificationType.None,
+                                   new NSSet());
+
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
             }
             catch (Exception e)
             {
@@ -129,7 +123,7 @@ namespace Bible.Alarm.iOS
                 var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
 
                 // Has the token changed?
-                if (string.IsNullOrEmpty(oldDeviceToken) 
+                if (string.IsNullOrEmpty(oldDeviceToken)
                     || !oldDeviceToken.Equals(currentDeviceToken))
                 {
                     var result = await PnsService.RegisterDevice(deviceId, currentDeviceToken);
@@ -153,7 +147,20 @@ namespace Bible.Alarm.iOS
             logger.Error($"Error registering push notifications. Description: {error.LocalizedDescription}");
         }
 
+        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+            base.ReceivedRemoteNotification(application, userInfo);
+
+            handleNotification(userInfo);
+        }
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+            handleNotification(userInfo);
+
+            completionHandler(UIBackgroundFetchResult.NewData);
+        }
+
+        private void handleNotification(NSDictionary userInfo)
         {
             try
             {
@@ -166,8 +173,6 @@ namespace Bible.Alarm.iOS
             {
                 logger.Error(e, "Failed to handle remote notification while on foreground.");
             }
-
-            completionHandler(UIBackgroundFetchResult.NewData);
         }
 
         private long getNotificationId(NSDictionary userInfo)
