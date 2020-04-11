@@ -120,6 +120,11 @@ namespace Bible.Alarm.ViewModels
                     await navigationService.GoBack();
                 }
 
+                if (IsEnabled)
+                {
+                    await popUpService.ShowScheduledNotification(Model);
+                }
+
                 IsBusy = false;
             });
 
@@ -501,11 +506,6 @@ namespace Bible.Alarm.ViewModels
                 scheduleListItem.RefreshChapterName(true);
 
                 ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
-            }
-
-            if (IsEnabled)
-            {
-                await popUpService.ShowScheduledNotification(model);
             }
 
             return true;
