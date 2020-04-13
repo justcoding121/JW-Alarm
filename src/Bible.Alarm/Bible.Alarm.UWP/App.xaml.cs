@@ -1,7 +1,8 @@
 ﻿using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Services.Uwp.Helpers;
+using Bible.Alarm.Uwp;
 using Bible.Alarm.Uwp.Services.Platform;
-using MediaManager;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -12,8 +13,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Bible.Alarm.Uwp;
-using Bible.Alarm.Services.Uwp.Helpers;
 
 namespace Bible.Alarm.UWP
 {
@@ -125,7 +124,7 @@ namespace Bible.Alarm.UWP
 
             var deferral = args.TaskInstance.GetDeferral();
 
-  
+
             switch (args.TaskInstance.Task.Name)
             {
 

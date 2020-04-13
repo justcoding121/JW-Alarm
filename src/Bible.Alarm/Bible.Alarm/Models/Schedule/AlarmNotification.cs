@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.Models.Schedule
 {
     [Serializable]
-    public class AlarmNotification 
+    public class AlarmNotification
     {
         public long Id { get; set; }
 

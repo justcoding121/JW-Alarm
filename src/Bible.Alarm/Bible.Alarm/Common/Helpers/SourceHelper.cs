@@ -1,7 +1,4 @@
 ﻿using Bible.Alarm.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.Common.Helpers
 {

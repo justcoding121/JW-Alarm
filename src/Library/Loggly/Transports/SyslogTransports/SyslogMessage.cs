@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics;
 using System.Text;
-using Loggly.Config;
 
 namespace Loggly.Transports.Syslog
 {
@@ -65,7 +63,7 @@ namespace Loggly.Transports.Syslog
         public IEnvironmentProvider EnvironmentProvider { get; set; }
 
         #endregion
-        
+
         #region Ctor
 
         public SyslogMessage()
@@ -86,7 +84,7 @@ namespace Loggly.Transports.Syslog
 
         internal string GetMessageAsString()
         {
-            int priority = (((int) Facility)*8) + ((int) Level);
+            int priority = (((int)Facility) * 8) + ((int)Level);
 
             var msg = String.Format(
                 "<{0}>1 {1} {2} {3} {4} {5} {6}\n"

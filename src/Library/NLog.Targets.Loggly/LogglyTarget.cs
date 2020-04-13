@@ -15,16 +15,16 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Loggly;
 using Loggly.Config;
 using Loggly.Transports.Syslog;
 using NLog.Common;
 using NLog.Config;
 using NLog.Layouts;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NLog.Targets
 {

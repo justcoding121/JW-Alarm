@@ -4,7 +4,7 @@ namespace Loggly
 {
     public interface IMessageData
     {
-        List<string> KeyList { get;  }
+        List<string> KeyList { get; }
 
         object this[string key]
         {

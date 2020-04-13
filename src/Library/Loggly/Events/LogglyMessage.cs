@@ -1,9 +1,6 @@
+using Loggly.Config;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using Loggly.Config;
-using Loggly.Responses;
-using Loggly.Transports.Syslog;
 
 namespace Loggly
 {
@@ -36,6 +33,6 @@ namespace Loggly
     public enum HttpRequestType
     {
         Get
-        ,Post
+        , Post
     }
 }

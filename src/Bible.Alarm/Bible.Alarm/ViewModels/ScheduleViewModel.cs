@@ -1,6 +1,5 @@
 ﻿
 using Bible.Alarm.Common.Extensions;
-using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;

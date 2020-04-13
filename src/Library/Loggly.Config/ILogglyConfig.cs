@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Loggly.Config
 {
@@ -17,7 +16,7 @@ namespace Loggly.Config
         string EndpointHostname { get; set; }
         int EndpointPort { get; set; }
         LogTransport LogTransport { get; set; }
-		bool IsOmitTimestamp { get; set; }
+        bool IsOmitTimestamp { get; set; }
         string ForwardedForIp { get; set; }
     }
 
@@ -36,12 +35,12 @@ namespace Loggly.Config
 
         bool IsEnabled { get; set; }
 
-        bool IsValid { get;  }
-        
-        ITagConfiguration TagConfig { get;  }
-        
+        bool IsValid { get; }
+
+        ITagConfiguration TagConfig { get; }
+
         ISearchConfiguration Search { get; }
-        
+
         ITransportConfiguration Transport { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 using Bible.Alarm.Models.Schedule;
 using Quartz;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

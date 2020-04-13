@@ -1,6 +1,6 @@
-using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Loggly.Responses
 {

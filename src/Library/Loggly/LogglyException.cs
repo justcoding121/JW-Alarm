@@ -1,12 +1,12 @@
+using Loggly.Config;
 using System;
 using System.Diagnostics;
-using Loggly.Config;
 
 namespace Loggly
 {
-   public class LogglyException : Exception
-   {
-       #region Constructors
+    public class LogglyException : Exception
+    {
+        #region Constructors
         /// <summary>
         /// Use the static constructors
         /// </summary>
@@ -43,8 +43,8 @@ namespace Loggly
             Throw(exception);
         }
 
-       private static void Throw(LogglyException exception)
-       {
+        private static void Throw(LogglyException exception)
+        {
             if (LogglyConfig.Instance.ThrowExceptions)
             {
                 throw exception;
@@ -53,7 +53,7 @@ namespace Loggly
             {
                 Debug.WriteLine(exception);
             }
-       }
-        #endregion  
-   }
+        }
+        #endregion
+    }
 }

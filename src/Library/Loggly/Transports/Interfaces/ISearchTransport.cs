@@ -1,4 +1,3 @@
-using Loggly.Config;
 using Loggly.Responses;
 using System.Threading.Tasks;
 

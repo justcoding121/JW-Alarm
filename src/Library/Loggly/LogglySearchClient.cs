@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Loggly.Config;
+﻿using Loggly.Config;
 using Loggly.Responses;
+using System;
+using System.Threading.Tasks;
 
 namespace Loggly
 {
@@ -33,7 +31,7 @@ namespace Loggly
 
         public Task<SearchResponse> Search(string query, DateTime start, DateTime until, int size)
         {
-            return Search(new SearchQuery { Query = query, From = start, Until = until, Size = size});
+            return Search(new SearchQuery { Query = query, From = start, Until = until, Size = size });
         }
 
         public Task<SearchResponse> Search(SearchQuery query)

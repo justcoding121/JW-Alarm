@@ -1,5 +1,5 @@
-using System;
 using Loggly.Config;
+using System;
 
 namespace Loggly
 {

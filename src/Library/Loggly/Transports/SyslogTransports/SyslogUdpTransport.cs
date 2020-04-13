@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Loggly.Config;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Loggly.Config;
 
 namespace Loggly.Transports.Syslog
 {

@@ -1,3 +1,7 @@
+using Loggly.Config;
+using Loggly.Responses;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -5,10 +9,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Loggly.Config;
-using Loggly.Responses;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Loggly
 {
@@ -20,7 +20,7 @@ namespace Loggly
         public SearchTransport(ISearchConfiguration config)
         {
             _config = config;
-            _httpClient=new HttpClient();
+            _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                     "Basic",
                     Convert.ToBase64String(
@@ -57,7 +57,7 @@ namespace Loggly
             try
             {
                 var searchPathAndQuery = GetUrl(endPoint, parameters);
-                
+
                 using (var response = await _httpClient.GetAsync(searchPathAndQuery).ConfigureAwait(false))
                 {
                     var isFieldResponseResultExpected = typeof(T) == typeof(FieldResponse);

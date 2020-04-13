@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Loggly.Config;
+using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
-using Loggly.Config;
 
 namespace Loggly.Transports.Syslog
 {
@@ -23,12 +23,12 @@ namespace Loggly.Transports.Syslog
         {
             return Task.FromResult<Stream>(client.GetStream());
         }
-        
+
 
         protected override async Task Send(SyslogMessage syslogMessage)
         {
             await _semaphore.WaitAsync();
-            
+
             try
             {
                 if (_networkStream == null)
@@ -39,7 +39,7 @@ namespace Loggly.Transports.Syslog
                 }
 
                 byte[] messageBytes = syslogMessage.GetBytes();
-                
+
                 await _networkStream.WriteAsync(messageBytes, 0, messageBytes.Length).ConfigureAwait(false);
                 await _networkStream.FlushAsync().ConfigureAwait(false);
             }

@@ -40,7 +40,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             await @lock.WaitAsync();
 
             try
-            {          
+            {
                 container = BootstrapHelper.InitializeService(context);
 
                 this.context = context;
@@ -102,7 +102,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (e == MediaPlayerState.Stopped)
                 {
                     context.StopService(intent);
-                    Dispose();         
+                    Dispose();
                 }
             }
             catch (Exception ex)

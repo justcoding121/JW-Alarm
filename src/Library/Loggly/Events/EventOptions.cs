@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Loggly.Config;
-using Loggly.Responses;
+using System.Collections.Generic;
 
 namespace Loggly
 {

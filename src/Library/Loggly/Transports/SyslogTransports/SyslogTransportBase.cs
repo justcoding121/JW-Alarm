@@ -1,7 +1,7 @@
+using Loggly.Config;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Loggly.Config;
 
 namespace Loggly.Transports.Syslog
 {
@@ -30,7 +30,7 @@ namespace Loggly.Transports.Syslog
         internal SyslogMessage ConstructSyslog(LogglyMessage message)
         {
             var appNameSafe = LogglyConfig.Instance.ApplicationName ?? string.Empty;
-            
+
             var syslogMessage = new SyslogMessage();
 
             syslogMessage.Facility = Facility.User;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bible.Alarm.Models
+﻿namespace Bible.Alarm.Models
 {
     public class PlayItem
     {

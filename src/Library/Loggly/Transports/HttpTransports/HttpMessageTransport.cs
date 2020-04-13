@@ -1,14 +1,11 @@
+using Loggly.Config;
+using Loggly.Transports;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Loggly.Config;
-using Loggly.Responses;
-using Loggly.Transports;
-using Newtonsoft.Json;
 
 namespace Loggly
 {
@@ -85,7 +82,7 @@ namespace Loggly
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        logResponse = new LogResponse { Code = ResponseCode.Success};
+                        logResponse = new LogResponse { Code = ResponseCode.Success };
                     }
                     else
                     {
@@ -118,8 +115,8 @@ namespace Loggly
                 tags = string.Join(",", messages.SelectMany(x => GetLegalTagUnion(x.CustomTags)).GroupBy(x => x).Where(x => x.Count() == messages.Count).Select(x => x.Key));
             }
 
-            var request=new HttpRequestMessage(HttpMethod.Post, messages.Count == 1 ? UrlSingle : UrlBulk);
-            
+            var request = new HttpRequestMessage(HttpMethod.Post, messages.Count == 1 ? UrlSingle : UrlBulk);
+
             if (!string.IsNullOrEmpty(tags))
             {
                 request.Headers.Add("X-LOGGLY-TAG", tags);

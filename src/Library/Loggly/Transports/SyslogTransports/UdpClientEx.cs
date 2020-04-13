@@ -9,7 +9,7 @@ namespace Loggly.Transports.Syslog
     public class UdpClientEx : UdpClient
     {
         public UdpClientEx() { }
-        public UdpClientEx(IPEndPoint ipe) : base (ipe) { }
+        public UdpClientEx(IPEndPoint ipe) : base(ipe) { }
         ~UdpClientEx()
         {
             if (Active)
@@ -22,7 +22,7 @@ namespace Loggly.Transports.Syslog
 
         public bool IsActive
         {
-            get {  return Active ; }
+            get { return Active; }
         }
     }
 }

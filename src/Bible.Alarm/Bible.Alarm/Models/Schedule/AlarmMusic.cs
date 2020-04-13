@@ -3,7 +3,7 @@
 namespace Bible.Alarm.Models
 {
     [Serializable]
-    public class AlarmMusic 
+    public class AlarmMusic
     {
         public int Id { get; set; }
 

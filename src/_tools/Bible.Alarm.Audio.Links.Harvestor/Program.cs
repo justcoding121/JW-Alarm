@@ -69,7 +69,7 @@ namespace AudioLinkHarvester
             zipFiles();
         }
 
-        private static void writeBibleIndex(ConcurrentDictionary<string, string> languageCodeToNameMappings, 
+        private static void writeBibleIndex(ConcurrentDictionary<string, string> languageCodeToNameMappings,
                 ConcurrentDictionary<string, List<string>> languageCodeToEditionsMapping)
         {
             if (!Directory.Exists($"{DirectoryHelper.IndexDirectory}/media/Audio/Bible"))

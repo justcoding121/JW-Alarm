@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bible.Alarm.Models.Enums
+﻿namespace Bible.Alarm.Models.Enums
 {
     public enum SourceWebsite
     {

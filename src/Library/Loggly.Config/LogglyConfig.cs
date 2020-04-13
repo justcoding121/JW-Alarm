@@ -1,7 +1,6 @@
 ﻿#if FEATURE_SYSTEM_CONFIGURATION
 using System.Configuration;
 #endif
-using System.Linq;
 
 namespace Loggly.Config
 {
@@ -14,7 +13,7 @@ namespace Loggly.Config
         public ITransportConfiguration Transport { get; set; }
         public ISearchConfiguration Search { get; private set; }
 
-        public bool IsEnabled { get;set;}
+        public bool IsEnabled { get; set; }
         public bool IsValid
         {
             get { return !string.IsNullOrEmpty(CustomerToken); }

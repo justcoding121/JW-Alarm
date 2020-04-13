@@ -1,5 +1,4 @@
-﻿using AudioLinkHarvester.Models;
-using AudioLinkHarvester.Models.Bible;
+﻿using AudioLinkHarvester.Models.Bible;
 using AudioLinkHarvester.Utility;
 using AudioLinkHarvestor.Utility;
 using Bible.Alarm.Common.Helpers;

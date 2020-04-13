@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Loggly.Config
 {
@@ -21,7 +17,7 @@ namespace Loggly.Config
 
         public static void Add(this List<ITag> tags, string value)
         {
-            tags.Add(new SimpleTag{Value = value});
+            tags.Add(new SimpleTag { Value = value });
         }
 
         /// <summary>

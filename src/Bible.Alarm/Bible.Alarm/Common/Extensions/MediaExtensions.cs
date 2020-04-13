@@ -1,9 +1,6 @@
 ﻿using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Models;
 using MediaManager.Library;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bible.Alarm.Common.Extensions
 {
@@ -38,7 +35,7 @@ namespace Bible.Alarm.Common.Extensions
                     item.DisplayDescription = "jw.org";
                 }
 
-              
+
 
             }
 

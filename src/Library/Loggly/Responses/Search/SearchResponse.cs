@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Loggly.Responses
 {
@@ -39,7 +39,7 @@ namespace Loggly.Responses
 
         protected override async Task<EntryJsonResponseBase> GetEntryJsonResponse(int page)
         {
-            var eventQuery = new EventQuery {Rsid = this.Rsid.Id, Page = page};
+            var eventQuery = new EventQuery { Rsid = this.Rsid.Id, Page = page };
             var entryResonse = await this.Transport.Search(eventQuery).ConfigureAwait(false);
             return entryResonse;
         }
