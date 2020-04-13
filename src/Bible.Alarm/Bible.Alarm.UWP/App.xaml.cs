@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Uwp.Helpers;
+using Bible.Alarm.Services.Uwp.Tasks;
 using Bible.Alarm.Uwp;
 using Bible.Alarm.Uwp.Services.Platform;
 using NLog;
@@ -31,9 +32,30 @@ namespace Bible.Alarm.UWP
         public App()
         {
             LogSetup.Initialize(VersionFinder.Default, new string[] { });
+            initContainer();
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+        }
+
+        private void initContainer()
+        {
+            try
+            {
+                var result = IocSetup.Initialize("SplashActivity", false);
+                var container = result.Item1;
+                var containerCreated = result.Item2;
+                if (containerCreated)
+                {
+                    BootstrapHelper.Initialize(container, logger);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Main initialization failed.");
+                throw;
+            }
         }
 
         /// <summary>
@@ -47,29 +69,6 @@ namespace Bible.Alarm.UWP
 
             ApplicationView.PreferredLaunchViewSize = new Size(250, 400);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-
-            if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning ||
-                e.PreviousExecutionState == ApplicationExecutionState.Terminated ||
-                e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
-            {
-                try
-                {
-                    var result = IocSetup.Initialize("SplashActivity", false);
-                    var container = result.Item1;
-                    var containerCreated = result.Item2;
-                    if (containerCreated)
-                    {
-                        BootstrapHelper.Initialize(container, logger);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "Main initialization failed.");
-                    throw;
-                }
-            }
-
 
             Task.Run(() =>
             {
@@ -124,12 +123,11 @@ namespace Bible.Alarm.UWP
 
             var deferral = args.TaskInstance.GetDeferral();
 
-
             switch (args.TaskInstance.Task.Name)
             {
-
                 case "SchedulerTask":
-                    throw new NotImplementedException();
+                    await container.Resolve<SchedulerTask>().Handle();
+                    break;
             }
 
             deferral.Complete();

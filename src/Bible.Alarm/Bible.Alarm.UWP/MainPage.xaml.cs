@@ -9,7 +9,7 @@ namespace Bible.Alarm.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new Bible.Alarm.App(container));
+            LoadApplication(new Alarm.App(container));
         }
     }
 }
