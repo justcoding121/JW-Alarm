@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWS.Logger.NLog" Version="1.5.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
@@ -20,6 +19,10 @@
   <ItemGroup>
     <EmbeddedResource Include="..\..\_tools\_index\index.zip" Link="Resources\index.zip" />
     <EmbeddedResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\NLog.Targets.Loggly\NLog.Targets.Loggly.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -104,7 +104,8 @@
                                 Text="{Binding Path=Name, Mode=OneWay}"
                                 TextColor="SlateBlue"
                                 VerticalOptions="Fill"
-                                VerticalTextAlignment="Center" />
+                                VerticalTextAlignment="Center"
+                                WidthRequest="150" />
                             <Button
                                 Margin="3"
                                 BackgroundColor="LightGray"

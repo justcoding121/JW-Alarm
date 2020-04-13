@@ -79,10 +79,6 @@ namespace Bible.Alarm.iOS
                 global::Xamarin.Forms.Forms.Init();
                 LoadApplication(new App(container));
 
-
-                UIApplication.SharedApplication.RegisterForRemoteNotifications();
-                UNUserNotificationCenter.Current.Delegate = this;
-
             }
             catch (Exception e)
             {
@@ -93,108 +89,5 @@ namespace Bible.Alarm.iOS
             return base.FinishedLaunching(app, options);
         }
 
-        public async override void RegisteredForRemoteNotifications(
-            UIApplication application, NSData deviceToken)
-        {
-            try
-            {
-                var deviceId = NSUserDefaults.StandardUserDefaults.StringForKey("DeviceId");
-
-                if (string.IsNullOrEmpty(deviceId))
-                {
-                    deviceId = Guid.NewGuid().ToString();
-                    NSUserDefaults.StandardUserDefaults.SetString(deviceId, "DeviceId");
-                }
-
-                // Get current device token
-                var currentDeviceToken = deviceToken.Description;
-                if (!string.IsNullOrWhiteSpace(currentDeviceToken))
-                {
-                    currentDeviceToken = currentDeviceToken.Trim('<').Trim('>');
-                }
-
-#if DEBUG
-                NSUserDefaults.StandardUserDefaults.SetString(string.Empty, "PushDeviceToken");
-#endif
-                // Get previous device token
-                var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
-
-                // Has the token changed?
-                if (string.IsNullOrEmpty(oldDeviceToken)
-                    || !oldDeviceToken.Equals(currentDeviceToken))
-                {
-                    var result = await PnsService.RegisterDevice(deviceId, currentDeviceToken);
-
-                    if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        // Save new device token
-                        NSUserDefaults.StandardUserDefaults.SetString(currentDeviceToken, "PushDeviceToken");
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Error happenned inside RegisteredForRemoteNotifications.");
-            }
-        }
-
-        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
-        {
-            logger.Error($"Error registering push notifications. Description: {error.LocalizedDescription}");
-        }
-
-        public async override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
-        {
-            base.ReceivedRemoteNotification(application, userInfo);
-
-            await handleNotification(userInfo);
-        }
-
-        [Export("userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:")]
-        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
-        {
-            var schuler = TaskScheduler.FromCurrentSynchronizationContext();
-            handleNotification(userInfo).ContinueWith((x) =>
-            {
-              completionHandler(UIBackgroundFetchResult.NewData);
-            }, schuler);
-        }
-
-        private async Task handleNotification(NSDictionary userInfo)
-        {
-            try
-            {
-                //cancel local notifications here
-                var notificationId = getNotificationId(userInfo);
-
-                if (notificationId >= 0)
-                {
-                    var handler = container.Resolve<iOSAlarmHandler>();
-                    await handler.HandleNotification(notificationId);
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Failed to handle remote notification while on foreground.");
-            }
-        }
-
-        private long getNotificationId(NSDictionary userInfo)
-        {
-            if (null != userInfo && userInfo.ContainsKey(new NSString("notificationId")))
-            {
-                var s = userInfo.ValueForKey(new NSString("notificationId"));
-                var notificationId = (s as NSNumber).ToString();
-
-                if (!string.IsNullOrEmpty(notificationId))
-                {
-                    return long.Parse(notificationId);
-                }
-
-            }
-
-            return -1;
-        }
     }
 }
