@@ -25,7 +25,7 @@
                 container.Register<IToastService>((x) => new iOSToastService(container.Resolve<TaskScheduler>()));
             }
 
-            container.Register<INotificationService>((x) => new iOSNotificationService(container, container.Resolve<ScheduleDbContext>()));
+            container.Register<INotificationService>((x) => new iOSNotificationService(container));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                     container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bible.Alarm.Services.Uwp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,12 @@ namespace Bible.Alarm.UWP
 {
     public sealed partial class MainPage
     {
+        private static IContainer container => IocSetup.Container;
         public MainPage()
         {
             this.InitializeComponent();
 
-            LoadApplication(new Bible.Alarm.App());
+            LoadApplication(new Bible.Alarm.App(container));
         }
     }
 }

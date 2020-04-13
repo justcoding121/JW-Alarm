@@ -12,23 +12,26 @@ namespace Bible.Alarm.Common.Helpers
                                                        .Select((s, i) => new { i = i + 1, s })
                                                        .ToDictionary(x => x.i, x => x.s);
 
-        public static Dictionary<string, string> PublisherCodeToAuthorsCodeMap = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()
+        public static Dictionary<string, string> PublisherCodeToAuthorsCodeMap = new[]
         {
             new KeyValuePair<string, string>("kjv", "mims"),
             new KeyValuePair<string, string>("nivuk", "suchet")
-        });
 
-        public static Dictionary<string, string> AuthorCodeToAuthorNameMap = new Dictionary<string, string>(new List<KeyValuePair<string, string>>()
+        }.ToDictionary(x => x.Key, x => x.Value);
+
+        public static Dictionary<string, string> AuthorCodeToAuthorNameMap = new[]
         {
             new KeyValuePair<string, string>("mims", "David suchet"),
             new KeyValuePair<string, string>("suchet","Paul Mims")
-        });
 
-        public static Dictionary<string, string> PublicationCodeToNameMappings =
-                new Dictionary<string, string>(new KeyValuePair<string, string>[]{
-                    new KeyValuePair<string, string>("kjv","King James Version (1987)"),
-                    new KeyValuePair<string, string>("nivuk","New International Version—Anglicised (1984)")
-                });
+        }.ToDictionary(x => x.Key, x => x.Value);
+
+        public static Dictionary<string, string> PublicationCodeToNameMappings = new[]
+        {
+            new KeyValuePair<string, string>("kjv","King James Version (1987)"),
+            new KeyValuePair<string, string>("nivuk","New International Version—Anglicised (1984)")
+
+        }.ToDictionary(x => x.Key, x => x.Value);
 
         public static Dictionary<int, string> BookNumberToNamesMap = getBookNames();
 

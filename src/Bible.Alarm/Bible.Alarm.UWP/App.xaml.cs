@@ -1,7 +1,8 @@
-﻿using JW.Alarm.Common.Mvvm;
-using JW.Alarm.Services.Uwp.Helpers;
-using JW.Alarm.Services.Uwp.Tasks;
+﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Uwp.Services.Platform;
 using MediaManager;
+using NLog;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -11,6 +12,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Bible.Alarm.Uwp;
+using Bible.Alarm.Services.Uwp.Helpers;
 
 namespace Bible.Alarm.UWP
 {
@@ -19,12 +22,16 @@ namespace Bible.Alarm.UWP
     /// </summary>
     sealed partial class App : Application
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+        private readonly IContainer container;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            LogSetup.Initialize(VersionFinder.Default, new string[] { });
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -46,12 +53,37 @@ namespace Bible.Alarm.UWP
                 e.PreviousExecutionState == ApplicationExecutionState.Terminated ||
                 e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
-                if (IocSetup.Container == null)
+                try
                 {
-                    IocSetup.Initialize();
-                    IocSetup.Container.Resolve<IMediaManager>().Init();
+                    var result = IocSetup.Initialize("SplashActivity", false);
+                    var container = result.Item1;
+                    var containerCreated = result.Item2;
+                    if (containerCreated)
+                    {
+                        BootstrapHelper.Initialize(container, logger);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Main initialization failed.");
+                    throw;
                 }
             }
+
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "An error happened in Messenger Publish call.");
+                }
+            });
+
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -85,14 +117,6 @@ namespace Bible.Alarm.UWP
 
             // Ensure the current window is active
             Window.Current.Activate();
-
-            Task.Run(async () =>
-            {
-                await BootstrapHelper.InitializeDatabase();
-                await BootstrapHelper.VerifyMediaLookUpService();
-                await BootstrapHelper.VerifyBackgroundTasks();
-                await Messenger<bool>.Publish(Messages.Initialized, true);
-            });
         }
 
         protected async override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
@@ -101,28 +125,12 @@ namespace Bible.Alarm.UWP
 
             var deferral = args.TaskInstance.GetDeferral();
 
-            if (IocSetup.Container == null)
-            {
-                IocSetup.Initialize();
-                await BootstrapHelper.InitializeDatabase();
-                await BootstrapHelper.VerifyMediaLookUpService();
-            }
-
-
+  
             switch (args.TaskInstance.Task.Name)
             {
-                case "AlarmTask":
-                    IocSetup.Container.Resolve<AlarmTask>().Handle(args.TaskInstance);
-                    break;
 
                 case "SchedulerTask":
-                    IocSetup.Container.Resolve<SchedulerTask>().Handle(args.TaskInstance);
-                    break;
-
-                case "SnoozeDismissTask":
-                    IocSetup.Container.Resolve<SnoozeDismissTask>().Handle(args.TaskInstance);
-                    break;
-
+                    throw new NotImplementedException();
             }
 
             deferral.Complete();

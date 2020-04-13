@@ -1,47 +1,74 @@
-﻿using JW.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using System;
 using System.Linq;
-using Windows.ApplicationModel.Background;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace JW.Alarm.Services.Uwp.Tasks
+namespace Bible.Alarm.Services.Uwp.Tasks
 {
-    public class SchedulerTask
+    public class SchedulerTask : IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
         private INotificationService notificationService;
 
+        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
+
         public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
               IAlarmService alarmService, INotificationService notificationService)
         {
+
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
             this.notificationService = notificationService;
         }
 
-        public async void Handle(IBackgroundTaskInstance backgroundTask)
+        public async Task Handle()
         {
-            await mediaCacheService.CleanUp();
-
-            var schedules = await scheduleDbContext
-                .AlarmSchedules
-                .AsNoTracking()
-                .Where(x => x.IsEnabled)
-                .ToListAsync();
-
-            foreach (var schedule in schedules)
+            if (await @lock.WaitAsync(1000))
             {
-                if (!notificationService.IsScheduled(schedule.Id))
+                try
                 {
-                    await alarmService.Create(schedule, true);
+                    await mediaCacheService.CleanUp();
+
+                    var schedules = await scheduleDbContext.AlarmSchedules.Where(x => x.IsEnabled).ToListAsync();
+
+                    foreach (var schedule in schedules)
+                    {
+                        if (!await notificationService.IsScheduled(schedule.Id))
+                        {
+                            await alarmService.Create(schedule);
+                        }
+                        else
+                        {
+                            await mediaCacheService.SetupAlarmCache(schedule.Id);
+                        }
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    await mediaCacheService.SetupAlarmCache(schedule.Id);
+                    logger.Error(e, $"Failed to process scheduler task. Db directory: {Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}");
+                }
+                finally
+                {
+                    @lock.Release();
                 }
             }
         }
+
+        public void Dispose()
+        {
+            scheduleDbContext.Dispose();
+            mediaCacheService.Dispose();
+            alarmService.Dispose();
+            notificationService.Dispose();
+        }
+
     }
 }

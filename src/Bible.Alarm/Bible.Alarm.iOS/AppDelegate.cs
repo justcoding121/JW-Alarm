@@ -1,20 +1,9 @@
-﻿using Bible.Alarm.Common.Helpers;
-using Bible.Alarm.iOS.Helpers;
-using Bible.Alarm.iOS.Models;
-using Bible.Alarm.iOS.Services.Handlers;
-using Bible.Alarm.iOS.Services.Platform;
+﻿using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using UIKit;
 using UserNotifications;
 
