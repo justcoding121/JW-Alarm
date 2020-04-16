@@ -62,20 +62,38 @@ namespace Bible.Alarm.Services
             {
                 using var client = new HttpClient(handler, false)
                 {
-                    Timeout = TimeSpan.FromSeconds(5)
+                    Timeout = TimeSpan.FromSeconds(7)
                 };
 
-                HttpResponseMessage result = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, url));
-                var statusCode = result.StatusCode;
-
-                switch (statusCode)
+                Func<Task<bool>> getRequest = async () =>
                 {
+                    var result = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, url));
+                    var statusCode = result.StatusCode;
 
-                    case HttpStatusCode.Accepted:
-                    case HttpStatusCode.OK:
+                    if (statusCode == HttpStatusCode.OK)
+                    {
                         return true;
-                    default:
-                        return false;
+                    }
+
+                    return false;
+                };
+
+                try
+                {
+                    HttpResponseMessage result = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+                    var statusCode = result.StatusCode;
+
+                    if (statusCode == HttpStatusCode.Accepted
+                    || statusCode == HttpStatusCode.OK)
+                    {
+                        return true;
+                    }
+
+                    return await getRequest();
+                }
+                catch
+                {
+                    return await getRequest();
                 }
 
             }, retryAttempts);
