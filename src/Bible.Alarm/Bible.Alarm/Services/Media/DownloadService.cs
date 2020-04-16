@@ -12,7 +12,7 @@ namespace Bible.Alarm.Services
     /// </summary>
     public class DownloadService : IDownloadService
     {
-        private readonly int retryAttempts = 3;
+        private readonly int retryAttempts = 2;
 
         private HttpMessageHandler handler;
         public DownloadService(HttpMessageHandler handler)
