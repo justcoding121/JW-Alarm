@@ -191,9 +191,9 @@
                                 WidthRequest="35" />
                         </StackLayout>
                         <StackLayout
-                            Margin="0,5,0,5"
+                            Margin="{OnPlatform Default='0,5,0,5',
+                                                iOS='0,15,0,5'}"
                             HorizontalOptions="Center"
-                            IsVisible="{OnPlatform iOS='False'}"
                             Orientation="Horizontal">
                             <Label
                                 Margin="0,0,5,0"
@@ -209,8 +209,7 @@
                         </StackLayout>
                         <Grid
                             x:Name="MusicButton"
-                            Margin="{OnPlatform Default='5,0,5,0',
-                                                iOS='5,20,5,0'}"
+                            Margin="{OnPlatform Default='5,5,5,0'}"
                             BackgroundColor="WhiteSmoke"
                             HeightRequest="40"
                             HorizontalOptions="Fill"
@@ -237,8 +236,7 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="{OnPlatform Default='0',
-                                                        Android='0,0,15,0'}"
+                                    Margin="{OnPlatform Default='0,0,15,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
@@ -335,6 +333,9 @@
                             HeightRequest="40"
                             HorizontalOptions="Fill"
                             MinimumHeightRequest="40">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleAlwaysPlayFromStartCommand}" NumberOfTapsRequired="1" />
+                            </Grid.GestureRecognizers>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="6*" />
                                 <ColumnDefinition Width="4*" />
@@ -355,8 +356,7 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="{OnPlatform Default='10',
-                                                        Android='0,0,25,0'}"
+                                    Margin="{OnPlatform Default='0,0,25,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding AlwaysPlayFromStart, Mode=TwoWay}"

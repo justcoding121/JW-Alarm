@@ -149,6 +149,8 @@ namespace Bible.Alarm.ViewModels
                 toggle(x);
             });
 
+            ToggleAlwaysPlayFromStartCommand = new Command(x => AlwaysPlayFromStart = !AlwaysPlayFromStart);
+
             SelectMusicCommand = new Command(async () =>
             {
                 IsBusy = true;
@@ -259,7 +261,7 @@ namespace Bible.Alarm.ViewModels
         public ICommand SelectBibleCommand { get; set; }
 
         public ICommand ToggleDayCommand { get; set; }
-
+        public ICommand ToggleAlwaysPlayFromStartCommand { get; set; }
         public AlarmSchedule Model { get; private set; }
 
         public ICommand OpenModalCommand { get; set; }
