@@ -26,6 +26,8 @@ namespace Bible.Alarm.ViewModels
         private IToastService toastService;
         private IPreviewPlayService playService;
         private INavigationService navigationService;
+        private IMediaCacheService cacheService;
+        private IDownloadService downloadService;
 
         private AlarmMusic current;
         private AlarmMusic tentative;
@@ -40,6 +42,8 @@ namespace Bible.Alarm.ViewModels
             this.toastService = this.container.Resolve<IToastService>();
             this.playService = this.container.Resolve<IPreviewPlayService>();
             this.navigationService = this.container.Resolve<INavigationService>();
+            this.downloadService = this.container.Resolve<IDownloadService>();
+            this.cacheService = this.container.Resolve<IMediaCacheService>();
 
             subscriptions.Add(mediaService);
 
@@ -150,7 +154,20 @@ namespace Bible.Alarm.ViewModels
                                          currentlyPlaying.IsBusy = true;
                                          try
                                          {
-                                             await Task.Run(() => playService.Play(y.Url));
+                                             var url = y.Url;
+
+                                             await Task.Run(async () =>
+                                             {
+                                                 if (!await downloadService.FileExists(url))
+                                                 {
+                                                     url = await cacheService.GetMusicTrackUrl(
+                                                                         tentative.LanguageCode,
+                                                                         y.LookUpPath);
+                                                 }
+
+                                                 await playService.Play(url);
+                                             });
+
                                          }
                                          catch
                                          {
@@ -279,6 +296,8 @@ namespace Bible.Alarm.ViewModels
             mediaService.Dispose();
             toastService.Dispose();
             playService.Dispose();
+            downloadService.Dispose();
+            cacheService.Dispose();
             @lock.Dispose();
         }
     }
@@ -300,6 +319,7 @@ namespace Bible.Alarm.ViewModels
             set => this.Set(ref isSelected, value);
         }
 
+        public string LookUpPath => track.Source.LookUpPath;
         public int Number => track.Number;
 
         public string Title => track.Title;

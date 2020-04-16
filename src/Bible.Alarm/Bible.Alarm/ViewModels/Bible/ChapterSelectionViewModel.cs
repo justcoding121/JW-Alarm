@@ -28,6 +28,8 @@ namespace Bible.Alarm.ViewModels
         private BibleReadingSchedule current;
         private BibleReadingSchedule tentative;
         private INavigationService navigationService;
+        private IMediaCacheService cacheService;
+        private IDownloadService downloadService;
 
         private readonly List<IDisposable> subscriptions = new List<IDisposable>();
 
@@ -39,6 +41,8 @@ namespace Bible.Alarm.ViewModels
             this.toastService = this.container.Resolve<IToastService>();
             this.playService = this.container.Resolve<IPreviewPlayService>();
             this.navigationService = this.container.Resolve<INavigationService>();
+            this.downloadService = this.container.Resolve<IDownloadService>();
+            this.cacheService = this.container.Resolve<IMediaCacheService>();
 
             BackCommand = new Command(async () =>
             {
@@ -150,7 +154,23 @@ namespace Bible.Alarm.ViewModels
 
                                      try
                                      {
-                                         await Task.Run(() => playService.Play(y.Url));
+
+                                         var url = y.Url;
+
+                                         await Task.Run(async () =>
+                                         {
+                                             if (!await downloadService.FileExists(url))
+                                             {
+                                                 url = await cacheService.GetBibleChapterUrl(
+                                                                 tentative.LanguageCode,
+                                                                 tentative.PublicationCode,
+                                                                 tentative.BookNumber,
+                                                                 y.Number,
+                                                                 y.LookUpPath);
+                                             }
+
+                                             await playService.Play(url);
+                                         });
                                      }
                                      catch
                                      {
@@ -238,6 +258,8 @@ namespace Bible.Alarm.ViewModels
             mediaService.Dispose();
             toastService.Dispose();
             playService.Dispose();
+            downloadService.Dispose();
+            cacheService.Dispose();
             @lock.Dispose();
         }
     }
@@ -245,6 +267,7 @@ namespace Bible.Alarm.ViewModels
     public class BibleChapterListViewItemModel : ViewModel, IComparable
     {
         private readonly BibleChapter chapter;
+
         public BibleChapterListViewItemModel(BibleChapter chapter)
         {
             this.chapter = chapter;
@@ -260,6 +283,7 @@ namespace Bible.Alarm.ViewModels
 
         public ICommand TogglePlayCommand { get; set; }
 
+        public string LookUpPath => chapter.Source.LookUpPath;
         public int Number => chapter.Number;
 
         public string Title => chapter.Title;

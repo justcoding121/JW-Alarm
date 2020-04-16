@@ -28,7 +28,6 @@ namespace Bible.Alarm.Services
         private ScheduleDbContext scheduleDbContext;
         private INetworkStatusService networkStatusService;
         private IMediaManager mediaManager;
-
         private MediaService mediaService;
 
         private static ConcurrentDictionary<long, SemaphoreSlim> lockStore =
