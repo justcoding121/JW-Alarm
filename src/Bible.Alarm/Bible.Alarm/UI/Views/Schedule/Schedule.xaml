@@ -237,10 +237,13 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="0"
+                                    Margin="{OnPlatform Default='0',
+                                                        Android='0,0,15,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
+                                    Scale="{OnPlatform Default='1.25',
+                                                       iOS='1'}"
                                     VerticalOptions="Center" />
                                 <Label
                                     Margin="0,0,2,0"
@@ -352,10 +355,13 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="0,0,10,0"
+                                    Margin="{OnPlatform Default='10',
+                                                        Android='0,0,25,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding AlwaysPlayFromStart, Mode=TwoWay}"
+                                    Scale="{OnPlatform Default='1.25',
+                                                       iOS='1'}"
                                     VerticalOptions="Center" />
                             </StackLayout>
                         </Grid>

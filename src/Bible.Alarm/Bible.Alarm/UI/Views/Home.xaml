@@ -197,13 +197,13 @@
                                 </StackLayout>
                                 <StackLayout
                                     Grid.Column="2"
-                                    Margin="{OnPlatform Default='15,0,15,0',
+                                    Margin="{OnPlatform Default='15,0,30,0',
                                                         iOS='5,0,10,0'}"
                                     HorizontalOptions="End"
                                     IsVisible="{OnPlatform iOS='False'}"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">
-                                    <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" />
+                                    <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" Scale="{OnPlatform Default='1.25', iOS='1'}" />
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

@@ -80,6 +80,7 @@ namespace Bible.Alarm.ViewModels
 
                 var viewModel = this.container.Resolve<ScheduleViewModel>();
                 await this.navigationService.Navigate(viewModel);
+
             });
 
             BatteryOptimizationExcludeCommand = new Command(async () =>

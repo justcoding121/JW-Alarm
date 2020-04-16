@@ -132,6 +132,16 @@ namespace Bible.Alarm.UI
         public async Task Navigate(object viewModel)
         {
             var vmName = viewModel.GetType().Name;
+
+            var top = navigater.NavigationStack.LastOrDefault();
+
+            if (top != null && top.BindingContext.GetType().Name == vmName)
+            {
+                var disposable = viewModel as IDisposable;
+                disposable?.Dispose();
+                return;
+            }
+
             switch (vmName)
             {
                 case "ScheduleViewModel":
