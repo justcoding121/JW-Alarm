@@ -54,10 +54,9 @@
                 .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
             container.Register((x) => new MediaDbContext(mediaDbConfig));
-            container.RegisterSingleton((x) =>
+            container.Register((x) =>
             {
                 return CrossMediaManager.Current;
-
             });
 
             container.Register<IVersionFinder>((x) => new VersionFinder());

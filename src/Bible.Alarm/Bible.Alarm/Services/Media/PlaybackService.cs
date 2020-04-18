@@ -342,7 +342,7 @@ namespace Bible.Alarm.Services
             {
                 if (this.mediaManager.IsPrepared() && !readyTodispose)
                 {
-                    await this.mediaManager.Stop();
+                    await this.mediaManager.StopEx();
                     await this.alarmService.Snooze(currentScheduleId);
                     currentScheduleId = 0;
                 }
@@ -360,7 +360,7 @@ namespace Bible.Alarm.Services
             if (this.mediaManager.IsPrepared()
                  && !readyTodispose)
             {
-                await this.mediaManager.Stop();
+                await this.mediaManager.StopEx();
             }
 
             currentScheduleId = 0;

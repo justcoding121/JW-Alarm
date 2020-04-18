@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 
 namespace Loggly.Transports.Syslog
@@ -86,6 +87,8 @@ namespace Loggly.Transports.Syslog
         {
             int priority = (((int)Facility) * 8) + ((int)Level);
 
+            var trimmedText = limitByteLength(Text, 5000);
+
             var msg = String.Format(
                 "<{0}>1 {1} {2} {3} {4} {5} {6}\n"
                 , priority
@@ -94,9 +97,17 @@ namespace Loggly.Transports.Syslog
                 , AppName
                 , EnvironmentProvider.ProcessId
                 , MessageId
-                , Text);
+                , trimmedText);
 
             return msg;
+        }
+
+        private static String limitByteLength(String input, Int32 maxLength)
+        {
+            return new String(input
+                .TakeWhile((c, i) =>
+                    Encoding.UTF8.GetByteCount(input.Substring(0, i + 1)) <= maxLength)
+                .ToArray());
         }
 
         public byte[] GetBytes()

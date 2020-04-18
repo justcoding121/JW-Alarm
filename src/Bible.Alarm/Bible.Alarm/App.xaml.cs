@@ -1,8 +1,10 @@
-﻿using Bible.Alarm.Common.Mvvm;
+﻿using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI;
 using Bible.Alarm.ViewModels;
 using MediaManager;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Linq;
@@ -113,9 +115,7 @@ namespace Bible.Alarm
                 {
                     var mediaManager = container.Resolve<IMediaManager>();
                     // Handle when your app resumes
-                    if (mediaManager.IsPrepared()
-                        && (Device.RuntimePlatform != Device.iOS
-                            || mediaManager.Duration.TotalMilliseconds > 0))
+                    if (mediaManager.IsPreparedEx())
                     {
                         Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }

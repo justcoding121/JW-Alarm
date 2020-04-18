@@ -35,8 +35,6 @@ namespace Bible.Alarm.Common.Extensions
                     item.DisplayDescription = "jw.org";
                 }
 
-
-
             }
 
         }
