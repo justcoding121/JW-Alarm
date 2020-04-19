@@ -7,6 +7,7 @@ using Foundation;
 using MediaManager;
 using NLog;
 using System;
+using System.Threading.Tasks;
 using UIKit;
 using UserNotifications;
 
@@ -68,11 +69,9 @@ namespace Bible.Alarm.iOS
 
             try
             {
-
+                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
                 global::Xamarin.Forms.Forms.Init();
                 LoadApplication(new App(container));
-                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-
             }
             catch (Exception e)
             {
@@ -80,12 +79,18 @@ namespace Bible.Alarm.iOS
                 throw;
             }
 
+            Task.Run(async () =>
+            {
+                using var schedulerTask = container.Resolve<SchedulerTask>();
+                var downloaded = await schedulerTask.Handle();
+            });
+
             return base.FinishedLaunching(app, options);
         }
 
         public async override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
-            var schedulerTask = container.Resolve<SchedulerTask>();
+            using var schedulerTask = container.Resolve<SchedulerTask>();
             var downloaded = await schedulerTask.Handle();
 
             // Inform system of fetch results

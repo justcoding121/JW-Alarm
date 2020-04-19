@@ -30,20 +30,6 @@ namespace Bible.Alarm.Services
         public Task Create(AlarmSchedule schedule)
         {
             scheduleNotification(schedule, false);
-
-            var task = Task.Run(async () =>
-            {
-                try
-                {
-                    using var mediaCacheService = container.Resolve<IMediaCacheService>();
-                    await mediaCacheService.SetupAlarmCache(schedule.Id);
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error happened in SetupAlarmCache task.");
-                }
-            });
-
             return Task.CompletedTask;
         }
 
@@ -55,22 +41,6 @@ namespace Bible.Alarm.Services
             {
                 scheduleNotification(schedule, false);
             }
-
-            var task = Task.Run(async () =>
-            {
-                try
-                {
-                    using (var mediaCacheService = container.Resolve<IMediaCacheService>())
-                    {
-                        await mediaCacheService.SetupAlarmCache(schedule.Id);
-                    }
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error happened in SetupAlarmCache task.");
-                }
-            });
-
         }
 
         public async Task Snooze(long scheduleId)

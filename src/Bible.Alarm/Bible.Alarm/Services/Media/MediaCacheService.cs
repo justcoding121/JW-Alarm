@@ -286,6 +286,9 @@ namespace Bible.Alarm.Services
 
             filesToDelete.Select(x => x.Key).ToList().ForEach(x =>
             {
+                if (mediaManager.IsPreparedEx())
+                    return;
+
                 try
                 {
                     storageService.DeleteFile(x);

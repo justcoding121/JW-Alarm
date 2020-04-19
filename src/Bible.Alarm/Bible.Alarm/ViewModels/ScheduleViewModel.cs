@@ -433,6 +433,22 @@ namespace Bible.Alarm.ViewModels
             this.RaiseProperty("DaysOfWeek");
         }
 
+        private void setupMediaCache(long scheduleId)
+        {
+            Task.Run(async () =>
+             {
+                 try
+                 {
+                     using var mediaCacheService = container.Resolve<IMediaCacheService>();
+                     await mediaCacheService.SetupAlarmCache(scheduleId);
+                 }
+                 catch (Exception e)
+                 {
+                     logger.Error(e, "An error happened in SetupAlarmCache task.");
+                 }
+             });
+        }
+
         private async Task<bool> saveAsync()
         {
             if (!await validate())
@@ -452,6 +468,7 @@ namespace Bible.Alarm.ViewModels
                     {
                         await alarmService.Create(model);
                     }
+                    setupMediaCache(model.Id);
                 });
 
                 ReduxContainer.Store.Dispatch(new AddScheduleAction()
@@ -505,6 +522,8 @@ namespace Bible.Alarm.ViewModels
                 scheduleListItem.Schedule = model;
                 scheduleListItem.RaisePropertiesChangedEvent();
                 scheduleListItem.RefreshChapterName(true);
+
+                setupMediaCache(model.Id);
 
                 ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
             }
