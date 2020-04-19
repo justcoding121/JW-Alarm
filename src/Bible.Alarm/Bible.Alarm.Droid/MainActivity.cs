@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
@@ -101,7 +102,7 @@ namespace Bible.Alarm.Droid
         [Export]
         public string IsAlarmOn()
         {
-            return container.Resolve<IMediaManager>().IsPrepared().ToString();
+            return container.Resolve<IMediaManager>().IsPreparedEx().ToString();
         }
     }
 }

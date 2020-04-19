@@ -16,18 +16,13 @@ namespace Bible.Alarm.Common.Extensions
                 return mediaManager.IsPrepared();
             }
 
-            mediaManager.Stop();
-
-            return mediaManager.IsPrepared() && mediaManager.Position.TotalMilliseconds > 0;
+            return mediaManager.IsPrepared()
+                && mediaManager.Position.TotalMilliseconds > 0;
         }
 
         public static async Task StopEx(this IMediaManager mediaManager)
         {
             await mediaManager.Stop();
-            if (Device.RuntimePlatform == Device.Android)
-            {   
-                return;
-            }
         }
     }
 }

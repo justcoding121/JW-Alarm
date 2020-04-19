@@ -3,6 +3,7 @@ using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
+using MediaManager;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace Bible.Alarm.iOS
                     // if you want to use a different Application Delegate class from "AppDelegate"
                     // you can specify it here.
                     UIApplication.Main(args, null, "AppDelegate");
+
                 }
                 else
                 {

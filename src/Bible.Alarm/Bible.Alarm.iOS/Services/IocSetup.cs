@@ -64,7 +64,8 @@
             container.Register((x) =>
                     new iOSAlarmHandler(container.Resolve<IPlaybackService>(),
                                 container.Resolve<IMediaManager>(),
-                                container.Resolve<ScheduleDbContext>()));
+                                container.Resolve<ScheduleDbContext>(),
+                                container.Resolve<TaskScheduler>()));
         }
     }
 }

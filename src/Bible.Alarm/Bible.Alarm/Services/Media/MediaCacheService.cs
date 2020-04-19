@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Common.Helpers;
+﻿using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models.Enums;
 using Bible.Alarm.Services.Contracts;
@@ -85,7 +86,7 @@ namespace Bible.Alarm.Services
                     foreach (var playItem in playlist)
                     {
                         //do not download while playing
-                        if (mediaManager.IsPrepared())
+                        if (mediaManager.IsPreparedEx())
                         {
                             break;
                         }
@@ -264,7 +265,7 @@ namespace Bible.Alarm.Services
 
                 //do not delete anything when alarm is playing!
                 if (schedule.NextFireDate(DateTime.Now.AddMinutes(-5)) <= DateTimeOffset.Now.AddMinutes(5)
-                    || mediaManager.IsPrepared())
+                    || mediaManager.IsPreparedEx())
                 {
                     return;
                 }

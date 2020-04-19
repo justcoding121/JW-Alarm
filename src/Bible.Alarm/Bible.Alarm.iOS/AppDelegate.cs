@@ -1,7 +1,9 @@
-﻿using Bible.Alarm.iOS.Services.Platform;
+﻿using Bible.Alarm.iOS.Services.Handlers;
+using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Foundation;
+using MediaManager;
 using NLog;
 using System;
 using UIKit;
@@ -65,6 +67,7 @@ namespace Bible.Alarm.iOS
 
             try
             {
+              
                 global::Xamarin.Forms.Forms.Init();
                 LoadApplication(new App(container));
 

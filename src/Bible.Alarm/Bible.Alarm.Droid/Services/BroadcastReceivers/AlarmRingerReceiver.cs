@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
+using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Contracts;
@@ -49,7 +50,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.mediaManager = container.Resolve<IMediaManager>();
                 this.playbackService = container.Resolve<IPlaybackService>();
 
-                if (mediaManager.IsPrepared())
+                if (mediaManager.IsPreparedEx())
                 {
                     context.StopService(intent);
                     Dispose();

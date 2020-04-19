@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.Common.DataStructures;
+using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Battery;
 using Bible.Alarm.Models;
@@ -369,7 +370,7 @@ namespace Bible.Alarm.ViewModels
                     var toastService = container.Resolve<IToastService>();
                     var mediaManager = container.Resolve<IMediaManager>();
 
-                    if (!mediaManager.IsPrepared())
+                    if (!mediaManager.IsPreparedEx())
                     {
                         await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
                     }
@@ -448,7 +449,7 @@ namespace Bible.Alarm.ViewModels
                  {
                      var mediaManager = container.Resolve<IMediaManager>();
 
-                     if (Schedule == null || (!force && !mediaManager.IsPrepared()))
+                     if (Schedule == null || (!force && !mediaManager.IsPreparedEx()))
                      {
                          return null;
                      }

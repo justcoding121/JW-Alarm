@@ -76,7 +76,7 @@ namespace Bible.Alarm.Services
         public async Task Play(long scheduleId)
         {
             //already playing
-            if (this.mediaManager.IsPrepared())
+            if (this.mediaManager.IsPreparedEx())
             {
                 Dispose();
                 Stopped?.Invoke(this, MediaPlayerState.Stopped);
@@ -340,7 +340,7 @@ namespace Bible.Alarm.Services
 
             try
             {
-                if (this.mediaManager.IsPrepared() && !readyTodispose)
+                if (this.mediaManager.IsPreparedEx() && !readyTodispose)
                 {
                     await this.mediaManager.StopEx();
                     await this.alarmService.Snooze(currentScheduleId);
@@ -357,7 +357,7 @@ namespace Bible.Alarm.Services
 
         public async Task Dismiss()
         {
-            if (this.mediaManager.IsPrepared()
+            if (this.mediaManager.IsPreparedEx()
                  && !readyTodispose)
             {
                 await this.mediaManager.StopEx();

@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Common.Mvvm;
+﻿using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
@@ -57,7 +58,7 @@ namespace Bible.Alarm.Uwp.Services.Handlers
             {
                 await @lock.WaitAsync();
 
-                if (mediaManager.IsPrepared())
+                if (mediaManager.IsPreparedEx())
                 {
                     isBusy = true;
                     return;

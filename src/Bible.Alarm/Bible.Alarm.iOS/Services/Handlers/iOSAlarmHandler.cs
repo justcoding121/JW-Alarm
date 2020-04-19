@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Common.Mvvm;
+﻿using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
@@ -8,6 +9,7 @@ using NLog;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using UIKit;
 
 namespace Bible.Alarm.iOS.Services.Handlers
 {
@@ -18,16 +20,22 @@ namespace Bible.Alarm.iOS.Services.Handlers
         private IPlaybackService playbackService;
         private IMediaManager mediaManager;
         private ScheduleDbContext dbContext;
+        private TaskScheduler taskScheduler;
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
 
+        //Need this to fix issue in XamarinMediaManager (notification stays on screen)
+        private static bool firstTime = true;
+
         public iOSAlarmHandler(IPlaybackService playbackService,
                                 IMediaManager mediaManager,
-                                ScheduleDbContext dbContext)
+                                ScheduleDbContext dbContext,
+                                TaskScheduler taskScheduler)
         {
             this.playbackService = playbackService;
             this.mediaManager = mediaManager;
             this.dbContext = dbContext;
+            this.taskScheduler = taskScheduler;
         }
 
         public async Task HandleNotification(long notificationId)
@@ -57,14 +65,25 @@ namespace Bible.Alarm.iOS.Services.Handlers
             {
                 await @lock.WaitAsync();
 
-                if (mediaManager.IsPrepared())
+                if (mediaManager.IsPreparedEx())
                 {
                     isBusy = true;
                     return;
                 }
                 else
                 {
-                    mediaManager.Init();
+                    
+                    await Task.Delay(0).ContinueWith((x) =>
+                    {
+                        if (!firstTime)
+                        {
+                            UIApplication.SharedApplication.BeginReceivingRemoteControlEvents();
+                        }
+                        firstTime = false;
+                        mediaManager.Init();
+
+                    }, taskScheduler);
+                  
                 }
 
                 playbackService.Stopped += stateChanged;
@@ -88,7 +107,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
                 playbackService.Stopped -= stateChanged;
-                mediaManager?.Dispose();
+                Dispose();
             }
             finally
             {
@@ -108,8 +127,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                 if (e == MediaPlayerState.Stopped)
                 {
                     playbackService.Stopped -= stateChanged;
-                    playbackService.Dispose();
-                    mediaManager.Dispose();
+                    Dispose();
                 }
             }
             catch (Exception ex)
@@ -121,9 +139,13 @@ namespace Bible.Alarm.iOS.Services.Handlers
         public void Dispose()
         {
             this.playbackService.Dispose();
-            this.mediaManager.Dispose();
+            Task.Delay(0).ContinueWith((x) =>
+                   {
+                       UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
+                       this.mediaManager.Dispose();
+                   }, taskScheduler);
+      
         }
-
 
     }
 }

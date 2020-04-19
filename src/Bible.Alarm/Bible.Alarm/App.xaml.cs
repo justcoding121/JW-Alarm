@@ -71,7 +71,7 @@ namespace Bible.Alarm
                 .ContinueWith(x =>
                 {
                     var mediaManager = container.Resolve<IMediaManager>();
-                    if (mediaManager.IsPrepared())
+                    if (mediaManager.IsPreparedEx())
                     {
                         Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }
@@ -90,7 +90,7 @@ namespace Bible.Alarm
                     await navigationService.NavigateToHome();
 
                     var mediaManager = container.Resolve<IMediaManager>();
-                    if (mediaManager.IsPrepared())
+                    if (mediaManager.IsPreparedEx())
                     {
                         Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }
