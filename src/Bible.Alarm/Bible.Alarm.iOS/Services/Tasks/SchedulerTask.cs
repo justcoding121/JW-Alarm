@@ -29,8 +29,10 @@ namespace Bible.Alarm.Services.iOS.Tasks
             this.notificationService = notificationService;
         }
 
-        public async Task Handle()
+        public async Task<bool> Handle()
         {
+            var downloaded = false;
+
             if (await @lock.WaitAsync(1000))
             {
                 try
@@ -43,11 +45,12 @@ namespace Bible.Alarm.Services.iOS.Tasks
                     {
                         if (!await notificationService.IsScheduled(schedule.Id))
                         {
+                            downloaded = true;
                             await alarmService.Create(schedule);
                         }
                         else
                         {
-                            await mediaCacheService.SetupAlarmCache(schedule.Id);
+                            downloaded = await mediaCacheService.SetupAlarmCache(schedule.Id);
                         }
                     }
                 }
@@ -60,6 +63,8 @@ namespace Bible.Alarm.Services.iOS.Tasks
                     @lock.Release();
                 }
             }
+
+            return downloaded;
         }
 
         public void Dispose()

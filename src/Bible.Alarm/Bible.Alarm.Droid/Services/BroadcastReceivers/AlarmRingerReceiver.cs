@@ -53,7 +53,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (mediaManager.IsPreparedEx())
                 {
                     context.StopService(intent);
-                    Dispose();
+                    playbackService.Dispose();
                     return;
                 }
                 else
@@ -121,8 +121,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
             playbackService?.Dispose();
             mediaManager?.Dispose();
-
-            container = null;
 
             base.Dispose();
         }

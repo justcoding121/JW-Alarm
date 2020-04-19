@@ -59,15 +59,13 @@ namespace Bible.Alarm.iOS.Services.Handlers
 
         public async Task Handle(long scheduleId)
         {
-            var isBusy = false;
-
             try
             {
                 await @lock.WaitAsync();
 
                 if (mediaManager.IsPreparedEx())
                 {
-                    isBusy = true;
+                    playbackService.Dispose();
                     return;
                 }
                 else
@@ -111,11 +109,6 @@ namespace Bible.Alarm.iOS.Services.Handlers
             finally
             {
                 @lock.Release();
-            }
-
-            if (isBusy)
-            {
-                Dispose();
             }
         }
 

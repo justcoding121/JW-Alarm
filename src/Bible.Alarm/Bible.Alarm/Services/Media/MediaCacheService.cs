@@ -68,8 +68,10 @@ namespace Bible.Alarm.Services
             return await storageService.FileExists(cachePath);
         }
 
-        public async Task SetupAlarmCache(long alarmScheduleId)
+        public async Task<bool> SetupAlarmCache(long alarmScheduleId)
         {
+            var downloaded = false;
+
             var @lock = lockStore.GetOrAdd(alarmScheduleId, new SemaphoreSlim(1));
 
             if (await @lock.WaitAsync(500))
@@ -78,7 +80,7 @@ namespace Bible.Alarm.Services
                 {
                     if (!await networkStatusService.IsInternetAvailable())
                     {
-                        return;
+                        return downloaded;
                     }
 
                     var playlist = await mediaPlayService.NextTracks(alarmScheduleId);
@@ -93,6 +95,7 @@ namespace Bible.Alarm.Services
 
                         if (!await Exists(playItem.Url))
                         {
+                            downloaded = true;
 
                             byte[] bytes = null;
 
@@ -176,8 +179,10 @@ namespace Bible.Alarm.Services
                 {
                     @lock.Release();
                 }
+
             }
 
+            return downloaded;
         }
 
         private static string[] jwOrgUrls = new string[] { UrlHelper.JwOrgIndexServiceBaseUrl,

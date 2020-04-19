@@ -9,7 +9,7 @@ namespace Bible.Alarm.Services.Contracts
         string GetCacheFileName(string url);
         string GetCacheFilePath(string url);
 
-        Task SetupAlarmCache(long alarmScheduleId);
+        Task<bool> SetupAlarmCache(long alarmScheduleId);
         Task CleanUp();
 
         Task<string> GetMusicTrackUrl(string languageCode, string lookUpPath);
