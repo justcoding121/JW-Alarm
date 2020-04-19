@@ -8,5 +8,6 @@ namespace Bible.Alarm.Services.Contracts
     {
         Task ShowMessage(string message, int seconds = 3);
         Task ShowScheduledNotification(AlarmSchedule schedule, int seconds = 3);
+        Task Clear();
     }
 }

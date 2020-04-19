@@ -54,7 +54,6 @@
             container.Register((x) =>
             {
                 return CrossMediaManager.Current;
-
             });
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));

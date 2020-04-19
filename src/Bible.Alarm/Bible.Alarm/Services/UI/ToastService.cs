@@ -28,5 +28,8 @@ namespace Bible.Alarm.Services
         {
 
         }
+
+        public abstract Task Clear();
+
     }
 }

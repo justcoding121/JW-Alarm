@@ -31,6 +31,7 @@ namespace Bible.Alarm.Services
         private INetworkStatusService networkStatusService;
         private INotificationService notificationService;
         private IDownloadService downloadService;
+        private IToastService toastService;
 
         private static long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
@@ -52,7 +53,8 @@ namespace Bible.Alarm.Services
             IStorageService storageService,
             INetworkStatusService networkStatusService,
             INotificationService notificationService,
-            IDownloadService downloadService)
+            IDownloadService downloadService,
+            IToastService toastService)
         {
             this.mediaManager = mediaManager;
             this.playlistService = playlistService;
@@ -62,6 +64,7 @@ namespace Bible.Alarm.Services
             this.networkStatusService = networkStatusService;
             this.notificationService = notificationService;
             this.downloadService = downloadService;
+            this.toastService = toastService;
 
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
@@ -126,6 +129,7 @@ namespace Bible.Alarm.Services
                 var preparedTracks = 0;
                 var totalTracks = nextTracks.Count;
 
+                await toastService.Clear();
                 Messenger<object>.Publish(MvvmMessages.ShowMediaProgessModal);
                 Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(preparedTracks, totalTracks));
 

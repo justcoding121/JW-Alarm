@@ -71,8 +71,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                     return;
                 }
                 else
-                {
-                    
+                {            
                     await Task.Delay(0).ContinueWith((x) =>
                     {
                         if (!firstTime)
@@ -82,8 +81,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                         firstTime = false;
                         mediaManager.Init();
 
-                    }, taskScheduler);
-                  
+                    }, taskScheduler);      
                 }
 
                 playbackService.Stopped += stateChanged;
@@ -94,6 +92,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                     {
                         await playbackService.Play(scheduleId);
                         Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                       
                     }
                     catch (Exception e)
                     {

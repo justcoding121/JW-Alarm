@@ -41,7 +41,8 @@
                 container.Resolve<IStorageService>(),
                 container.Resolve<INetworkStatusService>(),
                 container.Resolve<INotificationService>(),
-                container.Resolve<IDownloadService>()));
+                container.Resolve<IDownloadService>(),
+                container.Resolve<IToastService>()));
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
 

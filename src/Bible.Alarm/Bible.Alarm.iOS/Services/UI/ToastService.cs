@@ -17,31 +17,51 @@ namespace Bible.Alarm.Services.iOS
         }
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
-        public async override Task ShowMessage(string message, int seconds)
+        public override Task ShowMessage(string message, int seconds)
         {
-            await @lock.WaitAsync();
-
-            try
+            if (clearRequest != null)
             {
-                await Task.Delay(0)
-                    .ContinueWith(async (x) =>
-                        await showAlert(message, (double)seconds), taskScheduler);
+                return Task.CompletedTask;
+            }
 
-            }
-            finally
-            {
-                @lock.Release();
-            }
+            Task.Delay(0)
+                 .ContinueWith(async (x) =>
+                     await showAlert(message, (double)seconds), taskScheduler);
+
+            return Task.CompletedTask;
         }
 
         private async Task showAlert(string message, double seconds)
         {
-            var alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
-            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
+            clearRequest = new TaskCompletionSource<bool>();
+            await @lock.WaitAsync();
+         
+            try
+            {
+            
+                var alert = UIAlertController.Create(null, message, UIAlertControllerStyle.Alert);
+                UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
 
-            await Task.Delay((int)(seconds * 1000)).ConfigureAwait(true);
+                await Task.WhenAny(clearRequest.Task, Task.Delay((int)(seconds * 1000))).ConfigureAwait(true);
+                alert.DismissViewController(true, null);
+               
+            }
+            finally
+            {
+                @lock.Release();
+                clearRequest = null;
+            }
+        }
 
-            alert.DismissViewController(true, null);
+        private static TaskCompletionSource<bool> clearRequest;
+        public override Task Clear()
+        {
+            if (clearRequest != null)
+            {
+                clearRequest.SetResult(true);
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

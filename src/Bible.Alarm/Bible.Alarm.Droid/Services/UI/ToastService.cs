@@ -28,5 +28,11 @@ namespace Bible.Alarm.Services.Droid
 
             return Task.CompletedTask;
         }
+
+        //not needed for android
+        public override Task Clear()
+        {
+            return Task.CompletedTask;
+        }
     }
 }
