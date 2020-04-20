@@ -75,7 +75,6 @@ namespace Bible.Alarm.Uwp.Services.Handlers
                     try
                     {
                         await playbackService.Play(scheduleId);
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                     catch (Exception e)
                     {

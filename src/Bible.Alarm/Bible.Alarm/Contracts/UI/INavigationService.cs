@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface INavigationService
+    public interface INavigationService: IDisposable
     {
         Task Navigate(object viewModel);
         Task GoBack();

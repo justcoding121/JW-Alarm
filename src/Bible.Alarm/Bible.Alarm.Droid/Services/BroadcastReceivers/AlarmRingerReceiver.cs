@@ -72,7 +72,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                         var id = long.Parse(scheduleId);
 
                         await playbackService.Play(id);
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                     catch (Exception e)
                     {

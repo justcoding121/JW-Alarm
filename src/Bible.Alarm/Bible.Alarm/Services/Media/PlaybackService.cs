@@ -255,6 +255,8 @@ namespace Bible.Alarm.Services
                         this.mediaManager.RepeatMode = RepeatMode.Off;
                         await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
                     }
+
+                    Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                 }
             }
             finally
