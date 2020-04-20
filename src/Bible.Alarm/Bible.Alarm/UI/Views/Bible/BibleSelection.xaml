@@ -6,6 +6,7 @@
     xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
     xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
     xmlns:fn="clr-namespace:FontNameResources"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     NavigationPage.HasBackButton="False"
     NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
@@ -119,7 +120,9 @@
                 </Grid>
                 <ListView
                     Grid.Row="1"
+                    ios:ListView.SeparatorStyle="FullWidth"
                     CachingStrategy="RecycleElement"
+                    Footer=""
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Translations}"
                     SelectionMode="None">
@@ -133,7 +136,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid
-                                    Margin="5,0,5,0"
+                                    Padding="5,0,5,0"
                                     BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
                                     HeightRequest="45"
                                     HorizontalOptions="Fill">

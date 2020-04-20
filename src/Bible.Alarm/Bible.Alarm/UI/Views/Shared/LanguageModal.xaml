@@ -4,7 +4,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
-    xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters">
+    xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    Padding="0,10,0,0">
     <ContentPage.Resources>
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
         <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
@@ -55,7 +57,9 @@
                 <ListView
                     x:Name="LanguageListView"
                     Grid.Row="3"
+                    ios:ListView.SeparatorStyle="FullWidth"
                     BackgroundColor="White"
+                    Footer=""
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Languages}"
                     MinimumHeightRequest="300"

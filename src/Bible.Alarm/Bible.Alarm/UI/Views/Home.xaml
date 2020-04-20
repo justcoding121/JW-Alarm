@@ -6,6 +6,7 @@
     xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
     xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
     xmlns:fn="clr-namespace:FontNameResources"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:models="clr-namespace:Bible.Alarm.Models"
     Title="Bible Alarm"
     NavigationPage.HasNavigationBar="False">
@@ -63,6 +64,8 @@
             </StackLayout>
             <ListView
                 Grid.Row="1"
+                ios:ListView.SeparatorStyle="FullWidth"
+                Footer=""
                 HorizontalOptions="Fill"
                 ItemsSource="{Binding Schedules}"
                 RowHeight="100"

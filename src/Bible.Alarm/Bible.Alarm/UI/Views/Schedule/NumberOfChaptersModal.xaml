@@ -6,7 +6,9 @@
     xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
     xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Padding="0,10,0,10"
     mc:Ignorable="d">
     <ContentPage.Resources>
         <converters:ItemTappedEventArgsConverter x:Key="itemTappedConverter" />
@@ -37,7 +39,9 @@
                 <ListView
                     x:Name="LanguageListView"
                     Grid.Row="2"
+                    ios:ListView.SeparatorStyle="FullWidth"
                     BackgroundColor="White"
+                    Footer=""
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding NumberOfChaptersList}"
                     MinimumHeightRequest="300"
