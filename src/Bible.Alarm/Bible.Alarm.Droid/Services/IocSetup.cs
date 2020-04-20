@@ -21,10 +21,7 @@
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
-            if (!isService)
-            {
-                container.Register<IToastService>((x) => new DroidToastService(container));
-            }
+            container.Register<IToastService>((x) => new DroidToastService(container));
 
             container.Register<INotificationService>((x) => new DroidNotificationService(container));
 
