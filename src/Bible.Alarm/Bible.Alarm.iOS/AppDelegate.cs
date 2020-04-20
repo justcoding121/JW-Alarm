@@ -81,8 +81,15 @@ namespace Bible.Alarm.iOS
 
             Task.Run(async () =>
             {
-                using var schedulerTask = container.Resolve<SchedulerTask>();
-                var downloaded = await schedulerTask.Handle();
+                try
+                {
+                    using var schedulerTask = container.Resolve<SchedulerTask>();
+                    var downloaded = await schedulerTask.Handle();
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error occurred in cleanup task.");
+                }
             });
 
             return base.FinishedLaunching(app, options);
@@ -90,8 +97,17 @@ namespace Bible.Alarm.iOS
 
         public async override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
-            using var schedulerTask = container.Resolve<SchedulerTask>();
-            var downloaded = await schedulerTask.Handle();
+            bool downloaded = false;
+
+            try
+            {
+                using var schedulerTask = container.Resolve<SchedulerTask>();
+                downloaded = await schedulerTask.Handle();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error occurred in cleanup task.");
+            }
 
             // Inform system of fetch results
             completionHandler(downloaded ? UIBackgroundFetchResult.NewData : UIBackgroundFetchResult.NoData);
