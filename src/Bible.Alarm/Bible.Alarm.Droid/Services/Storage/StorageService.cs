@@ -9,6 +9,7 @@ namespace Bible.Alarm.Droid.Services.Storage
         {
             get
             {
+                //never backed up to cloud
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }
@@ -17,6 +18,7 @@ namespace Bible.Alarm.Droid.Services.Storage
         {
             get
             {
+                //never backed up to cloud
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }

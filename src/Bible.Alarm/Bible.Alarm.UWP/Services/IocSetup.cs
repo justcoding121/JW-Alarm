@@ -7,6 +7,7 @@
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.Uwp.Tasks;
     using Bible.Alarm.Uwp.Services.Handlers;
+    using Bible.Alarm.Uwp.Services.Platform;
     using Bible.Alarm.Uwp.Services.Storage;
     using JW.Alarm.Services.UWP;
     using MediaManager;
@@ -14,19 +15,20 @@
     using System;
     using System.IO;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using Windows.Media.Playback;
 
     public static class IocSetup
     {
-        internal static IContainer Container;
+        public static IContainer Container { get; private set; }
+
         public static void Initialize(IContainer container, bool isService)
         {
+            Container = container;
+
             container.Register<HttpMessageHandler>((x) => new HttpClientHandler());
 
-            if (!isService)
-            {
-                container.Register<IToastService>((x) => new UwpToastService());
-            }
+            container.Register<IToastService>((x) => new UwpToastService(container.Resolve<TaskScheduler>()));
 
             container.Register<INotificationService>((x) => new UwpNotificationService(container));
 
@@ -44,7 +46,8 @@
                 container.Resolve<IStorageService>(),
                 container.Resolve<INetworkStatusService>(),
                 container.Resolve<INotificationService>(),
-                container.Resolve<IDownloadService>()));
+                container.Resolve<IDownloadService>(),
+                container.Resolve<IToastService>()));
 
             string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
 
@@ -63,7 +66,7 @@
 
             });
 
-            container.Register<IVersionFinder>((x) => throw new NotImplementedException());
+            container.Register<IVersionFinder>((x) => new UwpVersionFinder());
             container.Register<IStorageService>((x) => new UwpStorageService());
             container.Register((x) =>
                     new UwpAlarmHandler(container.Resolve<IPlaybackService>(),
