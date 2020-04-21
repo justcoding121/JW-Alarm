@@ -9,7 +9,6 @@ using System;
 using System.Threading.Tasks;
 using UIKit;
 
-[assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
 namespace Bible.Alarm.iOS
 {
     public class Application

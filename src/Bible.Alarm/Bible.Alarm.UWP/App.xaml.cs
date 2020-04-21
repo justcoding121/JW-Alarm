@@ -23,12 +23,8 @@ namespace Bible.Alarm.UWP
     sealed partial class App : Application
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
-        private readonly IContainer container;
 
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        private IContainer container;
         public App()
         {
             LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });
@@ -43,7 +39,7 @@ namespace Bible.Alarm.UWP
             try
             {
                 var result = IocSetup.Initialize("SplashActivity", false);
-                var container = result.Item1;
+                container = result.Item1;
                 var containerCreated = result.Item2;
                 if (containerCreated)
                 {
@@ -69,19 +65,6 @@ namespace Bible.Alarm.UWP
 
             ApplicationView.PreferredLaunchViewSize = new Size(250, 400);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-
-            Task.Run(() =>
-            {
-                try
-                {
-                    Messenger<bool>.Publish(MvvmMessages.Initialized, true);
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "An error happened in Messenger Publish call.");
-                }
-            });
-
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -112,7 +95,6 @@ namespace Bible.Alarm.UWP
                 // parameter
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
-
             // Ensure the current window is active
             Window.Current.Activate();
         }

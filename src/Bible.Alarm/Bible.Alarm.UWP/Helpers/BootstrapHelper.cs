@@ -30,7 +30,6 @@ namespace Bible.Alarm.Services.Uwp.Helpers
             {
                 try
                 {
-                    SQLitePCL.Batteries_V2.Init();
                     var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
                     var task2 = BootstrapHelper.InitializeDatabase(container);
 
