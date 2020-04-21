@@ -49,17 +49,27 @@
                 container.Resolve<IDownloadService>(),
                 container.Resolve<IToastService>()));
 
-            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
+            container.Register((x) =>
+            {
+                var storageService = container.Resolve<IStorageService>();
+                string databasePath = storageService.StorageRoot;
 
-            var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+                var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
+                    .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+                return new ScheduleDbContext(scheduleDbConfig);
+            });
 
-            container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
 
-            var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
+            container.Register((x) =>
+            {
+                var storageService = container.Resolve<IStorageService>();
+                string databasePath = storageService.StorageRoot;
 
-            container.Register((x) => new MediaDbContext(mediaDbConfig));
+                var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
+                    .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
+                return new MediaDbContext(mediaDbConfig);
+            });
+
             container.Register((x) =>
             {
                 return CrossMediaManager.Current;

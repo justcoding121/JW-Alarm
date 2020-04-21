@@ -37,17 +37,29 @@
                 return player;
             });
 
-            string databasePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            container.Register<IStorageService>((x) => new AndroidStorageService());
 
-            var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+            container.Register((x) =>
+            {
+                var storageService = container.Resolve<IStorageService>();
+                string databasePath = storageService.StorageRoot;
 
-            container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
+                var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
+                    .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+                return new ScheduleDbContext(scheduleDbConfig);
+            });
 
-            var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
 
-            container.Register((x) => new MediaDbContext(mediaDbConfig));
+            container.Register((x) =>
+            {
+                var storageService = container.Resolve<IStorageService>();
+                string databasePath = storageService.StorageRoot;
+
+                var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
+                    .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
+                return new MediaDbContext(mediaDbConfig);
+            });
+
             container.Register((x) =>
             {
                 return CrossMediaManager.Current;
@@ -55,7 +67,7 @@
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));
             container.Register<IVersionFinder>((x) => new VersionFinder());
-            container.Register<IStorageService>((x) => new AndroidStorageService());
+
         }
     }
 }
