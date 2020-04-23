@@ -55,7 +55,7 @@ namespace Bible.Alarm
                     await navigationPage.Navigation.PushAsync(homePage);
                 };
 
-                if (Device.RuntimePlatform == Device.iOS)
+                if (Device.RuntimePlatform != Device.Android)
                 {
                     homePageSetter().Wait();
                 }

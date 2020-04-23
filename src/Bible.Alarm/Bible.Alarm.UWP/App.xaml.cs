@@ -27,7 +27,7 @@ namespace Bible.Alarm.UWP
         private IContainer container;
         public App()
         {
-            LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });
+            //LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });
             initContainer();
 
             this.InitializeComponent();
