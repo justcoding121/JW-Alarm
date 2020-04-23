@@ -51,6 +51,10 @@
                     Margin="{OnPlatform Default='0',
                                         iOS='0,18,0,0'}"
                     ColumnSpacing="0"
+                    HeightRequest="{OnPlatform Default='43',
+                                               UWP='37'}"
+                    MinimumHeightRequest="{OnPlatform Default='43',
+                                                      UWP='37'}"
                     RowSpacing="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -59,23 +63,25 @@
                     <Button
                         Grid.Column="0"
                         Margin="2,2,0,2"
-                        Padding="0"
                         AutomationId="CancelButton"
                         Command="{Binding CancelCommand}"
-                        Font="Bold,18"
+                        Font="{OnPlatform Default='Bold,18',
+                                          UWP='Bold,16'}"
                         HorizontalOptions="FillAndExpand"
                         Text="CANCEL"
-                        TextColor="SlateBlue" />
+                        TextColor="SlateBlue"
+                        VerticalOptions="Fill" />
                     <Button
                         Grid.Column="1"
                         Margin="0,2,2,2"
-                        Padding="0"
                         AutomationId="SaveButton"
                         Command="{Binding SaveCommand}"
-                        Font="Bold,18"
+                        Font="{OnPlatform Default='Bold,18',
+                                          UWP='Bold,16'}"
                         HorizontalOptions="FillAndExpand"
                         Text="SAVE"
-                        TextColor="SlateBlue" />
+                        TextColor="SlateBlue"
+                        VerticalOptions="Fill" />
                 </Grid>
                 <ScrollView
                     Grid.Row="1"
@@ -96,13 +102,15 @@
                             Margin="0,3,0,3"
                             HorizontalOptions="Fill"
                             HorizontalTextAlignment="Center"
-                            IsVisible="{OnPlatform iOS='False'}"
+                            IsVisible="{OnPlatform iOS='False',
+                                                   UWP='False'}"
                             Text="Alarm Time" />
                         <TimePicker
                             AutomationId="AlarmTimePicker"
                             FontSize="Title"
                             HorizontalOptions="CenterAndExpand"
-                            IsVisible="{OnPlatform iOS='False'}"
+                            IsVisible="{OnPlatform iOS='False',
+                                                   UWP='False'}"
                             TextColor="SlateBlue"
                             Time="{Binding Time, Mode=TwoWay}">
                             <TimePicker.Format>hh:mm tt</TimePicker.Format>
@@ -110,7 +118,8 @@
                         <StackLayout
                             Margin="0,5,0,5"
                             HorizontalOptions="Center"
-                            IsVisible="{OnPlatform iOS='False'}"
+                            IsVisible="{OnPlatform iOS='False',
+                                                   UWP='False'}"
                             Orientation="Horizontal">
                             <Button
                                 Margin="5,0,0,0"
@@ -201,7 +210,7 @@
                                 VerticalOptions="Center" />
                             <Entry
                                 HorizontalOptions="Fill"
-                                MaxLength="15"
+                                MaxLength="25"
                                 MinimumWidthRequest="200"
                                 Text="{Binding Name, Mode=TwoWay}"
                                 VerticalOptions="Center"
@@ -236,12 +245,14 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="{OnPlatform Default='0,0,15,0'}"
+                                    Margin="{OnPlatform Default='0,0,15,0',
+                                                        UWP='0,0,-50,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
                                     Scale="{OnPlatform Default='1.25',
-                                                       iOS='1'}"
+                                                       iOS='1',
+                                                       UWP='1'}"
                                     VerticalOptions="Center" />
                                 <Label
                                     Margin="0,0,2,0"
@@ -356,23 +367,32 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="{OnPlatform Default='0,0,15,0'}"
+                                    Margin="{OnPlatform Default='0,0,15,0',
+                                                        UWP='0,0,-50,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding AlwaysPlayFromStart, Mode=TwoWay}"
-                                    Scale="{OnPlatform Default='1.25',
-                                                       iOS='1'}"
+                                    Scale="{OnPlatform Android='1.25',
+                                                       iOS='1',
+                                                       UWP='1'}"
                                     VerticalOptions="Center" />
                             </StackLayout>
                         </Grid>
                     </StackLayout>
                 </ScrollView>
-                <Grid Grid.Row="2" VerticalOptions="End">
+                <Grid
+                    Grid.Row="2"
+                    HeightRequest="{OnPlatform Default='43',
+                                               UWP='35'}"
+                    MinimumHeightRequest="{OnPlatform Default='43',
+                                                      UWP='35'}"
+                    VerticalOptions="End">
                     <Button
                         Margin="2"
                         Padding="0"
                         Command="{Binding DeleteCommand}"
-                        Font="Bold,16"
+                        Font="{OnPlatform Default='Bold,16',
+                                          UWP='Bold,14'}"
                         HorizontalOptions="FillAndExpand"
                         IsVisible="{Binding IsExistingSchedule}"
                         Text="REMOVE"

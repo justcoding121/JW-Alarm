@@ -56,9 +56,11 @@
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                     FontSize="{OnPlatform Default='18',
                                           iOS='25'}"
-                    HeightRequest="43"
+                    HeightRequest="{OnPlatform Default='43',
+                                               UWP='35'}"
                     HorizontalOptions="Fill"
-                    MinimumHeightRequest="43"
+                    MinimumHeightRequest="{OnPlatform Default='43',
+                                                      UWP='30'}"
                     Text="{x:Static fn:GlyphNames.Plus}"
                     TextColor="SlateBlue" />
             </StackLayout>
@@ -100,7 +102,8 @@
                                 <StackLayout
                                     Grid.Column="0"
                                     Margin="{OnPlatform Default='10,3,0,0',
-                                                        iOS='35,3,0,0'}"
+                                                        iOS='35,3,0,0',
+                                                        UWP='15,3,0,0'}"
                                     Padding="0"
                                     Orientation="Vertical">
                                     <Button
@@ -109,17 +112,22 @@
                                         BackgroundColor="WhiteSmoke"
                                         Command="{Binding PlayCommand}"
                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                        HeightRequest="{OnPlatform UWP='50'}"
                                         HorizontalOptions="Center"
-                                        MinimumWidthRequest="{OnPlatform iOS='50'}"
+                                        MinimumHeightRequest="{OnPlatform UWP='50'}"
+                                        MinimumWidthRequest="{OnPlatform iOS='50',
+                                                                         UWP='50'}"
                                         Text="{x:Static fn:GlyphNames.Play}"
                                         TextColor="SlateBlue"
                                         VerticalOptions="Center"
-                                        WidthRequest="{OnPlatform iOS='50'}" />
+                                        WidthRequest="{OnPlatform iOS='50',
+                                                                  UWP='50'}" />
                                     <StackLayout
                                         Margin="0"
                                         Padding="0"
                                         HorizontalOptions="Start"
-                                        IsVisible="{OnPlatform iOS='False'}"
+                                        IsVisible="{OnPlatform iOS='False',
+                                                               UWP='False'}"
                                         Orientation="Horizontal"
                                         VerticalOptions="Center">
                                         <Label
@@ -143,7 +151,7 @@
                                     HorizontalOptions="Center"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">
-                                    <StackLayout IsVisible="{OnPlatform iOS='False'}" Orientation="Horizontal">
+                                    <StackLayout IsVisible="{OnPlatform iOS='False', UWP='False'}" Orientation="Horizontal">
                                         <Label
                                             Margin="5,0,0,0"
                                             FontAttributes="Bold"
@@ -203,7 +211,8 @@
                                     Margin="{OnPlatform Default='15,0,30,0',
                                                         iOS='5,0,10,0'}"
                                     HorizontalOptions="End"
-                                    IsVisible="{OnPlatform iOS='False'}"
+                                    IsVisible="{OnPlatform iOS='False',
+                                                           UWP='False'}"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">
                                     <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" Scale="{OnPlatform Default='1.25', iOS='1'}" />
