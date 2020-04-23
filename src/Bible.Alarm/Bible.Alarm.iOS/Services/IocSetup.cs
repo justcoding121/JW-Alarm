@@ -6,7 +6,6 @@
     using Bible.Alarm.iOS.Services.Handlers;
     using Bible.Alarm.iOS.Services.Platform;
     using Bible.Alarm.Services.Contracts;
-    using Bible.Alarm.Services.iOS.Tasks;
     using MediaManager;
     using Microsoft.EntityFrameworkCore;
     using System;
@@ -26,11 +25,6 @@
             }
 
             container.Register<INotificationService>((x) => new iOSNotificationService(container));
-
-            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-                                    container.Resolve<INotificationService>()));
-
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<IDownloadService>()));
 

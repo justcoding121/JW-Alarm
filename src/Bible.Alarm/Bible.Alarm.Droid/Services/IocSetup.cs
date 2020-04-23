@@ -25,11 +25,6 @@
 
             container.Register<INotificationService>((x) => new DroidNotificationService(container));
 
-            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-                                    container.Resolve<INotificationService>()));
-
-
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<MediaPlayer>()));
             container.Register((x) =>
             {

@@ -10,7 +10,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Bible.Alarm.Uwp.Services.Handlers
+
+namespace Bible.Alarm.UWP.Services.Handlers
 {
     public class UwpAlarmHandler : IDisposable
     {
@@ -21,7 +22,6 @@ namespace Bible.Alarm.Uwp.Services.Handlers
         private ScheduleDbContext dbContext;
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
-
         public UwpAlarmHandler(IPlaybackService playbackService,
                                 IMediaManager mediaManager,
                                 ScheduleDbContext dbContext)
@@ -52,15 +52,13 @@ namespace Bible.Alarm.Uwp.Services.Handlers
 
         public async Task Handle(long scheduleId)
         {
-            var isBusy = false;
-
             try
             {
                 await @lock.WaitAsync();
 
                 if (mediaManager.IsPreparedEx())
                 {
-                    isBusy = true;
+                    playbackService.Dispose();
                     return;
                 }
                 else
@@ -88,16 +86,11 @@ namespace Bible.Alarm.Uwp.Services.Handlers
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
                 playbackService.Stopped -= stateChanged;
-                mediaManager?.Dispose();
+                Dispose();
             }
             finally
             {
                 @lock.Release();
-            }
-
-            if (isBusy)
-            {
-                Dispose();
             }
         }
 
@@ -108,8 +101,7 @@ namespace Bible.Alarm.Uwp.Services.Handlers
                 if (e == MediaPlayerState.Stopped)
                 {
                     playbackService.Stopped -= stateChanged;
-                    playbackService.Dispose();
-                    mediaManager.Dispose();
+                    Dispose();
                 }
             }
             catch (Exception ex)
@@ -123,7 +115,6 @@ namespace Bible.Alarm.Uwp.Services.Handlers
             this.playbackService.Dispose();
             this.mediaManager.Dispose();
         }
-
 
     }
 }

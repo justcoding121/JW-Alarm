@@ -5,10 +5,10 @@
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Services;
     using Bible.Alarm.Services.Contracts;
-    using Bible.Alarm.Services.Uwp.Tasks;
-    using Bible.Alarm.Uwp.Services.Handlers;
+    using Bible.Alarm.Services.UWP;
     using Bible.Alarm.Uwp.Services.Platform;
     using Bible.Alarm.Uwp.Services.Storage;
+    using Bible.Alarm.UWP.Services.Handlers;
     using JW.Alarm.Services.UWP;
     using MediaManager;
     using Microsoft.EntityFrameworkCore;
@@ -31,11 +31,6 @@
             container.Register<IToastService>((x) => new UwpToastService(container.Resolve<TaskScheduler>()));
 
             container.Register<INotificationService>((x) => new UwpNotificationService(container));
-
-            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-                                    container.Resolve<INotificationService>()));
-
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()));
 

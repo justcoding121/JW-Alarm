@@ -7,6 +7,7 @@ using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Services.Tasks;
 using NLog;
 using System;
 using System.Threading.Tasks;

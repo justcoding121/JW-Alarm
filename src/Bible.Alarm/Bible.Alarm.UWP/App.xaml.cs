@@ -1,12 +1,8 @@
-﻿using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Services.Infrastructure;
+﻿using Bible.Alarm.Services.Tasks;
 using Bible.Alarm.Services.Uwp.Helpers;
-using Bible.Alarm.Services.Uwp.Tasks;
 using Bible.Alarm.Uwp;
-using Bible.Alarm.Uwp.Services.Platform;
 using NLog;
 using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;

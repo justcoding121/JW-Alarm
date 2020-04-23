@@ -137,7 +137,6 @@
     <Compile Include="Services\Media\PreviewPlayService.cs" />
     <Compile Include="Services\Platform\VersionFinder.cs" />
     <Compile Include="Services\Storage\StorageService.cs" />
-    <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\ToastService.cs" />
     <None Include="Entitlements.plist" />

@@ -2,7 +2,7 @@
 using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
-using Bible.Alarm.Services.iOS.Tasks;
+using Bible.Alarm.Services.Tasks;
 using Foundation;
 using MediaManager;
 using NLog;

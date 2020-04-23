@@ -1,41 +1,46 @@
-﻿using Bible.Alarm;
-using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
+using NLog;
 using System;
 using System.Threading.Tasks;
+using Bible.Alarm.UWP.Services.Handlers;
 
-namespace JW.Alarm.Services.UWP
+namespace Bible.Alarm.Services.UWP
 {
     public class UwpNotificationService : INotificationService
     {
         private readonly IContainer container;
+
         public UwpNotificationService(IContainer container)
         {
             this.container = container;
         }
 
-        public void Dispose()
+        public void ShowNotification(long scheduleId)
         {
-            throw new NotImplementedException();
+            var iosAlarmHandler = container.Resolve<UwpAlarmHandler>();
+            _ = iosAlarmHandler.Handle(scheduleId);
         }
 
-        public Task<bool> IsScheduled(long scheduleId)
+        public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
+            string title, string body)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
+
         }
 
         public Task Remove(long scheduleId)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
-        public Task ScheduleNotification(long scheduleId, DateTimeOffset time, string title, string body)
+        public Task<bool> IsScheduled(long scheduleId)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
-        public void ShowNotification(long scheduleId)
+        public void Dispose()
         {
-            throw new NotImplementedException();
+
         }
     }
 
