@@ -55,7 +55,7 @@
                 string databasePath = storageService.StorageRoot;
 
                 var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                    .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+                    .UseSqlite($"Data Source={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
                 return new ScheduleDbContext(scheduleDbConfig);
             });
 
@@ -66,7 +66,7 @@
                 string databasePath = storageService.StorageRoot;
 
                 var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                    .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
+                    .UseSqlite($"Data Source={Path.Combine(databasePath, "mediaIndex.db")}").Options;
                 return new MediaDbContext(mediaDbConfig);
             });
 
