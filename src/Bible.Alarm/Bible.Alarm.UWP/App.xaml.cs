@@ -1,6 +1,8 @@
-﻿using Bible.Alarm.Services.Tasks;
+﻿using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Services.Tasks;
 using Bible.Alarm.Services.Uwp.Helpers;
 using Bible.Alarm.Uwp;
+using Bible.Alarm.Uwp.Services.Platform;
 using NLog;
 using System;
 using Windows.ApplicationModel;
@@ -23,7 +25,7 @@ namespace Bible.Alarm.UWP
         private IContainer container;
         public App()
         {
-            //LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });
+            LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });
             initContainer();
 
             this.InitializeComponent();
