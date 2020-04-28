@@ -28,16 +28,6 @@
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<IDownloadService>()));
 
-            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
-                container.Resolve<IPlaylistService>(),
-                container.Resolve<IAlarmService>(),
-                container.Resolve<IMediaCacheService>(),
-                container.Resolve<IStorageService>(),
-                container.Resolve<INetworkStatusService>(),
-                container.Resolve<INotificationService>(),
-                container.Resolve<IDownloadService>(),
-                container.Resolve<IToastService>()));
-
             container.Register((x) =>
             {
                 var storageService = container.Resolve<IStorageService>();

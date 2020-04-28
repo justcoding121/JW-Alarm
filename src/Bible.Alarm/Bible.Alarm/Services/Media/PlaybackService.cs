@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Services
 {
@@ -137,7 +138,18 @@ namespace Bible.Alarm.Services
                 {
                     return Task.Run(async () =>
                     {
-                        var item = await mediaExtractor.CreateMediaItem(x.Value);
+                        IMediaItem item;
+
+                        if (Device.RuntimePlatform == Device.UWP)
+                        {
+                            item = new MediaItem(x.Value.FullName);
+                            //TODO: Fix this
+                        }
+                        else
+                        {
+                            item = await mediaExtractor.CreateMediaItem(x.Value);
+                        }
+                    
                         item.SetDisplay(playDetailMap[x.Key]);
                         Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                         return item;
