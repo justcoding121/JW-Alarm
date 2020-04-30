@@ -5,37 +5,190 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fn="clr-namespace:FontNameResources">
     <ContentPage.Content>
-        <StackLayout
-            AutomationId="AlarmModal"
-            HorizontalOptions="CenterAndExpand"
-            Orientation="Vertical"
-            VerticalOptions="CenterAndExpand">
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding DismissCommand}" NumberOfTapsRequired="1" />
-            </StackLayout.GestureRecognizers>
-            <Label
-                Margin="5"
-                FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                FontSize="{OnPlatform Default='75'}"
-                HorizontalOptions="CenterAndExpand"
-                Text="{x:Static fn:GlyphNames.Bell}"
-                TextColor="SlateBlue"
-                VerticalOptions="CenterAndExpand" />
-            <Button
-                Margin="5"
-                AutomationId="AlarmDismissButton"
-                BackgroundColor="{OnPlatform iOS='WhiteSmoke',
-                                             UWP='WhiteSmoke'}"
-                Command="{Binding DismissCommand}"
-                CornerRadius="10"
-                FontSize="{OnPlatform Default='Medium',
-                                      iOS='Title'}"
-                HeightRequest="45"
-                HorizontalOptions="CenterAndExpand"
-                Text="Dismiss"
-                TextColor="SlateBlue"
-                VerticalOptions="CenterAndExpand"
-                WidthRequest="200" />
-        </StackLayout>
+        <Grid HorizontalOptions="Center" VerticalOptions="Fill">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <FlexLayout
+                Grid.Row="0"
+                AlignItems="Stretch"
+                Direction="Column"
+                HorizontalOptions="Fill"
+                JustifyContent="SpaceEvenly">
+                <StackLayout FlexLayout.AlignSelf="Center" Orientation="Vertical">
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{Binding Title}" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{Binding Description}" />
+                </StackLayout>
+                <StackLayout
+                    AutomationId="AlarmModal"
+                    FlexLayout.AlignSelf="Center"
+                    HorizontalOptions="Center"
+                    Orientation="Vertical"
+                    VerticalOptions="Center">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DismissCommand}" NumberOfTapsRequired="1" />
+                    </StackLayout.GestureRecognizers>
+                    <Label
+                        Margin="5"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="{OnPlatform Default='75'}"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{x:Static fn:GlyphNames.Bell}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="CenterAndExpand" />
+                    <Button
+                        Margin="5"
+                        AutomationId="AlarmDismissButton"
+                        BackgroundColor="{OnPlatform iOS='WhiteSmoke',
+                                                     UWP='WhiteSmoke'}"
+                        Command="{Binding DismissCommand}"
+                        CornerRadius="10"
+                        FontSize="{OnPlatform Default='Medium',
+                                              iOS='Title'}"
+                        HeightRequest="45"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Dismiss"
+                        TextColor="SlateBlue"
+                        VerticalOptions="CenterAndExpand"
+                        WidthRequest="200" />
+                </StackLayout>
+                <Label
+                    FlexLayout.AlignSelf="Center"
+                    FontSize="Large"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding SubTitle}" />
+            </FlexLayout>
+            <Grid
+                Grid.Row="1"
+                Margin="5,5,5,25"
+                FlexLayout.AlignSelf="Stretch"
+                VerticalOptions="End">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    FontSize="Small"
+                    HorizontalOptions="Start"
+                    Text="{Binding CurrentTime}"
+                    VerticalOptions="Center" />
+                <ProgressBar
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5,0,5,0"
+                    HorizontalOptions="Fill"
+                    Progress="{Binding Progress}"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="0,0,10,0"
+                    FontSize="Small"
+                    HorizontalOptions="End"
+                    Text="{Binding EndTime}"
+                    VerticalOptions="Center" />
+                <Grid
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding PreviousCommand}"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{x:Static fn:GlyphNames.Previous}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="Center" />
+                    <Button
+                        Grid.Column="1"
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding BackwardCommand}"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{x:Static fn:GlyphNames.Backward}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="Center" />
+                    <Button
+                        Grid.Column="2"
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding PlayCommand}"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding PlayVisible}"
+                        Text="{x:Static fn:GlyphNames.Play}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="Center" />
+                    <Button
+                        Grid.Column="2"
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding PauseCommand}"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding PauseVisible}"
+                        Text="{x:Static fn:GlyphNames.Pause}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="Center" />
+                    <Button
+                        Grid.Column="3"
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding ForwardCommand}"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{x:Static fn:GlyphNames.Forward}"
+                        TextColor="SlateBlue" />
+                    <Button
+                        Grid.Column="4"
+                        Margin="0,0,10,0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding NextCommand}"
+                        FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{x:Static fn:GlyphNames.Next}"
+                        TextColor="SlateBlue"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Grid>
+        </Grid>
+
     </ContentPage.Content>
 </ContentPage>
