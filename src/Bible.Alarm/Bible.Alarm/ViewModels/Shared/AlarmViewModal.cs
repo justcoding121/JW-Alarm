@@ -190,11 +190,14 @@ namespace Bible.Alarm.ViewModels
         }
 
 
-
         public void Dispose()
         {
-            isDisposed = true;
-            playbackService.Dispose();
+            if (!isDisposed)
+            {
+                isDisposed = true;
+                playbackService.Dispose();
+            }
+           
         }
     }
 }
