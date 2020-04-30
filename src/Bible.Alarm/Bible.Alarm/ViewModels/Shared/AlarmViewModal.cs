@@ -162,12 +162,14 @@ namespace Bible.Alarm.ViewModels
             get => playVisible;
             set => this.Set(ref playVisible, value);
         }
+       
         private bool pauseVisible;
         public bool PauseVisible
         {
             get => pauseVisible;
             set => this.Set(ref pauseVisible, value);
         }
+
         private string currentTime;
         public string CurrentTime
         {

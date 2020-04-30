@@ -38,9 +38,6 @@ namespace FontNameResources
         public static string Bell = "\uf0f3";
         public static string Repeat = "\uf0e2";
 
-        public static string PlayCircle = "\uf144";
-        public static string PauseCircle = "\uf28b";
-
         public static string Next = "\uf050";
         public static string Previous = "\uf049";
 
