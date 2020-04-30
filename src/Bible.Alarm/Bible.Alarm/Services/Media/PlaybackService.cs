@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -149,7 +150,7 @@ namespace Bible.Alarm.Services
                         {
                             item = await mediaExtractor.CreateMediaItem(x.Value);
                         }
-                    
+
                         item.SetDisplay(playDetailMap[x.Key]);
                         Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                         return item;
@@ -348,8 +349,15 @@ namespace Bible.Alarm.Services
 
         private async Task playBeep()
         {
-            this.mediaManager.RepeatMode = RepeatMode.All;
-            await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                this.mediaManager.RepeatMode = RepeatMode.All;
+                await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+            }
+            else
+            {
+                await toastService.ShowMessage("An error happened while downloading.");
+            }
         }
 
         public async Task Snooze()
