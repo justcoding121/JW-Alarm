@@ -120,7 +120,8 @@
                         BackgroundColor="Transparent"
                         Command="{Binding PreviousCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                        FontSize="Medium"
+                        FontSize="{OnPlatform Default='Medium',
+                                              UWP='Small'}"
                         HorizontalOptions="Center"
                         Text="{x:Static fn:GlyphNames.Previous}"
                         TextColor="SlateBlue"
@@ -132,7 +133,8 @@
                         BackgroundColor="Transparent"
                         Command="{Binding BackwardCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                        FontSize="Medium"
+                        FontSize="{OnPlatform Default='Medium',
+                                              UWP='Small'}"
                         HorizontalOptions="Center"
                         Text="{x:Static fn:GlyphNames.Backward}"
                         TextColor="SlateBlue"
@@ -144,7 +146,8 @@
                         BackgroundColor="Transparent"
                         Command="{Binding PlayCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                        FontSize="Large"
+                        FontSize="{OnPlatform Default='Large',
+                                              UWP='Medium'}"
                         HorizontalOptions="Center"
                         IsVisible="{Binding PlayVisible}"
                         Text="{x:Static fn:GlyphNames.Play}"
@@ -157,7 +160,8 @@
                         BackgroundColor="Transparent"
                         Command="{Binding PauseCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                        FontSize="Large"
+                        FontSize="{OnPlatform Default='Large',
+                                              UWP='Medium'}"
                         HorizontalOptions="Center"
                         IsVisible="{Binding PauseVisible}"
                         Text="{x:Static fn:GlyphNames.Pause}"
@@ -170,7 +174,8 @@
                         BackgroundColor="Transparent"
                         Command="{Binding ForwardCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                        FontSize="Medium"
+                        FontSize="{OnPlatform Default='Medium',
+                                              UWP='Small'}"
                         HorizontalOptions="Center"
                         Text="{x:Static fn:GlyphNames.Forward}"
                         TextColor="SlateBlue" />
@@ -181,7 +186,8 @@
                         BackgroundColor="Transparent"
                         Command="{Binding NextCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                        FontSize="Medium"
+                        FontSize="{OnPlatform Default='Medium',
+                                              UWP='Small'}"
                         HorizontalOptions="Center"
                         Text="{x:Static fn:GlyphNames.Next}"
                         TextColor="SlateBlue"
