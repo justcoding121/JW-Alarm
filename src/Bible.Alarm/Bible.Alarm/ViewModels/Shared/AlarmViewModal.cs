@@ -99,7 +99,19 @@ namespace Bible.Alarm.ViewModels
                 {
                     refresh();
                     await Task.Delay(1000);
-                    if (!mediaManager.IsPreparedEx())
+
+                    var isRunning = mediaManager.IsPreparedEx();
+
+                    //check for 7 seconds
+                    int count = 14;
+                    while (!isRunning && count > 0)
+                    {
+                        await Task.Delay(500);
+                        isRunning = mediaManager.IsPreparedEx();
+                        count--;
+                    }
+
+                    if (!isRunning)
                     {
                         Dispose();
                     }
@@ -130,7 +142,13 @@ namespace Bible.Alarm.ViewModels
 
                 CurrentTime = $"{mediaManager.Position.Minutes:00}:{mediaManager.Position.Seconds:00}";
                 EndTime = $"{mediaManager.Duration.Minutes:00}:{mediaManager.Duration.Seconds:00}";
-                Progress = mediaManager.Position.TotalMilliseconds / mediaManager.Duration.TotalMilliseconds;
+                
+                var progress = mediaManager.Position.TotalMilliseconds / mediaManager.Duration.TotalMilliseconds;
+                if(!Double.IsNaN(progress) && !Double.IsInfinity(progress))
+                {
+                    Progress = progress;
+                }
+            
             }
             catch { }
         }

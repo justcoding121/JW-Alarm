@@ -25,7 +25,7 @@
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 Scale="0.5"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 Color="SlateBlue">
                 <ActivityIndicator.Scale>
                     <OnPlatform x:TypeArguments="x:Double">
@@ -51,9 +51,9 @@
                     Margin="{OnPlatform Default='0',
                                         iOS='0,18,0,0'}"
                     ColumnSpacing="0"
-                    HeightRequest="{OnPlatform Default='43',
+                    HeightRequest="{OnPlatform Default='45',
                                                UWP='37'}"
-                    MinimumHeightRequest="{OnPlatform Default='43',
+                    MinimumHeightRequest="{OnPlatform Default='45',
                                                       UWP='37'}"
                     RowSpacing="0">
                     <Grid.ColumnDefinitions>
@@ -67,7 +67,7 @@
                         Command="{Binding CancelCommand}"
                         Font="{OnPlatform Default='Bold,18',
                                           UWP='Bold,16'}"
-                        HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="Fill"
                         Text="CANCEL"
                         TextColor="SlateBlue"
                         VerticalOptions="Fill" />
@@ -78,7 +78,7 @@
                         Command="{Binding SaveCommand}"
                         Font="{OnPlatform Default='Bold,18',
                                           UWP='Bold,16'}"
-                        HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="Fill"
                         Text="SAVE"
                         TextColor="SlateBlue"
                         VerticalOptions="Fill" />
@@ -108,7 +108,7 @@
                         <TimePicker
                             AutomationId="AlarmTimePicker"
                             FontSize="Title"
-                            HorizontalOptions="CenterAndExpand"
+                            HorizontalOptions="Center"
                             IsVisible="{OnPlatform iOS='False',
                                                    UWP='False'}"
                             TextColor="SlateBlue"
@@ -393,7 +393,7 @@
                         Command="{Binding DeleteCommand}"
                         Font="{OnPlatform Default='Bold,16',
                                           UWP='Bold,14'}"
-                        HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="Fill"
                         IsVisible="{Binding IsExistingSchedule}"
                         Text="REMOVE"
                         TextColor="SlateBlue" />

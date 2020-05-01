@@ -27,7 +27,7 @@
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             Scale="0.5"
-            VerticalOptions="CenterAndExpand"
+            VerticalOptions="Center"
             Color="SlateBlue">
             <ActivityIndicator.Scale>
                 <OnPlatform x:TypeArguments="x:Double">
@@ -83,8 +83,8 @@
                         <ViewCell>
                             <Grid
                                 ColumnSpacing="{OnPlatform iOS='30'}"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="CenterAndExpand">
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center">
                                 <Grid.Resources>
                                     <models:DaysOfWeek x:Key="Sunday">Sunday</models:DaysOfWeek>
                                     <models:DaysOfWeek x:Key="Monday">Monday</models:DaysOfWeek>

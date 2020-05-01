@@ -26,7 +26,7 @@
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 Scale="0.5"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 Color="SlateBlue">
                 <ActivityIndicator.Scale>
                     <OnPlatform x:TypeArguments="x:Double">

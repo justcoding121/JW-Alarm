@@ -262,14 +262,16 @@ namespace Bible.Alarm.ViewModels
 
         private async Task populateTracks(string languageCode, string publicationCode)
         {
-            var tracks = languageCode != null ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
+            var isVocal = languageCode != null;
+
+            var tracks = isVocal ? await mediaService.GetVocalMusicTracks(languageCode, publicationCode)
                : await mediaService.GetMelodyMusicTracks((await this.mediaService.GetMelodyMusicReleases()).First().Value.Code);
 
             var trackVMs = new ObservableCollection<MusicTrackListViewItemModel>();
 
             foreach (var track in tracks.Select(x => x.Value))
             {
-                var musicTrackListViewItemViewModel = new MusicTrackListViewItemModel(track);
+                var musicTrackListViewItemViewModel = new MusicTrackListViewItemModel(track, !isVocal);
 
                 trackVMs.Add(musicTrackListViewItemViewModel);
 
@@ -305,9 +307,13 @@ namespace Bible.Alarm.ViewModels
     public class MusicTrackListViewItemModel : ViewModel, IComparable
     {
         private readonly MusicTrack track;
-        public MusicTrackListViewItemModel(MusicTrack track)
+        private readonly bool isMelody;
+
+        public MusicTrackListViewItemModel(MusicTrack track, bool isMelody)
         {
             this.track = track;
+            this.isMelody = isMelody;
+
             TogglePlayCommand = new Command(() => Play = !Play);
             ToggleRepeatCommand = new Command(() => Repeat = !Repeat);
         }
@@ -322,7 +328,7 @@ namespace Bible.Alarm.ViewModels
         public string LookUpPath => track.Source.LookUpPath;
         public int Number => track.Number;
 
-        public string Title => track.Title;
+        public string Title => isMelody ? $"Melody Number(s) {track.Title}" : track.Title;
         public string Url => track.Source.Url;
 
         private bool play;
