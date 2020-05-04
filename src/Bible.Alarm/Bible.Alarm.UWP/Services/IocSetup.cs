@@ -32,6 +32,7 @@
 
             container.Register<INotificationService>((x) => new UwpNotificationService(container));
 
+            container.Register<MediaPlayer>((x) => new MediaPlayer());
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container.Resolve<MediaPlayer>()));
 
             container.Register((x) =>

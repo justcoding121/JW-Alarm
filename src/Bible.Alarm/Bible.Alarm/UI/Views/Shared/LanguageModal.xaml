@@ -59,7 +59,7 @@
                     Grid.Row="3"
                     ios:ListView.SeparatorStyle="FullWidth"
                     BackgroundColor="White"
-                    Footer=""
+                    Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Languages}"
                     MinimumHeightRequest="300"

@@ -121,8 +121,8 @@
                 <ListView
                     Grid.Row="1"
                     ios:ListView.SeparatorStyle="FullWidth"
-                    CachingStrategy="RecycleElement"
-                    Footer=""
+                    CachingStrategy="RecycleElementAndDataTemplate"
+                    Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Translations}"
                     SelectionMode="None">

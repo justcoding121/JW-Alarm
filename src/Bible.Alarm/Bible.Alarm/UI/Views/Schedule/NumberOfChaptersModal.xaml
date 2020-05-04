@@ -41,7 +41,7 @@
                     Grid.Row="2"
                     ios:ListView.SeparatorStyle="FullWidth"
                     BackgroundColor="White"
-                    Footer=""
+                    Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding NumberOfChaptersList}"
                     MinimumHeightRequest="300"
