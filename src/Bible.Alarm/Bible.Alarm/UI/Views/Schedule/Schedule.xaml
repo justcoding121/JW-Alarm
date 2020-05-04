@@ -50,10 +50,6 @@
                     Margin="{OnPlatform Default='0',
                                         iOS='0,18,0,0'}"
                     ColumnSpacing="0"
-                    HeightRequest="{OnPlatform Default='45',
-                                               UWP='37'}"
-                    MinimumHeightRequest="{OnPlatform Default='45',
-                                                      UWP='37'}"
                     RowSpacing="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -66,7 +62,11 @@
                         Command="{Binding CancelCommand}"
                         Font="{OnPlatform Default='Bold,18',
                                           UWP='Bold,16'}"
+                        HeightRequest="{OnPlatform Default='50',
+                                                   UWP='37'}"
                         HorizontalOptions="Fill"
+                        MinimumHeightRequest="{OnPlatform Default='50',
+                                                          UWP='37'}"
                         Text="CANCEL"
                         TextColor="SlateBlue"
                         VerticalOptions="Fill" />
@@ -77,7 +77,11 @@
                         Command="{Binding SaveCommand}"
                         Font="{OnPlatform Default='Bold,18',
                                           UWP='Bold,16'}"
+                        HeightRequest="{OnPlatform Default='50',
+                                                   UWP='37'}"
                         HorizontalOptions="Fill"
+                        MinimumHeightRequest="{OnPlatform Default='50',
+                                                          UWP='37'}"
                         Text="SAVE"
                         TextColor="SlateBlue"
                         VerticalOptions="Fill" />
@@ -380,21 +384,19 @@
                         </Grid>
                     </StackLayout>
                 </ScrollView>
-                <Grid
-                    Grid.Row="2"
-                    HeightRequest="{OnPlatform Default='43',
-                                               UWP='35'}"
-                    MinimumHeightRequest="{OnPlatform Default='43',
-                                                      UWP='35'}"
-                    VerticalOptions="End">
+                <Grid Grid.Row="2" VerticalOptions="End">
                     <Button
                         Margin="2"
                         Padding="0"
                         Command="{Binding DeleteCommand}"
                         Font="{OnPlatform Default='Bold,16',
                                           UWP='Bold,14'}"
+                        HeightRequest="{OnPlatform Default='50',
+                                                   UWP='37'}"
                         HorizontalOptions="Fill"
                         IsVisible="{Binding IsExistingSchedule}"
+                        MinimumHeightRequest="{OnPlatform Default='50',
+                                                          UWP='37'}"
                         Text="REMOVE"
                         TextColor="SlateBlue" />
                 </Grid>

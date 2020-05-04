@@ -56,10 +56,10 @@
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                     FontSize="{OnPlatform Default='18',
                                           iOS='25'}"
-                    HeightRequest="{OnPlatform Default='43',
+                    HeightRequest="{OnPlatform Default='50',
                                                UWP='35'}"
                     HorizontalOptions="Fill"
-                    MinimumHeightRequest="{OnPlatform Default='43',
+                    MinimumHeightRequest="{OnPlatform Default='50',
                                                       UWP='30'}"
                     Text="{x:Static fn:GlyphNames.Plus}"
                     TextColor="SlateBlue" />
@@ -70,7 +70,7 @@
                 Footer="{OnPlatform iOS=''}"
                 HorizontalOptions="Fill"
                 ItemsSource="{Binding Schedules}"
-                RowHeight="100"
+                RowHeight="140"
                 SelectionMode="None">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior
@@ -82,6 +82,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <Grid
+                                Margin="{OnPlatform Android='0,15,0,0'}"
                                 ColumnSpacing="{OnPlatform iOS='30'}"
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Center">

@@ -64,6 +64,7 @@ namespace Bible.Alarm.ViewModels
                             LanguageCode = current.LanguageCode
                         }
                     });
+
                     var viewModel = this.container.Resolve<SongBookSelectionViewModel>();
                     await navigationService.Navigate(viewModel);
                 }

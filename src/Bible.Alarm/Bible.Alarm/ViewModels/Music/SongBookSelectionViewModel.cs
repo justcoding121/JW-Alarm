@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Models;
+﻿using Bible.Alarm.Contracts.UI;
+using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
@@ -17,7 +18,7 @@ using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {
-    public class SongBookSelectionViewModel : ViewModel, IDisposable
+    public class SongBookSelectionViewModel : ViewModel, IListViewModel, IDisposable
     {
         private readonly IContainer container;
 
@@ -111,7 +112,14 @@ namespace Bible.Alarm.ViewModels
             SelectLanguageCommand = new Command<LanguageListViewItemModel>(async x =>
             {
                 IsBusy = true;
+                if (CurrentLanguage != null)
+                {
+                    CurrentLanguage.IsSelected = false;
+                }
+
                 CurrentLanguage = x;
+                CurrentLanguage.IsSelected = true;
+
                 await navigationService.CloseModal();
                 await populateSongBooks(x.Code);
                 IsBusy = false;
@@ -191,6 +199,7 @@ namespace Bible.Alarm.ViewModels
 
         public PublicationListViewItemModel SelectedSongBook { get; set; }
 
+        public object SelectedItem => CurrentLanguage;
         private async Task initialize()
         {
             var languageCode = tentative.LanguageCode;

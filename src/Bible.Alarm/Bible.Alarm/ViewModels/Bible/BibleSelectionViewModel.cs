@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Models;
+﻿using Bible.Alarm.Contracts.UI;
+using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
@@ -17,7 +18,7 @@ using Xamarin.Forms;
 
 namespace Bible.Alarm.ViewModels
 {
-    public class BibleSelectionViewModel : ViewModel, IDisposable
+    public class BibleSelectionViewModel : ViewModel, IListViewModel, IDisposable
     {
         private readonly IContainer container;
 
@@ -199,6 +200,7 @@ namespace Bible.Alarm.ViewModels
             set => this.Set(ref languageSearchTerm, value);
         }
 
+        public object SelectedItem => CurrentLanguage;
 
         private async Task initialize(string languageCode)
         {
@@ -216,6 +218,7 @@ namespace Bible.Alarm.ViewModels
 
             subscriptions.Add(subscription);
         }
+
 
         private async Task populateLanguages(string searchTerm = null)
         {
