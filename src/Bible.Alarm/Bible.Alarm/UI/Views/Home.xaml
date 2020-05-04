@@ -103,7 +103,7 @@
                                     Grid.Column="0"
                                     Margin="{OnPlatform Default='10,3,0,0',
                                                         iOS='35,3,0,0',
-                                                        UWP='15,3,0,0'}"
+                                                        UWP='30,3,0,0'}"
                                     Padding="0"
                                     Orientation="Vertical">
                                     <Button
