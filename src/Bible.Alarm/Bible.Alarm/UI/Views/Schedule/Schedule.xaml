@@ -98,7 +98,7 @@
                             <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
                         </StackLayout.Resources>
                         <Label
-                            Margin="0,3,0,3"
+                            Margin="0,10,0,3"
                             HorizontalOptions="Fill"
                             HorizontalTextAlignment="Center"
                             IsVisible="{OnPlatform iOS='False',
@@ -200,7 +200,8 @@
                         </StackLayout>
                         <StackLayout
                             Margin="{OnPlatform Default='0,5,0,5',
-                                                iOS='0,15,0,5'}"
+                                                iOS='0,15,0,5',
+                                                UWP='0,15,0,5'}"
                             HorizontalOptions="Center"
                             Orientation="Horizontal">
                             <Label
