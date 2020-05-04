@@ -456,6 +456,11 @@ namespace Bible.Alarm.ViewModels
                 return false;
             }
 
+            if (IsNewSchedule && Device.RuntimePlatform == Device.Android)
+            {
+                IsEnabled = true;
+            }
+
             var model = getModel();
 
             if (IsNewSchedule)
