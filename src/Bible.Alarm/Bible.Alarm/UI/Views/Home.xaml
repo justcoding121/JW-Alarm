@@ -70,7 +70,7 @@
                 Footer="{OnPlatform iOS=''}"
                 HorizontalOptions="Fill"
                 ItemsSource="{Binding Schedules}"
-                RowHeight="140"
+                RowHeight="130"
                 SelectionMode="None">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior
