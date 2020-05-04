@@ -269,6 +269,11 @@ namespace Bible.Alarm.ViewModels
 
             var trackVMs = new ObservableCollection<MusicTrackListViewItemModel>();
 
+            if (Device.RuntimePlatform == Device.UWP)
+            {
+                Tracks = trackVMs;
+            }
+
             foreach (var track in tracks.Select(x => x.Value))
             {
                 var musicTrackListViewItemViewModel = new MusicTrackListViewItemModel(track, !isVocal);
@@ -288,7 +293,11 @@ namespace Bible.Alarm.ViewModels
                 }
             }
 
-            Tracks = trackVMs;
+            if (Device.RuntimePlatform != Device.UWP)
+            {
+                Tracks = trackVMs;
+            }
+
         }
 
         public void Dispose()

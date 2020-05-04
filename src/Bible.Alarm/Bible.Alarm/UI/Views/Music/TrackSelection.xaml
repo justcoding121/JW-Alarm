@@ -91,7 +91,9 @@
                     Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Tracks}"
-                    SelectionMode="None">
+                    SelectionMode="Single">
+                    SelectionMode=&quot;Single&quot;&gt;
+                    SelectionMode=&quot;Single&quot;&gt;
                     <ListView.Behaviors>
                         <behaviours:EventToCommandBehavior
                             Command="{Binding SetTrackCommand}"

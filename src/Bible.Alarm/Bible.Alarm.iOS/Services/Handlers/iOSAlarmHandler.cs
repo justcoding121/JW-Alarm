@@ -132,7 +132,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
             Task.Delay(0).ContinueWith((x) =>
                    {
                        UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
-                       this.mediaManager.Dispose();
+                       mediaManager?.Dispose();
                    }, taskScheduler);
       
         }

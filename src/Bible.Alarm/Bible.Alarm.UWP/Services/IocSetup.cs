@@ -11,6 +11,7 @@
     using Bible.Alarm.UWP.Services.Handlers;
     using JW.Alarm.Services.UWP;
     using MediaManager;
+    using MediaManager.Platforms.Uap.Player;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.IO;
@@ -58,7 +59,8 @@
 
             container.Register((x) =>
             {
-                return CrossMediaManager.Current;
+                var manager = CrossMediaManager.Current;
+                return manager;
             });
 
             container.Register<IVersionFinder>((x) => new UwpVersionFinder());

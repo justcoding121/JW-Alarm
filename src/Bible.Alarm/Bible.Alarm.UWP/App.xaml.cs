@@ -8,6 +8,7 @@ using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.Media;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -23,6 +24,7 @@ namespace Bible.Alarm.UWP
         private Logger logger => LogManager.GetCurrentClassLogger();
 
         private IContainer container;
+        private SystemMediaTransportControls systemMediaTransportControls;
         public App()
         {
             LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });

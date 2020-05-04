@@ -14,7 +14,7 @@ namespace Bible.Alarm.UI.Views.Converters
                 return GlyphNames.Play;
             }
 
-            return GlyphNames.Pause;
+            return GlyphNames.Stop;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
