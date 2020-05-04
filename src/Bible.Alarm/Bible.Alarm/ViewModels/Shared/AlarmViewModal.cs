@@ -148,6 +148,9 @@ namespace Bible.Alarm.ViewModels
                 {
                     Progress = progress;
                 }
+
+                NextEnabled = mediaManager.Queue.HasNext;
+                PreviousEnabled = mediaManager.Queue.HasPrevious;
             
             }
             catch { }
@@ -207,6 +210,19 @@ namespace Bible.Alarm.ViewModels
             set => this.Set(ref progress, value);
         }
 
+        private bool nextEnabled;
+        public bool NextEnabled
+        {
+            get => nextEnabled;
+            set => this.Set(ref nextEnabled, value);
+        }
+
+        private bool previousEnabled;
+        public bool PreviousEnabled
+        {
+            get => previousEnabled;
+            set => this.Set(ref previousEnabled, value);
+        }
 
         public void Dispose()
         {

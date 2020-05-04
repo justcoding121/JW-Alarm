@@ -3,13 +3,21 @@
     x:Class="Bible.Alarm.UI.Views.AlarmModal"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:fn="clr-namespace:FontNameResources">
+    xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
+    xmlns:fn="clr-namespace:FontNameResources"
+    xmlns:forms="http://xamarin.com/schemas/2014/forms/design">
+    <ContentPage.Resources>
+        <converters:IsEnabledColorConverter x:Key="isEnabledConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid HorizontalOptions="Center" VerticalOptions="Fill">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
+            <Grid.Resources>
+                <forms:Color x:Key="SlateBlue">SlateBlue</forms:Color>
+            </Grid.Resources>
             <FlexLayout
                 Grid.Row="0"
                 AlignItems="Center"
@@ -132,7 +140,7 @@
                                               UWP='Micro'}"
                         HorizontalOptions="Center"
                         Text="{x:Static fn:GlyphNames.Previous}"
-                        TextColor="SlateBlue"
+                        TextColor="{Binding PreviousEnabled, Converter={StaticResource isEnabledConverter}, ConverterParameter={StaticResource SlateBlue}}"
                         VerticalOptions="Center" />
                     <Button
                         Grid.Column="1"
@@ -198,7 +206,7 @@
                                               UWP='Micro'}"
                         HorizontalOptions="Center"
                         Text="{x:Static fn:GlyphNames.Next}"
-                        TextColor="SlateBlue"
+                        TextColor="{Binding NextEnabled, Converter={StaticResource isEnabledConverter}, ConverterParameter={StaticResource SlateBlue}}"
                         VerticalOptions="Center" />
                 </Grid>
             </Grid>

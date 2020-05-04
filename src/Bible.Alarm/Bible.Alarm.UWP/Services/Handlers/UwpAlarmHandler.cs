@@ -35,8 +35,7 @@ namespace Bible.Alarm.UWP.Services.Handlers
             var windowsMediaPlayer = mediaManager.MediaPlayer as WindowsMediaPlayer;
             var mediaPlayer = windowsMediaPlayer.Player;
 
-            systemMediaTransportControls = mediaPlayer.SystemMediaTransportControls;
-            systemMediaTransportControls.ButtonPressed += systemControls_ButtonPressed;    
+            mediaPlayer.SystemMediaTransportControls.IsEnabled = false;  
         }
 
         public async Task HandleNotification(long notificationId)
@@ -118,30 +117,8 @@ namespace Bible.Alarm.UWP.Services.Handlers
             }
         }
 
-        private async void systemControls_ButtonPressed(SystemMediaTransportControls sender,
-                        SystemMediaTransportControlsButtonPressedEventArgs args)
-        {
-            switch (args.Button)
-            {
-                case SystemMediaTransportControlsButton.Play:
-                    await mediaManager.Play();
-                    break;
-                case SystemMediaTransportControlsButton.Pause:
-                    await mediaManager.Pause();
-                    break;
-                case SystemMediaTransportControlsButton.Previous:
-                    await mediaManager.PlayPrevious();
-                    break;
-                case SystemMediaTransportControlsButton.Next:
-                    await mediaManager.PlayNext();
-                    break;
-            }
-        }
-
         public void Dispose()
         {
-            systemMediaTransportControls.ButtonPressed -= systemControls_ButtonPressed;
-
             playbackService?.Dispose();
             mediaManager?.Dispose();
         }
