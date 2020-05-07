@@ -126,6 +126,7 @@
     <LaunchForBackgroundFetch>false</LaunchForBackgroundFetch>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensions\NSDictionaryExtension.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Helpers\BootstrapHelper.cs" />

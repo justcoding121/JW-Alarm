@@ -66,7 +66,8 @@ namespace Bible.Alarm.Services.iOS
                    {
                        var userInfo = notification.UserInfo.ToDictionary();
 
-                       if(userInfo["ScheduleId"] == scheduleId.ToString())
+                       if (userInfo.ContainsKey("ScheduleId")
+                           && userInfo["ScheduleId"] == scheduleId.ToString())
                        {
                            UIApplication.SharedApplication.CancelLocalNotification(notification);
                        }
@@ -78,23 +79,24 @@ namespace Bible.Alarm.Services.iOS
 
         public async Task<bool> IsScheduled(long scheduleId)
         {
-           return await Task.Delay(0).
-                ContinueWith((x) =>
-                {
-                    foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
-                    {
-                        var userInfo = notification.UserInfo.ToDictionary();
+            return await Task.Delay(0).
+                 ContinueWith((x) =>
+                 {
+                     foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                     {
+                         var userInfo = notification.UserInfo.ToDictionary();
 
-                        if (userInfo["ScheduleId"] == scheduleId.ToString())
-                        {
-                            return true;
-                        }
+                         if (userInfo.ContainsKey("ScheduleId")
+                           && userInfo["ScheduleId"] == scheduleId.ToString())
+                         {
+                             return true;
+                         }
 
-                    }
+                     }
 
-                    return false;
+                     return false;
 
-                }, taskScheduler);
+                 }, taskScheduler);
         }
 
         public void Dispose()
