@@ -17,13 +17,14 @@ namespace Bible.Alarm.Services.UWP
 
         public void ShowNotification(long scheduleId)
         {
-            var iosAlarmHandler = container.Resolve<UwpAlarmHandler>();
-            _ = iosAlarmHandler.Handle(scheduleId);
+            var uwpAlarmHandler = container.Resolve<UwpAlarmHandler>();
+            _ = uwpAlarmHandler.Handle(scheduleId);
         }
 
         public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
+
             return Task.CompletedTask;
 
         }

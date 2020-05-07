@@ -61,9 +61,9 @@ namespace Bible.Alarm.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(350, 500));
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(400, 500));
 
-            ApplicationView.PreferredLaunchViewSize = new Size(350, 600);
+            ApplicationView.PreferredLaunchViewSize = new Size(400, 600);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             Frame rootFrame = Window.Current.Content as Frame;

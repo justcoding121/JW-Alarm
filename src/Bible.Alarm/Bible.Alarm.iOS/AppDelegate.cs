@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.iOS.Services.Handlers;
+﻿using Bible.Alarm.iOS.Extensions;
+using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
@@ -7,6 +8,7 @@ using Foundation;
 using MediaManager;
 using NLog;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UIKit;
 using UserNotifications;
@@ -56,7 +58,7 @@ namespace Bible.Alarm.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching(UIApplication app, NSDictionary launchOptions)
         {
 #if DEBUG
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) =>
@@ -92,7 +94,48 @@ namespace Bible.Alarm.iOS
                 }
             });
 
-            return base.FinishedLaunching(app, options);
+            // check for a notification
+
+            if (launchOptions != null)
+            {
+                // check for a local notification
+                if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+                {
+                    var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                    if (localNotification != null)
+                    {
+                        handleNotification(localNotification);
+                    }
+                }
+            }
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null
+                );
+
+                app.RegisterUserNotificationSettings(notificationSettings);
+            }
+
+            return base.FinishedLaunching(app, launchOptions);
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            handleNotification(notification);
+        }
+
+        private void handleNotification(UILocalNotification notification)
+        {
+            var userInfo = notification.UserInfo.ToDictionary();
+            var scheduleId = userInfo["ScheduleId"];
+            // show an alert
+            var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
+            _ = iosAlarmHandler.Handle(long.Parse(scheduleId));
+
+            // reset our badge
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
 
         public async override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)

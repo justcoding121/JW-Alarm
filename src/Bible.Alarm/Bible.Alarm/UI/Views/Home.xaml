@@ -39,10 +39,7 @@
                 </OnPlatform>
             </ActivityIndicator.Scale>
         </ActivityIndicator>
-        <Grid
-            Grid.Row="0"
-            IsVisible="True"
-            RowSpacing="0">
+        <Grid Grid.Row="0" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
@@ -83,7 +80,7 @@
                         <ViewCell>
                             <Grid
                                 Margin="{OnPlatform Android='0,15,0,0'}"
-                                ColumnSpacing="{OnPlatform iOS='30'}"
+                                ColumnSpacing="{OnPlatform iOS='0'}"
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Center">
                                 <Grid.Resources>
@@ -103,7 +100,7 @@
                                 <StackLayout
                                     Grid.Column="0"
                                     Margin="{OnPlatform Default='10,3,0,0',
-                                                        iOS='35,3,0,0',
+                                                        iOS='10,3,0,0',
                                                         UWP='30,3,0,0'}"
                                     Padding="0"
                                     Orientation="Vertical">
@@ -113,22 +110,22 @@
                                         BackgroundColor="WhiteSmoke"
                                         Command="{Binding PlayCommand}"
                                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                                        HeightRequest="{OnPlatform UWP='50'}"
+                                        HeightRequest="{OnPlatform UWP='50',
+                                                                   iOS='50'}"
                                         HorizontalOptions="Center"
-                                        MinimumHeightRequest="{OnPlatform UWP='50'}"
-                                        MinimumWidthRequest="{OnPlatform iOS='50',
+                                        MinimumHeightRequest="{OnPlatform UWP='50',
+                                                                          iOS='50'}"
+                                        MinimumWidthRequest="{OnPlatform iOS='75',
                                                                          UWP='50'}"
                                         Text="{x:Static fn:GlyphNames.Play}"
                                         TextColor="SlateBlue"
                                         VerticalOptions="Center"
-                                        WidthRequest="{OnPlatform iOS='50',
+                                        WidthRequest="{OnPlatform iOS='75',
                                                                   UWP='50'}" />
                                     <StackLayout
                                         Margin="0"
                                         Padding="0"
                                         HorizontalOptions="Start"
-                                        IsVisible="{OnPlatform iOS='False',
-                                                               UWP='False'}"
                                         Orientation="Horizontal"
                                         VerticalOptions="Center">
                                         <Label
@@ -148,11 +145,11 @@
                                 <StackLayout
                                     Grid.Column="1"
                                     Margin="{OnPlatform Default='20,0,0,0',
-                                                        iOS='5,0,0,0'}"
-                                    HorizontalOptions="Center"
+                                                        iOS='10,0,0,0'}"
+                                    HorizontalOptions="Start"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">
-                                    <StackLayout IsVisible="{OnPlatform iOS='False', UWP='False'}" Orientation="Horizontal">
+                                    <StackLayout Orientation="Horizontal">
                                         <Label
                                             Margin="5,0,0,0"
                                             FontAttributes="Bold"
@@ -198,7 +195,6 @@
                                     </StackLayout>
                                     <Label
                                         Margin="2,0,0,0"
-                                        MaxLines="1"
                                         Text="{Binding Name}"
                                         TextColor="Black" />
                                     <Label
@@ -212,11 +208,14 @@
                                     Margin="{OnPlatform Default='15,0,30,0',
                                                         iOS='5,0,10,0'}"
                                     HorizontalOptions="End"
-                                    IsVisible="{OnPlatform iOS='False',
-                                                           UWP='False'}"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">
-                                    <Switch IsToggled="{Binding IsEnabled, Mode=TwoWay}" Scale="{OnPlatform Default='1.25', iOS='1'}" />
+                                    <Switch
+                                        Margin="{OnPlatform UWP='0,0,-100,0'}"
+                                        HorizontalOptions="End"
+                                        IsToggled="{Binding IsEnabled, Mode=TwoWay}"
+                                        Scale="{OnPlatform Default='1.25',
+                                                           iOS='1'}" />
                                 </StackLayout>
                             </Grid>
                         </ViewCell>

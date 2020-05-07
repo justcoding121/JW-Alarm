@@ -62,7 +62,7 @@ namespace Bible.Alarm.Services
         {
             notificationService.ScheduleNotification(schedule.Id, isSnoozeNotification ?
                 DateTimeOffset.Now.AddMinutes(schedule.SnoozeMinutes) : schedule.NextFireDate(), schedule.Name,
-                schedule.MusicEnabled ? "Playing alarm music." : "Playing Bible.");
+                "Press to start listening now.");
         }
 
         private void removeNotification(long scheduleId)
