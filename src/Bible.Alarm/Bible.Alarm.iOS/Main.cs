@@ -25,7 +25,7 @@ namespace Bible.Alarm.iOS
         {
             try
             {
-                var result = IocSetup.Initialize("SplashActivity", true);
+                var result = IocSetup.Initialize("SplashActivity", false);
                 var container = result.Item1;
                 var containerCreated = result.Item2;
                 if (containerCreated)
