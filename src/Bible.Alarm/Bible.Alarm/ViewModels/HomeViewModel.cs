@@ -27,6 +27,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private IContainer container;
 
         private ScheduleDbContext scheduleDbContext;
@@ -323,8 +325,10 @@ namespace Bible.Alarm.ViewModels
 
                                      if (y.IsEnabled)
                                      {
-                                         await popUpService.ShowScheduledNotification(y.Schedule);
+                                         await popUpService.ShowScheduledNotification(y.Schedule);   
                                      }
+
+                                     setupMediaCache(y.Schedule.Id);
 
                                      y.RaisePropertiesChangedEvent();
 
@@ -334,6 +338,23 @@ namespace Bible.Alarm.ViewModels
 
             subscriptions.Add(subscription);
         }
+
+        private void setupMediaCache(long scheduleId)
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using var mediaCacheService = container.Resolve<IMediaCacheService>();
+                    await mediaCacheService.SetupAlarmCache(scheduleId);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened in SetupAlarmCache task.");
+                }
+            });
+        }
+
 
         public void Dispose()
         {

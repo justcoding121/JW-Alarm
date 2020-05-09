@@ -111,20 +111,14 @@ namespace Bible.Alarm.Services
                     }
                     else
                     {
-                        if (await networkStatusService.IsInternetAvailable())
-                        {
-                            streamingTracks.Add(i, item.Url);
-                        }
-                        else
-                        {
-                            break;
-                        }
+                        streamingTracks.Add(i, item.Url);
                     }
+
                     i++;
                 }
 
                 if (downloadedTracks.Count != nextTracks.Count
-                    && isImmediatePlayRequest 
+                    && isImmediatePlayRequest
                     && !await networkStatusService.IsInternetAvailable())
                 {
                     await handleInternetDown(isImmediatePlayRequest);

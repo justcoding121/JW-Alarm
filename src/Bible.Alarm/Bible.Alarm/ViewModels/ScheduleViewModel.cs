@@ -473,7 +473,6 @@ namespace Bible.Alarm.ViewModels
                     {
                         await alarmService.Create(model);
                     }
-                    setupMediaCache(model.Id);
                 });
 
                 ReduxContainer.Store.Dispatch(new AddScheduleAction()
@@ -528,10 +527,10 @@ namespace Bible.Alarm.ViewModels
                 scheduleListItem.RaisePropertiesChangedEvent();
                 scheduleListItem.RefreshChapterName(true);
 
-                setupMediaCache(model.Id);
-
                 ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
             }
+
+            setupMediaCache(model.Id);
 
             return true;
         }
