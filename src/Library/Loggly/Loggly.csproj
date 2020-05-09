@@ -7,7 +7,6 @@
     <VersionPrefix>4.6.0</VersionPrefix>
     <DefineConstants>$(DefineConstants);NET_STANDARD</DefineConstants>
     <AssemblyName>Loggly</AssemblyName>
-    <AssemblyOriginatorKeyFile>../../../LogglyCsharp.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>false</SignAssembly>
     <PackageId>Loggly</PackageId>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
