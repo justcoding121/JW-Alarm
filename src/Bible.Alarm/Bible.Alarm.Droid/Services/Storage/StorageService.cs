@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.Services;
 using System;
+using System.Reflection;
 
 namespace Bible.Alarm.Droid.Services.Storage
 {
@@ -22,5 +23,8 @@ namespace Bible.Alarm.Droid.Services.Storage
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             }
         }
+
+
+        public override Assembly MainAssembly => typeof(AndroidStorageService).Assembly;
     }
 }

@@ -18,11 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\_tools\_index\index.zip" Link="Resources\index.zip" />
-    <EmbeddedResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Library\NLog.Targets.Loggly\NLog.Targets.Loggly.csproj" />
   </ItemGroup>
 

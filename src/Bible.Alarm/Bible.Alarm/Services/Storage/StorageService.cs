@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services
@@ -11,7 +12,7 @@ namespace Bible.Alarm.Services
     {
         public abstract string StorageRoot { get; }
         public abstract string CacheRoot { get; }
-
+        public abstract Assembly MainAssembly { get; }
         public Task DeleteFile(string path)
         {
             File.Delete(path);
@@ -77,7 +78,7 @@ namespace Bible.Alarm.Services
                 await createDirectory(destinationDirectoryPath);
             }
 
-            using (var sr = ResourceLoader.GetEmbeddedResourceStream(typeof(ResourceLoader).Assembly, resourceFileName))
+            using (var sr = ResourceLoader.GetEmbeddedResourceStream(MainAssembly, resourceFileName))
             {
                 var buffer = new byte[1024];
                 using (BinaryWriter fileWriter =
@@ -107,7 +108,7 @@ namespace Bible.Alarm.Services
             FileInfo file;
             if (isResourceFile)
             {
-                file = ResourceLoader.GetFileInfo(typeof(ResourceLoader).Assembly);
+                file = ResourceLoader.GetFileInfo(MainAssembly);
             }
             else
             {

@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Services;
 using System;
 using System.IO;
+using System.Reflection;
 using Windows.Storage;
 
 namespace Bible.Alarm.Uwp.Services.Storage
@@ -21,5 +22,6 @@ namespace Bible.Alarm.Uwp.Services.Storage
         //never deleted by system.
         private static string cacheRoot = ApplicationData.Current.LocalCacheFolder.Path;
         public override string CacheRoot => cacheRoot;
+        public override Assembly MainAssembly => typeof(UwpStorageService).Assembly;
     }
 }

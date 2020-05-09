@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Services
 {
@@ -101,17 +102,21 @@ namespace Bible.Alarm.Services
                 await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
             }
 
-            if (await storageService.FileExists(Path.Combine(IndexRoot, defaultAlarmFile)))
+            if (Device.RuntimePlatform != Device.iOS && 
+                await storageService.FileExists(Path.Combine(IndexRoot, defaultAlarmFile)))
             {
                 await storageService.DeleteFile(Path.Combine(IndexRoot, defaultAlarmFile));
             }
 
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
-            await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
+            
+            if(Device.RuntimePlatform != Device.iOS)
+            {
+                await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
+            }
 
             await storageService.DeleteFile(tmpIndexFilePath);
-
             await storageService.SaveFile(IndexRoot, "version.dat", versionFinder.GetVersionName());
         }
 

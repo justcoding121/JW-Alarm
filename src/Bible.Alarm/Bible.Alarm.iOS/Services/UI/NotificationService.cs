@@ -41,7 +41,7 @@ namespace Bible.Alarm.Services.iOS
                     notification.FireDate = NSDate.FromTimeIntervalSinceNow(diff.TotalSeconds);
                     notification.AlertAction = title;
                     notification.AlertBody = body;
-                    notification.ApplicationIconBadgeNumber = 1;
+                    notification.ApplicationIconBadgeNumber = 1;      
                     notification.SoundName = UILocalNotification.DefaultSoundName;
 
                     var @params = new Dictionary<string, string>

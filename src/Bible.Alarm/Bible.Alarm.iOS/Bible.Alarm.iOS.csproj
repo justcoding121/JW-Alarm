@@ -123,7 +123,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
-    <LaunchForBackgroundFetch>false</LaunchForBackgroundFetch>
+    <LaunchForBackgroundFetch>true</LaunchForBackgroundFetch>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Extensions\NSDictionaryExtension.cs" />
@@ -140,6 +140,9 @@
     <Compile Include="Services\Storage\StorageService.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\ToastService.cs" />
+    <EmbeddedResource Include="..\..\_tools\_index\index.zip">
+      <Link>Resources\index.zip</Link>
+    </EmbeddedResource>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

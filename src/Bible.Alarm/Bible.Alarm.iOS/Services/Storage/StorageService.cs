@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Services;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Bible.Alarm.Droid.Services.Storage
 {
@@ -20,5 +21,7 @@ namespace Bible.Alarm.Droid.Services.Storage
         //system may delete file if needed when app is not running.
         private static string cacheRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library", "Caches");
         public override string CacheRoot => cacheRoot;
+
+        public override Assembly MainAssembly => typeof(iOSStorageService).Assembly;
     }
 }
