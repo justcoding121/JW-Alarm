@@ -39,6 +39,7 @@
                 </ActivityIndicator.Scale>
             </ActivityIndicator>
             <Grid
+                   Margin="{OnPlatform iOS='0,10,0,0'}"
                 Grid.Row="0"
                 IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}"
                 RowSpacing="0">

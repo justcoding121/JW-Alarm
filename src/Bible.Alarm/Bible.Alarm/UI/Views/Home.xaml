@@ -39,7 +39,7 @@
                 </OnPlatform>
             </ActivityIndicator.Scale>
         </ActivityIndicator>
-        <Grid Grid.Row="0" RowSpacing="0">
+        <Grid Grid.Row="0" RowSpacing="0" Margin="{OnPlatform iOS='0,10,0,0'}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
@@ -47,7 +47,7 @@
             <StackLayout Grid.Row="0">
                 <Button
                     Margin="{OnPlatform Default='2',
-                                        iOS='2,18,2,2'}"
+                                        iOS='2,25,2,2'}"
                     AutomationId="AddScheduleButton"
                     Command="{Binding AddScheduleCommand}"
                     FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
