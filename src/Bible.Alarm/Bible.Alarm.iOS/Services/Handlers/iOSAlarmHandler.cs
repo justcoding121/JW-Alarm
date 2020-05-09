@@ -69,7 +69,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                     return;
                 }
                 else
-                {            
+                {
                     await Task.Delay(0).ContinueWith((x) =>
                     {
                         if (!firstTime)
@@ -77,9 +77,8 @@ namespace Bible.Alarm.iOS.Services.Handlers
                             UIApplication.SharedApplication.BeginReceivingRemoteControlEvents();
                         }
                         firstTime = false;
-                        mediaManager.Init();
 
-                    }, taskScheduler);      
+                    }, taskScheduler);
                 }
 
                 playbackService.Stopped += stateChanged;
@@ -131,8 +130,9 @@ namespace Bible.Alarm.iOS.Services.Handlers
             this.playbackService.Dispose();
             Task.Delay(0).ContinueWith((x) =>
                    {
+                       mediaManager?.Queue?.Clear();
                        UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
-                       mediaManager?.Dispose();
+
                    }, taskScheduler);
       
         }

@@ -1,5 +1,6 @@
 ﻿namespace Bible.Alarm.Services.Droid
 {
+    using Android.App;
     using Android.Media;
     using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Contracts.Platform;
@@ -55,9 +56,12 @@
                 return new MediaDbContext(mediaDbConfig);
             });
 
-            container.Register((x) =>
+            var mediaManager = CrossMediaManager.Current;
+            mediaManager.Init(Application.Context);
+
+            container.RegisterSingleton((x) =>
             {
-                return CrossMediaManager.Current;
+                return mediaManager;
             });
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));

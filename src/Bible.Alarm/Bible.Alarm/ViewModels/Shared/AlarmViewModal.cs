@@ -123,7 +123,12 @@ namespace Bible.Alarm.ViewModels
         {
             try
             {
-                var mediaItem = mediaManager.Queue.Current;
+                var mediaItem = mediaManager.Queue?.Current;
+
+                if (mediaItem == null)
+                {
+                    return;
+                }
 
                 Title = mediaItem.DisplayTitle;
                 SubTitle = mediaItem.DisplaySubtitle;

@@ -291,27 +291,35 @@ namespace Bible.Alarm.Services
                             {
                                 wasPlaying = true;
 
-                                var mediaItem = this.mediaManager.Queue.Current;
-                                if (currentlyPlaying.ContainsKey(mediaItem))
-                                {
-                                    var track = currentlyPlaying[mediaItem];
+                                var mediaItem = this.mediaManager.Queue?.Current;
 
-                                    if (track.FinishedDuration.TotalSeconds > 0
-                                        && firstChapter != null
-                                        && mediaItem == firstChapter)
+                                if (mediaItem == null)
+                                {
+                                    readyTodispose = true;
+                                }
+                                else
+                                {
+                                    if (currentlyPlaying.ContainsKey(mediaItem))
                                     {
-                                        await this.mediaManager.SeekTo(track.FinishedDuration);
-                                        firstChapter = null;
-                                    }
-                                    else if (mediaManager.Position.TotalSeconds > 0)
-                                    {
-                                        if (mediaItem == firstChapter)
+                                        var track = currentlyPlaying[mediaItem];
+
+                                        if (track.FinishedDuration.TotalSeconds > 0
+                                            && firstChapter != null
+                                            && mediaItem == firstChapter)
                                         {
+                                            await this.mediaManager.SeekTo(track.FinishedDuration);
                                             firstChapter = null;
                                         }
+                                        else if (mediaManager.Position.TotalSeconds > 0)
+                                        {
+                                            if (mediaItem == firstChapter)
+                                            {
+                                                firstChapter = null;
+                                            }
 
-                                        track.FinishedDuration = mediaManager.Position;
-                                        await this.playlistService.MarkTrackAsPlayed(track);
+                                            track.FinishedDuration = mediaManager.Position;
+                                            await this.playlistService.MarkTrackAsPlayed(track);
+                                        }
                                     }
                                 }
                             }
@@ -393,11 +401,15 @@ namespace Bible.Alarm.Services
             readyTodispose = true;
         }
 
-
-
         private async void stateChanged(object sender, StateChangedEventArgs e)
         {
-            var mediaItem = this.mediaManager.Queue.Current;
+            var mediaItem = this.mediaManager.Queue?.Current;
+
+            if (mediaItem == null)
+            {
+                return;
+            }
+
             if (currentlyPlaying.ContainsKey(mediaItem))
             {
                 var track = currentlyPlaying[mediaItem];

@@ -56,10 +56,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     playbackService.Dispose();
                     return;
                 }
-                else
-                {
-                    mediaManager.Init(Application.Context);
-                }
 
                 playbackService.Stopped += stateChanged;
 
@@ -119,7 +115,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
 
             playbackService?.Dispose();
-            mediaManager?.Dispose();
+            mediaManager?.Queue?.Clear();
 
             base.Dispose();
         }
