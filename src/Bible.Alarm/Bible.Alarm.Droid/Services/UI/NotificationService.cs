@@ -80,6 +80,11 @@ namespace Bible.Alarm.Services.Droid
             return pIntent;
         }
 
+        public Task<bool> CanSchedule()
+        {
+            return Task.FromResult(true);
+        }
+
         public void Dispose()
         {
 

@@ -119,7 +119,11 @@
     <CodesignKey>iPhone Developer: Jehonathan Thomas (3J6S84282U)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\NSDictionaryExtension.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

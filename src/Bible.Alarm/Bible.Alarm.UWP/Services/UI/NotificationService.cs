@@ -39,6 +39,11 @@ namespace Bible.Alarm.Services.UWP
             return Task.FromResult(true);
         }
 
+        public Task<bool> CanSchedule()
+        {
+            return Task.FromResult(true);
+        }
+
         public void Dispose()
         {
 

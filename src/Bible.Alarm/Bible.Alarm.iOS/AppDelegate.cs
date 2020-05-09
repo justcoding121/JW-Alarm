@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.iOS.Extensions;
 using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.iOS.Services.Platform;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Bible.Alarm.Services.Tasks;
@@ -35,6 +36,7 @@ namespace Bible.Alarm.iOS
             {
                 if (container == null)
                 {
+                    logger.Info("AppDelegate called.");
                     var result = IocSetup.Initialize("SplashActivity", false);
                     container = result.Item1;
                     var containerCreated = result.Item2;
@@ -71,7 +73,9 @@ namespace Bible.Alarm.iOS
 
             try
             {
-                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+                //once every hour
+                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(60 * 60);
+
                 global::Xamarin.Forms.Forms.Init();
                 LoadApplication(new App(container));
             }
@@ -109,7 +113,22 @@ namespace Bible.Alarm.iOS
                 }
             }
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                // Request notification permissions from the user
+                UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) =>
+                {
+                    if (!approved)
+                    {
+                        var popupService = container.Resolve<IToastService>();
+                        popupService.ShowMessage("You've declined notifications. " +
+                            "We won't be able to alert you on scheduled time. " +
+                            "You can however listen anytime by opening the app.");
+                    }
+                });
+
+            }
+            else
             {
                 var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes(
                     UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null

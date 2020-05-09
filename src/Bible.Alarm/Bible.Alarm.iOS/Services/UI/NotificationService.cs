@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UIKit;
+using UserNotifications;
 
 namespace Bible.Alarm.Services.iOS
 {
@@ -36,22 +37,51 @@ namespace Bible.Alarm.Services.iOS
             await Task.Delay(0).
                 ContinueWith((x) =>
                 {
-                    var notification = new UILocalNotification();
-                    var diff = time.UtcDateTime - DateTime.UtcNow;
-                    notification.FireDate = NSDate.FromTimeIntervalSinceNow(diff.TotalSeconds);
-                    notification.AlertAction = title;
-                    notification.AlertBody = body;
-                    notification.ApplicationIconBadgeNumber = 1;      
-                    notification.SoundName = UILocalNotification.DefaultSoundName;
 
                     var @params = new Dictionary<string, string>
+                        {
+                            {"ScheduleId", scheduleId.ToString()},
+                        };
+
+
+                    if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                     {
-                        {"ScheduleId", scheduleId.ToString()},
-                    };
+                        var content = new UNMutableNotificationContent();
+                        content.Title = title;
+                        content.Body = body;
+                        content.Badge = 1;
+                        content.Sound = UNNotificationSound.Default;
+                        content.UserInfo = @params.ToNSDictionary();
 
-                    notification.UserInfo = @params.ToNSDictionary();
+                        var trigger = UNCalendarNotificationTrigger.CreateTrigger(time.LocalDateTime.ToNSDateComponents(), true);
 
-                    UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                        var requestID = scheduleId.ToString();
+                        var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
+
+                        UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) =>
+                        {
+                            if (err != null)
+                            {
+                                logger.Error($"An error happened when scheduling ios notification. code: {err.Code}");
+                            }
+                        });
+                    }
+                    else
+                    {
+                        var notification = new UILocalNotification();
+                        var diff = time.UtcDateTime - DateTime.UtcNow;
+                        notification.FireDate = NSDate.FromTimeIntervalSinceNow(diff.TotalSeconds);
+                        notification.AlertAction = title;
+                        notification.AlertBody = body;
+                        notification.ApplicationIconBadgeNumber = 1;
+                        notification.SoundName = UILocalNotification.DefaultSoundName;
+                        notification.RepeatInterval = NSCalendarUnit.Day;
+                        notification.TimeZone = NSTimeZone.LocalTimeZone;
+
+                        notification.UserInfo = @params.ToNSDictionary();
+
+                        UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+                    }
 
                 }, taskScheduler);
 
@@ -62,16 +92,32 @@ namespace Bible.Alarm.Services.iOS
             await Task.Delay(0).
                ContinueWith((x) =>
                {
-                   foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                   if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                    {
-                       var userInfo = notification.UserInfo.ToDictionary();
+                       var pending = UNUserNotificationCenter.Current.GetPendingNotificationRequestsAsync().Result;
 
-                       if (userInfo.ContainsKey("ScheduleId")
-                           && userInfo["ScheduleId"] == scheduleId.ToString())
+                       foreach (var notification in pending)
                        {
-                           UIApplication.SharedApplication.CancelLocalNotification(notification);
+                           if (notification.Identifier == scheduleId.ToString())
+                           {
+                               UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { scheduleId.ToString() });
+                           }
                        }
 
+                   }
+                   else
+                   {
+                       foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                       {
+                           var userInfo = notification.UserInfo.ToDictionary();
+
+                           if (userInfo.ContainsKey("ScheduleId")
+                               && userInfo["ScheduleId"] == scheduleId.ToString())
+                           {
+                               UIApplication.SharedApplication.CancelLocalNotification(notification);
+                           }
+
+                       }
                    }
 
                }, taskScheduler);
@@ -82,21 +128,61 @@ namespace Bible.Alarm.Services.iOS
             return await Task.Delay(0).
                  ContinueWith((x) =>
                  {
-                     foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                     if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                      {
-                         var userInfo = notification.UserInfo.ToDictionary();
+                         var pending = UNUserNotificationCenter.Current.GetPendingNotificationRequestsAsync().Result;
 
-                         if (userInfo.ContainsKey("ScheduleId")
-                           && userInfo["ScheduleId"] == scheduleId.ToString())
+                         foreach (var notification in pending)
                          {
-                             return true;
+                             if (notification.Identifier == scheduleId.ToString())
+                             {
+                                 return true;
+                             }
                          }
 
+                         return false;
+                     }
+                     else
+                     {
+                         foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                         {
+                             var userInfo = notification.UserInfo.ToDictionary();
+
+                             if (userInfo.ContainsKey("ScheduleId")
+                               && userInfo["ScheduleId"] == scheduleId.ToString())
+                             {
+                                 return true;
+                             }
+
+                         }
+
+                         return false;
                      }
 
-                     return false;
-
                  }, taskScheduler);
+        }
+
+        public async Task<bool> CanSchedule()
+        {
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                return await Task.Delay(0).
+                   ContinueWith((x) =>
+                   {
+                       var taskCompletionSource = new TaskCompletionSource<bool>();
+
+                       UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                        {
+                            var result = settings.AlertSetting == UNNotificationSetting.Enabled;
+                            taskCompletionSource.SetResult(result);
+                        });
+
+                       return taskCompletionSource.Task.Result;
+
+                   }, taskScheduler);
+            }
+
+            return true;
         }
 
         public void Dispose()
