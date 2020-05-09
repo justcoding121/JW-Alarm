@@ -22,7 +22,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         public SchedulerJob()
         {
             LogSetup.Initialize(VersionFinder.Default,
-           new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+           new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
         public override bool OnStartJob(JobParameters jobParams)
         {

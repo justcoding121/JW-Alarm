@@ -54,7 +54,7 @@ namespace Bible.Alarm.ViewModels
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
 
-            if (Device.RuntimePlatform == Device.Android)
+            if (CurrentDevice.RuntimePlatform == Device.Android)
             {
                 this.batteryOptimizationManager = container.Resolve<IBatteryOptimizationManager>();
             }
@@ -115,7 +115,7 @@ namespace Bible.Alarm.ViewModels
 
                    await Task.Delay(10).ContinueWith(async (y) =>
                    {
-                       if (Device.RuntimePlatform == Device.Android)
+                       if (CurrentDevice.RuntimePlatform == Device.Android)
                        {
                            await showBatteryOptimizationExclusionPage();
                        }

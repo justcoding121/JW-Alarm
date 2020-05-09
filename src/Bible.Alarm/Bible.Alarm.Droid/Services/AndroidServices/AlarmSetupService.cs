@@ -11,6 +11,7 @@ using Bible.Alarm.Services.Tasks;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using static Android.App.AlarmManager;
 
 namespace Bible.Alarm.Services.Droid.Tasks
@@ -26,7 +27,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public AlarmSetupService()
         {
             LogSetup.Initialize(VersionFinder.Default,
-                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}"}, Device.Android);
         }
 
         public override IBinder OnBind(Intent intent)

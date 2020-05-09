@@ -39,7 +39,10 @@
                 </OnPlatform>
             </ActivityIndicator.Scale>
         </ActivityIndicator>
-        <Grid Grid.Row="0" RowSpacing="0" Margin="{OnPlatform iOS='0,10,0,0'}">
+        <Grid
+            Grid.Row="0"
+            Margin="{OnPlatform iOS='0,10,0,0'}"
+            RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />

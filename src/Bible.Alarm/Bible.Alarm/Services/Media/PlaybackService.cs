@@ -141,7 +141,7 @@ namespace Bible.Alarm.Services
                     {
                         IMediaItem item;
 
-                        if (Device.RuntimePlatform == Device.UWP)
+                        if (CurrentDevice.RuntimePlatform == Device.UWP)
                         {
                             item = new MediaItem(x.Value.FullName);
                             //TODO: Fix this
@@ -349,7 +349,7 @@ namespace Bible.Alarm.Services
 
         private async Task playBeep()
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (CurrentDevice.RuntimePlatform == Device.Android)
             {
                 this.mediaManager.RepeatMode = RepeatMode.All;
                 await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));

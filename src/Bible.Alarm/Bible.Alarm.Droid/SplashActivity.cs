@@ -22,7 +22,7 @@ namespace Bible.Alarm.Droid
         public SplashActivity()
         {
             LogSetup.Initialize(VersionFinder.Default,
-                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
 
         protected override void OnCreate(Bundle bundle)

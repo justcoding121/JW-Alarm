@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Bible.Alarm;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace FontNameResources
@@ -18,7 +19,7 @@ namespace FontNameResources
             var label = new Label();
             if (!(instance[resourceKey] is OnPlatform<string> resource)) return string.Empty;
 
-            var retString = resource.Platforms.Where(c => c.Platform.Contains(Device.RuntimePlatform))
+            var retString = resource.Platforms.Where(c => c.Platform.Contains(CurrentDevice.RuntimePlatform))
                 .Select(c => c.Value).FirstOrDefault() as string;
 
             return retString ?? "NOFONT";

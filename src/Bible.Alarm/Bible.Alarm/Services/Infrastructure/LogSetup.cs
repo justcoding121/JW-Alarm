@@ -3,6 +3,7 @@ using Loggly;
 using Loggly.Config;
 using NLog;
 using NLog.Config;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Services.Infrastructure
 {
@@ -10,8 +11,10 @@ namespace Bible.Alarm.Services.Infrastructure
     {
         private static bool initialized = false;
         private static object @lock = new object();
-        public static void Initialize(IVersionFinder versionFinder, string[] tags)
+        public static void Initialize(IVersionFinder versionFinder, string[] tags, string device)
         {
+            CurrentDevice.RuntimePlatform = device;
+
             lock (@lock)
             {
                 if (!initialized)
@@ -46,7 +49,6 @@ namespace Bible.Alarm.Services.Infrastructure
                 }
             }
         }
-
         private static void setupLoggly()
         {
 

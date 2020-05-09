@@ -52,7 +52,8 @@
                     Grid.Row="0"
                     Margin="{OnPlatform Default='0',
                                         iOS='0,18,0,0'}"
-                    BackgroundColor="WhiteSmoke"
+                    BackgroundColor="{OnPlatform Default='WhiteSmoke',
+                                                 iOS='White'}"
                     HeightRequest="45"
                     HorizontalOptions="Fill"
                     MinimumHeightRequest="45">

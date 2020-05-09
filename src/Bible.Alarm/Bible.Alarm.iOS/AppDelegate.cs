@@ -27,7 +27,7 @@ namespace Bible.Alarm.iOS
 
         public AppDelegate()
         {
-            LogSetup.Initialize(VersionFinder.Default, new string[] { });
+            LogSetup.Initialize(VersionFinder.Default, new string[] { }, Xamarin.Forms.Device.iOS);
 
             container = IocSetup.GetContainer("SplashActivity");
 
@@ -144,12 +144,14 @@ namespace Bible.Alarm.iOS
 
             try
             {
+                logger.Info("Perform Fetch was called.");
+
                 using var schedulerTask = container.Resolve<SchedulerTask>();
                 downloaded = await schedulerTask.Handle();
             }
             catch (Exception e)
             {
-                logger.Error(e, "An error occurred in cleanup task.");
+                logger.Error(e, "An error occurred in doing perform fetch task.");
             }
 
             // Inform system of fetch results

@@ -39,7 +39,7 @@ namespace Bible.Alarm.Common.Extensions
             else
             {
                 if (string.IsNullOrEmpty(item.Title)
-                    || Device.RuntimePlatform == Device.UWP)
+                    || CurrentDevice.RuntimePlatform == Device.UWP)
                 {
                     item.Title = "Melodies";
                 }
@@ -53,13 +53,13 @@ namespace Bible.Alarm.Common.Extensions
 
 
                 if (string.IsNullOrEmpty(item.DisplaySubtitle)
-                    || Device.RuntimePlatform == Device.UWP)
+                    || CurrentDevice.RuntimePlatform == Device.UWP)
                 {
                     item.DisplaySubtitle = "Watch Tower Bible and Tract Society of Pennsylvania";
                 }
 
                 if (string.IsNullOrEmpty(item.DisplayDescription)
-                    || Device.RuntimePlatform == Device.UWP)
+                    || CurrentDevice.RuntimePlatform == Device.UWP)
                 {
                     item.DisplayDescription = "jw.org";
                 }

@@ -27,7 +27,7 @@ namespace Bible.Alarm.UWP
         private SystemMediaTransportControls systemMediaTransportControls;
         public App()
         {
-            LogSetup.Initialize(UwpVersionFinder.Default, new string[] { });
+            LogSetup.Initialize(UwpVersionFinder.Default, new string[] { }, Xamarin.Forms.Device.UWP);
             initContainer();
 
             this.InitializeComponent();
