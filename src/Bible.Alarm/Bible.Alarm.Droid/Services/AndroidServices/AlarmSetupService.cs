@@ -137,6 +137,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             using var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
             alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+            alarmIntent.PutExtra("IsImmediate", true.ToString());
             context.SendBroadcast(alarmIntent);
         }
 

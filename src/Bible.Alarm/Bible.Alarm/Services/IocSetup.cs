@@ -42,8 +42,7 @@
                   container.Resolve<IStorageService>(),
                   container.Resolve<INetworkStatusService>(),
                   container.Resolve<INotificationService>(),
-                  container.Resolve<IDownloadService>(),
-                  container.Resolve<IToastService>()));
+                  container.Resolve<IDownloadService>()));
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                  container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),

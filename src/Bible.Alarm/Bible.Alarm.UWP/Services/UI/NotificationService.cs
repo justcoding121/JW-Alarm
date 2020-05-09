@@ -18,7 +18,7 @@ namespace Bible.Alarm.Services.UWP
         public void ShowNotification(long scheduleId)
         {
             var uwpAlarmHandler = container.Resolve<UwpAlarmHandler>();
-            _ = uwpAlarmHandler.Handle(scheduleId);
+            _ = uwpAlarmHandler.Handle(scheduleId, true);
         }
 
         public Task ScheduleNotification(long scheduleId, DateTimeOffset time,

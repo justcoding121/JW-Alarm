@@ -60,14 +60,15 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 playbackService.Stopped += stateChanged;
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
+                var isImmediate = string.IsNullOrEmpty(intent.GetStringExtra("IsImmediate"))
+                                         ? false : true;
 
                 await Task.Run(async () =>
                 {
                     try
                     {
                         var id = long.Parse(scheduleId);
-
-                        await playbackService.Play(id);
+                        await playbackService.Play(id, isImmediate);
                     }
                     catch (Exception e)
                     {

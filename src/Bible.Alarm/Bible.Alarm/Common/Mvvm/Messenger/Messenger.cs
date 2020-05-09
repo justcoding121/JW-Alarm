@@ -14,7 +14,8 @@ namespace Bible.Alarm.Common.Mvvm
         ShowMediaProgessModal,
         HideMediaProgressModal,
         MediaProgress,
-        TrackChanged
+        TrackChanged,
+        ShowToast
     }
 
     public static class Messenger<T>

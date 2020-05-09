@@ -151,7 +151,7 @@ namespace Bible.Alarm.iOS
             var scheduleId = userInfo["ScheduleId"];
             // show an alert
             var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
-            _ = iosAlarmHandler.Handle(long.Parse(scheduleId));
+            _ = iosAlarmHandler.Handle(long.Parse(scheduleId), true);
 
             // reset our badge
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;

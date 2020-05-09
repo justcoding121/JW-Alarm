@@ -54,6 +54,11 @@ namespace Bible.Alarm.UI
                 await queue.EnqueueAsync((MvvmMessages.HideMediaProgressModal, @param));
             });
 
+            Messenger<object>.Subscribe(MvvmMessages.ShowToast, async @param =>
+            {
+                await queue.EnqueueAsync((MvvmMessages.ShowToast, @param));
+            });
+
             var syncContext = this.container.Resolve<TaskScheduler>();
 
             Task.Run(async () =>
@@ -63,7 +68,7 @@ namespace Bible.Alarm.UI
                     var item = await queue.DequeueAsync();
                     var message = item.Item1;
                     var @object = item.Item2;
-   
+
                     switch (message)
                     {
                         case MvvmMessages.ShowAlarmModal:
@@ -87,7 +92,16 @@ namespace Bible.Alarm.UI
                                 }, syncContext);
                             }
                             break;
+                        case MvvmMessages.ShowToast:
+                            {
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    using var toastService = this.container.Resolve<IToastService>();
+                                    await toastService.ShowMessage(@object as string);
 
+                                }, syncContext);
+                            }
+                            break;
                         case MvvmMessages.ShowMediaProgessModal:
                             {
                                 var vm = this.container.Resolve<MediaProgressViewModal>();

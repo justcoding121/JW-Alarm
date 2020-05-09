@@ -38,26 +38,7 @@ namespace Bible.Alarm.UWP.Services.Handlers
             mediaPlayer.SystemMediaTransportControls.IsEnabled = false;  
         }
 
-        public async Task HandleNotification(long notificationId)
-        {
-            var notification = await dbContext.AlarmNotifications
-                                .Include(x => x.AlarmSchedule)
-                                .FirstOrDefaultAsync(x => x.Id == notificationId);
-
-            var utcNow = DateTime.UtcNow;
-
-            if (notification != null
-                   && !notification.CancellationRequested)
-            {
-                await Handle(notification.AlarmScheduleId);
-            }
-            else
-            {
-                Dispose();
-            }
-        }
-
-        public async Task Handle(long scheduleId)
+        public async Task Handle(long scheduleId, bool isImmediate)
         {
             try
             {
@@ -79,7 +60,7 @@ namespace Bible.Alarm.UWP.Services.Handlers
                 {
                     try
                     {
-                        await playbackService.Play(scheduleId);
+                        await playbackService.Play(scheduleId, isImmediate);
                     }
                     catch (Exception e)
                     {
