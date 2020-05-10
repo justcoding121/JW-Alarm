@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Contracts.UI;
+﻿using Bible.Alarm.Common.Helpers;
+using Bible.Alarm.Contracts.UI;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -257,6 +258,14 @@ namespace Bible.Alarm.ViewModels
 
             foreach (var translation in translations.Select(x => x.Value))
             {
+                if (CurrentDevice.RuntimePlatform == Device.iOS
+                    && BgSourceHelper.PublicationCodeToNameMappings
+                    .ContainsKey(translation.Code)
+                    && DateTime.Now < new DateTime(2020, 5, 25))
+                {
+                    continue;
+                }
+
                 var translationVM = new PublicationListViewItemModel(translation);
 
                 translationVMs.Add(translationVM);
