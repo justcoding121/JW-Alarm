@@ -89,6 +89,8 @@ namespace Bible.Alarm.Services
 
             await @lock.WaitAsync();
 
+            Messenger<object>.Publish(MvvmMessages.ClearToasts);
+
             try
             {
                 currentScheduleId = scheduleId;

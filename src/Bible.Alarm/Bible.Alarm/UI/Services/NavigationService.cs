@@ -59,6 +59,11 @@ namespace Bible.Alarm.UI
                 await queue.EnqueueAsync((MvvmMessages.ShowToast, @param));
             });
 
+            Messenger<object>.Subscribe(MvvmMessages.ClearToasts, async @param =>
+            {
+                await queue.EnqueueAsync((MvvmMessages.ClearToasts, @param));
+            });
+
             var syncContext = this.container.Resolve<TaskScheduler>();
 
             Task.Run(async () =>
@@ -98,6 +103,17 @@ namespace Bible.Alarm.UI
                                 {
                                     using var toastService = this.container.Resolve<IToastService>();
                                     await toastService.ShowMessage(@object as string);
+
+                                }, syncContext);
+                            }
+                            break;
+
+                        case MvvmMessages.ClearToasts:
+                            {
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    using var toastService = this.container.Resolve<IToastService>();
+                                    await toastService.Clear();
 
                                 }, syncContext);
                             }
