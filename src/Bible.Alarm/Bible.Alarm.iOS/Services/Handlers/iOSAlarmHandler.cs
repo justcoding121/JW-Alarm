@@ -111,6 +111,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
             this.playbackService.Dispose();
             Task.Delay(0).ContinueWith((x) =>
                    {
+                       mediaManager?.StopEx();
                        mediaManager?.Queue?.Clear();
                        UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
 

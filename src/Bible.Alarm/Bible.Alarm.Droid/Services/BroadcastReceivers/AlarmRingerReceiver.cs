@@ -116,6 +116,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
 
             playbackService?.Dispose();
+            mediaManager?.StopEx();
             mediaManager?.Queue?.Clear();
 
             base.Dispose();

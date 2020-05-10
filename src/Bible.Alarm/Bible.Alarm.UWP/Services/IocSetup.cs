@@ -57,9 +57,11 @@
                 return new MediaDbContext(mediaDbConfig);
             });
 
-            container.Register((x) =>
-            {
-                var manager = CrossMediaManager.Current;
+            var manager = CrossMediaManager.Current;
+            manager.Init();
+
+            container.RegisterSingleton((x) =>
+            {     
                 return manager;
             });
 

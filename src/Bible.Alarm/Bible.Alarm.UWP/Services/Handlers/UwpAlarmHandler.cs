@@ -49,10 +49,7 @@ namespace Bible.Alarm.UWP.Services.Handlers
                     playbackService.Dispose();
                     return;
                 }
-                else
-                {
-                    mediaManager.Init();
-                }
+
 
                 playbackService.Stopped += stateChanged;
 
@@ -101,7 +98,8 @@ namespace Bible.Alarm.UWP.Services.Handlers
         public void Dispose()
         {
             playbackService?.Dispose();
-            mediaManager?.Dispose();
+            mediaManager?.StopEx();
+            mediaManager?.Queue?.Clear();
         }
 
     }
