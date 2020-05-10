@@ -89,7 +89,7 @@
                     Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding MusicTypes}"
-                    SelectionMode="Single">
+                    SelectionMode="None">
                     <ListView.Behaviors>
                         <behaviours:EventToCommandBehavior
                             Command="{Binding SongBookSelectionCommand}"

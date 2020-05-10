@@ -40,7 +40,6 @@
                 </StackLayout>
                 <StackLayout
                     AutomationId="AlarmModal"
-                    FlexLayout.AlignSelf="Center"
                     HorizontalOptions="Center"
                     Orientation="Vertical"
                     VerticalOptions="Center">
@@ -83,7 +82,9 @@
             <Grid
                 Grid.Row="1"
                 Margin="5,5,5,25"
+                Padding="0"
                 FlexLayout.AlignSelf="Stretch"
+                RowSpacing="0"
                 VerticalOptions="End">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -122,6 +123,8 @@
                 <Grid
                     Grid.Row="1"
                     Grid.ColumnSpan="3"
+                    Padding="0"
+                    RowSpacing="0"
                     VerticalOptions="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
