@@ -1,12 +1,12 @@
 ﻿using Bible.Alarm.iOS.Extensions;
 using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.iOS.Services.Platform;
+using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
 using Bible.Alarm.Services.Tasks;
 using Foundation;
-using MediaManager;
 using NLog;
 using System;
 using System.Linq;
@@ -120,10 +120,25 @@ namespace Bible.Alarm.iOS
                 {
                     if (!approved)
                     {
-                        var popupService = container.Resolve<IToastService>();
-                        popupService.ShowMessage("You've declined notifications. " +
-                            "We won't be able to alert you on scheduled time. " +
-                            "You can however listen anytime by opening the app.");
+                        Task.Run(() =>
+                        {
+                            using var dbContext = container.Resolve<ScheduleDbContext>();
+
+                            if (!dbContext.GeneralSettings.Any(x => x.Key == "iOSNotificationDisabledMsgShown"))
+                            {
+                                dbContext.GeneralSettings.Add(new Alarm.Models.GeneralSettings()
+                                {
+                                     Key = "iOSNotificationDisabledMsgShown",
+                                     Value = "true"
+                                });
+                                dbContext.SaveChanges();
+
+                                var popupService = container.Resolve<IToastService>();
+                                popupService.ShowMessage("You've disabled notifications. " +
+                                    "We won't be able to alert you on scheduled time. " +
+                                    "You can however open the app anytime and resume listening.", 8);
+                            }
+                        });
                     }
                 });
 
@@ -136,6 +151,9 @@ namespace Bible.Alarm.iOS
 
                 app.RegisterUserNotificationSettings(notificationSettings);
             }
+
+            // reset our badge
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
 
             return base.FinishedLaunching(app, launchOptions);
         }

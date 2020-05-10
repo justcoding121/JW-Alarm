@@ -12,12 +12,14 @@ namespace Bible.Alarm.ViewModels
             {
                 //marking as singleton because this is the starting point
                 //and it has calls to Messenger.Subscribe
-                container.RegisterSingleton((x) => new HomeViewModel(container,
+                container.RegisterSingleton((x) => 
+                new HomeViewModel(container,
                     container.Resolve<ScheduleDbContext>(),
                     container.Resolve<IToastService>(),
                     container.Resolve<INavigationService>(),
                     container.Resolve<IMediaCacheService>(),
-                    container.Resolve<IAlarmService>()));
+                    container.Resolve<IAlarmService>(),
+                    container.Resolve<INotificationService>()));
 
                 container.Register((x) => new ScheduleViewModel(container));
 

@@ -33,6 +33,7 @@ namespace Bible.Alarm.ViewModels
         INavigationService navigationService;
         IPlaybackService playbackService;
         IMediaManager mediaManager;
+        INotificationService notificationService;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
@@ -46,6 +47,7 @@ namespace Bible.Alarm.ViewModels
             this.navigationService = this.container.Resolve<INavigationService>();
             this.playbackService = this.container.Resolve<IPlaybackService>();
             this.mediaManager = this.container.Resolve<IMediaManager>();
+            this.notificationService = this.container.Resolve<INotificationService>();
 
             subscriptions.Add(scheduleDbContext);
 
@@ -66,6 +68,7 @@ namespace Bible.Alarm.ViewModels
 
                    IsBusy = false;
                });
+
             subscriptions.Add(subscription);
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
@@ -104,6 +107,13 @@ namespace Bible.Alarm.ViewModels
             SaveCommand = new Command(async () =>
             {
                 IsBusy = true;
+
+                if (IsEnabled &&
+                     CurrentDevice.RuntimePlatform == Device.iOS
+                     && !await notificationService.CanSchedule())
+                {
+                    IsEnabled = false;
+                }
 
                 if (!IsNewSchedule)
                 {
@@ -620,6 +630,7 @@ namespace Bible.Alarm.ViewModels
             this.popUpService.Dispose();
             this.alarmService.Dispose();
             this.playbackService.Dispose();
+            this.notificationService.Dispose();
         }
     }
 }

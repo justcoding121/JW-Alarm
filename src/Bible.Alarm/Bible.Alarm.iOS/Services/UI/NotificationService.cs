@@ -50,7 +50,7 @@ namespace Bible.Alarm.Services.iOS
                         content.Title = title;
                         content.Body = body;
                         content.Badge = 1;
-                        content.Sound = UNNotificationSound.Default;
+                        content.Sound = UNNotificationSound.GetSound("cool-alarm-tone-notification-sound.caf");
                         content.UserInfo = @params.ToNSDictionary();
 
                         var trigger = UNCalendarNotificationTrigger.CreateTrigger(time.LocalDateTime.ToNSDateComponents(), true);
@@ -74,7 +74,7 @@ namespace Bible.Alarm.Services.iOS
                         notification.AlertAction = title;
                         notification.AlertBody = body;
                         notification.ApplicationIconBadgeNumber = 1;
-                        notification.SoundName = UILocalNotification.DefaultSoundName;
+                        notification.SoundName = "cool-alarm-tone-notification-sound.caf";
                         notification.RepeatInterval = NSCalendarUnit.Day;
                         notification.TimeZone = NSTimeZone.LocalTimeZone;
 
@@ -96,27 +96,34 @@ namespace Bible.Alarm.Services.iOS
                    {
                        var pending = UNUserNotificationCenter.Current.GetPendingNotificationRequestsAsync().Result;
 
-                       foreach (var notification in pending)
+                       if (pending != null)
                        {
-                           if (notification.Identifier == scheduleId.ToString())
+                           foreach (var notification in pending)
                            {
-                               UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { scheduleId.ToString() });
+                               if (notification.Identifier == scheduleId.ToString())
+                               {
+                                   UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { scheduleId.ToString() });
+                               }
                            }
                        }
 
                    }
                    else
                    {
-                       foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                       var pending = UIApplication.SharedApplication.ScheduledLocalNotifications;
+
+                       if (pending != null)
                        {
-                           var userInfo = notification.UserInfo.ToDictionary();
-
-                           if (userInfo.ContainsKey("ScheduleId")
-                               && userInfo["ScheduleId"] == scheduleId.ToString())
+                           foreach (var notification in pending)
                            {
-                               UIApplication.SharedApplication.CancelLocalNotification(notification);
-                           }
+                               var userInfo = notification.UserInfo.ToDictionary();
 
+                               if (userInfo.ContainsKey("ScheduleId")
+                                   && userInfo["ScheduleId"] == scheduleId.ToString())
+                               {
+                                   UIApplication.SharedApplication.CancelLocalNotification(notification);
+                               }
+                           }
                        }
                    }
 
@@ -132,11 +139,14 @@ namespace Bible.Alarm.Services.iOS
                      {
                          var pending = UNUserNotificationCenter.Current.GetPendingNotificationRequestsAsync().Result;
 
-                         foreach (var notification in pending)
+                         if (pending != null)
                          {
-                             if (notification.Identifier == scheduleId.ToString())
+                             foreach (var notification in pending)
                              {
-                                 return true;
+                                 if (notification.Identifier == scheduleId.ToString())
+                                 {
+                                     return true;
+                                 }
                              }
                          }
 
@@ -144,16 +154,20 @@ namespace Bible.Alarm.Services.iOS
                      }
                      else
                      {
-                         foreach (var notification in UIApplication.SharedApplication.ScheduledLocalNotifications)
+                         var pending = UIApplication.SharedApplication.ScheduledLocalNotifications;
+
+                         if (pending != null)
                          {
-                             var userInfo = notification.UserInfo.ToDictionary();
-
-                             if (userInfo.ContainsKey("ScheduleId")
-                               && userInfo["ScheduleId"] == scheduleId.ToString())
+                             foreach (var notification in pending)
                              {
-                                 return true;
-                             }
+                                 var userInfo = notification.UserInfo.ToDictionary();
 
+                                 if (userInfo.ContainsKey("ScheduleId")
+                                   && userInfo["ScheduleId"] == scheduleId.ToString())
+                                 {
+                                     return true;
+                                 }
+                             }
                          }
 
                          return false;
@@ -181,8 +195,18 @@ namespace Bible.Alarm.Services.iOS
 
                    }, taskScheduler);
             }
+            else
+            {
+                var types = UIApplication.SharedApplication.CurrentUserNotificationSettings?.Types;
 
-            return true;
+                if (types == UIUserNotificationType.Alert)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
         }
 
         public void Dispose()

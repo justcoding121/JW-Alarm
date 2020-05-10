@@ -37,6 +37,8 @@ namespace Bible.Alarm.ViewModels
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
         private IBatteryOptimizationManager batteryOptimizationManager;
+        private INotificationService notificationService;
+
         private TaskScheduler uiTaskScheduler;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
@@ -47,7 +49,8 @@ namespace Bible.Alarm.ViewModels
         public HomeViewModel(IContainer container, ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
-            IAlarmService alarmService)
+            IAlarmService alarmService,
+            INotificationService notificationService)
         {
             this.container = container;
             this.scheduleDbContext = scheduleDbContext;
@@ -55,6 +58,7 @@ namespace Bible.Alarm.ViewModels
             this.navigationService = navigationService;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
+            this.notificationService = notificationService;
 
             if (CurrentDevice.RuntimePlatform == Device.Android)
             {
@@ -314,6 +318,18 @@ namespace Bible.Alarm.ViewModels
                                  {
                                      IsBusy = true;
 
+                                     if (y.IsEnabled &&
+                                       CurrentDevice.RuntimePlatform == Device.iOS
+                                       && !await notificationService.CanSchedule())
+                                     {
+                                         y.IsEnabled = false;
+                                         await popUpService.ShowMessage("Cannot schedule alarm because you've disabled notifications. " +
+                                             "Please enable notification for this app under system settings.", 7);
+
+                                         IsBusy = false;
+                                         return;
+                                     }
+
                                      await Task.Run(async () =>
                                      {
                                          var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
@@ -325,7 +341,7 @@ namespace Bible.Alarm.ViewModels
 
                                      if (y.IsEnabled)
                                      {
-                                         await popUpService.ShowScheduledNotification(y.Schedule);   
+                                         await popUpService.ShowScheduledNotification(y.Schedule);
                                      }
 
                                      setupMediaCache(y.Schedule.Id);
@@ -365,6 +381,8 @@ namespace Bible.Alarm.ViewModels
             this.mediaCacheService.Dispose();
             this.alarmService.Dispose();
             this.batteryOptimizationManager?.Dispose();
+            this.notificationService.Dispose();
+
             @lock.Dispose();
         }
     }
