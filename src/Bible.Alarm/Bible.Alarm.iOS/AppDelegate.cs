@@ -108,54 +108,55 @@ namespace Bible.Alarm.iOS
                     var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
                     if (localNotification != null)
                     {
-                        handleNotification(localNotification);
+                        handleNotification(localNotification.UserInfo);
                     }
                 }
             }
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            // Request notification permissions from the user
+            UNUserNotificationCenter.Current.RequestAuthorization(
+                UNAuthorizationOptions.Alert
+                | UNAuthorizationOptions.Sound
+                | UNAuthorizationOptions.Badge, (approved, err) =>
             {
-                // Request notification permissions from the user
-                UNUserNotificationCenter.Current.RequestAuthorization(
-                    UNAuthorizationOptions.Alert
-                    | UNAuthorizationOptions.Sound
-                    | UNAuthorizationOptions.Badge, (approved, err) =>
+                if (!approved)
                 {
-                    if (!approved)
+                    Task.Run(() =>
                     {
-                        Task.Run(() =>
+                        using var dbContext = container.Resolve<ScheduleDbContext>();
+
+                        if (!dbContext.GeneralSettings.Any(x => x.Key == "iOSNotificationDisabledMsgShown"))
                         {
-                            using var dbContext = container.Resolve<ScheduleDbContext>();
-
-                            if (!dbContext.GeneralSettings.Any(x => x.Key == "iOSNotificationDisabledMsgShown"))
+                            dbContext.GeneralSettings.Add(new Alarm.Models.GeneralSettings()
                             {
-                                dbContext.GeneralSettings.Add(new Alarm.Models.GeneralSettings()
-                                {
-                                     Key = "iOSNotificationDisabledMsgShown",
-                                     Value = "true"
-                                });
-                                dbContext.SaveChanges();
+                                Key = "iOSNotificationDisabledMsgShown",
+                                Value = "true"
+                            });
+                            dbContext.SaveChanges();
 
-                                var popupService = container.Resolve<IToastService>();
-                                popupService.ShowMessage("You've disabled notifications. " +
-                                    "We won't be able to alert you on scheduled time. " +
-                                    "You can however open the app anytime and resume listening.", 8);
-                            }
-                        });
-                    }
-                });
+                            var popupService = container.Resolve<IToastService>();
+                            popupService.ShowMessage("You've disabled notifications. " +
+                                "We won't be able to alert you on scheduled time. " +
+                                "You can however open the app anytime and resume listening.", 8);
+                        }
+                    });
+                }
+            });
 
-            }
-            else
+            var delivered = UNUserNotificationCenter.Current.GetDeliveredNotificationsAsync().Result;
+
+            if (delivered != null)
             {
-                var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes(
-                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null
-                );
+                var notification = delivered.FirstOrDefault();
 
-                app.RegisterUserNotificationSettings(notificationSettings);
+                if (notification != null)
+                {
+                    handleNotification(notification.Request.Content.UserInfo);
+                }
+
+                UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
             }
 
-            // reset our badge
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
 
             return base.FinishedLaunching(app, launchOptions);
@@ -163,12 +164,12 @@ namespace Bible.Alarm.iOS
 
         public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
         {
-            handleNotification(notification);
+            handleNotification(notification.UserInfo);
         }
 
-        private void handleNotification(UILocalNotification notification)
+        private void handleNotification(NSDictionary nsUserInfo)
         {
-            var userInfo = notification.UserInfo.ToDictionary();
+            var userInfo = nsUserInfo.ToDictionary();
             var scheduleId = userInfo["ScheduleId"];
             // show an alert
             var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
