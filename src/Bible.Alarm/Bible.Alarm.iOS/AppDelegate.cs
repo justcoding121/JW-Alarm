@@ -143,6 +143,12 @@ namespace Bible.Alarm.iOS
                 }
             });
 
+         
+            return base.FinishedLaunching(app, launchOptions);
+        }
+
+        public override void OnActivated(UIApplication uiApplication)
+        {
             var delivered = UNUserNotificationCenter.Current.GetDeliveredNotificationsAsync().Result;
 
             if (delivered != null)
@@ -159,7 +165,8 @@ namespace Bible.Alarm.iOS
 
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
 
-            return base.FinishedLaunching(app, launchOptions);
+
+            base.OnActivated(uiApplication);
         }
 
         public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
