@@ -116,7 +116,10 @@ namespace Bible.Alarm.iOS
             if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
             {
                 // Request notification permissions from the user
-                UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (approved, err) =>
+                UNUserNotificationCenter.Current.RequestAuthorization(
+                    UNAuthorizationOptions.Alert
+                    | UNAuthorizationOptions.Sound
+                    | UNAuthorizationOptions.Badge, (approved, err) =>
                 {
                     if (!approved)
                     {

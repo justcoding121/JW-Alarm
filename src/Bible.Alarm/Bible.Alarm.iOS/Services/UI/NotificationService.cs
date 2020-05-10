@@ -49,7 +49,7 @@ namespace Bible.Alarm.Services.iOS
                         var content = new UNMutableNotificationContent();
                         content.Title = title;
                         content.Body = body;
-                        content.Badge = 1;
+                        content.Badge = 1;       
                         content.Sound = UNNotificationSound.GetSound("cool-alarm-tone-notification-sound.caf");
                         content.UserInfo = @params.ToNSDictionary();
 
