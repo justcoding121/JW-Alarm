@@ -37,12 +37,10 @@ namespace Bible.Alarm.Services.iOS
             await Task.Delay(0).
                 ContinueWith((x) =>
                 {
-
                     var @params = new Dictionary<string, string>
                         {
                             {"ScheduleId", scheduleId.ToString()},
                         };
-
 
                     if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                     {
