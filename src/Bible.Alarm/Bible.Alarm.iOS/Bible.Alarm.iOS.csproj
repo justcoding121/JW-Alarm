@@ -146,7 +146,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IocSetup.cs" />
     <BundleResource Include="Resources\Font Awesome 5 Free-Solid-900.otf" />
-    <BundleResource Include="Resources\cool-alarm-tone-notification-sound.caf" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\Splash-Icon.imageset\Contents.json">
@@ -223,5 +222,7 @@
       <Name>Bible.Alarm</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BundleResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
+  </ItemGroup>
 </Project>

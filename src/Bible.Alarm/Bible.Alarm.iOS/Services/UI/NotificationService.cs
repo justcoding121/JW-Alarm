@@ -42,7 +42,7 @@ namespace Bible.Alarm.Services.iOS
                     var content = new UNMutableNotificationContent();
                     content.Title = title;
                     content.Body = body;
-                    content.Sound = UNNotificationSound.GetSound("cool-alarm-tone-notification-sound.caf");
+                    content.Sound = UNNotificationSound.GetSound("cool-alarm-tone-notification-sound.mp3");
                     content.UserInfo = @params.ToNSDictionary();
                     content.Badge = 1;
                     var trigger = UNCalendarNotificationTrigger.CreateTrigger(time.LocalDateTime.ToNSDateComponents(), true);
