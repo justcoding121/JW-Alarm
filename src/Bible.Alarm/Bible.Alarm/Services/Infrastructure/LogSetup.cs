@@ -59,6 +59,11 @@ namespace Bible.Alarm.Services.Infrastructure
             config.Transport.EndpointHostname = "logs-01.loggly.com";
             config.Transport.EndpointPort = 514;
             config.Transport.LogTransport = LogTransport.SyslogUdp;
+            config.ThrowExceptions = false;
+
+#if DEBUG
+            config.ThrowExceptions = true;
+#endif
 
             var ct = new ApplicationNameTag();
             ct.Formatter = "application-{0}";
