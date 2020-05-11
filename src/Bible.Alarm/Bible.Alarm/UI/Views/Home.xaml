@@ -119,12 +119,12 @@
                                         MinimumHeightRequest="{OnPlatform UWP='50',
                                                                           iOS='50'}"
                                         MinimumWidthRequest="{OnPlatform iOS='75',
-                                                                         UWP='50'}"
+                                                                         UWP='75'}"
                                         Text="{x:Static fn:GlyphNames.Play}"
                                         TextColor="SlateBlue"
                                         VerticalOptions="Center"
                                         WidthRequest="{OnPlatform iOS='75',
-                                                                  UWP='50'}" />
+                                                                  UWP='75'}" />
                                     <StackLayout
                                         Margin="0"
                                         Padding="0"
