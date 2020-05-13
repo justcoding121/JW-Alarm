@@ -60,8 +60,7 @@ namespace Bible.Alarm.Services
 
         private void scheduleNotification(AlarmSchedule schedule, bool isSnoozeNotification)
         {
-            notificationService.ScheduleNotification(schedule.Id, isSnoozeNotification ?
-                DateTimeOffset.Now.AddMinutes(schedule.SnoozeMinutes) : schedule.NextFireDate(), schedule.Name,
+            notificationService.ScheduleNotification(schedule.Id, schedule.NextFireDate(), schedule.Name,
                 "Press to start listening now.");
         }
 

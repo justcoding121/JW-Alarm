@@ -3,12 +3,14 @@ using Bible.Alarm.Services.Tasks;
 using Bible.Alarm.Services.Uwp.Helpers;
 using Bible.Alarm.Uwp;
 using Bible.Alarm.Uwp.Services.Platform;
+using Bible.Alarm.UWP.Services.Handlers;
 using NLog;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Media;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,7 +26,7 @@ namespace Bible.Alarm.UWP
         private Logger logger => LogManager.GetCurrentClassLogger();
 
         private IContainer container;
-        private SystemMediaTransportControls systemMediaTransportControls;
+
         public App()
         {
             LogSetup.Initialize(UwpVersionFinder.Default, new string[] { }, Xamarin.Forms.Device.UWP);
@@ -99,6 +101,54 @@ namespace Bible.Alarm.UWP
             Window.Current.Activate();
         }
 
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(400, 500));
+
+            ApplicationView.PreferredLaunchViewSize = new Size(400, 600);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (!(Window.Current.Content is Frame rootFrame))
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                Xamarin.Forms.Forms.Init(e);
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(MainPage));
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+
+            // Handle toast activation
+            if (e is ToastNotificationActivatedEventArgs)
+            {
+                var toastActivationArgs = e as ToastNotificationActivatedEventArgs;
+                var scheduleId = int.Parse(toastActivationArgs.Argument);
+
+                handleAlarm(scheduleId);
+            }
+        }
+
         protected async override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
@@ -114,6 +164,13 @@ namespace Bible.Alarm.UWP
 
             deferral.Complete();
         }
+
+        private void handleAlarm(int scheduleId)
+        {
+            var uwpAlarmHandler = container.Resolve<UwpAlarmHandler>();
+            _ = uwpAlarmHandler.Handle(scheduleId, true);
+        }
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

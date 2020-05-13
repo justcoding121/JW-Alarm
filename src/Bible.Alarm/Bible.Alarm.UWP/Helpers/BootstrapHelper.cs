@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
 
 namespace Bible.Alarm.Services.Uwp.Helpers
 {
@@ -24,15 +25,54 @@ namespace Bible.Alarm.Services.Uwp.Helpers
             }
         }
 
+        public static async Task SetupBackgroundTask(IContainer container)
+        {
+            await BackgroundExecutionManager.RequestAccessAsync();
+            var allowed = BackgroundExecutionManager.GetAccessStatus();
+            switch (allowed)
+            {
+                case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
+                case BackgroundAccessStatus.AlwaysAllowed:
+                    break;
+                case BackgroundAccessStatus.Unspecified:
+                case BackgroundAccessStatus.DeniedBySystemPolicy:
+                case BackgroundAccessStatus.DeniedByUser:
+                    throw new Exception("Background tasks disabled.");
+            }
+
+            var registered = false;
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == "SchedulerTask")
+                {
+                    registered = true;
+                }
+            }
+
+            if (!registered)
+            {
+                var builder = new BackgroundTaskBuilder
+                {
+                    Name = "SchedulerTask"
+                };
+
+                builder.SetTrigger(new TimeTrigger(15, true));
+                builder.Register();
+            }
+        }
+
         public static Task Initialize(IContainer container, Logger logger)
         {
+            Task.Run(() => SetupBackgroundTask(container));
+
             return Task.Run(async () =>
             {
                 try
                 {
                     var task1 = BootstrapHelper.VerifyMediaLookUpService(container);
                     var task2 = BootstrapHelper.InitializeDatabase(container);
-
+                    
                     await Task.WhenAll(task1, task2);
 
                     Messenger<bool>.Publish(MvvmMessages.Initialized, true);
