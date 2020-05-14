@@ -7,49 +7,47 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout
-                Margin="0,0,0,125"
-                AutomationId="BatteryOptimizationModal"
+        <StackLayout
+            Margin="0,0,0,125"
+            AutomationId="BatteryOptimizationModal"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <Label
+                Margin="5"
+                FontSize="Default"
+                HeightRequest="200"
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
-                <Label
-                    Margin="5"
-                    FontSize="Default"
-                    HeightRequest="200"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
-                    MinimumHeightRequest="200"
-                    MinimumWidthRequest="200"
-                    Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization. This application would not drain your device battery. We recommend to exclude this app from battery optimization."
-                    TextColor="SlateBlue"
-                    VerticalOptions="End"
-                    VerticalTextAlignment="End"
-                    WidthRequest="200" />
-                <Button
-                    Margin="5"
-                    Command="{Binding BatteryOptimizationExcludeCommand}"
-                    CornerRadius="10"
-                    FontSize="Medium"
-                    HeightRequest="45"
-                    MinimumHeightRequest="45"
-                    MinimumWidthRequest="200"
-                    Text="Exclude Now"
-                    TextColor="SlateBlue"
-                    WidthRequest="200" />
-                <Button
-                    Margin="5"
-                    AutomationId="BatteryOptimizationDismissButton"
-                    Command="{Binding BatteryOptimizationDismissCommand}"
-                    CornerRadius="10"
-                    FontSize="Medium"
-                    HeightRequest="45"
-                    MinimumHeightRequest="45"
-                    MinimumWidthRequest="200"
-                    Text="Later"
-                    TextColor="SlateBlue"
-                    WidthRequest="200" />
-            </StackLayout>
-        </ScrollView>
+                HorizontalTextAlignment="Center"
+                MinimumHeightRequest="200"
+                MinimumWidthRequest="200"
+                Text="Alarm may not ring on certain android devices like OnePlus due to aggressive battery optimization. This application would not drain your device battery. We recommend to exclude this app from battery optimization."
+                TextColor="SlateBlue"
+                VerticalOptions="End"
+                VerticalTextAlignment="End"
+                WidthRequest="200" />
+            <Button
+                Margin="5"
+                Command="{Binding BatteryOptimizationExcludeCommand}"
+                CornerRadius="10"
+                FontSize="Medium"
+                HeightRequest="45"
+                MinimumHeightRequest="45"
+                MinimumWidthRequest="200"
+                Text="Exclude Now"
+                TextColor="SlateBlue"
+                WidthRequest="200" />
+            <Button
+                Margin="5"
+                AutomationId="BatteryOptimizationDismissButton"
+                Command="{Binding BatteryOptimizationDismissCommand}"
+                CornerRadius="10"
+                FontSize="Medium"
+                HeightRequest="45"
+                MinimumHeightRequest="45"
+                MinimumWidthRequest="200"
+                Text="Later"
+                TextColor="SlateBlue"
+                WidthRequest="200" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
