@@ -130,7 +130,7 @@ namespace Bible.Alarm.ViewModels
                 new MusicTypeListItemViewModel()
                 {
                     MusicType = MusicType.Melodies,
-                    Name = "Melodies"
+                    Name = "Orchestral Melodies"
                 },
                 new MusicTypeListItemViewModel()
                 {

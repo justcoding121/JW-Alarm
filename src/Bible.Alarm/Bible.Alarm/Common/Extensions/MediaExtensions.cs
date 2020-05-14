@@ -41,7 +41,7 @@ namespace Bible.Alarm.Common.Extensions
                 if (string.IsNullOrEmpty(item.Title)
                     || CurrentDevice.RuntimePlatform == Device.UWP)
                 {
-                    item.Title = "Melodies";
+                    item.Title = "Orchestral Melodies";
                 }
                 else
                 {

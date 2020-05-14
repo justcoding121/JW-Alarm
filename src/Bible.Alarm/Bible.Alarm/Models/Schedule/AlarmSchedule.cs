@@ -1,8 +1,11 @@
 using Bible.Alarm.Models.Schedule;
+using Bible.Alarm.Services;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bible.Alarm.Models
 {
@@ -107,9 +110,9 @@ namespace Bible.Alarm.Models
             return Id.CompareTo((obj as AlarmSchedule).Id);
         }
 
-        internal static AlarmSchedule GetSampleSchedule(bool isNew = false)
+        internal async static Task<AlarmSchedule> GetSampleSchedule(bool isNew, MediaDbContext mediaDbContext)
         {
-            return new AlarmSchedule()
+            var sample = new AlarmSchedule()
             {
                 IsEnabled = false,
                 MusicEnabled = false,
@@ -121,17 +124,40 @@ namespace Bible.Alarm.Models
                 {
                     MusicType = MusicType.Melodies,
                     PublicationCode = "iam",
-                    LanguageCode = null,
-                    TrackNumber = 89
+                    LanguageCode = null
                 },
                 BibleReadingSchedule = new BibleReadingSchedule()
                 {
-                    BookNumber = 23,
                     ChapterNumber = 1,
                     LanguageCode = "E",
                     PublicationCode = "nwt"
                 }
             };
+
+            var bible = await mediaDbContext
+                                       .BibleTranslations
+                                       .Include(x => x.Books)
+                                       .Where(x => x.Code == sample.BibleReadingSchedule.PublicationCode
+                                               && x.Language.Code
+                                                   == sample.BibleReadingSchedule.LanguageCode)
+                                       .FirstOrDefaultAsync();
+
+            var rnd = new Random();
+            var book = bible.Books[rnd.Next() % bible.Books.Count];
+            sample.BibleReadingSchedule.BookNumber = book.Number;
+
+            var music = await mediaDbContext
+                                       .MelodyMusic
+                                       .Include(x => x.Tracks)
+                                       .Where(x => x.Code
+                                            == sample.Music.PublicationCode)
+                                       .FirstOrDefaultAsync();
+
+          
+            var track = music.Tracks[rnd.Next() % music.Tracks.Count];
+            sample.Music.TrackNumber = track.Number;
+
+            return sample;
         }
     }
 

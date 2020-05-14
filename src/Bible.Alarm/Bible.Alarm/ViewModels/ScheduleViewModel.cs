@@ -73,19 +73,7 @@ namespace Bible.Alarm.ViewModels
 
                    if (model == null)
                    {
-                       modelToSet = AlarmSchedule.GetSampleSchedule(true);
-
-                       var bible = await mediaDbContext
-                                        .BibleTranslations
-                                        .Include(x => x.Books)
-                                        .Where(x => x.Code == modelToSet.BibleReadingSchedule.PublicationCode
-                                                && x.Language.Code 
-                                                    == modelToSet.BibleReadingSchedule.LanguageCode)
-                                        .FirstOrDefaultAsync();
-
-                       var rnd = new Random();
-                       var book = bible.Books[rnd.Next() % bible.Books.Count];
-                       modelToSet.BibleReadingSchedule.BookNumber = book.Number;
+                       modelToSet = await AlarmSchedule.GetSampleSchedule(true, mediaDbContext);   
                    }
                    else
                    {
@@ -660,6 +648,7 @@ namespace Bible.Alarm.ViewModels
             this.alarmService.Dispose();
             this.playbackService.Dispose();
             this.notificationService.Dispose();
+            this.mediaDbContext.Dispose();
         }
     }
 }

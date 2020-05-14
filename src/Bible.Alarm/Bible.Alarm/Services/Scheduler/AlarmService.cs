@@ -14,8 +14,6 @@ namespace Bible.Alarm.Services
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
-        private Logger logger => LogManager.GetCurrentClassLogger();
-
         public AlarmService(IContainer container,
             INotificationService notificationService,
             IMediaCacheService mediaCacheService,
@@ -60,7 +58,7 @@ namespace Bible.Alarm.Services
 
         private void scheduleNotification(AlarmSchedule schedule, bool isSnoozeNotification)
         {
-            notificationService.ScheduleNotification(schedule.Id, schedule.NextFireDate(), schedule.Name,
+            notificationService.ScheduleNotification(schedule.Id, schedule.NextFireDate(), string.IsNullOrEmpty(schedule.Name) ? "Bible Alarm" : schedule.Name,
                 "Press to start listening now.");
         }
 

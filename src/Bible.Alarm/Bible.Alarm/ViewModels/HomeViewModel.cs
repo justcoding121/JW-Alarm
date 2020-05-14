@@ -32,6 +32,8 @@ namespace Bible.Alarm.ViewModels
         private IContainer container;
 
         private ScheduleDbContext scheduleDbContext;
+        private MediaDbContext mediaDbContext;
+
         private IToastService popUpService;
         private INavigationService navigationService;
         private IMediaCacheService mediaCacheService;
@@ -46,11 +48,13 @@ namespace Bible.Alarm.ViewModels
         public Command BatteryOptimizationExcludeCommand { get; private set; }
         public Command BatteryOptimizationDismissCommand { get; private set; }
 
-        public HomeViewModel(IContainer container, ScheduleDbContext scheduleDbContext,
+        public HomeViewModel(IContainer container, 
+            ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
             IAlarmService alarmService,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            MediaDbContext mediaDbContext)
         {
             this.container = container;
             this.scheduleDbContext = scheduleDbContext;
@@ -59,6 +63,7 @@ namespace Bible.Alarm.ViewModels
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
             this.notificationService = notificationService;
+            this.mediaDbContext = mediaDbContext;
 
             if (CurrentDevice.RuntimePlatform == Device.Android)
             {
@@ -162,10 +167,9 @@ namespace Bible.Alarm.ViewModels
                 //for existing apps before version 1.30
                 && !await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
-                var schedule = AlarmSchedule.GetSampleSchedule();
+                var schedule = await AlarmSchedule.GetSampleSchedule(false, mediaDbContext);
 
                 await scheduleDbContext.AlarmSchedules.AddAsync(schedule);
-
                 await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
                 {
                     Key = "AlarmSeeded",
@@ -392,6 +396,7 @@ namespace Bible.Alarm.ViewModels
             this.alarmService.Dispose();
             this.batteryOptimizationManager?.Dispose();
             this.notificationService.Dispose();
+            this.mediaDbContext.Dispose();
 
             @lock.Dispose();
         }
