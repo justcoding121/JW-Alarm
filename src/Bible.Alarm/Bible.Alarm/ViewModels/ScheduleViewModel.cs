@@ -1,5 +1,6 @@
 ﻿
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -28,6 +29,8 @@ namespace Bible.Alarm.ViewModels
         private readonly IContainer container;
 
         ScheduleDbContext scheduleDbContext;
+        MediaDbContext mediaDbContext;
+
         IAlarmService alarmService;
         IToastService popUpService;
         INavigationService navigationService;
@@ -42,6 +45,7 @@ namespace Bible.Alarm.ViewModels
             this.container = container;
 
             this.scheduleDbContext = this.container.Resolve<ScheduleDbContext>();
+            this.mediaDbContext = this.container.Resolve<MediaDbContext>();
             this.popUpService = this.container.Resolve<IToastService>();
             this.alarmService = this.container.Resolve<IAlarmService>();
             this.navigationService = this.container.Resolve<INavigationService>();
@@ -57,14 +61,38 @@ namespace Bible.Alarm.ViewModels
                .Select(state => state.CurrentScheduleListItem)
                .DistinctUntilChanged()
                .Take(1)
-               .Subscribe(x =>
+               .Subscribe(async x =>
                {
                    scheduleListItem = x;
 
                    var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
-                   setModel(model ?? AlarmSchedule.GetSampleSchedule(true));
+
+                   AlarmSchedule modelToSet;
+
+                   if (model == null)
+                   {
+                       modelToSet = AlarmSchedule.GetSampleSchedule(true);
+
+                       var bible = await mediaDbContext
+                                        .BibleTranslations
+                                        .Include(x => x.Books)
+                                        .Where(x => x.Code == modelToSet.BibleReadingSchedule.PublicationCode
+                                                && x.Language.Code 
+                                                    == modelToSet.BibleReadingSchedule.LanguageCode)
+                                        .FirstOrDefaultAsync();
+
+                       var rnd = new Random();
+                       var book = bible.Books[rnd.Next() % bible.Books.Count];
+                       modelToSet.BibleReadingSchedule.BookNumber = book.Number;
+                   }
+                   else
+                   {
+                       modelToSet = model;
+                   }
+
+                   setModel(modelToSet);
 
                    IsBusy = false;
                });
@@ -109,7 +137,8 @@ namespace Bible.Alarm.ViewModels
                 IsBusy = true;
 
                 if (IsEnabled &&
-                     CurrentDevice.RuntimePlatform == Device.iOS
+                      (CurrentDevice.RuntimePlatform == Device.iOS
+                        || CurrentDevice.RuntimePlatform == Device.UWP)
                      && !await notificationService.CanSchedule())
                 {
                     IsEnabled = false;

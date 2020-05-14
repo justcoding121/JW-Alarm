@@ -319,12 +319,22 @@ namespace Bible.Alarm.ViewModels
                                      IsBusy = true;
 
                                      if (y.IsEnabled &&
-                                       CurrentDevice.RuntimePlatform == Device.iOS
+                                       (CurrentDevice.RuntimePlatform == Device.iOS
+                                       ||CurrentDevice.RuntimePlatform == Device.UWP)
                                        && !await notificationService.CanSchedule())
                                      {
                                          y.IsEnabled = false;
-                                         await popUpService.ShowMessage("Cannot schedule alarm because you've disabled notifications. " +
-                                             "Please enable notification for this app under system settings.", 7);
+
+                                         if (CurrentDevice.RuntimePlatform == Device.iOS)
+                                         {
+                                             await popUpService.ShowMessage("Cannot schedule alarm because you've disabled notifications. " +
+                                                 "Please enable notification for this app under system settings.", 7);
+                                         }
+                                         else
+                                         {
+                                             await popUpService.ShowMessage("Cannot schedule alarm because you've denied backgroud apps permission. " +
+                                               "Please grant background apps permission for this app under system settings.", 7);
+                                         }
 
                                          IsBusy = false;
                                          return;

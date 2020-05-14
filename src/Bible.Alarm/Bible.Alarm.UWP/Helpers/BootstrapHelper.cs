@@ -9,6 +9,7 @@ namespace Bible.Alarm.Services.Uwp.Helpers
 {
     public class BootstrapHelper
     {
+        public static bool IsBackgroundTaskEnabled = true;
         public async static Task VerifyMediaLookUpService(IContainer container)
         {
             using (var service = container.Resolve<MediaIndexService>())
@@ -37,7 +38,8 @@ namespace Bible.Alarm.Services.Uwp.Helpers
                 case BackgroundAccessStatus.Unspecified:
                 case BackgroundAccessStatus.DeniedBySystemPolicy:
                 case BackgroundAccessStatus.DeniedByUser:
-                    throw new Exception("Background tasks disabled.");
+                    IsBackgroundTaskEnabled = false;
+                    break;
             }
 
             var registered = false;

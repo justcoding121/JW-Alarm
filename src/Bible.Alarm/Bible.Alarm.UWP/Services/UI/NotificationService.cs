@@ -6,6 +6,7 @@ using Bible.Alarm.UWP.Services.Handlers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 using System.Linq;
+using Bible.Alarm.Services.Uwp.Helpers;
 
 namespace Bible.Alarm.Services.UWP
 {
@@ -106,7 +107,7 @@ namespace Bible.Alarm.Services.UWP
 
         public Task<bool> CanSchedule()
         {
-            return Task.FromResult(true);
+            return Task.FromResult(BootstrapHelper.IsBackgroundTaskEnabled);
         }
 
         public void Dispose()
