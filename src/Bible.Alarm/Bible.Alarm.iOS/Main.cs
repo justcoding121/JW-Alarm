@@ -23,10 +23,8 @@ namespace Bible.Alarm.iOS
         // This is the main entry point of the application.
         static void Main(string[] args)
         {
-
             try
             {
-
                 var result = IocSetup.Initialize("SplashActivity", false);
                 var container = result.Item1;
                 var containerCreated = result.Item2;

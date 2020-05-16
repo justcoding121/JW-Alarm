@@ -36,7 +36,6 @@ namespace Bible.Alarm.iOS
             {
                 if (container == null)
                 {
-                    logger.Info("AppDelegate called.");
                     var result = IocSetup.Initialize("SplashActivity", false);
                     container = result.Item1;
                     var containerCreated = result.Item2;
@@ -220,8 +219,6 @@ namespace Bible.Alarm.iOS
 
             try
             {
-                logger.Info("Perform Fetch was called.");
-
                 using var schedulerTask = container.Resolve<SchedulerTask>();
                 downloaded = await schedulerTask.Handle();
             }
