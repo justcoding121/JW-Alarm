@@ -12,29 +12,12 @@ namespace Bible.Alarm.Common.Extensions
             if (detail.IsBibleReading)
             {
                 //Publication Name
-                if (BgSourceHelper.PublisherCodeToAuthorsCodeMap.ContainsKey(detail.PublicationCode))
-                {
-                    item.DisplayTitle = BgSourceHelper.PublicationCodeToNameMappings[detail.PublicationCode];
-                }
-                else
-                {
-                    item.DisplayTitle = JwSourceHelper.PublicationCodeToNameMappings[detail.PublicationCode];
-                }
+                item.DisplayTitle = JwSourceHelper.PublicationCodeToNameMappings[detail.PublicationCode];
 
                 //Book & Chapter
                 item.DisplaySubtitle = $"{BgSourceHelper.BookNumberToNamesMap[detail.BookNumber]} {detail.ChapterNumber}";
+                item.DisplayDescription = "jw.org";
 
-                //Source Name
-                if (BgSourceHelper.PublisherCodeToAuthorsCodeMap.ContainsKey(detail.PublicationCode))
-                {
-                    var authorCode = BgSourceHelper.PublisherCodeToAuthorsCodeMap[detail.PublicationCode];
-                    var authorName = BgSourceHelper.AuthorCodeToAuthorNameMap[authorCode];
-                    item.DisplayDescription = $"biblegateway.com ({authorName})";
-                }
-                else
-                {
-                    item.DisplayDescription = "jw.org";
-                }
             }
             else
             {
@@ -50,7 +33,6 @@ namespace Bible.Alarm.Common.Extensions
                         item.Title = $"Melody Number(s) {item.Title}";
                     }
                 }
-
 
                 if (string.IsNullOrEmpty(item.DisplaySubtitle)
                     || CurrentDevice.RuntimePlatform == Device.UWP)

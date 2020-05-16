@@ -96,19 +96,10 @@ namespace Bible.Alarm.Audio.Links.Harvestor
                         {
                             string lookUpPath;
 
-                            if (SourceHelper.GetSourceWebsite(bibleTranslation.Code) == SourceWebsite.JwOrg)
-                            {
-                                lookUpPath = $"?output=json&pub={bibleTranslation.Code}" +
-                                                 $"&fileformat=MP3&langwritten={bibleTranslation.Language.Code}" +
-                                                 $"&txtCMSLang=E&booknum={newBook.Number}&track={chapter.Value.Number}";
-                            }
-                            else
-                            {
-                                var bookKey = BgSourceHelper.BookNumberToBookCodeMap[book.Value.Number];
-                                var author = BgSourceHelper.PublisherCodeToAuthorsCodeMap[bibleTranslation.Code];
+                            lookUpPath = $"?output=json&pub={bibleTranslation.Code}" +
+                                             $"&fileformat=MP3&langwritten={bibleTranslation.Language.Code}" +
+                                             $"&txtCMSLang=E&booknum={newBook.Number}&track={chapter.Value.Number}";
 
-                                lookUpPath = $"?osis={bookKey}.{chapter.Value.Number}&version={bibleTranslation.Code}&author={author}";
-                            }
 
                             var newChapter = new BibleChapter()
                             {

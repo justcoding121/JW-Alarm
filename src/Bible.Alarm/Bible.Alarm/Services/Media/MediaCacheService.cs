@@ -197,27 +197,14 @@ namespace Bible.Alarm.Services
 
                 byte[] @bytes;
 
-                if (sourceWebsite == SourceWebsite.JwOrg)
-                {
-                    var harvestLink1 = $"{jwOrgUrls[0]}{lookUpPath}";
-                    var harvestLink2 = $"{jwOrgUrls[1]}{lookUpPath}";
-                    @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
-                    string jsonString = Encoding.Default.GetString(@bytes);
-                    dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
+                var harvestLink1 = $"{jwOrgUrls[0]}{lookUpPath}";
+                var harvestLink2 = $"{jwOrgUrls[1]}{lookUpPath}";
+                @bytes = await downloadService.DownloadAsync(harvestLink1, harvestLink2);
+                string jsonString = Encoding.Default.GetString(@bytes);
+                dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
 
-                    return model["files"][languageCode]["MP3"][0]["file"]["url"];
-                }
-                else
-                {
-                    var harvestLink = $"{bibleGateWayUrl}{lookUpPath}";
-                    @bytes = await downloadService.DownloadAsync(harvestLink);
-                    string jsonString = Encoding.Default.GetString(@bytes);
-                    dynamic model = JsonConvert.DeserializeObject<dynamic>(jsonString);
-                    var hashKey = model["curHash"];
-                    var bookKey = BgSourceHelper.BookNumberToBookCodeMap[bookNumber];
-                    var author = BgSourceHelper.PublisherCodeToAuthorsCodeMap[pubCode];
-                    return $"https://stream.biblegateway.com/bibles/32/{pubCode}-{author}/{bookKey}.{chapter}.{hashKey}.mp3";
-                }
+                return model["files"][languageCode]["MP3"][0]["file"]["url"];
+
 
             }
             catch

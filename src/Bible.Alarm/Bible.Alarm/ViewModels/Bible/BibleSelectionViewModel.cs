@@ -258,14 +258,6 @@ namespace Bible.Alarm.ViewModels
 
             foreach (var translation in translations.Select(x => x.Value))
             {
-                if (CurrentDevice.RuntimePlatform == Device.iOS
-                    && BgSourceHelper.PublicationCodeToNameMappings
-                    .ContainsKey(translation.Code)
-                    && DateTime.Now < new DateTime(2020, 5, 25))
-                {
-                    continue;
-                }
-
                 var translationVM = new PublicationListViewItemModel(translation);
 
                 translationVMs.Add(translationVM);

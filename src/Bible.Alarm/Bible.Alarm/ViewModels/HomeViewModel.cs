@@ -238,6 +238,7 @@ namespace Bible.Alarm.ViewModels
                                             .Include(x => x.Music)
                                             .ToListAsync();
 
+                        //bible gateway is not supported anymore due to copyright issues
                         var toRemove = alarmSchedules.Where(x => BgSourceHelper.PublicationCodeToNameMappings.Any(y => y.Key == x.BibleReadingSchedule.PublicationCode)).ToList();
 
                         if (toRemove.Any())

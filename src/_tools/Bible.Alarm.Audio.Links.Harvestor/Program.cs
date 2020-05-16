@@ -20,7 +20,6 @@ namespace AudioLinkHarvester
 
         private static Dictionary<string, string> biblePublicationCodeToNameMappings =
             JwSourceHelper.PublicationCodeToNameMappings.Select(x => x)
-                .Concat(BgSourceHelper.PublicationCodeToNameMappings).Select(x => x)
                     .ToDictionary(x => x.Key, x => x.Value);
 
 
