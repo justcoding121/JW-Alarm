@@ -26,7 +26,6 @@ namespace Bible.Alarm.iOS
 
             try
             {
-                logger.Info("Main entry called.");
 
                 var result = IocSetup.Initialize("SplashActivity", false);
                 var container = result.Item1;

@@ -93,7 +93,7 @@ namespace Loggly.Transports.Syslog
                 "<{0}>1 {1} {2} {3} {4} {5} {6}\n"
                 , priority
                 , Timestamp.ToSyslog()
-                , EnvironmentProvider.MachineName
+                , string.Empty
                 , AppName
                 , EnvironmentProvider.ProcessId
                 , MessageId
