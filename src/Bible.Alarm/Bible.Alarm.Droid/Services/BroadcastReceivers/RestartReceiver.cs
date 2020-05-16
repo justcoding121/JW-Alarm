@@ -38,7 +38,14 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 BootstrapHelper.VerifyBackgroundTasks(container.AndroidContext());
 
-                await BootstrapHelper.VerifyServices(container);
+                try
+                {
+                    await BootstrapHelper.VerifyServices(container);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn(ex, $"Failed to process restart task: copy media index. Intent action {intent.Action}");
+                }
 
                 using var schedulerTask = container.Resolve<SchedulerTask>();
                 await schedulerTask.Handle();
