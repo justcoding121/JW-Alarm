@@ -1,8 +1,11 @@
-﻿using Bible.Alarm.iOS.Services.Handlers;
+﻿using Bible.Alarm.iOS.Extensions;
+using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.Services.Contracts;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using UserNotifications;
 
 namespace Bible.Alarm.Services.iOS
 {
@@ -11,33 +14,115 @@ namespace Bible.Alarm.Services.iOS
         private Logger logger => LogManager.GetCurrentClassLogger();
 
         private readonly IContainer container;
+        private readonly TaskScheduler taskScheduler;
 
         public iOSNotificationService(IContainer container)
         {
             this.container = container;
+            taskScheduler = container.Resolve<TaskScheduler>();
         }
 
         public void ShowNotification(long scheduleId)
         {
             var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
-            _ = iosAlarmHandler.Handle(scheduleId);
+            _ = iosAlarmHandler.Handle(scheduleId, true);
         }
 
-        public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
+        public async Task ScheduleNotification(long scheduleId, DateTimeOffset time,
             string title, string body)
         {
-            return Task.CompletedTask;
+            await Task.Delay(0).
+                ContinueWith((x) =>
+                {
+                    var @params = new Dictionary<string, string>
+                        {
+                            {"ScheduleId", scheduleId.ToString()},
+                        };
+
+                    var content = new UNMutableNotificationContent();
+                    content.Title = title;
+                    content.Body = body;
+                    content.Sound = UNNotificationSound.GetSound("cool-alarm-tone-notification-sound.mp3");
+                    content.UserInfo = @params.ToNSDictionary();
+                    content.Badge = 1;
+                    var trigger = UNCalendarNotificationTrigger.CreateTrigger(time.LocalDateTime.ToNSDateComponents(), true);
+
+                    var requestID = scheduleId.ToString();
+                    var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
+
+                    UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) =>
+                    {
+                        if (err != null)
+                        {
+                            logger.Error($"An error happened when scheduling ios notification. code: {err.Code}");
+                        }
+                    });
+
+                }, taskScheduler);
 
         }
 
-        public Task Remove(long scheduleId)
+        public async Task Remove(long scheduleId)
         {
-            return Task.CompletedTask;
+            await Task.Delay(0).
+               ContinueWith((x) =>
+               {
+                   var pending = UNUserNotificationCenter.Current.GetPendingNotificationRequestsAsync().Result;
+
+                   if (pending != null)
+                   {
+                       foreach (var notification in pending)
+                       {
+                           if (notification.Identifier == scheduleId.ToString())
+                           {
+                               UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { scheduleId.ToString() });
+                           }
+                       }
+                   }
+
+               }, taskScheduler);
         }
 
-        public Task<bool> IsScheduled(long scheduleId)
+        public async Task<bool> IsScheduled(long scheduleId)
         {
-            return Task.FromResult(true);
+            return await Task.Delay(0).
+                 ContinueWith((x) =>
+                 {
+                     var pending = UNUserNotificationCenter.Current.GetPendingNotificationRequestsAsync().Result;
+
+                     if (pending != null)
+                     {
+                         foreach (var notification in pending)
+                         {
+                             if (notification.Identifier == scheduleId.ToString())
+                             {
+                                 return true;
+                             }
+                         }
+                     }
+
+                     return false;
+
+                 }, taskScheduler);
+        }
+
+        public async Task<bool> CanSchedule()
+        {
+            return await Task.Delay(0).
+               ContinueWith((x) =>
+               {
+                   var taskCompletionSource = new TaskCompletionSource<bool>();
+
+                   UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                    {
+                        var result = settings.AlertSetting == UNNotificationSetting.Enabled;
+                        taskCompletionSource.SetResult(result);
+                    });
+
+                   return taskCompletionSource.Task.Result;
+
+               }, taskScheduler);
+
         }
 
         public void Dispose()

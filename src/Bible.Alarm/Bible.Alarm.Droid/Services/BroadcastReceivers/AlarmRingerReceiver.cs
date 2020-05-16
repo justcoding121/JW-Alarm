@@ -31,7 +31,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         public AlarmRingerReceiver()
         {
             LogSetup.Initialize(VersionFinder.Default,
-             new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+             new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
 
         public async override void OnReceive(Context context, Intent intent)
@@ -56,23 +56,19 @@ namespace Bible.Alarm.Droid.Services.Tasks
                     playbackService.Dispose();
                     return;
                 }
-                else
-                {
-                    mediaManager.Init(Application.Context);
-                }
 
                 playbackService.Stopped += stateChanged;
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
+                var isImmediate = string.IsNullOrEmpty(intent.GetStringExtra("IsImmediate"))
+                                         ? false : true;
 
                 await Task.Run(async () =>
                 {
                     try
                     {
                         var id = long.Parse(scheduleId);
-
-                        await playbackService.Play(id);
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                        await playbackService.Play(id, isImmediate);
                     }
                     catch (Exception e)
                     {
@@ -120,7 +116,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
 
             playbackService?.Dispose();
-            mediaManager?.Dispose();
+            mediaManager?.StopEx();
+            mediaManager?.Queue?.Clear();
 
             base.Dispose();
         }

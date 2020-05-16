@@ -6,6 +6,7 @@
     xmlns:behaviours="clr-namespace:Bible.Alarm.UI.Views.Behaviours"
     xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
     xmlns:fn="clr-namespace:FontNameResources"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     NavigationPage.HasBackButton="False"
     NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
@@ -26,7 +27,7 @@
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 Scale="0.5"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 Color="SlateBlue">
                 <ActivityIndicator.Scale>
                     <OnPlatform x:TypeArguments="x:Double">
@@ -40,6 +41,7 @@
             </ActivityIndicator>
             <Grid
                 Grid.Row="0"
+                Margin="{OnPlatform iOS='0,10,0,0'}"
                 IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}"
                 RowSpacing="0">
                 <Grid.RowDefinitions>
@@ -51,7 +53,8 @@
                     Grid.Row="0"
                     Margin="{OnPlatform Default='0',
                                         iOS='0,18,0,0'}"
-                    BackgroundColor="WhiteSmoke"
+                    BackgroundColor="{OnPlatform Default='WhiteSmoke',
+                                                 iOS='White'}"
                     HeightRequest="45"
                     HorizontalOptions="Fill"
                     MinimumHeightRequest="45">
@@ -83,10 +86,12 @@
                 <ListView
                     x:Name="chapterListView"
                     Grid.Row="1"
-                    CachingStrategy="RecycleElement"
+                    ios:ListView.SeparatorStyle="FullWidth"
+                    CachingStrategy="RecycleElementAndDataTemplate"
+                    Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"
                     ItemsSource="{Binding Chapters}"
-                    SelectionMode="None">
+                    SelectionMode="Single">
                     <ListView.Behaviors>
                         <behaviours:EventToCommandBehavior
                             Command="{Binding SetChapterCommand}"
@@ -97,7 +102,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid
-                                    Margin="5,0,5,0"
+                                    Padding="5,0,5,0"
                                     BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}"
                                     HeightRequest="45"
                                     HorizontalOptions="Fill">
@@ -128,7 +133,7 @@
                                             IsVisible="{Binding IsBusy}"
                                             MinimumWidthRequest="45"
                                             Scale="0.5"
-                                            VerticalOptions="CenterAndExpand"
+                                            VerticalOptions="Center"
                                             WidthRequest="45"
                                             Color="SlateBlue">
                                             <ActivityIndicator.Scale>

@@ -1,41 +1,118 @@
-﻿using Bible.Alarm;
-using Bible.Alarm.Services.Contracts;
+﻿using Bible.Alarm.Services.Contracts;
+using NLog;
 using System;
 using System.Threading.Tasks;
+using Bible.Alarm.UWP.Services.Handlers;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using System.Linq;
+using Bible.Alarm.Services.Uwp.Helpers;
 
-namespace JW.Alarm.Services.UWP
+namespace Bible.Alarm.Services.UWP
 {
     public class UwpNotificationService : INotificationService
     {
         private readonly IContainer container;
+
         public UwpNotificationService(IContainer container)
         {
             this.container = container;
         }
 
-        public void Dispose()
+        public void ShowNotification(long scheduleId)
         {
-            throw new NotImplementedException();
+            var uwpAlarmHandler = container.Resolve<UwpAlarmHandler>();
+            _ = uwpAlarmHandler.Handle(scheduleId, true);
         }
 
-        public Task<bool> IsScheduled(long scheduleId)
+        public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
+            string title, string body)
         {
-            throw new NotImplementedException();
+            // Construct the toast content
+            ToastContent toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = title
+                            },
+
+                            new AdaptiveText()
+                            {
+                                Text = body
+                            }
+                        }
+                    }
+                },
+                Audio = new ToastAudio()
+                {
+                    Src = new Uri("ms-appx:///Resources/cool-alarm-tone-notification-sound.mp3")
+                },
+                // Arguments when the user taps body of toast
+                Launch = scheduleId.ToString()
+            };
+
+            // Create the toast notification object.
+            var toast = new ScheduledToastNotification(toastContent.GetXml(), time)
+            {
+                Id = scheduleId.ToString()
+            };
+           
+            // Add to the schedule.
+            ToastNotificationManager.CreateToastNotifier()
+                .AddToSchedule(toast);
+
+            return Task.CompletedTask;
         }
 
         public Task Remove(long scheduleId)
         {
-            throw new NotImplementedException();
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            // Get the list of scheduled toasts that haven't appeared yet
+            var scheduledToasts = notifier.GetScheduledToastNotifications();
+
+            // Find our scheduled toast we want to cancel
+            var toRemove = scheduledToasts.FirstOrDefault(i => i.Id == scheduleId.ToString());
+            if (toRemove != null)
+            {
+                // And remove it from the schedule
+                notifier.RemoveFromSchedule(toRemove);
+            }
+
+            return Task.CompletedTask;
         }
 
-        public Task ScheduleNotification(long scheduleId, DateTimeOffset time, string title, string body)
+        public Task<bool> IsScheduled(long scheduleId)
         {
-            throw new NotImplementedException();
+            var notifier = ToastNotificationManager.CreateToastNotifier();
+
+            // Get the list of scheduled toasts that haven't appeared yet
+            var scheduledToasts = notifier.GetScheduledToastNotifications();
+
+            // Find our scheduled toast we want to cancel
+            var existing = scheduledToasts.FirstOrDefault(i => i.Id == scheduleId.ToString());
+            if (existing != null)
+            {
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(false);
         }
 
-        public void ShowNotification(long scheduleId)
+        public Task<bool> CanSchedule()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(BootstrapHelper.IsBackgroundTaskEnabled);
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 

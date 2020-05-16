@@ -1,5 +1,6 @@
 ﻿
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -28,11 +29,14 @@ namespace Bible.Alarm.ViewModels
         private readonly IContainer container;
 
         ScheduleDbContext scheduleDbContext;
+        MediaDbContext mediaDbContext;
+
         IAlarmService alarmService;
         IToastService popUpService;
         INavigationService navigationService;
         IPlaybackService playbackService;
         IMediaManager mediaManager;
+        INotificationService notificationService;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
@@ -41,11 +45,13 @@ namespace Bible.Alarm.ViewModels
             this.container = container;
 
             this.scheduleDbContext = this.container.Resolve<ScheduleDbContext>();
+            this.mediaDbContext = this.container.Resolve<MediaDbContext>();
             this.popUpService = this.container.Resolve<IToastService>();
             this.alarmService = this.container.Resolve<IAlarmService>();
             this.navigationService = this.container.Resolve<INavigationService>();
             this.playbackService = this.container.Resolve<IPlaybackService>();
             this.mediaManager = this.container.Resolve<IMediaManager>();
+            this.notificationService = this.container.Resolve<INotificationService>();
 
             subscriptions.Add(scheduleDbContext);
 
@@ -55,17 +61,30 @@ namespace Bible.Alarm.ViewModels
                .Select(state => state.CurrentScheduleListItem)
                .DistinctUntilChanged()
                .Take(1)
-               .Subscribe(x =>
+               .Subscribe(async x =>
                {
                    scheduleListItem = x;
 
                    var model = x?.Schedule;
 
                    IsNewSchedule = model == null ? true : false;
-                   setModel(model ?? AlarmSchedule.GetSampleSchedule(true));
+
+                   AlarmSchedule modelToSet;
+
+                   if (model == null)
+                   {
+                       modelToSet = await AlarmSchedule.GetSampleSchedule(true, mediaDbContext);   
+                   }
+                   else
+                   {
+                       modelToSet = model;
+                   }
+
+                   setModel(modelToSet);
 
                    IsBusy = false;
                });
+
             subscriptions.Add(subscription);
 
             var subscription2 = ReduxContainer.Store.ObserveOn(Scheduler.CurrentThread)
@@ -104,6 +123,14 @@ namespace Bible.Alarm.ViewModels
             SaveCommand = new Command(async () =>
             {
                 IsBusy = true;
+
+                if (IsEnabled &&
+                      (CurrentDevice.RuntimePlatform == Device.iOS
+                        || CurrentDevice.RuntimePlatform == Device.UWP)
+                     && !await notificationService.CanSchedule())
+                {
+                    IsEnabled = false;
+                }
 
                 if (!IsNewSchedule)
                 {
@@ -433,11 +460,32 @@ namespace Bible.Alarm.ViewModels
             this.RaiseProperty("DaysOfWeek");
         }
 
+        private void setupMediaCache(long scheduleId)
+        {
+            Task.Run(async () =>
+             {
+                 try
+                 {
+                     using var mediaCacheService = container.Resolve<IMediaCacheService>();
+                     await mediaCacheService.SetupAlarmCache(scheduleId);
+                 }
+                 catch (Exception e)
+                 {
+                     logger.Error(e, "An error happened in SetupAlarmCache task.");
+                 }
+             });
+        }
+
         private async Task<bool> saveAsync()
         {
             if (!await validate())
             {
                 return false;
+            }
+
+            if (IsNewSchedule)
+            {
+                IsEnabled = true;
             }
 
             var model = getModel();
@@ -508,6 +556,8 @@ namespace Bible.Alarm.ViewModels
 
                 ReduxContainer.Store.Dispatch(new UpdateScheduleAction() { ScheduleListItem = scheduleListItem });
             }
+
+            setupMediaCache(model.Id);
 
             return true;
         }
@@ -597,6 +647,8 @@ namespace Bible.Alarm.ViewModels
             this.popUpService.Dispose();
             this.alarmService.Dispose();
             this.playbackService.Dispose();
+            this.notificationService.Dispose();
+            this.mediaDbContext.Dispose();
         }
     }
 }

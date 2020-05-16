@@ -1,6 +1,7 @@
 ﻿using Android.Widget;
 using Bible.Alarm.Droid;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid
@@ -8,31 +9,51 @@ namespace Bible.Alarm.Services.Droid
     public class DroidToastService : ToastService, IDisposable
     {
         private readonly IContainer container;
+        private static readonly SemaphoreSlim @lock = new SemaphoreSlim(1);
+        private static Toast latest;
         public DroidToastService(IContainer container)
         {
             this.container = container;
         }
-        public override Task ShowMessage(string message, int seconds)
+        public async override Task ShowMessage(string message, int seconds)
         {
-            var context = container.AndroidContext();
+            await @lock.WaitAsync();
 
-            if (seconds <= 3)
+            try
             {
-                Toast.MakeText(context, message, ToastLength.Short).Show();
+                var context = container.AndroidContext();
+
+                if (seconds <= 3)
+                {
+                    latest = Toast.MakeText(context, message, ToastLength.Short);
+                }
+                else
+                {
+                    latest = Toast.MakeText(context, message, ToastLength.Long);
+                }
+
+                latest.Show();
+
             }
-            else
+            finally
             {
-                Toast.MakeText(context, message, ToastLength.Long).Show();
+                @lock.Release();
             }
-
-
-            return Task.CompletedTask;
         }
 
         //not needed for android
-        public override Task Clear()
+        public async override Task Clear()
         {
-            return Task.CompletedTask;
+            await @lock.WaitAsync();
+
+            try
+            {
+                latest?.Cancel();
+            }
+            finally
+            {
+                @lock.Release();
+            }
         }
     }
 }

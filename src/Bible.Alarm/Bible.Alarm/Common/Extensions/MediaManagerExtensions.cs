@@ -11,7 +11,7 @@ namespace Bible.Alarm.Common.Extensions
     {
         public static bool IsPreparedEx(this IMediaManager mediaManager)
         {
-            if (Device.RuntimePlatform == Device.Android)
+            if (CurrentDevice.RuntimePlatform == Device.Android)
             {
                 return mediaManager.IsPrepared();
             }

@@ -1,5 +1,6 @@
 ﻿namespace Bible.Alarm.Services.Droid
 {
+    using Android.App;
     using Android.Media;
     using Bible.Alarm.Contracts.Battery;
     using Bible.Alarm.Contracts.Platform;
@@ -21,17 +22,9 @@
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
 
-            if (!isService)
-            {
-                container.Register<IToastService>((x) => new DroidToastService(container));
-            }
+            container.Register<IToastService>((x) => new DroidToastService(container));
 
             container.Register<INotificationService>((x) => new DroidNotificationService(container));
-
-            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
-                                    container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-                                    container.Resolve<INotificationService>()));
-
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<MediaPlayer>()));
             container.Register((x) =>
@@ -40,25 +33,40 @@
                 return player;
             });
 
-            string databasePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            container.Register<IStorageService>((x) => new AndroidStorageService());
 
-            var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
-
-            container.Register((x) => new ScheduleDbContext(scheduleDbConfig));
-
-            var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
-                .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
-
-            container.Register((x) => new MediaDbContext(mediaDbConfig));
             container.Register((x) =>
             {
-                return CrossMediaManager.Current;
+                var storageService = container.Resolve<IStorageService>();
+                string databasePath = storageService.StorageRoot;
+
+                var scheduleDbConfig = new DbContextOptionsBuilder<ScheduleDbContext>()
+                    .UseSqlite($"Filename={Path.Combine(databasePath, "bibleAlarm.db")}").Options;
+                return new ScheduleDbContext(scheduleDbConfig);
+            });
+
+
+            container.Register((x) =>
+            {
+                var storageService = container.Resolve<IStorageService>();
+                string databasePath = storageService.StorageRoot;
+
+                var mediaDbConfig = new DbContextOptionsBuilder<MediaDbContext>()
+                    .UseSqlite($"Filename={Path.Combine(databasePath, "mediaIndex.db")}").Options;
+                return new MediaDbContext(mediaDbConfig);
+            });
+
+            var mediaManager = CrossMediaManager.Current;
+            mediaManager.Init(Application.Context);
+
+            container.RegisterSingleton((x) =>
+            {
+                return mediaManager;
             });
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));
             container.Register<IVersionFinder>((x) => new VersionFinder());
-            container.Register<IStorageService>((x) => new AndroidStorageService());
+
         }
     }
 }

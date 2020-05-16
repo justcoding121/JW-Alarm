@@ -1,5 +1,7 @@
 ﻿using Bible.Alarm.UI.ViewHelpers;
 using Bible.Alarm.ViewModels;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Bible.Alarm.UI.Views
@@ -30,6 +32,5 @@ namespace Bible.Alarm.UI.Views
             ViewModel.CancelCommand.Execute(null);
             return true;
         }
-
     }
 }

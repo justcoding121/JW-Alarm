@@ -12,6 +12,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Droid
 {
@@ -26,7 +27,7 @@ namespace Bible.Alarm.Droid
         public MainActivity()
         {
             LogSetup.Initialize(VersionFinder.Default,
-                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Device.Android);
         }
 
         protected override void OnCreate(Bundle savedInstanceState)

@@ -9,9 +9,9 @@
     mc:Ignorable="d">
     <ContentPage.Content>
         <StackLayout
-            HorizontalOptions="CenterAndExpand"
+            HorizontalOptions="Center"
             Orientation="Vertical"
-            VerticalOptions="CenterAndExpand">
+            VerticalOptions="Center">
             <Label FontSize="Medium" Text="{Binding ProgressText}" />
             <ProgressBar
                 MinimumWidthRequest="200"

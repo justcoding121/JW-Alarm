@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Models;
 using MediaManager.Library;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Common.Extensions
 {
@@ -34,9 +35,35 @@ namespace Bible.Alarm.Common.Extensions
                 {
                     item.DisplayDescription = "jw.org";
                 }
-
             }
+            else
+            {
+                if (string.IsNullOrEmpty(item.Title)
+                    || CurrentDevice.RuntimePlatform == Device.UWP)
+                {
+                    item.Title = "Orchestral Melodies";
+                }
+                else
+                {
+                    if (item.DisplayDescription.Contains("Kingdom Melodies"))
+                    {
+                        item.Title = $"Melody Number(s) {item.Title}";
+                    }
+                }
 
+
+                if (string.IsNullOrEmpty(item.DisplaySubtitle)
+                    || CurrentDevice.RuntimePlatform == Device.UWP)
+                {
+                    item.DisplaySubtitle = "Watch Tower Bible and Tract Society of Pennsylvania";
+                }
+
+                if (string.IsNullOrEmpty(item.DisplayDescription)
+                    || CurrentDevice.RuntimePlatform == Device.UWP)
+                {
+                    item.DisplayDescription = "jw.org";
+                }
+            }
         }
     }
 }

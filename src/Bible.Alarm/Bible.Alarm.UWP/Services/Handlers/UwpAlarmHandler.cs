@@ -3,14 +3,16 @@ using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
+using MediaManager.Platforms.Uap.Player;
 using MediaManager.Player;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Media;
 
-namespace Bible.Alarm.Uwp.Services.Handlers
+namespace Bible.Alarm.UWP.Services.Handlers
 {
     public class UwpAlarmHandler : IDisposable
     {
@@ -19,9 +21,9 @@ namespace Bible.Alarm.Uwp.Services.Handlers
         private IPlaybackService playbackService;
         private IMediaManager mediaManager;
         private ScheduleDbContext dbContext;
+        private SystemMediaTransportControls systemMediaTransportControls;
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
-
         public UwpAlarmHandler(IPlaybackService playbackService,
                                 IMediaManager mediaManager,
                                 ScheduleDbContext dbContext)
@@ -29,44 +31,25 @@ namespace Bible.Alarm.Uwp.Services.Handlers
             this.playbackService = playbackService;
             this.mediaManager = mediaManager;
             this.dbContext = dbContext;
+
+            var windowsMediaPlayer = mediaManager.MediaPlayer as WindowsMediaPlayer;
+            var mediaPlayer = windowsMediaPlayer.Player;
+
+            mediaPlayer.SystemMediaTransportControls.IsEnabled = false;  
         }
 
-        public async Task HandleNotification(long notificationId)
+        public async Task Handle(long scheduleId, bool isImmediate)
         {
-            var notification = await dbContext.AlarmNotifications
-                                .Include(x => x.AlarmSchedule)
-                                .FirstOrDefaultAsync(x => x.Id == notificationId);
-
-            var utcNow = DateTime.UtcNow;
-
-            if (notification != null
-                   && !notification.CancellationRequested)
-            {
-                await Handle(notification.AlarmScheduleId);
-            }
-            else
-            {
-                Dispose();
-            }
-        }
-
-        public async Task Handle(long scheduleId)
-        {
-            var isBusy = false;
-
             try
             {
                 await @lock.WaitAsync();
 
                 if (mediaManager.IsPreparedEx())
                 {
-                    isBusy = true;
+                    playbackService.Dispose();
                     return;
                 }
-                else
-                {
-                    mediaManager.Init();
-                }
+
 
                 playbackService.Stopped += stateChanged;
 
@@ -74,8 +57,7 @@ namespace Bible.Alarm.Uwp.Services.Handlers
                 {
                     try
                     {
-                        await playbackService.Play(scheduleId);
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                        await playbackService.Play(scheduleId, isImmediate);
                     }
                     catch (Exception e)
                     {
@@ -89,16 +71,11 @@ namespace Bible.Alarm.Uwp.Services.Handlers
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
                 playbackService.Stopped -= stateChanged;
-                mediaManager?.Dispose();
+                Dispose();
             }
             finally
             {
                 @lock.Release();
-            }
-
-            if (isBusy)
-            {
-                Dispose();
             }
         }
 
@@ -109,8 +86,7 @@ namespace Bible.Alarm.Uwp.Services.Handlers
                 if (e == MediaPlayerState.Stopped)
                 {
                     playbackService.Stopped -= stateChanged;
-                    playbackService.Dispose();
-                    mediaManager.Dispose();
+                    Dispose();
                 }
             }
             catch (Exception ex)
@@ -121,10 +97,10 @@ namespace Bible.Alarm.Uwp.Services.Handlers
 
         public void Dispose()
         {
-            this.playbackService.Dispose();
-            this.mediaManager.Dispose();
+            playbackService?.Dispose();
+            mediaManager?.StopEx();
+            mediaManager?.Queue?.Clear();
         }
-
 
     }
 }

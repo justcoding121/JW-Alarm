@@ -8,7 +8,7 @@ namespace Bible.Alarm.Services.Contracts
     {
         long CurrentlyPlayingScheduleId { get; }
 
-        Task Play(long scheduleId);
+        Task Play(long scheduleId, bool isImmediate);
         Task Dismiss();
         Task Snooze();
         event EventHandler<MediaPlayerState> Stopped;

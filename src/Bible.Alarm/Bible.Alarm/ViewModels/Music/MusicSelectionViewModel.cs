@@ -64,6 +64,7 @@ namespace Bible.Alarm.ViewModels
                             LanguageCode = current.LanguageCode
                         }
                     });
+
                     var viewModel = this.container.Resolve<SongBookSelectionViewModel>();
                     await navigationService.Navigate(viewModel);
                 }
@@ -129,7 +130,7 @@ namespace Bible.Alarm.ViewModels
                 new MusicTypeListItemViewModel()
                 {
                     MusicType = MusicType.Melodies,
-                    Name = "Melodies"
+                    Name = "Orchestral Melodies"
                 },
                 new MusicTypeListItemViewModel()
                 {

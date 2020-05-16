@@ -1,15 +1,16 @@
-﻿using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Services.Infrastructure;
+﻿using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Services.Tasks;
 using Bible.Alarm.Services.Uwp.Helpers;
-using Bible.Alarm.Services.Uwp.Tasks;
 using Bible.Alarm.Uwp;
 using Bible.Alarm.Uwp.Services.Platform;
+using Bible.Alarm.UWP.Services.Handlers;
 using NLog;
 using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.Media;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -23,15 +24,12 @@ namespace Bible.Alarm.UWP
     sealed partial class App : Application
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
-        private readonly IContainer container;
 
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        private IContainer container;
+
         public App()
         {
-            LogSetup.Initialize(VersionFinder.Default, new string[] { });
+            LogSetup.Initialize(UwpVersionFinder.Default, new string[] { }, Xamarin.Forms.Device.UWP);
             initContainer();
 
             this.InitializeComponent();
@@ -43,7 +41,7 @@ namespace Bible.Alarm.UWP
             try
             {
                 var result = IocSetup.Initialize("SplashActivity", false);
-                var container = result.Item1;
+                container = result.Item1;
                 var containerCreated = result.Item2;
                 if (containerCreated)
                 {
@@ -65,23 +63,10 @@ namespace Bible.Alarm.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(200, 300));
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(400, 500));
 
-            ApplicationView.PreferredLaunchViewSize = new Size(250, 400);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-
-            Task.Run(() =>
-            {
-                try
-                {
-                    Messenger<bool>.Publish(MvvmMessages.Initialized, true);
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "An error happened in Messenger Publish call.");
-                }
-            });
-
+            ApplicationView.PreferredLaunchViewSize = new Size(400, 600);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -112,9 +97,56 @@ namespace Bible.Alarm.UWP
                 // parameter
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
             }
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
+
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(400, 500));
+
+            ApplicationView.PreferredLaunchViewSize = new Size(400, 600);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (!(Window.Current.Content is Frame rootFrame))
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                Xamarin.Forms.Forms.Init(e);
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(MainPage));
+            }
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+            // Handle toast activation
+            if (e is ToastNotificationActivatedEventArgs)
+            {
+                var toastActivationArgs = e as ToastNotificationActivatedEventArgs;
+                var scheduleId = int.Parse(toastActivationArgs.Argument);
+
+                handleAlarm(scheduleId);
+            }
         }
 
         protected async override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
@@ -132,6 +164,13 @@ namespace Bible.Alarm.UWP
 
             deferral.Complete();
         }
+
+        private void handleAlarm(int scheduleId)
+        {
+            var uwpAlarmHandler = container.Resolve<UwpAlarmHandler>();
+            _ = uwpAlarmHandler.Handle(scheduleId, true);
+        }
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

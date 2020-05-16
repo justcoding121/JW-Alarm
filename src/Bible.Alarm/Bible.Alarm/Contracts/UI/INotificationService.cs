@@ -9,5 +9,7 @@ namespace Bible.Alarm.Services.Contracts
         Task ScheduleNotification(long scheduleId, DateTimeOffset time, string title, string body);
         Task Remove(long scheduleId);
         Task<bool> IsScheduled(long scheduleId);
+
+        Task<bool> CanSchedule();
     }
 }

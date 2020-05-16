@@ -25,7 +25,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>7.0</string>
+	<string>10.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>Bible Alarm</string>
 	<key>CFBundleIdentifier</key>
@@ -38,8 +38,6 @@
 	<string>Bible.Alarm</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-	<key>XSLaunchImageAssets</key>
-	<string>Assets.xcassets/LaunchImages.launchimage</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

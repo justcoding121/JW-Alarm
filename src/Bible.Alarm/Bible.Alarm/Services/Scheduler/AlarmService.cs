@@ -14,8 +14,6 @@ namespace Bible.Alarm.Services
         private IMediaCacheService mediaCacheService;
         private ScheduleDbContext scheduleDbContext;
 
-        private Logger logger => LogManager.GetCurrentClassLogger();
-
         public AlarmService(IContainer container,
             INotificationService notificationService,
             IMediaCacheService mediaCacheService,
@@ -30,20 +28,6 @@ namespace Bible.Alarm.Services
         public Task Create(AlarmSchedule schedule)
         {
             scheduleNotification(schedule, false);
-
-            var task = Task.Run(async () =>
-            {
-                try
-                {
-                    using var mediaCacheService = container.Resolve<IMediaCacheService>();
-                    await mediaCacheService.SetupAlarmCache(schedule.Id);
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error happened in SetupAlarmCache task.");
-                }
-            });
-
             return Task.CompletedTask;
         }
 
@@ -55,22 +39,6 @@ namespace Bible.Alarm.Services
             {
                 scheduleNotification(schedule, false);
             }
-
-            var task = Task.Run(async () =>
-            {
-                try
-                {
-                    using (var mediaCacheService = container.Resolve<IMediaCacheService>())
-                    {
-                        await mediaCacheService.SetupAlarmCache(schedule.Id);
-                    }
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error happened in SetupAlarmCache task.");
-                }
-            });
-
         }
 
         public async Task Snooze(long scheduleId)
@@ -90,9 +58,8 @@ namespace Bible.Alarm.Services
 
         private void scheduleNotification(AlarmSchedule schedule, bool isSnoozeNotification)
         {
-            notificationService.ScheduleNotification(schedule.Id, isSnoozeNotification ?
-                DateTimeOffset.Now.AddMinutes(schedule.SnoozeMinutes) : schedule.NextFireDate(), schedule.Name,
-                schedule.MusicEnabled ? "Playing alarm music." : "Playing Bible.");
+            notificationService.ScheduleNotification(schedule.Id, schedule.NextFireDate(), string.IsNullOrEmpty(schedule.Name) ? "Bible Alarm" : schedule.Name,
+                "Press to start listening now.");
         }
 
         private void removeNotification(long scheduleId)

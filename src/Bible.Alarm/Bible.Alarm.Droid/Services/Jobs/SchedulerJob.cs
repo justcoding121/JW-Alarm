@@ -5,6 +5,7 @@ using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
 using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Services.Tasks;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         public SchedulerJob()
         {
             LogSetup.Initialize(VersionFinder.Default,
-           new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+           new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
         public override bool OnStartJob(JobParameters jobParams)
         {

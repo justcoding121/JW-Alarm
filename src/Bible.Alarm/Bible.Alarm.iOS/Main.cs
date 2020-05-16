@@ -9,7 +9,6 @@ using System;
 using System.Threading.Tasks;
 using UIKit;
 
-[assembly: Preserve(typeof(System.Linq.Queryable), AllMembers = true)]
 namespace Bible.Alarm.iOS
 {
     public class Application
@@ -18,7 +17,7 @@ namespace Bible.Alarm.iOS
 
         static Application()
         {
-            LogSetup.Initialize(VersionFinder.Default, new string[] { });
+            LogSetup.Initialize(VersionFinder.Default, new string[] { }, Xamarin.Forms.Device.iOS);
         }
 
         // This is the main entry point of the application.

@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.Common.Mvvm;
+﻿using Advanced.Algorithms.Distributed;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.UI.Views;
 using Bible.Alarm.UI.Views.Bible;
@@ -9,6 +10,7 @@ using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Shared;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -22,51 +24,116 @@ namespace Bible.Alarm.UI
         private readonly INavigation navigater;
 
         public event Action<object> NavigatedBack;
+        private bool disposed = false;
+
+        private AsyncQueue<(MvvmMessages, object)> queue = new AsyncQueue<(MvvmMessages, object)>();
 
         public NavigationService(IContainer container, INavigation navigater)
         {
             this.container = container;
             this.navigater = navigater;
 
-            var syncContext = this.container.Resolve<TaskScheduler>();
 
             Messenger<object>.Subscribe(MvvmMessages.ShowAlarmModal, async @param =>
             {
-                var vm = container.Resolve<AlarmViewModal>();
-                await Task.Delay(0).ContinueWith(async (x) =>
-                {
-                    await ShowModal("AlarmModal", vm);
-
-                }, syncContext);
+                await queue.EnqueueAsync((MvvmMessages.ShowAlarmModal, @param));
             });
 
-
-            Messenger<object>.Subscribe(MvvmMessages.HideAlarmModal, async vm =>
+            Messenger<object>.Subscribe(MvvmMessages.HideAlarmModal, async @param =>
             {
-                await Task.Delay(0).ContinueWith(async (x) =>
-                {
-                    await CloseModal();
-
-                }, syncContext);
+                await queue.EnqueueAsync((MvvmMessages.HideAlarmModal, @param));
             });
 
             Messenger<object>.Subscribe(MvvmMessages.ShowMediaProgessModal, async @param =>
             {
-                var vm = this.container.Resolve<MediaProgressViewModal>();
-                await Task.Delay(0).ContinueWith(async (x) =>
-                {
-                    await ShowModal("MediaProgressModal", vm);
-
-                }, syncContext);
+                await queue.EnqueueAsync((MvvmMessages.ShowMediaProgessModal, @param));
             });
 
-            Messenger<object>.Subscribe(MvvmMessages.HideMediaProgressModal, async vm =>
+            Messenger<object>.Subscribe(MvvmMessages.HideMediaProgressModal, async @param =>
             {
-                await Task.Delay(0).ContinueWith(async (x) =>
-                {
-                    await CloseModal();
+                await queue.EnqueueAsync((MvvmMessages.HideMediaProgressModal, @param));
+            });
 
-                }, syncContext);
+            Messenger<object>.Subscribe(MvvmMessages.ShowToast, async @param =>
+            {
+                await queue.EnqueueAsync((MvvmMessages.ShowToast, @param));
+            });
+
+            Messenger<object>.Subscribe(MvvmMessages.ClearToasts, async @param =>
+            {
+                await queue.EnqueueAsync((MvvmMessages.ClearToasts, @param));
+            });
+
+            var syncContext = this.container.Resolve<TaskScheduler>();
+
+            Task.Run(async () =>
+            {
+                while (!disposed)
+                {
+                    var item = await queue.DequeueAsync();
+                    var message = item.Item1;
+                    var @object = item.Item2;
+
+                    switch (message)
+                    {
+                        case MvvmMessages.ShowAlarmModal:
+                            {
+                                var vm = container.Resolve<AlarmViewModal>();
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    await ShowModal("AlarmModal", vm);
+
+                                }, syncContext);
+                            }
+                            break;
+
+                        case MvvmMessages.HideAlarmModal:
+                        case MvvmMessages.HideMediaProgressModal:
+                            {
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    await CloseModal();
+
+                                }, syncContext);
+                            }
+                            break;
+                        case MvvmMessages.ShowToast:
+                            {
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    using var toastService = this.container.Resolve<IToastService>();
+                                    await toastService.ShowMessage(@object as string);
+
+                                }, syncContext);
+                            }
+                            break;
+
+                        case MvvmMessages.ClearToasts:
+                            {
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    using var toastService = this.container.Resolve<IToastService>();
+                                    await toastService.Clear();
+
+                                }, syncContext);
+                            }
+                            break;
+                        case MvvmMessages.ShowMediaProgessModal:
+                            {
+                                var vm = this.container.Resolve<MediaProgressViewModal>();
+                                await Task.Delay(0).ContinueWith(async (x) =>
+                                {
+                                    await ShowModal("MediaProgressModal", vm);
+
+                                }, syncContext);
+                            }
+                            break;
+
+                    }
+
+                    await Task.Delay(1000);
+                }
+
             });
         }
 
@@ -84,7 +151,7 @@ namespace Bible.Alarm.UI
 
                 case "AlarmModal":
                     {
-                        if (navigater.ModalStack.FirstOrDefault()?.GetType() == typeof(AlarmModal))
+                        if (navigater.ModalStack.LastOrDefault()?.GetType() == typeof(AlarmModal))
                         {
                             return;
                         }
@@ -113,7 +180,7 @@ namespace Bible.Alarm.UI
 
                 case "MediaProgressModal":
                     {
-                        if (navigater.ModalStack.FirstOrDefault()?.GetType() == typeof(MediaProgressModal))
+                        if (navigater.ModalStack.LastOrDefault()?.GetType() == typeof(MediaProgressModal))
                         {
                             return;
                         }
@@ -231,14 +298,9 @@ namespace Bible.Alarm.UI
                 {
                     (modal.BindingContext as IDisposableModal).Dispose();
                 }
-                var currentPage = navigater.NavigationStack.FirstOrDefault();
-
-                if (currentPage != null)
-                {
-                    NavigatedBack?.Invoke(currentPage.BindingContext);
-                }
             }
         }
+
         public async Task NavigateToHome()
         {
             while (navigater.ModalStack.Count > 0)
@@ -253,7 +315,7 @@ namespace Bible.Alarm.UI
                 await navigater.PopAsync();
             }
 
-            var currentPage = navigater.NavigationStack.FirstOrDefault();
+            var currentPage = navigater.NavigationStack.LastOrDefault();
 
             if (currentPage != null)
             {
@@ -262,5 +324,9 @@ namespace Bible.Alarm.UI
 
         }
 
+        public void Dispose()
+        {
+            disposed = true;
+        }
     }
 }

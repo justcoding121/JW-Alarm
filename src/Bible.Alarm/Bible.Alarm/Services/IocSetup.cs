@@ -4,6 +4,7 @@
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Services.Contracts;
     using Bible.Alarm.Services.Network;
+    using Bible.Alarm.Services.Tasks;
     using MediaManager;
     using System.Net.Http;
 
@@ -41,8 +42,11 @@
                   container.Resolve<IStorageService>(),
                   container.Resolve<INetworkStatusService>(),
                   container.Resolve<INotificationService>(),
-                  container.Resolve<IDownloadService>(),
-                  container.Resolve<IToastService>()));
+                  container.Resolve<IDownloadService>()));
+
+            container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
+                                 container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
+                                 container.Resolve<INotificationService>()));
         }
 
     }

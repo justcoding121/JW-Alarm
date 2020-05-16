@@ -1,12 +1,16 @@
-﻿using Bible.Alarm.iOS.Services.Handlers;
+﻿using Bible.Alarm.iOS.Extensions;
+using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.iOS.Services.Platform;
+using Bible.Alarm.Services;
+using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.iOS.Helpers;
-using Bible.Alarm.Services.iOS.Tasks;
+using Bible.Alarm.Services.Tasks;
 using Foundation;
-using MediaManager;
 using NLog;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using UIKit;
 using UserNotifications;
 
@@ -24,7 +28,7 @@ namespace Bible.Alarm.iOS
 
         public AppDelegate()
         {
-            LogSetup.Initialize(VersionFinder.Default, new string[] { });
+            LogSetup.Initialize(VersionFinder.Default, new string[] { }, Xamarin.Forms.Device.iOS);
 
             container = IocSetup.GetContainer("SplashActivity");
 
@@ -32,7 +36,7 @@ namespace Bible.Alarm.iOS
             {
                 if (container == null)
                 {
-                    var result = IocSetup.Initialize("SplashActivity", true);
+                    var result = IocSetup.Initialize("SplashActivity", false);
                     container = result.Item1;
                     var containerCreated = result.Item2;
                     if (containerCreated)
@@ -55,7 +59,7 @@ namespace Bible.Alarm.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching(UIApplication app, NSDictionary launchOptions)
         {
 #if DEBUG
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) =>
@@ -68,11 +72,11 @@ namespace Bible.Alarm.iOS
 
             try
             {
+                //once every hour
+                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(60 * 60);
 
                 global::Xamarin.Forms.Forms.Init();
                 LoadApplication(new App(container));
-                UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
-
             }
             catch (Exception e)
             {
@@ -80,13 +84,148 @@ namespace Bible.Alarm.iOS
                 throw;
             }
 
-            return base.FinishedLaunching(app, options);
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using var schedulerTask = container.Resolve<SchedulerTask>();
+                    var downloaded = await schedulerTask.Handle();
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error occurred in cleanup task.");
+                }
+            });
+
+            // check for a notification
+            if (launchOptions != null)
+            {
+                try
+                {
+                    // check for a local notification
+                    if (launchOptions.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+                    {
+                        var localNotification = launchOptions[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                        if (localNotification != null)
+                        {
+                            handleNotification(localNotification.UserInfo);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "Error handling iOS notification on launch.");
+                }
+            }
+
+            // Request notification permissions from the user
+            UNUserNotificationCenter.Current.RequestAuthorization(
+                UNAuthorizationOptions.Alert
+                | UNAuthorizationOptions.Sound
+                | UNAuthorizationOptions.Badge, (approved, err) =>
+            {
+                if (!approved)
+                {
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            using var dbContext = container.Resolve<ScheduleDbContext>();
+
+                            if (!dbContext.GeneralSettings.Any(x => x.Key == "iOSNotificationDisabledMsgShown"))
+                            {
+                                dbContext.GeneralSettings.Add(new Alarm.Models.GeneralSettings()
+                                {
+                                    Key = "iOSNotificationDisabledMsgShown",
+                                    Value = "true"
+                                });
+                                dbContext.SaveChanges();
+
+                                var popupService = container.Resolve<IToastService>();
+                                popupService.ShowMessage("You've disabled notifications. " +
+                                    "We won't be able to alert you on scheduled time. " +
+                                    "You can however open the app anytime and resume listening.", 8);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, "Error when prompting iOS notification permission on launch.");
+                        }
+                    });
+
+                }
+            });
+
+
+            return base.FinishedLaunching(app, launchOptions);
+        }
+
+        public override void OnActivated(UIApplication uiApplication)
+        {
+            try
+            {
+                var delivered = UNUserNotificationCenter.Current.GetDeliveredNotificationsAsync().Result;
+
+                if (delivered != null)
+                {
+                    var notification = delivered.FirstOrDefault();
+
+                    if (notification != null)
+                    {
+                        handleNotification(notification.Request.Content.UserInfo);
+                    }
+
+                    UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
+                }
+
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Error when showing notification on iOS activation.");
+            }
+
+            base.OnActivated(uiApplication);
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            try
+            {
+                handleNotification(notification.UserInfo);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Error when handling iOS notification.");
+            }
+        }
+
+        private void handleNotification(NSDictionary nsUserInfo)
+        {
+            var userInfo = nsUserInfo.ToDictionary();
+            var scheduleId = userInfo["ScheduleId"];
+            // show an alert
+            var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
+            _ = iosAlarmHandler.Handle(long.Parse(scheduleId), true);
+
+            // reset our badge
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
 
         public async override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
         {
-            var schedulerTask = container.Resolve<SchedulerTask>();
-            var downloaded = await schedulerTask.Handle();
+            bool downloaded = false;
+
+            try
+            {
+                using var schedulerTask = container.Resolve<SchedulerTask>();
+                downloaded = await schedulerTask.Handle();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error occurred in doing perform fetch task.");
+            }
 
             // Inform system of fetch results
             completionHandler(downloaded ? UIBackgroundFetchResult.NewData : UIBackgroundFetchResult.NoData);

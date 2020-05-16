@@ -13,7 +13,6 @@
         <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-
         <Grid AutomationId="SchedulePage" BackgroundColor="White">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -25,7 +24,7 @@
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 Scale="0.5"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 Color="SlateBlue">
                 <ActivityIndicator.Scale>
                     <OnPlatform x:TypeArguments="x:Double">
@@ -39,6 +38,7 @@
             </ActivityIndicator>
             <Grid
                 Grid.Row="0"
+                Margin="{OnPlatform iOS='0,10,0,0'}"
                 IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}"
                 RowSpacing="0">
                 <Grid.RowDefinitions>
@@ -49,7 +49,7 @@
                 <Grid
                     Grid.Row="0"
                     Margin="{OnPlatform Default='0',
-                                        iOS='0,18,0,0'}"
+                                        iOS='0,25,0,0'}"
                     ColumnSpacing="0"
                     RowSpacing="0">
                     <Grid.ColumnDefinitions>
@@ -59,23 +59,33 @@
                     <Button
                         Grid.Column="0"
                         Margin="2,2,0,2"
-                        Padding="0"
                         AutomationId="CancelButton"
                         Command="{Binding CancelCommand}"
-                        Font="Bold,18"
-                        HorizontalOptions="FillAndExpand"
+                        Font="{OnPlatform Default='Bold,18',
+                                          UWP='Bold,16'}"
+                        HeightRequest="{OnPlatform Default='50',
+                                                   UWP='37'}"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="{OnPlatform Default='50',
+                                                          UWP='37'}"
                         Text="CANCEL"
-                        TextColor="SlateBlue" />
+                        TextColor="SlateBlue"
+                        VerticalOptions="Fill" />
                     <Button
                         Grid.Column="1"
                         Margin="0,2,2,2"
-                        Padding="0"
                         AutomationId="SaveButton"
                         Command="{Binding SaveCommand}"
-                        Font="Bold,18"
-                        HorizontalOptions="FillAndExpand"
+                        Font="{OnPlatform Default='Bold,18',
+                                          UWP='Bold,16'}"
+                        HeightRequest="{OnPlatform Default='50',
+                                                   UWP='37'}"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="{OnPlatform Default='50',
+                                                          UWP='37'}"
                         Text="SAVE"
-                        TextColor="SlateBlue" />
+                        TextColor="SlateBlue"
+                        VerticalOptions="Fill" />
                 </Grid>
                 <ScrollView
                     Grid.Row="1"
@@ -93,16 +103,14 @@
                             <models:DaysOfWeek x:Key="Saturday">Saturday</models:DaysOfWeek>
                         </StackLayout.Resources>
                         <Label
-                            Margin="0,3,0,3"
+                            Margin="0,10,0,3"
                             HorizontalOptions="Fill"
                             HorizontalTextAlignment="Center"
-                            IsVisible="{OnPlatform iOS='False'}"
                             Text="Alarm Time" />
                         <TimePicker
                             AutomationId="AlarmTimePicker"
                             FontSize="Title"
-                            HorizontalOptions="CenterAndExpand"
-                            IsVisible="{OnPlatform iOS='False'}"
+                            HorizontalOptions="Center"
                             TextColor="SlateBlue"
                             Time="{Binding Time, Mode=TwoWay}">
                             <TimePicker.Format>hh:mm tt</TimePicker.Format>
@@ -110,7 +118,6 @@
                         <StackLayout
                             Margin="0,5,0,5"
                             HorizontalOptions="Center"
-                            IsVisible="{OnPlatform iOS='False'}"
                             Orientation="Horizontal">
                             <Button
                                 Margin="5,0,0,0"
@@ -192,7 +199,8 @@
                         </StackLayout>
                         <StackLayout
                             Margin="{OnPlatform Default='0,5,0,5',
-                                                iOS='0,15,0,5'}"
+                                                iOS='0,15,0,5',
+                                                UWP='0,15,0,5'}"
                             HorizontalOptions="Center"
                             Orientation="Horizontal">
                             <Label
@@ -201,7 +209,7 @@
                                 VerticalOptions="Center" />
                             <Entry
                                 HorizontalOptions="Fill"
-                                MaxLength="15"
+                                MaxLength="30"
                                 MinimumWidthRequest="200"
                                 Text="{Binding Name, Mode=TwoWay}"
                                 VerticalOptions="Center"
@@ -236,12 +244,14 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="{OnPlatform Default='0,0,15,0'}"
+                                    Margin="{OnPlatform Default='0,0,15,0',
+                                                        UWP='0,0,-75,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
                                     Scale="{OnPlatform Default='1.25',
-                                                       iOS='1'}"
+                                                       iOS='1',
+                                                       UWP='1'}"
                                     VerticalOptions="Center" />
                                 <Label
                                     Margin="0,0,2,0"
@@ -356,12 +366,14 @@
                                 Orientation="Horizontal"
                                 VerticalOptions="Center">
                                 <Switch
-                                    Margin="{OnPlatform Default='0,0,25,0'}"
+                                    Margin="{OnPlatform Default='0,0,15,0',
+                                                        UWP='0,0,-75,0'}"
                                     HeightRequest="30"
                                     HorizontalOptions="End"
                                     IsToggled="{Binding AlwaysPlayFromStart, Mode=TwoWay}"
-                                    Scale="{OnPlatform Default='1.25',
-                                                       iOS='1'}"
+                                    Scale="{OnPlatform Android='1.25',
+                                                       iOS='1',
+                                                       UWP='1'}"
                                     VerticalOptions="Center" />
                             </StackLayout>
                         </Grid>
@@ -372,14 +384,18 @@
                         Margin="2"
                         Padding="0"
                         Command="{Binding DeleteCommand}"
-                        Font="Bold,16"
-                        HorizontalOptions="FillAndExpand"
+                        Font="{OnPlatform Default='Bold,16',
+                                          UWP='Bold,14'}"
+                        HeightRequest="{OnPlatform Default='50',
+                                                   UWP='37'}"
+                        HorizontalOptions="Fill"
                         IsVisible="{Binding IsExistingSchedule}"
+                        MinimumHeightRequest="{OnPlatform Default='50',
+                                                          UWP='37'}"
                         Text="REMOVE"
                         TextColor="SlateBlue" />
                 </Grid>
             </Grid>
         </Grid>
-
     </ContentPage.Content>
 </ContentPage>

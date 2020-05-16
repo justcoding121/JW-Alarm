@@ -28,14 +28,20 @@ namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private IContainer container;
 
         private ScheduleDbContext scheduleDbContext;
+        private MediaDbContext mediaDbContext;
+
         private IToastService popUpService;
         private INavigationService navigationService;
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
         private IBatteryOptimizationManager batteryOptimizationManager;
+        private INotificationService notificationService;
+
         private TaskScheduler uiTaskScheduler;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
@@ -43,10 +49,13 @@ namespace Bible.Alarm.ViewModels
         public Command BatteryOptimizationExcludeCommand { get; private set; }
         public Command BatteryOptimizationDismissCommand { get; private set; }
 
-        public HomeViewModel(IContainer container, ScheduleDbContext scheduleDbContext,
+        public HomeViewModel(IContainer container, 
+            ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
-            IAlarmService alarmService)
+            IAlarmService alarmService,
+            INotificationService notificationService,
+            MediaDbContext mediaDbContext)
         {
             this.container = container;
             this.scheduleDbContext = scheduleDbContext;
@@ -54,8 +63,10 @@ namespace Bible.Alarm.ViewModels
             this.navigationService = navigationService;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
+            this.notificationService = notificationService;
+            this.mediaDbContext = mediaDbContext;
 
-            if (Device.RuntimePlatform == Device.Android)
+            if (CurrentDevice.RuntimePlatform == Device.Android)
             {
                 this.batteryOptimizationManager = container.Resolve<IBatteryOptimizationManager>();
             }
@@ -116,7 +127,7 @@ namespace Bible.Alarm.ViewModels
 
                    await Task.Delay(10).ContinueWith(async (y) =>
                    {
-                       if (Device.RuntimePlatform == Device.Android)
+                       if (CurrentDevice.RuntimePlatform == Device.Android)
                        {
                            await showBatteryOptimizationExclusionPage();
                        }
@@ -157,10 +168,9 @@ namespace Bible.Alarm.ViewModels
                 //for existing apps before version 1.30
                 && !await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
-                var schedule = AlarmSchedule.GetSampleSchedule();
+                var schedule = await AlarmSchedule.GetSampleSchedule(false, mediaDbContext);
 
                 await scheduleDbContext.AlarmSchedules.AddAsync(schedule);
-
                 await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
                 {
                     Key = "AlarmSeeded",
@@ -324,6 +334,28 @@ namespace Bible.Alarm.ViewModels
                                  {
                                      IsBusy = true;
 
+                                     if (y.IsEnabled &&
+                                       (CurrentDevice.RuntimePlatform == Device.iOS
+                                       ||CurrentDevice.RuntimePlatform == Device.UWP)
+                                       && !await notificationService.CanSchedule())
+                                     {
+                                         y.IsEnabled = false;
+
+                                         if (CurrentDevice.RuntimePlatform == Device.iOS)
+                                         {
+                                             await popUpService.ShowMessage("Cannot schedule alarm because you've disabled notifications. " +
+                                                 "Please enable notification for this app under system settings.", 7);
+                                         }
+                                         else
+                                         {
+                                             await popUpService.ShowMessage("Cannot schedule alarm because you've denied backgroud apps permission. " +
+                                               "Please grant background apps permission for this app under system settings.", 7);
+                                         }
+
+                                         IsBusy = false;
+                                         return;
+                                     }
+
                                      await Task.Run(async () =>
                                      {
                                          var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
@@ -338,6 +370,8 @@ namespace Bible.Alarm.ViewModels
                                          await popUpService.ShowScheduledNotification(y.Schedule);
                                      }
 
+                                     setupMediaCache(y.Schedule.Id);
+
                                      y.RaisePropertiesChangedEvent();
 
                                      IsBusy = false;
@@ -346,6 +380,23 @@ namespace Bible.Alarm.ViewModels
 
             subscriptions.Add(subscription);
         }
+
+        private void setupMediaCache(long scheduleId)
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using var mediaCacheService = container.Resolve<IMediaCacheService>();
+                    await mediaCacheService.SetupAlarmCache(scheduleId);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened in SetupAlarmCache task.");
+                }
+            });
+        }
+
 
         public void Dispose()
         {
@@ -356,6 +407,9 @@ namespace Bible.Alarm.ViewModels
             this.mediaCacheService.Dispose();
             this.alarmService.Dispose();
             this.batteryOptimizationManager?.Dispose();
+            this.notificationService.Dispose();
+            this.mediaDbContext.Dispose();
+
             @lock.Dispose();
         }
     }

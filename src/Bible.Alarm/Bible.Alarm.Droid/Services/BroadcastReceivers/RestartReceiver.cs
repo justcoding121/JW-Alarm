@@ -5,8 +5,10 @@ using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
 using Bible.Alarm.Services.Infrastructure;
+using Bible.Alarm.Services.Tasks;
 using NLog;
 using System;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Droid.Services.Tasks
 {
@@ -24,7 +26,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         public RestartReceiver()
         {
             LogSetup.Initialize(VersionFinder.Default,
-                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" });
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Device.Android);
         }
         public override async void OnReceive(Context context, Intent intent)
         {

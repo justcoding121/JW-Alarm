@@ -105,13 +105,15 @@
     <Compile Include="Services\BroadcastReceivers\RestartReceiver.cs" />
     <Compile Include="Services\Platform\VersionFinder.cs" />
     <Compile Include="Services\Storage\StorageService.cs" />
-    <Compile Include="Services\Tasks\SchedulerTask.cs" />
     <Compile Include="Services\UI\NotificationService.cs" />
     <Compile Include="Services\UI\ToastService.cs" />
     <Compile Include="SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Font Awesome 5 Free-Solid-900.otf" />
+    <EmbeddedResource Include="..\..\_tools\_index\index.zip">
+      <Link>Resources\index.zip</Link>
+    </EmbeddedResource>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml">
@@ -191,5 +193,8 @@
     <AndroidResource Include="Resources\layout\SplashScreen.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
   </ItemGroup>
 </Project>

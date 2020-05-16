@@ -8,11 +8,6 @@ namespace Bible.Alarm.Uwp
     {
         private static ConcurrentDictionary<string, IContainer> containers
             = new ConcurrentDictionary<string, IContainer>();
-        public static Tuple<IContainer, bool> Initialize(bool isService)
-        {
-            return Initialize(null, isService);
-        }
-
         public static Tuple<IContainer, bool> Initialize(string containerName,
                         bool isService)
         {

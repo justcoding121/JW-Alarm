@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E7D3EEFD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bible.Alarm.UITests", "Tests\Bible.Alarm.UITests\Bible.Alarm.UITests.csproj", "{8B9B57F0-3C2D-489B-9EB9-F1D10226FE26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bible.Alarm.DbMigration.Setup", "_tools\Bible.Alarm.DbMigration.Setup\Bible.Alarm.DbMigration.Setup.csproj", "{2DA76390-D8E0-4DD4-B342-2E2DD315FB83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bible.Alarm.DbMigration.Setup", "_tools\Bible.Alarm.DbMigration.Setup\Bible.Alarm.DbMigration.Setup.csproj", "{2DA76390-D8E0-4DD4-B342-2E2DD315FB83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bible.Alarm.Droid", "Bible.Alarm\Bible.Alarm.Droid\Bible.Alarm.Droid.csproj", "{4CA6A22D-D742-4DFD-8349-057EF30A9445}"
 EndProject
@@ -141,6 +141,7 @@ Global
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|ARM.ActiveCfg = AppStore|iPhone
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|iPhone.Deploy.0 = AppStore|iPhone
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|iPhoneSimulator.ActiveCfg = AppStore|iPhoneSimulator
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|iPhoneSimulator.Build.0 = AppStore|iPhoneSimulator
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.AppStore|x64.ActiveCfg = AppStore|iPhone
@@ -158,6 +159,7 @@ Global
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|ARM.ActiveCfg = Release|iPhone
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|iPhone.ActiveCfg = Release|iPhone
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|iPhone.Build.0 = Release|iPhone
+		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|iPhone.Deploy.0 = Release|iPhone
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{5ACBAE41-C22D-44F7-AB89-D71CDC0B1FA7}.Release|x64.ActiveCfg = Release|iPhone

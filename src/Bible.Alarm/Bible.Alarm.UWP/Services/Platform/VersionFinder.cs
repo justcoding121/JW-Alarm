@@ -1,12 +1,13 @@
 ﻿using Bible.Alarm.Contracts.Platform;
 using System;
+using Windows.ApplicationModel;
 
 namespace Bible.Alarm.Uwp.Services.Platform
 {
-    public class VersionFinder : IVersionFinder
+    public class UwpVersionFinder : IVersionFinder
     {
         private readonly static Lazy<string> version = new Lazy<string>(() => getVersionName());
-        public static VersionFinder Default => new VersionFinder();
+        public static UwpVersionFinder Default => new UwpVersionFinder();
 
         public string GetVersionName()
         {
@@ -15,7 +16,11 @@ namespace Bible.Alarm.Uwp.Services.Platform
 
         private static string getVersionName()
         {
-            throw new NotImplementedException();
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
 
     }

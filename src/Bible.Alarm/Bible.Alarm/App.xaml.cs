@@ -38,7 +38,7 @@ namespace Bible.Alarm
 
                 var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-                container.Register<TaskScheduler>(x => taskScheduler);
+                container.Register(x => taskScheduler);
                 container.RegisterSingleton(x => navigationPage);
                 container.RegisterSingleton(x => navigationPage.Navigation);
                 container.RegisterSingleton<INavigationService>(x => new NavigationService(container, navigationPage.Navigation));
@@ -55,14 +55,14 @@ namespace Bible.Alarm
                     await navigationPage.Navigation.PushAsync(homePage);
                 };
 
-                if (Device.RuntimePlatform == Device.iOS)
+                if (CurrentDevice.RuntimePlatform != Device.Android)
                 {
                     homePageSetter().Wait();
                 }
 
                 Task.Delay(100).ContinueWith(async (a) =>
                 {
-                    if (Device.RuntimePlatform == Device.Android)
+                    if (CurrentDevice.RuntimePlatform == Device.Android)
                     {
                         await homePageSetter();
                     }
@@ -77,6 +77,8 @@ namespace Bible.Alarm
                     }
                 });
             }
+
+
         }
 
         protected override void OnStart()
