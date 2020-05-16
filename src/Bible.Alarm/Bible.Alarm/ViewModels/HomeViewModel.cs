@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.Common.DataStructures;
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Battery;
 using Bible.Alarm.Models;
@@ -225,8 +226,19 @@ namespace Bible.Alarm.ViewModels
                         var alarmSchedules = await scheduleDbContext.AlarmSchedules
                                             .Include(x => x.BibleReadingSchedule)
                                             .Include(x => x.Music)
-                                            .AsNoTracking()
                                             .ToListAsync();
+
+                        var toRemove = alarmSchedules.Where(x => BgSourceHelper.PublicationCodeToNameMappings.Any(y => y.Key == x.BibleReadingSchedule.PublicationCode)).ToList();
+
+                        if (toRemove.Any())
+                        {
+                            foreach (var item in toRemove)
+                            {
+                                item.BibleReadingSchedule.PublicationCode = "bi12";
+                            }
+
+                            await scheduleDbContext.SaveChangesAsync();
+                        }
 
                         var initialSchedules = new ObservableHashSet<ScheduleListItem>();
                         foreach (var schedule in alarmSchedules)

@@ -39,7 +39,7 @@ namespace AudioLinkHarvester
 
             //////Bible
             bibleTasks.Add(JwBibleHarvester.Harvest_Bible_Links(JwSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
-            bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(BgSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
+            //bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(BgSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
 
             var musicTasks = new List<Task>();
 
