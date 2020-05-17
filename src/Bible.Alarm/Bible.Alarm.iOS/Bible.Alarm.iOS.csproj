@@ -53,6 +53,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignKey>iPhone Developer: Jehonathan Thomas (3J6S84282U)</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>

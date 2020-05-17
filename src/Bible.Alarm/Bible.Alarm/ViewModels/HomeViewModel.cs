@@ -49,7 +49,7 @@ namespace Bible.Alarm.ViewModels
         public Command BatteryOptimizationExcludeCommand { get; private set; }
         public Command BatteryOptimizationDismissCommand { get; private set; }
 
-        public HomeViewModel(IContainer container, 
+        public HomeViewModel(IContainer container,
             ScheduleDbContext scheduleDbContext,
             IToastService popUpService, INavigationService navigationService,
             IMediaCacheService mediaCacheService,
@@ -238,17 +238,21 @@ namespace Bible.Alarm.ViewModels
                                             .Include(x => x.Music)
                                             .ToListAsync();
 
-                        //bible gateway is not supported anymore due to copyright issues
-                        var toRemove = alarmSchedules.Where(x => BgSourceHelper.PublicationCodeToNameMappings.Any(y => y.Key == x.BibleReadingSchedule.PublicationCode)).ToList();
-
-                        if (toRemove.Any())
+                        if (CurrentDevice.RuntimePlatform == Device.Android)
                         {
-                            foreach (var item in toRemove)
-                            {
-                                item.BibleReadingSchedule.PublicationCode = "bi12";
-                            }
+                            //bible gateway is not supported anymore due to copyright issues
+                            var toRemove = alarmSchedules.Where(x => BgSourceHelper.PublicationCodeToNameMappings.Any(y => y.Key == x.BibleReadingSchedule.PublicationCode)).ToList();
 
-                            await scheduleDbContext.SaveChangesAsync();
+                            if (toRemove.Any())
+                            {
+                                foreach (var item in toRemove)
+                                {
+                                    item.BibleReadingSchedule.PublicationCode = "bi12";
+                                    item.BibleReadingSchedule.FinishedDuration = TimeSpan.Zero;
+                                }
+
+                                await scheduleDbContext.SaveChangesAsync();
+                            }
                         }
 
                         var initialSchedules = new ObservableHashSet<ScheduleListItem>();
@@ -337,7 +341,7 @@ namespace Bible.Alarm.ViewModels
 
                                      if (y.IsEnabled &&
                                        (CurrentDevice.RuntimePlatform == Device.iOS
-                                       ||CurrentDevice.RuntimePlatform == Device.UWP)
+                                       || CurrentDevice.RuntimePlatform == Device.UWP)
                                        && !await notificationService.CanSchedule())
                                      {
                                          y.IsEnabled = false;
