@@ -216,58 +216,9 @@
                                 WidthRequest="200" />
                         </StackLayout>
                         <Grid
-                            x:Name="MusicButton"
-                            Margin="{OnPlatform Default='5,5,5,0'}"
-                            BackgroundColor="WhiteSmoke"
-                            HeightRequest="40"
-                            HorizontalOptions="Fill"
-                            MinimumHeightRequest="40">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*" />
-                                <ColumnDefinition Width="4*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectMusicCommand}" NumberOfTapsRequired="1" />
-                            </Grid.GestureRecognizers>
-                            <Label
-                                Grid.Column="0"
-                                Margin="5,0,0,0"
-                                HorizontalOptions="Fill"
-                                HorizontalTextAlignment="Start"
-                                TextColor="Black"
-                                VerticalOptions="Center">
-                                Music
-                            </Label>
-                            <StackLayout
-                                Grid.Column="1"
-                                HorizontalOptions="End"
-                                Orientation="Horizontal"
-                                VerticalOptions="Center">
-                                <Switch
-                                    Margin="{OnPlatform Default='0,0,15,0',
-                                                        UWP='0,0,-75,0'}"
-                                    HeightRequest="30"
-                                    HorizontalOptions="End"
-                                    IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
-                                    Scale="{OnPlatform Default='1.25',
-                                                       iOS='1',
-                                                       UWP='1'}"
-                                    VerticalOptions="Center" />
-                                <Label
-                                    Margin="0,0,2,0"
-                                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
-                                    FontSize="Medium"
-                                    HorizontalOptions="End"
-                                    Text="{x:Static fn:GlyphNames.Right}"
-                                    TextColor="Gray"
-                                    VerticalOptions="Center" />
-                            </StackLayout>
-                        </Grid>
-                        <Grid
                             x:Name="BibleButton"
                             Margin="5,0,5,0"
                             BackgroundColor="WhiteSmoke"
-                            HeightRequest="40"
                             HorizontalOptions="Fill"
                             MinimumHeightRequest="40">
                             <Grid.ColumnDefinitions>
@@ -282,7 +233,7 @@
                                 Grid.Column="0"
                                 Margin="5,0,0,0"
                                 HorizontalTextAlignment="Start"
-                                Text="Bible reading"
+                                Text="Current Bible chapter"
                                 TextColor="Black"
                                 VerticalOptions="Center" />
                             <StackLayout
@@ -310,7 +261,6 @@
                             x:Name="ChaptersButton"
                             Margin="5,0,5,0"
                             BackgroundColor="WhiteSmoke"
-                            HeightRequest="40"
                             HorizontalOptions="Fill"
                             MinimumHeightRequest="40">
                             <Grid.ColumnDefinitions>
@@ -340,7 +290,6 @@
                             x:Name="AlwaysPlayFromStartButton"
                             Margin="5,0,5,0"
                             BackgroundColor="WhiteSmoke"
-                            HeightRequest="40"
                             HorizontalOptions="Fill"
                             MinimumHeightRequest="40">
                             <Grid.GestureRecognizers>
@@ -358,7 +307,7 @@
                                 HorizontalTextAlignment="Start"
                                 TextColor="Black"
                                 VerticalOptions="Center">
-                                Resume unfinished chapters from beginning after dismissal
+                                Always resume unfinished chapters from the beginning
                             </Label>
                             <StackLayout
                                 Grid.Column="1"
@@ -374,6 +323,53 @@
                                     Scale="{OnPlatform Android='1.25',
                                                        iOS='1',
                                                        UWP='1'}"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+                        <Grid
+                            x:Name="MusicButton"
+                            Margin="{OnPlatform Default='5,5,5,0'}"
+                            BackgroundColor="WhiteSmoke"
+                            HorizontalOptions="Fill"
+                            MinimumHeightRequest="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*" />
+                                <ColumnDefinition Width="4*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectMusicCommand}" NumberOfTapsRequired="1" />
+                            </Grid.GestureRecognizers>
+                            <Label
+                                Grid.Column="0"
+                                Margin="5,0,0,0"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Start"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                Play a music track before Bible audio
+                            </Label>
+                            <StackLayout
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                Orientation="Horizontal"
+                                VerticalOptions="Center">
+                                <Switch
+                                    Margin="{OnPlatform Default='0,0,15,0',
+                                                        UWP='0,0,-75,0'}"
+                                    HeightRequest="30"
+                                    HorizontalOptions="End"
+                                    IsToggled="{Binding MusicEnabled, Mode=TwoWay}"
+                                    Scale="{OnPlatform Default='1.25',
+                                                       iOS='1',
+                                                       UWP='1'}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Margin="0,0,2,0"
+                                    FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
+                                    FontSize="Medium"
+                                    HorizontalOptions="End"
+                                    Text="{x:Static fn:GlyphNames.Right}"
+                                    TextColor="Gray"
                                     VerticalOptions="Center" />
                             </StackLayout>
                         </Grid>

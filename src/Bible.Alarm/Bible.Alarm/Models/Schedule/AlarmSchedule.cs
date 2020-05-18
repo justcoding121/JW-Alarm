@@ -117,7 +117,7 @@ namespace Bible.Alarm.Models
                 IsEnabled = false,
                 MusicEnabled = false,
                 DaysOfWeek = DaysOfWeek.All,
-                Name = $"{(isNew ? "New" : "Sample")} schedule",
+                Name = $"{(isNew ? "New" : "An example")} schedule",
                 Hour = 6,
                 Minute = 0,
                 Music = new AlarmMusic()
