@@ -232,6 +232,7 @@
                             <Label
                                 Grid.Column="0"
                                 Margin="5,0,0,0"
+                                Padding="10"
                                 HorizontalTextAlignment="Start"
                                 Text="Current Bible chapter"
                                 TextColor="Black"
@@ -274,6 +275,7 @@
                             <Label
                                 Grid.Column="0"
                                 Margin="5,0,0,0"
+                                Padding="10"
                                 HorizontalTextAlignment="Start"
                                 Text="Number of chapters to read"
                                 TextColor="Black"
@@ -303,6 +305,7 @@
                             <Label
                                 Grid.Column="0"
                                 Margin="5,0,0,0"
+                                Padding="10"
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Start"
                                 TextColor="Black"
@@ -342,6 +345,7 @@
                             <Label
                                 Grid.Column="0"
                                 Margin="5,0,0,0"
+                                Padding="10"
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Start"
                                 TextColor="Black"
@@ -377,7 +381,7 @@
                 </ScrollView>
                 <Grid Grid.Row="2" VerticalOptions="End">
                     <Button
-                        Margin="2"
+                        Margin="2,2,2,10"
                         Padding="0"
                         Command="{Binding DeleteCommand}"
                         Font="{OnPlatform Default='Bold,16',
