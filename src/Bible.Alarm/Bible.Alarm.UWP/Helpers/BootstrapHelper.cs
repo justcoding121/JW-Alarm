@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
@@ -64,11 +65,11 @@ namespace Bible.Alarm.Services.Uwp.Helpers
             }
         }
 
-        public static Task Initialize(IContainer container, Logger logger)
+        public static void Initialize(IContainer container, Logger logger)
         {
             Task.Run(() => SetupBackgroundTask(container));
 
-            return Task.Run(async () =>
+            Task.Run(async () =>
             {
                 try
                 {
@@ -78,6 +79,10 @@ namespace Bible.Alarm.Services.Uwp.Helpers
                     await Task.WhenAll(task1, task2);
 
                     Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+
+                    await Task.Delay(1000);
+
+                    await container.Resolve<SchedulerTask>().Handle();
                 }
                 catch (Exception e)
                 {

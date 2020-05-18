@@ -1,4 +1,5 @@
 ﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Services.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
@@ -24,9 +25,9 @@ namespace Bible.Alarm.Services.iOS.Helpers
             }
         }
 
-        public static Task Initialize(IContainer container, Logger logger)
+        public static void Initialize(IContainer container, Logger logger)
         {
-            return Task.Run(async () =>
+            Task.Run(async () =>
             {
                 try
                 {
@@ -37,6 +38,19 @@ namespace Bible.Alarm.Services.iOS.Helpers
                     await Task.WhenAll(task1, task2);
 
                     Messenger<bool>.Publish(MvvmMessages.Initialized, true);
+
+                    await Task.Delay(1000);
+
+                    try
+                    {
+                        using var schedulerTask = container.Resolve<SchedulerTask>();
+                        var downloaded = await schedulerTask.Handle();
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error occurred in cleanup task.");
+                    }
+
                 }
                 catch (Exception e)
                 {

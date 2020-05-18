@@ -1,4 +1,5 @@
-﻿using Bible.Alarm.iOS.Extensions;
+﻿using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.iOS.Extensions;
 using Bible.Alarm.iOS.Services.Handlers;
 using Bible.Alarm.iOS.Services.Platform;
 using Bible.Alarm.Services;
@@ -83,19 +84,6 @@ namespace Bible.Alarm.iOS
                 logger.Fatal(e, "iOS application crashed.");
                 throw;
             }
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    using var schedulerTask = container.Resolve<SchedulerTask>();
-                    var downloaded = await schedulerTask.Handle();
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error occurred in cleanup task.");
-                }
-            });
 
             // check for a notification
             if (launchOptions != null)

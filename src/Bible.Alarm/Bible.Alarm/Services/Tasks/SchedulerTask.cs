@@ -15,14 +15,18 @@ namespace Bible.Alarm.Services.Tasks
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
         private INotificationService notificationService;
+        private IStorageService storageService;
+
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
         public SchedulerTask(ScheduleDbContext scheduleDbContext, IMediaCacheService mediaCacheService,
-              IAlarmService alarmService, INotificationService notificationService)
+              IAlarmService alarmService, INotificationService notificationService,
+              IStorageService storageService)
         {
             this.scheduleDbContext = scheduleDbContext;
             this.mediaCacheService = mediaCacheService;
             this.alarmService = alarmService;
             this.notificationService = notificationService;
+            this.storageService = storageService;
         }
         public async Task<bool> Handle()
         {
@@ -48,7 +52,7 @@ namespace Bible.Alarm.Services.Tasks
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, $"Failed to process scheduler task. Db directory: {Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}");
+                    logger.Error(e, $"Failed to process scheduler task. Db directory: {storageService.CacheRoot}");
                 }
                 finally
                 {
@@ -63,6 +67,7 @@ namespace Bible.Alarm.Services.Tasks
             mediaCacheService.Dispose();
             alarmService.Dispose();
             notificationService.Dispose();
+            storageService.Dispose();
         }
     }
 }

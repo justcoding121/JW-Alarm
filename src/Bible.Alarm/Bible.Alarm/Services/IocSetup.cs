@@ -46,7 +46,8 @@
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                  container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),
-                                 container.Resolve<INotificationService>()));
+                                 container.Resolve<INotificationService>(),
+                                 container.Resolve<IStorageService>()));
         }
 
     }
