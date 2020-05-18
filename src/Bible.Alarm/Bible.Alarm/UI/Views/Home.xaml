@@ -208,8 +208,10 @@
                                 </StackLayout>
                                 <StackLayout
                                     Grid.Column="2"
-                                    Margin="{OnPlatform Default='15,0,30,0',
-                                                        iOS='5,0,10,0'}"
+                                    Margin="{OnIdiom Phone={OnPlatform Default='15,0,30,0',
+                                                                       iOS='5,0,10,0'},
+                                                     Tablet={OnPlatform Default='15,0,30,0',
+                                                                        iOS='5,0,30,0'}}"
                                     HorizontalOptions="End"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">
