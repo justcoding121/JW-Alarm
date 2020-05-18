@@ -265,8 +265,8 @@
                             HorizontalOptions="Fill"
                             MinimumHeightRequest="40">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*" />
-                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenModalCommand}" NumberOfTapsRequired="1" />
@@ -277,7 +277,7 @@
                                 Margin="5,0,0,0"
                                 Padding="10"
                                 HorizontalTextAlignment="Start"
-                                Text="Number of chapters to read"
+                                Text="Number of chapters to listen"
                                 TextColor="Black"
                                 VerticalOptions="Center" />
                             <Label
@@ -298,8 +298,8 @@
                                 <TapGestureRecognizer Command="{Binding ToggleAlwaysPlayFromStartCommand}" NumberOfTapsRequired="1" />
                             </Grid.GestureRecognizers>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*" />
-                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
 
                             <Label
@@ -310,7 +310,7 @@
                                 HorizontalTextAlignment="Start"
                                 TextColor="Black"
                                 VerticalOptions="Center">
-                                Always resume unfinished chapters from the beginning
+                                Resume unfinished chapters from the beginning
                             </Label>
                             <StackLayout
                                 Grid.Column="1"
