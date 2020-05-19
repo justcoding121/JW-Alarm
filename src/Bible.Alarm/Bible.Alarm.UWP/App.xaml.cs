@@ -27,7 +27,16 @@ namespace Bible.Alarm.UWP
 
         public App()
         {
-            LogSetup.Initialize(UwpVersionFinder.Default, new string[] { }, Xamarin.Forms.Device.UWP);
+            bool isLoggingEnabled = true;
+
+#if DEBUG
+            //We have an issue with NLOG throwing fatal error on DEBUG
+            isLoggingEnabled = false;
+#endif
+            LogSetup.Initialize(UwpVersionFinder.Default,
+                new string[] { }, Xamarin.Forms.Device.UWP, 
+                isLoggingEnabled);
+
             initContainer();
 
             this.InitializeComponent();
@@ -61,11 +70,13 @@ namespace Bible.Alarm.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(400, 500));
+            ApplicationView.GetForCurrentView()
+                .SetPreferredMinSize(new Size(400, 500));
 
-            ApplicationView.PreferredLaunchViewSize = new Size(400, 600);
+#if DEBUG
+            ApplicationView.PreferredLaunchViewSize = new Size(1366, 768);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-
+#endif
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

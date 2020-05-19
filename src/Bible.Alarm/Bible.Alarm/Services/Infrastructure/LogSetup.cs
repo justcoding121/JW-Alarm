@@ -11,41 +11,45 @@ namespace Bible.Alarm.Services.Infrastructure
     {
         private static bool initialized = false;
         private static object @lock = new object();
-        public static void Initialize(IVersionFinder versionFinder, string[] tags, string device)
+        public static void Initialize(IVersionFinder versionFinder,
+            string[] tags, string device, bool isLoggingEnabled = true)
         {
             CurrentDevice.RuntimePlatform = device;
 
-            lock (@lock)
+            if (isLoggingEnabled)
             {
-                if (!initialized)
+                lock (@lock)
                 {
-                    setupLoggly();
-
-                    var config = new LoggingConfiguration();
-                    var logglyTarget = new NLog.Targets.LogglyTarget();
-                    logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
+                    if (!initialized)
                     {
-                        Name = getVersionName(versionFinder)
-                    });
+                        setupLoggly();
 
-                    if (tags != null)
-                    {
-                        foreach (var tag in tags)
+                        var config = new LoggingConfiguration();
+                        var logglyTarget = new NLog.Targets.LogglyTarget();
+                        logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
                         {
-                            logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
+                            Name = getVersionName(versionFinder)
+                        });
+
+                        if (tags != null)
+                        {
+                            foreach (var tag in tags)
                             {
-                                Name = tag
-                            });
+                                logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
+                                {
+                                    Name = tag
+                                });
+                            }
+
                         }
 
+                        config.AddTarget("loggly", logglyTarget);
+                        config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
+
+                        LogManager.Configuration = config;
+
+                        initialized = true;
                     }
-
-                    config.AddTarget("loggly", logglyTarget);
-                    config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, logglyTarget));
-
-                    LogManager.Configuration = config;
-
-                    initialized = true;
                 }
             }
         }
