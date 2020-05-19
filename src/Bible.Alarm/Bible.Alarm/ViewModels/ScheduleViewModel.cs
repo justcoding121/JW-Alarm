@@ -536,7 +536,11 @@ namespace Bible.Alarm.ViewModels
                         existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
                         existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
                         existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
-                        existing.BibleReadingSchedule.FinishedDuration = default(TimeSpan);
+                        
+                        if (bibleReadingUpdated)
+                        {
+                            existing.BibleReadingSchedule.FinishedDuration = default(TimeSpan);
+                        }
                     }
 
                     existing.MusicEnabled = model.MusicEnabled;
