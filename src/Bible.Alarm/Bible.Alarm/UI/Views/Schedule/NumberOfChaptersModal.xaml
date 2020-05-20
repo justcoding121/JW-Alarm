@@ -31,7 +31,7 @@
                 Margin="10,2,2,2"
                 BackgroundColor="White"
                 Font="Bold,18"
-                HeightRequest="32"
+                HeightRequest="50"
                 Text="Number of chapters to read"
                 TextColor="Black"
                 VerticalOptions="Fill"

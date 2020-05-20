@@ -29,7 +29,7 @@
                 Margin="10,2,2,2"
                 Padding="10"
                 Font="Bold,18"
-                HeightRequest="32"
+                HeightRequest="50"
                 Text="Languages"
                 TextColor="Black"
                 VerticalOptions="Fill"

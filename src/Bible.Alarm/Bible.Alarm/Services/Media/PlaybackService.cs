@@ -86,7 +86,7 @@ namespace Bible.Alarm.Services
 
             playStartTime = DateTime.Now;
 
-            if (!await @lock.WaitAsync(250))
+            if (!await @lock.WaitAsync(0))
             {
                 Dispose();
                 Stopped?.Invoke(this, false);
