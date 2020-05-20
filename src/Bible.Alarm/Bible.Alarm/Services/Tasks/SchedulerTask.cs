@@ -61,6 +61,7 @@ namespace Bible.Alarm.Services.Tasks
             }
             return downloaded;
         }
+
         public void Dispose()
         {
             scheduleDbContext.Dispose();

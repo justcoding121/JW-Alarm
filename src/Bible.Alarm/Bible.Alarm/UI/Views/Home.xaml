@@ -67,6 +67,7 @@
             <ListView
                 Grid.Row="1"
                 ios:ListView.SeparatorStyle="FullWidth"
+                BackgroundColor="White"
                 Footer="{OnPlatform iOS=''}"
                 HorizontalOptions="Fill"
                 ItemsSource="{Binding Schedules}"

@@ -86,6 +86,7 @@
                     x:Name="bookListView"
                     Grid.Row="1"
                     ios:ListView.SeparatorStyle="FullWidth"
+                    BackgroundColor="White"
                     CachingStrategy="RecycleElementAndDataTemplate"
                     Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"

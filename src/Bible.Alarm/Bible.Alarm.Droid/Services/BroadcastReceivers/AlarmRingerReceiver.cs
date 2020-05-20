@@ -116,7 +116,16 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
 
             playbackService?.Dispose();
-            mediaManager?.StopEx();
+
+            try
+            {
+                mediaManager?.StopEx();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened when calling StopEX.");
+            }
+
             mediaManager?.Queue?.Clear();
 
             base.Dispose();

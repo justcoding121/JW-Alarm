@@ -41,6 +41,7 @@
             <Grid
                 Grid.Row="0"
                 Margin="{OnPlatform iOS='0,10,0,0'}"
+                BackgroundColor="White"
                 IsVisible="{Binding IsBusy, Converter={StaticResource negateBooleanConverter}}"
                 RowSpacing="0">
                 <Grid.RowDefinitions>
@@ -85,6 +86,7 @@
                 <ListView
                     Grid.Row="1"
                     ios:ListView.SeparatorStyle="FullWidth"
+                    BackgroundColor="White"
                     CachingStrategy="RecycleElementAndDataTemplate"
                     Footer="{OnPlatform iOS=''}"
                     HorizontalOptions="Fill"

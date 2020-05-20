@@ -12,7 +12,11 @@
         <converters:IsSelectedColorConverter x:Key="isSelectedColorConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid ColumnSpacing="0" RowSpacing="0"    Margin="{OnPlatform iOS='0,25,0,0'}">
+        <Grid
+            Margin="{OnPlatform iOS='0,25,0,0'}"
+            BackgroundColor="White"
+            ColumnSpacing="0"
+            RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -23,9 +27,11 @@
             <Label
                 Grid.Row="0"
                 Margin="10,2,2,2"
+                Padding="10"
                 Font="Bold,18"
                 HeightRequest="32"
                 Text="Languages"
+                TextColor="Black"
                 VerticalOptions="Fill"
                 VerticalTextAlignment="Center" />
             <BoxView
@@ -44,7 +50,8 @@
                 <SearchBar
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Margin="5,0,0,0"
+                    Margin="5,0,5,0"
+                    BackgroundColor="White"
                     HeightRequest="40"
                     HorizontalTextAlignment="Start"
                     MinimumHeightRequest="40"
@@ -80,9 +87,9 @@
                                     HorizontalOptions="Start"
                                     HorizontalTextAlignment="Start"
                                     Text="{Binding Name}"
+                                    TextColor="Black"
                                     VerticalTextAlignment="Center" />
                             </Grid>
-
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

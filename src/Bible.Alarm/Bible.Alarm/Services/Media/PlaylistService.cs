@@ -4,6 +4,7 @@ using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services
@@ -100,7 +101,12 @@ namespace Bible.Alarm.Services
                                     .AsNoTracking()
                                     .Include(x => x.Music)
                                     .Include(x => x.BibleReadingSchedule)
-                                    .FirstAsync(x => x.Id == scheduleId);
+                                    .FirstOrDefaultAsync(x => x.Id == scheduleId);
+
+            if (schedule == null)
+            {
+                throw new ArgumentException($"Invalid schedule Id {scheduleId}");
+            }
 
             var numberOfChaptersToRead = schedule.NumberOfChaptersToRead;
 
