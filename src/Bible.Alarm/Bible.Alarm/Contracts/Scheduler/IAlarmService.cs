@@ -9,7 +9,5 @@ namespace Bible.Alarm.Services.Contracts
         Task Create(AlarmSchedule schedule);
         void Update(AlarmSchedule schedule);
         void Delete(long scheduleId);
-
-        Task Snooze(long scheduleId);
     }
 }

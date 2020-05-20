@@ -36,6 +36,9 @@ namespace Bible.Alarm.iOS.Services.Handlers
             this.mediaManager = mediaManager;
             this.dbContext = dbContext;
             this.taskScheduler = taskScheduler;
+
+            playbackService.Stopped += stateChanged;
+
         }
 
         public async Task Handle(long scheduleId, bool isImmediate)
@@ -46,7 +49,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
 
                 if (mediaManager.IsPreparedEx())
                 {
-                    playbackService.Dispose();
+                    Dispose();
                     return;
                 }
                 else
@@ -62,13 +65,12 @@ namespace Bible.Alarm.iOS.Services.Handlers
                     }, taskScheduler);
                 }
 
-                playbackService.Stopped += stateChanged;
-
+              
                 await Task.Run(async () =>
                 {
                     try
                     {
-                        await playbackService.Play(scheduleId, isImmediate);    
+                        await playbackService.Play(scheduleId, isImmediate);
                     }
                     catch (Exception e)
                     {
@@ -81,7 +83,6 @@ namespace Bible.Alarm.iOS.Services.Handlers
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
-                playbackService.Stopped -= stateChanged;
                 Dispose();
             }
             finally
@@ -90,15 +91,12 @@ namespace Bible.Alarm.iOS.Services.Handlers
             }
         }
 
-        private void stateChanged(object sender, MediaPlayerState e)
+        private void stateChanged(object sender, bool disposeMediaManager)
         {
             try
             {
-                if (e == MediaPlayerState.Stopped)
-                {
-                    playbackService.Stopped -= stateChanged;
-                    Dispose();
-                }
+                dispose(disposeMediaManager);
+
             }
             catch (Exception ex)
             {
@@ -106,18 +104,31 @@ namespace Bible.Alarm.iOS.Services.Handlers
             }
         }
 
+
         public void Dispose()
         {
-            this.playbackService.Dispose();
-            Task.Delay(0).ContinueWith((x) =>
-                   {
-                       mediaManager?.StopEx();
-                       mediaManager?.Queue?.Clear();
-                       UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
-
-                   }, taskScheduler);
-      
+            dispose(false);
         }
 
+        private bool disposed = false;
+        private void dispose(bool disposeMediaManager)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+                playbackService.Stopped -= stateChanged;
+                playbackService.Dispose();
+         
+                if (disposeMediaManager)
+                {
+                    Task.Delay(0).ContinueWith((x) =>
+                    {
+                        mediaManager?.Queue?.Clear();
+                        UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
+
+                    }, taskScheduler);
+                }
+            }
+        }
     }
 }

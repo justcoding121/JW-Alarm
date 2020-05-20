@@ -35,7 +35,8 @@ namespace Bible.Alarm.UWP.Services.Handlers
             var windowsMediaPlayer = mediaManager.MediaPlayer as WindowsMediaPlayer;
             var mediaPlayer = windowsMediaPlayer.Player;
 
-            mediaPlayer.SystemMediaTransportControls.IsEnabled = false;  
+            mediaPlayer.SystemMediaTransportControls.IsEnabled = false;
+            playbackService.Stopped += stateChanged;
         }
 
         public async Task Handle(long scheduleId, bool isImmediate)
@@ -46,12 +47,9 @@ namespace Bible.Alarm.UWP.Services.Handlers
 
                 if (mediaManager.IsPreparedEx())
                 {
-                    playbackService.Dispose();
+                    Dispose();
                     return;
                 }
-
-
-                playbackService.Stopped += stateChanged;
 
                 await Task.Run(async () =>
                 {
@@ -70,7 +68,6 @@ namespace Bible.Alarm.UWP.Services.Handlers
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
-                playbackService.Stopped -= stateChanged;
                 Dispose();
             }
             finally
@@ -79,15 +76,11 @@ namespace Bible.Alarm.UWP.Services.Handlers
             }
         }
 
-        private void stateChanged(object sender, MediaPlayerState e)
+        private void stateChanged(object sender, bool disposeMediaManager)
         {
             try
             {
-                if (e == MediaPlayerState.Stopped)
-                {
-                    playbackService.Stopped -= stateChanged;
-                    Dispose();
-                }
+                dispose(disposeMediaManager);
             }
             catch (Exception ex)
             {
@@ -95,11 +88,26 @@ namespace Bible.Alarm.UWP.Services.Handlers
             }
         }
 
+        private bool disposed = false;
+        private void dispose(bool disposeMediaManager)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+
+                playbackService.Stopped -= stateChanged;
+                playbackService.Dispose();
+
+                if (disposeMediaManager)
+                {
+                    mediaManager?.Queue?.Clear();
+                }
+            }
+        }
+
         public void Dispose()
         {
-            playbackService?.Dispose();
-            mediaManager?.StopEx();
-            mediaManager?.Queue?.Clear();
+            dispose(false);
         }
 
     }

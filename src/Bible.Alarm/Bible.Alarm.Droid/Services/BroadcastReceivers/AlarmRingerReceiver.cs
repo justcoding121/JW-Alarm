@@ -49,19 +49,17 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 this.mediaManager = container.Resolve<IMediaManager>();
                 this.playbackService = container.Resolve<IPlaybackService>();
+                playbackService.Stopped += stateChanged;
 
                 if (mediaManager.IsPreparedEx())
                 {
                     context.StopService(intent);
-                    playbackService.Dispose();
+                    Dispose();
                     return;
                 }
 
-                playbackService.Stopped += stateChanged;
-
                 var scheduleId = intent.GetStringExtra("ScheduleId");
-                var isImmediate = string.IsNullOrEmpty(intent.GetStringExtra("IsImmediate"))
-                                         ? false : true;
+                var isImmediate = !string.IsNullOrEmpty(intent.GetStringExtra("IsImmediate"));
 
                 await Task.Run(async () =>
                 {
@@ -92,15 +90,12 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
         }
 
-        private void stateChanged(object sender, MediaPlayerState e)
+        private void stateChanged(object sender, bool disposeMediaManager)
         {
             try
             {
-                if (e == MediaPlayerState.Stopped)
-                {
-                    context.StopService(intent);
-                    dispose(true);
-                }
+                dispose(disposeMediaManager);
+
             }
             catch (Exception ex)
             {
@@ -115,7 +110,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         }
 
         private bool disposed = false;
-        private void dispose(bool stopped)
+        private void dispose(bool disposeMediaManager)
         {
             if (!disposed)
             {
@@ -124,23 +119,14 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (playbackService != null)
                 {
                     playbackService.Stopped -= stateChanged;
-                }
+                    playbackService.Dispose();
+                }    
 
-                playbackService?.Dispose();
-
-                if (!stopped)
+                if (disposeMediaManager)
                 {
-                    try
-                    {
-                        mediaManager?.StopEx();
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "An error happened when calling StopEX.");
-                    }
+                    mediaManager?.Queue?.Clear();
                 }
-
-                mediaManager?.Queue?.Clear();
+       
             }
         }
     }

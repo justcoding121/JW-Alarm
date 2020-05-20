@@ -45,7 +45,7 @@ namespace Bible.Alarm.Services
         private bool readyTodispose;
         long IPlaybackService.CurrentlyPlayingScheduleId => currentScheduleId;
 
-        public event EventHandler<MediaPlayerState> Stopped;
+        public event EventHandler<bool> Stopped;
 
         public PlaybackService(IMediaManager mediaManager,
             IPlaylistService playlistService,
@@ -69,7 +69,6 @@ namespace Bible.Alarm.Services
             this.mediaManager.StateChanged += stateChanged;
         }
 
-        private Task watcher;
         private bool wasPlaying;
         private DateTime playStartTime = DateTime.Now.AddDays(7);
 
@@ -81,18 +80,23 @@ namespace Bible.Alarm.Services
             if (this.mediaManager.IsPreparedEx())
             {
                 Dispose();
-                Stopped?.Invoke(this, MediaPlayerState.Stopped);
+                Stopped?.Invoke(this, false);
                 return;
             }
 
             playStartTime = DateTime.Now;
 
-            await @lock.WaitAsync();
-
-            Messenger<object>.Publish(MvvmMessages.ClearToasts);
+            if (!await @lock.WaitAsync(250))
+            {
+                Dispose();
+                Stopped?.Invoke(this, false);
+                return;
+            }
 
             try
             {
+                Messenger<object>.Publish(MvvmMessages.ClearToasts);
+
                 currentScheduleId = scheduleId;
 
                 var nextTracks = await playlistService.NextTracks(scheduleId);
@@ -124,6 +128,7 @@ namespace Bible.Alarm.Services
                     && !await networkStatusService.IsInternetAvailable())
                 {
                     await handleInternetDown(isImmediatePlayRequest);
+                    Stopped?.Invoke(this, false);
                     return;
                 }
 
@@ -161,6 +166,7 @@ namespace Bible.Alarm.Services
                 {
                     Messenger<object>.Publish(MvvmMessages.HideMediaProgressModal);
                     await handleInternetDown(isImmediatePlayRequest);
+                    Stopped?.Invoke(this, false);
                     return;
                 }
 
@@ -259,6 +265,7 @@ namespace Bible.Alarm.Services
                 if (!currentlyPlaying.Any())
                 {
                     await handleInternetDown(isImmediatePlayRequest);
+                    Stopped?.Invoke(this, false);
                     return;
                 }
                 else
@@ -275,82 +282,96 @@ namespace Bible.Alarm.Services
                 @lock.Release();
             }
 
-            if (watcher == null)
+            watch();
+        }
+
+        public async Task Dismiss()
+        {
+            if (this.mediaManager.IsPreparedEx()
+                 && !readyTodispose)
             {
-                watcher = Task.Run(async () =>
+                await this.mediaManager.StopEx();
+            }
+
+            currentScheduleId = 0;
+            readyTodispose = true;
+        }
+
+        private void watch()
+        {
+            Task.Run(async () =>
+            {
+                while (!disposed)
                 {
-                    while (!disposed)
+                    await @lock.WaitAsync();
+
+                    try
                     {
-                        await @lock.WaitAsync();
-
-                        try
+                        if (this.mediaManager.IsPlaying())
                         {
-                            if (this.mediaManager.IsPlaying())
-                            {
-                                wasPlaying = true;
+                            wasPlaying = true;
 
-                                var mediaItem = this.mediaManager.Queue?.Current;
+                            var mediaItem = this.mediaManager.Queue?.Current;
 
-                                if (mediaItem == null)
-                                {
-                                    readyTodispose = true;
-                                }
-                                else
-                                {
-                                    if (currentlyPlaying.ContainsKey(mediaItem))
-                                    {
-                                        var track = currentlyPlaying[mediaItem];
-
-                                        if (track.FinishedDuration.TotalSeconds > 0
-                                            && firstChapter != null
-                                            && mediaItem == firstChapter)
-                                        {
-                                            await this.mediaManager.SeekTo(track.FinishedDuration);
-                                            firstChapter = null;
-                                        }
-                                        else if (mediaManager.Position.TotalSeconds > 0)
-                                        {
-                                            if (mediaItem == firstChapter)
-                                            {
-                                                firstChapter = null;
-                                            }
-
-                                            track.FinishedDuration = mediaManager.Position;
-                                            await this.playlistService.MarkTrackAsPlayed(track);
-                                        }
-                                    }
-                                }
-                            }
-
-                            //was playing and now stopped or play stopped without even getting played for last 60 seconds
-                            if ((wasPlaying || DateTime.Now.Subtract(playStartTime).TotalSeconds > 60)
-                                && this.mediaManager.IsStopped())
+                            if (mediaItem == null)
                             {
                                 readyTodispose = true;
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            logger.Error(e, "An error happened when updating finished track duration.");
-                        }
-                        finally
-                        {
-                            @lock.Release();
+                            else
+                            {
+                                if (currentlyPlaying.ContainsKey(mediaItem))
+                                {
+                                    var track = currentlyPlaying[mediaItem];
+
+                                    if (track.FinishedDuration.TotalSeconds > 0
+                                        && firstChapter != null
+                                        && mediaItem == firstChapter)
+                                    {
+                                        await this.mediaManager.SeekTo(track.FinishedDuration);
+                                        firstChapter = null;
+                                    }
+                                    else if (mediaManager.Position.TotalSeconds > 0)
+                                    {
+                                        if (mediaItem == firstChapter)
+                                        {
+                                            firstChapter = null;
+                                        }
+
+                                        track.FinishedDuration = mediaManager.Position;
+                                        await this.playlistService.MarkTrackAsPlayed(track);
+                                    }
+                                }
+                            }
                         }
 
-                        if (readyTodispose)
+                        //was playing and now stopped or play stopped without even getting played for last 60 seconds
+                        if ((wasPlaying || DateTime.Now.Subtract(playStartTime).TotalSeconds > 60)
+                            && this.mediaManager.IsStopped())
                         {
-                            Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
-                            Dispose();
-                            Stopped?.Invoke(this, MediaPlayerState.Stopped);
-
-                            break;
+                            readyTodispose = true;
                         }
-
-                        await Task.Delay(1000);
                     }
-                });
-            }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened when updating finished track duration.");
+                    }
+                    finally
+                    {
+                        @lock.Release();
+                    }
+
+                    if (readyTodispose)
+                    {
+                        Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
+                        Dispose();
+                        Stopped?.Invoke(this, true);
+
+                        break;
+                    }
+
+                    await Task.Delay(1000);
+                }
+            });
         }
 
         private async Task handleInternetDown(bool isImmediate)
@@ -365,39 +386,6 @@ namespace Bible.Alarm.Services
             {
                 Messenger<object>.Publish(MvvmMessages.ShowToast, "An error happened while downloading files. Your internet may be down.");
             }
-        }
-
-        public async Task Snooze()
-        {
-            await @lock.WaitAsync();
-
-            try
-            {
-                if (this.mediaManager.IsPreparedEx() && !readyTodispose)
-                {
-                    await this.mediaManager.StopEx();
-                    await this.alarmService.Snooze(currentScheduleId);
-                    currentScheduleId = 0;
-                }
-            }
-            finally
-            {
-                @lock.Release();
-            }
-
-            readyTodispose = true;
-        }
-
-        public async Task Dismiss()
-        {
-            if (this.mediaManager.IsPreparedEx()
-                 && !readyTodispose)
-            {
-                await this.mediaManager.StopEx();
-            }
-
-            currentScheduleId = 0;
-            readyTodispose = true;
         }
 
         private async void stateChanged(object sender, StateChangedEventArgs e)
@@ -473,8 +461,6 @@ namespace Bible.Alarm.Services
                 this.storageService.Dispose();
                 this.networkStatusService.Dispose();
                 this.notificationService.Dispose();
-
-                @lock.Dispose();
             }
         }
     }

@@ -178,8 +178,6 @@ namespace Bible.Alarm.ViewModels
                 });
 
                 await scheduleDbContext.SaveChangesAsync();
-
-                await alarmService.Create(schedule);
             }
         }
 

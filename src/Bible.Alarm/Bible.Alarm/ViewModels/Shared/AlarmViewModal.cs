@@ -18,7 +18,6 @@ namespace Bible.Alarm.ViewModels
 
         private bool isDisposed = false;
 
-        public Command SnoozeCommand { get; private set; }
         public Command DismissCommand { get; private set; }
         public ICommand CancelCommand { get; set; }
 
@@ -35,14 +34,6 @@ namespace Bible.Alarm.ViewModels
 
             this.playbackService = this.container.Resolve<IPlaybackService>();
             this.mediaManager = this.container.Resolve<IMediaManager>();
-
-            SnoozeCommand = new Command(async () =>
-            {
-                await playbackService.Snooze();
-
-                var navigationService = this.container.Resolve<INavigationService>();
-                await navigationService?.CloseModal();
-            });
 
             DismissCommand = new Command(async () =>
             {

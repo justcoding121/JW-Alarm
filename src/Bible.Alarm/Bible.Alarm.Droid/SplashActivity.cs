@@ -3,10 +3,12 @@ using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
+using Android.Widget;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
+using Plugin.CurrentActivity;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -37,14 +39,17 @@ namespace Bible.Alarm.Droid
 
                 SetContentView(Resource.Layout.SplashScreen);
 
-                BootstrapHelper.InitializeUI(this, logger, Application);
+                BootstrapHelper.InitializeUI(logger, Application);
             }
             catch (Exception e)
             {
                 logger.Fatal(e, "An error happened inside OnCreate.");
                 throw;
             }
+
+          
         }
+
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {

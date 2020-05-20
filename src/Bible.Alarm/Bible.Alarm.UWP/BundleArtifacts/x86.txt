@@ -1,2 +1,2 @@
-MainPackage=C:\Work\Repositories\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\x86\Release\Bible.Alarm.UWP_1.0.0.0_x86.msix
-SymbolPackage=C:\Work\Repositories\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\obj\x86\Release\Symbols\Bible.Alarm.UWP_1.0.0.0_x86.appxsym
+MainPackage=C:\Work\Repositories\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\x86\Release\Bible.Alarm.UWP_1.1.1.0_x86.msix
+SymbolPackage=C:\Work\Repositories\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\obj\x86\Release\Symbols\Bible.Alarm.UWP_1.1.1.0_x86.appxsym

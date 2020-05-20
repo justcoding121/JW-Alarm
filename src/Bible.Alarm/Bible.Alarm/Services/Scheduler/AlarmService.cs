@@ -1,8 +1,5 @@
 ﻿using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
-using Microsoft.EntityFrameworkCore;
-using NLog;
-using System;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services
@@ -27,7 +24,7 @@ namespace Bible.Alarm.Services
 
         public Task Create(AlarmSchedule schedule)
         {
-            scheduleNotification(schedule, false);
+            scheduleNotification(schedule);
             return Task.CompletedTask;
         }
 
@@ -37,18 +34,8 @@ namespace Bible.Alarm.Services
 
             if (schedule.IsEnabled)
             {
-                scheduleNotification(schedule, false);
+                scheduleNotification(schedule);
             }
-        }
-
-        public async Task Snooze(long scheduleId)
-        {
-            var schedule = await scheduleDbContext.
-                AlarmSchedules
-                .AsNoTracking()
-                .FirstAsync(x => x.Id == scheduleId);
-
-            scheduleNotification(schedule, true);
         }
 
         public void Delete(long scheduleId)
@@ -56,7 +43,7 @@ namespace Bible.Alarm.Services
             removeNotification(scheduleId);
         }
 
-        private void scheduleNotification(AlarmSchedule schedule, bool isSnoozeNotification)
+        private void scheduleNotification(AlarmSchedule schedule)
         {
             notificationService.ScheduleNotification(schedule.Id, schedule.NextFireDate(), string.IsNullOrEmpty(schedule.Name) ? "Bible Alarm" : schedule.Name,
                 "Press to start listening now.");

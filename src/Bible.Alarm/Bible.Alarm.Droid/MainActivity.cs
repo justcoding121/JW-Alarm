@@ -1,13 +1,16 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Droid.Tasks;
 using Bible.Alarm.Services.Infrastructure;
 using Java.Interop;
 using MediaManager;
 using NLog;
+using Plugin.CurrentActivity;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -30,23 +33,23 @@ namespace Bible.Alarm.Droid
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Device.Android);
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle bundle)
         {
             try
             {
-                container = BootstrapHelper.InitializeUI(this, logger, Application);
+                container = BootstrapHelper.InitializeUI(logger, Application);
 
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
 
-                base.OnCreate(savedInstanceState);
+                base.OnCreate(bundle);
 
-                global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+                Forms.Init(this, bundle);
                 LoadApplication(new App(container));
 
-                //legacy
                 Task.Run(() =>
                 {
+                    //legacy
                     try
                     {
                         var cachePath = Path.Combine(Path.GetTempPath(), "MediaCache");
@@ -72,8 +75,59 @@ namespace Bible.Alarm.Droid
                 throw;
             }
 
+            try
+            {
+                CrossCurrentActivity.Current.Init(this, bundle);
+                CrossCurrentActivity.Current.ActivityStateChanged += currentActivityStateChanged;
+                callSchedulerTask();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "CrossCurrentActivity init error.");
+                throw;
+            }
         }
 
+        private void callSchedulerTask()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        if (lastResumeTime.HasValue
+                        && DateTime.Now.Subtract(lastResumeTime.Value).TotalSeconds >= 3)
+                        {
+                            var i = new Intent(container.AndroidContext(), typeof(AlarmSetupService));
+                            i.PutExtra("Action", "SetupBackgroundTasks");
+                            StartService(i);
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex, "An error happened when calling setup background task upon app launch.");
+                        break;
+                    }
+
+                    await Task.Delay(1000);
+                }
+            });
+        }
+
+        private DateTime? lastResumeTime;
+        private void currentActivityStateChanged(object sender, ActivityEventArgs e)
+        {
+            if (e.Event == ActivityEvent.Resumed)
+            {
+                lastResumeTime = DateTime.Now;
+            }
+            else
+            {
+                lastResumeTime = null;
+            }
+        }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             try
@@ -86,11 +140,6 @@ namespace Bible.Alarm.Droid
             }
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
         }
 
         //For Unit tests

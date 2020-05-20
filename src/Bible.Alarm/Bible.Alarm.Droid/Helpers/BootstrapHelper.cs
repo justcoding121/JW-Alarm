@@ -23,7 +23,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
             return container;
         }
 
-        public static IContainer InitializeUI(Activity mainActivity, Logger logger, Application application)
+        public static IContainer InitializeUI(Logger logger, Application application)
         {
             var result = Alarm.Droid.IocSetup.InitializeWithContainerName("MainActivity", Application.Context, false);
             var container = result.Item1;
@@ -39,19 +39,6 @@ namespace Bible.Alarm.Services.Droid.Helpers
                         await VerifyServices(container);
 
                         Messenger<bool>.Publish(MvvmMessages.Initialized, true);
-
-                        await Task.Delay(1000);
-
-                        try
-                        {
-                            var i = new Intent(container.AndroidContext(), typeof(AlarmSetupService));
-                            i.PutExtra("Action", "SetupBackgroundTasks");
-                            mainActivity.StartService(i);
-                        }
-                        catch (Exception e)
-                        {
-                            logger.Error(e, "An error happened when calling setup background task upon app launch.");
-                        }
 
                     }
                     catch (Exception e)
