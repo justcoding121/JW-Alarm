@@ -102,7 +102,7 @@ namespace Bible.Alarm.Services
                 await storageService.DeleteFile(Path.Combine(IndexRoot, "mediaIndex.db"));
             }
 
-            if (CurrentDevice.RuntimePlatform != Device.iOS && 
+            if (CurrentDevice.RuntimePlatform == Device.Android && 
                 await storageService.FileExists(Path.Combine(IndexRoot, defaultAlarmFile)))
             {
                 await storageService.DeleteFile(Path.Combine(IndexRoot, defaultAlarmFile));
@@ -111,7 +111,7 @@ namespace Bible.Alarm.Services
             await storageService.CopyResourceFile(indexResourceFile, IndexRoot, indexResourceFile);
             ZipFile.ExtractToDirectory(tmpIndexFilePath, IndexRoot);
             
-            if(CurrentDevice.RuntimePlatform != Device.iOS)
+            if(CurrentDevice.RuntimePlatform == Device.Android)
             {
                 await storageService.CopyResourceFile(defaultAlarmFile, IndexRoot, defaultAlarmFile);
             }
