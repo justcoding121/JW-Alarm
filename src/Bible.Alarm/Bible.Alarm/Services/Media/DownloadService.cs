@@ -12,7 +12,8 @@ namespace Bible.Alarm.Services
     /// </summary>
     public class DownloadService : IDownloadService
     {
-        private readonly int retryAttempts = 2;
+        private readonly int retryAttempts = 3;
+        private readonly int timeOutSeconds = 3;
 
         private HttpMessageHandler handler;
         public DownloadService(HttpMessageHandler handler)
@@ -41,10 +42,8 @@ namespace Bible.Alarm.Services
                         throw;
                     }
 
-                    using (var client = new HttpClient(handler, false))
-                    {
-                        return await client.GetByteArrayAsync(alternativeUrl);
-                    }
+                    using var client = new HttpClient(handler, false);
+                    return await client.GetByteArrayAsync(alternativeUrl);
                 }
 
             }, retryAttempts);
@@ -62,7 +61,7 @@ namespace Bible.Alarm.Services
             {
                 using var client = new HttpClient(handler, false)
                 {
-                    Timeout = TimeSpan.FromSeconds(7)
+                    Timeout = TimeSpan.FromSeconds(timeOutSeconds)
                 };
 
                 Func<Task<bool>> getRequest = async () =>

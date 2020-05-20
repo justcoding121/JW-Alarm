@@ -99,7 +99,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 if (e == MediaPlayerState.Stopped)
                 {
                     context.StopService(intent);
-                    Dispose();
+                    dispose(true);
                 }
             }
             catch (Exception ex)
@@ -110,25 +110,38 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         public new void Dispose()
         {
-            if (playbackService != null)
-            {
-                playbackService.Stopped -= stateChanged;
-            }
-
-            playbackService?.Dispose();
-
-            try
-            {
-                mediaManager?.StopEx();
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "An error happened when calling StopEX.");
-            }
-
-            mediaManager?.Queue?.Clear();
-
+            dispose(false);
             base.Dispose();
+        }
+
+        private bool disposed = false;
+        private void dispose(bool stopped)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+
+                if (playbackService != null)
+                {
+                    playbackService.Stopped -= stateChanged;
+                }
+
+                playbackService?.Dispose();
+
+                if (!stopped)
+                {
+                    try
+                    {
+                        mediaManager?.StopEx();
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened when calling StopEX.");
+                    }
+                }
+
+                mediaManager?.Queue?.Clear();
+            }
         }
     }
 }
