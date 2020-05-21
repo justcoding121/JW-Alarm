@@ -26,14 +26,14 @@
                 JustifyContent="SpaceEvenly">
                 <StackLayout Orientation="Vertical">
                     <Label
-                        Padding="10"
+                        Padding="10,0,10,0"
                         FontSize="{OnPlatform Default='Medium',
                                               UWP='Micro'}"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
                         Text="{Binding Title}" />
                     <Label
-                        Padding="10"
+                        Padding="10,0,10,0"
                         FontSize="{OnPlatform Default='Medium',
                                               UWP='Micro'}"
                         HorizontalOptions="Center"
@@ -75,7 +75,7 @@
                 </StackLayout>
                 <Label
                     Margin="15,0,15,0"
-                    Padding="10"
+                    Padding="10,0,10,0"
                     FontSize="{OnPlatform Default='Medium',
                                           UWP='Small'}"
                     HorizontalOptions="Center"
@@ -205,7 +205,7 @@
                     <Button
                         Grid.Column="4"
                         Margin="0,0,10,0"
-                        Padding="0"
+                        Padding="10,0,10,0"
                         BackgroundColor="Transparent"
                         Command="{Binding NextCommand}"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"

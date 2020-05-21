@@ -71,7 +71,7 @@
                 Footer="{OnPlatform iOS=''}"
                 HorizontalOptions="Fill"
                 ItemsSource="{Binding Schedules}"
-                RowHeight="130"
+                RowHeight="150"
                 SelectionMode="None">
                 <ListView.Behaviors>
                     <behaviours:EventToCommandBehavior
@@ -103,9 +103,10 @@
                                 </Grid.ColumnDefinitions>
                                 <StackLayout
                                     Grid.Column="0"
-                                    Margin="{OnPlatform Default='10,3,0,0',
-                                                        iOS='10,3,0,0',
-                                                        UWP='30,3,0,0'}"
+                                    Margin="{OnIdiom Phone={OnPlatform Default='10,3,0,0',
+                                                                       iOS='10,3,0,0',
+                                                                       UWP='30,3,0,0'},
+                                                     Tablet={OnPlatform Default='30,3,0,0'}}"
                                     Padding="0"
                                     Orientation="Vertical">
                                     <Button
@@ -212,8 +213,7 @@
                                     Grid.Column="2"
                                     Margin="{OnIdiom Phone={OnPlatform Default='15,0,30,0',
                                                                        iOS='5,0,10,0'},
-                                                     Tablet={OnPlatform Default='15,0,30,0',
-                                                                        iOS='5,0,30,0'}}"
+                                                     Tablet={OnPlatform Default='15,0,50,0'}}"
                                     HorizontalOptions="End"
                                     Orientation="Vertical"
                                     VerticalOptions="Center">

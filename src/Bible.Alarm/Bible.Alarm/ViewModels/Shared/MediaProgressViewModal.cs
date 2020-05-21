@@ -32,7 +32,7 @@ namespace Bible.Alarm.ViewModels.Shared
         private int loadedTracks;
         private int totalTracks;
 
-        public string ProgressText { get => $"Preparing tracks {loadedTracks}/{totalTracks}.."; }
+        public string ProgressText { get => $"Preparing tracks {(totalTracks > 0 ? $"{loadedTracks}/{totalTracks}" : "")}.."; }
         public double Progress { get; private set; }
 
         public void Dispose()
