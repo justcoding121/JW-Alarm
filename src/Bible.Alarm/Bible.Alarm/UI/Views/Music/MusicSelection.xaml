@@ -55,9 +55,9 @@
                                         iOS='0,18,0,0'}"
                     BackgroundColor="{OnPlatform Default='WhiteSmoke',
                                                  iOS='White'}"
-                    HeightRequest="45"
+                    HeightRequest="50"
                     HorizontalOptions="Fill"
-                    MinimumHeightRequest="45">
+                    MinimumHeightRequest="50">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="8*" />
@@ -112,7 +112,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Label
                                         Grid.Column="0"
-                                        Margin="5,0,0,0"
+                                        Margin="10,0,0,0"
                                         HorizontalOptions="Fill"
                                         HorizontalTextAlignment="Start"
                                         Text="{Binding Name}"
@@ -125,6 +125,7 @@
                                         HorizontalOptions="End"
                                         VerticalOptions="Center">
                                         <Label
+                                            Margin="0,0,10,0"
                                             FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                                             FontSize="Medium"
                                             Text="{x:Static fn:GlyphNames.Right}"

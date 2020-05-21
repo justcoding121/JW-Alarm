@@ -52,9 +52,9 @@
                     Grid.ColumnSpan="2"
                     Margin="5,0,5,0"
                     BackgroundColor="White"
-                    HeightRequest="40"
+                    HeightRequest="50"
                     HorizontalTextAlignment="Start"
-                    MinimumHeightRequest="40"
+                    MinimumHeightRequest="50"
                     Placeholder="Search languages"
                     Text="{Binding LanguageSearchTerm, Mode=TwoWay}"
                     TextColor="Black" />
@@ -82,7 +82,7 @@
                         <ViewCell>
                             <Grid BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}" HorizontalOptions="Fill">
                                 <Label
-                                    Margin="8,0,0,0"
+                                    Margin="20,0,0,0"
                                     HeightRequest="45"
                                     HorizontalOptions="Start"
                                     HorizontalTextAlignment="Start"

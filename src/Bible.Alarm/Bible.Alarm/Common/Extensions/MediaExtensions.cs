@@ -58,17 +58,21 @@ namespace Bible.Alarm.Common.Extensions
 
         public static async Task<IMediaItem> CreateMediaItemEx(this IMediaExtractor mediaExtractor, string url)
         {
-            using var cts = new CancellationTokenSource();
-            try
+            return await RetryHelper.Retry(async () =>
             {
-                cts.CancelAfter(3000);
-                return await Task.Run(async () => await mediaExtractor.CreateMediaItem(url), cts.Token);
-            }
-            catch (OperationCanceledException e)
-            {
-                logger.Info(e, $"CreateMediaItem from URL timed Out. URL: {url}");
-                return null;
-            }
+                using var cts = new CancellationTokenSource();
+                try
+                {
+                    cts.CancelAfter(3000);
+                    return await Task.Run(async () => await mediaExtractor.CreateMediaItem(url), cts.Token);
+                }
+                catch (OperationCanceledException e)
+                {
+                    logger.Info(e, $"CreateMediaItem from URL timed Out. URL: {url}");
+                    return null;
+                }
+
+            }, 3);
         }
 
         public static async Task<IMediaItem> CreateMediaItemEx(this IMediaExtractor mediaExtractor, FileInfo fileInfo)

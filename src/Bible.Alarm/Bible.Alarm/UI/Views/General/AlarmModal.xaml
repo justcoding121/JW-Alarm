@@ -26,12 +26,14 @@
                 JustifyContent="SpaceEvenly">
                 <StackLayout Orientation="Vertical">
                     <Label
+                        Padding="10"
                         FontSize="{OnPlatform Default='Medium',
                                               UWP='Micro'}"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
                         Text="{Binding Title}" />
                     <Label
+                        Padding="10"
                         FontSize="{OnPlatform Default='Medium',
                                               UWP='Micro'}"
                         HorizontalOptions="Center"
@@ -73,6 +75,7 @@
                 </StackLayout>
                 <Label
                     Margin="15,0,15,0"
+                    Padding="10"
                     FontSize="{OnPlatform Default='Medium',
                                           UWP='Small'}"
                     HorizontalOptions="Center"

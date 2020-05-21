@@ -13,7 +13,8 @@ namespace Bible.Alarm.Services
     public class DownloadService : IDownloadService
     {
         private readonly int downloadRetryAttempts = 3;
-        private readonly int fileExistsCheckRetryAttempts = 1;
+        private readonly int fileExistsCheckRetryAttempts = 3;
+
         private readonly int timeOutSeconds = 3;
 
         private HttpMessageHandler handler;

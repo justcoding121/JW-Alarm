@@ -63,7 +63,7 @@
                         <ViewCell>
                             <Grid BackgroundColor="{Binding IsSelected, Converter={StaticResource isSelectedColorConverter}}" HorizontalOptions="Fill">
                                 <Label
-                                    Margin="8,0,0,0"
+                                    Margin="15,0,0,0"
                                     HeightRequest="45"
                                     HorizontalOptions="Start"
                                     HorizontalTextAlignment="Start"
@@ -71,7 +71,6 @@
                                     TextColor="Black"
                                     VerticalTextAlignment="Center" />
                             </Grid>
-
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
