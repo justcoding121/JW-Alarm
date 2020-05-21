@@ -142,21 +142,30 @@ namespace Bible.Alarm.Services
                 {
                     return Task.Run(async () =>
                     {
-                        IMediaItem item;
-
-                        if (CurrentDevice.RuntimePlatform == Device.UWP)
+                        try
                         {
-                            item = new MediaItem(x.Value.FullName);
-                            //TODO: Fix this
-                        }
-                        else
-                        {
-                            item = await mediaExtractor.CreateMediaItemEx(x.Value);
-                        }
+                            IMediaItem item;
 
-                        item?.SetDisplay(playDetailMap[x.Key]);
-                        Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                        return item;
+                            if (CurrentDevice.RuntimePlatform == Device.UWP)
+                            {
+                                item = new MediaItem(x.Value.FullName);
+                                //TODO: Fix this
+                            }
+                            else
+                            {
+                                item = await mediaExtractor.CreateMediaItemEx(x.Value);
+                            }
+
+                            item?.SetDisplay(playDetailMap[x.Key]);
+                            Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                            return item;
+
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, $"An error happened when playing file: {x.Value.FullName}.");
+                            return null;
+                        }
                     });
 
                 }))).ToList();
