@@ -5,7 +5,7 @@ namespace Bible.Alarm.ViewModels
 {
     public class NumberOfChaptersListViewItemModel : ViewModel, IComparable
     {
-        public string Text => $"{Value} {(Value == 1 ? "Chapter" : "Chapters")}";
+        public string Text => $"{Value} {(Value == 1 ? "chapter" : "chapters")}";
         public int Value { get; set; }
 
         private bool isSelected;
