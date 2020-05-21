@@ -26,7 +26,7 @@ namespace Bible.Alarm.UWP
         private IContainer container;
 
         public App()
-        {
+        {    
             bool isLoggingEnabled = true;
 
 #if DEBUG
@@ -70,13 +70,8 @@ namespace Bible.Alarm.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            ApplicationView.GetForCurrentView()
-                .SetPreferredMinSize(new Size(400, 500));
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(400, 500));
 
-#if DEBUG
-            ApplicationView.PreferredLaunchViewSize = new Size(1366, 768);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-#endif
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

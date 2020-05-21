@@ -124,6 +124,18 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
                 if (disposeMediaManager)
                 {
+                    try
+                    {
+                        if(!mediaManager.IsStopped())
+                        {
+                            mediaManager.StopEx().Wait();
+                        }                      
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened on calling StopEx.");
+                    }
+
                     mediaManager?.Queue?.Clear();
                 }
        

@@ -12,7 +12,8 @@ namespace Bible.Alarm.Services
     /// </summary>
     public class DownloadService : IDownloadService
     {
-        private readonly int retryAttempts = 3;
+        private readonly int downloadRetryAttempts = 3;
+        private readonly int fileExistsCheckRetryAttempts = 1;
         private readonly int timeOutSeconds = 3;
 
         private HttpMessageHandler handler;
@@ -46,7 +47,7 @@ namespace Bible.Alarm.Services
                     return await client.GetByteArrayAsync(alternativeUrl);
                 }
 
-            }, retryAttempts);
+            }, downloadRetryAttempts);
         }
 
 
@@ -95,7 +96,7 @@ namespace Bible.Alarm.Services
                     return await getRequest();
                 }
 
-            }, retryAttempts);
+            }, fileExistsCheckRetryAttempts);
         }
     }
 }

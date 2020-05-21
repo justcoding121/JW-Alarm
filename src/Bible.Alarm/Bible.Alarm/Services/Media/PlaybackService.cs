@@ -151,10 +151,10 @@ namespace Bible.Alarm.Services
                         }
                         else
                         {
-                            item = await mediaExtractor.CreateMediaItem(x.Value);
+                            item = await mediaExtractor.CreateMediaItemEx(x.Value);
                         }
 
-                        item.SetDisplay(playDetailMap[x.Key]);
+                        item?.SetDisplay(playDetailMap[x.Key]);
                         Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                         return item;
                     });
@@ -180,8 +180,8 @@ namespace Bible.Alarm.Services
                         {
                             if (await downloadService.FileExists(x.Value))
                             {
-                                var item = await mediaExtractor.CreateMediaItem(x.Value);
-                                item.SetDisplay(playDetail);
+                                var item = await mediaExtractor.CreateMediaItemEx(x.Value);
+                                item?.SetDisplay(playDetail);
                                 Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                                 return item;
                             }
@@ -194,8 +194,8 @@ namespace Bible.Alarm.Services
 
                                 if (await downloadService.FileExists(url))
                                 {
-                                    var item = await mediaExtractor.CreateMediaItem(url);
-                                    item.SetDisplay(playDetail);
+                                    var item = await mediaExtractor.CreateMediaItemEx(url);
+                                    item?.SetDisplay(playDetail);
                                     Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                                     return item;
                                 }
@@ -206,8 +206,8 @@ namespace Bible.Alarm.Services
 
                                 if (await downloadService.FileExists(url))
                                 {
-                                    var item = await mediaExtractor.CreateMediaItem(url);
-                                    item.SetDisplay(playDetail);
+                                    var item = await mediaExtractor.CreateMediaItemEx(url);
+                                    item?.SetDisplay(playDetail);
                                     Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
                                     return item;
                                 }

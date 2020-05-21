@@ -121,9 +121,22 @@ namespace Bible.Alarm.iOS.Services.Handlers
          
                 if (disposeMediaManager)
                 {
+                    try
+                    {
+                        if (!mediaManager.IsStopped())
+                        {
+                            mediaManager.StopEx().Wait();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happened on calling StopEx.");
+                    }
+
+                    mediaManager?.Queue?.Clear();
+
                     Task.Delay(0).ContinueWith((x) =>
                     {
-                        mediaManager?.Queue?.Clear();
                         UIApplication.SharedApplication.EndReceivingRemoteControlEvents();
 
                     }, taskScheduler);

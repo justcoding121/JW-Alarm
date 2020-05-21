@@ -83,7 +83,11 @@
                 Padding="0"
                 Command="{Binding CloseModalCommand}"
                 Font="Bold,18"
+                HeightRequest="{OnPlatform Default='50',
+                                           UWP='37'}"
                 HorizontalOptions="Fill"
+                MinimumHeightRequest="{OnPlatform Default='50',
+                                                  UWP='37'}"
                 Text="Close"
                 TextColor="SlateBlue"
                 VerticalOptions="Fill" />

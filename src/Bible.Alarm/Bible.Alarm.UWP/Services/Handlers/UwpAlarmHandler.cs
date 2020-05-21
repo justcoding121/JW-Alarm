@@ -7,6 +7,7 @@ using MediaManager.Platforms.Uap.Player;
 using MediaManager.Player;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using NLog.Fluent;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -100,6 +101,18 @@ namespace Bible.Alarm.UWP.Services.Handlers
 
                 if (disposeMediaManager)
                 {
+                    try
+                    {
+                        if (!mediaManager.IsStopped())
+                        {
+                            mediaManager.StopEx().Wait();
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        logger.Error(e, "An error happened on calling StopEx.");
+                    }
+
                     mediaManager?.Queue?.Clear();
                 }
             }

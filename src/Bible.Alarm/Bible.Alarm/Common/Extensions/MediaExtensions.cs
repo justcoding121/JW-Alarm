@@ -1,12 +1,20 @@
 ﻿using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Models;
 using MediaManager.Library;
+using System;
+using MediaManager.Media;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using NLog;
 
 namespace Bible.Alarm.Common.Extensions
 {
     public static class MediaExtensions
     {
+        private static Logger logger => LogManager.GetCurrentClassLogger();
+
         public static void SetDisplay(this IMediaItem item, NotificationDetail detail)
         {
             if (detail.IsBibleReading)
@@ -45,6 +53,36 @@ namespace Bible.Alarm.Common.Extensions
                 {
                     item.DisplayDescription = "jw.org";
                 }
+            }
+        }
+
+        public static async Task<IMediaItem> CreateMediaItemEx(this IMediaExtractor mediaExtractor, string url)
+        {
+            using var cts = new CancellationTokenSource();
+            try
+            {
+                cts.CancelAfter(3000);
+                return await Task.Run(async () => await mediaExtractor.CreateMediaItem(url), cts.Token);
+            }
+            catch (OperationCanceledException e)
+            {
+                logger.Info(e, $"CreateMediaItem from URL timed Out. URL: {url}");
+                return null;
+            }
+        }
+
+        public static async Task<IMediaItem> CreateMediaItemEx(this IMediaExtractor mediaExtractor, FileInfo fileInfo)
+        {
+            using var cts = new CancellationTokenSource();
+            try
+            {
+                cts.CancelAfter(1000);
+                return await Task.Run(async () => await mediaExtractor.CreateMediaItem(fileInfo), cts.Token);
+            }
+            catch (OperationCanceledException e)
+            {
+                logger.Info(e, $"CreateMediaItem from FileInfo timed Out. Path: {fileInfo.FullName}");
+                return null;
             }
         }
     }
