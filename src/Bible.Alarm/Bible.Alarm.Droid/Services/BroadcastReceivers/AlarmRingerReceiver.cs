@@ -34,8 +34,6 @@ namespace Bible.Alarm.Droid.Services.Tasks
              new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
 
-        public event EventHandler<bool> Stopped;
-
         public async override void OnReceive(Context context, Intent intent)
         {
             var pendingIntent = GoAsync();
