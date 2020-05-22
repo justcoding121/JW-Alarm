@@ -3,6 +3,7 @@ using Android.Content;
 using Android.OS;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Droid.Services.Handlers;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Helpers;
@@ -22,17 +23,18 @@ namespace Bible.Alarm.Droid.Services.Tasks
         private Logger logger => LogManager.GetCurrentClassLogger();
 
         private IContainer container;
-        private IPlaybackService playbackService;
         private Context context;
         private Intent intent;
-        private IMediaManager mediaManager;
+        private AndroidAlarmHandler alarmHandler;
 
-        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
+        private static readonly SemaphoreSlim @lock = new SemaphoreSlim(1);
         public AlarmRingerReceiver()
         {
             LogSetup.Initialize(VersionFinder.Default,
              new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
+
+        public event EventHandler<bool> Stopped;
 
         public async override void OnReceive(Context context, Intent intent)
         {
@@ -47,41 +49,17 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.context = context;
                 this.intent = intent;
 
-                this.mediaManager = container.Resolve<IMediaManager>();
-                this.playbackService = container.Resolve<IPlaybackService>();
-                playbackService.Stopped += stateChanged;
-
-                if (mediaManager.IsPreparedEx())
-                {
-                    context.StopService(intent);
-                    Dispose();
-                    return;
-                }
-
                 var scheduleId = intent.GetStringExtra("ScheduleId");
                 var isImmediate = !string.IsNullOrEmpty(intent.GetStringExtra("IsImmediate"));
 
-                await Task.Run(async () =>
-                {
-                    try
-                    {
-                        var id = long.Parse(scheduleId);
-                        await playbackService.Play(id, isImmediate);
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "An error happened when ringing the alarm.");
-                        throw;
-                    }
-                });
+                alarmHandler = container.Resolve<AndroidAlarmHandler>();
+                alarmHandler.Disposed += onDisposed;
+                await alarmHandler.Handle(long.Parse(scheduleId), isImmediate);
             }
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when creating the task to ring the alarm.");
-
-                context.StopService(intent);
                 Dispose();
-                throw;
             }
             finally
             {
@@ -90,55 +68,30 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
         }
 
-        private void stateChanged(object sender, bool disposeMediaManager)
+        private void onDisposed(object sender, bool e)
         {
-            try
-            {
-                dispose(disposeMediaManager);
-
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "An error happened when stopping the alarm after media failure.");
-            }
+            Dispose();
         }
 
         public new void Dispose()
         {
-            dispose(false);
+            dispose();
             base.Dispose();
         }
 
         private bool disposed = false;
-        private void dispose(bool disposeMediaManager)
+        private void dispose()
         {
             if (!disposed)
             {
                 disposed = true;
 
-                if (playbackService != null)
+                if (alarmHandler != null)
                 {
-                    playbackService.Stopped -= stateChanged;
-                    playbackService.Dispose();
-                }    
-
-                if (disposeMediaManager)
-                {
-                    try
-                    {
-                        if(!mediaManager.IsStopped())
-                        {
-                            mediaManager.StopEx().Wait();
-                        }                      
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "An error happened on calling StopEx.");
-                    }
-
-                    mediaManager?.Queue?.Clear();
+                    alarmHandler.Disposed -= onDisposed;
                 }
-       
+
+                context?.StopService(intent);
             }
         }
     }

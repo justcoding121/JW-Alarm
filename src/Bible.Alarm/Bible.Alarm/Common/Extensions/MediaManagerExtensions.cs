@@ -113,5 +113,19 @@ namespace Bible.Alarm.Common.Extensions
                 return null;
             }
         }
+
+        public static async Task PlayEx(this IMediaManager mediaManager, IEnumerable<IMediaItem> mediaItems)
+        {
+            using var cts = new CancellationTokenSource();
+            cts.CancelAfter(3000);
+            await Task.Run(async () => await mediaManager.Play(mediaItems), cts.Token);
+        }
+
+        public static async Task PlayEx(this IMediaManager mediaManager, FileInfo fileInfo)
+        {
+            using var cts = new CancellationTokenSource();
+            cts.CancelAfter(3000);
+            await Task.Run(async () => await mediaManager.Play(fileInfo), cts.Token);
+        }
     }
 }

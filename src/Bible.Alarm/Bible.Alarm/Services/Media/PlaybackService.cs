@@ -281,10 +281,10 @@ namespace Bible.Alarm.Services
                 {
                     firstChapter = currentlyPlaying.FirstOrDefault(x => x.Value.IsBibleReading).Key;
                     this.mediaManager.RepeatMode = RepeatMode.Off;
-                    await this.mediaManager.Play(mergedMediaItems.Select(x => x.Value));
+
+                    await this.mediaManager.PlayEx(mergedMediaItems.Select(x => x.Value));
                     Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                 }
-
             }
             finally
             {
@@ -371,10 +371,16 @@ namespace Bible.Alarm.Services
 
                     if (readyTodispose)
                     {
-                        Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
-                        Dispose();
-                        Stopped?.Invoke(this, true);
-
+                        try
+                        {
+                            Messenger<object>.Publish(MvvmMessages.HideAlarmModal, null);
+                            Dispose();
+                            Stopped?.Invoke(this, true);
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, "An error happened when disposing after play.");
+                        }
                         break;
                     }
 
@@ -388,7 +394,7 @@ namespace Bible.Alarm.Services
             if (!isImmediate)
             {
                 this.mediaManager.RepeatMode = RepeatMode.All;
-                await this.mediaManager.Play(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
+                await this.mediaManager.PlayEx(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
                 Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
             }
             else
@@ -399,31 +405,37 @@ namespace Bible.Alarm.Services
 
         private async void stateChanged(object sender, StateChangedEventArgs e)
         {
-            var mediaItem = this.mediaManager.Queue?.Current;
-
-            if (mediaItem == null)
+            try
             {
-                return;
-            }
+                var mediaItem = this.mediaManager.Queue?.Current;
 
-            if (currentlyPlaying.ContainsKey(mediaItem))
-            {
-                var track = currentlyPlaying[mediaItem];
-
-                switch (e.State)
+                if (mediaItem == null)
                 {
-                    case MediaPlayerState.Playing:
-                        if (track.FinishedDuration.TotalSeconds > 0
-                            && firstChapter != null
-                            && mediaItem == firstChapter)
-                        {
-                            await this.mediaManager.SeekTo(track.FinishedDuration);
-                            firstChapter = null;
-                        }
-                        break;
+                    return;
+                }
+
+                if (currentlyPlaying.ContainsKey(mediaItem))
+                {
+                    var track = currentlyPlaying[mediaItem];
+
+                    switch (e.State)
+                    {
+                        case MediaPlayerState.Playing:
+                            if (track.FinishedDuration.TotalSeconds > 0
+                                && firstChapter != null
+                                && mediaItem == firstChapter)
+                            {
+                                await this.mediaManager.SeekTo(track.FinishedDuration);
+                                firstChapter = null;
+                            }
+                            break;
+                    }
                 }
             }
-
+            catch (Exception ex)
+            {
+                logger.Error(ex, "An error happenned when handling playback state changed event.");
+            }
         }
 
         private async void markTrackAsFinished(object sender, MediaItemEventArgs e)

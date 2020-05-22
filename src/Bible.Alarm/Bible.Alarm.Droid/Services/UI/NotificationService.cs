@@ -1,9 +1,11 @@
 ﻿using Android.App;
 using Android.Content;
 using Bible.Alarm.Droid;
+using Bible.Alarm.Droid.Services.Handlers;
 using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Tasks;
+using MediaManager;
 using System;
 using System.Threading.Tasks;
 
@@ -20,7 +22,8 @@ namespace Bible.Alarm.Services.Droid
 
         public void ShowNotification(long scheduleId)
         {
-            AlarmSetupService.ShowNotification(container.AndroidContext(), scheduleId);
+            var alarmHandler = container.Resolve<AndroidAlarmHandler>();
+            Task.Run(() => alarmHandler.Handle(scheduleId, true));
         }
 
         public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
