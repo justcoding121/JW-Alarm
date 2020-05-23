@@ -19,14 +19,6 @@
 
     public static class IocSetup
     {
-        private static Lazy<IMediaManager> mediaManagerFactory =
-            new Lazy<IMediaManager>(() =>
-            {
-                var mediaManager = CrossMediaManager.Current;
-                mediaManager.Init(Application.Context);
-                return mediaManager;
-            });
-
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
@@ -65,11 +57,9 @@
                 return new MediaDbContext(mediaDbConfig);
             });
 
-            var mediaManager = mediaManagerFactory.Value;
-
-            container.RegisterSingleton((x) =>
+            container.Register((x) =>
             {
-                return mediaManager;
+                return CrossMediaManager.Current;
             });
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));

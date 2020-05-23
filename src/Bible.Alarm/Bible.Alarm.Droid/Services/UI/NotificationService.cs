@@ -22,8 +22,7 @@ namespace Bible.Alarm.Services.Droid
 
         public void ShowNotification(long scheduleId)
         {
-            var alarmHandler = container.Resolve<AndroidAlarmHandler>();
-            Task.Run(() => alarmHandler.Handle(scheduleId, true));
+            AlarmSetupService.ShowNotification(container.AndroidContext(), scheduleId);
         }
 
         public Task ScheduleNotification(long scheduleId, DateTimeOffset time,

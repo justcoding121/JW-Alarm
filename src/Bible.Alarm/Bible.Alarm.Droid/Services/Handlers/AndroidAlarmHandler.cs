@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Android.App;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
@@ -29,6 +30,10 @@ namespace Bible.Alarm.Droid.Services.Handlers
             {
                 Dispose();
                 return;
+            }
+            else
+            {
+                mediaManager.Init(Application.Context);
             }
 
             await Task.Run(async () =>
@@ -88,6 +93,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
                     mediaManager?.Queue?.Clear();                
                 }
 
+                mediaManager?.Dispose();
                 Disposed?.Invoke(this, true);
             }
         }
