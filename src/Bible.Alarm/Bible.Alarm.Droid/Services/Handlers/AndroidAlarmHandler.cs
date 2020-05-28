@@ -15,6 +15,8 @@ namespace Bible.Alarm.Droid.Services.Handlers
 
         private IMediaManager mediaManager;
         private IPlaybackService playbackService;
+        private bool mediaManagerInitialized = false;
+
         public AndroidAlarmHandler(IMediaManager mediaManager, IPlaybackService playbackService)
         {
             this.mediaManager = mediaManager;
@@ -34,6 +36,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
             else
             {
                 mediaManager.Init(Application.Context);
+                mediaManagerInitialized = true;
             }
 
             await Task.Run(async () =>
@@ -50,11 +53,11 @@ namespace Bible.Alarm.Droid.Services.Handlers
             });
         }
 
-        private void onStopped(object sender, bool disposeMediaManager)
+        private void onStopped(object sender, bool resetMediaManager)
         {
             try
             {
-                dispose(disposeMediaManager);
+                dispose(resetMediaManager);
 
             }
             catch (Exception ex)
@@ -64,7 +67,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
         }
 
         private bool disposed = false;
-        private void dispose(bool disposeMediaManager)
+        private void dispose(bool resetMediaManager)
         {
             if (!disposed)
             {
@@ -76,7 +79,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
                     playbackService.Dispose();
                 }
 
-                if (disposeMediaManager)
+                if (resetMediaManager)
                 {
                     try
                     {
@@ -93,7 +96,11 @@ namespace Bible.Alarm.Droid.Services.Handlers
                     mediaManager?.Queue?.Clear();                
                 }
 
-                mediaManager?.Dispose();
+                if (mediaManagerInitialized)
+                {
+                    mediaManager?.Dispose();
+                }
+
                 Disposed?.Invoke(this, true);
             }
         }
