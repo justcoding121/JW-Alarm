@@ -72,6 +72,7 @@
                         FontSize="Medium"
                         HorizontalOptions="Fill"
                         HorizontalTextAlignment="Start"
+                        MinimumWidthRequest="50"
                         Text="{x:Static fn:GlyphNames.Left}"
                         TextColor="SlateBlue"
                         VerticalOptions="Fill"

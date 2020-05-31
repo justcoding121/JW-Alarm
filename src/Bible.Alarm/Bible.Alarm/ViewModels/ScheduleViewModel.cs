@@ -141,12 +141,14 @@ namespace Bible.Alarm.ViewModels
                     }
                 }
 
-                if (await saveAsync())
+                var saved = await saveAsync();
+
+                if (saved)
                 {
                     await navigationService.GoBack();
                 }
 
-                if (IsEnabled)
+                if (saved && IsEnabled)
                 {
                     await popUpService.ShowScheduledNotification(Model);
                 }
