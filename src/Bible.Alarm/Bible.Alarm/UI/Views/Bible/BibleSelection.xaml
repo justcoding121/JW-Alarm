@@ -50,7 +50,7 @@
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding BackCommand}" NumberOfTapsRequired="1" />
                 </Grid.GestureRecognizers>
-                <Grid
+                <StackLayout
                     Grid.Row="0"
                     Margin="{OnPlatform Default='0',
                                         iOS='0,18,0,0'}"
@@ -58,19 +58,14 @@
                                                  iOS='White'}"
                     HeightRequest="50"
                     HorizontalOptions="Fill"
-                    MinimumHeightRequest="50">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
+                    MinimumHeightRequest="50"
+                    Orientation="Horizontal">
                     <Label
                         x:Name="BackButton"
-                        Grid.Row="0"
-                        Grid.Column="0"
                         Margin="5,0,0,0"
                         FontFamily="{x:Static fn:FontFileResources.FontAwesomeSolid}"
                         FontSize="Medium"
-                        HorizontalOptions="Fill"
+                        HorizontalOptions="StartAndExpand"
                         HorizontalTextAlignment="Start"
                         MinimumWidthRequest="50"
                         Text="{x:Static fn:GlyphNames.Left}"
@@ -82,8 +77,6 @@
                         </Label.GestureRecognizers>
                     </Label>
                     <Grid
-                        Grid.Row="0"
-                        Grid.Column="1"
                         Margin="0,1,1,1"
                         HorizontalOptions="End"
                         VerticalOptions="Fill">
@@ -119,7 +112,7 @@
                                 WidthRequest="{OnPlatform Default='65'}" />
                         </StackLayout>
                     </Grid>
-                </Grid>
+                </StackLayout>
                 <ListView
                     Grid.Row="1"
                     ios:ListView.SeparatorStyle="FullWidth"
