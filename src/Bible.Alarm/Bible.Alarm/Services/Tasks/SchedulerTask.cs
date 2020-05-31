@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using NLog.Fluent;
 using System;
 using System.Linq;
 using System.Threading;
@@ -31,7 +32,6 @@ namespace Bible.Alarm.Services.Tasks
         }
         public async Task<bool> Handle()
         {
-
 #if DEBUG
             logger.Info($"Background task was called on {CurrentDevice.RuntimePlatform}.");
 #endif
@@ -40,7 +40,15 @@ namespace Bible.Alarm.Services.Tasks
             {
                 try
                 {
-                    await mediaCacheService.CleanUp();
+                    try
+                    {
+                        await mediaCacheService.CleanUp();
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e, "An error happenned inside cleanup task.");
+                    }
+
                     var schedules = await scheduleDbContext.AlarmSchedules.Where(x => x.IsEnabled).ToListAsync();
                     foreach (var schedule in schedules)
                     {

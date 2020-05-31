@@ -2,6 +2,8 @@
 using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -11,6 +13,8 @@ namespace Bible.Alarm.Services
 {
     public class PlaylistService : IPlaylistService
     {
+        private Logger logger = LogManager.GetCurrentClassLogger();
+
         private ScheduleDbContext scheduleDbContext;
         private MediaService mediaService;
 
@@ -120,6 +124,11 @@ namespace Bible.Alarm.Services
             int bookNumber = bibleReadingSchedule.BookNumber;
             int chapter = bibleReadingSchedule.ChapterNumber;
             var chapters = await mediaService.GetBibleChapters(bibleReadingSchedule.LanguageCode, bibleReadingSchedule.PublicationCode, bookNumber);
+
+            if (!chapters.ContainsKey(chapter))
+            {
+                logger.Error($"Chapter: ${chapter}, book: {bookNumber}, language: {bibleReadingSchedule.LanguageCode}, pub code: {bibleReadingSchedule.PublicationCode} not in lookup. ");
+            }
 
             var chapterDetail = chapters[chapter];
 
