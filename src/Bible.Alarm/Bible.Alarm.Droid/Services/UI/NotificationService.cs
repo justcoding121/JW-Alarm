@@ -3,6 +3,7 @@ using Android.Content;
 using Bible.Alarm.Droid;
 using Bible.Alarm.Droid.Services.Handlers;
 using Bible.Alarm.Droid.Services.Tasks;
+using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Tasks;
 using MediaManager;
@@ -28,7 +29,7 @@ namespace Bible.Alarm.Services.Droid
             await alarmHandler.Handle(scheduleId, true);
         }
 
-        public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
+        public Task ScheduleNotification(long scheduleId, DaysOfWeek daysOfWeek, DateTimeOffset time,
             string title, string body)
         {
             if (container.IsAndroidService())

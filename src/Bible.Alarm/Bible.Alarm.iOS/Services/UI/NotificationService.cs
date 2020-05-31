@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.iOS.Extensions;
 using Bible.Alarm.iOS.Services.Handlers;
+using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using NLog;
 using System;
@@ -28,16 +29,16 @@ namespace Bible.Alarm.Services.iOS
             _ = iosAlarmHandler.Handle(scheduleId, true);
         }
 
-        public async Task ScheduleNotification(long scheduleId, DateTimeOffset time,
+        public async Task ScheduleNotification(long scheduleId, DaysOfWeek daysOfWeek, DateTimeOffset time,
             string title, string body)
         {
             await Task.Delay(0).
                 ContinueWith((x) =>
                 {
                     var @params = new Dictionary<string, string>
-                        {
-                            {"ScheduleId", scheduleId.ToString()},
-                        };
+                    {
+                        {"ScheduleId", scheduleId.ToString()},
+                    };
 
                     var content = new UNMutableNotificationContent();
                     content.Title = title;
@@ -45,18 +46,22 @@ namespace Bible.Alarm.Services.iOS
                     content.Sound = UNNotificationSound.GetSound("cool-alarm-tone-notification-sound.mp3");
                     content.UserInfo = @params.ToNSDictionary();
                     content.Badge = 1;
-                    var trigger = UNCalendarNotificationTrigger.CreateTrigger(time.LocalDateTime.ToNSDateComponents(), true);
 
-                    var requestID = scheduleId.ToString();
-                    var request = UNNotificationRequest.FromIdentifier(requestID, content, trigger);
-
-                    UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) =>
+                    foreach (var day in daysOfWeek.ToWeekDays())
                     {
-                        if (err != null)
+                        var trigger = UNCalendarNotificationTrigger.CreateTrigger(time.LocalDateTime.ToNSDateComponents(day), true);
+
+                        var requestId = $"{scheduleId}_{day}";
+                        var request = UNNotificationRequest.FromIdentifier(requestId, content, trigger);
+
+                        UNUserNotificationCenter.Current.AddNotificationRequest(request, (err) =>
                         {
-                            logger.Error($"An error happened when scheduling ios notification. code: {err.Code}");
-                        }
-                    });
+                            if (err != null)
+                            {
+                                logger.Error($"An error happened when scheduling ios notification. code: {err.Code}");
+                            }
+                        });
+                    }
 
                 }, taskScheduler);
 
@@ -73,9 +78,9 @@ namespace Bible.Alarm.Services.iOS
                    {
                        foreach (var notification in pending)
                        {
-                           if (notification.Identifier == scheduleId.ToString())
+                           if (notification.Identifier.StartsWith($"{scheduleId}"))
                            {
-                               UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { scheduleId.ToString() });
+                               UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { notification.Identifier });
                            }
                        }
                    }
@@ -94,7 +99,7 @@ namespace Bible.Alarm.Services.iOS
                      {
                          foreach (var notification in pending)
                          {
-                             if (notification.Identifier == scheduleId.ToString())
+                             if (notification.Identifier.StartsWith($"{scheduleId}"))
                              {
                                  return true;
                              }

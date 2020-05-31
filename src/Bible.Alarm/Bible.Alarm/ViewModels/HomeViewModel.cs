@@ -361,6 +361,7 @@ namespace Bible.Alarm.ViewModels
 
                                      await Task.Run(async () =>
                                      {
+                                         using var scheduleDbContext = container.Resolve<ScheduleDbContext>();
                                          var existing = await scheduleDbContext.AlarmSchedules.FirstAsync(x => x.Id == y.ScheduleId);
                                          existing.IsEnabled = y.IsEnabled;
                                          await scheduleDbContext.SaveChangesAsync();

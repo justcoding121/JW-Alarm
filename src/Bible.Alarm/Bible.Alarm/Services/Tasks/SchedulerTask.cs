@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Bible.Alarm.Services.Tasks
 {
@@ -30,6 +31,10 @@ namespace Bible.Alarm.Services.Tasks
         }
         public async Task<bool> Handle()
         {
+
+#if DEBUG
+            logger.Info($"Background task was called on {CurrentDevice.RuntimePlatform}.");
+#endif
             var downloaded = false;
             if (await @lock.WaitAsync(1000))
             {

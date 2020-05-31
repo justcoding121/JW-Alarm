@@ -45,7 +45,7 @@ namespace Bible.Alarm.Services
 
         private void scheduleNotification(AlarmSchedule schedule)
         {
-            notificationService.ScheduleNotification(schedule.Id, schedule.NextFireDate(), string.IsNullOrEmpty(schedule.Name) ? "Bible Alarm" : schedule.Name,
+            notificationService.ScheduleNotification(schedule.Id, schedule.DaysOfWeek, schedule.NextFireDate(), string.IsNullOrEmpty(schedule.Name) ? "Bible Alarm" : schedule.Name,
                 "Press to start listening now.");
         }
 

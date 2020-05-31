@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 using System.Linq;
 using Bible.Alarm.Services.Uwp.Helpers;
+using Bible.Alarm.Models;
 
 namespace Bible.Alarm.Services.UWP
 {
@@ -25,7 +26,8 @@ namespace Bible.Alarm.Services.UWP
             _ = uwpAlarmHandler.Handle(scheduleId, true);
         }
 
-        public Task ScheduleNotification(long scheduleId, DateTimeOffset time,
+        public Task ScheduleNotification(long scheduleId, DaysOfWeek dayOfWeek,
+            DateTimeOffset time,
             string title, string body)
         {
             // Construct the toast content
