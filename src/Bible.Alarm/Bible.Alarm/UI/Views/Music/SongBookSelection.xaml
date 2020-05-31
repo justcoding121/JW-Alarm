@@ -61,9 +61,6 @@
                     MinimumHeightRequest="50"
                     Orientation="Horizontal"
                     VerticalOptions="Fill">
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
                     <Label
                         x:Name="BackButton"
                         Margin="5,0,0,0"
