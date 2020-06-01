@@ -78,10 +78,12 @@ namespace Bible.Alarm.Services.iOS
                    {
                        foreach (var notification in pending)
                        {
-                           if (notification.Identifier.StartsWith($"{scheduleId}"))
+                           if (notification.Identifier.StartsWith($"{scheduleId}_")
+                                || notification.Identifier == scheduleId.ToString())
                            {
                                UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new[] { notification.Identifier });
                            }
+
                        }
                    }
 
@@ -99,7 +101,8 @@ namespace Bible.Alarm.Services.iOS
                      {
                          foreach (var notification in pending)
                          {
-                             if (notification.Identifier.StartsWith($"{scheduleId}"))
+                             if (notification.Identifier.StartsWith($"{scheduleId}_")
+                                 || notification.Identifier == scheduleId.ToString())
                              {
                                  return true;
                              }
