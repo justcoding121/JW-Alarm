@@ -65,10 +65,6 @@ namespace Bible.Alarm.Services.Infrastructure
             config.Transport.LogTransport = LogTransport.SyslogUdp;
             config.ThrowExceptions = false;
 
-#if DEBUG
-            config.ThrowExceptions = true;
-#endif
-
             var ct = new ApplicationNameTag();
             ct.Formatter = "application-{0}";
             config.TagConfig.Tags.Add(ct);

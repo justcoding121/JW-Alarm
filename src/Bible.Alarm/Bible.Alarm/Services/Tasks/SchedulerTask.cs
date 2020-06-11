@@ -30,11 +30,9 @@ namespace Bible.Alarm.Services.Tasks
             this.notificationService = notificationService;
             this.storageService = storageService;
         }
+
         public async Task<bool> Handle()
         {
-#if DEBUG
-            logger.Info($"Background task was called on {CurrentDevice.RuntimePlatform}.");
-#endif
             var downloaded = false;
             if (await @lock.WaitAsync(1000))
             {
