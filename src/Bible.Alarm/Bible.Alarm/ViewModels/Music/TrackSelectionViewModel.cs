@@ -4,6 +4,7 @@ using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions.Music;
 using Mvvmicro;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class TrackSelectionViewModel : ViewModel, IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private readonly IContainer container;
 
         private MediaService mediaService;
@@ -177,7 +180,17 @@ namespace Bible.Alarm.ViewModels
 
                                          currentlyPlaying.IsBusy = false;
                                      }
-                                     finally { @lock.Release(); }
+                                     finally
+                                     {
+                                         try
+                                         {
+                                             @lock.Release();
+                                         }
+                                         catch (ObjectDisposedException e)
+                                         {
+                                             logger.Error(e, "TrackSelectionViewModel 1: @lock disposed error.");
+                                         }
+                                     }
 
                                  })
                                  .Subscribe();
@@ -216,7 +229,17 @@ namespace Bible.Alarm.ViewModels
                                              currentlyPlaying = null;
                                          }
                                      }
-                                     finally { @lock.Release(); }
+                                     finally
+                                     {
+                                         try
+                                         {
+                                             @lock.Release();
+                                         }
+                                         catch (ObjectDisposedException e)
+                                         {
+                                             logger.Error(e, "TrackSelectionViewModel 2: @lock disposed error.");
+                                         }
+                                     }
                                  })
                                  .Subscribe();
 

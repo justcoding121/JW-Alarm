@@ -69,7 +69,14 @@ namespace Bible.Alarm.Services.Tasks
                 }
                 finally
                 {
-                    @lock.Release();
+                    try
+                    {
+                        @lock.Release();
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        logger.Error(e, "SchedulerTask: @lock disposed error.");
+                    }
                 }
             }
             return downloaded;

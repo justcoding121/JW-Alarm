@@ -1,5 +1,6 @@
 ﻿using Bible.Alarm.Contracts.Platform;
 using Bible.Alarm.Services.Contracts;
+using NLog;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -11,6 +12,8 @@ namespace Bible.Alarm.Services
 {
     public class MediaIndexService : IDisposable
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private readonly Lazy<string> indexRoot;
 
         private IStorageService storageService;
@@ -49,7 +52,14 @@ namespace Bible.Alarm.Services
             }
             finally
             {
-                @lock.Release();
+                try
+                {
+                    @lock.Release();
+                }
+                catch (ObjectDisposedException e)
+                {
+                    logger.Error(e, "MediaIndexService: @lock disposed error.");
+                }
             }
         }
 

@@ -27,7 +27,7 @@ namespace Bible.Alarm.Droid
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
@@ -44,14 +44,14 @@ namespace Bible.Alarm.Droid
             catch (Exception e)
             {
                 logger.Fatal(e, "An error happened inside OnCreate.");
+                await Task.Delay(1500);
                 throw;
             }
 
-          
         }
 
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        public async override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             try
             {
@@ -60,6 +60,7 @@ namespace Bible.Alarm.Droid
             catch (Exception e)
             {
                 logger.Error(e, "An error happened inside OnRequestpermissionResult.");
+                await Task.Delay(1500);
             }
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -70,11 +71,11 @@ namespace Bible.Alarm.Droid
         {
             base.OnResume();
 
-            Task.Run(() => doWork());
+            Task.Run(async () => await doWork());
         }
 
         // background work that happens behind the splash screen
-        void doWork()
+        private async Task doWork()
         {
             try
             {
@@ -84,7 +85,9 @@ namespace Bible.Alarm.Droid
             }
             catch (Exception e)
             {
-                logger.Error(e, "An error happened in doWork() task under SplashActivity.");
+                logger.Fatal(e, "An error happened in doWork() task under SplashActivity.");
+                await Task.Delay(1500);
+                throw;
             }
         }
     }

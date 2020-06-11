@@ -7,6 +7,7 @@ using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Tasks;
 using MediaManager;
+using NLog;
 using System;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Bible.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private readonly IContainer container;
 
         public DroidNotificationService(IContainer container)
@@ -22,11 +25,18 @@ namespace Bible.Alarm.Services.Droid
         }
 
         public async void ShowNotification(long scheduleId)
-        {
-            //AlarmSetupService.ShowNotification(container.AndroidContext(), scheduleId);
-            
-            var alarmHandler = container.Resolve<AndroidAlarmHandler>();
-            await alarmHandler.Handle(scheduleId, true);
+        {      
+            try
+            {
+                var alarmHandler = container.Resolve<AndroidAlarmHandler>();
+                await alarmHandler.Handle(scheduleId, true);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Error happened when playing alarm manually.");
+                await Task.Delay(1500);
+                throw;
+            }
         }
 
         public Task ScheduleNotification(long scheduleId, DaysOfWeek daysOfWeek, DateTimeOffset time,

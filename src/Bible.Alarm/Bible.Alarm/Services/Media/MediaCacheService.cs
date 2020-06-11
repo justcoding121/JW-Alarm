@@ -177,7 +177,14 @@ namespace Bible.Alarm.Services
                 }
                 finally
                 {
-                    @lock.Release();
+                    try
+                    {
+                        @lock.Release();
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        logger.Error(e, "MediaCacheService: @lock disposed error.");
+                    }
                 }
 
             }

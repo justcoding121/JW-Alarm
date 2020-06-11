@@ -266,7 +266,14 @@ namespace Bible.Alarm.ViewModels
                 }
                 finally
                 {
-                    @lock.Release();
+                    try
+                    {
+                        @lock.Release();
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        logger.Error(e, "HomeViewModel: @lock disposed error.");
+                    }
                 }
 
             }, true);

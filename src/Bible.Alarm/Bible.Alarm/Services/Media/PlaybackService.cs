@@ -282,13 +282,20 @@ namespace Bible.Alarm.Services
                     firstChapter = currentlyPlaying.FirstOrDefault(x => x.Value.IsBibleReading).Key;
                     this.mediaManager.RepeatMode = RepeatMode.Off;
 
-                    await this.mediaManager.PlayEx(mergedMediaItems.Select(x => x.Value));
+                    await this.mediaManager.PlayEx(mergedMediaItems.Select(x => x.Value).ToList());
                     Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                 }
             }
             finally
             {
-                @lock.Release();
+                try
+                {
+                    @lock.Release();
+                }
+                catch (ObjectDisposedException e)
+                {
+                    logger.Error(e, "PlaybackService 1: @lock disposed error.");
+                }
             }
 
             watch();
@@ -366,7 +373,14 @@ namespace Bible.Alarm.Services
                     }
                     finally
                     {
-                        @lock.Release();
+                        try
+                        {
+                            @lock.Release();
+                        }
+                        catch (ObjectDisposedException e)
+                        {
+                            logger.Error(e, "PlaybackService 2: @lock disposed error.");
+                        }
                     }
 
                     if (readyTodispose)
@@ -462,7 +476,14 @@ namespace Bible.Alarm.Services
             }
             finally
             {
-                @lock.Release();
+                try
+                {
+                    @lock.Release();
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    logger.Error(ex, "PlaybackService 3: @lock disposed error.");
+                }
             }
         }
 
