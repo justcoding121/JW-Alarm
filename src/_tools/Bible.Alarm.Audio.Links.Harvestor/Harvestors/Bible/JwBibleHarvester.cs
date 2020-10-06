@@ -67,20 +67,26 @@ namespace AudioLinkHarvester.Bible
                 var jsonString = await DownloadUtility.GetAsync(harvestLink);
 
                 dynamic model = null;
+                dynamic files = null;
 
                 try
                 {
                     model = JsonConvert.DeserializeObject<dynamic>(jsonString);
+                    files = model["files"];
                 }
-                catch (JsonReaderException)
+                catch (Exception e)
                 {
-                    bookNumber++;
-                    harvestLink = $"{UrlHelper.JwOrgIndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
+                    if (e is JsonReaderException || e is ArgumentException)
+                    {
+                        bookNumber++;
+                        harvestLink = $"{UrlHelper.JwOrgIndexServiceBaseUrl}?output=json&pub={publicationCode}&booknum={bookNumber}&fileformat=MP3&alllangs=0&langwritten={languageCode}&txtCMSLang=E";
 
-                    continue;
+                        continue;
+                    }
                 }
 
-                var bookFiles = model["files"][languageCode]["MP3"];
+
+                var bookFiles = files[languageCode]["MP3"];
                 foreach (var bookFile in bookFiles)
                 {
                     string url = bookFile["file"]["url"].Value;

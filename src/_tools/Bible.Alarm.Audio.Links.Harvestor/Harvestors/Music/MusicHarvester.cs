@@ -151,12 +151,6 @@ namespace AudioLinkHarvester.Audio
 
                 var lc = languageCode ?? "E";
 
-                //patch for bad data
-                if (lc == "LAH")
-                {
-                    lc = "LAHU";
-                }
-
                 var musicFiles = model["files"][lc]["MP3"];
                 foreach (var musicFile in musicFiles)
                 {
