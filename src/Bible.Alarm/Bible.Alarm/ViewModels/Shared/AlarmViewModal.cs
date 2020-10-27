@@ -1,8 +1,13 @@
 ﻿using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Mvvm;
+using Bible.Alarm.Models;
+using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using MediaManager;
+using Microsoft.EntityFrameworkCore;
 using Mvvmicro;
+using NLog;
+using Plugin.StoreReview;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,6 +17,8 @@ namespace Bible.Alarm.ViewModels
 {
     public class AlarmViewModal : ViewModel, IDisposableModal
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
+
         private readonly IContainer container;
         private readonly IMediaManager mediaManager;
         private readonly IPlaybackService playbackService;
@@ -40,6 +47,50 @@ namespace Bible.Alarm.ViewModels
                 await playbackService.Dismiss();
                 var navigationService = this.container.Resolve<INavigationService>();
                 await navigationService?.CloseModal();
+
+                using var scheduleDbContext = this.container.Resolve<ScheduleDbContext>();
+
+                try
+                {
+                    if (!await scheduleDbContext.GeneralSettings
+                                .AnyAsync(x => x.Key == "ReviewRequested"))
+                    {
+                        var dismissCount = await scheduleDbContext.GeneralSettings
+                                    .FirstOrDefaultAsync(x => x.Key == "DismissCount");
+
+                        if (dismissCount != null && int.Parse(dismissCount.Value) >= 6)
+                        {
+                            await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
+                            {
+                                Key = "ReviewRequested",
+                                Value = "True"
+                            });
+
+                            await CrossStoreReview.Current.RequestReview(false);        
+                        }
+                        else
+                        {
+                            if (dismissCount != null)
+                            {
+                                dismissCount.Value = (int.Parse(dismissCount.Value) + 1).ToString();
+                            }
+                            else
+                            {
+                                await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
+                                {
+                                    Key = "DismissCount",
+                                    Value = "1"
+                                });
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened when review was requested.");
+                }
+
+                await scheduleDbContext.SaveChangesAsync();
             });
 
             CancelCommand = new Command(async () =>
@@ -138,16 +189,16 @@ namespace Bible.Alarm.ViewModels
 
                 CurrentTime = $"{mediaManager.Position.Minutes:00}:{mediaManager.Position.Seconds:00}";
                 EndTime = $"{mediaManager.Duration.Minutes:00}:{mediaManager.Duration.Seconds:00}";
-                
+
                 var progress = mediaManager.Position.TotalMilliseconds / mediaManager.Duration.TotalMilliseconds;
-                if(!Double.IsNaN(progress) && !Double.IsInfinity(progress))
+                if (!Double.IsNaN(progress) && !Double.IsInfinity(progress))
                 {
                     Progress = progress;
                 }
 
                 NextEnabled = mediaManager.Queue.HasNext;
                 PreviousEnabled = mediaManager.Queue.HasPrevious;
-            
+
             }
             catch { }
         }
@@ -179,7 +230,7 @@ namespace Bible.Alarm.ViewModels
             get => playVisible;
             set => this.Set(ref playVisible, value);
         }
-       
+
         private bool pauseVisible;
         public bool PauseVisible
         {
@@ -227,7 +278,7 @@ namespace Bible.Alarm.ViewModels
                 isDisposed = true;
                 playbackService.Dispose();
             }
-           
+
         }
     }
 }

@@ -25,143 +25,16 @@ namespace Bible.Alarm.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::MediaManager.Resource.Animation.abc_fade_in = global::Bible.Alarm.Droid.Resource.Animation.abc_fade_in;
-			global::MediaManager.Resource.Animation.abc_fade_out = global::Bible.Alarm.Droid.Resource.Animation.abc_fade_out;
-			global::MediaManager.Resource.Animation.abc_grow_fade_in_from_bottom = global::Bible.Alarm.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
-			global::MediaManager.Resource.Animation.abc_popup_enter = global::Bible.Alarm.Droid.Resource.Animation.abc_popup_enter;
-			global::MediaManager.Resource.Animation.abc_popup_exit = global::Bible.Alarm.Droid.Resource.Animation.abc_popup_exit;
-			global::MediaManager.Resource.Animation.abc_shrink_fade_out_from_bottom = global::Bible.Alarm.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom;
-			global::MediaManager.Resource.Animation.abc_slide_in_bottom = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_in_bottom;
-			global::MediaManager.Resource.Animation.abc_slide_in_top = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_in_top;
-			global::MediaManager.Resource.Animation.abc_slide_out_bottom = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_out_bottom;
-			global::MediaManager.Resource.Animation.abc_slide_out_top = global::Bible.Alarm.Droid.Resource.Animation.abc_slide_out_top;
-			global::MediaManager.Resource.Animation.abc_tooltip_enter = global::Bible.Alarm.Droid.Resource.Animation.abc_tooltip_enter;
-			global::MediaManager.Resource.Animation.abc_tooltip_exit = global::Bible.Alarm.Droid.Resource.Animation.abc_tooltip_exit;
-			global::MediaManager.Resource.Attribute.actionBarDivider = global::Bible.Alarm.Droid.Resource.Attribute.actionBarDivider;
-			global::MediaManager.Resource.Attribute.actionBarItemBackground = global::Bible.Alarm.Droid.Resource.Attribute.actionBarItemBackground;
-			global::MediaManager.Resource.Attribute.actionBarPopupTheme = global::Bible.Alarm.Droid.Resource.Attribute.actionBarPopupTheme;
-			global::MediaManager.Resource.Attribute.actionBarSize = global::Bible.Alarm.Droid.Resource.Attribute.actionBarSize;
-			global::MediaManager.Resource.Attribute.actionBarSplitStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionBarSplitStyle;
-			global::MediaManager.Resource.Attribute.actionBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionBarStyle;
-			global::MediaManager.Resource.Attribute.actionBarTabBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionBarTabBarStyle;
-			global::MediaManager.Resource.Attribute.actionBarTabStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionBarTabStyle;
-			global::MediaManager.Resource.Attribute.actionBarTabTextStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionBarTabTextStyle;
-			global::MediaManager.Resource.Attribute.actionBarTheme = global::Bible.Alarm.Droid.Resource.Attribute.actionBarTheme;
-			global::MediaManager.Resource.Attribute.actionBarWidgetTheme = global::Bible.Alarm.Droid.Resource.Attribute.actionBarWidgetTheme;
-			global::MediaManager.Resource.Attribute.actionButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionButtonStyle;
-			global::MediaManager.Resource.Attribute.actionDropDownStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionDropDownStyle;
-			global::MediaManager.Resource.Attribute.actionLayout = global::Bible.Alarm.Droid.Resource.Attribute.actionLayout;
-			global::MediaManager.Resource.Attribute.actionMenuTextAppearance = global::Bible.Alarm.Droid.Resource.Attribute.actionMenuTextAppearance;
-			global::MediaManager.Resource.Attribute.actionMenuTextColor = global::Bible.Alarm.Droid.Resource.Attribute.actionMenuTextColor;
-			global::MediaManager.Resource.Attribute.actionModeBackground = global::Bible.Alarm.Droid.Resource.Attribute.actionModeBackground;
-			global::MediaManager.Resource.Attribute.actionModeCloseButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionModeCloseButtonStyle;
-			global::MediaManager.Resource.Attribute.actionModeCloseDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeCloseDrawable;
-			global::MediaManager.Resource.Attribute.actionModeCopyDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeCopyDrawable;
-			global::MediaManager.Resource.Attribute.actionModeCutDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeCutDrawable;
-			global::MediaManager.Resource.Attribute.actionModeFindDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeFindDrawable;
-			global::MediaManager.Resource.Attribute.actionModePasteDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModePasteDrawable;
-			global::MediaManager.Resource.Attribute.actionModePopupWindowStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionModePopupWindowStyle;
-			global::MediaManager.Resource.Attribute.actionModeSelectAllDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeSelectAllDrawable;
-			global::MediaManager.Resource.Attribute.actionModeShareDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeShareDrawable;
-			global::MediaManager.Resource.Attribute.actionModeSplitBackground = global::Bible.Alarm.Droid.Resource.Attribute.actionModeSplitBackground;
-			global::MediaManager.Resource.Attribute.actionModeStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionModeStyle;
-			global::MediaManager.Resource.Attribute.actionModeWebSearchDrawable = global::Bible.Alarm.Droid.Resource.Attribute.actionModeWebSearchDrawable;
-			global::MediaManager.Resource.Attribute.actionOverflowButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionOverflowButtonStyle;
-			global::MediaManager.Resource.Attribute.actionOverflowMenuStyle = global::Bible.Alarm.Droid.Resource.Attribute.actionOverflowMenuStyle;
-			global::MediaManager.Resource.Attribute.actionProviderClass = global::Bible.Alarm.Droid.Resource.Attribute.actionProviderClass;
-			global::MediaManager.Resource.Attribute.actionViewClass = global::Bible.Alarm.Droid.Resource.Attribute.actionViewClass;
-			global::MediaManager.Resource.Attribute.activityChooserViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.activityChooserViewStyle;
 			global::MediaManager.Resource.Attribute.ad_marker_color = global::Bible.Alarm.Droid.Resource.Attribute.ad_marker_color;
 			global::MediaManager.Resource.Attribute.ad_marker_width = global::Bible.Alarm.Droid.Resource.Attribute.ad_marker_width;
-			global::MediaManager.Resource.Attribute.alertDialogButtonGroupStyle = global::Bible.Alarm.Droid.Resource.Attribute.alertDialogButtonGroupStyle;
-			global::MediaManager.Resource.Attribute.alertDialogCenterButtons = global::Bible.Alarm.Droid.Resource.Attribute.alertDialogCenterButtons;
-			global::MediaManager.Resource.Attribute.alertDialogStyle = global::Bible.Alarm.Droid.Resource.Attribute.alertDialogStyle;
-			global::MediaManager.Resource.Attribute.alertDialogTheme = global::Bible.Alarm.Droid.Resource.Attribute.alertDialogTheme;
-			global::MediaManager.Resource.Attribute.allowStacking = global::Bible.Alarm.Droid.Resource.Attribute.allowStacking;
 			global::MediaManager.Resource.Attribute.alpha = global::Bible.Alarm.Droid.Resource.Attribute.alpha;
-			global::MediaManager.Resource.Attribute.alphabeticModifiers = global::Bible.Alarm.Droid.Resource.Attribute.alphabeticModifiers;
-			global::MediaManager.Resource.Attribute.arrowHeadLength = global::Bible.Alarm.Droid.Resource.Attribute.arrowHeadLength;
-			global::MediaManager.Resource.Attribute.arrowShaftLength = global::Bible.Alarm.Droid.Resource.Attribute.arrowShaftLength;
-			global::MediaManager.Resource.Attribute.autoCompleteTextViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.autoCompleteTextViewStyle;
-			global::MediaManager.Resource.Attribute.autoSizeMaxTextSize = global::Bible.Alarm.Droid.Resource.Attribute.autoSizeMaxTextSize;
-			global::MediaManager.Resource.Attribute.autoSizeMinTextSize = global::Bible.Alarm.Droid.Resource.Attribute.autoSizeMinTextSize;
-			global::MediaManager.Resource.Attribute.autoSizePresetSizes = global::Bible.Alarm.Droid.Resource.Attribute.autoSizePresetSizes;
-			global::MediaManager.Resource.Attribute.autoSizeStepGranularity = global::Bible.Alarm.Droid.Resource.Attribute.autoSizeStepGranularity;
-			global::MediaManager.Resource.Attribute.autoSizeTextType = global::Bible.Alarm.Droid.Resource.Attribute.autoSizeTextType;
 			global::MediaManager.Resource.Attribute.auto_show = global::Bible.Alarm.Droid.Resource.Attribute.auto_show;
-			global::MediaManager.Resource.Attribute.background = global::Bible.Alarm.Droid.Resource.Attribute.background;
-			global::MediaManager.Resource.Attribute.backgroundSplit = global::Bible.Alarm.Droid.Resource.Attribute.backgroundSplit;
-			global::MediaManager.Resource.Attribute.backgroundStacked = global::Bible.Alarm.Droid.Resource.Attribute.backgroundStacked;
-			global::MediaManager.Resource.Attribute.backgroundTint = global::Bible.Alarm.Droid.Resource.Attribute.backgroundTint;
-			global::MediaManager.Resource.Attribute.backgroundTintMode = global::Bible.Alarm.Droid.Resource.Attribute.backgroundTintMode;
-			global::MediaManager.Resource.Attribute.barLength = global::Bible.Alarm.Droid.Resource.Attribute.barLength;
 			global::MediaManager.Resource.Attribute.bar_height = global::Bible.Alarm.Droid.Resource.Attribute.bar_height;
-			global::MediaManager.Resource.Attribute.borderlessButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.borderlessButtonStyle;
 			global::MediaManager.Resource.Attribute.buffered_color = global::Bible.Alarm.Droid.Resource.Attribute.buffered_color;
-			global::MediaManager.Resource.Attribute.buttonBarButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarButtonStyle;
-			global::MediaManager.Resource.Attribute.buttonBarNegativeButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarNegativeButtonStyle;
-			global::MediaManager.Resource.Attribute.buttonBarNeutralButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarNeutralButtonStyle;
-			global::MediaManager.Resource.Attribute.buttonBarPositiveButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
-			global::MediaManager.Resource.Attribute.buttonBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonBarStyle;
-			global::MediaManager.Resource.Attribute.buttonGravity = global::Bible.Alarm.Droid.Resource.Attribute.buttonGravity;
-			global::MediaManager.Resource.Attribute.buttonIconDimen = global::Bible.Alarm.Droid.Resource.Attribute.buttonIconDimen;
-			global::MediaManager.Resource.Attribute.buttonPanelSideLayout = global::Bible.Alarm.Droid.Resource.Attribute.buttonPanelSideLayout;
-			global::MediaManager.Resource.Attribute.buttonStyle = global::Bible.Alarm.Droid.Resource.Attribute.buttonStyle;
-			global::MediaManager.Resource.Attribute.buttonStyleSmall = global::Bible.Alarm.Droid.Resource.Attribute.buttonStyleSmall;
-			global::MediaManager.Resource.Attribute.buttonTint = global::Bible.Alarm.Droid.Resource.Attribute.buttonTint;
-			global::MediaManager.Resource.Attribute.buttonTintMode = global::Bible.Alarm.Droid.Resource.Attribute.buttonTintMode;
-			global::MediaManager.Resource.Attribute.checkboxStyle = global::Bible.Alarm.Droid.Resource.Attribute.checkboxStyle;
-			global::MediaManager.Resource.Attribute.checkedTextViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.checkedTextViewStyle;
-			global::MediaManager.Resource.Attribute.closeIcon = global::Bible.Alarm.Droid.Resource.Attribute.closeIcon;
-			global::MediaManager.Resource.Attribute.closeItemLayout = global::Bible.Alarm.Droid.Resource.Attribute.closeItemLayout;
-			global::MediaManager.Resource.Attribute.collapseContentDescription = global::Bible.Alarm.Droid.Resource.Attribute.collapseContentDescription;
-			global::MediaManager.Resource.Attribute.collapseIcon = global::Bible.Alarm.Droid.Resource.Attribute.collapseIcon;
-			global::MediaManager.Resource.Attribute.color = global::Bible.Alarm.Droid.Resource.Attribute.color;
-			global::MediaManager.Resource.Attribute.colorAccent = global::Bible.Alarm.Droid.Resource.Attribute.colorAccent;
-			global::MediaManager.Resource.Attribute.colorBackgroundFloating = global::Bible.Alarm.Droid.Resource.Attribute.colorBackgroundFloating;
-			global::MediaManager.Resource.Attribute.colorButtonNormal = global::Bible.Alarm.Droid.Resource.Attribute.colorButtonNormal;
-			global::MediaManager.Resource.Attribute.colorControlActivated = global::Bible.Alarm.Droid.Resource.Attribute.colorControlActivated;
-			global::MediaManager.Resource.Attribute.colorControlHighlight = global::Bible.Alarm.Droid.Resource.Attribute.colorControlHighlight;
-			global::MediaManager.Resource.Attribute.colorControlNormal = global::Bible.Alarm.Droid.Resource.Attribute.colorControlNormal;
-			global::MediaManager.Resource.Attribute.colorError = global::Bible.Alarm.Droid.Resource.Attribute.colorError;
-			global::MediaManager.Resource.Attribute.colorPrimary = global::Bible.Alarm.Droid.Resource.Attribute.colorPrimary;
-			global::MediaManager.Resource.Attribute.colorPrimaryDark = global::Bible.Alarm.Droid.Resource.Attribute.colorPrimaryDark;
-			global::MediaManager.Resource.Attribute.colorSwitchThumbNormal = global::Bible.Alarm.Droid.Resource.Attribute.colorSwitchThumbNormal;
-			global::MediaManager.Resource.Attribute.commitIcon = global::Bible.Alarm.Droid.Resource.Attribute.commitIcon;
-			global::MediaManager.Resource.Attribute.contentDescription = global::Bible.Alarm.Droid.Resource.Attribute.contentDescription;
-			global::MediaManager.Resource.Attribute.contentInsetEnd = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetEnd;
-			global::MediaManager.Resource.Attribute.contentInsetEndWithActions = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetEndWithActions;
-			global::MediaManager.Resource.Attribute.contentInsetLeft = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetLeft;
-			global::MediaManager.Resource.Attribute.contentInsetRight = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetRight;
-			global::MediaManager.Resource.Attribute.contentInsetStart = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetStart;
-			global::MediaManager.Resource.Attribute.contentInsetStartWithNavigation = global::Bible.Alarm.Droid.Resource.Attribute.contentInsetStartWithNavigation;
-			global::MediaManager.Resource.Attribute.controlBackground = global::Bible.Alarm.Droid.Resource.Attribute.controlBackground;
 			global::MediaManager.Resource.Attribute.controller_layout_id = global::Bible.Alarm.Droid.Resource.Attribute.controller_layout_id;
-			global::MediaManager.Resource.Attribute.coordinatorLayoutStyle = global::Bible.Alarm.Droid.Resource.Attribute.coordinatorLayoutStyle;
-			global::MediaManager.Resource.Attribute.customNavigationLayout = global::Bible.Alarm.Droid.Resource.Attribute.customNavigationLayout;
-			global::MediaManager.Resource.Attribute.defaultQueryHint = global::Bible.Alarm.Droid.Resource.Attribute.defaultQueryHint;
 			global::MediaManager.Resource.Attribute.default_artwork = global::Bible.Alarm.Droid.Resource.Attribute.default_artwork;
-			global::MediaManager.Resource.Attribute.dialogCornerRadius = global::Bible.Alarm.Droid.Resource.Attribute.dialogCornerRadius;
-			global::MediaManager.Resource.Attribute.dialogPreferredPadding = global::Bible.Alarm.Droid.Resource.Attribute.dialogPreferredPadding;
-			global::MediaManager.Resource.Attribute.dialogTheme = global::Bible.Alarm.Droid.Resource.Attribute.dialogTheme;
-			global::MediaManager.Resource.Attribute.displayOptions = global::Bible.Alarm.Droid.Resource.Attribute.displayOptions;
-			global::MediaManager.Resource.Attribute.divider = global::Bible.Alarm.Droid.Resource.Attribute.divider;
-			global::MediaManager.Resource.Attribute.dividerHorizontal = global::Bible.Alarm.Droid.Resource.Attribute.dividerHorizontal;
-			global::MediaManager.Resource.Attribute.dividerPadding = global::Bible.Alarm.Droid.Resource.Attribute.dividerPadding;
-			global::MediaManager.Resource.Attribute.dividerVertical = global::Bible.Alarm.Droid.Resource.Attribute.dividerVertical;
-			global::MediaManager.Resource.Attribute.drawableSize = global::Bible.Alarm.Droid.Resource.Attribute.drawableSize;
-			global::MediaManager.Resource.Attribute.drawerArrowStyle = global::Bible.Alarm.Droid.Resource.Attribute.drawerArrowStyle;
-			global::MediaManager.Resource.Attribute.dropdownListPreferredItemHeight = global::Bible.Alarm.Droid.Resource.Attribute.dropdownListPreferredItemHeight;
-			global::MediaManager.Resource.Attribute.dropDownListViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.dropDownListViewStyle;
-			global::MediaManager.Resource.Attribute.editTextBackground = global::Bible.Alarm.Droid.Resource.Attribute.editTextBackground;
-			global::MediaManager.Resource.Attribute.editTextColor = global::Bible.Alarm.Droid.Resource.Attribute.editTextColor;
-			global::MediaManager.Resource.Attribute.editTextStyle = global::Bible.Alarm.Droid.Resource.Attribute.editTextStyle;
-			global::MediaManager.Resource.Attribute.elevation = global::Bible.Alarm.Droid.Resource.Attribute.elevation;
-			global::MediaManager.Resource.Attribute.expandActivityOverflowButtonDrawable = global::Bible.Alarm.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
 			global::MediaManager.Resource.Attribute.fastforward_increment = global::Bible.Alarm.Droid.Resource.Attribute.fastforward_increment;
-			global::MediaManager.Resource.Attribute.firstBaselineToTopHeight = global::Bible.Alarm.Droid.Resource.Attribute.firstBaselineToTopHeight;
 			global::MediaManager.Resource.Attribute.font = global::Bible.Alarm.Droid.Resource.Attribute.font;
-			global::MediaManager.Resource.Attribute.fontFamily = global::Bible.Alarm.Droid.Resource.Attribute.fontFamily;
 			global::MediaManager.Resource.Attribute.fontProviderAuthority = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderAuthority;
 			global::MediaManager.Resource.Attribute.fontProviderCerts = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderCerts;
 			global::MediaManager.Resource.Attribute.fontProviderFetchStrategy = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderFetchStrategy;
@@ -171,77 +44,12 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.fontStyle = global::Bible.Alarm.Droid.Resource.Attribute.fontStyle;
 			global::MediaManager.Resource.Attribute.fontVariationSettings = global::Bible.Alarm.Droid.Resource.Attribute.fontVariationSettings;
 			global::MediaManager.Resource.Attribute.fontWeight = global::Bible.Alarm.Droid.Resource.Attribute.fontWeight;
-			global::MediaManager.Resource.Attribute.gapBetweenBars = global::Bible.Alarm.Droid.Resource.Attribute.gapBetweenBars;
-			global::MediaManager.Resource.Attribute.goIcon = global::Bible.Alarm.Droid.Resource.Attribute.goIcon;
-			global::MediaManager.Resource.Attribute.height = global::Bible.Alarm.Droid.Resource.Attribute.height;
-			global::MediaManager.Resource.Attribute.hideOnContentScroll = global::Bible.Alarm.Droid.Resource.Attribute.hideOnContentScroll;
 			global::MediaManager.Resource.Attribute.hide_during_ads = global::Bible.Alarm.Droid.Resource.Attribute.hide_during_ads;
 			global::MediaManager.Resource.Attribute.hide_on_touch = global::Bible.Alarm.Droid.Resource.Attribute.hide_on_touch;
-			global::MediaManager.Resource.Attribute.homeAsUpIndicator = global::Bible.Alarm.Droid.Resource.Attribute.homeAsUpIndicator;
-			global::MediaManager.Resource.Attribute.homeLayout = global::Bible.Alarm.Droid.Resource.Attribute.homeLayout;
-			global::MediaManager.Resource.Attribute.icon = global::Bible.Alarm.Droid.Resource.Attribute.icon;
-			global::MediaManager.Resource.Attribute.iconifiedByDefault = global::Bible.Alarm.Droid.Resource.Attribute.iconifiedByDefault;
-			global::MediaManager.Resource.Attribute.iconTint = global::Bible.Alarm.Droid.Resource.Attribute.iconTint;
-			global::MediaManager.Resource.Attribute.iconTintMode = global::Bible.Alarm.Droid.Resource.Attribute.iconTintMode;
-			global::MediaManager.Resource.Attribute.imageButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.imageButtonStyle;
-			global::MediaManager.Resource.Attribute.indeterminateProgressStyle = global::Bible.Alarm.Droid.Resource.Attribute.indeterminateProgressStyle;
-			global::MediaManager.Resource.Attribute.initialActivityCount = global::Bible.Alarm.Droid.Resource.Attribute.initialActivityCount;
-			global::MediaManager.Resource.Attribute.isLightTheme = global::Bible.Alarm.Droid.Resource.Attribute.isLightTheme;
-			global::MediaManager.Resource.Attribute.itemPadding = global::Bible.Alarm.Droid.Resource.Attribute.itemPadding;
 			global::MediaManager.Resource.Attribute.keep_content_on_player_reset = global::Bible.Alarm.Droid.Resource.Attribute.keep_content_on_player_reset;
-			global::MediaManager.Resource.Attribute.keylines = global::Bible.Alarm.Droid.Resource.Attribute.keylines;
-			global::MediaManager.Resource.Attribute.lastBaselineToBottomHeight = global::Bible.Alarm.Droid.Resource.Attribute.lastBaselineToBottomHeight;
-			global::MediaManager.Resource.Attribute.layout = global::Bible.Alarm.Droid.Resource.Attribute.layout;
-			global::MediaManager.Resource.Attribute.layout_anchor = global::Bible.Alarm.Droid.Resource.Attribute.layout_anchor;
-			global::MediaManager.Resource.Attribute.layout_anchorGravity = global::Bible.Alarm.Droid.Resource.Attribute.layout_anchorGravity;
-			global::MediaManager.Resource.Attribute.layout_behavior = global::Bible.Alarm.Droid.Resource.Attribute.layout_behavior;
-			global::MediaManager.Resource.Attribute.layout_dodgeInsetEdges = global::Bible.Alarm.Droid.Resource.Attribute.layout_dodgeInsetEdges;
-			global::MediaManager.Resource.Attribute.layout_insetEdge = global::Bible.Alarm.Droid.Resource.Attribute.layout_insetEdge;
-			global::MediaManager.Resource.Attribute.layout_keyline = global::Bible.Alarm.Droid.Resource.Attribute.layout_keyline;
-			global::MediaManager.Resource.Attribute.lineHeight = global::Bible.Alarm.Droid.Resource.Attribute.lineHeight;
-			global::MediaManager.Resource.Attribute.listChoiceBackgroundIndicator = global::Bible.Alarm.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
-			global::MediaManager.Resource.Attribute.listDividerAlertDialog = global::Bible.Alarm.Droid.Resource.Attribute.listDividerAlertDialog;
-			global::MediaManager.Resource.Attribute.listItemLayout = global::Bible.Alarm.Droid.Resource.Attribute.listItemLayout;
-			global::MediaManager.Resource.Attribute.listLayout = global::Bible.Alarm.Droid.Resource.Attribute.listLayout;
-			global::MediaManager.Resource.Attribute.listMenuViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.listMenuViewStyle;
-			global::MediaManager.Resource.Attribute.listPopupWindowStyle = global::Bible.Alarm.Droid.Resource.Attribute.listPopupWindowStyle;
-			global::MediaManager.Resource.Attribute.listPreferredItemHeight = global::Bible.Alarm.Droid.Resource.Attribute.listPreferredItemHeight;
-			global::MediaManager.Resource.Attribute.listPreferredItemHeightLarge = global::Bible.Alarm.Droid.Resource.Attribute.listPreferredItemHeightLarge;
-			global::MediaManager.Resource.Attribute.listPreferredItemHeightSmall = global::Bible.Alarm.Droid.Resource.Attribute.listPreferredItemHeightSmall;
-			global::MediaManager.Resource.Attribute.listPreferredItemPaddingLeft = global::Bible.Alarm.Droid.Resource.Attribute.listPreferredItemPaddingLeft;
-			global::MediaManager.Resource.Attribute.listPreferredItemPaddingRight = global::Bible.Alarm.Droid.Resource.Attribute.listPreferredItemPaddingRight;
-			global::MediaManager.Resource.Attribute.logo = global::Bible.Alarm.Droid.Resource.Attribute.logo;
-			global::MediaManager.Resource.Attribute.logoDescription = global::Bible.Alarm.Droid.Resource.Attribute.logoDescription;
-			global::MediaManager.Resource.Attribute.maxButtonHeight = global::Bible.Alarm.Droid.Resource.Attribute.maxButtonHeight;
-			global::MediaManager.Resource.Attribute.measureWithLargestChild = global::Bible.Alarm.Droid.Resource.Attribute.measureWithLargestChild;
-			global::MediaManager.Resource.Attribute.multiChoiceItemLayout = global::Bible.Alarm.Droid.Resource.Attribute.multiChoiceItemLayout;
-			global::MediaManager.Resource.Attribute.navigationContentDescription = global::Bible.Alarm.Droid.Resource.Attribute.navigationContentDescription;
-			global::MediaManager.Resource.Attribute.navigationIcon = global::Bible.Alarm.Droid.Resource.Attribute.navigationIcon;
-			global::MediaManager.Resource.Attribute.navigationMode = global::Bible.Alarm.Droid.Resource.Attribute.navigationMode;
-			global::MediaManager.Resource.Attribute.numericModifiers = global::Bible.Alarm.Droid.Resource.Attribute.numericModifiers;
-			global::MediaManager.Resource.Attribute.overlapAnchor = global::Bible.Alarm.Droid.Resource.Attribute.overlapAnchor;
-			global::MediaManager.Resource.Attribute.paddingBottomNoButtons = global::Bible.Alarm.Droid.Resource.Attribute.paddingBottomNoButtons;
-			global::MediaManager.Resource.Attribute.paddingEnd = global::Bible.Alarm.Droid.Resource.Attribute.paddingEnd;
-			global::MediaManager.Resource.Attribute.paddingStart = global::Bible.Alarm.Droid.Resource.Attribute.paddingStart;
-			global::MediaManager.Resource.Attribute.paddingTopNoTitle = global::Bible.Alarm.Droid.Resource.Attribute.paddingTopNoTitle;
-			global::MediaManager.Resource.Attribute.panelBackground = global::Bible.Alarm.Droid.Resource.Attribute.panelBackground;
-			global::MediaManager.Resource.Attribute.panelMenuListTheme = global::Bible.Alarm.Droid.Resource.Attribute.panelMenuListTheme;
-			global::MediaManager.Resource.Attribute.panelMenuListWidth = global::Bible.Alarm.Droid.Resource.Attribute.panelMenuListWidth;
 			global::MediaManager.Resource.Attribute.played_ad_marker_color = global::Bible.Alarm.Droid.Resource.Attribute.played_ad_marker_color;
 			global::MediaManager.Resource.Attribute.played_color = global::Bible.Alarm.Droid.Resource.Attribute.played_color;
 			global::MediaManager.Resource.Attribute.player_layout_id = global::Bible.Alarm.Droid.Resource.Attribute.player_layout_id;
-			global::MediaManager.Resource.Attribute.popupMenuStyle = global::Bible.Alarm.Droid.Resource.Attribute.popupMenuStyle;
-			global::MediaManager.Resource.Attribute.popupTheme = global::Bible.Alarm.Droid.Resource.Attribute.popupTheme;
-			global::MediaManager.Resource.Attribute.popupWindowStyle = global::Bible.Alarm.Droid.Resource.Attribute.popupWindowStyle;
-			global::MediaManager.Resource.Attribute.preserveIconSpacing = global::Bible.Alarm.Droid.Resource.Attribute.preserveIconSpacing;
-			global::MediaManager.Resource.Attribute.progressBarPadding = global::Bible.Alarm.Droid.Resource.Attribute.progressBarPadding;
-			global::MediaManager.Resource.Attribute.progressBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.progressBarStyle;
-			global::MediaManager.Resource.Attribute.queryBackground = global::Bible.Alarm.Droid.Resource.Attribute.queryBackground;
-			global::MediaManager.Resource.Attribute.queryHint = global::Bible.Alarm.Droid.Resource.Attribute.queryHint;
-			global::MediaManager.Resource.Attribute.radioButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.radioButtonStyle;
-			global::MediaManager.Resource.Attribute.ratingBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.ratingBarStyle;
-			global::MediaManager.Resource.Attribute.ratingBarStyleIndicator = global::Bible.Alarm.Droid.Resource.Attribute.ratingBarStyleIndicator;
-			global::MediaManager.Resource.Attribute.ratingBarStyleSmall = global::Bible.Alarm.Droid.Resource.Attribute.ratingBarStyleSmall;
 			global::MediaManager.Resource.Attribute.repeat_toggle_modes = global::Bible.Alarm.Droid.Resource.Attribute.repeat_toggle_modes;
 			global::MediaManager.Resource.Attribute.resize_mode = global::Bible.Alarm.Droid.Resource.Attribute.resize_mode;
 			global::MediaManager.Resource.Attribute.rewind_increment = global::Bible.Alarm.Droid.Resource.Attribute.rewind_increment;
@@ -250,261 +58,27 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Attribute.scrubber_dragged_size = global::Bible.Alarm.Droid.Resource.Attribute.scrubber_dragged_size;
 			global::MediaManager.Resource.Attribute.scrubber_drawable = global::Bible.Alarm.Droid.Resource.Attribute.scrubber_drawable;
 			global::MediaManager.Resource.Attribute.scrubber_enabled_size = global::Bible.Alarm.Droid.Resource.Attribute.scrubber_enabled_size;
-			global::MediaManager.Resource.Attribute.searchHintIcon = global::Bible.Alarm.Droid.Resource.Attribute.searchHintIcon;
-			global::MediaManager.Resource.Attribute.searchIcon = global::Bible.Alarm.Droid.Resource.Attribute.searchIcon;
-			global::MediaManager.Resource.Attribute.searchViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.searchViewStyle;
-			global::MediaManager.Resource.Attribute.seekBarStyle = global::Bible.Alarm.Droid.Resource.Attribute.seekBarStyle;
-			global::MediaManager.Resource.Attribute.selectableItemBackground = global::Bible.Alarm.Droid.Resource.Attribute.selectableItemBackground;
-			global::MediaManager.Resource.Attribute.selectableItemBackgroundBorderless = global::Bible.Alarm.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
-			global::MediaManager.Resource.Attribute.showAsAction = global::Bible.Alarm.Droid.Resource.Attribute.showAsAction;
-			global::MediaManager.Resource.Attribute.showDividers = global::Bible.Alarm.Droid.Resource.Attribute.showDividers;
-			global::MediaManager.Resource.Attribute.showText = global::Bible.Alarm.Droid.Resource.Attribute.showText;
-			global::MediaManager.Resource.Attribute.showTitle = global::Bible.Alarm.Droid.Resource.Attribute.showTitle;
 			global::MediaManager.Resource.Attribute.show_buffering = global::Bible.Alarm.Droid.Resource.Attribute.show_buffering;
 			global::MediaManager.Resource.Attribute.show_shuffle_button = global::Bible.Alarm.Droid.Resource.Attribute.show_shuffle_button;
 			global::MediaManager.Resource.Attribute.show_timeout = global::Bible.Alarm.Droid.Resource.Attribute.show_timeout;
 			global::MediaManager.Resource.Attribute.shutter_background_color = global::Bible.Alarm.Droid.Resource.Attribute.shutter_background_color;
-			global::MediaManager.Resource.Attribute.singleChoiceItemLayout = global::Bible.Alarm.Droid.Resource.Attribute.singleChoiceItemLayout;
-			global::MediaManager.Resource.Attribute.spinBars = global::Bible.Alarm.Droid.Resource.Attribute.spinBars;
-			global::MediaManager.Resource.Attribute.spinnerDropDownItemStyle = global::Bible.Alarm.Droid.Resource.Attribute.spinnerDropDownItemStyle;
-			global::MediaManager.Resource.Attribute.spinnerStyle = global::Bible.Alarm.Droid.Resource.Attribute.spinnerStyle;
-			global::MediaManager.Resource.Attribute.splitTrack = global::Bible.Alarm.Droid.Resource.Attribute.splitTrack;
-			global::MediaManager.Resource.Attribute.srcCompat = global::Bible.Alarm.Droid.Resource.Attribute.srcCompat;
-			global::MediaManager.Resource.Attribute.state_above_anchor = global::Bible.Alarm.Droid.Resource.Attribute.state_above_anchor;
-			global::MediaManager.Resource.Attribute.statusBarBackground = global::Bible.Alarm.Droid.Resource.Attribute.statusBarBackground;
-			global::MediaManager.Resource.Attribute.subMenuArrow = global::Bible.Alarm.Droid.Resource.Attribute.subMenuArrow;
-			global::MediaManager.Resource.Attribute.submitBackground = global::Bible.Alarm.Droid.Resource.Attribute.submitBackground;
-			global::MediaManager.Resource.Attribute.subtitle = global::Bible.Alarm.Droid.Resource.Attribute.subtitle;
-			global::MediaManager.Resource.Attribute.subtitleTextAppearance = global::Bible.Alarm.Droid.Resource.Attribute.subtitleTextAppearance;
-			global::MediaManager.Resource.Attribute.subtitleTextColor = global::Bible.Alarm.Droid.Resource.Attribute.subtitleTextColor;
-			global::MediaManager.Resource.Attribute.subtitleTextStyle = global::Bible.Alarm.Droid.Resource.Attribute.subtitleTextStyle;
-			global::MediaManager.Resource.Attribute.suggestionRowLayout = global::Bible.Alarm.Droid.Resource.Attribute.suggestionRowLayout;
 			global::MediaManager.Resource.Attribute.surface_type = global::Bible.Alarm.Droid.Resource.Attribute.surface_type;
-			global::MediaManager.Resource.Attribute.switchMinWidth = global::Bible.Alarm.Droid.Resource.Attribute.switchMinWidth;
-			global::MediaManager.Resource.Attribute.switchPadding = global::Bible.Alarm.Droid.Resource.Attribute.switchPadding;
-			global::MediaManager.Resource.Attribute.switchStyle = global::Bible.Alarm.Droid.Resource.Attribute.switchStyle;
-			global::MediaManager.Resource.Attribute.switchTextAppearance = global::Bible.Alarm.Droid.Resource.Attribute.switchTextAppearance;
-			global::MediaManager.Resource.Attribute.textAllCaps = global::Bible.Alarm.Droid.Resource.Attribute.textAllCaps;
-			global::MediaManager.Resource.Attribute.textAppearanceLargePopupMenu = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
-			global::MediaManager.Resource.Attribute.textAppearanceListItem = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceListItem;
-			global::MediaManager.Resource.Attribute.textAppearanceListItemSecondary = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceListItemSecondary;
-			global::MediaManager.Resource.Attribute.textAppearanceListItemSmall = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceListItemSmall;
-			global::MediaManager.Resource.Attribute.textAppearancePopupMenuHeader = global::Bible.Alarm.Droid.Resource.Attribute.textAppearancePopupMenuHeader;
-			global::MediaManager.Resource.Attribute.textAppearanceSearchResultSubtitle = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
-			global::MediaManager.Resource.Attribute.textAppearanceSearchResultTitle = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
-			global::MediaManager.Resource.Attribute.textAppearanceSmallPopupMenu = global::Bible.Alarm.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
-			global::MediaManager.Resource.Attribute.textColorAlertDialogListItem = global::Bible.Alarm.Droid.Resource.Attribute.textColorAlertDialogListItem;
-			global::MediaManager.Resource.Attribute.textColorSearchUrl = global::Bible.Alarm.Droid.Resource.Attribute.textColorSearchUrl;
-			global::MediaManager.Resource.Attribute.theme = global::Bible.Alarm.Droid.Resource.Attribute.theme;
-			global::MediaManager.Resource.Attribute.thickness = global::Bible.Alarm.Droid.Resource.Attribute.thickness;
-			global::MediaManager.Resource.Attribute.thumbTextPadding = global::Bible.Alarm.Droid.Resource.Attribute.thumbTextPadding;
-			global::MediaManager.Resource.Attribute.thumbTint = global::Bible.Alarm.Droid.Resource.Attribute.thumbTint;
-			global::MediaManager.Resource.Attribute.thumbTintMode = global::Bible.Alarm.Droid.Resource.Attribute.thumbTintMode;
-			global::MediaManager.Resource.Attribute.tickMark = global::Bible.Alarm.Droid.Resource.Attribute.tickMark;
-			global::MediaManager.Resource.Attribute.tickMarkTint = global::Bible.Alarm.Droid.Resource.Attribute.tickMarkTint;
-			global::MediaManager.Resource.Attribute.tickMarkTintMode = global::Bible.Alarm.Droid.Resource.Attribute.tickMarkTintMode;
-			global::MediaManager.Resource.Attribute.tint = global::Bible.Alarm.Droid.Resource.Attribute.tint;
-			global::MediaManager.Resource.Attribute.tintMode = global::Bible.Alarm.Droid.Resource.Attribute.tintMode;
-			global::MediaManager.Resource.Attribute.title = global::Bible.Alarm.Droid.Resource.Attribute.title;
-			global::MediaManager.Resource.Attribute.titleMargin = global::Bible.Alarm.Droid.Resource.Attribute.titleMargin;
-			global::MediaManager.Resource.Attribute.titleMarginBottom = global::Bible.Alarm.Droid.Resource.Attribute.titleMarginBottom;
-			global::MediaManager.Resource.Attribute.titleMarginEnd = global::Bible.Alarm.Droid.Resource.Attribute.titleMarginEnd;
-			global::MediaManager.Resource.Attribute.titleMargins = global::Bible.Alarm.Droid.Resource.Attribute.titleMargins;
-			global::MediaManager.Resource.Attribute.titleMarginStart = global::Bible.Alarm.Droid.Resource.Attribute.titleMarginStart;
-			global::MediaManager.Resource.Attribute.titleMarginTop = global::Bible.Alarm.Droid.Resource.Attribute.titleMarginTop;
-			global::MediaManager.Resource.Attribute.titleTextAppearance = global::Bible.Alarm.Droid.Resource.Attribute.titleTextAppearance;
-			global::MediaManager.Resource.Attribute.titleTextColor = global::Bible.Alarm.Droid.Resource.Attribute.titleTextColor;
-			global::MediaManager.Resource.Attribute.titleTextStyle = global::Bible.Alarm.Droid.Resource.Attribute.titleTextStyle;
-			global::MediaManager.Resource.Attribute.toolbarNavigationButtonStyle = global::Bible.Alarm.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
-			global::MediaManager.Resource.Attribute.toolbarStyle = global::Bible.Alarm.Droid.Resource.Attribute.toolbarStyle;
-			global::MediaManager.Resource.Attribute.tooltipForegroundColor = global::Bible.Alarm.Droid.Resource.Attribute.tooltipForegroundColor;
-			global::MediaManager.Resource.Attribute.tooltipFrameBackground = global::Bible.Alarm.Droid.Resource.Attribute.tooltipFrameBackground;
-			global::MediaManager.Resource.Attribute.tooltipText = global::Bible.Alarm.Droid.Resource.Attribute.tooltipText;
+			global::MediaManager.Resource.Attribute.time_bar_min_update_interval = global::Bible.Alarm.Droid.Resource.Attribute.time_bar_min_update_interval;
 			global::MediaManager.Resource.Attribute.touch_target_height = global::Bible.Alarm.Droid.Resource.Attribute.touch_target_height;
-			global::MediaManager.Resource.Attribute.track = global::Bible.Alarm.Droid.Resource.Attribute.track;
-			global::MediaManager.Resource.Attribute.trackTint = global::Bible.Alarm.Droid.Resource.Attribute.trackTint;
-			global::MediaManager.Resource.Attribute.trackTintMode = global::Bible.Alarm.Droid.Resource.Attribute.trackTintMode;
 			global::MediaManager.Resource.Attribute.ttcIndex = global::Bible.Alarm.Droid.Resource.Attribute.ttcIndex;
 			global::MediaManager.Resource.Attribute.unplayed_color = global::Bible.Alarm.Droid.Resource.Attribute.unplayed_color;
 			global::MediaManager.Resource.Attribute.use_artwork = global::Bible.Alarm.Droid.Resource.Attribute.use_artwork;
 			global::MediaManager.Resource.Attribute.use_controller = global::Bible.Alarm.Droid.Resource.Attribute.use_controller;
-			global::MediaManager.Resource.Attribute.viewInflaterClass = global::Bible.Alarm.Droid.Resource.Attribute.viewInflaterClass;
-			global::MediaManager.Resource.Attribute.voiceIcon = global::Bible.Alarm.Droid.Resource.Attribute.voiceIcon;
-			global::MediaManager.Resource.Attribute.windowActionBar = global::Bible.Alarm.Droid.Resource.Attribute.windowActionBar;
-			global::MediaManager.Resource.Attribute.windowActionBarOverlay = global::Bible.Alarm.Droid.Resource.Attribute.windowActionBarOverlay;
-			global::MediaManager.Resource.Attribute.windowActionModeOverlay = global::Bible.Alarm.Droid.Resource.Attribute.windowActionModeOverlay;
-			global::MediaManager.Resource.Attribute.windowFixedHeightMajor = global::Bible.Alarm.Droid.Resource.Attribute.windowFixedHeightMajor;
-			global::MediaManager.Resource.Attribute.windowFixedHeightMinor = global::Bible.Alarm.Droid.Resource.Attribute.windowFixedHeightMinor;
-			global::MediaManager.Resource.Attribute.windowFixedWidthMajor = global::Bible.Alarm.Droid.Resource.Attribute.windowFixedWidthMajor;
-			global::MediaManager.Resource.Attribute.windowFixedWidthMinor = global::Bible.Alarm.Droid.Resource.Attribute.windowFixedWidthMinor;
-			global::MediaManager.Resource.Attribute.windowMinWidthMajor = global::Bible.Alarm.Droid.Resource.Attribute.windowMinWidthMajor;
-			global::MediaManager.Resource.Attribute.windowMinWidthMinor = global::Bible.Alarm.Droid.Resource.Attribute.windowMinWidthMinor;
-			global::MediaManager.Resource.Attribute.windowNoTitle = global::Bible.Alarm.Droid.Resource.Attribute.windowNoTitle;
-			global::MediaManager.Resource.Boolean.abc_action_bar_embed_tabs = global::Bible.Alarm.Droid.Resource.Boolean.abc_action_bar_embed_tabs;
-			global::MediaManager.Resource.Boolean.abc_allow_stacked_button_bar = global::Bible.Alarm.Droid.Resource.Boolean.abc_allow_stacked_button_bar;
-			global::MediaManager.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::Bible.Alarm.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps;
-			global::MediaManager.Resource.Color.abc_background_cache_hint_selector_material_dark = global::Bible.Alarm.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark;
-			global::MediaManager.Resource.Color.abc_background_cache_hint_selector_material_light = global::Bible.Alarm.Droid.Resource.Color.abc_background_cache_hint_selector_material_light;
-			global::MediaManager.Resource.Color.abc_btn_colored_borderless_text_material = global::Bible.Alarm.Droid.Resource.Color.abc_btn_colored_borderless_text_material;
-			global::MediaManager.Resource.Color.abc_btn_colored_text_material = global::Bible.Alarm.Droid.Resource.Color.abc_btn_colored_text_material;
-			global::MediaManager.Resource.Color.abc_color_highlight_material = global::Bible.Alarm.Droid.Resource.Color.abc_color_highlight_material;
-			global::MediaManager.Resource.Color.abc_hint_foreground_material_dark = global::Bible.Alarm.Droid.Resource.Color.abc_hint_foreground_material_dark;
-			global::MediaManager.Resource.Color.abc_hint_foreground_material_light = global::Bible.Alarm.Droid.Resource.Color.abc_hint_foreground_material_light;
-			global::MediaManager.Resource.Color.abc_input_method_navigation_guard = global::Bible.Alarm.Droid.Resource.Color.abc_input_method_navigation_guard;
-			global::MediaManager.Resource.Color.abc_primary_text_disable_only_material_dark = global::Bible.Alarm.Droid.Resource.Color.abc_primary_text_disable_only_material_dark;
-			global::MediaManager.Resource.Color.abc_primary_text_disable_only_material_light = global::Bible.Alarm.Droid.Resource.Color.abc_primary_text_disable_only_material_light;
-			global::MediaManager.Resource.Color.abc_primary_text_material_dark = global::Bible.Alarm.Droid.Resource.Color.abc_primary_text_material_dark;
-			global::MediaManager.Resource.Color.abc_primary_text_material_light = global::Bible.Alarm.Droid.Resource.Color.abc_primary_text_material_light;
-			global::MediaManager.Resource.Color.abc_search_url_text = global::Bible.Alarm.Droid.Resource.Color.abc_search_url_text;
-			global::MediaManager.Resource.Color.abc_search_url_text_normal = global::Bible.Alarm.Droid.Resource.Color.abc_search_url_text_normal;
-			global::MediaManager.Resource.Color.abc_search_url_text_pressed = global::Bible.Alarm.Droid.Resource.Color.abc_search_url_text_pressed;
-			global::MediaManager.Resource.Color.abc_search_url_text_selected = global::Bible.Alarm.Droid.Resource.Color.abc_search_url_text_selected;
-			global::MediaManager.Resource.Color.abc_secondary_text_material_dark = global::Bible.Alarm.Droid.Resource.Color.abc_secondary_text_material_dark;
-			global::MediaManager.Resource.Color.abc_secondary_text_material_light = global::Bible.Alarm.Droid.Resource.Color.abc_secondary_text_material_light;
-			global::MediaManager.Resource.Color.abc_tint_btn_checkable = global::Bible.Alarm.Droid.Resource.Color.abc_tint_btn_checkable;
-			global::MediaManager.Resource.Color.abc_tint_default = global::Bible.Alarm.Droid.Resource.Color.abc_tint_default;
-			global::MediaManager.Resource.Color.abc_tint_edittext = global::Bible.Alarm.Droid.Resource.Color.abc_tint_edittext;
-			global::MediaManager.Resource.Color.abc_tint_seek_thumb = global::Bible.Alarm.Droid.Resource.Color.abc_tint_seek_thumb;
-			global::MediaManager.Resource.Color.abc_tint_spinner = global::Bible.Alarm.Droid.Resource.Color.abc_tint_spinner;
-			global::MediaManager.Resource.Color.abc_tint_switch_track = global::Bible.Alarm.Droid.Resource.Color.abc_tint_switch_track;
-			global::MediaManager.Resource.Color.accent_material_dark = global::Bible.Alarm.Droid.Resource.Color.accent_material_dark;
-			global::MediaManager.Resource.Color.accent_material_light = global::Bible.Alarm.Droid.Resource.Color.accent_material_light;
-			global::MediaManager.Resource.Color.background_floating_material_dark = global::Bible.Alarm.Droid.Resource.Color.background_floating_material_dark;
-			global::MediaManager.Resource.Color.background_floating_material_light = global::Bible.Alarm.Droid.Resource.Color.background_floating_material_light;
-			global::MediaManager.Resource.Color.background_material_dark = global::Bible.Alarm.Droid.Resource.Color.background_material_dark;
-			global::MediaManager.Resource.Color.background_material_light = global::Bible.Alarm.Droid.Resource.Color.background_material_light;
-			global::MediaManager.Resource.Color.bright_foreground_disabled_material_dark = global::Bible.Alarm.Droid.Resource.Color.bright_foreground_disabled_material_dark;
-			global::MediaManager.Resource.Color.bright_foreground_disabled_material_light = global::Bible.Alarm.Droid.Resource.Color.bright_foreground_disabled_material_light;
-			global::MediaManager.Resource.Color.bright_foreground_inverse_material_dark = global::Bible.Alarm.Droid.Resource.Color.bright_foreground_inverse_material_dark;
-			global::MediaManager.Resource.Color.bright_foreground_inverse_material_light = global::Bible.Alarm.Droid.Resource.Color.bright_foreground_inverse_material_light;
-			global::MediaManager.Resource.Color.bright_foreground_material_dark = global::Bible.Alarm.Droid.Resource.Color.bright_foreground_material_dark;
-			global::MediaManager.Resource.Color.bright_foreground_material_light = global::Bible.Alarm.Droid.Resource.Color.bright_foreground_material_light;
-			global::MediaManager.Resource.Color.button_material_dark = global::Bible.Alarm.Droid.Resource.Color.button_material_dark;
-			global::MediaManager.Resource.Color.button_material_light = global::Bible.Alarm.Droid.Resource.Color.button_material_light;
-			global::MediaManager.Resource.Color.dim_foreground_disabled_material_dark = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_disabled_material_dark;
-			global::MediaManager.Resource.Color.dim_foreground_disabled_material_light = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_disabled_material_light;
-			global::MediaManager.Resource.Color.dim_foreground_material_dark = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_material_dark;
-			global::MediaManager.Resource.Color.dim_foreground_material_light = global::Bible.Alarm.Droid.Resource.Color.dim_foreground_material_light;
-			global::MediaManager.Resource.Color.error_color_material_dark = global::Bible.Alarm.Droid.Resource.Color.error_color_material_dark;
-			global::MediaManager.Resource.Color.error_color_material_light = global::Bible.Alarm.Droid.Resource.Color.error_color_material_light;
+			global::MediaManager.Resource.Attribute.use_sensor_rotation = global::Bible.Alarm.Droid.Resource.Attribute.use_sensor_rotation;
 			global::MediaManager.Resource.Color.exo_edit_mode_background_color = global::Bible.Alarm.Droid.Resource.Color.exo_edit_mode_background_color;
 			global::MediaManager.Resource.Color.exo_error_message_background_color = global::Bible.Alarm.Droid.Resource.Color.exo_error_message_background_color;
-			global::MediaManager.Resource.Color.foreground_material_dark = global::Bible.Alarm.Droid.Resource.Color.foreground_material_dark;
-			global::MediaManager.Resource.Color.foreground_material_light = global::Bible.Alarm.Droid.Resource.Color.foreground_material_light;
-			global::MediaManager.Resource.Color.highlighted_text_material_dark = global::Bible.Alarm.Droid.Resource.Color.highlighted_text_material_dark;
-			global::MediaManager.Resource.Color.highlighted_text_material_light = global::Bible.Alarm.Droid.Resource.Color.highlighted_text_material_light;
-			global::MediaManager.Resource.Color.material_blue_grey_800 = global::Bible.Alarm.Droid.Resource.Color.material_blue_grey_800;
-			global::MediaManager.Resource.Color.material_blue_grey_900 = global::Bible.Alarm.Droid.Resource.Color.material_blue_grey_900;
-			global::MediaManager.Resource.Color.material_blue_grey_950 = global::Bible.Alarm.Droid.Resource.Color.material_blue_grey_950;
-			global::MediaManager.Resource.Color.material_deep_teal_200 = global::Bible.Alarm.Droid.Resource.Color.material_deep_teal_200;
-			global::MediaManager.Resource.Color.material_deep_teal_500 = global::Bible.Alarm.Droid.Resource.Color.material_deep_teal_500;
-			global::MediaManager.Resource.Color.material_grey_100 = global::Bible.Alarm.Droid.Resource.Color.material_grey_100;
-			global::MediaManager.Resource.Color.material_grey_300 = global::Bible.Alarm.Droid.Resource.Color.material_grey_300;
-			global::MediaManager.Resource.Color.material_grey_50 = global::Bible.Alarm.Droid.Resource.Color.material_grey_50;
-			global::MediaManager.Resource.Color.material_grey_600 = global::Bible.Alarm.Droid.Resource.Color.material_grey_600;
-			global::MediaManager.Resource.Color.material_grey_800 = global::Bible.Alarm.Droid.Resource.Color.material_grey_800;
-			global::MediaManager.Resource.Color.material_grey_850 = global::Bible.Alarm.Droid.Resource.Color.material_grey_850;
-			global::MediaManager.Resource.Color.material_grey_900 = global::Bible.Alarm.Droid.Resource.Color.material_grey_900;
 			global::MediaManager.Resource.Color.notification_action_color_filter = global::Bible.Alarm.Droid.Resource.Color.notification_action_color_filter;
 			global::MediaManager.Resource.Color.notification_icon_bg_color = global::Bible.Alarm.Droid.Resource.Color.notification_icon_bg_color;
 			global::MediaManager.Resource.Color.notification_material_background_media_default_color = global::Bible.Alarm.Droid.Resource.Color.notification_material_background_media_default_color;
-			global::MediaManager.Resource.Color.primary_dark_material_dark = global::Bible.Alarm.Droid.Resource.Color.primary_dark_material_dark;
-			global::MediaManager.Resource.Color.primary_dark_material_light = global::Bible.Alarm.Droid.Resource.Color.primary_dark_material_light;
-			global::MediaManager.Resource.Color.primary_material_dark = global::Bible.Alarm.Droid.Resource.Color.primary_material_dark;
-			global::MediaManager.Resource.Color.primary_material_light = global::Bible.Alarm.Droid.Resource.Color.primary_material_light;
 			global::MediaManager.Resource.Color.primary_text_default_material_dark = global::Bible.Alarm.Droid.Resource.Color.primary_text_default_material_dark;
-			global::MediaManager.Resource.Color.primary_text_default_material_light = global::Bible.Alarm.Droid.Resource.Color.primary_text_default_material_light;
-			global::MediaManager.Resource.Color.primary_text_disabled_material_dark = global::Bible.Alarm.Droid.Resource.Color.primary_text_disabled_material_dark;
-			global::MediaManager.Resource.Color.primary_text_disabled_material_light = global::Bible.Alarm.Droid.Resource.Color.primary_text_disabled_material_light;
-			global::MediaManager.Resource.Color.ripple_material_dark = global::Bible.Alarm.Droid.Resource.Color.ripple_material_dark;
 			global::MediaManager.Resource.Color.ripple_material_light = global::Bible.Alarm.Droid.Resource.Color.ripple_material_light;
 			global::MediaManager.Resource.Color.secondary_text_default_material_dark = global::Bible.Alarm.Droid.Resource.Color.secondary_text_default_material_dark;
 			global::MediaManager.Resource.Color.secondary_text_default_material_light = global::Bible.Alarm.Droid.Resource.Color.secondary_text_default_material_light;
-			global::MediaManager.Resource.Color.secondary_text_disabled_material_dark = global::Bible.Alarm.Droid.Resource.Color.secondary_text_disabled_material_dark;
-			global::MediaManager.Resource.Color.secondary_text_disabled_material_light = global::Bible.Alarm.Droid.Resource.Color.secondary_text_disabled_material_light;
-			global::MediaManager.Resource.Color.switch_thumb_disabled_material_dark = global::Bible.Alarm.Droid.Resource.Color.switch_thumb_disabled_material_dark;
-			global::MediaManager.Resource.Color.switch_thumb_disabled_material_light = global::Bible.Alarm.Droid.Resource.Color.switch_thumb_disabled_material_light;
-			global::MediaManager.Resource.Color.switch_thumb_material_dark = global::Bible.Alarm.Droid.Resource.Color.switch_thumb_material_dark;
-			global::MediaManager.Resource.Color.switch_thumb_material_light = global::Bible.Alarm.Droid.Resource.Color.switch_thumb_material_light;
-			global::MediaManager.Resource.Color.switch_thumb_normal_material_dark = global::Bible.Alarm.Droid.Resource.Color.switch_thumb_normal_material_dark;
-			global::MediaManager.Resource.Color.switch_thumb_normal_material_light = global::Bible.Alarm.Droid.Resource.Color.switch_thumb_normal_material_light;
-			global::MediaManager.Resource.Color.tooltip_background_dark = global::Bible.Alarm.Droid.Resource.Color.tooltip_background_dark;
-			global::MediaManager.Resource.Color.tooltip_background_light = global::Bible.Alarm.Droid.Resource.Color.tooltip_background_light;
-			global::MediaManager.Resource.Dimension.abc_action_bar_content_inset_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_content_inset_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_content_inset_with_nav = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_content_inset_with_nav;
-			global::MediaManager.Resource.Dimension.abc_action_bar_default_height_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_default_height_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_default_padding_end_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_default_padding_start_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_elevation_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_elevation_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_stacked_max_height = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_stacked_max_height;
-			global::MediaManager.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
-			global::MediaManager.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
-			global::MediaManager.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
-			global::MediaManager.Resource.Dimension.abc_action_button_min_height_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_button_min_height_material;
-			global::MediaManager.Resource.Dimension.abc_action_button_min_width_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_button_min_width_material;
-			global::MediaManager.Resource.Dimension.abc_action_button_min_width_overflow_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
-			global::MediaManager.Resource.Dimension.abc_alert_dialog_button_bar_height = global::Bible.Alarm.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
-			global::MediaManager.Resource.Dimension.abc_alert_dialog_button_dimen = global::Bible.Alarm.Droid.Resource.Dimension.abc_alert_dialog_button_dimen;
-			global::MediaManager.Resource.Dimension.abc_button_inset_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
-			global::MediaManager.Resource.Dimension.abc_button_inset_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_inset_vertical_material;
-			global::MediaManager.Resource.Dimension.abc_button_padding_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
-			global::MediaManager.Resource.Dimension.abc_button_padding_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_button_padding_vertical_material;
-			global::MediaManager.Resource.Dimension.abc_cascading_menus_min_smallest_width = global::Bible.Alarm.Droid.Resource.Dimension.abc_cascading_menus_min_smallest_width;
-			global::MediaManager.Resource.Dimension.abc_config_prefDialogWidth = global::Bible.Alarm.Droid.Resource.Dimension.abc_config_prefDialogWidth;
-			global::MediaManager.Resource.Dimension.abc_control_corner_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_control_corner_material;
-			global::MediaManager.Resource.Dimension.abc_control_inset_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_control_inset_material;
-			global::MediaManager.Resource.Dimension.abc_control_padding_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_control_padding_material;
-			global::MediaManager.Resource.Dimension.abc_dialog_corner_radius_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_corner_radius_material;
-			global::MediaManager.Resource.Dimension.abc_dialog_fixed_height_major = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
-			global::MediaManager.Resource.Dimension.abc_dialog_fixed_height_minor = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
-			global::MediaManager.Resource.Dimension.abc_dialog_fixed_width_major = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
-			global::MediaManager.Resource.Dimension.abc_dialog_fixed_width_minor = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_fixed_width_minor;
-			global::MediaManager.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons;
-			global::MediaManager.Resource.Dimension.abc_dialog_list_padding_top_no_title = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_list_padding_top_no_title;
-			global::MediaManager.Resource.Dimension.abc_dialog_min_width_major = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_min_width_major;
-			global::MediaManager.Resource.Dimension.abc_dialog_min_width_minor = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_min_width_minor;
-			global::MediaManager.Resource.Dimension.abc_dialog_padding_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_padding_material;
-			global::MediaManager.Resource.Dimension.abc_dialog_padding_top_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_padding_top_material;
-			global::MediaManager.Resource.Dimension.abc_dialog_title_divider_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_dialog_title_divider_material;
-			global::MediaManager.Resource.Dimension.abc_disabled_alpha_material_dark = global::Bible.Alarm.Droid.Resource.Dimension.abc_disabled_alpha_material_dark;
-			global::MediaManager.Resource.Dimension.abc_disabled_alpha_material_light = global::Bible.Alarm.Droid.Resource.Dimension.abc_disabled_alpha_material_light;
-			global::MediaManager.Resource.Dimension.abc_dropdownitem_icon_width = global::Bible.Alarm.Droid.Resource.Dimension.abc_dropdownitem_icon_width;
-			global::MediaManager.Resource.Dimension.abc_dropdownitem_text_padding_left = global::Bible.Alarm.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left;
-			global::MediaManager.Resource.Dimension.abc_dropdownitem_text_padding_right = global::Bible.Alarm.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right;
-			global::MediaManager.Resource.Dimension.abc_edit_text_inset_bottom_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material;
-			global::MediaManager.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material;
-			global::MediaManager.Resource.Dimension.abc_edit_text_inset_top_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_edit_text_inset_top_material;
-			global::MediaManager.Resource.Dimension.abc_floating_window_z = global::Bible.Alarm.Droid.Resource.Dimension.abc_floating_window_z;
-			global::MediaManager.Resource.Dimension.abc_list_item_padding_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material;
-			global::MediaManager.Resource.Dimension.abc_panel_menu_list_width = global::Bible.Alarm.Droid.Resource.Dimension.abc_panel_menu_list_width;
-			global::MediaManager.Resource.Dimension.abc_progress_bar_height_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_progress_bar_height_material;
-			global::MediaManager.Resource.Dimension.abc_search_view_preferred_height = global::Bible.Alarm.Droid.Resource.Dimension.abc_search_view_preferred_height;
-			global::MediaManager.Resource.Dimension.abc_search_view_preferred_width = global::Bible.Alarm.Droid.Resource.Dimension.abc_search_view_preferred_width;
-			global::MediaManager.Resource.Dimension.abc_seekbar_track_background_height_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_seekbar_track_background_height_material;
-			global::MediaManager.Resource.Dimension.abc_seekbar_track_progress_height_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material;
-			global::MediaManager.Resource.Dimension.abc_select_dialog_padding_start_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_select_dialog_padding_start_material;
-			global::MediaManager.Resource.Dimension.abc_switch_padding = global::Bible.Alarm.Droid.Resource.Dimension.abc_switch_padding;
-			global::MediaManager.Resource.Dimension.abc_text_size_body_1_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_body_1_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_body_2_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_body_2_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_button_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_button_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_caption_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_caption_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_display_1_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_display_1_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_display_2_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_display_2_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_display_3_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_display_3_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_display_4_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_display_4_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_headline_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_headline_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_large_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_large_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_medium_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_medium_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_menu_header_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_menu_header_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_menu_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_menu_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_small_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_small_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_subhead_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_subhead_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
-			global::MediaManager.Resource.Dimension.abc_text_size_title_material = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_title_material;
-			global::MediaManager.Resource.Dimension.abc_text_size_title_material_toolbar = global::Bible.Alarm.Droid.Resource.Dimension.abc_text_size_title_material_toolbar;
 			global::MediaManager.Resource.Dimension.compat_button_inset_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_inset_horizontal_material;
 			global::MediaManager.Resource.Dimension.compat_button_inset_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_inset_vertical_material;
 			global::MediaManager.Resource.Dimension.compat_button_padding_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
@@ -512,17 +86,8 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Dimension.compat_control_corner_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_control_corner_material;
 			global::MediaManager.Resource.Dimension.compat_notification_large_icon_max_height = global::Bible.Alarm.Droid.Resource.Dimension.compat_notification_large_icon_max_height;
 			global::MediaManager.Resource.Dimension.compat_notification_large_icon_max_width = global::Bible.Alarm.Droid.Resource.Dimension.compat_notification_large_icon_max_width;
-			global::MediaManager.Resource.Dimension.disabled_alpha_material_dark = global::Bible.Alarm.Droid.Resource.Dimension.disabled_alpha_material_dark;
-			global::MediaManager.Resource.Dimension.disabled_alpha_material_light = global::Bible.Alarm.Droid.Resource.Dimension.disabled_alpha_material_light;
 			global::MediaManager.Resource.Dimension.exo_media_button_height = global::Bible.Alarm.Droid.Resource.Dimension.exo_media_button_height;
 			global::MediaManager.Resource.Dimension.exo_media_button_width = global::Bible.Alarm.Droid.Resource.Dimension.exo_media_button_width;
-			global::MediaManager.Resource.Dimension.highlight_alpha_material_colored = global::Bible.Alarm.Droid.Resource.Dimension.highlight_alpha_material_colored;
-			global::MediaManager.Resource.Dimension.highlight_alpha_material_dark = global::Bible.Alarm.Droid.Resource.Dimension.highlight_alpha_material_dark;
-			global::MediaManager.Resource.Dimension.highlight_alpha_material_light = global::Bible.Alarm.Droid.Resource.Dimension.highlight_alpha_material_light;
-			global::MediaManager.Resource.Dimension.hint_alpha_material_dark = global::Bible.Alarm.Droid.Resource.Dimension.hint_alpha_material_dark;
-			global::MediaManager.Resource.Dimension.hint_alpha_material_light = global::Bible.Alarm.Droid.Resource.Dimension.hint_alpha_material_light;
-			global::MediaManager.Resource.Dimension.hint_pressed_alpha_material_dark = global::Bible.Alarm.Droid.Resource.Dimension.hint_pressed_alpha_material_dark;
-			global::MediaManager.Resource.Dimension.hint_pressed_alpha_material_light = global::Bible.Alarm.Droid.Resource.Dimension.hint_pressed_alpha_material_light;
 			global::MediaManager.Resource.Dimension.notification_action_icon_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_action_icon_size;
 			global::MediaManager.Resource.Dimension.notification_action_text_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_action_text_size;
 			global::MediaManager.Resource.Dimension.notification_big_circle_margin = global::Bible.Alarm.Droid.Resource.Dimension.notification_big_circle_margin;
@@ -542,98 +107,6 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Dimension.subtitle_outline_width = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_outline_width;
 			global::MediaManager.Resource.Dimension.subtitle_shadow_offset = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_shadow_offset;
 			global::MediaManager.Resource.Dimension.subtitle_shadow_radius = global::Bible.Alarm.Droid.Resource.Dimension.subtitle_shadow_radius;
-			global::MediaManager.Resource.Dimension.tooltip_corner_radius = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_corner_radius;
-			global::MediaManager.Resource.Dimension.tooltip_horizontal_padding = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_horizontal_padding;
-			global::MediaManager.Resource.Dimension.tooltip_margin = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_margin;
-			global::MediaManager.Resource.Dimension.tooltip_precise_anchor_extra_offset = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_precise_anchor_extra_offset;
-			global::MediaManager.Resource.Dimension.tooltip_precise_anchor_threshold = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_precise_anchor_threshold;
-			global::MediaManager.Resource.Dimension.tooltip_vertical_padding = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_vertical_padding;
-			global::MediaManager.Resource.Dimension.tooltip_y_offset_non_touch = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_y_offset_non_touch;
-			global::MediaManager.Resource.Dimension.tooltip_y_offset_touch = global::Bible.Alarm.Droid.Resource.Dimension.tooltip_y_offset_touch;
-			global::MediaManager.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_action_bar_item_background_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_action_bar_item_background_material;
-			global::MediaManager.Resource.Drawable.abc_btn_borderless_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_borderless_material;
-			global::MediaManager.Resource.Drawable.abc_btn_check_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_check_material;
-			global::MediaManager.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
-			global::MediaManager.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
-			global::MediaManager.Resource.Drawable.abc_btn_colored_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_colored_material;
-			global::MediaManager.Resource.Drawable.abc_btn_default_mtrl_shape = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_default_mtrl_shape;
-			global::MediaManager.Resource.Drawable.abc_btn_radio_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_radio_material;
-			global::MediaManager.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
-			global::MediaManager.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
-			global::MediaManager.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
-			global::MediaManager.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::Bible.Alarm.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
-			global::MediaManager.Resource.Drawable.abc_cab_background_internal_bg = global::Bible.Alarm.Droid.Resource.Drawable.abc_cab_background_internal_bg;
-			global::MediaManager.Resource.Drawable.abc_cab_background_top_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_cab_background_top_material;
-			global::MediaManager.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_control_background_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_control_background_material;
-			global::MediaManager.Resource.Drawable.abc_dialog_material_background = global::Bible.Alarm.Droid.Resource.Drawable.abc_dialog_material_background;
-			global::MediaManager.Resource.Drawable.abc_edit_text_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_edit_text_material;
-			global::MediaManager.Resource.Drawable.abc_ic_ab_back_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_ab_back_material;
-			global::MediaManager.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp;
-			global::MediaManager.Resource.Drawable.abc_ic_clear_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_clear_material;
-			global::MediaManager.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_ic_go_search_api_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_go_search_api_material;
-			global::MediaManager.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
-			global::MediaManager.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_ic_menu_overflow_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_menu_overflow_material;
-			global::MediaManager.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
-			global::MediaManager.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_ic_search_api_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_search_api_material;
-			global::MediaManager.Resource.Drawable.abc_ic_star_black_16dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_star_black_16dp;
-			global::MediaManager.Resource.Drawable.abc_ic_star_black_36dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_star_black_36dp;
-			global::MediaManager.Resource.Drawable.abc_ic_star_black_48dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_star_black_48dp;
-			global::MediaManager.Resource.Drawable.abc_ic_star_half_black_16dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_star_half_black_16dp;
-			global::MediaManager.Resource.Drawable.abc_ic_star_half_black_36dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_star_half_black_36dp;
-			global::MediaManager.Resource.Drawable.abc_ic_star_half_black_48dp = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_star_half_black_48dp;
-			global::MediaManager.Resource.Drawable.abc_ic_voice_search_api_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ic_voice_search_api_material;
-			global::MediaManager.Resource.Drawable.abc_item_background_holo_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_item_background_holo_dark;
-			global::MediaManager.Resource.Drawable.abc_item_background_holo_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_item_background_holo_light;
-			global::MediaManager.Resource.Drawable.abc_list_divider_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_divider_material;
-			global::MediaManager.Resource.Drawable.abc_list_divider_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_list_focused_holo = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_focused_holo;
-			global::MediaManager.Resource.Drawable.abc_list_longpressed_holo = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_longpressed_holo;
-			global::MediaManager.Resource.Drawable.abc_list_pressed_holo_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_pressed_holo_dark;
-			global::MediaManager.Resource.Drawable.abc_list_pressed_holo_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_pressed_holo_light;
-			global::MediaManager.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
-			global::MediaManager.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light;
-			global::MediaManager.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark;
-			global::MediaManager.Resource.Drawable.abc_list_selector_disabled_holo_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light;
-			global::MediaManager.Resource.Drawable.abc_list_selector_holo_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_selector_holo_dark;
-			global::MediaManager.Resource.Drawable.abc_list_selector_holo_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_list_selector_holo_light;
-			global::MediaManager.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::Bible.Alarm.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
-			global::MediaManager.Resource.Drawable.abc_popup_background_mtrl_mult = global::Bible.Alarm.Droid.Resource.Drawable.abc_popup_background_mtrl_mult;
-			global::MediaManager.Resource.Drawable.abc_ratingbar_indicator_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ratingbar_indicator_material;
-			global::MediaManager.Resource.Drawable.abc_ratingbar_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ratingbar_material;
-			global::MediaManager.Resource.Drawable.abc_ratingbar_small_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_ratingbar_small_material;
-			global::MediaManager.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::Bible.Alarm.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
-			global::MediaManager.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::Bible.Alarm.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
-			global::MediaManager.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_seekbar_thumb_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_seekbar_thumb_material;
-			global::MediaManager.Resource.Drawable.abc_seekbar_tick_mark_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_seekbar_tick_mark_material;
-			global::MediaManager.Resource.Drawable.abc_seekbar_track_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_seekbar_track_material;
-			global::MediaManager.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha;
-			global::MediaManager.Resource.Drawable.abc_spinner_textfield_background_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_spinner_textfield_background_material;
-			global::MediaManager.Resource.Drawable.abc_switch_thumb_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_switch_thumb_material;
-			global::MediaManager.Resource.Drawable.abc_switch_track_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_tab_indicator_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_tab_indicator_material;
-			global::MediaManager.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::Bible.Alarm.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
-			global::MediaManager.Resource.Drawable.abc_textfield_search_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_textfield_search_material;
-			global::MediaManager.Resource.Drawable.abc_text_cursor_material = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_cursor_material;
-			global::MediaManager.Resource.Drawable.abc_text_select_handle_left_mtrl_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_dark;
-			global::MediaManager.Resource.Drawable.abc_text_select_handle_left_mtrl_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_light;
-			global::MediaManager.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark;
-			global::MediaManager.Resource.Drawable.abc_text_select_handle_middle_mtrl_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_light;
-			global::MediaManager.Resource.Drawable.abc_text_select_handle_right_mtrl_dark = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_dark;
-			global::MediaManager.Resource.Drawable.abc_text_select_handle_right_mtrl_light = global::Bible.Alarm.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_light;
-			global::MediaManager.Resource.Drawable.abc_vector_test = global::Bible.Alarm.Droid.Resource.Drawable.abc_vector_test;
 			global::MediaManager.Resource.Drawable.exo_controls_fastforward = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_fastforward;
 			global::MediaManager.Resource.Drawable.exo_controls_fullscreen_enter = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_fullscreen_enter;
 			global::MediaManager.Resource.Drawable.exo_controls_fullscreen_exit = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_fullscreen_exit;
@@ -645,15 +118,26 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Drawable.exo_controls_repeat_off = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_repeat_off;
 			global::MediaManager.Resource.Drawable.exo_controls_repeat_one = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_repeat_one;
 			global::MediaManager.Resource.Drawable.exo_controls_rewind = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_rewind;
-			global::MediaManager.Resource.Drawable.exo_controls_shuffle = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_shuffle;
+			global::MediaManager.Resource.Drawable.exo_controls_shuffle_off = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_shuffle_off;
+			global::MediaManager.Resource.Drawable.exo_controls_shuffle_on = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_shuffle_on;
+			global::MediaManager.Resource.Drawable.exo_controls_vr = global::Bible.Alarm.Droid.Resource.Drawable.exo_controls_vr;
 			global::MediaManager.Resource.Drawable.exo_edit_mode_logo = global::Bible.Alarm.Droid.Resource.Drawable.exo_edit_mode_logo;
+			global::MediaManager.Resource.Drawable.exo_icon_circular_play = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_circular_play;
 			global::MediaManager.Resource.Drawable.exo_icon_fastforward = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_fastforward;
+			global::MediaManager.Resource.Drawable.exo_icon_fullscreen_enter = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_fullscreen_enter;
+			global::MediaManager.Resource.Drawable.exo_icon_fullscreen_exit = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_fullscreen_exit;
 			global::MediaManager.Resource.Drawable.exo_icon_next = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_next;
 			global::MediaManager.Resource.Drawable.exo_icon_pause = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_pause;
 			global::MediaManager.Resource.Drawable.exo_icon_play = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_play;
 			global::MediaManager.Resource.Drawable.exo_icon_previous = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_previous;
+			global::MediaManager.Resource.Drawable.exo_icon_repeat_all = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_repeat_all;
+			global::MediaManager.Resource.Drawable.exo_icon_repeat_off = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_repeat_off;
+			global::MediaManager.Resource.Drawable.exo_icon_repeat_one = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_repeat_one;
 			global::MediaManager.Resource.Drawable.exo_icon_rewind = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_rewind;
+			global::MediaManager.Resource.Drawable.exo_icon_shuffle_off = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_shuffle_off;
+			global::MediaManager.Resource.Drawable.exo_icon_shuffle_on = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_shuffle_on;
 			global::MediaManager.Resource.Drawable.exo_icon_stop = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_stop;
+			global::MediaManager.Resource.Drawable.exo_icon_vr = global::Bible.Alarm.Droid.Resource.Drawable.exo_icon_vr;
 			global::MediaManager.Resource.Drawable.exo_media_action_repeat_all = global::Bible.Alarm.Droid.Resource.Drawable.exo_media_action_repeat_all;
 			global::MediaManager.Resource.Drawable.exo_media_action_repeat_off = global::Bible.Alarm.Droid.Resource.Drawable.exo_media_action_repeat_off;
 			global::MediaManager.Resource.Drawable.exo_media_action_repeat_one = global::Bible.Alarm.Droid.Resource.Drawable.exo_media_action_repeat_one;
@@ -677,57 +161,52 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Drawable.notification_template_icon_low_bg = global::Bible.Alarm.Droid.Resource.Drawable.notification_template_icon_low_bg;
 			global::MediaManager.Resource.Drawable.notification_tile_bg = global::Bible.Alarm.Droid.Resource.Drawable.notification_tile_bg;
 			global::MediaManager.Resource.Drawable.notify_panel_notification_icon_bg = global::Bible.Alarm.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
-			global::MediaManager.Resource.Drawable.tooltip_frame_dark = global::Bible.Alarm.Droid.Resource.Drawable.tooltip_frame_dark;
-			global::MediaManager.Resource.Drawable.tooltip_frame_light = global::Bible.Alarm.Droid.Resource.Drawable.tooltip_frame_light;
+			global::MediaManager.Resource.Id.accessibility_action_clickable_span = global::Bible.Alarm.Droid.Resource.Id.accessibility_action_clickable_span;
+			global::MediaManager.Resource.Id.accessibility_custom_action_0 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_0;
+			global::MediaManager.Resource.Id.accessibility_custom_action_1 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_1;
+			global::MediaManager.Resource.Id.accessibility_custom_action_10 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_10;
+			global::MediaManager.Resource.Id.accessibility_custom_action_11 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_11;
+			global::MediaManager.Resource.Id.accessibility_custom_action_12 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_12;
+			global::MediaManager.Resource.Id.accessibility_custom_action_13 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_13;
+			global::MediaManager.Resource.Id.accessibility_custom_action_14 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_14;
+			global::MediaManager.Resource.Id.accessibility_custom_action_15 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_15;
+			global::MediaManager.Resource.Id.accessibility_custom_action_16 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_16;
+			global::MediaManager.Resource.Id.accessibility_custom_action_17 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_17;
+			global::MediaManager.Resource.Id.accessibility_custom_action_18 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_18;
+			global::MediaManager.Resource.Id.accessibility_custom_action_19 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_19;
+			global::MediaManager.Resource.Id.accessibility_custom_action_2 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_2;
+			global::MediaManager.Resource.Id.accessibility_custom_action_20 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_20;
+			global::MediaManager.Resource.Id.accessibility_custom_action_21 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_21;
+			global::MediaManager.Resource.Id.accessibility_custom_action_22 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_22;
+			global::MediaManager.Resource.Id.accessibility_custom_action_23 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_23;
+			global::MediaManager.Resource.Id.accessibility_custom_action_24 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_24;
+			global::MediaManager.Resource.Id.accessibility_custom_action_25 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_25;
+			global::MediaManager.Resource.Id.accessibility_custom_action_26 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_26;
+			global::MediaManager.Resource.Id.accessibility_custom_action_27 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_27;
+			global::MediaManager.Resource.Id.accessibility_custom_action_28 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_28;
+			global::MediaManager.Resource.Id.accessibility_custom_action_29 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_29;
+			global::MediaManager.Resource.Id.accessibility_custom_action_3 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_3;
+			global::MediaManager.Resource.Id.accessibility_custom_action_30 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_30;
+			global::MediaManager.Resource.Id.accessibility_custom_action_31 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_31;
+			global::MediaManager.Resource.Id.accessibility_custom_action_4 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_4;
+			global::MediaManager.Resource.Id.accessibility_custom_action_5 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_5;
+			global::MediaManager.Resource.Id.accessibility_custom_action_6 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_6;
+			global::MediaManager.Resource.Id.accessibility_custom_action_7 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_7;
+			global::MediaManager.Resource.Id.accessibility_custom_action_8 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_8;
+			global::MediaManager.Resource.Id.accessibility_custom_action_9 = global::Bible.Alarm.Droid.Resource.Id.accessibility_custom_action_9;
 			global::MediaManager.Resource.Id.action0 = global::Bible.Alarm.Droid.Resource.Id.action0;
 			global::MediaManager.Resource.Id.actions = global::Bible.Alarm.Droid.Resource.Id.actions;
-			global::MediaManager.Resource.Id.action_bar = global::Bible.Alarm.Droid.Resource.Id.action_bar;
-			global::MediaManager.Resource.Id.action_bar_activity_content = global::Bible.Alarm.Droid.Resource.Id.action_bar_activity_content;
-			global::MediaManager.Resource.Id.action_bar_container = global::Bible.Alarm.Droid.Resource.Id.action_bar_container;
-			global::MediaManager.Resource.Id.action_bar_root = global::Bible.Alarm.Droid.Resource.Id.action_bar_root;
-			global::MediaManager.Resource.Id.action_bar_spinner = global::Bible.Alarm.Droid.Resource.Id.action_bar_spinner;
-			global::MediaManager.Resource.Id.action_bar_subtitle = global::Bible.Alarm.Droid.Resource.Id.action_bar_subtitle;
-			global::MediaManager.Resource.Id.action_bar_title = global::Bible.Alarm.Droid.Resource.Id.action_bar_title;
 			global::MediaManager.Resource.Id.action_container = global::Bible.Alarm.Droid.Resource.Id.action_container;
-			global::MediaManager.Resource.Id.action_context_bar = global::Bible.Alarm.Droid.Resource.Id.action_context_bar;
 			global::MediaManager.Resource.Id.action_divider = global::Bible.Alarm.Droid.Resource.Id.action_divider;
 			global::MediaManager.Resource.Id.action_image = global::Bible.Alarm.Droid.Resource.Id.action_image;
-			global::MediaManager.Resource.Id.action_menu_divider = global::Bible.Alarm.Droid.Resource.Id.action_menu_divider;
-			global::MediaManager.Resource.Id.action_menu_presenter = global::Bible.Alarm.Droid.Resource.Id.action_menu_presenter;
-			global::MediaManager.Resource.Id.action_mode_bar = global::Bible.Alarm.Droid.Resource.Id.action_mode_bar;
-			global::MediaManager.Resource.Id.action_mode_bar_stub = global::Bible.Alarm.Droid.Resource.Id.action_mode_bar_stub;
-			global::MediaManager.Resource.Id.action_mode_close_button = global::Bible.Alarm.Droid.Resource.Id.action_mode_close_button;
 			global::MediaManager.Resource.Id.action_text = global::Bible.Alarm.Droid.Resource.Id.action_text;
-			global::MediaManager.Resource.Id.activity_chooser_view_content = global::Bible.Alarm.Droid.Resource.Id.activity_chooser_view_content;
-			global::MediaManager.Resource.Id.add = global::Bible.Alarm.Droid.Resource.Id.add;
-			global::MediaManager.Resource.Id.alertTitle = global::Bible.Alarm.Droid.Resource.Id.alertTitle;
 			global::MediaManager.Resource.Id.all = global::Bible.Alarm.Droid.Resource.Id.all;
-			global::MediaManager.Resource.Id.ALT = global::Bible.Alarm.Droid.Resource.Id.ALT;
 			global::MediaManager.Resource.Id.always = global::Bible.Alarm.Droid.Resource.Id.always;
 			global::MediaManager.Resource.Id.async = global::Bible.Alarm.Droid.Resource.Id.async;
-			global::MediaManager.Resource.Id.beginning = global::Bible.Alarm.Droid.Resource.Id.beginning;
 			global::MediaManager.Resource.Id.blocking = global::Bible.Alarm.Droid.Resource.Id.blocking;
-			global::MediaManager.Resource.Id.bottom = global::Bible.Alarm.Droid.Resource.Id.bottom;
-			global::MediaManager.Resource.Id.buttonPanel = global::Bible.Alarm.Droid.Resource.Id.buttonPanel;
 			global::MediaManager.Resource.Id.cancel_action = global::Bible.Alarm.Droid.Resource.Id.cancel_action;
-			global::MediaManager.Resource.Id.center = global::Bible.Alarm.Droid.Resource.Id.center;
-			global::MediaManager.Resource.Id.center_horizontal = global::Bible.Alarm.Droid.Resource.Id.center_horizontal;
-			global::MediaManager.Resource.Id.center_vertical = global::Bible.Alarm.Droid.Resource.Id.center_vertical;
-			global::MediaManager.Resource.Id.checkbox = global::Bible.Alarm.Droid.Resource.Id.checkbox;
 			global::MediaManager.Resource.Id.chronometer = global::Bible.Alarm.Droid.Resource.Id.chronometer;
-			global::MediaManager.Resource.Id.clip_horizontal = global::Bible.Alarm.Droid.Resource.Id.clip_horizontal;
-			global::MediaManager.Resource.Id.clip_vertical = global::Bible.Alarm.Droid.Resource.Id.clip_vertical;
-			global::MediaManager.Resource.Id.collapseActionView = global::Bible.Alarm.Droid.Resource.Id.collapseActionView;
-			global::MediaManager.Resource.Id.content = global::Bible.Alarm.Droid.Resource.Id.content;
-			global::MediaManager.Resource.Id.contentPanel = global::Bible.Alarm.Droid.Resource.Id.contentPanel;
-			global::MediaManager.Resource.Id.CTRL = global::Bible.Alarm.Droid.Resource.Id.CTRL;
-			global::MediaManager.Resource.Id.custom = global::Bible.Alarm.Droid.Resource.Id.custom;
-			global::MediaManager.Resource.Id.customPanel = global::Bible.Alarm.Droid.Resource.Id.customPanel;
-			global::MediaManager.Resource.Id.decor_content_parent = global::Bible.Alarm.Droid.Resource.Id.decor_content_parent;
-			global::MediaManager.Resource.Id.default_activity_button = global::Bible.Alarm.Droid.Resource.Id.default_activity_button;
-			global::MediaManager.Resource.Id.disableHome = global::Bible.Alarm.Droid.Resource.Id.disableHome;
-			global::MediaManager.Resource.Id.edit_query = global::Bible.Alarm.Droid.Resource.Id.edit_query;
-			global::MediaManager.Resource.Id.end = global::Bible.Alarm.Droid.Resource.Id.end;
+			global::MediaManager.Resource.Id.dialog_button = global::Bible.Alarm.Droid.Resource.Id.dialog_button;
 			global::MediaManager.Resource.Id.end_padder = global::Bible.Alarm.Droid.Resource.Id.end_padder;
 			global::MediaManager.Resource.Id.exo_ad_overlay = global::Bible.Alarm.Droid.Resource.Id.exo_ad_overlay;
 			global::MediaManager.Resource.Id.exo_artwork = global::Bible.Alarm.Droid.Resource.Id.exo_artwork;
@@ -745,41 +224,26 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.exo_position = global::Bible.Alarm.Droid.Resource.Id.exo_position;
 			global::MediaManager.Resource.Id.exo_prev = global::Bible.Alarm.Droid.Resource.Id.exo_prev;
 			global::MediaManager.Resource.Id.exo_progress = global::Bible.Alarm.Droid.Resource.Id.exo_progress;
+			global::MediaManager.Resource.Id.exo_progress_placeholder = global::Bible.Alarm.Droid.Resource.Id.exo_progress_placeholder;
 			global::MediaManager.Resource.Id.exo_repeat_toggle = global::Bible.Alarm.Droid.Resource.Id.exo_repeat_toggle;
 			global::MediaManager.Resource.Id.exo_rew = global::Bible.Alarm.Droid.Resource.Id.exo_rew;
 			global::MediaManager.Resource.Id.exo_shuffle = global::Bible.Alarm.Droid.Resource.Id.exo_shuffle;
 			global::MediaManager.Resource.Id.exo_shutter = global::Bible.Alarm.Droid.Resource.Id.exo_shutter;
 			global::MediaManager.Resource.Id.exo_subtitles = global::Bible.Alarm.Droid.Resource.Id.exo_subtitles;
 			global::MediaManager.Resource.Id.exo_track_selection_view = global::Bible.Alarm.Droid.Resource.Id.exo_track_selection_view;
-			global::MediaManager.Resource.Id.expanded_menu = global::Bible.Alarm.Droid.Resource.Id.expanded_menu;
-			global::MediaManager.Resource.Id.expand_activities_button = global::Bible.Alarm.Droid.Resource.Id.expand_activities_button;
+			global::MediaManager.Resource.Id.exo_vr = global::Bible.Alarm.Droid.Resource.Id.exo_vr;
 			global::MediaManager.Resource.Id.fill = global::Bible.Alarm.Droid.Resource.Id.fill;
-			global::MediaManager.Resource.Id.fill_horizontal = global::Bible.Alarm.Droid.Resource.Id.fill_horizontal;
-			global::MediaManager.Resource.Id.fill_vertical = global::Bible.Alarm.Droid.Resource.Id.fill_vertical;
 			global::MediaManager.Resource.Id.fit = global::Bible.Alarm.Droid.Resource.Id.fit;
 			global::MediaManager.Resource.Id.fixed_height = global::Bible.Alarm.Droid.Resource.Id.fixed_height;
 			global::MediaManager.Resource.Id.fixed_width = global::Bible.Alarm.Droid.Resource.Id.fixed_width;
 			global::MediaManager.Resource.Id.forever = global::Bible.Alarm.Droid.Resource.Id.forever;
-			global::MediaManager.Resource.Id.FUNCTION = global::Bible.Alarm.Droid.Resource.Id.FUNCTION;
-			global::MediaManager.Resource.Id.group_divider = global::Bible.Alarm.Droid.Resource.Id.group_divider;
-			global::MediaManager.Resource.Id.home = global::Bible.Alarm.Droid.Resource.Id.home;
-			global::MediaManager.Resource.Id.homeAsUp = global::Bible.Alarm.Droid.Resource.Id.homeAsUp;
 			global::MediaManager.Resource.Id.icon = global::Bible.Alarm.Droid.Resource.Id.icon;
 			global::MediaManager.Resource.Id.icon_group = global::Bible.Alarm.Droid.Resource.Id.icon_group;
-			global::MediaManager.Resource.Id.ifRoom = global::Bible.Alarm.Droid.Resource.Id.ifRoom;
-			global::MediaManager.Resource.Id.image = global::Bible.Alarm.Droid.Resource.Id.image;
 			global::MediaManager.Resource.Id.info = global::Bible.Alarm.Droid.Resource.Id.info;
 			global::MediaManager.Resource.Id.italic = global::Bible.Alarm.Droid.Resource.Id.italic;
-			global::MediaManager.Resource.Id.left = global::Bible.Alarm.Droid.Resource.Id.left;
 			global::MediaManager.Resource.Id.line1 = global::Bible.Alarm.Droid.Resource.Id.line1;
 			global::MediaManager.Resource.Id.line3 = global::Bible.Alarm.Droid.Resource.Id.line3;
-			global::MediaManager.Resource.Id.listMode = global::Bible.Alarm.Droid.Resource.Id.listMode;
-			global::MediaManager.Resource.Id.list_item = global::Bible.Alarm.Droid.Resource.Id.list_item;
 			global::MediaManager.Resource.Id.media_actions = global::Bible.Alarm.Droid.Resource.Id.media_actions;
-			global::MediaManager.Resource.Id.message = global::Bible.Alarm.Droid.Resource.Id.message;
-			global::MediaManager.Resource.Id.META = global::Bible.Alarm.Droid.Resource.Id.META;
-			global::MediaManager.Resource.Id.middle = global::Bible.Alarm.Droid.Resource.Id.middle;
-			global::MediaManager.Resource.Id.multiply = global::Bible.Alarm.Droid.Resource.Id.multiply;
 			global::MediaManager.Resource.Id.never = global::Bible.Alarm.Droid.Resource.Id.never;
 			global::MediaManager.Resource.Id.none = global::Bible.Alarm.Droid.Resource.Id.none;
 			global::MediaManager.Resource.Id.normal = global::Bible.Alarm.Droid.Resource.Id.normal;
@@ -787,100 +251,32 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Id.notification_main_column = global::Bible.Alarm.Droid.Resource.Id.notification_main_column;
 			global::MediaManager.Resource.Id.notification_main_column_container = global::Bible.Alarm.Droid.Resource.Id.notification_main_column_container;
 			global::MediaManager.Resource.Id.one = global::Bible.Alarm.Droid.Resource.Id.one;
-			global::MediaManager.Resource.Id.parentPanel = global::Bible.Alarm.Droid.Resource.Id.parentPanel;
-			global::MediaManager.Resource.Id.progress_circular = global::Bible.Alarm.Droid.Resource.Id.progress_circular;
-			global::MediaManager.Resource.Id.progress_horizontal = global::Bible.Alarm.Droid.Resource.Id.progress_horizontal;
-			global::MediaManager.Resource.Id.radio = global::Bible.Alarm.Droid.Resource.Id.radio;
-			global::MediaManager.Resource.Id.right = global::Bible.Alarm.Droid.Resource.Id.right;
 			global::MediaManager.Resource.Id.right_icon = global::Bible.Alarm.Droid.Resource.Id.right_icon;
 			global::MediaManager.Resource.Id.right_side = global::Bible.Alarm.Droid.Resource.Id.right_side;
-			global::MediaManager.Resource.Id.screen = global::Bible.Alarm.Droid.Resource.Id.screen;
-			global::MediaManager.Resource.Id.scrollIndicatorDown = global::Bible.Alarm.Droid.Resource.Id.scrollIndicatorDown;
-			global::MediaManager.Resource.Id.scrollIndicatorUp = global::Bible.Alarm.Droid.Resource.Id.scrollIndicatorUp;
-			global::MediaManager.Resource.Id.scrollView = global::Bible.Alarm.Droid.Resource.Id.scrollView;
-			global::MediaManager.Resource.Id.search_badge = global::Bible.Alarm.Droid.Resource.Id.search_badge;
-			global::MediaManager.Resource.Id.search_bar = global::Bible.Alarm.Droid.Resource.Id.search_bar;
-			global::MediaManager.Resource.Id.search_button = global::Bible.Alarm.Droid.Resource.Id.search_button;
-			global::MediaManager.Resource.Id.search_close_btn = global::Bible.Alarm.Droid.Resource.Id.search_close_btn;
-			global::MediaManager.Resource.Id.search_edit_frame = global::Bible.Alarm.Droid.Resource.Id.search_edit_frame;
-			global::MediaManager.Resource.Id.search_go_btn = global::Bible.Alarm.Droid.Resource.Id.search_go_btn;
-			global::MediaManager.Resource.Id.search_mag_icon = global::Bible.Alarm.Droid.Resource.Id.search_mag_icon;
-			global::MediaManager.Resource.Id.search_plate = global::Bible.Alarm.Droid.Resource.Id.search_plate;
-			global::MediaManager.Resource.Id.search_src_text = global::Bible.Alarm.Droid.Resource.Id.search_src_text;
-			global::MediaManager.Resource.Id.search_voice_btn = global::Bible.Alarm.Droid.Resource.Id.search_voice_btn;
-			global::MediaManager.Resource.Id.select_dialog_listview = global::Bible.Alarm.Droid.Resource.Id.select_dialog_listview;
-			global::MediaManager.Resource.Id.SHIFT = global::Bible.Alarm.Droid.Resource.Id.SHIFT;
-			global::MediaManager.Resource.Id.shortcut = global::Bible.Alarm.Droid.Resource.Id.shortcut;
-			global::MediaManager.Resource.Id.showCustom = global::Bible.Alarm.Droid.Resource.Id.showCustom;
-			global::MediaManager.Resource.Id.showHome = global::Bible.Alarm.Droid.Resource.Id.showHome;
-			global::MediaManager.Resource.Id.showTitle = global::Bible.Alarm.Droid.Resource.Id.showTitle;
-			global::MediaManager.Resource.Id.spacer = global::Bible.Alarm.Droid.Resource.Id.spacer;
-			global::MediaManager.Resource.Id.spherical_view = global::Bible.Alarm.Droid.Resource.Id.spherical_view;
-			global::MediaManager.Resource.Id.split_action_bar = global::Bible.Alarm.Droid.Resource.Id.split_action_bar;
-			global::MediaManager.Resource.Id.src_atop = global::Bible.Alarm.Droid.Resource.Id.src_atop;
-			global::MediaManager.Resource.Id.src_in = global::Bible.Alarm.Droid.Resource.Id.src_in;
-			global::MediaManager.Resource.Id.src_over = global::Bible.Alarm.Droid.Resource.Id.src_over;
-			global::MediaManager.Resource.Id.start = global::Bible.Alarm.Droid.Resource.Id.start;
+			global::MediaManager.Resource.Id.spherical_gl_surface_view = global::Bible.Alarm.Droid.Resource.Id.spherical_gl_surface_view;
 			global::MediaManager.Resource.Id.status_bar_latest_event_content = global::Bible.Alarm.Droid.Resource.Id.status_bar_latest_event_content;
-			global::MediaManager.Resource.Id.submenuarrow = global::Bible.Alarm.Droid.Resource.Id.submenuarrow;
-			global::MediaManager.Resource.Id.submit_area = global::Bible.Alarm.Droid.Resource.Id.submit_area;
 			global::MediaManager.Resource.Id.surface_view = global::Bible.Alarm.Droid.Resource.Id.surface_view;
-			global::MediaManager.Resource.Id.SYM = global::Bible.Alarm.Droid.Resource.Id.SYM;
-			global::MediaManager.Resource.Id.tabMode = global::Bible.Alarm.Droid.Resource.Id.tabMode;
+			global::MediaManager.Resource.Id.tag_accessibility_actions = global::Bible.Alarm.Droid.Resource.Id.tag_accessibility_actions;
+			global::MediaManager.Resource.Id.tag_accessibility_clickable_spans = global::Bible.Alarm.Droid.Resource.Id.tag_accessibility_clickable_spans;
+			global::MediaManager.Resource.Id.tag_accessibility_heading = global::Bible.Alarm.Droid.Resource.Id.tag_accessibility_heading;
+			global::MediaManager.Resource.Id.tag_accessibility_pane_title = global::Bible.Alarm.Droid.Resource.Id.tag_accessibility_pane_title;
+			global::MediaManager.Resource.Id.tag_screen_reader_focusable = global::Bible.Alarm.Droid.Resource.Id.tag_screen_reader_focusable;
 			global::MediaManager.Resource.Id.tag_transition_group = global::Bible.Alarm.Droid.Resource.Id.tag_transition_group;
 			global::MediaManager.Resource.Id.tag_unhandled_key_event_manager = global::Bible.Alarm.Droid.Resource.Id.tag_unhandled_key_event_manager;
 			global::MediaManager.Resource.Id.tag_unhandled_key_listeners = global::Bible.Alarm.Droid.Resource.Id.tag_unhandled_key_listeners;
 			global::MediaManager.Resource.Id.text = global::Bible.Alarm.Droid.Resource.Id.text;
 			global::MediaManager.Resource.Id.text2 = global::Bible.Alarm.Droid.Resource.Id.text2;
-			global::MediaManager.Resource.Id.textSpacerNoButtons = global::Bible.Alarm.Droid.Resource.Id.textSpacerNoButtons;
-			global::MediaManager.Resource.Id.textSpacerNoTitle = global::Bible.Alarm.Droid.Resource.Id.textSpacerNoTitle;
 			global::MediaManager.Resource.Id.texture_view = global::Bible.Alarm.Droid.Resource.Id.texture_view;
 			global::MediaManager.Resource.Id.time = global::Bible.Alarm.Droid.Resource.Id.time;
 			global::MediaManager.Resource.Id.title = global::Bible.Alarm.Droid.Resource.Id.title;
-			global::MediaManager.Resource.Id.titleDividerNoCustom = global::Bible.Alarm.Droid.Resource.Id.titleDividerNoCustom;
-			global::MediaManager.Resource.Id.title_template = global::Bible.Alarm.Droid.Resource.Id.title_template;
-			global::MediaManager.Resource.Id.top = global::Bible.Alarm.Droid.Resource.Id.top;
-			global::MediaManager.Resource.Id.topPanel = global::Bible.Alarm.Droid.Resource.Id.topPanel;
-			global::MediaManager.Resource.Id.uniform = global::Bible.Alarm.Droid.Resource.Id.uniform;
-			global::MediaManager.Resource.Id.up = global::Bible.Alarm.Droid.Resource.Id.up;
-			global::MediaManager.Resource.Id.useLogo = global::Bible.Alarm.Droid.Resource.Id.useLogo;
+			global::MediaManager.Resource.Id.video_decoder_gl_surface_view = global::Bible.Alarm.Droid.Resource.Id.video_decoder_gl_surface_view;
 			global::MediaManager.Resource.Id.when_playing = global::Bible.Alarm.Droid.Resource.Id.when_playing;
-			global::MediaManager.Resource.Id.withText = global::Bible.Alarm.Droid.Resource.Id.withText;
-			global::MediaManager.Resource.Id.wrap_content = global::Bible.Alarm.Droid.Resource.Id.wrap_content;
 			global::MediaManager.Resource.Id.zoom = global::Bible.Alarm.Droid.Resource.Id.zoom;
-			global::MediaManager.Resource.Integer.abc_config_activityDefaultDur = global::Bible.Alarm.Droid.Resource.Integer.abc_config_activityDefaultDur;
-			global::MediaManager.Resource.Integer.abc_config_activityShortDur = global::Bible.Alarm.Droid.Resource.Integer.abc_config_activityShortDur;
 			global::MediaManager.Resource.Integer.cancel_button_image_alpha = global::Bible.Alarm.Droid.Resource.Integer.cancel_button_image_alpha;
-			global::MediaManager.Resource.Integer.config_tooltipAnimTime = global::Bible.Alarm.Droid.Resource.Integer.config_tooltipAnimTime;
+			global::MediaManager.Resource.Integer.exo_media_button_opacity_percentage_disabled = global::Bible.Alarm.Droid.Resource.Integer.exo_media_button_opacity_percentage_disabled;
+			global::MediaManager.Resource.Integer.exo_media_button_opacity_percentage_enabled = global::Bible.Alarm.Droid.Resource.Integer.exo_media_button_opacity_percentage_enabled;
 			global::MediaManager.Resource.Integer.status_bar_notification_info_maxnum = global::Bible.Alarm.Droid.Resource.Integer.status_bar_notification_info_maxnum;
-			global::MediaManager.Resource.Layout.abc_action_bar_title_item = global::Bible.Alarm.Droid.Resource.Layout.abc_action_bar_title_item;
-			global::MediaManager.Resource.Layout.abc_action_bar_up_container = global::Bible.Alarm.Droid.Resource.Layout.abc_action_bar_up_container;
-			global::MediaManager.Resource.Layout.abc_action_menu_item_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_action_menu_item_layout;
-			global::MediaManager.Resource.Layout.abc_action_menu_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_action_menu_layout;
-			global::MediaManager.Resource.Layout.abc_action_mode_bar = global::Bible.Alarm.Droid.Resource.Layout.abc_action_mode_bar;
-			global::MediaManager.Resource.Layout.abc_action_mode_close_item_material = global::Bible.Alarm.Droid.Resource.Layout.abc_action_mode_close_item_material;
-			global::MediaManager.Resource.Layout.abc_activity_chooser_view = global::Bible.Alarm.Droid.Resource.Layout.abc_activity_chooser_view;
-			global::MediaManager.Resource.Layout.abc_activity_chooser_view_list_item = global::Bible.Alarm.Droid.Resource.Layout.abc_activity_chooser_view_list_item;
-			global::MediaManager.Resource.Layout.abc_alert_dialog_button_bar_material = global::Bible.Alarm.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
-			global::MediaManager.Resource.Layout.abc_alert_dialog_material = global::Bible.Alarm.Droid.Resource.Layout.abc_alert_dialog_material;
-			global::MediaManager.Resource.Layout.abc_alert_dialog_title_material = global::Bible.Alarm.Droid.Resource.Layout.abc_alert_dialog_title_material;
-			global::MediaManager.Resource.Layout.abc_cascading_menu_item_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_cascading_menu_item_layout;
-			global::MediaManager.Resource.Layout.abc_dialog_title_material = global::Bible.Alarm.Droid.Resource.Layout.abc_dialog_title_material;
-			global::MediaManager.Resource.Layout.abc_expanded_menu_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_expanded_menu_layout;
-			global::MediaManager.Resource.Layout.abc_list_menu_item_checkbox = global::Bible.Alarm.Droid.Resource.Layout.abc_list_menu_item_checkbox;
-			global::MediaManager.Resource.Layout.abc_list_menu_item_icon = global::Bible.Alarm.Droid.Resource.Layout.abc_list_menu_item_icon;
-			global::MediaManager.Resource.Layout.abc_list_menu_item_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_list_menu_item_layout;
-			global::MediaManager.Resource.Layout.abc_list_menu_item_radio = global::Bible.Alarm.Droid.Resource.Layout.abc_list_menu_item_radio;
-			global::MediaManager.Resource.Layout.abc_popup_menu_header_item_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_popup_menu_header_item_layout;
-			global::MediaManager.Resource.Layout.abc_popup_menu_item_layout = global::Bible.Alarm.Droid.Resource.Layout.abc_popup_menu_item_layout;
-			global::MediaManager.Resource.Layout.abc_screen_content_include = global::Bible.Alarm.Droid.Resource.Layout.abc_screen_content_include;
-			global::MediaManager.Resource.Layout.abc_screen_simple = global::Bible.Alarm.Droid.Resource.Layout.abc_screen_simple;
-			global::MediaManager.Resource.Layout.abc_screen_simple_overlay_action_mode = global::Bible.Alarm.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode;
-			global::MediaManager.Resource.Layout.abc_screen_toolbar = global::Bible.Alarm.Droid.Resource.Layout.abc_screen_toolbar;
-			global::MediaManager.Resource.Layout.abc_search_dropdown_item_icons_2line = global::Bible.Alarm.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
-			global::MediaManager.Resource.Layout.abc_search_view = global::Bible.Alarm.Droid.Resource.Layout.abc_search_view;
-			global::MediaManager.Resource.Layout.abc_select_dialog_material = global::Bible.Alarm.Droid.Resource.Layout.abc_select_dialog_material;
-			global::MediaManager.Resource.Layout.abc_tooltip = global::Bible.Alarm.Droid.Resource.Layout.abc_tooltip;
+			global::MediaManager.Resource.Layout.custom_dialog = global::Bible.Alarm.Droid.Resource.Layout.custom_dialog;
 			global::MediaManager.Resource.Layout.exo_list_divider = global::Bible.Alarm.Droid.Resource.Layout.exo_list_divider;
 			global::MediaManager.Resource.Layout.exo_playback_control_view = global::Bible.Alarm.Droid.Resource.Layout.exo_playback_control_view;
 			global::MediaManager.Resource.Layout.exo_player_control_view = global::Bible.Alarm.Droid.Resource.Layout.exo_player_control_view;
@@ -902,39 +298,9 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Layout.notification_template_media_custom = global::Bible.Alarm.Droid.Resource.Layout.notification_template_media_custom;
 			global::MediaManager.Resource.Layout.notification_template_part_chronometer = global::Bible.Alarm.Droid.Resource.Layout.notification_template_part_chronometer;
 			global::MediaManager.Resource.Layout.notification_template_part_time = global::Bible.Alarm.Droid.Resource.Layout.notification_template_part_time;
-			global::MediaManager.Resource.Layout.select_dialog_item_material = global::Bible.Alarm.Droid.Resource.Layout.select_dialog_item_material;
-			global::MediaManager.Resource.Layout.select_dialog_multichoice_material = global::Bible.Alarm.Droid.Resource.Layout.select_dialog_multichoice_material;
-			global::MediaManager.Resource.Layout.select_dialog_singlechoice_material = global::Bible.Alarm.Droid.Resource.Layout.select_dialog_singlechoice_material;
-			global::MediaManager.Resource.Layout.support_simple_spinner_dropdown_item = global::Bible.Alarm.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
-			global::MediaManager.Resource.String.abc_action_bar_home_description = global::Bible.Alarm.Droid.Resource.String.abc_action_bar_home_description;
-			global::MediaManager.Resource.String.abc_action_bar_up_description = global::Bible.Alarm.Droid.Resource.String.abc_action_bar_up_description;
-			global::MediaManager.Resource.String.abc_action_menu_overflow_description = global::Bible.Alarm.Droid.Resource.String.abc_action_menu_overflow_description;
-			global::MediaManager.Resource.String.abc_action_mode_done = global::Bible.Alarm.Droid.Resource.String.abc_action_mode_done;
-			global::MediaManager.Resource.String.abc_activitychooserview_choose_application = global::Bible.Alarm.Droid.Resource.String.abc_activitychooserview_choose_application;
-			global::MediaManager.Resource.String.abc_activity_chooser_view_see_all = global::Bible.Alarm.Droid.Resource.String.abc_activity_chooser_view_see_all;
-			global::MediaManager.Resource.String.abc_capital_off = global::Bible.Alarm.Droid.Resource.String.abc_capital_off;
-			global::MediaManager.Resource.String.abc_capital_on = global::Bible.Alarm.Droid.Resource.String.abc_capital_on;
-			global::MediaManager.Resource.String.abc_menu_alt_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_alt_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_ctrl_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_ctrl_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_delete_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_delete_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_enter_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_enter_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_function_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_function_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_meta_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_meta_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_shift_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_shift_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_space_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_space_shortcut_label;
-			global::MediaManager.Resource.String.abc_menu_sym_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_menu_sym_shortcut_label;
-			global::MediaManager.Resource.String.abc_prepend_shortcut_label = global::Bible.Alarm.Droid.Resource.String.abc_prepend_shortcut_label;
-			global::MediaManager.Resource.String.abc_searchview_description_clear = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_clear;
-			global::MediaManager.Resource.String.abc_searchview_description_query = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_query;
-			global::MediaManager.Resource.String.abc_searchview_description_search = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_search;
-			global::MediaManager.Resource.String.abc_searchview_description_submit = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_submit;
-			global::MediaManager.Resource.String.abc_searchview_description_voice = global::Bible.Alarm.Droid.Resource.String.abc_searchview_description_voice;
-			global::MediaManager.Resource.String.abc_search_hint = global::Bible.Alarm.Droid.Resource.String.abc_search_hint;
-			global::MediaManager.Resource.String.abc_shareactionprovider_share_with = global::Bible.Alarm.Droid.Resource.String.abc_shareactionprovider_share_with;
-			global::MediaManager.Resource.String.abc_shareactionprovider_share_with_application = global::Bible.Alarm.Droid.Resource.String.abc_shareactionprovider_share_with_application;
-			global::MediaManager.Resource.String.abc_toolbar_collapse_description = global::Bible.Alarm.Droid.Resource.String.abc_toolbar_collapse_description;
 			global::MediaManager.Resource.String.exo_controls_fastforward_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_fastforward_description;
 			global::MediaManager.Resource.String.exo_controls_fullscreen_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_fullscreen_description;
+			global::MediaManager.Resource.String.exo_controls_hide = global::Bible.Alarm.Droid.Resource.String.exo_controls_hide;
 			global::MediaManager.Resource.String.exo_controls_next_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_next_description;
 			global::MediaManager.Resource.String.exo_controls_pause_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_pause_description;
 			global::MediaManager.Resource.String.exo_controls_play_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_play_description;
@@ -943,8 +309,11 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.String.exo_controls_repeat_off_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_repeat_off_description;
 			global::MediaManager.Resource.String.exo_controls_repeat_one_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_repeat_one_description;
 			global::MediaManager.Resource.String.exo_controls_rewind_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_rewind_description;
-			global::MediaManager.Resource.String.exo_controls_shuffle_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_shuffle_description;
+			global::MediaManager.Resource.String.exo_controls_show = global::Bible.Alarm.Droid.Resource.String.exo_controls_show;
+			global::MediaManager.Resource.String.exo_controls_shuffle_off_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_shuffle_off_description;
+			global::MediaManager.Resource.String.exo_controls_shuffle_on_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_shuffle_on_description;
 			global::MediaManager.Resource.String.exo_controls_stop_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_stop_description;
+			global::MediaManager.Resource.String.exo_controls_vr_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_vr_description;
 			global::MediaManager.Resource.String.exo_download_completed = global::Bible.Alarm.Droid.Resource.String.exo_download_completed;
 			global::MediaManager.Resource.String.exo_download_description = global::Bible.Alarm.Droid.Resource.String.exo_download_description;
 			global::MediaManager.Resource.String.exo_download_downloading = global::Bible.Alarm.Droid.Resource.String.exo_download_downloading;
@@ -958,6 +327,10 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.String.exo_track_bitrate = global::Bible.Alarm.Droid.Resource.String.exo_track_bitrate;
 			global::MediaManager.Resource.String.exo_track_mono = global::Bible.Alarm.Droid.Resource.String.exo_track_mono;
 			global::MediaManager.Resource.String.exo_track_resolution = global::Bible.Alarm.Droid.Resource.String.exo_track_resolution;
+			global::MediaManager.Resource.String.exo_track_role_alternate = global::Bible.Alarm.Droid.Resource.String.exo_track_role_alternate;
+			global::MediaManager.Resource.String.exo_track_role_closed_captions = global::Bible.Alarm.Droid.Resource.String.exo_track_role_closed_captions;
+			global::MediaManager.Resource.String.exo_track_role_commentary = global::Bible.Alarm.Droid.Resource.String.exo_track_role_commentary;
+			global::MediaManager.Resource.String.exo_track_role_supplementary = global::Bible.Alarm.Droid.Resource.String.exo_track_role_supplementary;
 			global::MediaManager.Resource.String.exo_track_selection_auto = global::Bible.Alarm.Droid.Resource.String.exo_track_selection_auto;
 			global::MediaManager.Resource.String.exo_track_selection_none = global::Bible.Alarm.Droid.Resource.String.exo_track_selection_none;
 			global::MediaManager.Resource.String.exo_track_selection_title_audio = global::Bible.Alarm.Droid.Resource.String.exo_track_selection_title_audio;
@@ -968,168 +341,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.String.exo_track_surround_5_point_1 = global::Bible.Alarm.Droid.Resource.String.exo_track_surround_5_point_1;
 			global::MediaManager.Resource.String.exo_track_surround_7_point_1 = global::Bible.Alarm.Droid.Resource.String.exo_track_surround_7_point_1;
 			global::MediaManager.Resource.String.exo_track_unknown = global::Bible.Alarm.Droid.Resource.String.exo_track_unknown;
-			global::MediaManager.Resource.String.search_menu_title = global::Bible.Alarm.Droid.Resource.String.search_menu_title;
 			global::MediaManager.Resource.String.status_bar_notification_info_overflow = global::Bible.Alarm.Droid.Resource.String.status_bar_notification_info_overflow;
-			global::MediaManager.Resource.Style.AlertDialog_AppCompat = global::Bible.Alarm.Droid.Resource.Style.AlertDialog_AppCompat;
-			global::MediaManager.Resource.Style.AlertDialog_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.AlertDialog_AppCompat_Light;
-			global::MediaManager.Resource.Style.Animation_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Animation_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Animation_AppCompat_DropDownUp = global::Bible.Alarm.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
-			global::MediaManager.Resource.Style.Animation_AppCompat_Tooltip = global::Bible.Alarm.Droid.Resource.Style.Animation_AppCompat_Tooltip;
-			global::MediaManager.Resource.Style.Base_AlertDialog_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_AlertDialog_AppCompat;
-			global::MediaManager.Resource.Style.Base_AlertDialog_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_Animation_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::Bible.Alarm.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp;
-			global::MediaManager.Resource.Style.Base_Animation_AppCompat_Tooltip = global::Bible.Alarm.Droid.Resource.Style.Base_Animation_AppCompat_Tooltip;
-			global::MediaManager.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
-			global::MediaManager.Resource.Style.Base_DialogWindowTitle_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Button = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Large = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Small = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Title = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Tooltip = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Tooltip;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
-			global::MediaManager.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
-			global::MediaManager.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
-			global::MediaManager.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
-			global::MediaManager.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::Bible.Alarm.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert;
-			global::MediaManager.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
-			global::MediaManager.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::Bible.Alarm.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
-			global::MediaManager.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_V21_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V21_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_V21_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
-			global::MediaManager.Resource.Style.Base_V22_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V22_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_V22_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_V23_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V23_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_V23_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_V26_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V26_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_V26_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::Bible.Alarm.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
-			global::MediaManager.Resource.Style.Base_V28_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V28_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_V28_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V28_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat;
-			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
-			global::MediaManager.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
-			global::MediaManager.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText;
-			global::MediaManager.Resource.Style.Base_V7_Widget_AppCompat_Toolbar = global::Bible.Alarm.Droid.Resource.Style.Base_V7_Widget_AppCompat_Toolbar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionButton = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActionMode = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Button = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Button;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Button_Small = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_EditText = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_EditText;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ImageButton = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ListMenuView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ListMenuView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ListView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ListView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_RatingBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_RatingBar_Small = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Small;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_SearchView = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_SearchView;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_SeekBar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Spinner = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Spinner;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Toolbar = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
-			global::MediaManager.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::Bible.Alarm.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
 			global::MediaManager.Resource.Style.ExoMediaButton = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton;
 			global::MediaManager.Resource.Style.ExoMediaButton_FastForward = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_FastForward;
 			global::MediaManager.Resource.Style.ExoMediaButton_Next = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_Next;
@@ -1137,82 +349,7 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Style.ExoMediaButton_Play = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_Play;
 			global::MediaManager.Resource.Style.ExoMediaButton_Previous = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_Previous;
 			global::MediaManager.Resource.Style.ExoMediaButton_Rewind = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_Rewind;
-			global::MediaManager.Resource.Style.ExoMediaButton_Shuffle = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_Shuffle;
-			global::MediaManager.Resource.Style.Platform_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Platform_AppCompat;
-			global::MediaManager.Resource.Style.Platform_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Platform_AppCompat_Light;
-			global::MediaManager.Resource.Style.Platform_ThemeOverlay_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
-			global::MediaManager.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::Bible.Alarm.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
-			global::MediaManager.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
-			global::MediaManager.Resource.Style.Platform_V21_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Platform_V21_AppCompat;
-			global::MediaManager.Resource.Style.Platform_V21_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Platform_V21_AppCompat_Light;
-			global::MediaManager.Resource.Style.Platform_V25_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Platform_V25_AppCompat;
-			global::MediaManager.Resource.Style.Platform_V25_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Platform_V25_AppCompat_Light;
-			global::MediaManager.Resource.Style.Platform_Widget_AppCompat_Spinner = global::Bible.Alarm.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner;
-			global::MediaManager.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
-			global::MediaManager.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
-			global::MediaManager.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Bible.Alarm.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
-			global::MediaManager.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Bible.Alarm.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Body1 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Body2 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Button = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Button;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Caption = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Caption;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Display1 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Display1;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Display2 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Display2;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Display3 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Display3;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Display4 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Display4;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Headline = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Headline;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Large = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Large;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Medium = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Medium;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Menu = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Menu;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Small = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Small;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Subhead = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Subhead;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Title;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Tooltip = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Tooltip;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
-			global::MediaManager.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::MediaManager.Resource.Style.ExoMediaButton_VR = global::Bible.Alarm.Droid.Resource.Style.ExoMediaButton_VR;
 			global::MediaManager.Resource.Style.TextAppearance_Compat_Notification = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification;
 			global::MediaManager.Resource.Style.TextAppearance_Compat_Notification_Info = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Info;
 			global::MediaManager.Resource.Style.TextAppearance_Compat_Notification_Info_Media = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Info_Media;
@@ -1223,356 +360,14 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Style.TextAppearance_Compat_Notification_Time_Media = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Time_Media;
 			global::MediaManager.Resource.Style.TextAppearance_Compat_Notification_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Title;
 			global::MediaManager.Resource.Style.TextAppearance_Compat_Notification_Title_Media = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Title_Media;
-			global::MediaManager.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
-			global::MediaManager.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
-			global::MediaManager.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat_Dark = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert;
-			global::MediaManager.Resource.Style.ThemeOverlay_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.ThemeOverlay_AppCompat_Light;
-			global::MediaManager.Resource.Style.Theme_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat;
-			global::MediaManager.Resource.Style.Theme_AppCompat_CompactMenu = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_CompactMenu;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight_Dialog = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DayNight_NoActionBar = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DayNight_NoActionBar;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Dialog = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Dialog;
-			global::MediaManager.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light_Dialog = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light_Dialog;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
-			global::MediaManager.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
-			global::MediaManager.Resource.Style.Theme_AppCompat_NoActionBar = global::Bible.Alarm.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionButton = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionButton;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActionMode = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActionMode;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ActivityChooserView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Button = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Button;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ButtonBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ButtonBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Button_Borderless = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Button_Borderless;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Button_Colored = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Button_Colored;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Button_Small = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Button_Small;
-			global::MediaManager.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
-			global::MediaManager.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
-			global::MediaManager.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
-			global::MediaManager.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
-			global::MediaManager.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
-			global::MediaManager.Resource.Style.Widget_AppCompat_EditText = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_EditText;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ImageButton = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ImageButton;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionButton = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_SearchView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_SearchView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ListMenuView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ListMenuView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ListPopupWindow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ListView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ListView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ListView_DropDown = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ListView_Menu = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ListView_Menu;
-			global::MediaManager.Resource.Style.Widget_AppCompat_PopupMenu = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_PopupMenu;
-			global::MediaManager.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_PopupWindow = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_PopupWindow;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ProgressBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ProgressBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
-			global::MediaManager.Resource.Style.Widget_AppCompat_RatingBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_RatingBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_RatingBar_Indicator = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_RatingBar_Indicator;
-			global::MediaManager.Resource.Style.Widget_AppCompat_RatingBar_Small = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_RatingBar_Small;
-			global::MediaManager.Resource.Style.Widget_AppCompat_SearchView = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_SearchView;
-			global::MediaManager.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_SeekBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_SeekBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_SeekBar_Discrete = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_SeekBar_Discrete;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Spinner = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Spinner;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined;
-			global::MediaManager.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Toolbar = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Toolbar;
-			global::MediaManager.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::Bible.Alarm.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
 			global::MediaManager.Resource.Style.Widget_Compat_NotificationActionContainer = global::Bible.Alarm.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
 			global::MediaManager.Resource.Style.Widget_Compat_NotificationActionText = global::Bible.Alarm.Droid.Resource.Style.Widget_Compat_NotificationActionText;
-			global::MediaManager.Resource.Style.Widget_Support_CoordinatorLayout = global::Bible.Alarm.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
-			global::MediaManager.Resource.Styleable.ActionBar = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar;
-			global::MediaManager.Resource.Styleable.ActionBarLayout = global::Bible.Alarm.Droid.Resource.Styleable.ActionBarLayout;
-			global::MediaManager.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::Bible.Alarm.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity;
-			global::MediaManager.Resource.Styleable.ActionBar_background = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_background;
-			global::MediaManager.Resource.Styleable.ActionBar_backgroundSplit = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_backgroundSplit;
-			global::MediaManager.Resource.Styleable.ActionBar_backgroundStacked = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_backgroundStacked;
-			global::MediaManager.Resource.Styleable.ActionBar_contentInsetEnd = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_contentInsetEnd;
-			global::MediaManager.Resource.Styleable.ActionBar_contentInsetEndWithActions = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_contentInsetEndWithActions;
-			global::MediaManager.Resource.Styleable.ActionBar_contentInsetLeft = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_contentInsetLeft;
-			global::MediaManager.Resource.Styleable.ActionBar_contentInsetRight = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_contentInsetRight;
-			global::MediaManager.Resource.Styleable.ActionBar_contentInsetStart = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_contentInsetStart;
-			global::MediaManager.Resource.Styleable.ActionBar_contentInsetStartWithNavigation = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_contentInsetStartWithNavigation;
-			global::MediaManager.Resource.Styleable.ActionBar_customNavigationLayout = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_customNavigationLayout;
-			global::MediaManager.Resource.Styleable.ActionBar_displayOptions = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_displayOptions;
-			global::MediaManager.Resource.Styleable.ActionBar_divider = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_divider;
-			global::MediaManager.Resource.Styleable.ActionBar_elevation = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_elevation;
-			global::MediaManager.Resource.Styleable.ActionBar_height = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_height;
-			global::MediaManager.Resource.Styleable.ActionBar_hideOnContentScroll = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_hideOnContentScroll;
-			global::MediaManager.Resource.Styleable.ActionBar_homeAsUpIndicator = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator;
-			global::MediaManager.Resource.Styleable.ActionBar_homeLayout = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_homeLayout;
-			global::MediaManager.Resource.Styleable.ActionBar_icon = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_icon;
-			global::MediaManager.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle;
-			global::MediaManager.Resource.Styleable.ActionBar_itemPadding = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_itemPadding;
-			global::MediaManager.Resource.Styleable.ActionBar_logo = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_logo;
-			global::MediaManager.Resource.Styleable.ActionBar_navigationMode = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_navigationMode;
-			global::MediaManager.Resource.Styleable.ActionBar_popupTheme = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_popupTheme;
-			global::MediaManager.Resource.Styleable.ActionBar_progressBarPadding = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_progressBarPadding;
-			global::MediaManager.Resource.Styleable.ActionBar_progressBarStyle = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_progressBarStyle;
-			global::MediaManager.Resource.Styleable.ActionBar_subtitle = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_subtitle;
-			global::MediaManager.Resource.Styleable.ActionBar_subtitleTextStyle = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_subtitleTextStyle;
-			global::MediaManager.Resource.Styleable.ActionBar_title = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_title;
-			global::MediaManager.Resource.Styleable.ActionBar_titleTextStyle = global::Bible.Alarm.Droid.Resource.Styleable.ActionBar_titleTextStyle;
-			global::MediaManager.Resource.Styleable.ActionMenuItemView = global::Bible.Alarm.Droid.Resource.Styleable.ActionMenuItemView;
-			global::MediaManager.Resource.Styleable.ActionMenuItemView_android_minWidth = global::Bible.Alarm.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth;
-			global::MediaManager.Resource.Styleable.ActionMenuView = global::Bible.Alarm.Droid.Resource.Styleable.ActionMenuView;
-			global::MediaManager.Resource.Styleable.ActionMode = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode;
-			global::MediaManager.Resource.Styleable.ActionMode_background = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode_background;
-			global::MediaManager.Resource.Styleable.ActionMode_backgroundSplit = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode_backgroundSplit;
-			global::MediaManager.Resource.Styleable.ActionMode_closeItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode_closeItemLayout;
-			global::MediaManager.Resource.Styleable.ActionMode_height = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode_height;
-			global::MediaManager.Resource.Styleable.ActionMode_subtitleTextStyle = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode_subtitleTextStyle;
-			global::MediaManager.Resource.Styleable.ActionMode_titleTextStyle = global::Bible.Alarm.Droid.Resource.Styleable.ActionMode_titleTextStyle;
-			global::MediaManager.Resource.Styleable.ActivityChooserView = global::Bible.Alarm.Droid.Resource.Styleable.ActivityChooserView;
-			global::MediaManager.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::Bible.Alarm.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
-			global::MediaManager.Resource.Styleable.ActivityChooserView_initialActivityCount = global::Bible.Alarm.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
-			global::MediaManager.Resource.Styleable.AlertDialog = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog;
-			global::MediaManager.Resource.Styleable.AlertDialog_android_layout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_android_layout;
-			global::MediaManager.Resource.Styleable.AlertDialog_buttonIconDimen = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_buttonIconDimen;
-			global::MediaManager.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
-			global::MediaManager.Resource.Styleable.AlertDialog_listItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_listItemLayout;
-			global::MediaManager.Resource.Styleable.AlertDialog_listLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_listLayout;
-			global::MediaManager.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
-			global::MediaManager.Resource.Styleable.AlertDialog_showTitle = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_showTitle;
-			global::MediaManager.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::Bible.Alarm.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableItem = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableItem;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableItem_android_id = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_id;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible;
-			global::MediaManager.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId = global::Bible.Alarm.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId;
-			global::MediaManager.Resource.Styleable.AppCompatImageView = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView;
-			global::MediaManager.Resource.Styleable.AppCompatImageView_android_src = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView_android_src;
-			global::MediaManager.Resource.Styleable.AppCompatImageView_srcCompat = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
-			global::MediaManager.Resource.Styleable.AppCompatImageView_tint = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView_tint;
-			global::MediaManager.Resource.Styleable.AppCompatImageView_tintMode = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatImageView_tintMode;
-			global::MediaManager.Resource.Styleable.AppCompatSeekBar = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatSeekBar;
-			global::MediaManager.Resource.Styleable.AppCompatSeekBar_android_thumb = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb;
-			global::MediaManager.Resource.Styleable.AppCompatSeekBar_tickMark = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatSeekBar_tickMark;
-			global::MediaManager.Resource.Styleable.AppCompatSeekBar_tickMarkTint = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTint;
-			global::MediaManager.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_drawableBottom = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableBottom;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_drawableEnd = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableEnd;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_drawableLeft = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableLeft;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_drawableRight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableRight;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_drawableStart = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableStart;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_drawableTop = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableTop;
-			global::MediaManager.Resource.Styleable.AppCompatTextHelper_android_textAppearance = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextHelper_android_textAppearance;
-			global::MediaManager.Resource.Styleable.AppCompatTextView = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_android_textAppearance = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizePresetSizes = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizePresetSizes;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_autoSizeTextType = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_autoSizeTextType;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_fontFamily = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_fontFamily;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_lineHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_lineHeight;
-			global::MediaManager.Resource.Styleable.AppCompatTextView_textAllCaps = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
-			global::MediaManager.Resource.Styleable.AppCompatTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarDivider = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarItemBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarItemBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarPopupTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarPopupTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarSize = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarSize;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarSplitStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarSplitStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarTabStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarTabStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionDropDownStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionDropDownStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionMenuTextColor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextColor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeCutDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeCutDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeFindDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeFindDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModePasteDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModePasteDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeShareDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeShareDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeSplitBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeSplitBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_activityChooserViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_activityChooserViewStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_alertDialogStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_alertDialogStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_alertDialogTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_alertDialogTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_android_windowIsFloating = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_android_windowIsFloating;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_borderlessButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_borderlessButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonBarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonBarStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_buttonStyleSmall = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_buttonStyleSmall;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_checkboxStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_checkboxStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_checkedTextViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_checkedTextViewStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorAccent = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorAccent;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorBackgroundFloating = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorBackgroundFloating;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorButtonNormal = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorButtonNormal;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorControlActivated = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorControlActivated;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorControlHighlight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorControlHighlight;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorControlNormal = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorControlNormal;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorError = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorError;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorPrimary = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorPrimary;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_controlBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_controlBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dialogCornerRadius = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dialogCornerRadius;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dialogTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dialogTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dividerVertical = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dividerVertical;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_dropDownListViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_dropDownListViewStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_editTextBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_editTextBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_editTextColor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_editTextColor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_editTextStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_editTextStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_homeAsUpIndicator = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_homeAsUpIndicator;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_imageButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_imageButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listDividerAlertDialog = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listDividerAlertDialog;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listMenuViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listMenuViewStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listPopupWindowStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listPopupWindowStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listPreferredItemHeight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeight;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_panelBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_panelBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_panelMenuListTheme = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_panelMenuListTheme;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_panelMenuListWidth = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_panelMenuListWidth;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_popupMenuStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_popupMenuStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_popupWindowStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_popupWindowStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_radioButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_radioButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_ratingBarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_searchViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_searchViewStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_seekBarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_seekBarStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_selectableItemBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_spinnerStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_spinnerStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_switchStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_switchStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_textColorSearchUrl = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_textColorSearchUrl;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_toolbarStyle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_tooltipForegroundColor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_tooltipForegroundColor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_tooltipFrameBackground = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_tooltipFrameBackground;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_viewInflaterClass = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_viewInflaterClass;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowActionBar = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowActionBar;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
-			global::MediaManager.Resource.Styleable.AppCompatTheme_windowNoTitle = global::Bible.Alarm.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle;
 			global::MediaManager.Resource.Styleable.AspectRatioFrameLayout = global::Bible.Alarm.Droid.Resource.Styleable.AspectRatioFrameLayout;
 			global::MediaManager.Resource.Styleable.AspectRatioFrameLayout_resize_mode = global::Bible.Alarm.Droid.Resource.Styleable.AspectRatioFrameLayout_resize_mode;
-			global::MediaManager.Resource.Styleable.ButtonBarLayout = global::Bible.Alarm.Droid.Resource.Styleable.ButtonBarLayout;
-			global::MediaManager.Resource.Styleable.ButtonBarLayout_allowStacking = global::Bible.Alarm.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
 			global::MediaManager.Resource.Styleable.ColorStateListItem = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem;
 			global::MediaManager.Resource.Styleable.ColorStateListItem_alpha = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem_alpha;
 			global::MediaManager.Resource.Styleable.ColorStateListItem_android_alpha = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
 			global::MediaManager.Resource.Styleable.ColorStateListItem_android_color = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem_android_color;
-			global::MediaManager.Resource.Styleable.CompoundButton = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton;
-			global::MediaManager.Resource.Styleable.CompoundButton_android_button = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton_android_button;
-			global::MediaManager.Resource.Styleable.CompoundButton_buttonTint = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton_buttonTint;
-			global::MediaManager.Resource.Styleable.CompoundButton_buttonTintMode = global::Bible.Alarm.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_keylines = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_keylines;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
-			global::MediaManager.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_ad_marker_color = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_ad_marker_color;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_ad_marker_width = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_ad_marker_width;
@@ -1587,15 +382,6 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_scrubber_enabled_size = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_scrubber_enabled_size;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_touch_target_height = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_touch_target_height;
 			global::MediaManager.Resource.Styleable.DefaultTimeBar_unplayed_color = global::Bible.Alarm.Droid.Resource.Styleable.DefaultTimeBar_unplayed_color;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_barLength = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_barLength;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_color = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_color;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_drawableSize = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_spinBars = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
-			global::MediaManager.Resource.Styleable.DrawerArrowToggle_thickness = global::Bible.Alarm.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
 			global::MediaManager.Resource.Styleable.FontFamily = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily;
 			global::MediaManager.Resource.Styleable.FontFamilyFont = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont;
 			global::MediaManager.Resource.Styleable.FontFamilyFont_android_font = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_font;
@@ -1630,206 +416,244 @@ namespace Bible.Alarm.Droid
 			global::MediaManager.Resource.Styleable.GradientColor_android_startY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startY;
 			global::MediaManager.Resource.Styleable.GradientColor_android_tileMode = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_tileMode;
 			global::MediaManager.Resource.Styleable.GradientColor_android_type = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_type;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_gravity = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_orientation = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_divider = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_divider;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_Layout = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_Layout;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
-			global::MediaManager.Resource.Styleable.LinearLayoutCompat_showDividers = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_showDividers;
-			global::MediaManager.Resource.Styleable.ListPopupWindow = global::Bible.Alarm.Droid.Resource.Styleable.ListPopupWindow;
-			global::MediaManager.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::Bible.Alarm.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
-			global::MediaManager.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::Bible.Alarm.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
-			global::MediaManager.Resource.Styleable.MenuGroup = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup;
-			global::MediaManager.Resource.Styleable.MenuGroup_android_checkableBehavior = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
-			global::MediaManager.Resource.Styleable.MenuGroup_android_enabled = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup_android_enabled;
-			global::MediaManager.Resource.Styleable.MenuGroup_android_id = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup_android_id;
-			global::MediaManager.Resource.Styleable.MenuGroup_android_menuCategory = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup_android_menuCategory;
-			global::MediaManager.Resource.Styleable.MenuGroup_android_orderInCategory = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup_android_orderInCategory;
-			global::MediaManager.Resource.Styleable.MenuGroup_android_visible = global::Bible.Alarm.Droid.Resource.Styleable.MenuGroup_android_visible;
-			global::MediaManager.Resource.Styleable.MenuItem = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem;
-			global::MediaManager.Resource.Styleable.MenuItem_actionLayout = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_actionLayout;
-			global::MediaManager.Resource.Styleable.MenuItem_actionProviderClass = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_actionProviderClass;
-			global::MediaManager.Resource.Styleable.MenuItem_actionViewClass = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_actionViewClass;
-			global::MediaManager.Resource.Styleable.MenuItem_alphabeticModifiers = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_alphabeticModifiers;
-			global::MediaManager.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut;
-			global::MediaManager.Resource.Styleable.MenuItem_android_checkable = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_checkable;
-			global::MediaManager.Resource.Styleable.MenuItem_android_checked = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_checked;
-			global::MediaManager.Resource.Styleable.MenuItem_android_enabled = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_enabled;
-			global::MediaManager.Resource.Styleable.MenuItem_android_icon = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_icon;
-			global::MediaManager.Resource.Styleable.MenuItem_android_id = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_id;
-			global::MediaManager.Resource.Styleable.MenuItem_android_menuCategory = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_menuCategory;
-			global::MediaManager.Resource.Styleable.MenuItem_android_numericShortcut = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_numericShortcut;
-			global::MediaManager.Resource.Styleable.MenuItem_android_onClick = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_onClick;
-			global::MediaManager.Resource.Styleable.MenuItem_android_orderInCategory = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_orderInCategory;
-			global::MediaManager.Resource.Styleable.MenuItem_android_title = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_title;
-			global::MediaManager.Resource.Styleable.MenuItem_android_titleCondensed = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_titleCondensed;
-			global::MediaManager.Resource.Styleable.MenuItem_android_visible = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_android_visible;
-			global::MediaManager.Resource.Styleable.MenuItem_contentDescription = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_contentDescription;
-			global::MediaManager.Resource.Styleable.MenuItem_iconTint = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_iconTint;
-			global::MediaManager.Resource.Styleable.MenuItem_iconTintMode = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_iconTintMode;
-			global::MediaManager.Resource.Styleable.MenuItem_numericModifiers = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_numericModifiers;
-			global::MediaManager.Resource.Styleable.MenuItem_showAsAction = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_showAsAction;
-			global::MediaManager.Resource.Styleable.MenuItem_tooltipText = global::Bible.Alarm.Droid.Resource.Styleable.MenuItem_tooltipText;
-			global::MediaManager.Resource.Styleable.MenuView = global::Bible.Alarm.Droid.Resource.Styleable.MenuView;
-			global::MediaManager.Resource.Styleable.MenuView_android_headerBackground = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_headerBackground;
-			global::MediaManager.Resource.Styleable.MenuView_android_horizontalDivider = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_horizontalDivider;
-			global::MediaManager.Resource.Styleable.MenuView_android_itemBackground = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_itemBackground;
-			global::MediaManager.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
-			global::MediaManager.Resource.Styleable.MenuView_android_itemTextAppearance = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_itemTextAppearance;
-			global::MediaManager.Resource.Styleable.MenuView_android_verticalDivider = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_verticalDivider;
-			global::MediaManager.Resource.Styleable.MenuView_android_windowAnimationStyle = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
-			global::MediaManager.Resource.Styleable.MenuView_preserveIconSpacing = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
-			global::MediaManager.Resource.Styleable.MenuView_subMenuArrow = global::Bible.Alarm.Droid.Resource.Styleable.MenuView_subMenuArrow;
 			global::MediaManager.Resource.Styleable.PlayerControlView = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView;
+			global::MediaManager.Resource.Styleable.PlayerControlView_ad_marker_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_ad_marker_color;
+			global::MediaManager.Resource.Styleable.PlayerControlView_ad_marker_width = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_ad_marker_width;
+			global::MediaManager.Resource.Styleable.PlayerControlView_bar_height = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_bar_height;
+			global::MediaManager.Resource.Styleable.PlayerControlView_buffered_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_buffered_color;
 			global::MediaManager.Resource.Styleable.PlayerControlView_controller_layout_id = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_controller_layout_id;
 			global::MediaManager.Resource.Styleable.PlayerControlView_fastforward_increment = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_fastforward_increment;
+			global::MediaManager.Resource.Styleable.PlayerControlView_played_ad_marker_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_played_ad_marker_color;
+			global::MediaManager.Resource.Styleable.PlayerControlView_played_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_played_color;
 			global::MediaManager.Resource.Styleable.PlayerControlView_repeat_toggle_modes = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_repeat_toggle_modes;
 			global::MediaManager.Resource.Styleable.PlayerControlView_rewind_increment = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_rewind_increment;
+			global::MediaManager.Resource.Styleable.PlayerControlView_scrubber_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_scrubber_color;
+			global::MediaManager.Resource.Styleable.PlayerControlView_scrubber_disabled_size = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_scrubber_disabled_size;
+			global::MediaManager.Resource.Styleable.PlayerControlView_scrubber_dragged_size = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_scrubber_dragged_size;
+			global::MediaManager.Resource.Styleable.PlayerControlView_scrubber_drawable = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_scrubber_drawable;
+			global::MediaManager.Resource.Styleable.PlayerControlView_scrubber_enabled_size = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_scrubber_enabled_size;
 			global::MediaManager.Resource.Styleable.PlayerControlView_show_shuffle_button = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_show_shuffle_button;
 			global::MediaManager.Resource.Styleable.PlayerControlView_show_timeout = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_show_timeout;
+			global::MediaManager.Resource.Styleable.PlayerControlView_time_bar_min_update_interval = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_time_bar_min_update_interval;
+			global::MediaManager.Resource.Styleable.PlayerControlView_touch_target_height = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_touch_target_height;
+			global::MediaManager.Resource.Styleable.PlayerControlView_unplayed_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerControlView_unplayed_color;
 			global::MediaManager.Resource.Styleable.PlayerView = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView;
+			global::MediaManager.Resource.Styleable.PlayerView_ad_marker_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_ad_marker_color;
+			global::MediaManager.Resource.Styleable.PlayerView_ad_marker_width = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_ad_marker_width;
 			global::MediaManager.Resource.Styleable.PlayerView_auto_show = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_auto_show;
+			global::MediaManager.Resource.Styleable.PlayerView_bar_height = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_bar_height;
+			global::MediaManager.Resource.Styleable.PlayerView_buffered_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_buffered_color;
 			global::MediaManager.Resource.Styleable.PlayerView_controller_layout_id = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_controller_layout_id;
 			global::MediaManager.Resource.Styleable.PlayerView_default_artwork = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_default_artwork;
 			global::MediaManager.Resource.Styleable.PlayerView_fastforward_increment = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_fastforward_increment;
 			global::MediaManager.Resource.Styleable.PlayerView_hide_during_ads = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_hide_during_ads;
 			global::MediaManager.Resource.Styleable.PlayerView_hide_on_touch = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_hide_on_touch;
 			global::MediaManager.Resource.Styleable.PlayerView_keep_content_on_player_reset = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_keep_content_on_player_reset;
+			global::MediaManager.Resource.Styleable.PlayerView_played_ad_marker_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_played_ad_marker_color;
+			global::MediaManager.Resource.Styleable.PlayerView_played_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_played_color;
 			global::MediaManager.Resource.Styleable.PlayerView_player_layout_id = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_player_layout_id;
 			global::MediaManager.Resource.Styleable.PlayerView_repeat_toggle_modes = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_repeat_toggle_modes;
 			global::MediaManager.Resource.Styleable.PlayerView_resize_mode = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_resize_mode;
 			global::MediaManager.Resource.Styleable.PlayerView_rewind_increment = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_rewind_increment;
+			global::MediaManager.Resource.Styleable.PlayerView_scrubber_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_scrubber_color;
+			global::MediaManager.Resource.Styleable.PlayerView_scrubber_disabled_size = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_scrubber_disabled_size;
+			global::MediaManager.Resource.Styleable.PlayerView_scrubber_dragged_size = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_scrubber_dragged_size;
+			global::MediaManager.Resource.Styleable.PlayerView_scrubber_drawable = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_scrubber_drawable;
+			global::MediaManager.Resource.Styleable.PlayerView_scrubber_enabled_size = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_scrubber_enabled_size;
 			global::MediaManager.Resource.Styleable.PlayerView_show_buffering = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_show_buffering;
 			global::MediaManager.Resource.Styleable.PlayerView_show_shuffle_button = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_show_shuffle_button;
 			global::MediaManager.Resource.Styleable.PlayerView_show_timeout = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_show_timeout;
 			global::MediaManager.Resource.Styleable.PlayerView_shutter_background_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_shutter_background_color;
 			global::MediaManager.Resource.Styleable.PlayerView_surface_type = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_surface_type;
+			global::MediaManager.Resource.Styleable.PlayerView_time_bar_min_update_interval = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_time_bar_min_update_interval;
+			global::MediaManager.Resource.Styleable.PlayerView_touch_target_height = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_touch_target_height;
+			global::MediaManager.Resource.Styleable.PlayerView_unplayed_color = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_unplayed_color;
 			global::MediaManager.Resource.Styleable.PlayerView_use_artwork = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_use_artwork;
 			global::MediaManager.Resource.Styleable.PlayerView_use_controller = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_use_controller;
-			global::MediaManager.Resource.Styleable.PopupWindow = global::Bible.Alarm.Droid.Resource.Styleable.PopupWindow;
-			global::MediaManager.Resource.Styleable.PopupWindowBackgroundState = global::Bible.Alarm.Droid.Resource.Styleable.PopupWindowBackgroundState;
-			global::MediaManager.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::Bible.Alarm.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
-			global::MediaManager.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::Bible.Alarm.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
-			global::MediaManager.Resource.Styleable.PopupWindow_android_popupBackground = global::Bible.Alarm.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
-			global::MediaManager.Resource.Styleable.PopupWindow_overlapAnchor = global::Bible.Alarm.Droid.Resource.Styleable.PopupWindow_overlapAnchor;
-			global::MediaManager.Resource.Styleable.RecycleListView = global::Bible.Alarm.Droid.Resource.Styleable.RecycleListView;
-			global::MediaManager.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::Bible.Alarm.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
-			global::MediaManager.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::Bible.Alarm.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle;
-			global::MediaManager.Resource.Styleable.SearchView = global::Bible.Alarm.Droid.Resource.Styleable.SearchView;
-			global::MediaManager.Resource.Styleable.SearchView_android_focusable = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_focusable;
-			global::MediaManager.Resource.Styleable.SearchView_android_imeOptions = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_imeOptions;
-			global::MediaManager.Resource.Styleable.SearchView_android_inputType = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_inputType;
-			global::MediaManager.Resource.Styleable.SearchView_android_maxWidth = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_maxWidth;
-			global::MediaManager.Resource.Styleable.SearchView_closeIcon = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_closeIcon;
-			global::MediaManager.Resource.Styleable.SearchView_commitIcon = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_commitIcon;
-			global::MediaManager.Resource.Styleable.SearchView_defaultQueryHint = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_defaultQueryHint;
-			global::MediaManager.Resource.Styleable.SearchView_goIcon = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_goIcon;
-			global::MediaManager.Resource.Styleable.SearchView_iconifiedByDefault = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_iconifiedByDefault;
-			global::MediaManager.Resource.Styleable.SearchView_layout = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_layout;
-			global::MediaManager.Resource.Styleable.SearchView_queryBackground = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_queryBackground;
-			global::MediaManager.Resource.Styleable.SearchView_queryHint = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_queryHint;
-			global::MediaManager.Resource.Styleable.SearchView_searchHintIcon = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_searchHintIcon;
-			global::MediaManager.Resource.Styleable.SearchView_searchIcon = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_searchIcon;
-			global::MediaManager.Resource.Styleable.SearchView_submitBackground = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_submitBackground;
-			global::MediaManager.Resource.Styleable.SearchView_suggestionRowLayout = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_suggestionRowLayout;
-			global::MediaManager.Resource.Styleable.SearchView_voiceIcon = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_voiceIcon;
-			global::MediaManager.Resource.Styleable.Spinner = global::Bible.Alarm.Droid.Resource.Styleable.Spinner;
-			global::MediaManager.Resource.Styleable.Spinner_android_dropDownWidth = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
-			global::MediaManager.Resource.Styleable.Spinner_android_entries = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_android_entries;
-			global::MediaManager.Resource.Styleable.Spinner_android_popupBackground = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_android_popupBackground;
-			global::MediaManager.Resource.Styleable.Spinner_android_prompt = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_android_prompt;
-			global::MediaManager.Resource.Styleable.Spinner_popupTheme = global::Bible.Alarm.Droid.Resource.Styleable.Spinner_popupTheme;
-			global::MediaManager.Resource.Styleable.StateListDrawable = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable;
-			global::MediaManager.Resource.Styleable.StateListDrawableItem = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawableItem;
-			global::MediaManager.Resource.Styleable.StateListDrawableItem_android_drawable = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawableItem_android_drawable;
-			global::MediaManager.Resource.Styleable.StateListDrawable_android_constantSize = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_constantSize;
-			global::MediaManager.Resource.Styleable.StateListDrawable_android_dither = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_dither;
-			global::MediaManager.Resource.Styleable.StateListDrawable_android_enterFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_enterFadeDuration;
-			global::MediaManager.Resource.Styleable.StateListDrawable_android_exitFadeDuration = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_exitFadeDuration;
-			global::MediaManager.Resource.Styleable.StateListDrawable_android_variablePadding = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_variablePadding;
-			global::MediaManager.Resource.Styleable.StateListDrawable_android_visible = global::Bible.Alarm.Droid.Resource.Styleable.StateListDrawable_android_visible;
-			global::MediaManager.Resource.Styleable.SwitchCompat = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat;
-			global::MediaManager.Resource.Styleable.SwitchCompat_android_textOff = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_android_textOff;
-			global::MediaManager.Resource.Styleable.SwitchCompat_android_textOn = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_android_textOn;
-			global::MediaManager.Resource.Styleable.SwitchCompat_android_thumb = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_android_thumb;
-			global::MediaManager.Resource.Styleable.SwitchCompat_showText = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_showText;
-			global::MediaManager.Resource.Styleable.SwitchCompat_splitTrack = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_splitTrack;
-			global::MediaManager.Resource.Styleable.SwitchCompat_switchMinWidth = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_switchMinWidth;
-			global::MediaManager.Resource.Styleable.SwitchCompat_switchPadding = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_switchPadding;
-			global::MediaManager.Resource.Styleable.SwitchCompat_switchTextAppearance = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance;
-			global::MediaManager.Resource.Styleable.SwitchCompat_thumbTextPadding = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding;
-			global::MediaManager.Resource.Styleable.SwitchCompat_thumbTint = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_thumbTint;
-			global::MediaManager.Resource.Styleable.SwitchCompat_thumbTintMode = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_thumbTintMode;
-			global::MediaManager.Resource.Styleable.SwitchCompat_track = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_track;
-			global::MediaManager.Resource.Styleable.SwitchCompat_trackTint = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_trackTint;
-			global::MediaManager.Resource.Styleable.SwitchCompat_trackTintMode = global::Bible.Alarm.Droid.Resource.Styleable.SwitchCompat_trackTintMode;
-			global::MediaManager.Resource.Styleable.TextAppearance = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_fontFamily = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_fontFamily;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_shadowColor = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_shadowDx = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_shadowDx;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_shadowDy = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_shadowDy;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_shadowRadius = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_shadowRadius;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_textColor = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_textColor;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_textColorHint = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_textColorHint;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_textColorLink = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_textColorLink;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_textSize = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_textSize;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_textStyle = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_textStyle;
-			global::MediaManager.Resource.Styleable.TextAppearance_android_typeface = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_android_typeface;
-			global::MediaManager.Resource.Styleable.TextAppearance_fontFamily = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_fontFamily;
-			global::MediaManager.Resource.Styleable.TextAppearance_textAllCaps = global::Bible.Alarm.Droid.Resource.Styleable.TextAppearance_textAllCaps;
-			global::MediaManager.Resource.Styleable.Toolbar = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar;
-			global::MediaManager.Resource.Styleable.Toolbar_android_gravity = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_android_gravity;
-			global::MediaManager.Resource.Styleable.Toolbar_android_minHeight = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_android_minHeight;
-			global::MediaManager.Resource.Styleable.Toolbar_buttonGravity = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_buttonGravity;
-			global::MediaManager.Resource.Styleable.Toolbar_collapseContentDescription = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_collapseContentDescription;
-			global::MediaManager.Resource.Styleable.Toolbar_collapseIcon = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_collapseIcon;
-			global::MediaManager.Resource.Styleable.Toolbar_contentInsetEnd = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_contentInsetEnd;
-			global::MediaManager.Resource.Styleable.Toolbar_contentInsetEndWithActions = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_contentInsetEndWithActions;
-			global::MediaManager.Resource.Styleable.Toolbar_contentInsetLeft = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_contentInsetLeft;
-			global::MediaManager.Resource.Styleable.Toolbar_contentInsetRight = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_contentInsetRight;
-			global::MediaManager.Resource.Styleable.Toolbar_contentInsetStart = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_contentInsetStart;
-			global::MediaManager.Resource.Styleable.Toolbar_contentInsetStartWithNavigation = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_contentInsetStartWithNavigation;
-			global::MediaManager.Resource.Styleable.Toolbar_logo = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_logo;
-			global::MediaManager.Resource.Styleable.Toolbar_logoDescription = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_logoDescription;
-			global::MediaManager.Resource.Styleable.Toolbar_maxButtonHeight = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_maxButtonHeight;
-			global::MediaManager.Resource.Styleable.Toolbar_navigationContentDescription = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_navigationContentDescription;
-			global::MediaManager.Resource.Styleable.Toolbar_navigationIcon = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_navigationIcon;
-			global::MediaManager.Resource.Styleable.Toolbar_popupTheme = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_popupTheme;
-			global::MediaManager.Resource.Styleable.Toolbar_subtitle = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_subtitle;
-			global::MediaManager.Resource.Styleable.Toolbar_subtitleTextAppearance = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance;
-			global::MediaManager.Resource.Styleable.Toolbar_subtitleTextColor = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_subtitleTextColor;
-			global::MediaManager.Resource.Styleable.Toolbar_title = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_title;
-			global::MediaManager.Resource.Styleable.Toolbar_titleMargin = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleMargin;
-			global::MediaManager.Resource.Styleable.Toolbar_titleMarginBottom = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleMarginBottom;
-			global::MediaManager.Resource.Styleable.Toolbar_titleMarginEnd = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleMarginEnd;
-			global::MediaManager.Resource.Styleable.Toolbar_titleMargins = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleMargins;
-			global::MediaManager.Resource.Styleable.Toolbar_titleMarginStart = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleMarginStart;
-			global::MediaManager.Resource.Styleable.Toolbar_titleMarginTop = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleMarginTop;
-			global::MediaManager.Resource.Styleable.Toolbar_titleTextAppearance = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleTextAppearance;
-			global::MediaManager.Resource.Styleable.Toolbar_titleTextColor = global::Bible.Alarm.Droid.Resource.Styleable.Toolbar_titleTextColor;
-			global::MediaManager.Resource.Styleable.View = global::Bible.Alarm.Droid.Resource.Styleable.View;
-			global::MediaManager.Resource.Styleable.ViewBackgroundHelper = global::Bible.Alarm.Droid.Resource.Styleable.ViewBackgroundHelper;
-			global::MediaManager.Resource.Styleable.ViewBackgroundHelper_android_background = global::Bible.Alarm.Droid.Resource.Styleable.ViewBackgroundHelper_android_background;
-			global::MediaManager.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::Bible.Alarm.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
-			global::MediaManager.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::Bible.Alarm.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
-			global::MediaManager.Resource.Styleable.ViewStubCompat = global::Bible.Alarm.Droid.Resource.Styleable.ViewStubCompat;
-			global::MediaManager.Resource.Styleable.ViewStubCompat_android_id = global::Bible.Alarm.Droid.Resource.Styleable.ViewStubCompat_android_id;
-			global::MediaManager.Resource.Styleable.ViewStubCompat_android_inflatedId = global::Bible.Alarm.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
-			global::MediaManager.Resource.Styleable.ViewStubCompat_android_layout = global::Bible.Alarm.Droid.Resource.Styleable.ViewStubCompat_android_layout;
-			global::MediaManager.Resource.Styleable.View_android_focusable = global::Bible.Alarm.Droid.Resource.Styleable.View_android_focusable;
-			global::MediaManager.Resource.Styleable.View_android_theme = global::Bible.Alarm.Droid.Resource.Styleable.View_android_theme;
-			global::MediaManager.Resource.Styleable.View_paddingEnd = global::Bible.Alarm.Droid.Resource.Styleable.View_paddingEnd;
-			global::MediaManager.Resource.Styleable.View_paddingStart = global::Bible.Alarm.Droid.Resource.Styleable.View_paddingStart;
-			global::MediaManager.Resource.Styleable.View_theme = global::Bible.Alarm.Droid.Resource.Styleable.View_theme;
+			global::MediaManager.Resource.Styleable.PlayerView_use_sensor_rotation = global::Bible.Alarm.Droid.Resource.Styleable.PlayerView_use_sensor_rotation;
+			global::Plugin.StoreReview.Resource.Attribute.alpha = global::Bible.Alarm.Droid.Resource.Attribute.alpha;
+			global::Plugin.StoreReview.Resource.Attribute.coordinatorLayoutStyle = global::Bible.Alarm.Droid.Resource.Attribute.coordinatorLayoutStyle;
+			global::Plugin.StoreReview.Resource.Attribute.font = global::Bible.Alarm.Droid.Resource.Attribute.font;
+			global::Plugin.StoreReview.Resource.Attribute.fontProviderAuthority = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderAuthority;
+			global::Plugin.StoreReview.Resource.Attribute.fontProviderCerts = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderCerts;
+			global::Plugin.StoreReview.Resource.Attribute.fontProviderFetchStrategy = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderFetchStrategy;
+			global::Plugin.StoreReview.Resource.Attribute.fontProviderFetchTimeout = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderFetchTimeout;
+			global::Plugin.StoreReview.Resource.Attribute.fontProviderPackage = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderPackage;
+			global::Plugin.StoreReview.Resource.Attribute.fontProviderQuery = global::Bible.Alarm.Droid.Resource.Attribute.fontProviderQuery;
+			global::Plugin.StoreReview.Resource.Attribute.fontStyle = global::Bible.Alarm.Droid.Resource.Attribute.fontStyle;
+			global::Plugin.StoreReview.Resource.Attribute.fontVariationSettings = global::Bible.Alarm.Droid.Resource.Attribute.fontVariationSettings;
+			global::Plugin.StoreReview.Resource.Attribute.fontWeight = global::Bible.Alarm.Droid.Resource.Attribute.fontWeight;
+			global::Plugin.StoreReview.Resource.Attribute.keylines = global::Bible.Alarm.Droid.Resource.Attribute.keylines;
+			global::Plugin.StoreReview.Resource.Attribute.layout_anchor = global::Bible.Alarm.Droid.Resource.Attribute.layout_anchor;
+			global::Plugin.StoreReview.Resource.Attribute.layout_anchorGravity = global::Bible.Alarm.Droid.Resource.Attribute.layout_anchorGravity;
+			global::Plugin.StoreReview.Resource.Attribute.layout_behavior = global::Bible.Alarm.Droid.Resource.Attribute.layout_behavior;
+			global::Plugin.StoreReview.Resource.Attribute.layout_dodgeInsetEdges = global::Bible.Alarm.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::Plugin.StoreReview.Resource.Attribute.layout_insetEdge = global::Bible.Alarm.Droid.Resource.Attribute.layout_insetEdge;
+			global::Plugin.StoreReview.Resource.Attribute.layout_keyline = global::Bible.Alarm.Droid.Resource.Attribute.layout_keyline;
+			global::Plugin.StoreReview.Resource.Attribute.statusBarBackground = global::Bible.Alarm.Droid.Resource.Attribute.statusBarBackground;
+			global::Plugin.StoreReview.Resource.Attribute.ttcIndex = global::Bible.Alarm.Droid.Resource.Attribute.ttcIndex;
+			global::Plugin.StoreReview.Resource.Color.browser_actions_bg_grey = global::Bible.Alarm.Droid.Resource.Color.browser_actions_bg_grey;
+			global::Plugin.StoreReview.Resource.Color.browser_actions_divider_color = global::Bible.Alarm.Droid.Resource.Color.browser_actions_divider_color;
+			global::Plugin.StoreReview.Resource.Color.browser_actions_text_color = global::Bible.Alarm.Droid.Resource.Color.browser_actions_text_color;
+			global::Plugin.StoreReview.Resource.Color.browser_actions_title_color = global::Bible.Alarm.Droid.Resource.Color.browser_actions_title_color;
+			global::Plugin.StoreReview.Resource.Color.notification_action_color_filter = global::Bible.Alarm.Droid.Resource.Color.notification_action_color_filter;
+			global::Plugin.StoreReview.Resource.Color.notification_icon_bg_color = global::Bible.Alarm.Droid.Resource.Color.notification_icon_bg_color;
+			global::Plugin.StoreReview.Resource.Color.ripple_material_light = global::Bible.Alarm.Droid.Resource.Color.ripple_material_light;
+			global::Plugin.StoreReview.Resource.Color.secondary_text_default_material_light = global::Bible.Alarm.Droid.Resource.Color.secondary_text_default_material_light;
+			global::Plugin.StoreReview.Resource.Dimension.browser_actions_context_menu_max_width = global::Bible.Alarm.Droid.Resource.Dimension.browser_actions_context_menu_max_width;
+			global::Plugin.StoreReview.Resource.Dimension.browser_actions_context_menu_min_padding = global::Bible.Alarm.Droid.Resource.Dimension.browser_actions_context_menu_min_padding;
+			global::Plugin.StoreReview.Resource.Dimension.compat_button_inset_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::Plugin.StoreReview.Resource.Dimension.compat_button_inset_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_inset_vertical_material;
+			global::Plugin.StoreReview.Resource.Dimension.compat_button_padding_horizontal_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::Plugin.StoreReview.Resource.Dimension.compat_button_padding_vertical_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_button_padding_vertical_material;
+			global::Plugin.StoreReview.Resource.Dimension.compat_control_corner_material = global::Bible.Alarm.Droid.Resource.Dimension.compat_control_corner_material;
+			global::Plugin.StoreReview.Resource.Dimension.compat_notification_large_icon_max_height = global::Bible.Alarm.Droid.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::Plugin.StoreReview.Resource.Dimension.compat_notification_large_icon_max_width = global::Bible.Alarm.Droid.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::Plugin.StoreReview.Resource.Dimension.notification_action_icon_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_action_icon_size;
+			global::Plugin.StoreReview.Resource.Dimension.notification_action_text_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_action_text_size;
+			global::Plugin.StoreReview.Resource.Dimension.notification_big_circle_margin = global::Bible.Alarm.Droid.Resource.Dimension.notification_big_circle_margin;
+			global::Plugin.StoreReview.Resource.Dimension.notification_content_margin_start = global::Bible.Alarm.Droid.Resource.Dimension.notification_content_margin_start;
+			global::Plugin.StoreReview.Resource.Dimension.notification_large_icon_height = global::Bible.Alarm.Droid.Resource.Dimension.notification_large_icon_height;
+			global::Plugin.StoreReview.Resource.Dimension.notification_large_icon_width = global::Bible.Alarm.Droid.Resource.Dimension.notification_large_icon_width;
+			global::Plugin.StoreReview.Resource.Dimension.notification_main_column_padding_top = global::Bible.Alarm.Droid.Resource.Dimension.notification_main_column_padding_top;
+			global::Plugin.StoreReview.Resource.Dimension.notification_media_narrow_margin = global::Bible.Alarm.Droid.Resource.Dimension.notification_media_narrow_margin;
+			global::Plugin.StoreReview.Resource.Dimension.notification_right_icon_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_right_icon_size;
+			global::Plugin.StoreReview.Resource.Dimension.notification_right_side_padding_top = global::Bible.Alarm.Droid.Resource.Dimension.notification_right_side_padding_top;
+			global::Plugin.StoreReview.Resource.Dimension.notification_small_icon_background_padding = global::Bible.Alarm.Droid.Resource.Dimension.notification_small_icon_background_padding;
+			global::Plugin.StoreReview.Resource.Dimension.notification_small_icon_size_as_large = global::Bible.Alarm.Droid.Resource.Dimension.notification_small_icon_size_as_large;
+			global::Plugin.StoreReview.Resource.Dimension.notification_subtext_size = global::Bible.Alarm.Droid.Resource.Dimension.notification_subtext_size;
+			global::Plugin.StoreReview.Resource.Dimension.notification_top_pad = global::Bible.Alarm.Droid.Resource.Dimension.notification_top_pad;
+			global::Plugin.StoreReview.Resource.Dimension.notification_top_pad_large_text = global::Bible.Alarm.Droid.Resource.Dimension.notification_top_pad_large_text;
+			global::Plugin.StoreReview.Resource.Drawable.notification_action_background = global::Bible.Alarm.Droid.Resource.Drawable.notification_action_background;
+			global::Plugin.StoreReview.Resource.Drawable.notification_bg = global::Bible.Alarm.Droid.Resource.Drawable.notification_bg;
+			global::Plugin.StoreReview.Resource.Drawable.notification_bg_low = global::Bible.Alarm.Droid.Resource.Drawable.notification_bg_low;
+			global::Plugin.StoreReview.Resource.Drawable.notification_bg_low_normal = global::Bible.Alarm.Droid.Resource.Drawable.notification_bg_low_normal;
+			global::Plugin.StoreReview.Resource.Drawable.notification_bg_low_pressed = global::Bible.Alarm.Droid.Resource.Drawable.notification_bg_low_pressed;
+			global::Plugin.StoreReview.Resource.Drawable.notification_bg_normal = global::Bible.Alarm.Droid.Resource.Drawable.notification_bg_normal;
+			global::Plugin.StoreReview.Resource.Drawable.notification_bg_normal_pressed = global::Bible.Alarm.Droid.Resource.Drawable.notification_bg_normal_pressed;
+			global::Plugin.StoreReview.Resource.Drawable.notification_icon_background = global::Bible.Alarm.Droid.Resource.Drawable.notification_icon_background;
+			global::Plugin.StoreReview.Resource.Drawable.notification_template_icon_bg = global::Bible.Alarm.Droid.Resource.Drawable.notification_template_icon_bg;
+			global::Plugin.StoreReview.Resource.Drawable.notification_template_icon_low_bg = global::Bible.Alarm.Droid.Resource.Drawable.notification_template_icon_low_bg;
+			global::Plugin.StoreReview.Resource.Drawable.notification_tile_bg = global::Bible.Alarm.Droid.Resource.Drawable.notification_tile_bg;
+			global::Plugin.StoreReview.Resource.Drawable.notify_panel_notification_icon_bg = global::Bible.Alarm.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::Plugin.StoreReview.Resource.Id.actions = global::Bible.Alarm.Droid.Resource.Id.actions;
+			global::Plugin.StoreReview.Resource.Id.action_container = global::Bible.Alarm.Droid.Resource.Id.action_container;
+			global::Plugin.StoreReview.Resource.Id.action_divider = global::Bible.Alarm.Droid.Resource.Id.action_divider;
+			global::Plugin.StoreReview.Resource.Id.action_image = global::Bible.Alarm.Droid.Resource.Id.action_image;
+			global::Plugin.StoreReview.Resource.Id.action_text = global::Bible.Alarm.Droid.Resource.Id.action_text;
+			global::Plugin.StoreReview.Resource.Id.all = global::Bible.Alarm.Droid.Resource.Id.all;
+			global::Plugin.StoreReview.Resource.Id.async = global::Bible.Alarm.Droid.Resource.Id.async;
+			global::Plugin.StoreReview.Resource.Id.blocking = global::Bible.Alarm.Droid.Resource.Id.blocking;
+			global::Plugin.StoreReview.Resource.Id.bottom = global::Bible.Alarm.Droid.Resource.Id.bottom;
+			global::Plugin.StoreReview.Resource.Id.browser_actions_header_text = global::Bible.Alarm.Droid.Resource.Id.browser_actions_header_text;
+			global::Plugin.StoreReview.Resource.Id.browser_actions_menu_items = global::Bible.Alarm.Droid.Resource.Id.browser_actions_menu_items;
+			global::Plugin.StoreReview.Resource.Id.browser_actions_menu_item_icon = global::Bible.Alarm.Droid.Resource.Id.browser_actions_menu_item_icon;
+			global::Plugin.StoreReview.Resource.Id.browser_actions_menu_item_text = global::Bible.Alarm.Droid.Resource.Id.browser_actions_menu_item_text;
+			global::Plugin.StoreReview.Resource.Id.browser_actions_menu_view = global::Bible.Alarm.Droid.Resource.Id.browser_actions_menu_view;
+			global::Plugin.StoreReview.Resource.Id.center = global::Bible.Alarm.Droid.Resource.Id.center;
+			global::Plugin.StoreReview.Resource.Id.center_horizontal = global::Bible.Alarm.Droid.Resource.Id.center_horizontal;
+			global::Plugin.StoreReview.Resource.Id.center_vertical = global::Bible.Alarm.Droid.Resource.Id.center_vertical;
+			global::Plugin.StoreReview.Resource.Id.chronometer = global::Bible.Alarm.Droid.Resource.Id.chronometer;
+			global::Plugin.StoreReview.Resource.Id.clip_horizontal = global::Bible.Alarm.Droid.Resource.Id.clip_horizontal;
+			global::Plugin.StoreReview.Resource.Id.clip_vertical = global::Bible.Alarm.Droid.Resource.Id.clip_vertical;
+			global::Plugin.StoreReview.Resource.Id.end = global::Bible.Alarm.Droid.Resource.Id.end;
+			global::Plugin.StoreReview.Resource.Id.fill = global::Bible.Alarm.Droid.Resource.Id.fill;
+			global::Plugin.StoreReview.Resource.Id.fill_horizontal = global::Bible.Alarm.Droid.Resource.Id.fill_horizontal;
+			global::Plugin.StoreReview.Resource.Id.fill_vertical = global::Bible.Alarm.Droid.Resource.Id.fill_vertical;
+			global::Plugin.StoreReview.Resource.Id.forever = global::Bible.Alarm.Droid.Resource.Id.forever;
+			global::Plugin.StoreReview.Resource.Id.icon = global::Bible.Alarm.Droid.Resource.Id.icon;
+			global::Plugin.StoreReview.Resource.Id.icon_group = global::Bible.Alarm.Droid.Resource.Id.icon_group;
+			global::Plugin.StoreReview.Resource.Id.info = global::Bible.Alarm.Droid.Resource.Id.info;
+			global::Plugin.StoreReview.Resource.Id.italic = global::Bible.Alarm.Droid.Resource.Id.italic;
+			global::Plugin.StoreReview.Resource.Id.left = global::Bible.Alarm.Droid.Resource.Id.left;
+			global::Plugin.StoreReview.Resource.Id.line1 = global::Bible.Alarm.Droid.Resource.Id.line1;
+			global::Plugin.StoreReview.Resource.Id.line3 = global::Bible.Alarm.Droid.Resource.Id.line3;
+			global::Plugin.StoreReview.Resource.Id.none = global::Bible.Alarm.Droid.Resource.Id.none;
+			global::Plugin.StoreReview.Resource.Id.normal = global::Bible.Alarm.Droid.Resource.Id.normal;
+			global::Plugin.StoreReview.Resource.Id.notification_background = global::Bible.Alarm.Droid.Resource.Id.notification_background;
+			global::Plugin.StoreReview.Resource.Id.notification_main_column = global::Bible.Alarm.Droid.Resource.Id.notification_main_column;
+			global::Plugin.StoreReview.Resource.Id.notification_main_column_container = global::Bible.Alarm.Droid.Resource.Id.notification_main_column_container;
+			global::Plugin.StoreReview.Resource.Id.right = global::Bible.Alarm.Droid.Resource.Id.right;
+			global::Plugin.StoreReview.Resource.Id.right_icon = global::Bible.Alarm.Droid.Resource.Id.right_icon;
+			global::Plugin.StoreReview.Resource.Id.right_side = global::Bible.Alarm.Droid.Resource.Id.right_side;
+			global::Plugin.StoreReview.Resource.Id.start = global::Bible.Alarm.Droid.Resource.Id.start;
+			global::Plugin.StoreReview.Resource.Id.tag_transition_group = global::Bible.Alarm.Droid.Resource.Id.tag_transition_group;
+			global::Plugin.StoreReview.Resource.Id.tag_unhandled_key_event_manager = global::Bible.Alarm.Droid.Resource.Id.tag_unhandled_key_event_manager;
+			global::Plugin.StoreReview.Resource.Id.tag_unhandled_key_listeners = global::Bible.Alarm.Droid.Resource.Id.tag_unhandled_key_listeners;
+			global::Plugin.StoreReview.Resource.Id.text = global::Bible.Alarm.Droid.Resource.Id.text;
+			global::Plugin.StoreReview.Resource.Id.text2 = global::Bible.Alarm.Droid.Resource.Id.text2;
+			global::Plugin.StoreReview.Resource.Id.time = global::Bible.Alarm.Droid.Resource.Id.time;
+			global::Plugin.StoreReview.Resource.Id.title = global::Bible.Alarm.Droid.Resource.Id.title;
+			global::Plugin.StoreReview.Resource.Id.top = global::Bible.Alarm.Droid.Resource.Id.top;
+			global::Plugin.StoreReview.Resource.Integer.status_bar_notification_info_maxnum = global::Bible.Alarm.Droid.Resource.Integer.status_bar_notification_info_maxnum;
+			global::Plugin.StoreReview.Resource.Layout.browser_actions_context_menu_page = global::Bible.Alarm.Droid.Resource.Layout.browser_actions_context_menu_page;
+			global::Plugin.StoreReview.Resource.Layout.browser_actions_context_menu_row = global::Bible.Alarm.Droid.Resource.Layout.browser_actions_context_menu_row;
+			global::Plugin.StoreReview.Resource.Layout.notification_action = global::Bible.Alarm.Droid.Resource.Layout.notification_action;
+			global::Plugin.StoreReview.Resource.Layout.notification_action_tombstone = global::Bible.Alarm.Droid.Resource.Layout.notification_action_tombstone;
+			global::Plugin.StoreReview.Resource.Layout.notification_template_custom_big = global::Bible.Alarm.Droid.Resource.Layout.notification_template_custom_big;
+			global::Plugin.StoreReview.Resource.Layout.notification_template_icon_group = global::Bible.Alarm.Droid.Resource.Layout.notification_template_icon_group;
+			global::Plugin.StoreReview.Resource.Layout.notification_template_part_chronometer = global::Bible.Alarm.Droid.Resource.Layout.notification_template_part_chronometer;
+			global::Plugin.StoreReview.Resource.Layout.notification_template_part_time = global::Bible.Alarm.Droid.Resource.Layout.notification_template_part_time;
+			global::Plugin.StoreReview.Resource.String.status_bar_notification_info_overflow = global::Bible.Alarm.Droid.Resource.String.status_bar_notification_info_overflow;
+			global::Plugin.StoreReview.Resource.Style.TextAppearance_Compat_Notification = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification;
+			global::Plugin.StoreReview.Resource.Style.TextAppearance_Compat_Notification_Info = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::Plugin.StoreReview.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::Plugin.StoreReview.Resource.Style.TextAppearance_Compat_Notification_Time = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::Plugin.StoreReview.Resource.Style.TextAppearance_Compat_Notification_Title = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::Plugin.StoreReview.Resource.Style.Theme_PlayCore_Transparent = global::Bible.Alarm.Droid.Resource.Style.Theme_PlayCore_Transparent;
+			global::Plugin.StoreReview.Resource.Style.Widget_Compat_NotificationActionContainer = global::Bible.Alarm.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::Plugin.StoreReview.Resource.Style.Widget_Compat_NotificationActionText = global::Bible.Alarm.Droid.Resource.Style.Widget_Compat_NotificationActionText;
+			global::Plugin.StoreReview.Resource.Style.Widget_Support_CoordinatorLayout = global::Bible.Alarm.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Plugin.StoreReview.Resource.Styleable.ColorStateListItem = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem;
+			global::Plugin.StoreReview.Resource.Styleable.ColorStateListItem_alpha = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem_alpha;
+			global::Plugin.StoreReview.Resource.Styleable.ColorStateListItem_android_alpha = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::Plugin.StoreReview.Resource.Styleable.ColorStateListItem_android_color = global::Bible.Alarm.Droid.Resource.Styleable.ColorStateListItem_android_color;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_keylines = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::Plugin.StoreReview.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::Bible.Alarm.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_android_font = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_font;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_android_fontStyle = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_android_fontWeight = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_font = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_font;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_fontStyle = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_fontWeight = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamilyFont_ttcIndex = global::Bible.Alarm.Droid.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily_fontProviderAuthority = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily_fontProviderCerts = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily_fontProviderPackage = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::Plugin.StoreReview.Resource.Styleable.FontFamily_fontProviderQuery = global::Bible.Alarm.Droid.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColorItem = global::Bible.Alarm.Droid.Resource.Styleable.GradientColorItem;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColorItem_android_color = global::Bible.Alarm.Droid.Resource.Styleable.GradientColorItem_android_color;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColorItem_android_offset = global::Bible.Alarm.Droid.Resource.Styleable.GradientColorItem_android_offset;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_centerColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_centerColor;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_centerX = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_centerX;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_centerY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_centerY;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_endColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_endColor;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_endX = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_endX;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_endY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_endY;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_gradientRadius = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_startColor = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startColor;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_startX = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startX;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_startY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startY;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_tileMode = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_tileMode;
+			global::Plugin.StoreReview.Resource.Styleable.GradientColor_android_type = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_type;
+			global::Plugin.StoreReview.Resource.Xml.xamarin_essentials_fileprovider_file_paths = global::Bible.Alarm.Droid.Resource.Xml.xamarin_essentials_fileprovider_file_paths;
 			global::Xamarin.Essentials.Resource.Attribute.alpha = global::Bible.Alarm.Droid.Resource.Attribute.alpha;
 			global::Xamarin.Essentials.Resource.Attribute.coordinatorLayoutStyle = global::Bible.Alarm.Droid.Resource.Attribute.coordinatorLayoutStyle;
 			global::Xamarin.Essentials.Resource.Attribute.font = global::Bible.Alarm.Droid.Resource.Attribute.font;
@@ -2226,6 +1050,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.collapsedTitleGravity = global::Bible.Alarm.Droid.Resource.Attribute.collapsedTitleGravity;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.collapsedTitleTextAppearance = global::Bible.Alarm.Droid.Resource.Attribute.collapsedTitleTextAppearance;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.collapseIcon = global::Bible.Alarm.Droid.Resource.Attribute.collapseIcon;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.collectionViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.collectionViewStyle;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.color = global::Bible.Alarm.Droid.Resource.Attribute.color;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.colorAccent = global::Bible.Alarm.Droid.Resource.Attribute.colorAccent;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.colorBackgroundFloating = global::Bible.Alarm.Droid.Resource.Attribute.colorBackgroundFloating;
@@ -2445,6 +1270,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.scrimAnimationDuration = global::Bible.Alarm.Droid.Resource.Attribute.scrimAnimationDuration;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.scrimBackground = global::Bible.Alarm.Droid.Resource.Attribute.scrimBackground;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.scrimVisibleHeightTrigger = global::Bible.Alarm.Droid.Resource.Attribute.scrimVisibleHeightTrigger;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.scrollViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.scrollViewStyle;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.searchHintIcon = global::Bible.Alarm.Droid.Resource.Attribute.searchHintIcon;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.searchIcon = global::Bible.Alarm.Droid.Resource.Attribute.searchIcon;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.searchViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.searchViewStyle;
@@ -3440,6 +2266,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.String.fab_transformation_sheet_behavior = global::Bible.Alarm.Droid.Resource.String.fab_transformation_sheet_behavior;
 			global::Xamarin.Forms.Platform.Android.Resource.String.hide_bottom_view_on_scroll_behavior = global::Bible.Alarm.Droid.Resource.String.hide_bottom_view_on_scroll_behavior;
 			global::Xamarin.Forms.Platform.Android.Resource.String.mtrl_chip_close_icon_content_description = global::Bible.Alarm.Droid.Resource.String.mtrl_chip_close_icon_content_description;
+			global::Xamarin.Forms.Platform.Android.Resource.String.overflow_tab_title = global::Bible.Alarm.Droid.Resource.String.overflow_tab_title;
 			global::Xamarin.Forms.Platform.Android.Resource.String.password_toggle_content_description = global::Bible.Alarm.Droid.Resource.String.password_toggle_content_description;
 			global::Xamarin.Forms.Platform.Android.Resource.String.path_password_eye = global::Bible.Alarm.Droid.Resource.String.path_password_eye;
 			global::Xamarin.Forms.Platform.Android.Resource.String.path_password_eye_mask_strike_through = global::Bible.Alarm.Droid.Resource.String.path_password_eye_mask_strike_through;
@@ -3646,7 +2473,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Style.CardView = global::Bible.Alarm.Droid.Resource.Style.CardView;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.CardView_Dark = global::Bible.Alarm.Droid.Resource.Style.CardView_Dark;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.CardView_Light = global::Bible.Alarm.Droid.Resource.Style.CardView_Light;
-			global::Xamarin.Forms.Platform.Android.Resource.Style.collectionViewStyle = global::Bible.Alarm.Droid.Resource.Style.collectionViewStyle;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.collectionViewTheme = global::Bible.Alarm.Droid.Resource.Style.collectionViewTheme;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.MainTheme = global::Bible.Alarm.Droid.Resource.Style.MainTheme;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.MainTheme_Base = global::Bible.Alarm.Droid.Resource.Style.MainTheme_Base;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.Platform_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Platform_AppCompat;
@@ -3680,6 +2507,8 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Bible.Alarm.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Bible.Alarm.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.scrollViewScrollBars = global::Bible.Alarm.Droid.Resource.Style.scrollViewScrollBars;
+			global::Xamarin.Forms.Platform.Android.Resource.Style.scrollViewTheme = global::Bible.Alarm.Droid.Resource.Style.scrollViewTheme;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.TextAppearance_AppCompat = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.TextAppearance_AppCompat_Body1 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
 			global::Xamarin.Forms.Platform.Android.Resource.Style.TextAppearance_AppCompat_Body2 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
@@ -4395,6 +3224,8 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.GradientColor_android_startY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startY;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.GradientColor_android_tileMode = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_tileMode;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.GradientColor_android_type = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_type;
+			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ItemsViewRendererTheme = global::Bible.Alarm.Droid.Resource.Styleable.ItemsViewRendererTheme;
+			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ItemsViewRendererTheme_collectionViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.ItemsViewRendererTheme_collectionViewStyle;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.LinearLayoutCompat = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
@@ -4546,6 +3377,8 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::Bible.Alarm.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ScrollingViewBehavior_Layout = global::Bible.Alarm.Droid.Resource.Styleable.ScrollingViewBehavior_Layout;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop = global::Bible.Alarm.Droid.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop;
+			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ScrollViewRendererTheme = global::Bible.Alarm.Droid.Resource.Styleable.ScrollViewRendererTheme;
+			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ScrollViewRendererTheme_scrollViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.ScrollViewRendererTheme_scrollViewStyle;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.SearchView = global::Bible.Alarm.Droid.Resource.Styleable.SearchView;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.SearchView_android_focusable = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_focusable;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.SearchView_android_imeOptions = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_imeOptions;
@@ -4900,6 +3733,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.Attribute.collapsedTitleGravity = global::Bible.Alarm.Droid.Resource.Attribute.collapsedTitleGravity;
 			global::Xamarin.Forms.Platform.Resource.Attribute.collapsedTitleTextAppearance = global::Bible.Alarm.Droid.Resource.Attribute.collapsedTitleTextAppearance;
 			global::Xamarin.Forms.Platform.Resource.Attribute.collapseIcon = global::Bible.Alarm.Droid.Resource.Attribute.collapseIcon;
+			global::Xamarin.Forms.Platform.Resource.Attribute.collectionViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.collectionViewStyle;
 			global::Xamarin.Forms.Platform.Resource.Attribute.color = global::Bible.Alarm.Droid.Resource.Attribute.color;
 			global::Xamarin.Forms.Platform.Resource.Attribute.colorAccent = global::Bible.Alarm.Droid.Resource.Attribute.colorAccent;
 			global::Xamarin.Forms.Platform.Resource.Attribute.colorBackgroundFloating = global::Bible.Alarm.Droid.Resource.Attribute.colorBackgroundFloating;
@@ -5119,6 +3953,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.Attribute.scrimAnimationDuration = global::Bible.Alarm.Droid.Resource.Attribute.scrimAnimationDuration;
 			global::Xamarin.Forms.Platform.Resource.Attribute.scrimBackground = global::Bible.Alarm.Droid.Resource.Attribute.scrimBackground;
 			global::Xamarin.Forms.Platform.Resource.Attribute.scrimVisibleHeightTrigger = global::Bible.Alarm.Droid.Resource.Attribute.scrimVisibleHeightTrigger;
+			global::Xamarin.Forms.Platform.Resource.Attribute.scrollViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.scrollViewStyle;
 			global::Xamarin.Forms.Platform.Resource.Attribute.searchHintIcon = global::Bible.Alarm.Droid.Resource.Attribute.searchHintIcon;
 			global::Xamarin.Forms.Platform.Resource.Attribute.searchIcon = global::Bible.Alarm.Droid.Resource.Attribute.searchIcon;
 			global::Xamarin.Forms.Platform.Resource.Attribute.searchViewStyle = global::Bible.Alarm.Droid.Resource.Attribute.searchViewStyle;
@@ -6114,6 +4949,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.String.fab_transformation_sheet_behavior = global::Bible.Alarm.Droid.Resource.String.fab_transformation_sheet_behavior;
 			global::Xamarin.Forms.Platform.Resource.String.hide_bottom_view_on_scroll_behavior = global::Bible.Alarm.Droid.Resource.String.hide_bottom_view_on_scroll_behavior;
 			global::Xamarin.Forms.Platform.Resource.String.mtrl_chip_close_icon_content_description = global::Bible.Alarm.Droid.Resource.String.mtrl_chip_close_icon_content_description;
+			global::Xamarin.Forms.Platform.Resource.String.overflow_tab_title = global::Bible.Alarm.Droid.Resource.String.overflow_tab_title;
 			global::Xamarin.Forms.Platform.Resource.String.password_toggle_content_description = global::Bible.Alarm.Droid.Resource.String.password_toggle_content_description;
 			global::Xamarin.Forms.Platform.Resource.String.path_password_eye = global::Bible.Alarm.Droid.Resource.String.path_password_eye;
 			global::Xamarin.Forms.Platform.Resource.String.path_password_eye_mask_strike_through = global::Bible.Alarm.Droid.Resource.String.path_password_eye_mask_strike_through;
@@ -6320,7 +5156,7 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.Style.CardView = global::Bible.Alarm.Droid.Resource.Style.CardView;
 			global::Xamarin.Forms.Platform.Resource.Style.CardView_Dark = global::Bible.Alarm.Droid.Resource.Style.CardView_Dark;
 			global::Xamarin.Forms.Platform.Resource.Style.CardView_Light = global::Bible.Alarm.Droid.Resource.Style.CardView_Light;
-			global::Xamarin.Forms.Platform.Resource.Style.collectionViewStyle = global::Bible.Alarm.Droid.Resource.Style.collectionViewStyle;
+			global::Xamarin.Forms.Platform.Resource.Style.collectionViewTheme = global::Bible.Alarm.Droid.Resource.Style.collectionViewTheme;
 			global::Xamarin.Forms.Platform.Resource.Style.MainTheme = global::Bible.Alarm.Droid.Resource.Style.MainTheme;
 			global::Xamarin.Forms.Platform.Resource.Style.MainTheme_Base = global::Bible.Alarm.Droid.Resource.Style.MainTheme_Base;
 			global::Xamarin.Forms.Platform.Resource.Style.Platform_AppCompat = global::Bible.Alarm.Droid.Resource.Style.Platform_AppCompat;
@@ -6354,6 +5190,8 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::Bible.Alarm.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
 			global::Xamarin.Forms.Platform.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Bible.Alarm.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
 			global::Xamarin.Forms.Platform.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Bible.Alarm.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::Xamarin.Forms.Platform.Resource.Style.scrollViewScrollBars = global::Bible.Alarm.Droid.Resource.Style.scrollViewScrollBars;
+			global::Xamarin.Forms.Platform.Resource.Style.scrollViewTheme = global::Bible.Alarm.Droid.Resource.Style.scrollViewTheme;
 			global::Xamarin.Forms.Platform.Resource.Style.TextAppearance_AppCompat = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat;
 			global::Xamarin.Forms.Platform.Resource.Style.TextAppearance_AppCompat_Body1 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
 			global::Xamarin.Forms.Platform.Resource.Style.TextAppearance_AppCompat_Body2 = global::Bible.Alarm.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
@@ -7069,6 +5907,8 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.Styleable.GradientColor_android_startY = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_startY;
 			global::Xamarin.Forms.Platform.Resource.Styleable.GradientColor_android_tileMode = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_tileMode;
 			global::Xamarin.Forms.Platform.Resource.Styleable.GradientColor_android_type = global::Bible.Alarm.Droid.Resource.Styleable.GradientColor_android_type;
+			global::Xamarin.Forms.Platform.Resource.Styleable.ItemsViewRendererTheme = global::Bible.Alarm.Droid.Resource.Styleable.ItemsViewRendererTheme;
+			global::Xamarin.Forms.Platform.Resource.Styleable.ItemsViewRendererTheme_collectionViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.ItemsViewRendererTheme_collectionViewStyle;
 			global::Xamarin.Forms.Platform.Resource.Styleable.LinearLayoutCompat = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat;
 			global::Xamarin.Forms.Platform.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
 			global::Xamarin.Forms.Platform.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Bible.Alarm.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
@@ -7220,6 +6060,8 @@ namespace Bible.Alarm.Droid
 			global::Xamarin.Forms.Platform.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::Bible.Alarm.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
 			global::Xamarin.Forms.Platform.Resource.Styleable.ScrollingViewBehavior_Layout = global::Bible.Alarm.Droid.Resource.Styleable.ScrollingViewBehavior_Layout;
 			global::Xamarin.Forms.Platform.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop = global::Bible.Alarm.Droid.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop;
+			global::Xamarin.Forms.Platform.Resource.Styleable.ScrollViewRendererTheme = global::Bible.Alarm.Droid.Resource.Styleable.ScrollViewRendererTheme;
+			global::Xamarin.Forms.Platform.Resource.Styleable.ScrollViewRendererTheme_scrollViewStyle = global::Bible.Alarm.Droid.Resource.Styleable.ScrollViewRendererTheme_scrollViewStyle;
 			global::Xamarin.Forms.Platform.Resource.Styleable.SearchView = global::Bible.Alarm.Droid.Resource.Styleable.SearchView;
 			global::Xamarin.Forms.Platform.Resource.Styleable.SearchView_android_focusable = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_focusable;
 			global::Xamarin.Forms.Platform.Resource.Styleable.SearchView_android_imeOptions = global::Bible.Alarm.Droid.Resource.Styleable.SearchView_android_imeOptions;
@@ -7969,1162 +6811,1174 @@ namespace Bible.Alarm.Droid
 			public const int collapseIcon = 2130903174;
 			
 			// aapt resource value: 0x7F030089
-			public const int color = 2130903177;
+			public const int collectionViewStyle = 2130903177;
 			
 			// aapt resource value: 0x7F03008A
-			public const int colorAccent = 2130903178;
+			public const int color = 2130903178;
 			
 			// aapt resource value: 0x7F03008B
-			public const int colorBackgroundFloating = 2130903179;
+			public const int colorAccent = 2130903179;
 			
 			// aapt resource value: 0x7F03008C
-			public const int colorButtonNormal = 2130903180;
+			public const int colorBackgroundFloating = 2130903180;
 			
 			// aapt resource value: 0x7F03008D
-			public const int colorControlActivated = 2130903181;
+			public const int colorButtonNormal = 2130903181;
 			
 			// aapt resource value: 0x7F03008E
-			public const int colorControlHighlight = 2130903182;
+			public const int colorControlActivated = 2130903182;
 			
 			// aapt resource value: 0x7F03008F
-			public const int colorControlNormal = 2130903183;
+			public const int colorControlHighlight = 2130903183;
 			
 			// aapt resource value: 0x7F030090
-			public const int colorError = 2130903184;
+			public const int colorControlNormal = 2130903184;
 			
 			// aapt resource value: 0x7F030091
-			public const int colorPrimary = 2130903185;
+			public const int colorError = 2130903185;
 			
 			// aapt resource value: 0x7F030092
-			public const int colorPrimaryDark = 2130903186;
+			public const int colorPrimary = 2130903186;
 			
 			// aapt resource value: 0x7F030093
-			public const int colorSecondary = 2130903187;
+			public const int colorPrimaryDark = 2130903187;
 			
 			// aapt resource value: 0x7F030094
-			public const int colorSwitchThumbNormal = 2130903188;
+			public const int colorSecondary = 2130903188;
 			
 			// aapt resource value: 0x7F030095
-			public const int commitIcon = 2130903189;
+			public const int colorSwitchThumbNormal = 2130903189;
 			
 			// aapt resource value: 0x7F030096
-			public const int contentDescription = 2130903190;
+			public const int commitIcon = 2130903190;
 			
 			// aapt resource value: 0x7F030097
-			public const int contentInsetEnd = 2130903191;
+			public const int contentDescription = 2130903191;
 			
 			// aapt resource value: 0x7F030098
-			public const int contentInsetEndWithActions = 2130903192;
+			public const int contentInsetEnd = 2130903192;
 			
 			// aapt resource value: 0x7F030099
-			public const int contentInsetLeft = 2130903193;
+			public const int contentInsetEndWithActions = 2130903193;
 			
 			// aapt resource value: 0x7F03009A
-			public const int contentInsetRight = 2130903194;
+			public const int contentInsetLeft = 2130903194;
 			
 			// aapt resource value: 0x7F03009B
-			public const int contentInsetStart = 2130903195;
+			public const int contentInsetRight = 2130903195;
 			
 			// aapt resource value: 0x7F03009C
-			public const int contentInsetStartWithNavigation = 2130903196;
+			public const int contentInsetStart = 2130903196;
 			
 			// aapt resource value: 0x7F03009D
-			public const int contentPadding = 2130903197;
+			public const int contentInsetStartWithNavigation = 2130903197;
 			
 			// aapt resource value: 0x7F03009E
-			public const int contentPaddingBottom = 2130903198;
+			public const int contentPadding = 2130903198;
 			
 			// aapt resource value: 0x7F03009F
-			public const int contentPaddingLeft = 2130903199;
+			public const int contentPaddingBottom = 2130903199;
 			
 			// aapt resource value: 0x7F0300A0
-			public const int contentPaddingRight = 2130903200;
+			public const int contentPaddingLeft = 2130903200;
 			
 			// aapt resource value: 0x7F0300A1
-			public const int contentPaddingTop = 2130903201;
+			public const int contentPaddingRight = 2130903201;
 			
 			// aapt resource value: 0x7F0300A2
-			public const int contentScrim = 2130903202;
+			public const int contentPaddingTop = 2130903202;
 			
 			// aapt resource value: 0x7F0300A3
-			public const int controlBackground = 2130903203;
+			public const int contentScrim = 2130903203;
 			
 			// aapt resource value: 0x7F0300A4
-			public const int controller_layout_id = 2130903204;
+			public const int controlBackground = 2130903204;
 			
 			// aapt resource value: 0x7F0300A5
-			public const int coordinatorLayoutStyle = 2130903205;
+			public const int controller_layout_id = 2130903205;
 			
 			// aapt resource value: 0x7F0300A6
-			public const int cornerRadius = 2130903206;
+			public const int coordinatorLayoutStyle = 2130903206;
 			
 			// aapt resource value: 0x7F0300A7
-			public const int counterEnabled = 2130903207;
+			public const int cornerRadius = 2130903207;
 			
 			// aapt resource value: 0x7F0300A8
-			public const int counterMaxLength = 2130903208;
+			public const int counterEnabled = 2130903208;
 			
 			// aapt resource value: 0x7F0300A9
-			public const int counterOverflowTextAppearance = 2130903209;
+			public const int counterMaxLength = 2130903209;
 			
 			// aapt resource value: 0x7F0300AA
-			public const int counterTextAppearance = 2130903210;
+			public const int counterOverflowTextAppearance = 2130903210;
 			
 			// aapt resource value: 0x7F0300AB
-			public const int customNavigationLayout = 2130903211;
+			public const int counterTextAppearance = 2130903211;
 			
 			// aapt resource value: 0x7F0300AC
-			public const int defaultQueryHint = 2130903212;
+			public const int customNavigationLayout = 2130903212;
 			
 			// aapt resource value: 0x7F0300AD
-			public const int default_artwork = 2130903213;
+			public const int defaultQueryHint = 2130903213;
 			
 			// aapt resource value: 0x7F0300AE
-			public const int dialogCornerRadius = 2130903214;
+			public const int default_artwork = 2130903214;
 			
 			// aapt resource value: 0x7F0300AF
-			public const int dialogPreferredPadding = 2130903215;
+			public const int dialogCornerRadius = 2130903215;
 			
 			// aapt resource value: 0x7F0300B0
-			public const int dialogTheme = 2130903216;
+			public const int dialogPreferredPadding = 2130903216;
 			
 			// aapt resource value: 0x7F0300B1
-			public const int displayOptions = 2130903217;
+			public const int dialogTheme = 2130903217;
 			
 			// aapt resource value: 0x7F0300B2
-			public const int divider = 2130903218;
+			public const int displayOptions = 2130903218;
 			
 			// aapt resource value: 0x7F0300B3
-			public const int dividerHorizontal = 2130903219;
+			public const int divider = 2130903219;
 			
 			// aapt resource value: 0x7F0300B4
-			public const int dividerPadding = 2130903220;
+			public const int dividerHorizontal = 2130903220;
 			
 			// aapt resource value: 0x7F0300B5
-			public const int dividerVertical = 2130903221;
+			public const int dividerPadding = 2130903221;
 			
 			// aapt resource value: 0x7F0300B6
-			public const int drawableBottomCompat = 2130903222;
+			public const int dividerVertical = 2130903222;
 			
 			// aapt resource value: 0x7F0300B7
-			public const int drawableEndCompat = 2130903223;
+			public const int drawableBottomCompat = 2130903223;
 			
 			// aapt resource value: 0x7F0300B8
-			public const int drawableLeftCompat = 2130903224;
+			public const int drawableEndCompat = 2130903224;
 			
 			// aapt resource value: 0x7F0300B9
-			public const int drawableRightCompat = 2130903225;
+			public const int drawableLeftCompat = 2130903225;
 			
 			// aapt resource value: 0x7F0300BA
-			public const int drawableSize = 2130903226;
+			public const int drawableRightCompat = 2130903226;
 			
 			// aapt resource value: 0x7F0300BB
-			public const int drawableStartCompat = 2130903227;
+			public const int drawableSize = 2130903227;
 			
 			// aapt resource value: 0x7F0300BC
-			public const int drawableTint = 2130903228;
+			public const int drawableStartCompat = 2130903228;
 			
 			// aapt resource value: 0x7F0300BD
-			public const int drawableTintMode = 2130903229;
+			public const int drawableTint = 2130903229;
 			
 			// aapt resource value: 0x7F0300BE
-			public const int drawableTopCompat = 2130903230;
+			public const int drawableTintMode = 2130903230;
 			
 			// aapt resource value: 0x7F0300BF
-			public const int drawerArrowStyle = 2130903231;
-			
-			// aapt resource value: 0x7F0300C1
-			public const int dropdownListPreferredItemHeight = 2130903233;
+			public const int drawableTopCompat = 2130903231;
 			
 			// aapt resource value: 0x7F0300C0
-			public const int dropDownListViewStyle = 2130903232;
+			public const int drawerArrowStyle = 2130903232;
 			
 			// aapt resource value: 0x7F0300C2
-			public const int editTextBackground = 2130903234;
+			public const int dropdownListPreferredItemHeight = 2130903234;
+			
+			// aapt resource value: 0x7F0300C1
+			public const int dropDownListViewStyle = 2130903233;
 			
 			// aapt resource value: 0x7F0300C3
-			public const int editTextColor = 2130903235;
+			public const int editTextBackground = 2130903235;
 			
 			// aapt resource value: 0x7F0300C4
-			public const int editTextStyle = 2130903236;
+			public const int editTextColor = 2130903236;
 			
 			// aapt resource value: 0x7F0300C5
-			public const int elevation = 2130903237;
+			public const int editTextStyle = 2130903237;
 			
 			// aapt resource value: 0x7F0300C6
-			public const int enforceMaterialTheme = 2130903238;
+			public const int elevation = 2130903238;
 			
 			// aapt resource value: 0x7F0300C7
-			public const int enforceTextAppearance = 2130903239;
+			public const int enforceMaterialTheme = 2130903239;
 			
 			// aapt resource value: 0x7F0300C8
-			public const int errorEnabled = 2130903240;
+			public const int enforceTextAppearance = 2130903240;
 			
 			// aapt resource value: 0x7F0300C9
-			public const int errorTextAppearance = 2130903241;
+			public const int errorEnabled = 2130903241;
 			
 			// aapt resource value: 0x7F0300CA
-			public const int expandActivityOverflowButtonDrawable = 2130903242;
+			public const int errorTextAppearance = 2130903242;
 			
 			// aapt resource value: 0x7F0300CB
-			public const int expanded = 2130903243;
+			public const int expandActivityOverflowButtonDrawable = 2130903243;
 			
 			// aapt resource value: 0x7F0300CC
-			public const int expandedTitleGravity = 2130903244;
+			public const int expanded = 2130903244;
 			
 			// aapt resource value: 0x7F0300CD
-			public const int expandedTitleMargin = 2130903245;
+			public const int expandedTitleGravity = 2130903245;
 			
 			// aapt resource value: 0x7F0300CE
-			public const int expandedTitleMarginBottom = 2130903246;
+			public const int expandedTitleMargin = 2130903246;
 			
 			// aapt resource value: 0x7F0300CF
-			public const int expandedTitleMarginEnd = 2130903247;
+			public const int expandedTitleMarginBottom = 2130903247;
 			
 			// aapt resource value: 0x7F0300D0
-			public const int expandedTitleMarginStart = 2130903248;
+			public const int expandedTitleMarginEnd = 2130903248;
 			
 			// aapt resource value: 0x7F0300D1
-			public const int expandedTitleMarginTop = 2130903249;
+			public const int expandedTitleMarginStart = 2130903249;
 			
 			// aapt resource value: 0x7F0300D2
-			public const int expandedTitleTextAppearance = 2130903250;
+			public const int expandedTitleMarginTop = 2130903250;
 			
 			// aapt resource value: 0x7F0300D3
-			public const int fabAlignmentMode = 2130903251;
+			public const int expandedTitleTextAppearance = 2130903251;
 			
 			// aapt resource value: 0x7F0300D4
-			public const int fabCradleMargin = 2130903252;
+			public const int fabAlignmentMode = 2130903252;
 			
 			// aapt resource value: 0x7F0300D5
-			public const int fabCradleRoundedCornerRadius = 2130903253;
+			public const int fabCradleMargin = 2130903253;
 			
 			// aapt resource value: 0x7F0300D6
-			public const int fabCradleVerticalOffset = 2130903254;
+			public const int fabCradleRoundedCornerRadius = 2130903254;
 			
 			// aapt resource value: 0x7F0300D7
-			public const int fabCustomSize = 2130903255;
+			public const int fabCradleVerticalOffset = 2130903255;
 			
 			// aapt resource value: 0x7F0300D8
-			public const int fabSize = 2130903256;
-			
-			// aapt resource value: 0x7F0300DE
-			public const int fastforward_increment = 2130903262;
+			public const int fabCustomSize = 2130903256;
 			
 			// aapt resource value: 0x7F0300D9
-			public const int fastScrollEnabled = 2130903257;
-			
-			// aapt resource value: 0x7F0300DA
-			public const int fastScrollHorizontalThumbDrawable = 2130903258;
-			
-			// aapt resource value: 0x7F0300DB
-			public const int fastScrollHorizontalTrackDrawable = 2130903259;
-			
-			// aapt resource value: 0x7F0300DC
-			public const int fastScrollVerticalThumbDrawable = 2130903260;
-			
-			// aapt resource value: 0x7F0300DD
-			public const int fastScrollVerticalTrackDrawable = 2130903261;
+			public const int fabSize = 2130903257;
 			
 			// aapt resource value: 0x7F0300DF
-			public const int firstBaselineToTopHeight = 2130903263;
+			public const int fastforward_increment = 2130903263;
+			
+			// aapt resource value: 0x7F0300DA
+			public const int fastScrollEnabled = 2130903258;
+			
+			// aapt resource value: 0x7F0300DB
+			public const int fastScrollHorizontalThumbDrawable = 2130903259;
+			
+			// aapt resource value: 0x7F0300DC
+			public const int fastScrollHorizontalTrackDrawable = 2130903260;
+			
+			// aapt resource value: 0x7F0300DD
+			public const int fastScrollVerticalThumbDrawable = 2130903261;
+			
+			// aapt resource value: 0x7F0300DE
+			public const int fastScrollVerticalTrackDrawable = 2130903262;
 			
 			// aapt resource value: 0x7F0300E0
-			public const int floatingActionButtonStyle = 2130903264;
+			public const int firstBaselineToTopHeight = 2130903264;
 			
 			// aapt resource value: 0x7F0300E1
-			public const int font = 2130903265;
+			public const int floatingActionButtonStyle = 2130903265;
 			
 			// aapt resource value: 0x7F0300E2
-			public const int fontFamily = 2130903266;
+			public const int font = 2130903266;
 			
 			// aapt resource value: 0x7F0300E3
-			public const int fontProviderAuthority = 2130903267;
+			public const int fontFamily = 2130903267;
 			
 			// aapt resource value: 0x7F0300E4
-			public const int fontProviderCerts = 2130903268;
+			public const int fontProviderAuthority = 2130903268;
 			
 			// aapt resource value: 0x7F0300E5
-			public const int fontProviderFetchStrategy = 2130903269;
+			public const int fontProviderCerts = 2130903269;
 			
 			// aapt resource value: 0x7F0300E6
-			public const int fontProviderFetchTimeout = 2130903270;
+			public const int fontProviderFetchStrategy = 2130903270;
 			
 			// aapt resource value: 0x7F0300E7
-			public const int fontProviderPackage = 2130903271;
+			public const int fontProviderFetchTimeout = 2130903271;
 			
 			// aapt resource value: 0x7F0300E8
-			public const int fontProviderQuery = 2130903272;
+			public const int fontProviderPackage = 2130903272;
 			
 			// aapt resource value: 0x7F0300E9
-			public const int fontStyle = 2130903273;
+			public const int fontProviderQuery = 2130903273;
 			
 			// aapt resource value: 0x7F0300EA
-			public const int fontVariationSettings = 2130903274;
+			public const int fontStyle = 2130903274;
 			
 			// aapt resource value: 0x7F0300EB
-			public const int fontWeight = 2130903275;
+			public const int fontVariationSettings = 2130903275;
 			
 			// aapt resource value: 0x7F0300EC
-			public const int foregroundInsidePadding = 2130903276;
+			public const int fontWeight = 2130903276;
 			
 			// aapt resource value: 0x7F0300ED
-			public const int gapBetweenBars = 2130903277;
+			public const int foregroundInsidePadding = 2130903277;
 			
 			// aapt resource value: 0x7F0300EE
-			public const int goIcon = 2130903278;
+			public const int gapBetweenBars = 2130903278;
 			
 			// aapt resource value: 0x7F0300EF
-			public const int headerLayout = 2130903279;
+			public const int goIcon = 2130903279;
 			
 			// aapt resource value: 0x7F0300F0
-			public const int height = 2130903280;
+			public const int headerLayout = 2130903280;
 			
 			// aapt resource value: 0x7F0300F1
-			public const int helperText = 2130903281;
+			public const int height = 2130903281;
 			
 			// aapt resource value: 0x7F0300F2
-			public const int helperTextEnabled = 2130903282;
+			public const int helperText = 2130903282;
 			
 			// aapt resource value: 0x7F0300F3
-			public const int helperTextTextAppearance = 2130903283;
+			public const int helperTextEnabled = 2130903283;
 			
 			// aapt resource value: 0x7F0300F4
-			public const int hideMotionSpec = 2130903284;
+			public const int helperTextTextAppearance = 2130903284;
 			
 			// aapt resource value: 0x7F0300F5
-			public const int hideOnContentScroll = 2130903285;
+			public const int hideMotionSpec = 2130903285;
 			
 			// aapt resource value: 0x7F0300F6
-			public const int hideOnScroll = 2130903286;
+			public const int hideOnContentScroll = 2130903286;
 			
 			// aapt resource value: 0x7F0300F7
-			public const int hide_during_ads = 2130903287;
+			public const int hideOnScroll = 2130903287;
 			
 			// aapt resource value: 0x7F0300F8
-			public const int hide_on_touch = 2130903288;
+			public const int hide_during_ads = 2130903288;
 			
 			// aapt resource value: 0x7F0300F9
-			public const int hintAnimationEnabled = 2130903289;
+			public const int hide_on_touch = 2130903289;
 			
 			// aapt resource value: 0x7F0300FA
-			public const int hintEnabled = 2130903290;
+			public const int hintAnimationEnabled = 2130903290;
 			
 			// aapt resource value: 0x7F0300FB
-			public const int hintTextAppearance = 2130903291;
+			public const int hintEnabled = 2130903291;
 			
 			// aapt resource value: 0x7F0300FC
-			public const int homeAsUpIndicator = 2130903292;
+			public const int hintTextAppearance = 2130903292;
 			
 			// aapt resource value: 0x7F0300FD
-			public const int homeLayout = 2130903293;
+			public const int homeAsUpIndicator = 2130903293;
 			
 			// aapt resource value: 0x7F0300FE
-			public const int hoveredFocusedTranslationZ = 2130903294;
+			public const int homeLayout = 2130903294;
 			
 			// aapt resource value: 0x7F0300FF
-			public const int icon = 2130903295;
+			public const int hoveredFocusedTranslationZ = 2130903295;
 			
 			// aapt resource value: 0x7F030100
-			public const int iconEndPadding = 2130903296;
+			public const int icon = 2130903296;
 			
 			// aapt resource value: 0x7F030101
-			public const int iconGravity = 2130903297;
-			
-			// aapt resource value: 0x7F030107
-			public const int iconifiedByDefault = 2130903303;
+			public const int iconEndPadding = 2130903297;
 			
 			// aapt resource value: 0x7F030102
-			public const int iconPadding = 2130903298;
-			
-			// aapt resource value: 0x7F030103
-			public const int iconSize = 2130903299;
-			
-			// aapt resource value: 0x7F030104
-			public const int iconStartPadding = 2130903300;
-			
-			// aapt resource value: 0x7F030105
-			public const int iconTint = 2130903301;
-			
-			// aapt resource value: 0x7F030106
-			public const int iconTintMode = 2130903302;
+			public const int iconGravity = 2130903298;
 			
 			// aapt resource value: 0x7F030108
-			public const int imageButtonStyle = 2130903304;
+			public const int iconifiedByDefault = 2130903304;
+			
+			// aapt resource value: 0x7F030103
+			public const int iconPadding = 2130903299;
+			
+			// aapt resource value: 0x7F030104
+			public const int iconSize = 2130903300;
+			
+			// aapt resource value: 0x7F030105
+			public const int iconStartPadding = 2130903301;
+			
+			// aapt resource value: 0x7F030106
+			public const int iconTint = 2130903302;
+			
+			// aapt resource value: 0x7F030107
+			public const int iconTintMode = 2130903303;
 			
 			// aapt resource value: 0x7F030109
-			public const int indeterminateProgressStyle = 2130903305;
+			public const int imageButtonStyle = 2130903305;
 			
 			// aapt resource value: 0x7F03010A
-			public const int initialActivityCount = 2130903306;
+			public const int indeterminateProgressStyle = 2130903306;
 			
 			// aapt resource value: 0x7F03010B
-			public const int insetForeground = 2130903307;
+			public const int initialActivityCount = 2130903307;
 			
 			// aapt resource value: 0x7F03010C
-			public const int isLightTheme = 2130903308;
+			public const int insetForeground = 2130903308;
 			
 			// aapt resource value: 0x7F03010D
-			public const int itemBackground = 2130903309;
+			public const int isLightTheme = 2130903309;
 			
 			// aapt resource value: 0x7F03010E
-			public const int itemHorizontalPadding = 2130903310;
+			public const int itemBackground = 2130903310;
 			
 			// aapt resource value: 0x7F03010F
-			public const int itemHorizontalTranslationEnabled = 2130903311;
+			public const int itemHorizontalPadding = 2130903311;
 			
 			// aapt resource value: 0x7F030110
-			public const int itemIconPadding = 2130903312;
+			public const int itemHorizontalTranslationEnabled = 2130903312;
 			
 			// aapt resource value: 0x7F030111
-			public const int itemIconSize = 2130903313;
+			public const int itemIconPadding = 2130903313;
 			
 			// aapt resource value: 0x7F030112
-			public const int itemIconTint = 2130903314;
+			public const int itemIconSize = 2130903314;
 			
 			// aapt resource value: 0x7F030113
-			public const int itemPadding = 2130903315;
+			public const int itemIconTint = 2130903315;
 			
 			// aapt resource value: 0x7F030114
-			public const int itemSpacing = 2130903316;
+			public const int itemPadding = 2130903316;
 			
 			// aapt resource value: 0x7F030115
-			public const int itemTextAppearance = 2130903317;
+			public const int itemSpacing = 2130903317;
 			
 			// aapt resource value: 0x7F030116
-			public const int itemTextAppearanceActive = 2130903318;
+			public const int itemTextAppearance = 2130903318;
 			
 			// aapt resource value: 0x7F030117
-			public const int itemTextAppearanceInactive = 2130903319;
+			public const int itemTextAppearanceActive = 2130903319;
 			
 			// aapt resource value: 0x7F030118
-			public const int itemTextColor = 2130903320;
+			public const int itemTextAppearanceInactive = 2130903320;
 			
 			// aapt resource value: 0x7F030119
-			public const int keep_content_on_player_reset = 2130903321;
+			public const int itemTextColor = 2130903321;
 			
 			// aapt resource value: 0x7F03011A
-			public const int keylines = 2130903322;
+			public const int keep_content_on_player_reset = 2130903322;
 			
 			// aapt resource value: 0x7F03011B
-			public const int labelVisibilityMode = 2130903323;
+			public const int keylines = 2130903323;
 			
 			// aapt resource value: 0x7F03011C
-			public const int lastBaselineToBottomHeight = 2130903324;
+			public const int labelVisibilityMode = 2130903324;
 			
 			// aapt resource value: 0x7F03011D
-			public const int layout = 2130903325;
+			public const int lastBaselineToBottomHeight = 2130903325;
 			
 			// aapt resource value: 0x7F03011E
-			public const int layoutManager = 2130903326;
+			public const int layout = 2130903326;
 			
 			// aapt resource value: 0x7F03011F
-			public const int layout_anchor = 2130903327;
+			public const int layoutManager = 2130903327;
 			
 			// aapt resource value: 0x7F030120
-			public const int layout_anchorGravity = 2130903328;
+			public const int layout_anchor = 2130903328;
 			
 			// aapt resource value: 0x7F030121
-			public const int layout_behavior = 2130903329;
+			public const int layout_anchorGravity = 2130903329;
 			
 			// aapt resource value: 0x7F030122
-			public const int layout_collapseMode = 2130903330;
+			public const int layout_behavior = 2130903330;
 			
 			// aapt resource value: 0x7F030123
-			public const int layout_collapseParallaxMultiplier = 2130903331;
+			public const int layout_collapseMode = 2130903331;
 			
 			// aapt resource value: 0x7F030124
-			public const int layout_dodgeInsetEdges = 2130903332;
+			public const int layout_collapseParallaxMultiplier = 2130903332;
 			
 			// aapt resource value: 0x7F030125
-			public const int layout_insetEdge = 2130903333;
+			public const int layout_dodgeInsetEdges = 2130903333;
 			
 			// aapt resource value: 0x7F030126
-			public const int layout_keyline = 2130903334;
+			public const int layout_insetEdge = 2130903334;
 			
 			// aapt resource value: 0x7F030127
-			public const int layout_scrollFlags = 2130903335;
+			public const int layout_keyline = 2130903335;
 			
 			// aapt resource value: 0x7F030128
-			public const int layout_scrollInterpolator = 2130903336;
+			public const int layout_scrollFlags = 2130903336;
 			
 			// aapt resource value: 0x7F030129
-			public const int liftOnScroll = 2130903337;
+			public const int layout_scrollInterpolator = 2130903337;
 			
 			// aapt resource value: 0x7F03012A
-			public const int lineHeight = 2130903338;
+			public const int liftOnScroll = 2130903338;
 			
 			// aapt resource value: 0x7F03012B
-			public const int lineSpacing = 2130903339;
+			public const int lineHeight = 2130903339;
 			
 			// aapt resource value: 0x7F03012C
-			public const int listChoiceBackgroundIndicator = 2130903340;
+			public const int lineSpacing = 2130903340;
 			
 			// aapt resource value: 0x7F03012D
-			public const int listChoiceIndicatorMultipleAnimated = 2130903341;
+			public const int listChoiceBackgroundIndicator = 2130903341;
 			
 			// aapt resource value: 0x7F03012E
-			public const int listChoiceIndicatorSingleAnimated = 2130903342;
+			public const int listChoiceIndicatorMultipleAnimated = 2130903342;
 			
 			// aapt resource value: 0x7F03012F
-			public const int listDividerAlertDialog = 2130903343;
+			public const int listChoiceIndicatorSingleAnimated = 2130903343;
 			
 			// aapt resource value: 0x7F030130
-			public const int listItemLayout = 2130903344;
+			public const int listDividerAlertDialog = 2130903344;
 			
 			// aapt resource value: 0x7F030131
-			public const int listLayout = 2130903345;
+			public const int listItemLayout = 2130903345;
 			
 			// aapt resource value: 0x7F030132
-			public const int listMenuViewStyle = 2130903346;
+			public const int listLayout = 2130903346;
 			
 			// aapt resource value: 0x7F030133
-			public const int listPopupWindowStyle = 2130903347;
+			public const int listMenuViewStyle = 2130903347;
 			
 			// aapt resource value: 0x7F030134
-			public const int listPreferredItemHeight = 2130903348;
+			public const int listPopupWindowStyle = 2130903348;
 			
 			// aapt resource value: 0x7F030135
-			public const int listPreferredItemHeightLarge = 2130903349;
+			public const int listPreferredItemHeight = 2130903349;
 			
 			// aapt resource value: 0x7F030136
-			public const int listPreferredItemHeightSmall = 2130903350;
+			public const int listPreferredItemHeightLarge = 2130903350;
 			
 			// aapt resource value: 0x7F030137
-			public const int listPreferredItemPaddingEnd = 2130903351;
+			public const int listPreferredItemHeightSmall = 2130903351;
 			
 			// aapt resource value: 0x7F030138
-			public const int listPreferredItemPaddingLeft = 2130903352;
+			public const int listPreferredItemPaddingEnd = 2130903352;
 			
 			// aapt resource value: 0x7F030139
-			public const int listPreferredItemPaddingRight = 2130903353;
+			public const int listPreferredItemPaddingLeft = 2130903353;
 			
 			// aapt resource value: 0x7F03013A
-			public const int listPreferredItemPaddingStart = 2130903354;
+			public const int listPreferredItemPaddingRight = 2130903354;
 			
 			// aapt resource value: 0x7F03013B
-			public const int logo = 2130903355;
+			public const int listPreferredItemPaddingStart = 2130903355;
 			
 			// aapt resource value: 0x7F03013C
-			public const int logoDescription = 2130903356;
+			public const int logo = 2130903356;
 			
 			// aapt resource value: 0x7F03013D
-			public const int materialButtonStyle = 2130903357;
+			public const int logoDescription = 2130903357;
 			
 			// aapt resource value: 0x7F03013E
-			public const int materialCardViewStyle = 2130903358;
+			public const int materialButtonStyle = 2130903358;
 			
 			// aapt resource value: 0x7F03013F
-			public const int maxActionInlineWidth = 2130903359;
+			public const int materialCardViewStyle = 2130903359;
 			
 			// aapt resource value: 0x7F030140
-			public const int maxButtonHeight = 2130903360;
+			public const int maxActionInlineWidth = 2130903360;
 			
 			// aapt resource value: 0x7F030141
-			public const int maxImageSize = 2130903361;
+			public const int maxButtonHeight = 2130903361;
 			
 			// aapt resource value: 0x7F030142
-			public const int measureWithLargestChild = 2130903362;
+			public const int maxImageSize = 2130903362;
 			
 			// aapt resource value: 0x7F030143
-			public const int menu = 2130903363;
+			public const int measureWithLargestChild = 2130903363;
 			
 			// aapt resource value: 0x7F030144
-			public const int multiChoiceItemLayout = 2130903364;
+			public const int menu = 2130903364;
 			
 			// aapt resource value: 0x7F030145
-			public const int navigationContentDescription = 2130903365;
+			public const int multiChoiceItemLayout = 2130903365;
 			
 			// aapt resource value: 0x7F030146
-			public const int navigationIcon = 2130903366;
+			public const int navigationContentDescription = 2130903366;
 			
 			// aapt resource value: 0x7F030147
-			public const int navigationMode = 2130903367;
+			public const int navigationIcon = 2130903367;
 			
 			// aapt resource value: 0x7F030148
-			public const int navigationViewStyle = 2130903368;
+			public const int navigationMode = 2130903368;
 			
 			// aapt resource value: 0x7F030149
-			public const int numericModifiers = 2130903369;
+			public const int navigationViewStyle = 2130903369;
 			
 			// aapt resource value: 0x7F03014A
-			public const int overlapAnchor = 2130903370;
+			public const int numericModifiers = 2130903370;
 			
 			// aapt resource value: 0x7F03014B
-			public const int paddingBottomNoButtons = 2130903371;
+			public const int overlapAnchor = 2130903371;
 			
 			// aapt resource value: 0x7F03014C
-			public const int paddingEnd = 2130903372;
+			public const int paddingBottomNoButtons = 2130903372;
 			
 			// aapt resource value: 0x7F03014D
-			public const int paddingStart = 2130903373;
+			public const int paddingEnd = 2130903373;
 			
 			// aapt resource value: 0x7F03014E
-			public const int paddingTopNoTitle = 2130903374;
+			public const int paddingStart = 2130903374;
 			
 			// aapt resource value: 0x7F03014F
-			public const int panelBackground = 2130903375;
+			public const int paddingTopNoTitle = 2130903375;
 			
 			// aapt resource value: 0x7F030150
-			public const int panelMenuListTheme = 2130903376;
+			public const int panelBackground = 2130903376;
 			
 			// aapt resource value: 0x7F030151
-			public const int panelMenuListWidth = 2130903377;
+			public const int panelMenuListTheme = 2130903377;
 			
 			// aapt resource value: 0x7F030152
-			public const int passwordToggleContentDescription = 2130903378;
+			public const int panelMenuListWidth = 2130903378;
 			
 			// aapt resource value: 0x7F030153
-			public const int passwordToggleDrawable = 2130903379;
+			public const int passwordToggleContentDescription = 2130903379;
 			
 			// aapt resource value: 0x7F030154
-			public const int passwordToggleEnabled = 2130903380;
+			public const int passwordToggleDrawable = 2130903380;
 			
 			// aapt resource value: 0x7F030155
-			public const int passwordToggleTint = 2130903381;
+			public const int passwordToggleEnabled = 2130903381;
 			
 			// aapt resource value: 0x7F030156
-			public const int passwordToggleTintMode = 2130903382;
+			public const int passwordToggleTint = 2130903382;
 			
 			// aapt resource value: 0x7F030157
-			public const int played_ad_marker_color = 2130903383;
+			public const int passwordToggleTintMode = 2130903383;
 			
 			// aapt resource value: 0x7F030158
-			public const int played_color = 2130903384;
+			public const int played_ad_marker_color = 2130903384;
 			
 			// aapt resource value: 0x7F030159
-			public const int player_layout_id = 2130903385;
+			public const int played_color = 2130903385;
 			
 			// aapt resource value: 0x7F03015A
-			public const int popupMenuStyle = 2130903386;
+			public const int player_layout_id = 2130903386;
 			
 			// aapt resource value: 0x7F03015B
-			public const int popupTheme = 2130903387;
+			public const int popupMenuStyle = 2130903387;
 			
 			// aapt resource value: 0x7F03015C
-			public const int popupWindowStyle = 2130903388;
+			public const int popupTheme = 2130903388;
 			
 			// aapt resource value: 0x7F03015D
-			public const int preserveIconSpacing = 2130903389;
+			public const int popupWindowStyle = 2130903389;
 			
 			// aapt resource value: 0x7F03015E
-			public const int pressedTranslationZ = 2130903390;
+			public const int preserveIconSpacing = 2130903390;
 			
 			// aapt resource value: 0x7F03015F
-			public const int progressBarPadding = 2130903391;
+			public const int pressedTranslationZ = 2130903391;
 			
 			// aapt resource value: 0x7F030160
-			public const int progressBarStyle = 2130903392;
+			public const int progressBarPadding = 2130903392;
 			
 			// aapt resource value: 0x7F030161
-			public const int queryBackground = 2130903393;
+			public const int progressBarStyle = 2130903393;
 			
 			// aapt resource value: 0x7F030162
-			public const int queryHint = 2130903394;
+			public const int queryBackground = 2130903394;
 			
 			// aapt resource value: 0x7F030163
-			public const int radioButtonStyle = 2130903395;
+			public const int queryHint = 2130903395;
 			
 			// aapt resource value: 0x7F030164
-			public const int ratingBarStyle = 2130903396;
+			public const int radioButtonStyle = 2130903396;
 			
 			// aapt resource value: 0x7F030165
-			public const int ratingBarStyleIndicator = 2130903397;
+			public const int ratingBarStyle = 2130903397;
 			
 			// aapt resource value: 0x7F030166
-			public const int ratingBarStyleSmall = 2130903398;
+			public const int ratingBarStyleIndicator = 2130903398;
 			
 			// aapt resource value: 0x7F030167
-			public const int recyclerViewStyle = 2130903399;
+			public const int ratingBarStyleSmall = 2130903399;
 			
 			// aapt resource value: 0x7F030168
-			public const int repeat_toggle_modes = 2130903400;
+			public const int recyclerViewStyle = 2130903400;
 			
 			// aapt resource value: 0x7F030169
-			public const int resize_mode = 2130903401;
+			public const int repeat_toggle_modes = 2130903401;
 			
 			// aapt resource value: 0x7F03016A
-			public const int reverseLayout = 2130903402;
+			public const int resize_mode = 2130903402;
 			
 			// aapt resource value: 0x7F03016B
-			public const int rewind_increment = 2130903403;
+			public const int reverseLayout = 2130903403;
 			
 			// aapt resource value: 0x7F03016C
-			public const int rippleColor = 2130903404;
+			public const int rewind_increment = 2130903404;
 			
 			// aapt resource value: 0x7F03016D
-			public const int scrimAnimationDuration = 2130903405;
+			public const int rippleColor = 2130903405;
 			
 			// aapt resource value: 0x7F03016E
-			public const int scrimBackground = 2130903406;
+			public const int scrimAnimationDuration = 2130903406;
 			
 			// aapt resource value: 0x7F03016F
-			public const int scrimVisibleHeightTrigger = 2130903407;
+			public const int scrimBackground = 2130903407;
 			
 			// aapt resource value: 0x7F030170
-			public const int scrubber_color = 2130903408;
+			public const int scrimVisibleHeightTrigger = 2130903408;
 			
 			// aapt resource value: 0x7F030171
-			public const int scrubber_disabled_size = 2130903409;
+			public const int scrollViewStyle = 2130903409;
 			
 			// aapt resource value: 0x7F030172
-			public const int scrubber_dragged_size = 2130903410;
+			public const int scrubber_color = 2130903410;
 			
 			// aapt resource value: 0x7F030173
-			public const int scrubber_drawable = 2130903411;
+			public const int scrubber_disabled_size = 2130903411;
 			
 			// aapt resource value: 0x7F030174
-			public const int scrubber_enabled_size = 2130903412;
+			public const int scrubber_dragged_size = 2130903412;
 			
 			// aapt resource value: 0x7F030175
-			public const int searchHintIcon = 2130903413;
+			public const int scrubber_drawable = 2130903413;
 			
 			// aapt resource value: 0x7F030176
-			public const int searchIcon = 2130903414;
+			public const int scrubber_enabled_size = 2130903414;
 			
 			// aapt resource value: 0x7F030177
-			public const int searchViewStyle = 2130903415;
+			public const int searchHintIcon = 2130903415;
 			
 			// aapt resource value: 0x7F030178
-			public const int seekBarStyle = 2130903416;
+			public const int searchIcon = 2130903416;
 			
 			// aapt resource value: 0x7F030179
-			public const int selectableItemBackground = 2130903417;
+			public const int searchViewStyle = 2130903417;
 			
 			// aapt resource value: 0x7F03017A
-			public const int selectableItemBackgroundBorderless = 2130903418;
+			public const int seekBarStyle = 2130903418;
 			
 			// aapt resource value: 0x7F03017B
-			public const int showAsAction = 2130903419;
+			public const int selectableItemBackground = 2130903419;
 			
 			// aapt resource value: 0x7F03017C
-			public const int showDividers = 2130903420;
+			public const int selectableItemBackgroundBorderless = 2130903420;
 			
 			// aapt resource value: 0x7F03017D
-			public const int showMotionSpec = 2130903421;
+			public const int showAsAction = 2130903421;
 			
 			// aapt resource value: 0x7F03017E
-			public const int showText = 2130903422;
+			public const int showDividers = 2130903422;
 			
 			// aapt resource value: 0x7F03017F
-			public const int showTitle = 2130903423;
+			public const int showMotionSpec = 2130903423;
 			
 			// aapt resource value: 0x7F030180
-			public const int show_buffering = 2130903424;
+			public const int showText = 2130903424;
 			
 			// aapt resource value: 0x7F030181
-			public const int show_shuffle_button = 2130903425;
+			public const int showTitle = 2130903425;
 			
 			// aapt resource value: 0x7F030182
-			public const int show_timeout = 2130903426;
+			public const int show_buffering = 2130903426;
 			
 			// aapt resource value: 0x7F030183
-			public const int shutter_background_color = 2130903427;
+			public const int show_shuffle_button = 2130903427;
 			
 			// aapt resource value: 0x7F030184
-			public const int singleChoiceItemLayout = 2130903428;
+			public const int show_timeout = 2130903428;
 			
 			// aapt resource value: 0x7F030185
-			public const int singleLine = 2130903429;
+			public const int shutter_background_color = 2130903429;
 			
 			// aapt resource value: 0x7F030186
-			public const int singleSelection = 2130903430;
+			public const int singleChoiceItemLayout = 2130903430;
 			
 			// aapt resource value: 0x7F030187
-			public const int snackbarButtonStyle = 2130903431;
+			public const int singleLine = 2130903431;
 			
 			// aapt resource value: 0x7F030188
-			public const int snackbarStyle = 2130903432;
+			public const int singleSelection = 2130903432;
 			
 			// aapt resource value: 0x7F030189
-			public const int spanCount = 2130903433;
+			public const int snackbarButtonStyle = 2130903433;
 			
 			// aapt resource value: 0x7F03018A
-			public const int spinBars = 2130903434;
+			public const int snackbarStyle = 2130903434;
 			
 			// aapt resource value: 0x7F03018B
-			public const int spinnerDropDownItemStyle = 2130903435;
+			public const int spanCount = 2130903435;
 			
 			// aapt resource value: 0x7F03018C
-			public const int spinnerStyle = 2130903436;
+			public const int spinBars = 2130903436;
 			
 			// aapt resource value: 0x7F03018D
-			public const int splitTrack = 2130903437;
+			public const int spinnerDropDownItemStyle = 2130903437;
 			
 			// aapt resource value: 0x7F03018E
-			public const int srcCompat = 2130903438;
+			public const int spinnerStyle = 2130903438;
 			
 			// aapt resource value: 0x7F03018F
-			public const int stackFromEnd = 2130903439;
+			public const int splitTrack = 2130903439;
 			
 			// aapt resource value: 0x7F030190
-			public const int state_above_anchor = 2130903440;
+			public const int srcCompat = 2130903440;
 			
 			// aapt resource value: 0x7F030191
-			public const int state_collapsed = 2130903441;
+			public const int stackFromEnd = 2130903441;
 			
 			// aapt resource value: 0x7F030192
-			public const int state_collapsible = 2130903442;
+			public const int state_above_anchor = 2130903442;
 			
 			// aapt resource value: 0x7F030193
-			public const int state_liftable = 2130903443;
+			public const int state_collapsed = 2130903443;
 			
 			// aapt resource value: 0x7F030194
-			public const int state_lifted = 2130903444;
+			public const int state_collapsible = 2130903444;
 			
 			// aapt resource value: 0x7F030195
-			public const int statusBarBackground = 2130903445;
+			public const int state_liftable = 2130903445;
 			
 			// aapt resource value: 0x7F030196
-			public const int statusBarScrim = 2130903446;
+			public const int state_lifted = 2130903446;
 			
 			// aapt resource value: 0x7F030197
-			public const int strokeColor = 2130903447;
+			public const int statusBarBackground = 2130903447;
 			
 			// aapt resource value: 0x7F030198
-			public const int strokeWidth = 2130903448;
+			public const int statusBarScrim = 2130903448;
 			
 			// aapt resource value: 0x7F030199
-			public const int subMenuArrow = 2130903449;
+			public const int strokeColor = 2130903449;
 			
 			// aapt resource value: 0x7F03019A
-			public const int submitBackground = 2130903450;
+			public const int strokeWidth = 2130903450;
 			
 			// aapt resource value: 0x7F03019B
-			public const int subtitle = 2130903451;
+			public const int subMenuArrow = 2130903451;
 			
 			// aapt resource value: 0x7F03019C
-			public const int subtitleTextAppearance = 2130903452;
+			public const int submitBackground = 2130903452;
 			
 			// aapt resource value: 0x7F03019D
-			public const int subtitleTextColor = 2130903453;
+			public const int subtitle = 2130903453;
 			
 			// aapt resource value: 0x7F03019E
-			public const int subtitleTextStyle = 2130903454;
+			public const int subtitleTextAppearance = 2130903454;
 			
 			// aapt resource value: 0x7F03019F
-			public const int suggestionRowLayout = 2130903455;
+			public const int subtitleTextColor = 2130903455;
 			
 			// aapt resource value: 0x7F0301A0
-			public const int surface_type = 2130903456;
+			public const int subtitleTextStyle = 2130903456;
 			
 			// aapt resource value: 0x7F0301A1
-			public const int switchMinWidth = 2130903457;
+			public const int suggestionRowLayout = 2130903457;
 			
 			// aapt resource value: 0x7F0301A2
-			public const int switchPadding = 2130903458;
+			public const int surface_type = 2130903458;
 			
 			// aapt resource value: 0x7F0301A3
-			public const int switchStyle = 2130903459;
+			public const int switchMinWidth = 2130903459;
 			
 			// aapt resource value: 0x7F0301A4
-			public const int switchTextAppearance = 2130903460;
+			public const int switchPadding = 2130903460;
 			
 			// aapt resource value: 0x7F0301A5
-			public const int tabBackground = 2130903461;
+			public const int switchStyle = 2130903461;
 			
 			// aapt resource value: 0x7F0301A6
-			public const int tabContentStart = 2130903462;
+			public const int switchTextAppearance = 2130903462;
 			
 			// aapt resource value: 0x7F0301A7
-			public const int tabGravity = 2130903463;
+			public const int tabBackground = 2130903463;
 			
 			// aapt resource value: 0x7F0301A8
-			public const int tabIconTint = 2130903464;
+			public const int tabContentStart = 2130903464;
 			
 			// aapt resource value: 0x7F0301A9
-			public const int tabIconTintMode = 2130903465;
+			public const int tabGravity = 2130903465;
 			
 			// aapt resource value: 0x7F0301AA
-			public const int tabIndicator = 2130903466;
+			public const int tabIconTint = 2130903466;
 			
 			// aapt resource value: 0x7F0301AB
-			public const int tabIndicatorAnimationDuration = 2130903467;
+			public const int tabIconTintMode = 2130903467;
 			
 			// aapt resource value: 0x7F0301AC
-			public const int tabIndicatorColor = 2130903468;
+			public const int tabIndicator = 2130903468;
 			
 			// aapt resource value: 0x7F0301AD
-			public const int tabIndicatorFullWidth = 2130903469;
+			public const int tabIndicatorAnimationDuration = 2130903469;
 			
 			// aapt resource value: 0x7F0301AE
-			public const int tabIndicatorGravity = 2130903470;
+			public const int tabIndicatorColor = 2130903470;
 			
 			// aapt resource value: 0x7F0301AF
-			public const int tabIndicatorHeight = 2130903471;
+			public const int tabIndicatorFullWidth = 2130903471;
 			
 			// aapt resource value: 0x7F0301B0
-			public const int tabInlineLabel = 2130903472;
+			public const int tabIndicatorGravity = 2130903472;
 			
 			// aapt resource value: 0x7F0301B1
-			public const int tabMaxWidth = 2130903473;
+			public const int tabIndicatorHeight = 2130903473;
 			
 			// aapt resource value: 0x7F0301B2
-			public const int tabMinWidth = 2130903474;
+			public const int tabInlineLabel = 2130903474;
 			
 			// aapt resource value: 0x7F0301B3
-			public const int tabMode = 2130903475;
+			public const int tabMaxWidth = 2130903475;
 			
 			// aapt resource value: 0x7F0301B4
-			public const int tabPadding = 2130903476;
+			public const int tabMinWidth = 2130903476;
 			
 			// aapt resource value: 0x7F0301B5
-			public const int tabPaddingBottom = 2130903477;
+			public const int tabMode = 2130903477;
 			
 			// aapt resource value: 0x7F0301B6
-			public const int tabPaddingEnd = 2130903478;
+			public const int tabPadding = 2130903478;
 			
 			// aapt resource value: 0x7F0301B7
-			public const int tabPaddingStart = 2130903479;
+			public const int tabPaddingBottom = 2130903479;
 			
 			// aapt resource value: 0x7F0301B8
-			public const int tabPaddingTop = 2130903480;
+			public const int tabPaddingEnd = 2130903480;
 			
 			// aapt resource value: 0x7F0301B9
-			public const int tabRippleColor = 2130903481;
+			public const int tabPaddingStart = 2130903481;
 			
 			// aapt resource value: 0x7F0301BA
-			public const int tabSelectedTextColor = 2130903482;
+			public const int tabPaddingTop = 2130903482;
 			
 			// aapt resource value: 0x7F0301BB
-			public const int tabStyle = 2130903483;
+			public const int tabRippleColor = 2130903483;
 			
 			// aapt resource value: 0x7F0301BC
-			public const int tabTextAppearance = 2130903484;
+			public const int tabSelectedTextColor = 2130903484;
 			
 			// aapt resource value: 0x7F0301BD
-			public const int tabTextColor = 2130903485;
+			public const int tabStyle = 2130903485;
 			
 			// aapt resource value: 0x7F0301BE
-			public const int tabUnboundedRipple = 2130903486;
+			public const int tabTextAppearance = 2130903486;
 			
 			// aapt resource value: 0x7F0301BF
-			public const int textAllCaps = 2130903487;
+			public const int tabTextColor = 2130903487;
 			
 			// aapt resource value: 0x7F0301C0
-			public const int textAppearanceBody1 = 2130903488;
+			public const int tabUnboundedRipple = 2130903488;
 			
 			// aapt resource value: 0x7F0301C1
-			public const int textAppearanceBody2 = 2130903489;
+			public const int textAllCaps = 2130903489;
 			
 			// aapt resource value: 0x7F0301C2
-			public const int textAppearanceButton = 2130903490;
+			public const int textAppearanceBody1 = 2130903490;
 			
 			// aapt resource value: 0x7F0301C3
-			public const int textAppearanceCaption = 2130903491;
+			public const int textAppearanceBody2 = 2130903491;
 			
 			// aapt resource value: 0x7F0301C4
-			public const int textAppearanceHeadline1 = 2130903492;
+			public const int textAppearanceButton = 2130903492;
 			
 			// aapt resource value: 0x7F0301C5
-			public const int textAppearanceHeadline2 = 2130903493;
+			public const int textAppearanceCaption = 2130903493;
 			
 			// aapt resource value: 0x7F0301C6
-			public const int textAppearanceHeadline3 = 2130903494;
+			public const int textAppearanceHeadline1 = 2130903494;
 			
 			// aapt resource value: 0x7F0301C7
-			public const int textAppearanceHeadline4 = 2130903495;
+			public const int textAppearanceHeadline2 = 2130903495;
 			
 			// aapt resource value: 0x7F0301C8
-			public const int textAppearanceHeadline5 = 2130903496;
+			public const int textAppearanceHeadline3 = 2130903496;
 			
 			// aapt resource value: 0x7F0301C9
-			public const int textAppearanceHeadline6 = 2130903497;
+			public const int textAppearanceHeadline4 = 2130903497;
 			
 			// aapt resource value: 0x7F0301CA
-			public const int textAppearanceLargePopupMenu = 2130903498;
+			public const int textAppearanceHeadline5 = 2130903498;
 			
 			// aapt resource value: 0x7F0301CB
-			public const int textAppearanceListItem = 2130903499;
+			public const int textAppearanceHeadline6 = 2130903499;
 			
 			// aapt resource value: 0x7F0301CC
-			public const int textAppearanceListItemSecondary = 2130903500;
+			public const int textAppearanceLargePopupMenu = 2130903500;
 			
 			// aapt resource value: 0x7F0301CD
-			public const int textAppearanceListItemSmall = 2130903501;
+			public const int textAppearanceListItem = 2130903501;
 			
 			// aapt resource value: 0x7F0301CE
-			public const int textAppearanceOverline = 2130903502;
+			public const int textAppearanceListItemSecondary = 2130903502;
 			
 			// aapt resource value: 0x7F0301CF
-			public const int textAppearancePopupMenuHeader = 2130903503;
+			public const int textAppearanceListItemSmall = 2130903503;
 			
 			// aapt resource value: 0x7F0301D0
-			public const int textAppearanceSearchResultSubtitle = 2130903504;
+			public const int textAppearanceOverline = 2130903504;
 			
 			// aapt resource value: 0x7F0301D1
-			public const int textAppearanceSearchResultTitle = 2130903505;
+			public const int textAppearancePopupMenuHeader = 2130903505;
 			
 			// aapt resource value: 0x7F0301D2
-			public const int textAppearanceSmallPopupMenu = 2130903506;
+			public const int textAppearanceSearchResultSubtitle = 2130903506;
 			
 			// aapt resource value: 0x7F0301D3
-			public const int textAppearanceSubtitle1 = 2130903507;
+			public const int textAppearanceSearchResultTitle = 2130903507;
 			
 			// aapt resource value: 0x7F0301D4
-			public const int textAppearanceSubtitle2 = 2130903508;
+			public const int textAppearanceSmallPopupMenu = 2130903508;
 			
 			// aapt resource value: 0x7F0301D5
-			public const int textColorAlertDialogListItem = 2130903509;
+			public const int textAppearanceSubtitle1 = 2130903509;
 			
 			// aapt resource value: 0x7F0301D6
-			public const int textColorSearchUrl = 2130903510;
+			public const int textAppearanceSubtitle2 = 2130903510;
 			
 			// aapt resource value: 0x7F0301D7
-			public const int textEndPadding = 2130903511;
+			public const int textColorAlertDialogListItem = 2130903511;
 			
 			// aapt resource value: 0x7F0301D8
-			public const int textInputStyle = 2130903512;
+			public const int textColorSearchUrl = 2130903512;
 			
 			// aapt resource value: 0x7F0301D9
-			public const int textLocale = 2130903513;
+			public const int textEndPadding = 2130903513;
 			
 			// aapt resource value: 0x7F0301DA
-			public const int textStartPadding = 2130903514;
+			public const int textInputStyle = 2130903514;
 			
 			// aapt resource value: 0x7F0301DB
-			public const int theme = 2130903515;
+			public const int textLocale = 2130903515;
 			
 			// aapt resource value: 0x7F0301DC
-			public const int thickness = 2130903516;
+			public const int textStartPadding = 2130903516;
 			
 			// aapt resource value: 0x7F0301DD
-			public const int thumbTextPadding = 2130903517;
+			public const int theme = 2130903517;
 			
 			// aapt resource value: 0x7F0301DE
-			public const int thumbTint = 2130903518;
+			public const int thickness = 2130903518;
 			
 			// aapt resource value: 0x7F0301DF
-			public const int thumbTintMode = 2130903519;
+			public const int thumbTextPadding = 2130903519;
 			
 			// aapt resource value: 0x7F0301E0
-			public const int tickMark = 2130903520;
+			public const int thumbTint = 2130903520;
 			
 			// aapt resource value: 0x7F0301E1
-			public const int tickMarkTint = 2130903521;
+			public const int thumbTintMode = 2130903521;
 			
 			// aapt resource value: 0x7F0301E2
-			public const int tickMarkTintMode = 2130903522;
+			public const int tickMark = 2130903522;
 			
 			// aapt resource value: 0x7F0301E3
-			public const int tint = 2130903523;
+			public const int tickMarkTint = 2130903523;
 			
 			// aapt resource value: 0x7F0301E4
-			public const int tintMode = 2130903524;
+			public const int tickMarkTintMode = 2130903524;
 			
 			// aapt resource value: 0x7F0301E5
-			public const int title = 2130903525;
+			public const int time_bar_min_update_interval = 2130903525;
 			
 			// aapt resource value: 0x7F0301E6
-			public const int titleEnabled = 2130903526;
+			public const int tint = 2130903526;
 			
 			// aapt resource value: 0x7F0301E7
-			public const int titleMargin = 2130903527;
+			public const int tintMode = 2130903527;
 			
 			// aapt resource value: 0x7F0301E8
-			public const int titleMarginBottom = 2130903528;
+			public const int title = 2130903528;
 			
 			// aapt resource value: 0x7F0301E9
-			public const int titleMarginEnd = 2130903529;
-			
-			// aapt resource value: 0x7F0301EC
-			public const int titleMargins = 2130903532;
+			public const int titleEnabled = 2130903529;
 			
 			// aapt resource value: 0x7F0301EA
-			public const int titleMarginStart = 2130903530;
+			public const int titleMargin = 2130903530;
 			
 			// aapt resource value: 0x7F0301EB
-			public const int titleMarginTop = 2130903531;
+			public const int titleMarginBottom = 2130903531;
 			
-			// aapt resource value: 0x7F0301ED
-			public const int titleTextAppearance = 2130903533;
-			
-			// aapt resource value: 0x7F0301EE
-			public const int titleTextColor = 2130903534;
+			// aapt resource value: 0x7F0301EC
+			public const int titleMarginEnd = 2130903532;
 			
 			// aapt resource value: 0x7F0301EF
-			public const int titleTextStyle = 2130903535;
+			public const int titleMargins = 2130903535;
+			
+			// aapt resource value: 0x7F0301ED
+			public const int titleMarginStart = 2130903533;
+			
+			// aapt resource value: 0x7F0301EE
+			public const int titleMarginTop = 2130903534;
 			
 			// aapt resource value: 0x7F0301F0
-			public const int toolbarId = 2130903536;
+			public const int titleTextAppearance = 2130903536;
 			
 			// aapt resource value: 0x7F0301F1
-			public const int toolbarNavigationButtonStyle = 2130903537;
+			public const int titleTextColor = 2130903537;
 			
 			// aapt resource value: 0x7F0301F2
-			public const int toolbarStyle = 2130903538;
+			public const int titleTextStyle = 2130903538;
 			
 			// aapt resource value: 0x7F0301F3
-			public const int tooltipForegroundColor = 2130903539;
+			public const int toolbarId = 2130903539;
 			
 			// aapt resource value: 0x7F0301F4
-			public const int tooltipFrameBackground = 2130903540;
+			public const int toolbarNavigationButtonStyle = 2130903540;
 			
 			// aapt resource value: 0x7F0301F5
-			public const int tooltipText = 2130903541;
+			public const int toolbarStyle = 2130903541;
 			
 			// aapt resource value: 0x7F0301F6
-			public const int touch_target_height = 2130903542;
+			public const int tooltipForegroundColor = 2130903542;
 			
 			// aapt resource value: 0x7F0301F7
-			public const int track = 2130903543;
+			public const int tooltipFrameBackground = 2130903543;
 			
 			// aapt resource value: 0x7F0301F8
-			public const int trackTint = 2130903544;
+			public const int tooltipText = 2130903544;
 			
 			// aapt resource value: 0x7F0301F9
-			public const int trackTintMode = 2130903545;
+			public const int touch_target_height = 2130903545;
 			
 			// aapt resource value: 0x7F0301FA
-			public const int ttcIndex = 2130903546;
+			public const int track = 2130903546;
 			
 			// aapt resource value: 0x7F0301FB
-			public const int unplayed_color = 2130903547;
+			public const int trackTint = 2130903547;
 			
 			// aapt resource value: 0x7F0301FC
-			public const int useCompatPadding = 2130903548;
+			public const int trackTintMode = 2130903548;
 			
 			// aapt resource value: 0x7F0301FD
-			public const int use_artwork = 2130903549;
+			public const int ttcIndex = 2130903549;
 			
 			// aapt resource value: 0x7F0301FE
-			public const int use_controller = 2130903550;
+			public const int unplayed_color = 2130903550;
 			
 			// aapt resource value: 0x7F0301FF
-			public const int viewInflaterClass = 2130903551;
+			public const int useCompatPadding = 2130903551;
 			
 			// aapt resource value: 0x7F030200
-			public const int voiceIcon = 2130903552;
+			public const int use_artwork = 2130903552;
 			
 			// aapt resource value: 0x7F030201
-			public const int windowActionBar = 2130903553;
+			public const int use_controller = 2130903553;
 			
 			// aapt resource value: 0x7F030202
-			public const int windowActionBarOverlay = 2130903554;
+			public const int use_sensor_rotation = 2130903554;
 			
 			// aapt resource value: 0x7F030203
-			public const int windowActionModeOverlay = 2130903555;
+			public const int viewInflaterClass = 2130903555;
 			
 			// aapt resource value: 0x7F030204
-			public const int windowFixedHeightMajor = 2130903556;
+			public const int voiceIcon = 2130903556;
 			
 			// aapt resource value: 0x7F030205
-			public const int windowFixedHeightMinor = 2130903557;
+			public const int windowActionBar = 2130903557;
 			
 			// aapt resource value: 0x7F030206
-			public const int windowFixedWidthMajor = 2130903558;
+			public const int windowActionBarOverlay = 2130903558;
 			
 			// aapt resource value: 0x7F030207
-			public const int windowFixedWidthMinor = 2130903559;
+			public const int windowActionModeOverlay = 2130903559;
 			
 			// aapt resource value: 0x7F030208
-			public const int windowMinWidthMajor = 2130903560;
+			public const int windowFixedHeightMajor = 2130903560;
 			
 			// aapt resource value: 0x7F030209
-			public const int windowMinWidthMinor = 2130903561;
+			public const int windowFixedHeightMinor = 2130903561;
 			
 			// aapt resource value: 0x7F03020A
-			public const int windowNoTitle = 2130903562;
+			public const int windowFixedWidthMajor = 2130903562;
+			
+			// aapt resource value: 0x7F03020B
+			public const int windowFixedWidthMinor = 2130903563;
+			
+			// aapt resource value: 0x7F03020C
+			public const int windowMinWidthMajor = 2130903564;
+			
+			// aapt resource value: 0x7F03020D
+			public const int windowMinWidthMinor = 2130903565;
+			
+			// aapt resource value: 0x7F03020E
+			public const int windowNoTitle = 2130903566;
 			
 			static Attribute()
 			{
@@ -10625,133 +9479,166 @@ namespace Bible.Alarm.Droid
 			public const int exo_controls_rewind = 2131165302;
 			
 			// aapt resource value: 0x7F070077
-			public const int exo_controls_shuffle = 2131165303;
+			public const int exo_controls_shuffle_off = 2131165303;
 			
 			// aapt resource value: 0x7F070078
-			public const int exo_edit_mode_logo = 2131165304;
+			public const int exo_controls_shuffle_on = 2131165304;
 			
 			// aapt resource value: 0x7F070079
-			public const int exo_icon_fastforward = 2131165305;
+			public const int exo_controls_vr = 2131165305;
 			
 			// aapt resource value: 0x7F07007A
-			public const int exo_icon_next = 2131165306;
+			public const int exo_edit_mode_logo = 2131165306;
 			
 			// aapt resource value: 0x7F07007B
-			public const int exo_icon_pause = 2131165307;
+			public const int exo_icon_circular_play = 2131165307;
 			
 			// aapt resource value: 0x7F07007C
-			public const int exo_icon_play = 2131165308;
+			public const int exo_icon_fastforward = 2131165308;
 			
 			// aapt resource value: 0x7F07007D
-			public const int exo_icon_previous = 2131165309;
+			public const int exo_icon_fullscreen_enter = 2131165309;
 			
 			// aapt resource value: 0x7F07007E
-			public const int exo_icon_rewind = 2131165310;
+			public const int exo_icon_fullscreen_exit = 2131165310;
 			
 			// aapt resource value: 0x7F07007F
-			public const int exo_icon_stop = 2131165311;
+			public const int exo_icon_next = 2131165311;
 			
 			// aapt resource value: 0x7F070080
-			public const int exo_media_action_repeat_all = 2131165312;
+			public const int exo_icon_pause = 2131165312;
 			
 			// aapt resource value: 0x7F070081
-			public const int exo_media_action_repeat_off = 2131165313;
+			public const int exo_icon_play = 2131165313;
 			
 			// aapt resource value: 0x7F070082
-			public const int exo_media_action_repeat_one = 2131165314;
+			public const int exo_icon_previous = 2131165314;
 			
 			// aapt resource value: 0x7F070083
-			public const int exo_notification_fastforward = 2131165315;
+			public const int exo_icon_repeat_all = 2131165315;
 			
 			// aapt resource value: 0x7F070084
-			public const int exo_notification_next = 2131165316;
+			public const int exo_icon_repeat_off = 2131165316;
 			
 			// aapt resource value: 0x7F070085
-			public const int exo_notification_pause = 2131165317;
+			public const int exo_icon_repeat_one = 2131165317;
 			
 			// aapt resource value: 0x7F070086
-			public const int exo_notification_play = 2131165318;
+			public const int exo_icon_rewind = 2131165318;
 			
 			// aapt resource value: 0x7F070087
-			public const int exo_notification_previous = 2131165319;
+			public const int exo_icon_shuffle_off = 2131165319;
 			
 			// aapt resource value: 0x7F070088
-			public const int exo_notification_rewind = 2131165320;
+			public const int exo_icon_shuffle_on = 2131165320;
 			
 			// aapt resource value: 0x7F070089
-			public const int exo_notification_small_icon = 2131165321;
+			public const int exo_icon_stop = 2131165321;
 			
 			// aapt resource value: 0x7F07008A
-			public const int exo_notification_stop = 2131165322;
+			public const int exo_icon_vr = 2131165322;
 			
 			// aapt resource value: 0x7F07008B
-			public const int ic_launcher_background = 2131165323;
+			public const int exo_media_action_repeat_all = 2131165323;
 			
 			// aapt resource value: 0x7F07008C
-			public const int ic_launcher_foreground = 2131165324;
+			public const int exo_media_action_repeat_off = 2131165324;
 			
 			// aapt resource value: 0x7F07008D
-			public const int ic_mtrl_chip_checked_black = 2131165325;
+			public const int exo_media_action_repeat_one = 2131165325;
 			
 			// aapt resource value: 0x7F07008E
-			public const int ic_mtrl_chip_checked_circle = 2131165326;
+			public const int exo_notification_fastforward = 2131165326;
 			
 			// aapt resource value: 0x7F07008F
-			public const int ic_mtrl_chip_close_circle = 2131165327;
+			public const int exo_notification_next = 2131165327;
 			
 			// aapt resource value: 0x7F070090
-			public const int mtrl_snackbar_background = 2131165328;
+			public const int exo_notification_pause = 2131165328;
 			
 			// aapt resource value: 0x7F070091
-			public const int mtrl_tabs_default_indicator = 2131165329;
+			public const int exo_notification_play = 2131165329;
 			
 			// aapt resource value: 0x7F070092
-			public const int navigation_empty_icon = 2131165330;
+			public const int exo_notification_previous = 2131165330;
 			
 			// aapt resource value: 0x7F070093
-			public const int notification_action_background = 2131165331;
+			public const int exo_notification_rewind = 2131165331;
 			
 			// aapt resource value: 0x7F070094
-			public const int notification_bg = 2131165332;
+			public const int exo_notification_small_icon = 2131165332;
 			
 			// aapt resource value: 0x7F070095
-			public const int notification_bg_low = 2131165333;
+			public const int exo_notification_stop = 2131165333;
 			
 			// aapt resource value: 0x7F070096
-			public const int notification_bg_low_normal = 2131165334;
+			public const int ic_launcher_background = 2131165334;
 			
 			// aapt resource value: 0x7F070097
-			public const int notification_bg_low_pressed = 2131165335;
+			public const int ic_launcher_foreground = 2131165335;
 			
 			// aapt resource value: 0x7F070098
-			public const int notification_bg_normal = 2131165336;
+			public const int ic_mtrl_chip_checked_black = 2131165336;
 			
 			// aapt resource value: 0x7F070099
-			public const int notification_bg_normal_pressed = 2131165337;
+			public const int ic_mtrl_chip_checked_circle = 2131165337;
 			
 			// aapt resource value: 0x7F07009A
-			public const int notification_icon_background = 2131165338;
+			public const int ic_mtrl_chip_close_circle = 2131165338;
 			
 			// aapt resource value: 0x7F07009B
-			public const int notification_template_icon_bg = 2131165339;
+			public const int mtrl_snackbar_background = 2131165339;
 			
 			// aapt resource value: 0x7F07009C
-			public const int notification_template_icon_low_bg = 2131165340;
+			public const int mtrl_tabs_default_indicator = 2131165340;
 			
 			// aapt resource value: 0x7F07009D
-			public const int notification_tile_bg = 2131165341;
+			public const int navigation_empty_icon = 2131165341;
 			
 			// aapt resource value: 0x7F07009E
-			public const int notify_panel_notification_icon_bg = 2131165342;
+			public const int notification_action_background = 2131165342;
 			
 			// aapt resource value: 0x7F07009F
-			public const int splash_screen = 2131165343;
+			public const int notification_bg = 2131165343;
 			
 			// aapt resource value: 0x7F0700A0
-			public const int tooltip_frame_dark = 2131165344;
+			public const int notification_bg_low = 2131165344;
 			
 			// aapt resource value: 0x7F0700A1
-			public const int tooltip_frame_light = 2131165345;
+			public const int notification_bg_low_normal = 2131165345;
+			
+			// aapt resource value: 0x7F0700A2
+			public const int notification_bg_low_pressed = 2131165346;
+			
+			// aapt resource value: 0x7F0700A3
+			public const int notification_bg_normal = 2131165347;
+			
+			// aapt resource value: 0x7F0700A4
+			public const int notification_bg_normal_pressed = 2131165348;
+			
+			// aapt resource value: 0x7F0700A5
+			public const int notification_icon_background = 2131165349;
+			
+			// aapt resource value: 0x7F0700A6
+			public const int notification_template_icon_bg = 2131165350;
+			
+			// aapt resource value: 0x7F0700A7
+			public const int notification_template_icon_low_bg = 2131165351;
+			
+			// aapt resource value: 0x7F0700A8
+			public const int notification_tile_bg = 2131165352;
+			
+			// aapt resource value: 0x7F0700A9
+			public const int notify_panel_notification_icon_bg = 2131165353;
+			
+			// aapt resource value: 0x7F0700AA
+			public const int splash_screen = 2131165354;
+			
+			// aapt resource value: 0x7F0700AB
+			public const int tooltip_frame_dark = 2131165355;
+			
+			// aapt resource value: 0x7F0700AC
+			public const int tooltip_frame_light = 2131165356;
 			
 			static Drawable()
 			{
@@ -11124,490 +10011,499 @@ namespace Bible.Alarm.Droid
 			public const int exo_progress = 2131230842;
 			
 			// aapt resource value: 0x7F08007B
-			public const int exo_repeat_toggle = 2131230843;
+			public const int exo_progress_placeholder = 2131230843;
 			
 			// aapt resource value: 0x7F08007C
-			public const int exo_rew = 2131230844;
+			public const int exo_repeat_toggle = 2131230844;
 			
 			// aapt resource value: 0x7F08007D
-			public const int exo_shuffle = 2131230845;
+			public const int exo_rew = 2131230845;
 			
 			// aapt resource value: 0x7F08007E
-			public const int exo_shutter = 2131230846;
+			public const int exo_shuffle = 2131230846;
 			
 			// aapt resource value: 0x7F08007F
-			public const int exo_subtitles = 2131230847;
+			public const int exo_shutter = 2131230847;
 			
 			// aapt resource value: 0x7F080080
-			public const int exo_track_selection_view = 2131230848;
-			
-			// aapt resource value: 0x7F080082
-			public const int expanded_menu = 2131230850;
+			public const int exo_subtitles = 2131230848;
 			
 			// aapt resource value: 0x7F080081
-			public const int expand_activities_button = 2131230849;
+			public const int exo_track_selection_view = 2131230849;
 			
-			// aapt resource value: 0x7F080083
-			public const int fill = 2131230851;
-			
-			// aapt resource value: 0x7F080086
-			public const int filled = 2131230854;
+			// aapt resource value: 0x7F080082
+			public const int exo_vr = 2131230850;
 			
 			// aapt resource value: 0x7F080084
-			public const int fill_horizontal = 2131230852;
+			public const int expanded_menu = 2131230852;
+			
+			// aapt resource value: 0x7F080083
+			public const int expand_activities_button = 2131230851;
 			
 			// aapt resource value: 0x7F080085
-			public const int fill_vertical = 2131230853;
-			
-			// aapt resource value: 0x7F080087
-			public const int fit = 2131230855;
+			public const int fill = 2131230853;
 			
 			// aapt resource value: 0x7F080088
-			public const int @fixed = 2131230856;
+			public const int filled = 2131230856;
+			
+			// aapt resource value: 0x7F080086
+			public const int fill_horizontal = 2131230854;
+			
+			// aapt resource value: 0x7F080087
+			public const int fill_vertical = 2131230855;
 			
 			// aapt resource value: 0x7F080089
-			public const int fixed_height = 2131230857;
+			public const int fit = 2131230857;
 			
 			// aapt resource value: 0x7F08008A
-			public const int fixed_width = 2131230858;
+			public const int @fixed = 2131230858;
 			
 			// aapt resource value: 0x7F08008B
-			public const int flyoutcontent_appbar = 2131230859;
+			public const int fixed_height = 2131230859;
 			
 			// aapt resource value: 0x7F08008C
-			public const int flyoutcontent_recycler = 2131230860;
+			public const int fixed_width = 2131230860;
 			
 			// aapt resource value: 0x7F08008D
-			public const int forever = 2131230861;
+			public const int flyoutcontent_appbar = 2131230861;
+			
+			// aapt resource value: 0x7F08008E
+			public const int flyoutcontent_recycler = 2131230862;
+			
+			// aapt resource value: 0x7F08008F
+			public const int forever = 2131230863;
 			
 			// aapt resource value: 0x7F080002
 			public const int FUNCTION = 2131230722;
 			
-			// aapt resource value: 0x7F08008E
-			public const int ghost_view = 2131230862;
-			
-			// aapt resource value: 0x7F08008F
-			public const int ghost_view_holder = 2131230863;
-			
 			// aapt resource value: 0x7F080090
-			public const int group_divider = 2131230864;
+			public const int ghost_view = 2131230864;
 			
 			// aapt resource value: 0x7F080091
-			public const int home = 2131230865;
+			public const int ghost_view_holder = 2131230865;
 			
 			// aapt resource value: 0x7F080092
-			public const int homeAsUp = 2131230866;
+			public const int group_divider = 2131230866;
 			
 			// aapt resource value: 0x7F080093
-			public const int icon = 2131230867;
+			public const int home = 2131230867;
 			
 			// aapt resource value: 0x7F080094
-			public const int icon_group = 2131230868;
+			public const int homeAsUp = 2131230868;
 			
 			// aapt resource value: 0x7F080095
-			public const int ifRoom = 2131230869;
+			public const int icon = 2131230869;
 			
 			// aapt resource value: 0x7F080096
-			public const int image = 2131230870;
+			public const int icon_group = 2131230870;
 			
 			// aapt resource value: 0x7F080097
-			public const int info = 2131230871;
+			public const int ifRoom = 2131230871;
 			
 			// aapt resource value: 0x7F080098
-			public const int italic = 2131230872;
+			public const int image = 2131230872;
 			
 			// aapt resource value: 0x7F080099
-			public const int item_touch_helper_previous_elevation = 2131230873;
+			public const int info = 2131230873;
 			
 			// aapt resource value: 0x7F08009A
-			public const int labeled = 2131230874;
+			public const int italic = 2131230874;
 			
 			// aapt resource value: 0x7F08009B
-			public const int largeLabel = 2131230875;
+			public const int item_touch_helper_previous_elevation = 2131230875;
 			
 			// aapt resource value: 0x7F08009C
-			public const int left = 2131230876;
+			public const int labeled = 2131230876;
 			
 			// aapt resource value: 0x7F08009D
-			public const int line1 = 2131230877;
+			public const int largeLabel = 2131230877;
 			
 			// aapt resource value: 0x7F08009E
-			public const int line3 = 2131230878;
+			public const int left = 2131230878;
 			
 			// aapt resource value: 0x7F08009F
-			public const int listMode = 2131230879;
+			public const int line1 = 2131230879;
 			
 			// aapt resource value: 0x7F0800A0
-			public const int list_item = 2131230880;
+			public const int line3 = 2131230880;
 			
 			// aapt resource value: 0x7F0800A1
-			public const int main_appbar = 2131230881;
+			public const int listMode = 2131230881;
 			
 			// aapt resource value: 0x7F0800A2
-			public const int main_tablayout = 2131230882;
+			public const int list_item = 2131230882;
 			
 			// aapt resource value: 0x7F0800A3
-			public const int main_toolbar = 2131230883;
+			public const int main_appbar = 2131230883;
 			
 			// aapt resource value: 0x7F0800A4
-			public const int main_viewpager = 2131230884;
+			public const int main_tablayout = 2131230884;
 			
 			// aapt resource value: 0x7F0800A5
-			public const int masked = 2131230885;
+			public const int main_toolbar = 2131230885;
 			
 			// aapt resource value: 0x7F0800A6
-			public const int media_actions = 2131230886;
+			public const int main_viewpager = 2131230886;
 			
 			// aapt resource value: 0x7F0800A7
-			public const int message = 2131230887;
+			public const int masked = 2131230887;
+			
+			// aapt resource value: 0x7F0800A8
+			public const int media_actions = 2131230888;
+			
+			// aapt resource value: 0x7F0800A9
+			public const int message = 2131230889;
 			
 			// aapt resource value: 0x7F080003
 			public const int META = 2131230723;
 			
-			// aapt resource value: 0x7F0800A8
-			public const int middle = 2131230888;
-			
-			// aapt resource value: 0x7F0800A9
-			public const int mini = 2131230889;
-			
 			// aapt resource value: 0x7F0800AA
-			public const int mtrl_child_content_container = 2131230890;
+			public const int middle = 2131230890;
 			
 			// aapt resource value: 0x7F0800AB
-			public const int mtrl_internal_children_alpha_tag = 2131230891;
+			public const int mini = 2131230891;
 			
 			// aapt resource value: 0x7F0800AC
-			public const int multiply = 2131230892;
+			public const int mtrl_child_content_container = 2131230892;
 			
 			// aapt resource value: 0x7F0800AD
-			public const int navigation_header_container = 2131230893;
+			public const int mtrl_internal_children_alpha_tag = 2131230893;
 			
 			// aapt resource value: 0x7F0800AE
-			public const int never = 2131230894;
+			public const int multiply = 2131230894;
 			
 			// aapt resource value: 0x7F0800AF
-			public const int none = 2131230895;
+			public const int navigation_header_container = 2131230895;
 			
 			// aapt resource value: 0x7F0800B0
-			public const int normal = 2131230896;
+			public const int never = 2131230896;
 			
 			// aapt resource value: 0x7F0800B1
-			public const int notification_background = 2131230897;
+			public const int none = 2131230897;
 			
 			// aapt resource value: 0x7F0800B2
-			public const int notification_main_column = 2131230898;
+			public const int normal = 2131230898;
 			
 			// aapt resource value: 0x7F0800B3
-			public const int notification_main_column_container = 2131230899;
+			public const int notification_background = 2131230899;
 			
 			// aapt resource value: 0x7F0800B4
-			public const int off = 2131230900;
+			public const int notification_main_column = 2131230900;
 			
 			// aapt resource value: 0x7F0800B5
-			public const int on = 2131230901;
+			public const int notification_main_column_container = 2131230901;
 			
 			// aapt resource value: 0x7F0800B6
-			public const int one = 2131230902;
+			public const int off = 2131230902;
 			
 			// aapt resource value: 0x7F0800B7
-			public const int outline = 2131230903;
+			public const int on = 2131230903;
 			
 			// aapt resource value: 0x7F0800B8
-			public const int parallax = 2131230904;
+			public const int one = 2131230904;
 			
 			// aapt resource value: 0x7F0800B9
-			public const int parentPanel = 2131230905;
+			public const int outline = 2131230905;
 			
 			// aapt resource value: 0x7F0800BA
-			public const int parent_matrix = 2131230906;
+			public const int parallax = 2131230906;
 			
 			// aapt resource value: 0x7F0800BB
-			public const int pin = 2131230907;
+			public const int parentPanel = 2131230907;
 			
 			// aapt resource value: 0x7F0800BC
-			public const int progress_circular = 2131230908;
+			public const int parent_matrix = 2131230908;
 			
 			// aapt resource value: 0x7F0800BD
-			public const int progress_horizontal = 2131230909;
+			public const int pin = 2131230909;
 			
 			// aapt resource value: 0x7F0800BE
-			public const int radio = 2131230910;
+			public const int progress_circular = 2131230910;
 			
 			// aapt resource value: 0x7F0800BF
-			public const int right = 2131230911;
+			public const int progress_horizontal = 2131230911;
 			
 			// aapt resource value: 0x7F0800C0
-			public const int right_icon = 2131230912;
+			public const int radio = 2131230912;
 			
 			// aapt resource value: 0x7F0800C1
-			public const int right_side = 2131230913;
+			public const int right = 2131230913;
 			
 			// aapt resource value: 0x7F0800C2
-			public const int save_non_transition_alpha = 2131230914;
+			public const int right_icon = 2131230914;
 			
 			// aapt resource value: 0x7F0800C3
-			public const int save_overlay_view = 2131230915;
+			public const int right_side = 2131230915;
 			
 			// aapt resource value: 0x7F0800C4
-			public const int screen = 2131230916;
+			public const int save_non_transition_alpha = 2131230916;
 			
 			// aapt resource value: 0x7F0800C5
-			public const int scroll = 2131230917;
-			
-			// aapt resource value: 0x7F0800C9
-			public const int scrollable = 2131230921;
+			public const int save_overlay_view = 2131230917;
 			
 			// aapt resource value: 0x7F0800C6
-			public const int scrollIndicatorDown = 2131230918;
+			public const int screen = 2131230918;
 			
 			// aapt resource value: 0x7F0800C7
-			public const int scrollIndicatorUp = 2131230919;
-			
-			// aapt resource value: 0x7F0800C8
-			public const int scrollView = 2131230920;
-			
-			// aapt resource value: 0x7F0800CA
-			public const int search_badge = 2131230922;
+			public const int scroll = 2131230919;
 			
 			// aapt resource value: 0x7F0800CB
-			public const int search_bar = 2131230923;
+			public const int scrollable = 2131230923;
+			
+			// aapt resource value: 0x7F0800C8
+			public const int scrollIndicatorDown = 2131230920;
+			
+			// aapt resource value: 0x7F0800C9
+			public const int scrollIndicatorUp = 2131230921;
+			
+			// aapt resource value: 0x7F0800CA
+			public const int scrollView = 2131230922;
 			
 			// aapt resource value: 0x7F0800CC
-			public const int search_button = 2131230924;
+			public const int search_badge = 2131230924;
 			
 			// aapt resource value: 0x7F0800CD
-			public const int search_close_btn = 2131230925;
+			public const int search_bar = 2131230925;
 			
 			// aapt resource value: 0x7F0800CE
-			public const int search_edit_frame = 2131230926;
+			public const int search_button = 2131230926;
 			
 			// aapt resource value: 0x7F0800CF
-			public const int search_go_btn = 2131230927;
+			public const int search_close_btn = 2131230927;
 			
 			// aapt resource value: 0x7F0800D0
-			public const int search_mag_icon = 2131230928;
+			public const int search_edit_frame = 2131230928;
 			
 			// aapt resource value: 0x7F0800D1
-			public const int search_plate = 2131230929;
+			public const int search_go_btn = 2131230929;
 			
 			// aapt resource value: 0x7F0800D2
-			public const int search_src_text = 2131230930;
+			public const int search_mag_icon = 2131230930;
 			
 			// aapt resource value: 0x7F0800D3
-			public const int search_voice_btn = 2131230931;
-			
-			// aapt resource value: 0x7F0800D5
-			public const int selected = 2131230933;
+			public const int search_plate = 2131230931;
 			
 			// aapt resource value: 0x7F0800D4
-			public const int select_dialog_listview = 2131230932;
+			public const int search_src_text = 2131230932;
 			
-			// aapt resource value: 0x7F0800D6
-			public const int shellcontent_appbar = 2131230934;
+			// aapt resource value: 0x7F0800D5
+			public const int search_voice_btn = 2131230933;
 			
 			// aapt resource value: 0x7F0800D7
-			public const int shellcontent_toolbar = 2131230935;
+			public const int selected = 2131230935;
+			
+			// aapt resource value: 0x7F0800D6
+			public const int select_dialog_listview = 2131230934;
+			
+			// aapt resource value: 0x7F0800D8
+			public const int shellcontent_appbar = 2131230936;
+			
+			// aapt resource value: 0x7F0800D9
+			public const int shellcontent_toolbar = 2131230937;
 			
 			// aapt resource value: 0x7F080004
 			public const int SHIFT = 2131230724;
 			
-			// aapt resource value: 0x7F0800D8
-			public const int shortcut = 2131230936;
-			
-			// aapt resource value: 0x7F0800D9
-			public const int showCustom = 2131230937;
-			
 			// aapt resource value: 0x7F0800DA
-			public const int showHome = 2131230938;
+			public const int shortcut = 2131230938;
 			
 			// aapt resource value: 0x7F0800DB
-			public const int showTitle = 2131230939;
+			public const int showCustom = 2131230939;
 			
 			// aapt resource value: 0x7F0800DC
-			public const int sliding_tabs = 2131230940;
+			public const int showHome = 2131230940;
 			
 			// aapt resource value: 0x7F0800DD
-			public const int smallLabel = 2131230941;
+			public const int showTitle = 2131230941;
 			
 			// aapt resource value: 0x7F0800DE
-			public const int snackbar_action = 2131230942;
+			public const int sliding_tabs = 2131230942;
 			
 			// aapt resource value: 0x7F0800DF
-			public const int snackbar_text = 2131230943;
+			public const int smallLabel = 2131230943;
 			
 			// aapt resource value: 0x7F0800E0
-			public const int snap = 2131230944;
+			public const int snackbar_action = 2131230944;
 			
 			// aapt resource value: 0x7F0800E1
-			public const int snapMargins = 2131230945;
+			public const int snackbar_text = 2131230945;
 			
 			// aapt resource value: 0x7F0800E2
-			public const int spacer = 2131230946;
+			public const int snap = 2131230946;
 			
 			// aapt resource value: 0x7F0800E3
-			public const int spherical_view = 2131230947;
+			public const int snapMargins = 2131230947;
 			
 			// aapt resource value: 0x7F0800E4
-			public const int split_action_bar = 2131230948;
+			public const int spacer = 2131230948;
 			
 			// aapt resource value: 0x7F0800E5
-			public const int src_atop = 2131230949;
+			public const int spherical_gl_surface_view = 2131230949;
 			
 			// aapt resource value: 0x7F0800E6
-			public const int src_in = 2131230950;
+			public const int split_action_bar = 2131230950;
 			
 			// aapt resource value: 0x7F0800E7
-			public const int src_over = 2131230951;
+			public const int src_atop = 2131230951;
 			
 			// aapt resource value: 0x7F0800E8
-			public const int start = 2131230952;
+			public const int src_in = 2131230952;
 			
 			// aapt resource value: 0x7F0800E9
-			public const int status_bar_latest_event_content = 2131230953;
+			public const int src_over = 2131230953;
 			
 			// aapt resource value: 0x7F0800EA
-			public const int stretch = 2131230954;
+			public const int start = 2131230954;
 			
 			// aapt resource value: 0x7F0800EB
-			public const int submenuarrow = 2131230955;
+			public const int status_bar_latest_event_content = 2131230955;
 			
 			// aapt resource value: 0x7F0800EC
-			public const int submit_area = 2131230956;
+			public const int stretch = 2131230956;
 			
 			// aapt resource value: 0x7F0800ED
-			public const int surface_view = 2131230957;
+			public const int submenuarrow = 2131230957;
+			
+			// aapt resource value: 0x7F0800EE
+			public const int submit_area = 2131230958;
+			
+			// aapt resource value: 0x7F0800EF
+			public const int surface_view = 2131230959;
 			
 			// aapt resource value: 0x7F080005
 			public const int SYM = 2131230725;
 			
-			// aapt resource value: 0x7F0800EE
-			public const int tabMode = 2131230958;
-			
-			// aapt resource value: 0x7F0800EF
-			public const int tag_accessibility_actions = 2131230959;
-			
 			// aapt resource value: 0x7F0800F0
-			public const int tag_accessibility_clickable_spans = 2131230960;
+			public const int tabMode = 2131230960;
 			
 			// aapt resource value: 0x7F0800F1
-			public const int tag_accessibility_heading = 2131230961;
+			public const int tag_accessibility_actions = 2131230961;
 			
 			// aapt resource value: 0x7F0800F2
-			public const int tag_accessibility_pane_title = 2131230962;
+			public const int tag_accessibility_clickable_spans = 2131230962;
 			
 			// aapt resource value: 0x7F0800F3
-			public const int tag_screen_reader_focusable = 2131230963;
+			public const int tag_accessibility_heading = 2131230963;
 			
 			// aapt resource value: 0x7F0800F4
-			public const int tag_transition_group = 2131230964;
+			public const int tag_accessibility_pane_title = 2131230964;
 			
 			// aapt resource value: 0x7F0800F5
-			public const int tag_unhandled_key_event_manager = 2131230965;
+			public const int tag_screen_reader_focusable = 2131230965;
 			
 			// aapt resource value: 0x7F0800F6
-			public const int tag_unhandled_key_listeners = 2131230966;
+			public const int tag_transition_group = 2131230966;
 			
 			// aapt resource value: 0x7F0800F7
-			public const int text = 2131230967;
+			public const int tag_unhandled_key_event_manager = 2131230967;
 			
 			// aapt resource value: 0x7F0800F8
-			public const int text2 = 2131230968;
-			
-			// aapt resource value: 0x7F0800FD
-			public const int textinput_counter = 2131230973;
-			
-			// aapt resource value: 0x7F0800FE
-			public const int textinput_error = 2131230974;
-			
-			// aapt resource value: 0x7F0800FF
-			public const int textinput_helper_text = 2131230975;
+			public const int tag_unhandled_key_listeners = 2131230968;
 			
 			// aapt resource value: 0x7F0800F9
-			public const int textSpacerNoButtons = 2131230969;
+			public const int text = 2131230969;
 			
 			// aapt resource value: 0x7F0800FA
-			public const int textSpacerNoTitle = 2131230970;
+			public const int text2 = 2131230970;
 			
-			// aapt resource value: 0x7F0800FB
-			public const int textStart = 2131230971;
+			// aapt resource value: 0x7F0800FF
+			public const int textinput_counter = 2131230975;
 			
 			// aapt resource value: 0x7F080100
-			public const int texture_view = 2131230976;
-			
-			// aapt resource value: 0x7F0800FC
-			public const int text_input_password_toggle = 2131230972;
+			public const int textinput_error = 2131230976;
 			
 			// aapt resource value: 0x7F080101
-			public const int time = 2131230977;
+			public const int textinput_helper_text = 2131230977;
+			
+			// aapt resource value: 0x7F0800FB
+			public const int textSpacerNoButtons = 2131230971;
+			
+			// aapt resource value: 0x7F0800FC
+			public const int textSpacerNoTitle = 2131230972;
+			
+			// aapt resource value: 0x7F0800FD
+			public const int textStart = 2131230973;
 			
 			// aapt resource value: 0x7F080102
-			public const int title = 2131230978;
+			public const int texture_view = 2131230978;
+			
+			// aapt resource value: 0x7F0800FE
+			public const int text_input_password_toggle = 2131230974;
 			
 			// aapt resource value: 0x7F080103
-			public const int titleDividerNoCustom = 2131230979;
+			public const int time = 2131230979;
 			
 			// aapt resource value: 0x7F080104
-			public const int title_template = 2131230980;
+			public const int title = 2131230980;
 			
 			// aapt resource value: 0x7F080105
-			public const int toolbar = 2131230981;
+			public const int titleDividerNoCustom = 2131230981;
 			
 			// aapt resource value: 0x7F080106
-			public const int top = 2131230982;
+			public const int title_template = 2131230982;
 			
 			// aapt resource value: 0x7F080107
-			public const int topPanel = 2131230983;
+			public const int toolbar = 2131230983;
 			
 			// aapt resource value: 0x7F080108
-			public const int touch_outside = 2131230984;
+			public const int top = 2131230984;
 			
 			// aapt resource value: 0x7F080109
-			public const int transition_current_scene = 2131230985;
+			public const int topPanel = 2131230985;
 			
 			// aapt resource value: 0x7F08010A
-			public const int transition_layout_save = 2131230986;
+			public const int touch_outside = 2131230986;
 			
 			// aapt resource value: 0x7F08010B
-			public const int transition_position = 2131230987;
+			public const int transition_current_scene = 2131230987;
 			
 			// aapt resource value: 0x7F08010C
-			public const int transition_scene_layoutid_cache = 2131230988;
+			public const int transition_layout_save = 2131230988;
 			
 			// aapt resource value: 0x7F08010D
-			public const int transition_transform = 2131230989;
+			public const int transition_position = 2131230989;
 			
 			// aapt resource value: 0x7F08010E
-			public const int @unchecked = 2131230990;
+			public const int transition_scene_layoutid_cache = 2131230990;
 			
 			// aapt resource value: 0x7F08010F
-			public const int uniform = 2131230991;
+			public const int transition_transform = 2131230991;
 			
 			// aapt resource value: 0x7F080110
-			public const int unlabeled = 2131230992;
+			public const int @unchecked = 2131230992;
 			
 			// aapt resource value: 0x7F080111
-			public const int up = 2131230993;
+			public const int uniform = 2131230993;
 			
 			// aapt resource value: 0x7F080112
-			public const int useLogo = 2131230994;
+			public const int unlabeled = 2131230994;
 			
 			// aapt resource value: 0x7F080113
-			public const int view_offset_helper = 2131230995;
+			public const int up = 2131230995;
 			
 			// aapt resource value: 0x7F080114
-			public const int visible = 2131230996;
+			public const int useLogo = 2131230996;
 			
 			// aapt resource value: 0x7F080115
-			public const int when_playing = 2131230997;
+			public const int video_decoder_gl_surface_view = 2131230997;
 			
 			// aapt resource value: 0x7F080116
-			public const int withText = 2131230998;
+			public const int view_offset_helper = 2131230998;
 			
 			// aapt resource value: 0x7F080117
-			public const int wrap_content = 2131230999;
+			public const int visible = 2131230999;
 			
 			// aapt resource value: 0x7F080118
-			public const int zoom = 2131231000;
+			public const int when_playing = 2131231000;
+			
+			// aapt resource value: 0x7F080119
+			public const int withText = 2131231001;
+			
+			// aapt resource value: 0x7F08011A
+			public const int wrap_content = 2131231002;
+			
+			// aapt resource value: 0x7F08011B
+			public const int zoom = 2131231003;
 			
 			static Id()
 			{
@@ -11647,25 +10543,31 @@ namespace Bible.Alarm.Droid
 			public const int design_tab_indicator_anim_duration_ms = 2131296263;
 			
 			// aapt resource value: 0x7F090008
-			public const int hide_password_duration = 2131296264;
+			public const int exo_media_button_opacity_percentage_disabled = 2131296264;
 			
 			// aapt resource value: 0x7F090009
-			public const int mtrl_btn_anim_delay_ms = 2131296265;
+			public const int exo_media_button_opacity_percentage_enabled = 2131296265;
 			
 			// aapt resource value: 0x7F09000A
-			public const int mtrl_btn_anim_duration_ms = 2131296266;
+			public const int hide_password_duration = 2131296266;
 			
 			// aapt resource value: 0x7F09000B
-			public const int mtrl_chip_anim_duration = 2131296267;
+			public const int mtrl_btn_anim_delay_ms = 2131296267;
 			
 			// aapt resource value: 0x7F09000C
-			public const int mtrl_tab_indicator_anim_duration_ms = 2131296268;
+			public const int mtrl_btn_anim_duration_ms = 2131296268;
 			
 			// aapt resource value: 0x7F09000D
-			public const int show_password_duration = 2131296269;
+			public const int mtrl_chip_anim_duration = 2131296269;
 			
 			// aapt resource value: 0x7F09000E
-			public const int status_bar_notification_info_maxnum = 2131296270;
+			public const int mtrl_tab_indicator_anim_duration_ms = 2131296270;
+			
+			// aapt resource value: 0x7F09000F
+			public const int show_password_duration = 2131296271;
+			
+			// aapt resource value: 0x7F090010
+			public const int status_bar_notification_info_maxnum = 2131296272;
 			
 			static Integer()
 			{
@@ -12101,136 +11003,163 @@ namespace Bible.Alarm.Droid
 			public const int exo_controls_fullscreen_description = 2131558432;
 			
 			// aapt resource value: 0x7F0D0021
-			public const int exo_controls_next_description = 2131558433;
+			public const int exo_controls_hide = 2131558433;
 			
 			// aapt resource value: 0x7F0D0022
-			public const int exo_controls_pause_description = 2131558434;
+			public const int exo_controls_next_description = 2131558434;
 			
 			// aapt resource value: 0x7F0D0023
-			public const int exo_controls_play_description = 2131558435;
+			public const int exo_controls_pause_description = 2131558435;
 			
 			// aapt resource value: 0x7F0D0024
-			public const int exo_controls_previous_description = 2131558436;
+			public const int exo_controls_play_description = 2131558436;
 			
 			// aapt resource value: 0x7F0D0025
-			public const int exo_controls_repeat_all_description = 2131558437;
+			public const int exo_controls_previous_description = 2131558437;
 			
 			// aapt resource value: 0x7F0D0026
-			public const int exo_controls_repeat_off_description = 2131558438;
+			public const int exo_controls_repeat_all_description = 2131558438;
 			
 			// aapt resource value: 0x7F0D0027
-			public const int exo_controls_repeat_one_description = 2131558439;
+			public const int exo_controls_repeat_off_description = 2131558439;
 			
 			// aapt resource value: 0x7F0D0028
-			public const int exo_controls_rewind_description = 2131558440;
+			public const int exo_controls_repeat_one_description = 2131558440;
 			
 			// aapt resource value: 0x7F0D0029
-			public const int exo_controls_shuffle_description = 2131558441;
+			public const int exo_controls_rewind_description = 2131558441;
 			
 			// aapt resource value: 0x7F0D002A
-			public const int exo_controls_stop_description = 2131558442;
+			public const int exo_controls_show = 2131558442;
 			
 			// aapt resource value: 0x7F0D002B
-			public const int exo_download_completed = 2131558443;
+			public const int exo_controls_shuffle_off_description = 2131558443;
 			
 			// aapt resource value: 0x7F0D002C
-			public const int exo_download_description = 2131558444;
+			public const int exo_controls_shuffle_on_description = 2131558444;
 			
 			// aapt resource value: 0x7F0D002D
-			public const int exo_download_downloading = 2131558445;
+			public const int exo_controls_stop_description = 2131558445;
 			
 			// aapt resource value: 0x7F0D002E
-			public const int exo_download_failed = 2131558446;
+			public const int exo_controls_vr_description = 2131558446;
 			
 			// aapt resource value: 0x7F0D002F
-			public const int exo_download_notification_channel_name = 2131558447;
+			public const int exo_download_completed = 2131558447;
 			
 			// aapt resource value: 0x7F0D0030
-			public const int exo_download_removing = 2131558448;
+			public const int exo_download_description = 2131558448;
 			
 			// aapt resource value: 0x7F0D0031
-			public const int exo_item_list = 2131558449;
+			public const int exo_download_downloading = 2131558449;
 			
 			// aapt resource value: 0x7F0D0032
-			public const int exo_media_action_repeat_all_description = 2131558450;
+			public const int exo_download_failed = 2131558450;
 			
 			// aapt resource value: 0x7F0D0033
-			public const int exo_media_action_repeat_off_description = 2131558451;
+			public const int exo_download_notification_channel_name = 2131558451;
 			
 			// aapt resource value: 0x7F0D0034
-			public const int exo_media_action_repeat_one_description = 2131558452;
+			public const int exo_download_removing = 2131558452;
 			
 			// aapt resource value: 0x7F0D0035
-			public const int exo_track_bitrate = 2131558453;
+			public const int exo_item_list = 2131558453;
 			
 			// aapt resource value: 0x7F0D0036
-			public const int exo_track_mono = 2131558454;
+			public const int exo_media_action_repeat_all_description = 2131558454;
 			
 			// aapt resource value: 0x7F0D0037
-			public const int exo_track_resolution = 2131558455;
+			public const int exo_media_action_repeat_off_description = 2131558455;
 			
 			// aapt resource value: 0x7F0D0038
-			public const int exo_track_selection_auto = 2131558456;
+			public const int exo_media_action_repeat_one_description = 2131558456;
 			
 			// aapt resource value: 0x7F0D0039
-			public const int exo_track_selection_none = 2131558457;
+			public const int exo_track_bitrate = 2131558457;
 			
 			// aapt resource value: 0x7F0D003A
-			public const int exo_track_selection_title_audio = 2131558458;
+			public const int exo_track_mono = 2131558458;
 			
 			// aapt resource value: 0x7F0D003B
-			public const int exo_track_selection_title_text = 2131558459;
+			public const int exo_track_resolution = 2131558459;
 			
 			// aapt resource value: 0x7F0D003C
-			public const int exo_track_selection_title_video = 2131558460;
+			public const int exo_track_role_alternate = 2131558460;
 			
 			// aapt resource value: 0x7F0D003D
-			public const int exo_track_stereo = 2131558461;
+			public const int exo_track_role_closed_captions = 2131558461;
 			
 			// aapt resource value: 0x7F0D003E
-			public const int exo_track_surround = 2131558462;
+			public const int exo_track_role_commentary = 2131558462;
 			
 			// aapt resource value: 0x7F0D003F
-			public const int exo_track_surround_5_point_1 = 2131558463;
+			public const int exo_track_role_supplementary = 2131558463;
 			
 			// aapt resource value: 0x7F0D0040
-			public const int exo_track_surround_7_point_1 = 2131558464;
+			public const int exo_track_selection_auto = 2131558464;
 			
 			// aapt resource value: 0x7F0D0041
-			public const int exo_track_unknown = 2131558465;
+			public const int exo_track_selection_none = 2131558465;
 			
 			// aapt resource value: 0x7F0D0042
-			public const int fab_transformation_scrim_behavior = 2131558466;
+			public const int exo_track_selection_title_audio = 2131558466;
 			
 			// aapt resource value: 0x7F0D0043
-			public const int fab_transformation_sheet_behavior = 2131558467;
+			public const int exo_track_selection_title_text = 2131558467;
 			
 			// aapt resource value: 0x7F0D0044
-			public const int hide_bottom_view_on_scroll_behavior = 2131558468;
+			public const int exo_track_selection_title_video = 2131558468;
 			
 			// aapt resource value: 0x7F0D0045
-			public const int mtrl_chip_close_icon_content_description = 2131558469;
+			public const int exo_track_stereo = 2131558469;
 			
 			// aapt resource value: 0x7F0D0046
-			public const int password_toggle_content_description = 2131558470;
+			public const int exo_track_surround = 2131558470;
 			
 			// aapt resource value: 0x7F0D0047
-			public const int path_password_eye = 2131558471;
+			public const int exo_track_surround_5_point_1 = 2131558471;
 			
 			// aapt resource value: 0x7F0D0048
-			public const int path_password_eye_mask_strike_through = 2131558472;
+			public const int exo_track_surround_7_point_1 = 2131558472;
 			
 			// aapt resource value: 0x7F0D0049
-			public const int path_password_eye_mask_visible = 2131558473;
+			public const int exo_track_unknown = 2131558473;
 			
 			// aapt resource value: 0x7F0D004A
-			public const int path_password_strike_through = 2131558474;
+			public const int fab_transformation_scrim_behavior = 2131558474;
 			
 			// aapt resource value: 0x7F0D004B
-			public const int search_menu_title = 2131558475;
+			public const int fab_transformation_sheet_behavior = 2131558475;
 			
 			// aapt resource value: 0x7F0D004C
-			public const int status_bar_notification_info_overflow = 2131558476;
+			public const int hide_bottom_view_on_scroll_behavior = 2131558476;
+			
+			// aapt resource value: 0x7F0D004D
+			public const int mtrl_chip_close_icon_content_description = 2131558477;
+			
+			// aapt resource value: 0x7F0D004E
+			public const int overflow_tab_title = 2131558478;
+			
+			// aapt resource value: 0x7F0D004F
+			public const int password_toggle_content_description = 2131558479;
+			
+			// aapt resource value: 0x7F0D0050
+			public const int path_password_eye = 2131558480;
+			
+			// aapt resource value: 0x7F0D0051
+			public const int path_password_eye_mask_strike_through = 2131558481;
+			
+			// aapt resource value: 0x7F0D0052
+			public const int path_password_eye_mask_visible = 2131558482;
+			
+			// aapt resource value: 0x7F0D0053
+			public const int path_password_strike_through = 2131558483;
+			
+			// aapt resource value: 0x7F0D0054
+			public const int search_menu_title = 2131558484;
+			
+			// aapt resource value: 0x7F0D0055
+			public const int status_bar_notification_info_overflow = 2131558485;
 			
 			static String()
 			{
@@ -12842,8 +11771,8 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7F0E00C6
 			public const int CardView_Light = 2131624134;
 			
-			// aapt resource value: 0x7F0E0204
-			public const int collectionViewStyle = 2131624452;
+			// aapt resource value: 0x7F0E0205
+			public const int collectionViewTheme = 2131624453;
 			
 			// aapt resource value: 0x7F0E00C7
 			public const int ExoMediaButton = 2131624135;
@@ -12867,7 +11796,7 @@ namespace Bible.Alarm.Droid
 			public const int ExoMediaButton_Rewind = 2131624141;
 			
 			// aapt resource value: 0x7F0E00CE
-			public const int ExoMediaButton_Shuffle = 2131624142;
+			public const int ExoMediaButton_VR = 2131624142;
 			
 			// aapt resource value: 0x7F0E00CF
 			public const int MainTheme = 2131624143;
@@ -12970,6 +11899,12 @@ namespace Bible.Alarm.Droid
 			
 			// aapt resource value: 0x7F0E00F0
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131624176;
+			
+			// aapt resource value: 0x7F0E0206
+			public const int scrollViewScrollBars = 2131624454;
+			
+			// aapt resource value: 0x7F0E0207
+			public const int scrollViewTheme = 2131624455;
 			
 			// aapt resource value: 0x7F0E00F1
 			public const int TextAppearance_AppCompat = 2131624177;
@@ -13223,68 +12158,68 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7F0E0144
 			public const int TextAppearance_Widget_AppCompat_Toolbar_Title = 2131624260;
 			
-			// aapt resource value: 0x7F0E0175
-			public const int ThemeOverlay_AppCompat = 2131624309;
-			
 			// aapt resource value: 0x7F0E0176
-			public const int ThemeOverlay_AppCompat_ActionBar = 2131624310;
+			public const int ThemeOverlay_AppCompat = 2131624310;
 			
 			// aapt resource value: 0x7F0E0177
-			public const int ThemeOverlay_AppCompat_Dark = 2131624311;
+			public const int ThemeOverlay_AppCompat_ActionBar = 2131624311;
 			
 			// aapt resource value: 0x7F0E0178
-			public const int ThemeOverlay_AppCompat_Dark_ActionBar = 2131624312;
+			public const int ThemeOverlay_AppCompat_Dark = 2131624312;
 			
 			// aapt resource value: 0x7F0E0179
-			public const int ThemeOverlay_AppCompat_DayNight = 2131624313;
+			public const int ThemeOverlay_AppCompat_Dark_ActionBar = 2131624313;
 			
 			// aapt resource value: 0x7F0E017A
-			public const int ThemeOverlay_AppCompat_DayNight_ActionBar = 2131624314;
+			public const int ThemeOverlay_AppCompat_DayNight = 2131624314;
 			
 			// aapt resource value: 0x7F0E017B
-			public const int ThemeOverlay_AppCompat_Dialog = 2131624315;
+			public const int ThemeOverlay_AppCompat_DayNight_ActionBar = 2131624315;
 			
 			// aapt resource value: 0x7F0E017C
-			public const int ThemeOverlay_AppCompat_Dialog_Alert = 2131624316;
+			public const int ThemeOverlay_AppCompat_Dialog = 2131624316;
 			
 			// aapt resource value: 0x7F0E017D
-			public const int ThemeOverlay_AppCompat_Light = 2131624317;
+			public const int ThemeOverlay_AppCompat_Dialog_Alert = 2131624317;
 			
 			// aapt resource value: 0x7F0E017E
-			public const int ThemeOverlay_MaterialComponents = 2131624318;
+			public const int ThemeOverlay_AppCompat_Light = 2131624318;
 			
 			// aapt resource value: 0x7F0E017F
-			public const int ThemeOverlay_MaterialComponents_ActionBar = 2131624319;
+			public const int ThemeOverlay_MaterialComponents = 2131624319;
 			
 			// aapt resource value: 0x7F0E0180
-			public const int ThemeOverlay_MaterialComponents_Dark = 2131624320;
+			public const int ThemeOverlay_MaterialComponents_ActionBar = 2131624320;
 			
 			// aapt resource value: 0x7F0E0181
-			public const int ThemeOverlay_MaterialComponents_Dark_ActionBar = 2131624321;
+			public const int ThemeOverlay_MaterialComponents_Dark = 2131624321;
 			
 			// aapt resource value: 0x7F0E0182
-			public const int ThemeOverlay_MaterialComponents_Dialog = 2131624322;
+			public const int ThemeOverlay_MaterialComponents_Dark_ActionBar = 2131624322;
 			
 			// aapt resource value: 0x7F0E0183
-			public const int ThemeOverlay_MaterialComponents_Dialog_Alert = 2131624323;
+			public const int ThemeOverlay_MaterialComponents_Dialog = 2131624323;
 			
 			// aapt resource value: 0x7F0E0184
-			public const int ThemeOverlay_MaterialComponents_Light = 2131624324;
+			public const int ThemeOverlay_MaterialComponents_Dialog_Alert = 2131624324;
 			
 			// aapt resource value: 0x7F0E0185
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText = 2131624325;
+			public const int ThemeOverlay_MaterialComponents_Light = 2131624325;
 			
 			// aapt resource value: 0x7F0E0186
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox = 2131624326;
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText = 2131624326;
 			
 			// aapt resource value: 0x7F0E0187
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131624327;
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox = 2131624327;
 			
 			// aapt resource value: 0x7F0E0188
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox = 2131624328;
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131624328;
 			
 			// aapt resource value: 0x7F0E0189
-			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131624329;
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox = 2131624329;
+			
+			// aapt resource value: 0x7F0E018A
+			public const int ThemeOverlay_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131624330;
 			
 			// aapt resource value: 0x7F0E0145
 			public const int Theme_AppCompat = 2131624261;
@@ -13430,371 +12365,374 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0x7F0E0174
 			public const int Theme_MaterialComponents_NoActionBar_Bridge = 2131624308;
 			
-			// aapt resource value: 0x7F0E018A
-			public const int Widget_AppCompat_ActionBar = 2131624330;
+			// aapt resource value: 0x7F0E0175
+			public const int Theme_PlayCore_Transparent = 2131624309;
 			
 			// aapt resource value: 0x7F0E018B
-			public const int Widget_AppCompat_ActionBar_Solid = 2131624331;
+			public const int Widget_AppCompat_ActionBar = 2131624331;
 			
 			// aapt resource value: 0x7F0E018C
-			public const int Widget_AppCompat_ActionBar_TabBar = 2131624332;
+			public const int Widget_AppCompat_ActionBar_Solid = 2131624332;
 			
 			// aapt resource value: 0x7F0E018D
-			public const int Widget_AppCompat_ActionBar_TabText = 2131624333;
+			public const int Widget_AppCompat_ActionBar_TabBar = 2131624333;
 			
 			// aapt resource value: 0x7F0E018E
-			public const int Widget_AppCompat_ActionBar_TabView = 2131624334;
+			public const int Widget_AppCompat_ActionBar_TabText = 2131624334;
 			
 			// aapt resource value: 0x7F0E018F
-			public const int Widget_AppCompat_ActionButton = 2131624335;
+			public const int Widget_AppCompat_ActionBar_TabView = 2131624335;
 			
 			// aapt resource value: 0x7F0E0190
-			public const int Widget_AppCompat_ActionButton_CloseMode = 2131624336;
+			public const int Widget_AppCompat_ActionButton = 2131624336;
 			
 			// aapt resource value: 0x7F0E0191
-			public const int Widget_AppCompat_ActionButton_Overflow = 2131624337;
+			public const int Widget_AppCompat_ActionButton_CloseMode = 2131624337;
 			
 			// aapt resource value: 0x7F0E0192
-			public const int Widget_AppCompat_ActionMode = 2131624338;
+			public const int Widget_AppCompat_ActionButton_Overflow = 2131624338;
 			
 			// aapt resource value: 0x7F0E0193
-			public const int Widget_AppCompat_ActivityChooserView = 2131624339;
+			public const int Widget_AppCompat_ActionMode = 2131624339;
 			
 			// aapt resource value: 0x7F0E0194
-			public const int Widget_AppCompat_AutoCompleteTextView = 2131624340;
+			public const int Widget_AppCompat_ActivityChooserView = 2131624340;
 			
 			// aapt resource value: 0x7F0E0195
-			public const int Widget_AppCompat_Button = 2131624341;
-			
-			// aapt resource value: 0x7F0E019B
-			public const int Widget_AppCompat_ButtonBar = 2131624347;
-			
-			// aapt resource value: 0x7F0E019C
-			public const int Widget_AppCompat_ButtonBar_AlertDialog = 2131624348;
+			public const int Widget_AppCompat_AutoCompleteTextView = 2131624341;
 			
 			// aapt resource value: 0x7F0E0196
-			public const int Widget_AppCompat_Button_Borderless = 2131624342;
+			public const int Widget_AppCompat_Button = 2131624342;
 			
-			// aapt resource value: 0x7F0E0197
-			public const int Widget_AppCompat_Button_Borderless_Colored = 2131624343;
-			
-			// aapt resource value: 0x7F0E0198
-			public const int Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131624344;
-			
-			// aapt resource value: 0x7F0E0199
-			public const int Widget_AppCompat_Button_Colored = 2131624345;
-			
-			// aapt resource value: 0x7F0E019A
-			public const int Widget_AppCompat_Button_Small = 2131624346;
+			// aapt resource value: 0x7F0E019C
+			public const int Widget_AppCompat_ButtonBar = 2131624348;
 			
 			// aapt resource value: 0x7F0E019D
-			public const int Widget_AppCompat_CompoundButton_CheckBox = 2131624349;
+			public const int Widget_AppCompat_ButtonBar_AlertDialog = 2131624349;
+			
+			// aapt resource value: 0x7F0E0197
+			public const int Widget_AppCompat_Button_Borderless = 2131624343;
+			
+			// aapt resource value: 0x7F0E0198
+			public const int Widget_AppCompat_Button_Borderless_Colored = 2131624344;
+			
+			// aapt resource value: 0x7F0E0199
+			public const int Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131624345;
+			
+			// aapt resource value: 0x7F0E019A
+			public const int Widget_AppCompat_Button_Colored = 2131624346;
+			
+			// aapt resource value: 0x7F0E019B
+			public const int Widget_AppCompat_Button_Small = 2131624347;
 			
 			// aapt resource value: 0x7F0E019E
-			public const int Widget_AppCompat_CompoundButton_RadioButton = 2131624350;
+			public const int Widget_AppCompat_CompoundButton_CheckBox = 2131624350;
 			
 			// aapt resource value: 0x7F0E019F
-			public const int Widget_AppCompat_CompoundButton_Switch = 2131624351;
+			public const int Widget_AppCompat_CompoundButton_RadioButton = 2131624351;
 			
 			// aapt resource value: 0x7F0E01A0
-			public const int Widget_AppCompat_DrawerArrowToggle = 2131624352;
+			public const int Widget_AppCompat_CompoundButton_Switch = 2131624352;
 			
 			// aapt resource value: 0x7F0E01A1
-			public const int Widget_AppCompat_DropDownItem_Spinner = 2131624353;
+			public const int Widget_AppCompat_DrawerArrowToggle = 2131624353;
 			
 			// aapt resource value: 0x7F0E01A2
-			public const int Widget_AppCompat_EditText = 2131624354;
+			public const int Widget_AppCompat_DropDownItem_Spinner = 2131624354;
 			
 			// aapt resource value: 0x7F0E01A3
-			public const int Widget_AppCompat_ImageButton = 2131624355;
+			public const int Widget_AppCompat_EditText = 2131624355;
 			
 			// aapt resource value: 0x7F0E01A4
-			public const int Widget_AppCompat_Light_ActionBar = 2131624356;
+			public const int Widget_AppCompat_ImageButton = 2131624356;
 			
 			// aapt resource value: 0x7F0E01A5
-			public const int Widget_AppCompat_Light_ActionBar_Solid = 2131624357;
+			public const int Widget_AppCompat_Light_ActionBar = 2131624357;
 			
 			// aapt resource value: 0x7F0E01A6
-			public const int Widget_AppCompat_Light_ActionBar_Solid_Inverse = 2131624358;
+			public const int Widget_AppCompat_Light_ActionBar_Solid = 2131624358;
 			
 			// aapt resource value: 0x7F0E01A7
-			public const int Widget_AppCompat_Light_ActionBar_TabBar = 2131624359;
+			public const int Widget_AppCompat_Light_ActionBar_Solid_Inverse = 2131624359;
 			
 			// aapt resource value: 0x7F0E01A8
-			public const int Widget_AppCompat_Light_ActionBar_TabBar_Inverse = 2131624360;
+			public const int Widget_AppCompat_Light_ActionBar_TabBar = 2131624360;
 			
 			// aapt resource value: 0x7F0E01A9
-			public const int Widget_AppCompat_Light_ActionBar_TabText = 2131624361;
+			public const int Widget_AppCompat_Light_ActionBar_TabBar_Inverse = 2131624361;
 			
 			// aapt resource value: 0x7F0E01AA
-			public const int Widget_AppCompat_Light_ActionBar_TabText_Inverse = 2131624362;
+			public const int Widget_AppCompat_Light_ActionBar_TabText = 2131624362;
 			
 			// aapt resource value: 0x7F0E01AB
-			public const int Widget_AppCompat_Light_ActionBar_TabView = 2131624363;
+			public const int Widget_AppCompat_Light_ActionBar_TabText_Inverse = 2131624363;
 			
 			// aapt resource value: 0x7F0E01AC
-			public const int Widget_AppCompat_Light_ActionBar_TabView_Inverse = 2131624364;
+			public const int Widget_AppCompat_Light_ActionBar_TabView = 2131624364;
 			
 			// aapt resource value: 0x7F0E01AD
-			public const int Widget_AppCompat_Light_ActionButton = 2131624365;
+			public const int Widget_AppCompat_Light_ActionBar_TabView_Inverse = 2131624365;
 			
 			// aapt resource value: 0x7F0E01AE
-			public const int Widget_AppCompat_Light_ActionButton_CloseMode = 2131624366;
+			public const int Widget_AppCompat_Light_ActionButton = 2131624366;
 			
 			// aapt resource value: 0x7F0E01AF
-			public const int Widget_AppCompat_Light_ActionButton_Overflow = 2131624367;
+			public const int Widget_AppCompat_Light_ActionButton_CloseMode = 2131624367;
 			
 			// aapt resource value: 0x7F0E01B0
-			public const int Widget_AppCompat_Light_ActionMode_Inverse = 2131624368;
+			public const int Widget_AppCompat_Light_ActionButton_Overflow = 2131624368;
 			
 			// aapt resource value: 0x7F0E01B1
-			public const int Widget_AppCompat_Light_ActivityChooserView = 2131624369;
+			public const int Widget_AppCompat_Light_ActionMode_Inverse = 2131624369;
 			
 			// aapt resource value: 0x7F0E01B2
-			public const int Widget_AppCompat_Light_AutoCompleteTextView = 2131624370;
+			public const int Widget_AppCompat_Light_ActivityChooserView = 2131624370;
 			
 			// aapt resource value: 0x7F0E01B3
-			public const int Widget_AppCompat_Light_DropDownItem_Spinner = 2131624371;
+			public const int Widget_AppCompat_Light_AutoCompleteTextView = 2131624371;
 			
 			// aapt resource value: 0x7F0E01B4
-			public const int Widget_AppCompat_Light_ListPopupWindow = 2131624372;
+			public const int Widget_AppCompat_Light_DropDownItem_Spinner = 2131624372;
 			
 			// aapt resource value: 0x7F0E01B5
-			public const int Widget_AppCompat_Light_ListView_DropDown = 2131624373;
+			public const int Widget_AppCompat_Light_ListPopupWindow = 2131624373;
 			
 			// aapt resource value: 0x7F0E01B6
-			public const int Widget_AppCompat_Light_PopupMenu = 2131624374;
+			public const int Widget_AppCompat_Light_ListView_DropDown = 2131624374;
 			
 			// aapt resource value: 0x7F0E01B7
-			public const int Widget_AppCompat_Light_PopupMenu_Overflow = 2131624375;
+			public const int Widget_AppCompat_Light_PopupMenu = 2131624375;
 			
 			// aapt resource value: 0x7F0E01B8
-			public const int Widget_AppCompat_Light_SearchView = 2131624376;
+			public const int Widget_AppCompat_Light_PopupMenu_Overflow = 2131624376;
 			
 			// aapt resource value: 0x7F0E01B9
-			public const int Widget_AppCompat_Light_Spinner_DropDown_ActionBar = 2131624377;
+			public const int Widget_AppCompat_Light_SearchView = 2131624377;
 			
 			// aapt resource value: 0x7F0E01BA
-			public const int Widget_AppCompat_ListMenuView = 2131624378;
+			public const int Widget_AppCompat_Light_Spinner_DropDown_ActionBar = 2131624378;
 			
 			// aapt resource value: 0x7F0E01BB
-			public const int Widget_AppCompat_ListPopupWindow = 2131624379;
+			public const int Widget_AppCompat_ListMenuView = 2131624379;
 			
 			// aapt resource value: 0x7F0E01BC
-			public const int Widget_AppCompat_ListView = 2131624380;
+			public const int Widget_AppCompat_ListPopupWindow = 2131624380;
 			
 			// aapt resource value: 0x7F0E01BD
-			public const int Widget_AppCompat_ListView_DropDown = 2131624381;
+			public const int Widget_AppCompat_ListView = 2131624381;
 			
 			// aapt resource value: 0x7F0E01BE
-			public const int Widget_AppCompat_ListView_Menu = 2131624382;
+			public const int Widget_AppCompat_ListView_DropDown = 2131624382;
 			
 			// aapt resource value: 0x7F0E01BF
-			public const int Widget_AppCompat_PopupMenu = 2131624383;
+			public const int Widget_AppCompat_ListView_Menu = 2131624383;
 			
 			// aapt resource value: 0x7F0E01C0
-			public const int Widget_AppCompat_PopupMenu_Overflow = 2131624384;
+			public const int Widget_AppCompat_PopupMenu = 2131624384;
 			
 			// aapt resource value: 0x7F0E01C1
-			public const int Widget_AppCompat_PopupWindow = 2131624385;
+			public const int Widget_AppCompat_PopupMenu_Overflow = 2131624385;
 			
 			// aapt resource value: 0x7F0E01C2
-			public const int Widget_AppCompat_ProgressBar = 2131624386;
+			public const int Widget_AppCompat_PopupWindow = 2131624386;
 			
 			// aapt resource value: 0x7F0E01C3
-			public const int Widget_AppCompat_ProgressBar_Horizontal = 2131624387;
+			public const int Widget_AppCompat_ProgressBar = 2131624387;
 			
 			// aapt resource value: 0x7F0E01C4
-			public const int Widget_AppCompat_RatingBar = 2131624388;
+			public const int Widget_AppCompat_ProgressBar_Horizontal = 2131624388;
 			
 			// aapt resource value: 0x7F0E01C5
-			public const int Widget_AppCompat_RatingBar_Indicator = 2131624389;
+			public const int Widget_AppCompat_RatingBar = 2131624389;
 			
 			// aapt resource value: 0x7F0E01C6
-			public const int Widget_AppCompat_RatingBar_Small = 2131624390;
+			public const int Widget_AppCompat_RatingBar_Indicator = 2131624390;
 			
 			// aapt resource value: 0x7F0E01C7
-			public const int Widget_AppCompat_SearchView = 2131624391;
+			public const int Widget_AppCompat_RatingBar_Small = 2131624391;
 			
 			// aapt resource value: 0x7F0E01C8
-			public const int Widget_AppCompat_SearchView_ActionBar = 2131624392;
+			public const int Widget_AppCompat_SearchView = 2131624392;
 			
 			// aapt resource value: 0x7F0E01C9
-			public const int Widget_AppCompat_SeekBar = 2131624393;
+			public const int Widget_AppCompat_SearchView_ActionBar = 2131624393;
 			
 			// aapt resource value: 0x7F0E01CA
-			public const int Widget_AppCompat_SeekBar_Discrete = 2131624394;
+			public const int Widget_AppCompat_SeekBar = 2131624394;
 			
 			// aapt resource value: 0x7F0E01CB
-			public const int Widget_AppCompat_Spinner = 2131624395;
+			public const int Widget_AppCompat_SeekBar_Discrete = 2131624395;
 			
 			// aapt resource value: 0x7F0E01CC
-			public const int Widget_AppCompat_Spinner_DropDown = 2131624396;
+			public const int Widget_AppCompat_Spinner = 2131624396;
 			
 			// aapt resource value: 0x7F0E01CD
-			public const int Widget_AppCompat_Spinner_DropDown_ActionBar = 2131624397;
+			public const int Widget_AppCompat_Spinner_DropDown = 2131624397;
 			
 			// aapt resource value: 0x7F0E01CE
-			public const int Widget_AppCompat_Spinner_Underlined = 2131624398;
+			public const int Widget_AppCompat_Spinner_DropDown_ActionBar = 2131624398;
 			
 			// aapt resource value: 0x7F0E01CF
-			public const int Widget_AppCompat_TextView = 2131624399;
+			public const int Widget_AppCompat_Spinner_Underlined = 2131624399;
 			
 			// aapt resource value: 0x7F0E01D0
-			public const int Widget_AppCompat_TextView_SpinnerItem = 2131624400;
+			public const int Widget_AppCompat_TextView = 2131624400;
 			
 			// aapt resource value: 0x7F0E01D1
-			public const int Widget_AppCompat_Toolbar = 2131624401;
+			public const int Widget_AppCompat_TextView_SpinnerItem = 2131624401;
 			
 			// aapt resource value: 0x7F0E01D2
-			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131624402;
+			public const int Widget_AppCompat_Toolbar = 2131624402;
 			
 			// aapt resource value: 0x7F0E01D3
-			public const int Widget_Compat_NotificationActionContainer = 2131624403;
+			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131624403;
 			
 			// aapt resource value: 0x7F0E01D4
-			public const int Widget_Compat_NotificationActionText = 2131624404;
+			public const int Widget_Compat_NotificationActionContainer = 2131624404;
 			
 			// aapt resource value: 0x7F0E01D5
-			public const int Widget_Design_AppBarLayout = 2131624405;
+			public const int Widget_Compat_NotificationActionText = 2131624405;
 			
 			// aapt resource value: 0x7F0E01D6
-			public const int Widget_Design_BottomNavigationView = 2131624406;
+			public const int Widget_Design_AppBarLayout = 2131624406;
 			
 			// aapt resource value: 0x7F0E01D7
-			public const int Widget_Design_BottomSheet_Modal = 2131624407;
+			public const int Widget_Design_BottomNavigationView = 2131624407;
 			
 			// aapt resource value: 0x7F0E01D8
-			public const int Widget_Design_CollapsingToolbar = 2131624408;
+			public const int Widget_Design_BottomSheet_Modal = 2131624408;
 			
 			// aapt resource value: 0x7F0E01D9
-			public const int Widget_Design_FloatingActionButton = 2131624409;
+			public const int Widget_Design_CollapsingToolbar = 2131624409;
 			
 			// aapt resource value: 0x7F0E01DA
-			public const int Widget_Design_NavigationView = 2131624410;
+			public const int Widget_Design_FloatingActionButton = 2131624410;
 			
 			// aapt resource value: 0x7F0E01DB
-			public const int Widget_Design_ScrimInsetsFrameLayout = 2131624411;
+			public const int Widget_Design_NavigationView = 2131624411;
 			
 			// aapt resource value: 0x7F0E01DC
-			public const int Widget_Design_Snackbar = 2131624412;
+			public const int Widget_Design_ScrimInsetsFrameLayout = 2131624412;
 			
 			// aapt resource value: 0x7F0E01DD
-			public const int Widget_Design_TabLayout = 2131624413;
+			public const int Widget_Design_Snackbar = 2131624413;
 			
 			// aapt resource value: 0x7F0E01DE
-			public const int Widget_Design_TextInputLayout = 2131624414;
+			public const int Widget_Design_TabLayout = 2131624414;
 			
 			// aapt resource value: 0x7F0E01DF
-			public const int Widget_MaterialComponents_BottomAppBar = 2131624415;
+			public const int Widget_Design_TextInputLayout = 2131624415;
 			
 			// aapt resource value: 0x7F0E01E0
-			public const int Widget_MaterialComponents_BottomAppBar_Colored = 2131624416;
+			public const int Widget_MaterialComponents_BottomAppBar = 2131624416;
 			
 			// aapt resource value: 0x7F0E01E1
-			public const int Widget_MaterialComponents_BottomNavigationView = 2131624417;
+			public const int Widget_MaterialComponents_BottomAppBar_Colored = 2131624417;
 			
 			// aapt resource value: 0x7F0E01E2
-			public const int Widget_MaterialComponents_BottomNavigationView_Colored = 2131624418;
+			public const int Widget_MaterialComponents_BottomNavigationView = 2131624418;
 			
 			// aapt resource value: 0x7F0E01E3
-			public const int Widget_MaterialComponents_BottomSheet_Modal = 2131624419;
+			public const int Widget_MaterialComponents_BottomNavigationView_Colored = 2131624419;
 			
 			// aapt resource value: 0x7F0E01E4
-			public const int Widget_MaterialComponents_Button = 2131624420;
+			public const int Widget_MaterialComponents_BottomSheet_Modal = 2131624420;
 			
 			// aapt resource value: 0x7F0E01E5
-			public const int Widget_MaterialComponents_Button_Icon = 2131624421;
+			public const int Widget_MaterialComponents_Button = 2131624421;
 			
 			// aapt resource value: 0x7F0E01E6
-			public const int Widget_MaterialComponents_Button_OutlinedButton = 2131624422;
+			public const int Widget_MaterialComponents_Button_Icon = 2131624422;
 			
 			// aapt resource value: 0x7F0E01E7
-			public const int Widget_MaterialComponents_Button_OutlinedButton_Icon = 2131624423;
+			public const int Widget_MaterialComponents_Button_OutlinedButton = 2131624423;
 			
 			// aapt resource value: 0x7F0E01E8
-			public const int Widget_MaterialComponents_Button_TextButton = 2131624424;
+			public const int Widget_MaterialComponents_Button_OutlinedButton_Icon = 2131624424;
 			
 			// aapt resource value: 0x7F0E01E9
-			public const int Widget_MaterialComponents_Button_TextButton_Dialog = 2131624425;
+			public const int Widget_MaterialComponents_Button_TextButton = 2131624425;
 			
 			// aapt resource value: 0x7F0E01EA
-			public const int Widget_MaterialComponents_Button_TextButton_Dialog_Icon = 2131624426;
+			public const int Widget_MaterialComponents_Button_TextButton_Dialog = 2131624426;
 			
 			// aapt resource value: 0x7F0E01EB
-			public const int Widget_MaterialComponents_Button_TextButton_Icon = 2131624427;
+			public const int Widget_MaterialComponents_Button_TextButton_Dialog_Icon = 2131624427;
 			
 			// aapt resource value: 0x7F0E01EC
-			public const int Widget_MaterialComponents_Button_UnelevatedButton = 2131624428;
+			public const int Widget_MaterialComponents_Button_TextButton_Icon = 2131624428;
 			
 			// aapt resource value: 0x7F0E01ED
-			public const int Widget_MaterialComponents_Button_UnelevatedButton_Icon = 2131624429;
+			public const int Widget_MaterialComponents_Button_UnelevatedButton = 2131624429;
 			
 			// aapt resource value: 0x7F0E01EE
-			public const int Widget_MaterialComponents_CardView = 2131624430;
-			
-			// aapt resource value: 0x7F0E01F3
-			public const int Widget_MaterialComponents_ChipGroup = 2131624435;
+			public const int Widget_MaterialComponents_Button_UnelevatedButton_Icon = 2131624430;
 			
 			// aapt resource value: 0x7F0E01EF
-			public const int Widget_MaterialComponents_Chip_Action = 2131624431;
-			
-			// aapt resource value: 0x7F0E01F0
-			public const int Widget_MaterialComponents_Chip_Choice = 2131624432;
-			
-			// aapt resource value: 0x7F0E01F1
-			public const int Widget_MaterialComponents_Chip_Entry = 2131624433;
-			
-			// aapt resource value: 0x7F0E01F2
-			public const int Widget_MaterialComponents_Chip_Filter = 2131624434;
+			public const int Widget_MaterialComponents_CardView = 2131624431;
 			
 			// aapt resource value: 0x7F0E01F4
-			public const int Widget_MaterialComponents_FloatingActionButton = 2131624436;
+			public const int Widget_MaterialComponents_ChipGroup = 2131624436;
+			
+			// aapt resource value: 0x7F0E01F0
+			public const int Widget_MaterialComponents_Chip_Action = 2131624432;
+			
+			// aapt resource value: 0x7F0E01F1
+			public const int Widget_MaterialComponents_Chip_Choice = 2131624433;
+			
+			// aapt resource value: 0x7F0E01F2
+			public const int Widget_MaterialComponents_Chip_Entry = 2131624434;
+			
+			// aapt resource value: 0x7F0E01F3
+			public const int Widget_MaterialComponents_Chip_Filter = 2131624435;
 			
 			// aapt resource value: 0x7F0E01F5
-			public const int Widget_MaterialComponents_NavigationView = 2131624437;
+			public const int Widget_MaterialComponents_FloatingActionButton = 2131624437;
 			
 			// aapt resource value: 0x7F0E01F6
-			public const int Widget_MaterialComponents_Snackbar = 2131624438;
+			public const int Widget_MaterialComponents_NavigationView = 2131624438;
 			
 			// aapt resource value: 0x7F0E01F7
-			public const int Widget_MaterialComponents_Snackbar_FullWidth = 2131624439;
+			public const int Widget_MaterialComponents_Snackbar = 2131624439;
 			
 			// aapt resource value: 0x7F0E01F8
-			public const int Widget_MaterialComponents_TabLayout = 2131624440;
+			public const int Widget_MaterialComponents_Snackbar_FullWidth = 2131624440;
 			
 			// aapt resource value: 0x7F0E01F9
-			public const int Widget_MaterialComponents_TabLayout_Colored = 2131624441;
+			public const int Widget_MaterialComponents_TabLayout = 2131624441;
 			
 			// aapt resource value: 0x7F0E01FA
-			public const int Widget_MaterialComponents_TextInputEditText_FilledBox = 2131624442;
+			public const int Widget_MaterialComponents_TabLayout_Colored = 2131624442;
 			
 			// aapt resource value: 0x7F0E01FB
-			public const int Widget_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131624443;
+			public const int Widget_MaterialComponents_TextInputEditText_FilledBox = 2131624443;
 			
 			// aapt resource value: 0x7F0E01FC
-			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox = 2131624444;
+			public const int Widget_MaterialComponents_TextInputEditText_FilledBox_Dense = 2131624444;
 			
 			// aapt resource value: 0x7F0E01FD
-			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131624445;
+			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox = 2131624445;
 			
 			// aapt resource value: 0x7F0E01FE
-			public const int Widget_MaterialComponents_TextInputLayout_FilledBox = 2131624446;
+			public const int Widget_MaterialComponents_TextInputEditText_OutlinedBox_Dense = 2131624446;
 			
 			// aapt resource value: 0x7F0E01FF
-			public const int Widget_MaterialComponents_TextInputLayout_FilledBox_Dense = 2131624447;
+			public const int Widget_MaterialComponents_TextInputLayout_FilledBox = 2131624447;
 			
 			// aapt resource value: 0x7F0E0200
-			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox = 2131624448;
+			public const int Widget_MaterialComponents_TextInputLayout_FilledBox_Dense = 2131624448;
 			
 			// aapt resource value: 0x7F0E0201
-			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = 2131624449;
+			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox = 2131624449;
 			
 			// aapt resource value: 0x7F0E0202
-			public const int Widget_MaterialComponents_Toolbar = 2131624450;
+			public const int Widget_MaterialComponents_TextInputLayout_OutlinedBox_Dense = 2131624450;
 			
 			// aapt resource value: 0x7F0E0203
-			public const int Widget_Support_CoordinatorLayout = 2131624451;
+			public const int Widget_MaterialComponents_Toolbar = 2131624451;
+			
+			// aapt resource value: 0x7F0E0204
+			public const int Widget_Support_CoordinatorLayout = 2131624452;
 			
 			static Style()
 			{
@@ -13809,37 +12747,37 @@ namespace Bible.Alarm.Droid
 		public partial class Styleable
 		{
 			
-			// aapt resource value: { 0x7F030034,0x7F030035,0x7F030036,0x7F030097,0x7F030098,0x7F030099,0x7F03009A,0x7F03009B,0x7F03009C,0x7F0300AB,0x7F0300B1,0x7F0300B2,0x7F0300C5,0x7F0300F0,0x7F0300F5,0x7F0300FC,0x7F0300FD,0x7F0300FF,0x7F030109,0x7F030113,0x7F03013B,0x7F030147,0x7F03015B,0x7F03015F,0x7F030160,0x7F03019B,0x7F03019E,0x7F0301E5,0x7F0301EF }
+			// aapt resource value: { 0x7F030034,0x7F030035,0x7F030036,0x7F030098,0x7F030099,0x7F03009A,0x7F03009B,0x7F03009C,0x7F03009D,0x7F0300AC,0x7F0300B2,0x7F0300B3,0x7F0300C6,0x7F0300F1,0x7F0300F6,0x7F0300FD,0x7F0300FE,0x7F030100,0x7F03010A,0x7F030114,0x7F03013C,0x7F030148,0x7F03015C,0x7F030160,0x7F030161,0x7F03019D,0x7F0301A0,0x7F0301E8,0x7F0301F2 }
 			public static int[] ActionBar = new int[] {
 					2130903092,
 					2130903093,
 					2130903094,
-					2130903191,
 					2130903192,
 					2130903193,
 					2130903194,
 					2130903195,
 					2130903196,
-					2130903211,
-					2130903217,
+					2130903197,
+					2130903212,
 					2130903218,
-					2130903237,
-					2130903280,
-					2130903285,
-					2130903292,
+					2130903219,
+					2130903238,
+					2130903281,
+					2130903286,
 					2130903293,
-					2130903295,
-					2130903305,
-					2130903315,
-					2130903355,
-					2130903367,
-					2130903387,
-					2130903391,
+					2130903294,
+					2130903296,
+					2130903306,
+					2130903316,
+					2130903356,
+					2130903368,
+					2130903388,
 					2130903392,
-					2130903451,
-					2130903454,
-					2130903525,
-					2130903535};
+					2130903393,
+					2130903453,
+					2130903456,
+					2130903528,
+					2130903538};
 			
 			// aapt resource value: { 0x10100B3 }
 			public static int[] ActionBarLayout = new int[] {
@@ -13946,14 +12884,14 @@ namespace Bible.Alarm.Droid
 			public static int[] ActionMenuView = new int[] {
 					-1};
 			
-			// aapt resource value: { 0x7F030034,0x7F030035,0x7F030084,0x7F0300F0,0x7F03019E,0x7F0301EF }
+			// aapt resource value: { 0x7F030034,0x7F030035,0x7F030084,0x7F0300F1,0x7F0301A0,0x7F0301F2 }
 			public static int[] ActionMode = new int[] {
 					2130903092,
 					2130903093,
 					2130903172,
-					2130903280,
-					2130903454,
-					2130903535};
+					2130903281,
+					2130903456,
+					2130903538};
 			
 			// aapt resource value: 0
 			public const int ActionMode_background = 0;
@@ -13973,10 +12911,10 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 5
 			public const int ActionMode_titleTextStyle = 5;
 			
-			// aapt resource value: { 0x7F0300CA,0x7F03010A }
+			// aapt resource value: { 0x7F0300CB,0x7F03010B }
 			public static int[] ActivityChooserView = new int[] {
-					2130903242,
-					2130903306};
+					2130903243,
+					2130903307};
 			
 			// aapt resource value: 0
 			public const int ActivityChooserView_expandActivityOverflowButtonDrawable = 0;
@@ -13984,16 +12922,16 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int ActivityChooserView_initialActivityCount = 1;
 			
-			// aapt resource value: { 0x10100F2,0x7F030058,0x7F030059,0x7F030130,0x7F030131,0x7F030144,0x7F03017F,0x7F030184 }
+			// aapt resource value: { 0x10100F2,0x7F030058,0x7F030059,0x7F030131,0x7F030132,0x7F030145,0x7F030181,0x7F030186 }
 			public static int[] AlertDialog = new int[] {
 					16842994,
 					2130903128,
 					2130903129,
-					2130903344,
 					2130903345,
-					2130903364,
-					2130903423,
-					2130903428};
+					2130903346,
+					2130903365,
+					2130903425,
+					2130903430};
 			
 			// aapt resource value: 0
 			public const int AlertDialog_android_layout = 0;
@@ -14076,21 +13014,21 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int AnimatedStateListDrawableTransition_android_toId = 1;
 			
-			// aapt resource value: { 0x10100D4,0x101048F,0x1010540,0x7F0300C5,0x7F0300CB,0x7F030129 }
+			// aapt resource value: { 0x10100D4,0x101048F,0x1010540,0x7F0300C6,0x7F0300CC,0x7F03012A }
 			public static int[] AppBarLayout = new int[] {
 					16842964,
 					16843919,
 					16844096,
-					2130903237,
-					2130903243,
-					2130903337};
+					2130903238,
+					2130903244,
+					2130903338};
 			
-			// aapt resource value: { 0x7F030191,0x7F030192,0x7F030193,0x7F030194 }
+			// aapt resource value: { 0x7F030193,0x7F030194,0x7F030195,0x7F030196 }
 			public static int[] AppBarLayoutStates = new int[] {
-					2130903441,
-					2130903442,
 					2130903443,
-					2130903444};
+					2130903444,
+					2130903445,
+					2130903446};
 			
 			// aapt resource value: 0
 			public const int AppBarLayoutStates_state_collapsed = 0;
@@ -14119,10 +13057,10 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 4
 			public const int AppBarLayout_expanded = 4;
 			
-			// aapt resource value: { 0x7F030127,0x7F030128 }
+			// aapt resource value: { 0x7F030128,0x7F030129 }
 			public static int[] AppBarLayout_Layout = new int[] {
-					2130903335,
-					2130903336};
+					2130903336,
+					2130903337};
 			
 			// aapt resource value: 0
 			public const int AppBarLayout_Layout_layout_scrollFlags = 0;
@@ -14133,12 +13071,12 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 5
 			public const int AppBarLayout_liftOnScroll = 5;
 			
-			// aapt resource value: { 0x1010119,0x7F03018E,0x7F0301E3,0x7F0301E4 }
+			// aapt resource value: { 0x1010119,0x7F030190,0x7F0301E6,0x7F0301E7 }
 			public static int[] AppCompatImageView = new int[] {
 					16843033,
-					2130903438,
-					2130903523,
-					2130903524};
+					2130903440,
+					2130903526,
+					2130903527};
 			
 			// aapt resource value: 0
 			public const int AppCompatImageView_android_src = 0;
@@ -14152,12 +13090,12 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 3
 			public const int AppCompatImageView_tintMode = 3;
 			
-			// aapt resource value: { 0x1010142,0x7F0301E0,0x7F0301E1,0x7F0301E2 }
+			// aapt resource value: { 0x1010142,0x7F0301E2,0x7F0301E3,0x7F0301E4 }
 			public static int[] AppCompatSeekBar = new int[] {
 					16843074,
-					2130903520,
-					2130903521,
-					2130903522};
+					2130903522,
+					2130903523,
+					2130903524};
 			
 			// aapt resource value: 0
 			public const int AppCompatSeekBar_android_thumb = 0;
@@ -14202,7 +13140,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0
 			public const int AppCompatTextHelper_android_textAppearance = 0;
 			
-			// aapt resource value: { 0x1010034,0x7F03002E,0x7F03002F,0x7F030030,0x7F030031,0x7F030032,0x7F0300B6,0x7F0300B7,0x7F0300B8,0x7F0300B9,0x7F0300BB,0x7F0300BC,0x7F0300BD,0x7F0300BE,0x7F0300DF,0x7F0300E2,0x7F0300EA,0x7F03011C,0x7F03012A,0x7F0301BF,0x7F0301D9 }
+			// aapt resource value: { 0x1010034,0x7F03002E,0x7F03002F,0x7F030030,0x7F030031,0x7F030032,0x7F0300B7,0x7F0300B8,0x7F0300B9,0x7F0300BA,0x7F0300BC,0x7F0300BD,0x7F0300BE,0x7F0300BF,0x7F0300E0,0x7F0300E3,0x7F0300EB,0x7F03011D,0x7F03012B,0x7F0301C1,0x7F0301DB }
 			public static int[] AppCompatTextView = new int[] {
 					16842804,
 					2130903086,
@@ -14210,21 +13148,21 @@ namespace Bible.Alarm.Droid
 					2130903088,
 					2130903089,
 					2130903090,
-					2130903222,
 					2130903223,
 					2130903224,
 					2130903225,
-					2130903227,
+					2130903226,
 					2130903228,
 					2130903229,
 					2130903230,
-					2130903263,
-					2130903266,
-					2130903274,
-					2130903324,
-					2130903338,
-					2130903487,
-					2130903513};
+					2130903231,
+					2130903264,
+					2130903267,
+					2130903275,
+					2130903325,
+					2130903339,
+					2130903489,
+					2130903515};
 			
 			// aapt resource value: 0
 			public const int AppCompatTextView_android_textAppearance = 0;
@@ -14289,7 +13227,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 20
 			public const int AppCompatTextView_textLocale = 20;
 			
-			// aapt resource value: { 0x1010057,0x10100AE,0x7F030000,0x7F030001,0x7F030002,0x7F030003,0x7F030004,0x7F030005,0x7F030006,0x7F030007,0x7F030008,0x7F030009,0x7F03000A,0x7F03000B,0x7F03000C,0x7F03000E,0x7F03000F,0x7F030010,0x7F030011,0x7F030012,0x7F030013,0x7F030014,0x7F030015,0x7F030016,0x7F030017,0x7F030018,0x7F030019,0x7F03001A,0x7F03001B,0x7F03001C,0x7F03001D,0x7F03001E,0x7F030021,0x7F030024,0x7F030025,0x7F030026,0x7F030027,0x7F03002D,0x7F030042,0x7F030051,0x7F030052,0x7F030053,0x7F030054,0x7F030055,0x7F03005A,0x7F03005B,0x7F030065,0x7F03006A,0x7F03008A,0x7F03008B,0x7F03008C,0x7F03008D,0x7F03008E,0x7F03008F,0x7F030090,0x7F030091,0x7F030092,0x7F030094,0x7F0300A3,0x7F0300AE,0x7F0300AF,0x7F0300B0,0x7F0300B3,0x7F0300B5,0x7F0300C0,0x7F0300C1,0x7F0300C2,0x7F0300C3,0x7F0300C4,0x7F0300FC,0x7F030108,0x7F03012C,0x7F03012D,0x7F03012E,0x7F03012F,0x7F030132,0x7F030133,0x7F030134,0x7F030135,0x7F030136,0x7F030137,0x7F030138,0x7F030139,0x7F03013A,0x7F03014F,0x7F030150,0x7F030151,0x7F03015A,0x7F03015C,0x7F030163,0x7F030164,0x7F030165,0x7F030166,0x7F030177,0x7F030178,0x7F030179,0x7F03017A,0x7F03018B,0x7F03018C,0x7F0301A3,0x7F0301CA,0x7F0301CB,0x7F0301CC,0x7F0301CD,0x7F0301CF,0x7F0301D0,0x7F0301D1,0x7F0301D2,0x7F0301D5,0x7F0301D6,0x7F0301F1,0x7F0301F2,0x7F0301F3,0x7F0301F4,0x7F0301FF,0x7F030201,0x7F030202,0x7F030203,0x7F030204,0x7F030205,0x7F030206,0x7F030207,0x7F030208,0x7F030209,0x7F03020A }
+			// aapt resource value: { 0x1010057,0x10100AE,0x7F030000,0x7F030001,0x7F030002,0x7F030003,0x7F030004,0x7F030005,0x7F030006,0x7F030007,0x7F030008,0x7F030009,0x7F03000A,0x7F03000B,0x7F03000C,0x7F03000E,0x7F03000F,0x7F030010,0x7F030011,0x7F030012,0x7F030013,0x7F030014,0x7F030015,0x7F030016,0x7F030017,0x7F030018,0x7F030019,0x7F03001A,0x7F03001B,0x7F03001C,0x7F03001D,0x7F03001E,0x7F030021,0x7F030024,0x7F030025,0x7F030026,0x7F030027,0x7F03002D,0x7F030042,0x7F030051,0x7F030052,0x7F030053,0x7F030054,0x7F030055,0x7F03005A,0x7F03005B,0x7F030065,0x7F03006A,0x7F03008B,0x7F03008C,0x7F03008D,0x7F03008E,0x7F03008F,0x7F030090,0x7F030091,0x7F030092,0x7F030093,0x7F030095,0x7F0300A4,0x7F0300AF,0x7F0300B0,0x7F0300B1,0x7F0300B4,0x7F0300B6,0x7F0300C1,0x7F0300C2,0x7F0300C3,0x7F0300C4,0x7F0300C5,0x7F0300FD,0x7F030109,0x7F03012D,0x7F03012E,0x7F03012F,0x7F030130,0x7F030133,0x7F030134,0x7F030135,0x7F030136,0x7F030137,0x7F030138,0x7F030139,0x7F03013A,0x7F03013B,0x7F030150,0x7F030151,0x7F030152,0x7F03015B,0x7F03015D,0x7F030164,0x7F030165,0x7F030166,0x7F030167,0x7F030179,0x7F03017A,0x7F03017B,0x7F03017C,0x7F03018D,0x7F03018E,0x7F0301A5,0x7F0301CC,0x7F0301CD,0x7F0301CE,0x7F0301CF,0x7F0301D1,0x7F0301D2,0x7F0301D3,0x7F0301D4,0x7F0301D7,0x7F0301D8,0x7F0301F4,0x7F0301F5,0x7F0301F6,0x7F0301F7,0x7F030203,0x7F030205,0x7F030206,0x7F030207,0x7F030208,0x7F030209,0x7F03020A,0x7F03020B,0x7F03020C,0x7F03020D,0x7F03020E }
 			public static int[] AppCompatTheme = new int[] {
 					16842839,
 					16842926,
@@ -14339,7 +13277,6 @@ namespace Bible.Alarm.Droid
 					2130903131,
 					2130903141,
 					2130903146,
-					2130903178,
 					2130903179,
 					2130903180,
 					2130903181,
@@ -14348,25 +13285,25 @@ namespace Bible.Alarm.Droid
 					2130903184,
 					2130903185,
 					2130903186,
-					2130903188,
-					2130903203,
-					2130903214,
+					2130903187,
+					2130903189,
+					2130903204,
 					2130903215,
 					2130903216,
-					2130903219,
-					2130903221,
-					2130903232,
+					2130903217,
+					2130903220,
+					2130903222,
 					2130903233,
 					2130903234,
 					2130903235,
 					2130903236,
-					2130903292,
-					2130903304,
-					2130903340,
+					2130903237,
+					2130903293,
+					2130903305,
 					2130903341,
 					2130903342,
 					2130903343,
-					2130903346,
+					2130903344,
 					2130903347,
 					2130903348,
 					2130903349,
@@ -14375,47 +13312,48 @@ namespace Bible.Alarm.Droid
 					2130903352,
 					2130903353,
 					2130903354,
-					2130903375,
+					2130903355,
 					2130903376,
 					2130903377,
-					2130903386,
-					2130903388,
-					2130903395,
+					2130903378,
+					2130903387,
+					2130903389,
 					2130903396,
 					2130903397,
 					2130903398,
-					2130903415,
-					2130903416,
+					2130903399,
 					2130903417,
 					2130903418,
-					2130903435,
-					2130903436,
-					2130903459,
-					2130903498,
-					2130903499,
+					2130903419,
+					2130903420,
+					2130903437,
+					2130903438,
+					2130903461,
 					2130903500,
 					2130903501,
+					2130903502,
 					2130903503,
-					2130903504,
 					2130903505,
 					2130903506,
-					2130903509,
-					2130903510,
-					2130903537,
-					2130903538,
-					2130903539,
+					2130903507,
+					2130903508,
+					2130903511,
+					2130903512,
 					2130903540,
-					2130903551,
-					2130903553,
-					2130903554,
+					2130903541,
+					2130903542,
+					2130903543,
 					2130903555,
-					2130903556,
 					2130903557,
 					2130903558,
 					2130903559,
 					2130903560,
 					2130903561,
-					2130903562};
+					2130903562,
+					2130903563,
+					2130903564,
+					2130903565,
+					2130903566};
 			
 			// aapt resource value: 2
 			public const int AppCompatTheme_actionBarDivider = 2;
@@ -14792,21 +13730,21 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 124
 			public const int AppCompatTheme_windowNoTitle = 124;
 			
-			// aapt resource value: { 0x7F030169 }
+			// aapt resource value: { 0x7F03016A }
 			public static int[] AspectRatioFrameLayout = new int[] {
-					2130903401};
+					2130903402};
 			
 			// aapt resource value: 0
 			public const int AspectRatioFrameLayout_resize_mode = 0;
 			
-			// aapt resource value: { 0x7F030037,0x7F0300D3,0x7F0300D4,0x7F0300D5,0x7F0300D6,0x7F0300F6 }
+			// aapt resource value: { 0x7F030037,0x7F0300D4,0x7F0300D5,0x7F0300D6,0x7F0300D7,0x7F0300F7 }
 			public static int[] BottomAppBar = new int[] {
 					2130903095,
-					2130903251,
 					2130903252,
 					2130903253,
 					2130903254,
-					2130903286};
+					2130903255,
+					2130903287};
 			
 			// aapt resource value: 0
 			public const int BottomAppBar_backgroundTint = 0;
@@ -14826,18 +13764,18 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 5
 			public const int BottomAppBar_hideOnScroll = 5;
 			
-			// aapt resource value: { 0x7F0300C5,0x7F03010D,0x7F03010F,0x7F030111,0x7F030112,0x7F030116,0x7F030117,0x7F030118,0x7F03011B,0x7F030143 }
+			// aapt resource value: { 0x7F0300C6,0x7F03010E,0x7F030110,0x7F030112,0x7F030113,0x7F030117,0x7F030118,0x7F030119,0x7F03011C,0x7F030144 }
 			public static int[] BottomNavigationView = new int[] {
-					2130903237,
-					2130903309,
-					2130903311,
-					2130903313,
+					2130903238,
+					2130903310,
+					2130903312,
 					2130903314,
-					2130903318,
+					2130903315,
 					2130903319,
 					2130903320,
-					2130903323,
-					2130903363};
+					2130903321,
+					2130903324,
+					2130903364};
 			
 			// aapt resource value: 0
 			public const int BottomNavigationView_elevation = 0;
@@ -14895,7 +13833,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0
 			public const int ButtonBarLayout_allowStacking = 0;
 			
-			// aapt resource value: { 0x101013F,0x1010140,0x7F03005E,0x7F03005F,0x7F030060,0x7F030061,0x7F030062,0x7F030063,0x7F03009D,0x7F03009E,0x7F03009F,0x7F0300A0,0x7F0300A1 }
+			// aapt resource value: { 0x101013F,0x1010140,0x7F03005E,0x7F03005F,0x7F030060,0x7F030061,0x7F030062,0x7F030063,0x7F03009E,0x7F03009F,0x7F0300A0,0x7F0300A1,0x7F0300A2 }
 			public static int[] CardView = new int[] {
 					16843071,
 					16843072,
@@ -14905,11 +13843,11 @@ namespace Bible.Alarm.Droid
 					2130903137,
 					2130903138,
 					2130903139,
-					2130903197,
 					2130903198,
 					2130903199,
 					2130903200,
-					2130903201};
+					2130903201,
+					2130903202};
 			
 			// aapt resource value: 1
 			public const int CardView_android_minHeight = 1;
@@ -14950,7 +13888,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 12
 			public const int CardView_contentPaddingTop = 12;
 			
-			// aapt resource value: { 0x1010034,0x10100AB,0x101011F,0x101014F,0x10101E5,0x7F030067,0x7F030068,0x7F030069,0x7F03006B,0x7F03006C,0x7F03006D,0x7F03006F,0x7F030070,0x7F030071,0x7F030072,0x7F030073,0x7F030074,0x7F030079,0x7F03007A,0x7F03007B,0x7F03007D,0x7F03007E,0x7F03007F,0x7F030080,0x7F030081,0x7F030082,0x7F030083,0x7F0300F4,0x7F030100,0x7F030104,0x7F03016C,0x7F03017D,0x7F0301D7,0x7F0301DA }
+			// aapt resource value: { 0x1010034,0x10100AB,0x101011F,0x101014F,0x10101E5,0x7F030067,0x7F030068,0x7F030069,0x7F03006B,0x7F03006C,0x7F03006D,0x7F03006F,0x7F030070,0x7F030071,0x7F030072,0x7F030073,0x7F030074,0x7F030079,0x7F03007A,0x7F03007B,0x7F03007D,0x7F03007E,0x7F03007F,0x7F030080,0x7F030081,0x7F030082,0x7F030083,0x7F0300F5,0x7F030101,0x7F030105,0x7F03016D,0x7F03017F,0x7F0301D9,0x7F0301DC }
 			public static int[] Chip = new int[] {
 					16842804,
 					16842923,
@@ -14979,22 +13917,22 @@ namespace Bible.Alarm.Droid
 					2130903169,
 					2130903170,
 					2130903171,
-					2130903284,
-					2130903296,
-					2130903300,
-					2130903404,
-					2130903421,
-					2130903511,
-					2130903514};
+					2130903285,
+					2130903297,
+					2130903301,
+					2130903405,
+					2130903423,
+					2130903513,
+					2130903516};
 			
-			// aapt resource value: { 0x7F030066,0x7F030075,0x7F030076,0x7F030077,0x7F030185,0x7F030186 }
+			// aapt resource value: { 0x7F030066,0x7F030075,0x7F030076,0x7F030077,0x7F030187,0x7F030188 }
 			public static int[] ChipGroup = new int[] {
 					2130903142,
 					2130903157,
 					2130903158,
 					2130903159,
-					2130903429,
-					2130903430};
+					2130903431,
+					2130903432};
 			
 			// aapt resource value: 0
 			public const int ChipGroup_checkedChip = 0;
@@ -15116,24 +14054,24 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 33
 			public const int Chip_textStartPadding = 33;
 			
-			// aapt resource value: { 0x7F030087,0x7F030088,0x7F0300A2,0x7F0300CC,0x7F0300CD,0x7F0300CE,0x7F0300CF,0x7F0300D0,0x7F0300D1,0x7F0300D2,0x7F03016D,0x7F03016F,0x7F030196,0x7F0301E5,0x7F0301E6,0x7F0301F0 }
+			// aapt resource value: { 0x7F030087,0x7F030088,0x7F0300A3,0x7F0300CD,0x7F0300CE,0x7F0300CF,0x7F0300D0,0x7F0300D1,0x7F0300D2,0x7F0300D3,0x7F03016E,0x7F030170,0x7F030198,0x7F0301E8,0x7F0301E9,0x7F0301F3 }
 			public static int[] CollapsingToolbarLayout = new int[] {
 					2130903175,
 					2130903176,
-					2130903202,
-					2130903244,
+					2130903203,
 					2130903245,
 					2130903246,
 					2130903247,
 					2130903248,
 					2130903249,
 					2130903250,
-					2130903405,
-					2130903407,
-					2130903446,
-					2130903525,
-					2130903526,
-					2130903536};
+					2130903251,
+					2130903406,
+					2130903408,
+					2130903448,
+					2130903528,
+					2130903529,
+					2130903539};
 			
 			// aapt resource value: 0
 			public const int CollapsingToolbarLayout_collapsedTitleGravity = 0;
@@ -15165,10 +14103,10 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 9
 			public const int CollapsingToolbarLayout_expandedTitleTextAppearance = 9;
 			
-			// aapt resource value: { 0x7F030122,0x7F030123 }
+			// aapt resource value: { 0x7F030123,0x7F030124 }
 			public static int[] CollapsingToolbarLayout_Layout = new int[] {
-					2130903330,
-					2130903331};
+					2130903331,
+					2130903332};
 			
 			// aapt resource value: 0
 			public const int CollapsingToolbarLayout_Layout_layout_collapseMode = 0;
@@ -15228,23 +14166,23 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 3
 			public const int CompoundButton_buttonTintMode = 3;
 			
-			// aapt resource value: { 0x7F03011A,0x7F030195 }
+			// aapt resource value: { 0x7F03011B,0x7F030197 }
 			public static int[] CoordinatorLayout = new int[] {
-					2130903322,
-					2130903445};
+					2130903323,
+					2130903447};
 			
 			// aapt resource value: 0
 			public const int CoordinatorLayout_keylines = 0;
 			
-			// aapt resource value: { 0x10100B3,0x7F03011F,0x7F030120,0x7F030121,0x7F030124,0x7F030125,0x7F030126 }
+			// aapt resource value: { 0x10100B3,0x7F030120,0x7F030121,0x7F030122,0x7F030125,0x7F030126,0x7F030127 }
 			public static int[] CoordinatorLayout_Layout = new int[] {
 					16842931,
-					2130903327,
 					2130903328,
 					2130903329,
-					2130903332,
+					2130903330,
 					2130903333,
-					2130903334};
+					2130903334,
+					2130903335};
 			
 			// aapt resource value: 0
 			public const int CoordinatorLayout_Layout_android_layout_gravity = 0;
@@ -15270,21 +14208,21 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int CoordinatorLayout_statusBarBackground = 1;
 			
-			// aapt resource value: { 0x7F030022,0x7F030023,0x7F03003A,0x7F030050,0x7F030157,0x7F030158,0x7F030170,0x7F030171,0x7F030172,0x7F030173,0x7F030174,0x7F0301F6,0x7F0301FB }
+			// aapt resource value: { 0x7F030022,0x7F030023,0x7F03003A,0x7F030050,0x7F030158,0x7F030159,0x7F030172,0x7F030173,0x7F030174,0x7F030175,0x7F030176,0x7F0301F9,0x7F0301FE }
 			public static int[] DefaultTimeBar = new int[] {
 					2130903074,
 					2130903075,
 					2130903098,
 					2130903120,
-					2130903383,
 					2130903384,
-					2130903408,
-					2130903409,
+					2130903385,
 					2130903410,
 					2130903411,
 					2130903412,
-					2130903542,
-					2130903547};
+					2130903413,
+					2130903414,
+					2130903545,
+					2130903550};
 			
 			// aapt resource value: 0
 			public const int DefaultTimeBar_ad_marker_color = 0;
@@ -15336,16 +14274,16 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int DesignTheme_bottomSheetStyle = 1;
 			
-			// aapt resource value: { 0x7F03002B,0x7F03002C,0x7F030039,0x7F030089,0x7F0300BA,0x7F0300ED,0x7F03018A,0x7F0301DC }
+			// aapt resource value: { 0x7F03002B,0x7F03002C,0x7F030039,0x7F03008A,0x7F0300BB,0x7F0300EE,0x7F03018C,0x7F0301DE }
 			public static int[] DrawerArrowToggle = new int[] {
 					2130903083,
 					2130903084,
 					2130903097,
-					2130903177,
-					2130903226,
-					2130903277,
-					2130903434,
-					2130903516};
+					2130903178,
+					2130903227,
+					2130903278,
+					2130903436,
+					2130903518};
 			
 			// aapt resource value: 0
 			public const int DrawerArrowToggle_arrowHeadLength = 0;
@@ -15371,21 +14309,21 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 7
 			public const int DrawerArrowToggle_thickness = 7;
 			
-			// aapt resource value: { 0x7F030037,0x7F030038,0x7F030041,0x7F0300C5,0x7F0300D7,0x7F0300D8,0x7F0300F4,0x7F0300FE,0x7F030141,0x7F03015E,0x7F03016C,0x7F03017D,0x7F0301FC }
+			// aapt resource value: { 0x7F030037,0x7F030038,0x7F030041,0x7F0300C6,0x7F0300D8,0x7F0300D9,0x7F0300F5,0x7F0300FF,0x7F030142,0x7F03015F,0x7F03016D,0x7F03017F,0x7F0301FF }
 			public static int[] FloatingActionButton = new int[] {
 					2130903095,
 					2130903096,
 					2130903105,
-					2130903237,
-					2130903255,
+					2130903238,
 					2130903256,
-					2130903284,
-					2130903294,
-					2130903361,
-					2130903390,
-					2130903404,
-					2130903421,
-					2130903548};
+					2130903257,
+					2130903285,
+					2130903295,
+					2130903362,
+					2130903391,
+					2130903405,
+					2130903423,
+					2130903551};
 			
 			// aapt resource value: 0
 			public const int FloatingActionButton_backgroundTint = 0;
@@ -15433,10 +14371,10 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 12
 			public const int FloatingActionButton_useCompatPadding = 12;
 			
-			// aapt resource value: { 0x7F030114,0x7F03012B }
+			// aapt resource value: { 0x7F030115,0x7F03012C }
 			public static int[] FlowLayout = new int[] {
-					2130903316,
-					2130903339};
+					2130903317,
+					2130903340};
 			
 			// aapt resource value: 0
 			public const int FlowLayout_itemSpacing = 0;
@@ -15444,27 +14382,27 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int FlowLayout_lineSpacing = 1;
 			
-			// aapt resource value: { 0x7F0300E3,0x7F0300E4,0x7F0300E5,0x7F0300E6,0x7F0300E7,0x7F0300E8 }
+			// aapt resource value: { 0x7F0300E4,0x7F0300E5,0x7F0300E6,0x7F0300E7,0x7F0300E8,0x7F0300E9 }
 			public static int[] FontFamily = new int[] {
-					2130903267,
 					2130903268,
 					2130903269,
 					2130903270,
 					2130903271,
-					2130903272};
+					2130903272,
+					2130903273};
 			
-			// aapt resource value: { 0x1010532,0x1010533,0x101053F,0x101056F,0x1010570,0x7F0300E1,0x7F0300E9,0x7F0300EA,0x7F0300EB,0x7F0301FA }
+			// aapt resource value: { 0x1010532,0x1010533,0x101053F,0x101056F,0x1010570,0x7F0300E2,0x7F0300EA,0x7F0300EB,0x7F0300EC,0x7F0301FD }
 			public static int[] FontFamilyFont = new int[] {
 					16844082,
 					16844083,
 					16844095,
 					16844143,
 					16844144,
-					2130903265,
-					2130903273,
+					2130903266,
 					2130903274,
 					2130903275,
-					2130903546};
+					2130903276,
+					2130903549};
 			
 			// aapt resource value: 0
 			public const int FontFamilyFont_android_font = 0;
@@ -15514,11 +14452,11 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 5
 			public const int FontFamily_fontProviderQuery = 5;
 			
-			// aapt resource value: { 0x1010109,0x1010200,0x7F0300EC }
+			// aapt resource value: { 0x1010109,0x1010200,0x7F0300ED }
 			public static int[] ForegroundLinearLayout = new int[] {
 					16843017,
 					16843264,
-					2130903276};
+					2130903277};
 			
 			// aapt resource value: 0
 			public const int ForegroundLinearLayout_android_foreground = 0;
@@ -15591,17 +14529,24 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 2
 			public const int GradientColor_android_type = 2;
 			
-			// aapt resource value: { 0x10100AF,0x10100C4,0x1010126,0x1010127,0x1010128,0x7F0300B2,0x7F0300B4,0x7F030142,0x7F03017C }
+			// aapt resource value: { 0x7F030089 }
+			public static int[] ItemsViewRendererTheme = new int[] {
+					2130903177};
+			
+			// aapt resource value: 0
+			public const int ItemsViewRendererTheme_collectionViewStyle = 0;
+			
+			// aapt resource value: { 0x10100AF,0x10100C4,0x1010126,0x1010127,0x1010128,0x7F0300B3,0x7F0300B5,0x7F030143,0x7F03017E }
 			public static int[] LinearLayoutCompat = new int[] {
 					16842927,
 					16842948,
 					16843046,
 					16843047,
 					16843048,
-					2130903218,
-					2130903220,
-					2130903362,
-					2130903420};
+					2130903219,
+					2130903221,
+					2130903363,
+					2130903422};
 			
 			// aapt resource value: 2
 			public const int LinearLayoutCompat_android_baselineAligned = 2;
@@ -15660,7 +14605,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int ListPopupWindow_android_dropDownVerticalOffset = 1;
 			
-			// aapt resource value: { 0x10101B7,0x10101B8,0x10101B9,0x10101BA,0x7F030037,0x7F030038,0x7F0300A6,0x7F0300FF,0x7F030101,0x7F030102,0x7F030103,0x7F030105,0x7F030106,0x7F03016C,0x7F030197,0x7F030198 }
+			// aapt resource value: { 0x10101B7,0x10101B8,0x10101B9,0x10101BA,0x7F030037,0x7F030038,0x7F0300A7,0x7F030100,0x7F030102,0x7F030103,0x7F030104,0x7F030106,0x7F030107,0x7F03016D,0x7F030199,0x7F03019A }
 			public static int[] MaterialButton = new int[] {
 					16843191,
 					16843192,
@@ -15668,16 +14613,16 @@ namespace Bible.Alarm.Droid
 					16843194,
 					2130903095,
 					2130903096,
-					2130903206,
-					2130903295,
-					2130903297,
+					2130903207,
+					2130903296,
 					2130903298,
 					2130903299,
-					2130903301,
+					2130903300,
 					2130903302,
-					2130903404,
-					2130903447,
-					2130903448};
+					2130903303,
+					2130903405,
+					2130903449,
+					2130903450};
 			
 			// aapt resource value: 3
 			public const int MaterialButton_android_insetBottom = 3;
@@ -15727,10 +14672,10 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 15
 			public const int MaterialButton_strokeWidth = 15;
 			
-			// aapt resource value: { 0x7F030197,0x7F030198 }
+			// aapt resource value: { 0x7F030199,0x7F03019A }
 			public static int[] MaterialCardView = new int[] {
-					2130903447,
-					2130903448};
+					2130903449,
+					2130903450};
 			
 			// aapt resource value: 0
 			public const int MaterialCardView_strokeColor = 0;
@@ -15738,28 +14683,26 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int MaterialCardView_strokeWidth = 1;
 			
-			// aapt resource value: { 0x7F030045,0x7F030046,0x7F03006E,0x7F030078,0x7F03007C,0x7F03008A,0x7F03008B,0x7F030091,0x7F030092,0x7F030093,0x7F0300C4,0x7F0300E0,0x7F03013D,0x7F03013E,0x7F030148,0x7F03016E,0x7F030187,0x7F0301BB,0x7F0301C0,0x7F0301C1,0x7F0301C2,0x7F0301C3,0x7F0301C4,0x7F0301C5,0x7F0301C6,0x7F0301C7,0x7F0301C8,0x7F0301C9,0x7F0301CE,0x7F0301D3,0x7F0301D4,0x7F0301D8 }
+			// aapt resource value: { 0x7F030045,0x7F030046,0x7F03006E,0x7F030078,0x7F03007C,0x7F03008B,0x7F03008C,0x7F030092,0x7F030093,0x7F030094,0x7F0300C5,0x7F0300E1,0x7F03013E,0x7F03013F,0x7F030149,0x7F03016F,0x7F030189,0x7F0301BD,0x7F0301C2,0x7F0301C3,0x7F0301C4,0x7F0301C5,0x7F0301C6,0x7F0301C7,0x7F0301C8,0x7F0301C9,0x7F0301CA,0x7F0301CB,0x7F0301D0,0x7F0301D5,0x7F0301D6,0x7F0301DA }
 			public static int[] MaterialComponentsTheme = new int[] {
 					2130903109,
 					2130903110,
 					2130903150,
 					2130903160,
 					2130903164,
-					2130903178,
 					2130903179,
-					2130903185,
+					2130903180,
 					2130903186,
 					2130903187,
-					2130903236,
-					2130903264,
-					2130903357,
+					2130903188,
+					2130903237,
+					2130903265,
 					2130903358,
-					2130903368,
-					2130903406,
-					2130903431,
-					2130903483,
-					2130903488,
-					2130903489,
+					2130903359,
+					2130903369,
+					2130903407,
+					2130903433,
+					2130903485,
 					2130903490,
 					2130903491,
 					2130903492,
@@ -15768,10 +14711,12 @@ namespace Bible.Alarm.Droid
 					2130903495,
 					2130903496,
 					2130903497,
-					2130903502,
-					2130903507,
-					2130903508,
-					2130903512};
+					2130903498,
+					2130903499,
+					2130903504,
+					2130903509,
+					2130903510,
+					2130903514};
 			
 			// aapt resource value: 0
 			public const int MaterialComponentsTheme_bottomSheetDialogTheme = 0;
@@ -15896,7 +14841,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 2
 			public const int MenuGroup_android_visible = 2;
 			
-			// aapt resource value: { 0x1010002,0x101000E,0x10100D0,0x1010106,0x1010194,0x10101DE,0x10101DF,0x10101E1,0x10101E2,0x10101E3,0x10101E4,0x10101E5,0x101026F,0x7F03000D,0x7F03001F,0x7F030020,0x7F03002A,0x7F030096,0x7F030105,0x7F030106,0x7F030149,0x7F03017B,0x7F0301F5 }
+			// aapt resource value: { 0x1010002,0x101000E,0x10100D0,0x1010106,0x1010194,0x10101DE,0x10101DF,0x10101E1,0x10101E2,0x10101E3,0x10101E4,0x10101E5,0x101026F,0x7F03000D,0x7F03001F,0x7F030020,0x7F03002A,0x7F030097,0x7F030106,0x7F030107,0x7F03014A,0x7F03017D,0x7F0301F8 }
 			public static int[] MenuItem = new int[] {
 					16842754,
 					16842766,
@@ -15915,12 +14860,12 @@ namespace Bible.Alarm.Droid
 					2130903071,
 					2130903072,
 					2130903082,
-					2130903190,
-					2130903301,
+					2130903191,
 					2130903302,
-					2130903369,
-					2130903419,
-					2130903541};
+					2130903303,
+					2130903370,
+					2130903421,
+					2130903544};
 			
 			// aapt resource value: 13
 			public const int MenuItem_actionLayout = 13;
@@ -15991,7 +14936,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 22
 			public const int MenuItem_tooltipText = 22;
 			
-			// aapt resource value: { 0x10100AE,0x101012C,0x101012D,0x101012E,0x101012F,0x1010130,0x1010131,0x7F03015D,0x7F030199 }
+			// aapt resource value: { 0x10100AE,0x101012C,0x101012D,0x101012E,0x101012F,0x1010130,0x1010131,0x7F03015E,0x7F03019B }
 			public static int[] MenuView = new int[] {
 					16842926,
 					16843052,
@@ -16000,8 +14945,8 @@ namespace Bible.Alarm.Droid
 					16843055,
 					16843056,
 					16843057,
-					2130903389,
-					2130903449};
+					2130903390,
+					2130903451};
 			
 			// aapt resource value: 4
 			public const int MenuView_android_headerBackground = 4;
@@ -16030,20 +14975,20 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 8
 			public const int MenuView_subMenuArrow = 8;
 			
-			// aapt resource value: { 0x10100D4,0x10100DD,0x101011F,0x7F0300C5,0x7F0300EF,0x7F03010D,0x7F03010E,0x7F030110,0x7F030112,0x7F030115,0x7F030118,0x7F030143 }
+			// aapt resource value: { 0x10100D4,0x10100DD,0x101011F,0x7F0300C6,0x7F0300F0,0x7F03010E,0x7F03010F,0x7F030111,0x7F030113,0x7F030116,0x7F030119,0x7F030144 }
 			public static int[] NavigationView = new int[] {
 					16842964,
 					16842973,
 					16843039,
-					2130903237,
-					2130903279,
-					2130903309,
+					2130903238,
+					2130903280,
 					2130903310,
-					2130903312,
-					2130903314,
-					2130903317,
-					2130903320,
-					2130903363};
+					2130903311,
+					2130903313,
+					2130903315,
+					2130903318,
+					2130903321,
+					2130903364};
 			
 			// aapt resource value: 0
 			public const int NavigationView_android_background = 0;
@@ -16081,117 +15026,233 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 11
 			public const int NavigationView_menu = 11;
 			
-			// aapt resource value: { 0x7F0300A4,0x7F0300DE,0x7F030168,0x7F03016B,0x7F030181,0x7F030182 }
+			// aapt resource value: { 0x7F030022,0x7F030023,0x7F03003A,0x7F030050,0x7F0300A5,0x7F0300DF,0x7F030158,0x7F030159,0x7F030169,0x7F03016C,0x7F030172,0x7F030173,0x7F030174,0x7F030175,0x7F030176,0x7F030183,0x7F030184,0x7F0301E5,0x7F0301F9,0x7F0301FE }
 			public static int[] PlayerControlView = new int[] {
-					2130903204,
-					2130903262,
-					2130903400,
-					2130903403,
-					2130903425,
-					2130903426};
-			
-			// aapt resource value: 0
-			public const int PlayerControlView_controller_layout_id = 0;
-			
-			// aapt resource value: 1
-			public const int PlayerControlView_fastforward_increment = 1;
-			
-			// aapt resource value: 2
-			public const int PlayerControlView_repeat_toggle_modes = 2;
-			
-			// aapt resource value: 3
-			public const int PlayerControlView_rewind_increment = 3;
-			
-			// aapt resource value: 4
-			public const int PlayerControlView_show_shuffle_button = 4;
-			
-			// aapt resource value: 5
-			public const int PlayerControlView_show_timeout = 5;
-			
-			// aapt resource value: { 0x7F030033,0x7F0300A4,0x7F0300AD,0x7F0300DE,0x7F0300F7,0x7F0300F8,0x7F030119,0x7F030159,0x7F030168,0x7F030169,0x7F03016B,0x7F030180,0x7F030181,0x7F030182,0x7F030183,0x7F0301A0,0x7F0301FD,0x7F0301FE }
-			public static int[] PlayerView = new int[] {
-					2130903091,
-					2130903204,
-					2130903213,
-					2130903262,
-					2130903287,
-					2130903288,
-					2130903321,
+					2130903074,
+					2130903075,
+					2130903098,
+					2130903120,
+					2130903205,
+					2130903263,
+					2130903384,
 					2130903385,
-					2130903400,
 					2130903401,
-					2130903403,
-					2130903424,
-					2130903425,
-					2130903426,
+					2130903404,
+					2130903410,
+					2130903411,
+					2130903412,
+					2130903413,
+					2130903414,
 					2130903427,
-					2130903456,
-					2130903549,
+					2130903428,
+					2130903525,
+					2130903545,
 					2130903550};
 			
 			// aapt resource value: 0
-			public const int PlayerView_auto_show = 0;
+			public const int PlayerControlView_ad_marker_color = 0;
 			
 			// aapt resource value: 1
-			public const int PlayerView_controller_layout_id = 1;
+			public const int PlayerControlView_ad_marker_width = 1;
 			
 			// aapt resource value: 2
-			public const int PlayerView_default_artwork = 2;
+			public const int PlayerControlView_bar_height = 2;
 			
 			// aapt resource value: 3
-			public const int PlayerView_fastforward_increment = 3;
+			public const int PlayerControlView_buffered_color = 3;
 			
 			// aapt resource value: 4
-			public const int PlayerView_hide_during_ads = 4;
+			public const int PlayerControlView_controller_layout_id = 4;
 			
 			// aapt resource value: 5
-			public const int PlayerView_hide_on_touch = 5;
+			public const int PlayerControlView_fastforward_increment = 5;
 			
 			// aapt resource value: 6
-			public const int PlayerView_keep_content_on_player_reset = 6;
+			public const int PlayerControlView_played_ad_marker_color = 6;
 			
 			// aapt resource value: 7
-			public const int PlayerView_player_layout_id = 7;
+			public const int PlayerControlView_played_color = 7;
 			
 			// aapt resource value: 8
-			public const int PlayerView_repeat_toggle_modes = 8;
+			public const int PlayerControlView_repeat_toggle_modes = 8;
 			
 			// aapt resource value: 9
-			public const int PlayerView_resize_mode = 9;
+			public const int PlayerControlView_rewind_increment = 9;
 			
 			// aapt resource value: 10
-			public const int PlayerView_rewind_increment = 10;
+			public const int PlayerControlView_scrubber_color = 10;
 			
 			// aapt resource value: 11
-			public const int PlayerView_show_buffering = 11;
+			public const int PlayerControlView_scrubber_disabled_size = 11;
 			
 			// aapt resource value: 12
-			public const int PlayerView_show_shuffle_button = 12;
+			public const int PlayerControlView_scrubber_dragged_size = 12;
 			
 			// aapt resource value: 13
-			public const int PlayerView_show_timeout = 13;
+			public const int PlayerControlView_scrubber_drawable = 13;
 			
 			// aapt resource value: 14
-			public const int PlayerView_shutter_background_color = 14;
+			public const int PlayerControlView_scrubber_enabled_size = 14;
 			
 			// aapt resource value: 15
-			public const int PlayerView_surface_type = 15;
+			public const int PlayerControlView_show_shuffle_button = 15;
 			
 			// aapt resource value: 16
-			public const int PlayerView_use_artwork = 16;
+			public const int PlayerControlView_show_timeout = 16;
 			
 			// aapt resource value: 17
-			public const int PlayerView_use_controller = 17;
+			public const int PlayerControlView_time_bar_min_update_interval = 17;
 			
-			// aapt resource value: { 0x1010176,0x10102C9,0x7F03014A }
+			// aapt resource value: 18
+			public const int PlayerControlView_touch_target_height = 18;
+			
+			// aapt resource value: 19
+			public const int PlayerControlView_unplayed_color = 19;
+			
+			// aapt resource value: { 0x7F030022,0x7F030023,0x7F030033,0x7F03003A,0x7F030050,0x7F0300A5,0x7F0300AE,0x7F0300DF,0x7F0300F8,0x7F0300F9,0x7F03011A,0x7F030158,0x7F030159,0x7F03015A,0x7F030169,0x7F03016A,0x7F03016C,0x7F030172,0x7F030173,0x7F030174,0x7F030175,0x7F030176,0x7F030182,0x7F030183,0x7F030184,0x7F030185,0x7F0301A2,0x7F0301E5,0x7F0301F9,0x7F0301FE,0x7F030200,0x7F030201,0x7F030202 }
+			public static int[] PlayerView = new int[] {
+					2130903074,
+					2130903075,
+					2130903091,
+					2130903098,
+					2130903120,
+					2130903205,
+					2130903214,
+					2130903263,
+					2130903288,
+					2130903289,
+					2130903322,
+					2130903384,
+					2130903385,
+					2130903386,
+					2130903401,
+					2130903402,
+					2130903404,
+					2130903410,
+					2130903411,
+					2130903412,
+					2130903413,
+					2130903414,
+					2130903426,
+					2130903427,
+					2130903428,
+					2130903429,
+					2130903458,
+					2130903525,
+					2130903545,
+					2130903550,
+					2130903552,
+					2130903553,
+					2130903554};
+			
+			// aapt resource value: 0
+			public const int PlayerView_ad_marker_color = 0;
+			
+			// aapt resource value: 1
+			public const int PlayerView_ad_marker_width = 1;
+			
+			// aapt resource value: 2
+			public const int PlayerView_auto_show = 2;
+			
+			// aapt resource value: 3
+			public const int PlayerView_bar_height = 3;
+			
+			// aapt resource value: 4
+			public const int PlayerView_buffered_color = 4;
+			
+			// aapt resource value: 5
+			public const int PlayerView_controller_layout_id = 5;
+			
+			// aapt resource value: 6
+			public const int PlayerView_default_artwork = 6;
+			
+			// aapt resource value: 7
+			public const int PlayerView_fastforward_increment = 7;
+			
+			// aapt resource value: 8
+			public const int PlayerView_hide_during_ads = 8;
+			
+			// aapt resource value: 9
+			public const int PlayerView_hide_on_touch = 9;
+			
+			// aapt resource value: 10
+			public const int PlayerView_keep_content_on_player_reset = 10;
+			
+			// aapt resource value: 11
+			public const int PlayerView_played_ad_marker_color = 11;
+			
+			// aapt resource value: 12
+			public const int PlayerView_played_color = 12;
+			
+			// aapt resource value: 13
+			public const int PlayerView_player_layout_id = 13;
+			
+			// aapt resource value: 14
+			public const int PlayerView_repeat_toggle_modes = 14;
+			
+			// aapt resource value: 15
+			public const int PlayerView_resize_mode = 15;
+			
+			// aapt resource value: 16
+			public const int PlayerView_rewind_increment = 16;
+			
+			// aapt resource value: 17
+			public const int PlayerView_scrubber_color = 17;
+			
+			// aapt resource value: 18
+			public const int PlayerView_scrubber_disabled_size = 18;
+			
+			// aapt resource value: 19
+			public const int PlayerView_scrubber_dragged_size = 19;
+			
+			// aapt resource value: 20
+			public const int PlayerView_scrubber_drawable = 20;
+			
+			// aapt resource value: 21
+			public const int PlayerView_scrubber_enabled_size = 21;
+			
+			// aapt resource value: 22
+			public const int PlayerView_show_buffering = 22;
+			
+			// aapt resource value: 23
+			public const int PlayerView_show_shuffle_button = 23;
+			
+			// aapt resource value: 24
+			public const int PlayerView_show_timeout = 24;
+			
+			// aapt resource value: 25
+			public const int PlayerView_shutter_background_color = 25;
+			
+			// aapt resource value: 26
+			public const int PlayerView_surface_type = 26;
+			
+			// aapt resource value: 27
+			public const int PlayerView_time_bar_min_update_interval = 27;
+			
+			// aapt resource value: 28
+			public const int PlayerView_touch_target_height = 28;
+			
+			// aapt resource value: 29
+			public const int PlayerView_unplayed_color = 29;
+			
+			// aapt resource value: 30
+			public const int PlayerView_use_artwork = 30;
+			
+			// aapt resource value: 31
+			public const int PlayerView_use_controller = 31;
+			
+			// aapt resource value: 32
+			public const int PlayerView_use_sensor_rotation = 32;
+			
+			// aapt resource value: { 0x1010176,0x10102C9,0x7F03014B }
 			public static int[] PopupWindow = new int[] {
 					16843126,
 					16843465,
-					2130903370};
+					2130903371};
 			
-			// aapt resource value: { 0x7F030190 }
+			// aapt resource value: { 0x7F030192 }
 			public static int[] PopupWindowBackgroundState = new int[] {
-					2130903440};
+					2130903442};
 			
 			// aapt resource value: 0
 			public const int PopupWindowBackgroundState_state_above_anchor = 0;
@@ -16205,10 +15266,10 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 2
 			public const int PopupWindow_overlapAnchor = 2;
 			
-			// aapt resource value: { 0x7F03014B,0x7F03014E }
+			// aapt resource value: { 0x7F03014C,0x7F03014F }
 			public static int[] RecycleListView = new int[] {
-					2130903371,
-					2130903374};
+					2130903372,
+					2130903375};
 			
 			// aapt resource value: 0
 			public const int RecycleListView_paddingBottomNoButtons = 0;
@@ -16216,20 +15277,20 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int RecycleListView_paddingTopNoTitle = 1;
 			
-			// aapt resource value: { 0x10100C4,0x10100EB,0x10100F1,0x7F0300D9,0x7F0300DA,0x7F0300DB,0x7F0300DC,0x7F0300DD,0x7F03011E,0x7F03016A,0x7F030189,0x7F03018F }
+			// aapt resource value: { 0x10100C4,0x10100EB,0x10100F1,0x7F0300DA,0x7F0300DB,0x7F0300DC,0x7F0300DD,0x7F0300DE,0x7F03011F,0x7F03016B,0x7F03018B,0x7F030191 }
 			public static int[] RecyclerView = new int[] {
 					16842948,
 					16842987,
 					16842993,
-					2130903257,
 					2130903258,
 					2130903259,
 					2130903260,
 					2130903261,
-					2130903326,
-					2130903402,
-					2130903433,
-					2130903439};
+					2130903262,
+					2130903327,
+					2130903403,
+					2130903435,
+					2130903441};
 			
 			// aapt resource value: 1
 			public const int RecyclerView_android_clipToPadding = 1;
@@ -16267,9 +15328,9 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 11
 			public const int RecyclerView_stackFromEnd = 11;
 			
-			// aapt resource value: { 0x7F03010B }
+			// aapt resource value: { 0x7F03010C }
 			public static int[] ScrimInsetsFrameLayout = new int[] {
-					2130903307};
+					2130903308};
 			
 			// aapt resource value: 0
 			public const int ScrimInsetsFrameLayout_insetForeground = 0;
@@ -16281,25 +15342,32 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 0
 			public const int ScrollingViewBehavior_Layout_behavior_overlapTop = 0;
 			
-			// aapt resource value: { 0x10100DA,0x101011F,0x1010220,0x1010264,0x7F03007D,0x7F030095,0x7F0300AC,0x7F0300EE,0x7F030107,0x7F03011D,0x7F030161,0x7F030162,0x7F030175,0x7F030176,0x7F03019A,0x7F03019F,0x7F030200 }
+			// aapt resource value: { 0x7F030171 }
+			public static int[] ScrollViewRendererTheme = new int[] {
+					2130903409};
+			
+			// aapt resource value: 0
+			public const int ScrollViewRendererTheme_scrollViewStyle = 0;
+			
+			// aapt resource value: { 0x10100DA,0x101011F,0x1010220,0x1010264,0x7F03007D,0x7F030096,0x7F0300AD,0x7F0300EF,0x7F030108,0x7F03011E,0x7F030162,0x7F030163,0x7F030177,0x7F030178,0x7F03019C,0x7F0301A1,0x7F030204 }
 			public static int[] SearchView = new int[] {
 					16842970,
 					16843039,
 					16843296,
 					16843364,
 					2130903165,
-					2130903189,
-					2130903212,
-					2130903278,
-					2130903303,
-					2130903325,
-					2130903393,
+					2130903190,
+					2130903213,
+					2130903279,
+					2130903304,
+					2130903326,
 					2130903394,
-					2130903413,
-					2130903414,
-					2130903450,
-					2130903455,
-					2130903552};
+					2130903395,
+					2130903415,
+					2130903416,
+					2130903452,
+					2130903457,
+					2130903556};
 			
 			// aapt resource value: 0
 			public const int SearchView_android_focusable = 0;
@@ -16352,16 +15420,16 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 16
 			public const int SearchView_voiceIcon = 16;
 			
-			// aapt resource value: { 0x7F030187,0x7F030188 }
+			// aapt resource value: { 0x7F030189,0x7F03018A }
 			public static int[] Snackbar = new int[] {
-					2130903431,
-					2130903432};
+					2130903433,
+					2130903434};
 			
-			// aapt resource value: { 0x101011F,0x7F0300C5,0x7F03013F }
+			// aapt resource value: { 0x101011F,0x7F0300C6,0x7F030140 }
 			public static int[] SnackbarLayout = new int[] {
 					16843039,
-					2130903237,
-					2130903359};
+					2130903238,
+					2130903360};
 			
 			// aapt resource value: 0
 			public const int SnackbarLayout_android_maxWidth = 0;
@@ -16378,13 +15446,13 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int Snackbar_snackbarStyle = 1;
 			
-			// aapt resource value: { 0x10100B2,0x1010176,0x101017B,0x1010262,0x7F03015B }
+			// aapt resource value: { 0x10100B2,0x1010176,0x101017B,0x1010262,0x7F03015C }
 			public static int[] Spinner = new int[] {
 					16842930,
 					16843126,
 					16843131,
 					16843362,
-					2130903387};
+					2130903388};
 			
 			// aapt resource value: 3
 			public const int Spinner_android_dropDownWidth = 3;
@@ -16435,22 +15503,22 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 1
 			public const int StateListDrawable_android_visible = 1;
 			
-			// aapt resource value: { 0x1010124,0x1010125,0x1010142,0x7F03017E,0x7F03018D,0x7F0301A1,0x7F0301A2,0x7F0301A4,0x7F0301DD,0x7F0301DE,0x7F0301DF,0x7F0301F7,0x7F0301F8,0x7F0301F9 }
+			// aapt resource value: { 0x1010124,0x1010125,0x1010142,0x7F030180,0x7F03018F,0x7F0301A3,0x7F0301A4,0x7F0301A6,0x7F0301DF,0x7F0301E0,0x7F0301E1,0x7F0301FA,0x7F0301FB,0x7F0301FC }
 			public static int[] SwitchCompat = new int[] {
 					16843044,
 					16843045,
 					16843074,
-					2130903422,
-					2130903437,
-					2130903457,
-					2130903458,
+					2130903424,
+					2130903439,
+					2130903459,
 					2130903460,
-					2130903517,
-					2130903518,
+					2130903462,
 					2130903519,
-					2130903543,
-					2130903544,
-					2130903545};
+					2130903520,
+					2130903521,
+					2130903546,
+					2130903547,
+					2130903548};
 			
 			// aapt resource value: 1
 			public const int SwitchCompat_android_textOff = 1;
@@ -16509,10 +15577,8 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 2
 			public const int TabItem_android_text = 2;
 			
-			// aapt resource value: { 0x7F0301A5,0x7F0301A6,0x7F0301A7,0x7F0301A8,0x7F0301A9,0x7F0301AA,0x7F0301AB,0x7F0301AC,0x7F0301AD,0x7F0301AE,0x7F0301AF,0x7F0301B0,0x7F0301B1,0x7F0301B2,0x7F0301B3,0x7F0301B4,0x7F0301B5,0x7F0301B6,0x7F0301B7,0x7F0301B8,0x7F0301B9,0x7F0301BA,0x7F0301BC,0x7F0301BD,0x7F0301BE }
+			// aapt resource value: { 0x7F0301A7,0x7F0301A8,0x7F0301A9,0x7F0301AA,0x7F0301AB,0x7F0301AC,0x7F0301AD,0x7F0301AE,0x7F0301AF,0x7F0301B0,0x7F0301B1,0x7F0301B2,0x7F0301B3,0x7F0301B4,0x7F0301B5,0x7F0301B6,0x7F0301B7,0x7F0301B8,0x7F0301B9,0x7F0301BA,0x7F0301BB,0x7F0301BC,0x7F0301BE,0x7F0301BF,0x7F0301C0 }
 			public static int[] TabLayout = new int[] {
-					2130903461,
-					2130903462,
 					2130903463,
 					2130903464,
 					2130903465,
@@ -16533,9 +15599,11 @@ namespace Bible.Alarm.Droid
 					2130903480,
 					2130903481,
 					2130903482,
+					2130903483,
 					2130903484,
-					2130903485,
-					2130903486};
+					2130903486,
+					2130903487,
+					2130903488};
 			
 			// aapt resource value: 0
 			public const int TabLayout_tabBackground = 0;
@@ -16612,7 +15680,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 24
 			public const int TabLayout_tabUnboundedRipple = 24;
 			
-			// aapt resource value: { 0x1010095,0x1010096,0x1010097,0x1010098,0x101009A,0x101009B,0x1010161,0x1010162,0x1010163,0x1010164,0x10103AC,0x1010585,0x7F0300E2,0x7F0300EA,0x7F0301BF,0x7F0301D9 }
+			// aapt resource value: { 0x1010095,0x1010096,0x1010097,0x1010098,0x101009A,0x101009B,0x1010161,0x1010162,0x1010163,0x1010164,0x10103AC,0x1010585,0x7F0300E3,0x7F0300EB,0x7F0301C1,0x7F0301DB }
 			public static int[] TextAppearance = new int[] {
 					16842901,
 					16842902,
@@ -16626,10 +15694,10 @@ namespace Bible.Alarm.Droid
 					16843108,
 					16843692,
 					16844165,
-					2130903266,
-					2130903274,
-					2130903487,
-					2130903513};
+					2130903267,
+					2130903275,
+					2130903489,
+					2130903515};
 			
 			// aapt resource value: 10
 			public const int TextAppearance_android_fontFamily = 10;
@@ -16679,7 +15747,7 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 15
 			public const int TextAppearance_textLocale = 15;
 			
-			// aapt resource value: { 0x101009A,0x1010150,0x7F030047,0x7F030048,0x7F030049,0x7F03004A,0x7F03004B,0x7F03004C,0x7F03004D,0x7F03004E,0x7F03004F,0x7F0300A7,0x7F0300A8,0x7F0300A9,0x7F0300AA,0x7F0300C8,0x7F0300C9,0x7F0300F1,0x7F0300F2,0x7F0300F3,0x7F0300F9,0x7F0300FA,0x7F0300FB,0x7F030152,0x7F030153,0x7F030154,0x7F030155,0x7F030156 }
+			// aapt resource value: { 0x101009A,0x1010150,0x7F030047,0x7F030048,0x7F030049,0x7F03004A,0x7F03004B,0x7F03004C,0x7F03004D,0x7F03004E,0x7F03004F,0x7F0300A8,0x7F0300A9,0x7F0300AA,0x7F0300AB,0x7F0300C9,0x7F0300CA,0x7F0300F2,0x7F0300F3,0x7F0300F4,0x7F0300FA,0x7F0300FB,0x7F0300FC,0x7F030153,0x7F030154,0x7F030155,0x7F030156,0x7F030157 }
 			public static int[] TextInputLayout = new int[] {
 					16842906,
 					16843088,
@@ -16692,23 +15760,23 @@ namespace Bible.Alarm.Droid
 					2130903117,
 					2130903118,
 					2130903119,
-					2130903207,
 					2130903208,
 					2130903209,
 					2130903210,
-					2130903240,
+					2130903211,
 					2130903241,
-					2130903281,
+					2130903242,
 					2130903282,
 					2130903283,
-					2130903289,
+					2130903284,
 					2130903290,
 					2130903291,
-					2130903378,
+					2130903292,
 					2130903379,
 					2130903380,
 					2130903381,
-					2130903382};
+					2130903382,
+					2130903383};
 			
 			// aapt resource value: 1
 			public const int TextInputLayout_android_hint = 1;
@@ -16794,11 +15862,11 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 27
 			public const int TextInputLayout_passwordToggleTintMode = 27;
 			
-			// aapt resource value: { 0x1010034,0x7F0300C6,0x7F0300C7 }
+			// aapt resource value: { 0x1010034,0x7F0300C7,0x7F0300C8 }
 			public static int[] ThemeEnforcement = new int[] {
 					16842804,
-					2130903238,
-					2130903239};
+					2130903239,
+					2130903240};
 			
 			// aapt resource value: 0
 			public const int ThemeEnforcement_android_textAppearance = 0;
@@ -16809,38 +15877,38 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 2
 			public const int ThemeEnforcement_enforceTextAppearance = 2;
 			
-			// aapt resource value: { 0x10100AF,0x1010140,0x7F030057,0x7F030085,0x7F030086,0x7F030097,0x7F030098,0x7F030099,0x7F03009A,0x7F03009B,0x7F03009C,0x7F03013B,0x7F03013C,0x7F030140,0x7F030143,0x7F030145,0x7F030146,0x7F03015B,0x7F03019B,0x7F03019C,0x7F03019D,0x7F0301E5,0x7F0301E7,0x7F0301E8,0x7F0301E9,0x7F0301EA,0x7F0301EB,0x7F0301EC,0x7F0301ED,0x7F0301EE }
+			// aapt resource value: { 0x10100AF,0x1010140,0x7F030057,0x7F030085,0x7F030086,0x7F030098,0x7F030099,0x7F03009A,0x7F03009B,0x7F03009C,0x7F03009D,0x7F03013C,0x7F03013D,0x7F030141,0x7F030144,0x7F030146,0x7F030147,0x7F03015C,0x7F03019D,0x7F03019E,0x7F03019F,0x7F0301E8,0x7F0301EA,0x7F0301EB,0x7F0301EC,0x7F0301ED,0x7F0301EE,0x7F0301EF,0x7F0301F0,0x7F0301F1 }
 			public static int[] Toolbar = new int[] {
 					16842927,
 					16843072,
 					2130903127,
 					2130903173,
 					2130903174,
-					2130903191,
 					2130903192,
 					2130903193,
 					2130903194,
 					2130903195,
 					2130903196,
-					2130903355,
+					2130903197,
 					2130903356,
-					2130903360,
-					2130903363,
-					2130903365,
+					2130903357,
+					2130903361,
+					2130903364,
 					2130903366,
-					2130903387,
-					2130903451,
-					2130903452,
+					2130903367,
+					2130903388,
 					2130903453,
-					2130903525,
-					2130903527,
+					2130903454,
+					2130903455,
 					2130903528,
-					2130903529,
 					2130903530,
 					2130903531,
 					2130903532,
 					2130903533,
-					2130903534};
+					2130903534,
+					2130903535,
+					2130903536,
+					2130903537};
 			
 			// aapt resource value: 0
 			public const int Toolbar_android_gravity = 0;
@@ -16932,13 +16000,13 @@ namespace Bible.Alarm.Droid
 			// aapt resource value: 29
 			public const int Toolbar_titleTextColor = 29;
 			
-			// aapt resource value: { 0x1010000,0x10100DA,0x7F03014C,0x7F03014D,0x7F0301DB }
+			// aapt resource value: { 0x1010000,0x10100DA,0x7F03014D,0x7F03014E,0x7F0301DD }
 			public static int[] View = new int[] {
 					16842752,
 					16842970,
-					2130903372,
 					2130903373,
-					2130903515};
+					2130903374,
+					2130903517};
 			
 			// aapt resource value: { 0x10100D4,0x7F030037,0x7F030038 }
 			public static int[] ViewBackgroundHelper = new int[] {

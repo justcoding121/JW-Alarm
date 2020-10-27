@@ -1,9 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.App;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
