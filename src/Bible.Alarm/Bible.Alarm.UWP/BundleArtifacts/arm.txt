@@ -1,6 +1,6 @@
-MainPackage=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.6.0_ARM.msix
-SymbolPackage=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\obj\ARM\Release\Symbols\Bible.Alarm.UWP_1.4.6.0_ARM.appxsym
-ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.6.0_scale-100.msix
-ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.6.0_scale-125.msix
-ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.6.0_scale-150.msix
-ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.6.0_scale-400.msix
+MainPackage=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.7.0_ARM.msix
+SymbolPackage=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\obj\ARM\Release\Symbols\Bible.Alarm.UWP_1.4.7.0_ARM.appxsym
+ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.7.0_scale-100.msix
+ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.7.0_scale-125.msix
+ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.7.0_scale-150.msix
+ResourcePack=C:\Work\Repository\Bible-Alarm\src\Bible.Alarm\Bible.Alarm.UWP\bin\ARM\Release\Bible.Alarm.UWP_1.4.7.0_scale-400.msix

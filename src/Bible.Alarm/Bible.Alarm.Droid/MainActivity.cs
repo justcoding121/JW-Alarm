@@ -128,6 +128,7 @@ namespace Bible.Alarm.Droid
                 lastResumeTime = null;
             }
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             try
