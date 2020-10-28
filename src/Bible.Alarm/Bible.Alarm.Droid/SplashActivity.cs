@@ -33,13 +33,19 @@ namespace Bible.Alarm.Droid
 
             try
             {
-                if (Build.VERSION.SdkInt < BuildVersionCodes.R)
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
                 {
-                    Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
+                    Window.SetDecorFitsSystemWindows(false);
                 }
                 else
                 {
-                    Window.SetDecorFitsSystemWindows(false);
+#pragma warning disable CS0618 // Type or member is obsolete
+                    try
+                    {
+                        Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
+                    }
+                    catch { }
+#pragma warning restore CS0618 // Type or member is obsolete
                 }
 
                 Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
