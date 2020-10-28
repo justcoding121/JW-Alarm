@@ -33,7 +33,15 @@ namespace Bible.Alarm.Droid
 
             try
             {
-                Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
+                if (Build.VERSION.SdkInt < BuildVersionCodes.R)
+                {
+                    Window.DecorView.SystemUiVisibility = (StatusBarVisibility)((int)Window.DecorView.SystemUiVisibility ^ (int)SystemUiFlags.LayoutStable ^ (int)SystemUiFlags.LayoutFullscreen);
+                }
+                else
+                {
+                    Window.SetDecorFitsSystemWindows(false);
+                }
+
                 Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
                 Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
 
