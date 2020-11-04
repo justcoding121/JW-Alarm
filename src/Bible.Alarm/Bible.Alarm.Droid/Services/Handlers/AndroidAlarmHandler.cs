@@ -33,11 +33,9 @@ namespace Bible.Alarm.Droid.Services.Handlers
                 Dispose();
                 return;
             }
-            else
-            {
-                mediaManager.Init(Application.Context);
-                mediaManagerInitialized = true;
-            }
+
+            mediaManager.Init(Application.Context);
+            mediaManagerInitialized = true;
 
             await Task.Run(async () =>
             {
@@ -73,12 +71,14 @@ namespace Bible.Alarm.Droid.Services.Handlers
             {
                 disposed = true;
 
+              
                 if (playbackService != null)
                 {
                     playbackService.Stopped -= onStopped;
                     playbackService.Dispose();
                 }
 
+             
                 if (resetMediaManager)
                 {
                     try
@@ -93,7 +93,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
                         logger.Error(e, "An error happened on calling StopEx.");
                     }
 
-                    mediaManager?.Queue?.Clear();                
                 }
 
                 if (mediaManagerInitialized)
