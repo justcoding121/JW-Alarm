@@ -19,6 +19,9 @@
 
     public static class IocSetup
     {
+
+        private static Lazy<IMediaManager> mediaManagerImplementation 
+            = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
@@ -59,6 +62,7 @@
 
             container.Register((x) =>
             {
+                CrossMediaManager.Implementation = mediaManagerImplementation;
                 return CrossMediaManager.Current;
             });
 
@@ -67,5 +71,6 @@
             container.Register<AndroidAlarmHandler>((x) => new AndroidAlarmHandler(container.Resolve<IMediaManager>(),
                                                         container.Resolve<IPlaybackService>()));
         }
+
     }
 }

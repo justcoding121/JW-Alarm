@@ -71,7 +71,9 @@ namespace Bible.Alarm
                 .ContinueWith(x =>
                 {
                     var mediaManager = container.Resolve<IMediaManager>();
-                    if (mediaManager.IsPreparedEx())
+                   
+                    if (mediaManager.IsPreparedEx() 
+                    || mediaManager.IsPlaying() || mediaManager.IsBuffering())
                     {
                         Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
                     }

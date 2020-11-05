@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Services.Contracts;
+using Com.Google.Android.Exoplayer2.UI;
 using MediaManager;
 using NLog;
 
@@ -16,6 +17,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
         private IMediaManager mediaManager;
         private IPlaybackService playbackService;
         private bool mediaManagerInitialized = false;
+        private PlayerNotificationManager playerNotificationManager;
 
         public AndroidAlarmHandler(IMediaManager mediaManager, IPlaybackService playbackService)
         {
@@ -35,13 +37,17 @@ namespace Bible.Alarm.Droid.Services.Handlers
             }
 
             mediaManager.Init(Application.Context);
-            mediaManagerInitialized = true;
 
             await Task.Run(async () =>
             {
                 try
                 {
                     await playbackService.Play(scheduleId, isImmediate);
+
+                    mediaManagerInitialized = true;
+
+                    playerNotificationManager = (mediaManager.Notification as MediaManager.Platforms.Android.Notifications.NotificationManager).PlayerNotificationManager;
+                    playerNotificationManager.NotificationCancelled += notificationCancelled;
                 }
                 catch (Exception e)
                 {
@@ -51,12 +57,19 @@ namespace Bible.Alarm.Droid.Services.Handlers
             });
         }
 
+        private async void notificationCancelled(object sender, PlayerNotificationManager.NotificationCancelledEventArgs e)
+        {
+            if (e.DismissedByUser)
+            {
+                await mediaManager.StopEx();
+            }
+        }
+
         private void onStopped(object sender, bool resetMediaManager)
         {
             try
             {
                 dispose(resetMediaManager);
-
             }
             catch (Exception ex)
             {
@@ -71,14 +84,17 @@ namespace Bible.Alarm.Droid.Services.Handlers
             {
                 disposed = true;
 
-              
                 if (playbackService != null)
                 {
                     playbackService.Stopped -= onStopped;
                     playbackService.Dispose();
                 }
 
-             
+                if (playerNotificationManager != null)
+                {
+                    playerNotificationManager.NotificationCancelled -= notificationCancelled;
+                }
+
                 if (resetMediaManager)
                 {
                     try

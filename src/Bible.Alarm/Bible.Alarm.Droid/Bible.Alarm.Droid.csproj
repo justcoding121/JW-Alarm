@@ -100,9 +100,6 @@
     <PackageReference Include="Plugin.CurrentActivity">
       <Version>2.1.0.4</Version>
     </PackageReference>
-    <PackageReference Include="Plugin.MediaManager">
-      <Version>1.0.4</Version>
-    </PackageReference>
     <PackageReference Include="Plugin.StoreReview">
       <Version>3.0.0-beta</Version>
     </PackageReference>
@@ -160,6 +157,14 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Library\MediaManager\AndroidMediaManager\AndroidMediaManager.csproj">
+      <Project>{bf9f6505-149f-4789-bed0-93c08ad093dd}</Project>
+      <Name>AndroidMediaManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\MediaManager\XamarinMediaManager\XamarinMediaManager.csproj">
+      <Project>{1c218eba-3935-4bcb-be85-d3400cd1d680}</Project>
+      <Name>XamarinMediaManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bible.Alarm\Bible.Alarm.csproj">
       <Project>{88314728-92AD-49BB-9092-3DF53C686066}</Project>
       <Name>Bible.Alarm</Name>

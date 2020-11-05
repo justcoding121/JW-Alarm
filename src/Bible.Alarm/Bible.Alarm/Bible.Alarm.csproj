@@ -15,11 +15,11 @@
     <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />
-    <PackageReference Include="Plugin.MediaManager" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\NLog.Targets.Loggly\NLog.Targets.Loggly.csproj" />
+    <ProjectReference Include="..\..\Library\Logging\NLog.Targets.Loggly\NLog.Targets.Loggly.csproj" />
+    <ProjectReference Include="..\..\Library\MediaManager\XamarinMediaManager\XamarinMediaManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>
