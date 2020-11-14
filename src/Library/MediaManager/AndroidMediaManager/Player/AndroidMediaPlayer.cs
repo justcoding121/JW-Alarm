@@ -194,18 +194,18 @@ namespace MediaManager.Platforms.Android.Player
                 {
                     switch (playbackState)
                     {
-                        case Com.Google.Android.Exoplayer2.Player.StateEnded:
+                        case Com.Google.Android.Exoplayer2.IPlayer.StateEnded:
                             if (!Player.HasNext)
                                 MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.Queue.Current));
                             //TODO: This means the whole list is finished. Should we fire an event?
                             break;
-                        case Com.Google.Android.Exoplayer2.Player.StateIdle:
+                        case Com.Google.Android.Exoplayer2.IPlayer.StateIdle:
                             lastWindowIndex = -1;
                             break;
-                        case Com.Google.Android.Exoplayer2.Player.StateBuffering:
+                        case Com.Google.Android.Exoplayer2.IPlayer.StateBuffering:
                             //MediaManager.Buffered = TimeSpan.FromMilliseconds(Player.BufferedPosition);
                             break;
-                        case Com.Google.Android.Exoplayer2.Player.StateReady:
+                        case Com.Google.Android.Exoplayer2.IPlayer.StateReady:
                         default:
                             break;
                     }
@@ -214,18 +214,18 @@ namespace MediaManager.Platforms.Android.Player
                 {
                     switch (reason)
                     {
-                        case Com.Google.Android.Exoplayer2.Player.DiscontinuityReasonAdInsertion:
-                        case Com.Google.Android.Exoplayer2.Player.DiscontinuityReasonSeek:
-                        case Com.Google.Android.Exoplayer2.Player.DiscontinuityReasonSeekAdjustment:
+                        case IPlayer.DiscontinuityReasonAdInsertion:
+                        case IPlayer.DiscontinuityReasonSeek:
+                        case IPlayer.DiscontinuityReasonSeekAdjustment:
                             break;
-                        case Com.Google.Android.Exoplayer2.Player.DiscontinuityReasonPeriodTransition:
+                        case IPlayer.DiscontinuityReasonPeriodTransition:
                             var currentWindowIndex = Player.CurrentWindowIndex;
                             if (SetProperty(ref lastWindowIndex, currentWindowIndex))
                             {
                                 MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.Queue.Current));
                             }
                             break;
-                        case Com.Google.Android.Exoplayer2.Player.DiscontinuityReasonInternal:
+                        case IPlayer.DiscontinuityReasonInternal:
                             break;
                     }
                 },

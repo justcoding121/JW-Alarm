@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
+using Android.Media.Session;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media;
@@ -105,42 +106,31 @@ namespace MediaManager.Platforms.Android.MediaSession
             mediaSession.Active = true;
 
             SessionToken = mediaSession.SessionToken;
-
-            mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons |
-                                   MediaSessionCompat.FlagHandlesTransportControls);
+         
+            mediaSession.SetFlags((int)MediaSessionFlags.HandlesMediaButtons |
+                                   (int)MediaSessionFlags.HandlesTransportControls);
         }
 
         protected virtual void PrepareNotificationManager()
         {
+            NotificationListener = new NotificationListener();
+
             MediaDescriptionAdapter = new MediaDescriptionAdapter();
-            PlayerNotificationManager = Com.Google.Android.Exoplayer2.UI.PlayerNotificationManager.CreateWithNotificationChannel(
+            PlayerNotificationManager = PlayerNotificationManager.CreateWithNotificationChannel(
                 this,
                 ChannelId,
                 Resource.String.exo_download_notification_channel_name,
+                0,
                 ForegroundNotificationId,
-                MediaDescriptionAdapter);
+                MediaDescriptionAdapter, NotificationListener);
 
             //Needed for enabling the notification as a mediabrowser.
-            NotificationListener = new NotificationListener();
-            NotificationListener.OnNotificationStartedImpl = (notificationId, notification) =>
-            {
-                ContextCompat.StartForegroundService(ApplicationContext, new Intent(ApplicationContext, Java.Lang.Class.FromType(typeof(MediaBrowserService))));
-                StartForeground(notificationId, notification);
-                IsForeground = true;
-            };
+            PlayerNotificationManager.NotificationStarted += notificationStarted;
+            PlayerNotificationManager.NotificationCancelled += notificationCancelled;
 
-            NotificationListener.OnNotificationCancelledImpl = (notificationId, dismissedByUser) =>
-            {
-                StopForeground(dismissedByUser);
-                StopSelf();
-
-                //IsForeground = false;
-            };
-
-         
             PlayerNotificationManager.SetFastForwardIncrementMs((long)MediaManager.StepSizeForward.TotalMilliseconds);
             PlayerNotificationManager.SetRewindIncrementMs((long)MediaManager.StepSizeBackward.TotalMilliseconds);
-            PlayerNotificationManager.SetNotificationListener(NotificationListener);
+            //PlayerNotificationManager.SetNotificationListener(NotificationListener);
             PlayerNotificationManager.SetMediaSessionToken(SessionToken);
             //PlayerNotificationManager.SetOngoing(true);
             PlayerNotificationManager.SetUsePlayPauseActions(MediaManager.Notification.ShowPlayPauseControls);
@@ -150,6 +140,24 @@ namespace MediaManager.Platforms.Android.MediaSession
             //Must be called to start the connection
             (MediaManager.Notification as Notifications.NotificationManager).Player = MediaManager.Player;
             //PlayerNotificationManager.SetPlayer(MediaManager.AndroidMediaPlayer.Player);
+        }
+
+        private void notificationStarted(object sender, PlayerNotificationManager.NotificationStartedEventArgs e)
+        {
+            ContextCompat.StartForegroundService(ApplicationContext, new Intent(ApplicationContext, Java.Lang.Class.FromType(typeof(MediaBrowserService))));
+            StartForeground(e.NotificationId, e.Notification);
+            IsForeground = true;
+        }
+
+        private void notificationCancelled(object sender, PlayerNotificationManager.NotificationCancelledEventArgs e)
+        {
+            StopForeground(e.DismissedByUser);
+            StopSelf();
+
+            if (e.DismissedByUser)
+            {
+                IsForeground = false;
+            }
         }
 
         public override StartCommandResult OnStartCommand(Intent startIntent, StartCommandFlags flags, int startId)
@@ -181,7 +189,10 @@ namespace MediaManager.Platforms.Android.MediaSession
             MediaDescriptionAdapter = null;
 
             // Service is being killed, so make sure we release our resources
-            PlayerNotificationManager.SetNotificationListener(null);
+            //PlayerNotificationManager.SetNotificationListener(null);
+            PlayerNotificationManager.NotificationStarted -= notificationStarted;
+            PlayerNotificationManager.NotificationCancelled -= notificationCancelled;
+
             PlayerNotificationManager.SetPlayer(null);
             PlayerNotificationManager.Dispose();
             PlayerNotificationManager = null;
