@@ -4,8 +4,12 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:converters="clr-namespace:Bible.Alarm.UI.Views.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <ContentPage.Resources>
+        <converters:NegateBooleanConverter x:Key="negateBooleanConverter" />
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout
             Margin="0,0,0,125"
@@ -26,6 +30,7 @@
                 VerticalTextAlignment="End"
                 WidthRequest="200" />
             <Label
+                IsVisible="{Binding CanOptimizeBattery}"
                 Margin="5"
                 FontSize="Default"
                 HeightRequest="75"
@@ -33,12 +38,13 @@
                 HorizontalTextAlignment="Center"
                 MinimumHeightRequest="200"
                 MinimumWidthRequest="200"
-                Text="Click 'Exclude Now' => Apps not optimized => All => Bible Alarm => Off"
+                Text="Click Exclude Now => Apps not optimized => All Apps => Bible Alarm => Off"
                 TextColor="SlateBlue"
                 VerticalOptions="End"
                 VerticalTextAlignment="End"
                 WidthRequest="200" />
             <Button
+                IsVisible="{Binding CanOptimizeBattery}"
                 Margin="5"
                 Command="{Binding BatteryOptimizationExcludeCommand}"
                 CornerRadius="10"
@@ -49,7 +55,21 @@
                 Text="Exclude Now"
                 TextColor="SlateBlue"
                 WidthRequest="200" />
+            <Label               
+                IsVisible="{Binding CanOptimizeBattery, Converter={StaticResource negateBooleanConverter}}"
+                Margin="5,25,5,5"
+                FontSize="Default"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                MinimumHeightRequest="200"
+                MinimumWidthRequest="200"
+                Text="You may exclude through Android Settings => Apps => : => Special access => Optimize battery usage => Apps not optimized => All Apps => Bible Alarm => Off"
+                TextColor="SlateBlue"
+                VerticalOptions="End"
+                VerticalTextAlignment="End"
+                WidthRequest="200" />
             <Button
+                IsVisible="{Binding CanOptimizeBattery}"
                 Margin="5"
                 AutomationId="BatteryOptimizationDismissButton"
                 Command="{Binding BatteryOptimizationDismissCommand}"
@@ -61,18 +81,18 @@
                 Text="Later"
                 TextColor="SlateBlue"
                 WidthRequest="200" />
-            <Label
+            <Button
+                IsVisible="{Binding CanOptimizeBattery, Converter={StaticResource negateBooleanConverter}}"
                 Margin="5"
-                FontSize="Default"
-                HeightRequest="75"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                MinimumHeightRequest="200"
+                AutomationId="BatteryOptimizationDismissButton"
+                Command="{Binding BatteryOptimizationDismissCommand}"
+                CornerRadius="10"
+                FontSize="Medium"
+                HeightRequest="50"
+                MinimumHeightRequest="45"
                 MinimumWidthRequest="200"
-                Text="You may optimize later through Android Settings => Apps => : => Special access => Optimize battery usage"
+                Text="Okay"
                 TextColor="SlateBlue"
-                VerticalOptions="End"
-                VerticalTextAlignment="End"
                 WidthRequest="200" />
         </StackLayout>
     </ContentPage.Content>

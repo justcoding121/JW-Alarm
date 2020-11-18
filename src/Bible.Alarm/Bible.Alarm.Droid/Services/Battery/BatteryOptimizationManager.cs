@@ -20,10 +20,13 @@ namespace Bible.Alarm.Droid.Services.Battery
         {
             try
             {
-                Intent intent = new Intent();
+                if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.M)
+                {
+                    Intent intent = new Intent();
 
-                intent.SetAction(Android.Provider.Settings.ActionIgnoreBatteryOptimizationSettings);
-                container.AndroidContext().StartActivity(intent);
+                    intent.SetAction(Android.Provider.Settings.ActionIgnoreBatteryOptimizationSettings);
+                    container.AndroidContext().StartActivity(intent);
+                }
             }
             catch (Exception e)
             {
@@ -31,10 +34,14 @@ namespace Bible.Alarm.Droid.Services.Battery
             }
         }
 
+        public bool CanShowOptimizeActivity()
+        {
+            return Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.M;
+        }
+
         public void Dispose()
         {
 
         }
-
     }
 }

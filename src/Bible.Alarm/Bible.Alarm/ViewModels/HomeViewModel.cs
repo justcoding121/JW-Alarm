@@ -155,6 +155,11 @@ namespace Bible.Alarm.ViewModels
 
         private async Task showBatteryOptimizationExclusionPage()
         {
+            if (batteryOptimizationManager.CanShowOptimizeActivity())
+            {
+                CanOptimizeBattery = true;
+            }
+
             if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
             {
                 await navigationService.ShowModal("BatteryOptimizationExclusionModal", this);
@@ -196,6 +201,16 @@ namespace Bible.Alarm.ViewModels
             {
                 this.Set(ref isBusy, value);
                 Loaded = !isBusy;
+            }
+        }
+
+        private bool canOptimizeBattery = false;
+        public bool CanOptimizeBattery
+        {
+            get => canOptimizeBattery;
+            set
+            {
+                this.Set(ref canOptimizeBattery, value);
             }
         }
 
