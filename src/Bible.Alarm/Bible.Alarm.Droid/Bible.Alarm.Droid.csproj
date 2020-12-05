@@ -230,4 +230,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TriggeredFromHotReload="False" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
