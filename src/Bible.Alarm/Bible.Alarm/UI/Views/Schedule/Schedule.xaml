@@ -225,6 +225,9 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectBibleCommand}" NumberOfTapsRequired="1" />
                             </Grid.GestureRecognizers>
@@ -268,10 +271,12 @@
                                 <ColumnDefinition Width="7*" />
                                 <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding OpenModalCommand}" NumberOfTapsRequired="1" />
                             </Grid.GestureRecognizers>
-
                             <Label
                                 Grid.Column="0"
                                 Margin="5,0,0,0"
@@ -301,6 +306,9 @@
                                 <ColumnDefinition Width="7*" />
                                 <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
 
                             <Label
                                 Grid.Column="0"
@@ -339,6 +347,9 @@
                                 <ColumnDefinition Width="6*" />
                                 <ColumnDefinition Width="4*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectMusicCommand}" NumberOfTapsRequired="1" />
                             </Grid.GestureRecognizers>
