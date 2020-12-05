@@ -15,6 +15,9 @@
 
     public static class IocSetup
     {
+        private static Lazy<IMediaManager> mediaManagerImplementation
+       = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new NSUrlSessionHandler());
@@ -49,11 +52,10 @@
                 return new MediaDbContext(mediaDbConfig);
             });
 
-            var mediaManager = CrossMediaManager.Current;
-            mediaManager.Init();
             container.RegisterSingleton((x) =>
             {
-                return mediaManager;
+                CrossMediaManager.Implementation = mediaManagerImplementation;
+                return CrossMediaManager.Current;
             });
 
             container.Register<IVersionFinder>((x) => new VersionFinder());

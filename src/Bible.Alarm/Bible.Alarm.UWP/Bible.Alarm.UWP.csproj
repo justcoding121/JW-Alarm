@@ -226,6 +226,14 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.10" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Library\MediaManager\UwpMediaManager\UwpMediaManager.csproj">
+      <Project>{efea70fe-b38f-4dad-93db-95477b0d7711}</Project>
+      <Name>UwpMediaManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\MediaManager\XamarinMediaManager\XamarinMediaManager.csproj">
+      <Project>{1c218eba-3935-4bcb-be85-d3400cd1d680}</Project>
+      <Name>XamarinMediaManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bible.Alarm\Bible.Alarm.csproj">
       <Project>{C648EF9D-C440-468A-B1FE-D6B1B9AEE8BE}</Project>
       <Name>Bible.Alarm</Name>

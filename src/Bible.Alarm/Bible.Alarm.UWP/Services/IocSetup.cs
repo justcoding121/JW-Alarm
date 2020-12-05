@@ -23,6 +23,9 @@
     {
         public static IContainer Container { get; private set; }
 
+        private static Lazy<IMediaManager> mediaManagerImplementation
+       = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
         public static void Initialize(IContainer container, bool isService)
         {
             Container = container;
@@ -46,7 +49,6 @@
                 return new ScheduleDbContext(scheduleDbConfig);
             });
 
-
             container.Register((x) =>
             {
                 var storageService = container.Resolve<IStorageService>();
@@ -57,12 +59,10 @@
                 return new MediaDbContext(mediaDbConfig);
             });
 
-            var manager = CrossMediaManager.Current;
-            manager.Init();
-
             container.RegisterSingleton((x) =>
-            {     
-                return manager;
+            {
+                CrossMediaManager.Implementation = mediaManagerImplementation;
+                return CrossMediaManager.Current;
             });
 
             container.Register<IVersionFinder>((x) => new UwpVersionFinder());

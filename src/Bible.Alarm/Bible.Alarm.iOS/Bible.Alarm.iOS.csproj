@@ -252,6 +252,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\Library\MediaManager\iOSMediaManager\iOSMediaManager.csproj">
+      <Project>{C3B4B9B7-B2F1-4A43-9000-44FCD27FE094}</Project>
+      <Name>iOSMediaManager</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\MediaManager\XamarinMediaManager\XamarinMediaManager.csproj">
+      <Project>{1c218eba-3935-4bcb-be85-d3400cd1d680}</Project>
+      <Name>XamarinMediaManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bible.Alarm\Bible.Alarm.csproj">
       <Project>{88314728-92AD-49BB-9092-3DF53C686066}</Project>
       <Name>Bible.Alarm</Name>
