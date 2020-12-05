@@ -309,7 +309,6 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-
                             <Label
                                 Grid.Column="0"
                                 Margin="5,0,0,0"

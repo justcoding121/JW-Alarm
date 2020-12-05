@@ -192,7 +192,7 @@ namespace MediaManager.Platforms.Apple.Notifications
 
         protected virtual MPRemoteCommandHandlerStatus PreviousCommand(MPRemoteCommandEvent arg)
         {
-            MediaManager.PlayPrevious();
+            _ = MediaManager.PlayPrevious();
             return MPRemoteCommandHandlerStatus.Success;
         }
 
@@ -204,7 +204,7 @@ namespace MediaManager.Platforms.Apple.Notifications
 
         protected virtual MPRemoteCommandHandlerStatus NextCommand(MPRemoteCommandEvent arg)
         {
-            MediaManager.PlayNext();
+            _ = MediaManager.PlayNext();
             return MPRemoteCommandHandlerStatus.Success;
         }
 
