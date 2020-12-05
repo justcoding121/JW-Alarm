@@ -72,8 +72,7 @@
     <CodesignProvision>
     </CodesignProvision>
     <MtouchLink>None</MtouchLink>
-    <MtouchInterpreter>
-    </MtouchInterpreter>
+    <MtouchInterpreter>-all</MtouchInterpreter>
     <IntermediateOutputPath>obj\iPhone\Debug</IntermediateOutputPath>
     <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
     <CodesignExtraArgs />
