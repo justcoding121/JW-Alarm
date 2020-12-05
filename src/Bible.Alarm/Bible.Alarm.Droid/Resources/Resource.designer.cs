@@ -991,6 +991,7 @@ namespace Bible.Alarm.Droid
 			global::AndroidMediaManager.Resource.String.abc_shareactionprovider_share_with = global::Bible.Alarm.Droid.Resource.String.abc_shareactionprovider_share_with;
 			global::AndroidMediaManager.Resource.String.abc_shareactionprovider_share_with_application = global::Bible.Alarm.Droid.Resource.String.abc_shareactionprovider_share_with_application;
 			global::AndroidMediaManager.Resource.String.abc_toolbar_collapse_description = global::Bible.Alarm.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::AndroidMediaManager.Resource.String.app_name = global::Bible.Alarm.Droid.Resource.String.app_name;
 			global::AndroidMediaManager.Resource.String.exo_controls_fastforward_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_fastforward_description;
 			global::AndroidMediaManager.Resource.String.exo_controls_fullscreen_description = global::Bible.Alarm.Droid.Resource.String.exo_controls_fullscreen_description;
 			global::AndroidMediaManager.Resource.String.exo_controls_hide = global::Bible.Alarm.Droid.Resource.String.exo_controls_hide;
@@ -1034,6 +1035,7 @@ namespace Bible.Alarm.Droid
 			global::AndroidMediaManager.Resource.String.exo_track_surround_5_point_1 = global::Bible.Alarm.Droid.Resource.String.exo_track_surround_5_point_1;
 			global::AndroidMediaManager.Resource.String.exo_track_surround_7_point_1 = global::Bible.Alarm.Droid.Resource.String.exo_track_surround_7_point_1;
 			global::AndroidMediaManager.Resource.String.exo_track_unknown = global::Bible.Alarm.Droid.Resource.String.exo_track_unknown;
+			global::AndroidMediaManager.Resource.String.hello = global::Bible.Alarm.Droid.Resource.String.hello;
 			global::AndroidMediaManager.Resource.String.search_menu_title = global::Bible.Alarm.Droid.Resource.String.search_menu_title;
 			global::AndroidMediaManager.Resource.String.status_bar_notification_info_overflow = global::Bible.Alarm.Droid.Resource.String.status_bar_notification_info_overflow;
 			global::AndroidMediaManager.Resource.Style.AlertDialog_AppCompat = global::Bible.Alarm.Droid.Resource.Style.AlertDialog_AppCompat;
