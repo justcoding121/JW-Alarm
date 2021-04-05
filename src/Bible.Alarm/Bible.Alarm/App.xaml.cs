@@ -20,7 +20,6 @@ namespace Bible.Alarm
         public App(IContainer container)
         {
             this.container = container;
-
             init();
         }
 
@@ -71,11 +70,10 @@ namespace Bible.Alarm
                 .ContinueWith(x =>
                 {
                     var mediaManager = container.Resolve<IMediaManager>();
-                   
-                    if (mediaManager.IsPreparedEx() 
-                    || mediaManager.IsPlaying() || mediaManager.IsBuffering())
+
+                    if (mediaManager.IsPreparedEx())
                     {
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                 });
             }
@@ -85,6 +83,7 @@ namespace Bible.Alarm
 
         protected override void OnStart()
         {
+            base.OnStart();
             Task.Run(async () =>
             {
                 try
@@ -94,9 +93,10 @@ namespace Bible.Alarm
                     await navigationService.NavigateToHome();
 
                     var mediaManager = container.Resolve<IMediaManager>();
+
                     if (mediaManager.IsPreparedEx())
                     {
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                 }
                 catch (Exception e)
@@ -108,11 +108,12 @@ namespace Bible.Alarm
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            base.OnSleep();
         }
 
         protected override void OnResume()
         {
+            base.OnResume();
             Task.Run(() =>
             {
                 try
@@ -121,7 +122,7 @@ namespace Bible.Alarm
                     // Handle when your app resumes
                     if (mediaManager.IsPreparedEx())
                     {
-                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal, container.Resolve<AlarmViewModal>());
+                        Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                     }
                 }
                 catch (Exception e)

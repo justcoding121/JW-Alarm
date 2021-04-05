@@ -4,6 +4,7 @@ using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Network;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.ViewModels;
 using MediaManager;
 using MediaManager.Library;
 using MediaManager.Media;
@@ -47,7 +48,8 @@ namespace Bible.Alarm.Services
 
         public event EventHandler<bool> Stopped;
 
-        public PlaybackService(IMediaManager mediaManager,
+        public PlaybackService(
+            IMediaManager mediaManager,
             IPlaylistService playlistService,
             IAlarmService alarmService,
             IMediaCacheService cacheService,
@@ -283,7 +285,6 @@ namespace Bible.Alarm.Services
                     this.mediaManager.RepeatMode = RepeatMode.Off;
 
                     await this.mediaManager.PlayEx(mergedMediaItems.Select(x => x.Value).ToList());
-                    Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                 }
             }
             finally
@@ -435,6 +436,7 @@ namespace Bible.Alarm.Services
                     switch (e.State)
                     {
                         case MediaPlayerState.Playing:
+                            Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
                             if (track.FinishedDuration.TotalSeconds > 0
                                 && firstChapter != null
                                 && mediaItem == firstChapter)
@@ -442,6 +444,9 @@ namespace Bible.Alarm.Services
                                 await this.mediaManager.SeekTo(track.FinishedDuration);
                                 firstChapter = null;
                             }
+                            break;
+                        case MediaPlayerState.Stopped:
+                            Messenger<object>.Publish(MvvmMessages.HideAlarmModal);
                             break;
                     }
                 }
