@@ -39,9 +39,9 @@ namespace MediaManager.Platforms.Android.Player
                 builder.PutString(MediaMetadataCompat.MetadataKeyTitle, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyTitle));
             }
 
-            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyTitle) && !string.IsNullOrEmpty(mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyTitle)))
+            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyArtist) && !string.IsNullOrWhiteSpace(mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyArtist)))
             {
-                builder.PutString(MediaMetadataCompat.MetadataKeyTitle, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyTitle));
+                builder.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyArtist));
             }
             else
             {
