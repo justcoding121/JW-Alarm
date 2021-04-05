@@ -276,7 +276,7 @@ namespace MediaManager.Platforms.Android.Player
                 throw new ArgumentNullException(nameof(MediaSession), $"{nameof(MediaSession)} cannot be null. Make sure the {nameof(MediaBrowserService)} sets it up");
 
             MediaSessionConnector = new MediaSessionConnector(MediaSession);
-
+            MediaSessionConnector.SetMediaMetadataProvider(new MetaDataProvider(MediaSession.Controller, null));
             QueueNavigator = new QueueNavigator(MediaSession);
             MediaSessionConnector.SetQueueNavigator(QueueNavigator);
 
