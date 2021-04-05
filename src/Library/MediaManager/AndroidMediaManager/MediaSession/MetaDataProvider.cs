@@ -45,9 +45,16 @@ namespace MediaManager.Platforms.Android.Player
             }
             else
             {
-                //hard-coded here
-                //TODO: Use another non-null metadata here
-                builder.PutString(MediaMetadataCompat.MetadataKeyArtist, "Bible Alarm");
+                if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyDisplaySubtitle))
+                {
+                    builder.PutString(MediaMetadataCompat.MetadataKeyArtist, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyDisplaySubtitle));
+                }
+                else
+                {
+                    //hard-coded here
+                    //TODO: Use another non-null metadata here
+                    builder.PutString(MediaMetadataCompat.MetadataKeyArtist, "Bible Alarm");
+                }
             }
 
             if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyMediaUri))
