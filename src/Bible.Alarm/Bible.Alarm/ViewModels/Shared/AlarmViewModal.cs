@@ -144,8 +144,8 @@ namespace Bible.Alarm.ViewModels
 
                     var isRunning = mediaManager.IsPreparedEx();
 
-                    //check for 7 seconds
-                    int count = 14;
+                    //check for 3 seconds
+                    int count = 6;
                     while (!isRunning && count > 0)
                     {
                         await Task.Delay(500);
@@ -191,7 +191,7 @@ namespace Bible.Alarm.ViewModels
                 EndTime = $"{mediaManager.Duration.Minutes:00}:{mediaManager.Duration.Seconds:00}";
 
                 var progress = mediaManager.Position.TotalMilliseconds / mediaManager.Duration.TotalMilliseconds;
-                if (!Double.IsNaN(progress) && !Double.IsInfinity(progress))
+                if (!double.IsNaN(progress) && !double.IsInfinity(progress))
                 {
                     Progress = progress;
                 }

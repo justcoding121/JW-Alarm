@@ -102,19 +102,19 @@ namespace MediaManager.Platforms.Android.Player
                 builder.PutString(MediaMetadataCompat.MetadataKeyAuthor, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyAuthor));
             }
 
-            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyRating))
+            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyCompilation))
             {
-                builder.PutString(MediaMetadataCompat.MetadataKeyRating, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyCompilation));
+                builder.PutString(MediaMetadataCompat.MetadataKeyCompilation, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyCompilation));
+            }
+
+            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyComposer))
+            {
+                builder.PutString(MediaMetadataCompat.MetadataKeyComposer, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyComposer));
             }
 
             if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyRating))
             {
-                builder.PutString(MediaMetadataCompat.MetadataKeyRating, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyComposer));
-            }
-
-            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyRating))
-            {
-                builder.PutString(MediaMetadataCompat.MetadataKeyRating, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyDate));
+                builder.PutString(MediaMetadataCompat.MetadataKeyRating, mediaMetadata.GetString(MediaMetadataCompat.MetadataKeyRating));
             }
 
             if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyDiscNumber))
@@ -152,7 +152,7 @@ namespace MediaManager.Platforms.Android.Player
                 builder.PutLong(MediaMetadataCompat.MetadataKeyDownloadStatus, mediaMetadata.GetLong(MediaMetadataCompat.MetadataKeyDownloadStatus));
             }
 
-            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyRating))
+            if (mediaMetadata.ContainsKey(MediaMetadataCompat.MetadataKeyDuration))
             {
                 builder.PutLong(MediaMetadataCompat.MetadataKeyDuration, mediaMetadata.GetLong(MediaMetadataCompat.MetadataKeyDuration));
             }
