@@ -80,6 +80,7 @@
     <AndroidEnablePreloadAssemblies>false</AndroidEnablePreloadAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />
@@ -88,9 +89,6 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp">
-      <Version>4.7.0</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>3.1.9</Version>
     </PackageReference>
@@ -111,18 +109,57 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
+    <PackageReference Include="Xam.Plugins.Android.ExoPlayer">
+      <Version>2.11.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Android.ExoPlayer.MediaSession">
+      <Version>2.11.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
+    <PackageReference Include="Xamarin.Build.Download">
+      <Version>0.10.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ContainerExtension.cs" />
+    <Compile Include="Helpers\BootstrapHelper.cs" />
+    <Compile Include="Helpers\JobSchedulerHelper.cs" />
     <Compile Include="IocSetup.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MediaManager\MediaManagerExtensions.cs" />
+    <Compile Include="MediaManager\MediaManagerImplementation.cs" />
+    <Compile Include="MediaManager\MediaSession\MediaBrowserConnectionCallback.cs" />
+    <Compile Include="MediaManager\MediaSession\MediaBrowserManager.cs" />
+    <Compile Include="MediaManager\MediaSession\MediaBrowserService.cs" />
+    <Compile Include="MediaManager\MediaSession\MediaBrowserSubscriptionCallback.cs" />
+    <Compile Include="MediaManager\MediaSession\MediaControllerCallback.cs" />
+    <Compile Include="MediaManager\MediaSession\MediaSessionCallback.cs" />
+    <Compile Include="MediaManager\MediaSession\MetaDataProvider.cs" />
+    <Compile Include="MediaManager\MediaSession\NotificationListener.cs" />
+    <Compile Include="MediaManager\Media\FileImageProvider.cs" />
+    <Compile Include="MediaManager\Media\ID3Provider.cs" />
+    <Compile Include="MediaManager\Media\MediaDescriptionAdapter.cs" />
+    <Compile Include="MediaManager\Media\MediaExtractor.cs" />
+    <Compile Include="MediaManager\Media\MediaItemExtensions.cs" />
+    <Compile Include="MediaManager\Media\ResourceImageProvider.cs" />
+    <Compile Include="MediaManager\Media\UriImageProvider.cs" />
+    <Compile Include="MediaManager\Notifications\NotificationManager.cs" />
+    <Compile Include="MediaManager\Playback\PlaybackStateExtensions.cs" />
+    <Compile Include="MediaManager\Player\AndroidMediaPlayer.cs" />
+    <Compile Include="MediaManager\Player\MetadataOutput.cs" />
+    <Compile Include="MediaManager\Player\PlaybackPreparer.cs" />
+    <Compile Include="MediaManager\Player\PlayerEventListener.cs" />
+    <Compile Include="MediaManager\Player\RatingCallback.cs" />
+    <Compile Include="MediaManager\Queue\QueueDataAdapter.cs" />
+    <Compile Include="MediaManager\Queue\QueueMediaSourceFactory.cs" />
+    <Compile Include="MediaManager\Queue\QueueNavigator.cs" />
+    <Compile Include="MediaManager\Video\VideoView.cs" />
+    <Compile Include="MediaManager\Volume\VolumeManager.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Battery\BatteryOptimizationManager.cs" />
     <Compile Include="Services\Handlers\AndroidAlarmHandler.cs" />
     <Compile Include="Services\Jobs\SchedulerJob.cs" />
-    <Compile Include="Helpers\BootstrapHelper.cs" />
-    <Compile Include="Helpers\JobSchedulerHelper.cs" />
     <Compile Include="Services\IocSetup.cs" />
     <Compile Include="Services\Media\PreviewPlayService.cs" />
     <Compile Include="Services\BroadcastReceivers\AlarmRingerReceiver.cs" />
@@ -157,10 +194,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\MediaManager\AndroidMediaManager\AndroidMediaManager.csproj">
-      <Project>{bf9f6505-149f-4789-bed0-93c08ad093dd}</Project>
-      <Name>AndroidMediaManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\MediaManager\XamarinMediaManager\XamarinMediaManager.csproj">
       <Project>{1c218eba-3935-4bcb-be85-d3400cd1d680}</Project>
       <Name>XamarinMediaManager</Name>
