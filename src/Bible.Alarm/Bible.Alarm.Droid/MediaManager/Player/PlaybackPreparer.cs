@@ -1,23 +1,38 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media.Session;
+using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Contracts.Media;
+using Bible.Alarm.Droid.Services.Platform;
+using Bible.Alarm.Services;
+using Bible.Alarm.Services.Droid.Helpers;
+using Bible.Alarm.Services.Infrastructure;
 using Com.Google.Android.Exoplayer2;
 using Com.Google.Android.Exoplayer2.Ext.Mediasession;
 using Com.Google.Android.Exoplayer2.Source;
 using MediaManager.Platforms.Android.Media;
+using MediaManager.Platforms.Android.MediaSession;
+using NLog;
 
 namespace MediaManager.Platforms.Android.Player
 {
     public class MediaSessionConnectorPlaybackPreparer : Java.Lang.Object, MediaSessionConnector.IPlaybackPreparer
     {
+        private Logger logger => LogManager.GetCurrentClassLogger();
         protected IExoPlayer _player;
         protected ConcatenatingMediaSource _mediaSource;
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
 
         public MediaSessionConnectorPlaybackPreparer(IExoPlayer player, ConcatenatingMediaSource mediaSource)
         {
+            LogSetup.Initialize(VersionFinder.Default,
+             new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
+
             _player = player;
             _mediaSource = mediaSource;
         }
@@ -41,12 +56,28 @@ namespace MediaManager.Platforms.Android.Player
             return false;
         }
 
-        public void OnPrepare(bool p0)
+        public async void OnPrepare(bool p0)
         {
-            // _mediaSource is filled through the QueueDataAdapter
-            _player.Prepare(_mediaSource);
+            if (PlaybackService.LastScheduleId != -1)
+            {
+                logger.Info("On prepare called for resume.");
+                try
+                {
+                    await MediaManager.StopEx();
+               
+                    var container = MediaBrowserService.Container;
+                    var handler = container.Resolve<IAndroidAlarmHandler>();
+                    await handler.Handle(PlaybackService.LastScheduleId, true);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happened when calling AlarmHandler from PlaybackPreparer.");
+                }
+            }
 
             //Only in case of Prepare set PlayWhenReady to true because we use this to load in the whole queue
+            _player.Prepare(_mediaSource);
             _player.PlayWhenReady = MediaManager.AutoPlay;
         }
 

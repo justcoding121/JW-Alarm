@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Support.V4.Media.Session;
-using AndroidMediaManager;
+using Bible.Alarm.Droid;
 using Com.Google.Android.Exoplayer2;
 using MediaManager.Library;
 using MediaManager.Media;

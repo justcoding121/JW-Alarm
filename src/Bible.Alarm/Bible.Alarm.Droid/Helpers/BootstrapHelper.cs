@@ -17,7 +17,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
     {
         public static IContainer InitializeService(Context context)
         {
-            var result = Alarm.Droid.IocSetup.Initialize(context, true);
+            var result = Alarm.Droid.IocSetup.InitializeService(context, true);
             var container = result.Item1;
 
             return container;
