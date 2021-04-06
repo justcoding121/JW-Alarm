@@ -48,37 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MediaManagerExtensions.cs" />
-    <Compile Include="MediaManagerImplementation.cs" />
-    <Compile Include="MediaSession\MediaBrowserConnectionCallback.cs" />
-    <Compile Include="MediaSession\MediaBrowserManager.cs" />
-    <Compile Include="MediaSession\MediaBrowserService.cs" />
-    <Compile Include="MediaSession\MediaBrowserSubscriptionCallback.cs" />
-    <Compile Include="MediaSession\MediaControllerCallback.cs" />
-    <Compile Include="MediaSession\MediaSessionCallback.cs" />
-    <Compile Include="MediaSession\MetaDataProvider.cs" />
-    <Compile Include="MediaSession\NotificationListener.cs" />
-    <Compile Include="Media\FileImageProvider.cs" />
-    <Compile Include="Media\ID3Provider.cs" />
-    <Compile Include="Media\MediaDescriptionAdapter.cs" />
-    <Compile Include="Media\MediaExtractor.cs" />
-    <Compile Include="Media\MediaItemExtensions.cs" />
-    <Compile Include="Media\ResourceImageProvider.cs" />
-    <Compile Include="Media\UriImageProvider.cs" />
-    <Compile Include="Notifications\NotificationManager.cs" />
-    <Compile Include="Playback\PlaybackStateExtensions.cs" />
-    <Compile Include="Player\AndroidMediaPlayer.cs" />
-    <Compile Include="Player\MetadataOutput.cs" />
-    <Compile Include="Player\PlaybackPreparer.cs" />
-    <Compile Include="Player\PlayerEventListener.cs" />
-    <Compile Include="Player\RatingCallback.cs" />
-    <Compile Include="Queue\QueueDataAdapter.cs" />
-    <Compile Include="Queue\QueueMediaSourceFactory.cs" />
-    <Compile Include="Queue\QueueNavigator.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Video\VideoView.cs" />
-    <Compile Include="Volume\VolumeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -102,6 +73,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Bible.Alarm\Bible.Alarm\Bible.Alarm.csproj">
+      <Project>{88314728-92ad-49bb-9092-3df53c686066}</Project>
+      <Name>Bible.Alarm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XamarinMediaManager\XamarinMediaManager.csproj">
       <Project>{1c218eba-3935-4bcb-be85-d3400cd1d680}</Project>
       <Name>XamarinMediaManager</Name>
