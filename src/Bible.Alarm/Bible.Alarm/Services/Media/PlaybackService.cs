@@ -71,8 +71,10 @@ namespace Bible.Alarm.Services
             this.scheduleDbContext = scheduleDbContext;
 
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
+
             this.mediaManager.StateChanged += stateChanged;
         }
+
 
         private bool wasPlaying;
         private DateTime playStartTime = DateTime.Now.AddDays(7);
@@ -81,6 +83,7 @@ namespace Bible.Alarm.Services
 
         public async Task Play(long scheduleId, bool isImmediatePlayRequest)
         {
+            dismissed = false;
             //already playing
             if (this.mediaManager.IsPreparedEx())
             {
@@ -319,8 +322,12 @@ namespace Bible.Alarm.Services
             await scheduleDbContext.SaveChangesAsync();
         }
 
+        private bool dismissed = false;
+
         public async Task Dismiss()
         {
+            dismissed = true;
+   
             if (this.mediaManager.IsPreparedEx()
                  && !readyTodispose)
             {
@@ -466,7 +473,10 @@ namespace Bible.Alarm.Services
                     switch (e.State)
                     {
                         case MediaPlayerState.Playing:
-                            Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                            if (!dismissed)
+                            {
+                                Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
+                            }
                             if (track.FinishedDuration.TotalSeconds > 0
                                 && firstChapter != null
                                 && mediaItem == firstChapter)

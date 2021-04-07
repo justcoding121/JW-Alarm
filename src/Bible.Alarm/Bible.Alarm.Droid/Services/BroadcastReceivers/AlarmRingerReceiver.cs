@@ -48,11 +48,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 this.intent = intent;
 
                 var scheduleId = intent.GetStringExtra("ScheduleId");
-                var isImmediate = !string.IsNullOrEmpty(intent.GetStringExtra("IsImmediate"));
 
                 alarmHandler = container.Resolve<AndroidAlarmHandler>();
                 alarmHandler.Disposed += onDisposed;
-                await alarmHandler.Handle(long.Parse(scheduleId), isImmediate);
+                await alarmHandler.Handle(long.Parse(scheduleId), false);
             }
             catch (Exception e)
             {

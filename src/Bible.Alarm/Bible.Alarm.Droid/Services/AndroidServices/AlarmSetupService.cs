@@ -142,14 +142,6 @@ namespace Bible.Alarm.Services.Droid.Tasks
             }
         }
 
-        public static void ShowNotification(Context context, long scheduleId)
-        {
-            using var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
-            alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
-            alarmIntent.PutExtra("IsImmediate", true.ToString());
-            context.SendBroadcast(alarmIntent);
-        }
-
         private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
