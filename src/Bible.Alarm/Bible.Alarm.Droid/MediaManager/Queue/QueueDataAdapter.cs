@@ -110,9 +110,17 @@ namespace MediaManager.Platforms.Android.Queue
             }
         }
 
+        private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
+            if (disposed)
+            {
+                return;
+            }
+
             MediaManager.Queue.MediaItems.CollectionChanged -= MediaQueue_CollectionChanged;
+
+            disposed = true;
             base.Dispose(disposing);
         }
     }

@@ -68,30 +68,27 @@ namespace Bible.Alarm.Droid.Services.Tasks
 
         private void onDisposed(object sender, bool e)
         {
-            Dispose();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            dispose();
-            base.Dispose(disposing);
+            Dispose(true);
         }
 
         private bool disposed = false;
-        private void dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (disposed)
             {
-                disposed = true;
-
-                if (alarmHandler != null)
-                {
-                    alarmHandler.Disposed -= onDisposed;
-                }
-
-                context?.StopService(intent);
-                BootstrapHelper.Remove(context);
+                return;
             }
+
+            if (alarmHandler != null)
+            {
+                alarmHandler.Disposed -= onDisposed;
+            }
+
+            context?.StopService(intent);
+            BootstrapHelper.Remove(context);
+
+            disposed = true;
+            base.Dispose(disposing);
         }
     }
 }

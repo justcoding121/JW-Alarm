@@ -350,8 +350,14 @@ namespace MediaManager.Platforms.Android.Player
             return Task.CompletedTask;
         }
 
+        private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
+            if (disposed)
+            {
+                return;
+            }
+
             if (Player != null)
             {
                 Player.VideoSizeChanged -= Player_VideoSizeChanged;
@@ -359,6 +365,8 @@ namespace MediaManager.Platforms.Android.Player
                 Player.Release();
                 Player = null;
             }
+
+            disposed = true;
         }
     }
 }

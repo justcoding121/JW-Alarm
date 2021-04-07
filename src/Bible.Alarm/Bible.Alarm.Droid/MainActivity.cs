@@ -24,7 +24,6 @@ namespace Bible.Alarm.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private IContainer container;
-
         private Logger logger => LogManager.GetCurrentClassLogger();
 
         public MainActivity()
@@ -159,7 +158,20 @@ namespace Bible.Alarm.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
+        }
+
+        private bool disposed = false;
+        protected override void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
             BootstrapHelper.Remove(this);
+
+            disposed = true;
+            base.Dispose(disposing);
         }
     }
 }

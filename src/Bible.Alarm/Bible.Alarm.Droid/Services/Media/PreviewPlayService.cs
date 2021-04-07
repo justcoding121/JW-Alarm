@@ -43,13 +43,20 @@ namespace Bible.Alarm.Services.Droid
             return Task.CompletedTask;
         }
 
+        private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
+            if (disposed)
+            {
+                return;
+            }
 
             this.player?.Stop();
             this.player?.Dispose();
             this.player = null;
+
+            disposed = true;
+            base.Dispose(disposing);
         }
     }
 }

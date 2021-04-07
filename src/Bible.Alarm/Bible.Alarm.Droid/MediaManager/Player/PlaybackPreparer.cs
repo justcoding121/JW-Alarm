@@ -30,10 +30,6 @@ namespace MediaManager.Platforms.Android.Player
         protected IExoPlayer _player;
         protected ConcatenatingMediaSource _mediaSource;
 
-        private IContainer container;
-        private ScheduleDbContext scheduleDbContext;
-        private MediaDbContext mediaDbContext;
-
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
 
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
@@ -42,17 +38,6 @@ namespace MediaManager.Platforms.Android.Player
         {
             LogSetup.Initialize(VersionFinder.Default,
              new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
-
-            try
-            {
-                container = BootstrapHelper.InitializeService(Application.Context);
-                container.Resolve<IMediaManager>();
-                scheduleDbContext = container.Resolve<ScheduleDbContext>();
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "An error happened when calling BootstrapHelper from PlaybackPreparer.");
-            }
 
             _player = player;
             _mediaSource = mediaSource;
@@ -86,6 +71,9 @@ namespace MediaManager.Platforms.Android.Player
             {
                 try
                 {
+                    var container = BootstrapHelper.GetInitializedContainer();
+                    using var scheduleDbContext = container.Resolve<ScheduleDbContext>();
+
                     var lastSchedule = await scheduleDbContext.GeneralSettings.AsNoTracking().FirstOrDefaultAsync(x => x.Key == "AndroidLastPlayedScheduleId");
 
                     if (MediaManager.Queue.Count > 0 && (lastSchedule == null || lastSchedule.Value == "-1"))
@@ -109,11 +97,7 @@ namespace MediaManager.Platforms.Android.Player
 
                     if (schedule == null)
                     {
-                        if (mediaDbContext == null)
-                        {
-                            mediaDbContext = container.Resolve<MediaDbContext>();
-                        }
-
+                        using var mediaDbContext = container.Resolve<MediaDbContext>();
                         schedule = await AlarmSchedule.GetSampleSchedule(false, mediaDbContext);
                         scheduleDbContext.Add(schedule);
                         await scheduleDbContext.SaveChangesAsync();
@@ -176,19 +160,6 @@ namespace MediaManager.Platforms.Android.Player
             }
             _player.Prepare(_mediaSource);
             _player.SeekTo(windowIndex, 0);
-        }
-
-        private bool disposed = false;
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                disposed = true;
-                scheduleDbContext.Dispose();
-                mediaDbContext?.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
 
     }

@@ -44,9 +44,18 @@ namespace Bible.Alarm.Services.Droid.Tasks
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
+
             try
             {
                 this.container = BootstrapHelper.InitializeService(this);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happenned when initializing sevice in AlarmSetupService.");
+            }
+
+            try
+            {
 
                 var extra = intent.GetStringExtra("Action");
 
@@ -144,14 +153,15 @@ namespace Bible.Alarm.Services.Droid.Tasks
         private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (disposed)
             {
-                disposed = true;
-                container = null;
-                BootstrapHelper.Remove(this);
+                return;
             }
 
-            base.Dispose(disposing);    
+            BootstrapHelper.Remove(this);
+
+            disposed = true;
+            base.Dispose(disposing);
         }
     }
 }

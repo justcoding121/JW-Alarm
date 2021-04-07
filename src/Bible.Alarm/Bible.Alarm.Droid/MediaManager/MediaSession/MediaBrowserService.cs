@@ -42,6 +42,8 @@ namespace MediaManager.Platforms.Android.MediaSession
         public readonly int ForegroundNotificationId = 1;
         public bool IsForeground = false;
 
+        private IContainer container;
+
         public MediaBrowserService()
         {
             LogSetup.Initialize(VersionFinder.Default,
@@ -50,21 +52,22 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
+
         }
 
         public override void OnCreate()
         {
+            base.OnCreate();
+
             try
             {
-                var container = BootstrapHelper.InitializeService(Application.Context);
+                container = BootstrapHelper.InitializeService(this);
                 container.Resolve<IMediaManager>();
             }
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when calling BootstrapHelper from MediaBrowserService.");
             }
-
-            base.OnCreate();
 
             try
             {
@@ -153,9 +156,9 @@ namespace MediaManager.Platforms.Android.MediaSession
         }
         private void onNotificationPosted(object sender, PlayerNotificationManager.NotificationPostedEventArgs e)
         {
-            logger.Info($"Notification posted. IsOngoing:{e.Ongoing}, IsForeground: {IsForeground}, " + 
+            logger.Info($"Notification posted. IsOngoing:{e.Ongoing}, IsForeground: {IsForeground}, " +
                 $"Queue Count: #{MediaManager.Queue.Count}");
-        
+
             //playing state
             if (e.Ongoing && !IsForeground)
             {
@@ -188,7 +191,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                 StopSelf();
             }
         }
-        
+
         public override StartCommandResult OnStartCommand(Intent startIntent, StartCommandFlags flags, int startId)
         {
             logger.Info("Start command.");
@@ -262,6 +265,20 @@ namespace MediaManager.Platforms.Android.MediaSession
                 mediaItems.Add(item.ToMediaBrowserMediaItem());
 
             result.SendResult(mediaItems);
+        }
+
+        private bool disposed = false;
+        protected override void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            BootstrapHelper.Remove(this);
+
+            disposed = true;
+            base.Dispose(disposing);
         }
     }
 }

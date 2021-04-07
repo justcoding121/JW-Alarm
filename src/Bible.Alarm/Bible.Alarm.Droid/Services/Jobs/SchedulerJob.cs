@@ -61,13 +61,15 @@ namespace Bible.Alarm.Droid.Services.Tasks
         private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (disposed)
             {
-                disposed = true;
-                container = null;
-                BootstrapHelper.Remove(this);
+                return;
             }
 
+            container = null;
+            BootstrapHelper.Remove(this);
+
+            disposed = true;
             base.Dispose(disposing);
         }
     }

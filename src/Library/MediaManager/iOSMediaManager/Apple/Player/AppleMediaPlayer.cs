@@ -261,8 +261,14 @@ namespace MediaManager.Platforms.Apple.Player
                 MediaManager.State = MediaPlayerState.Stopped;
         }
 
+        private bool disposed = false;
         protected override void Dispose(bool disposing)
         {
+            if (disposed)
+            {
+                return;
+            }
+
             NSNotificationCenter.DefaultCenter.RemoveObservers(new List<NSObject>(){
                 didFinishPlayingObserver,
                 itemFailedToPlayToEndTimeObserver,
@@ -283,6 +289,8 @@ namespace MediaManager.Platforms.Apple.Player
             playbackBufferEmptyToken?.Dispose();
             presentationSizeToken?.Dispose();
             timedMetaDataToken?.Dispose();
+
+            disposed = true;
         }
     }
 }

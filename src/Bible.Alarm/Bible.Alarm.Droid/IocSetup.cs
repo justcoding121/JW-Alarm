@@ -3,6 +3,7 @@ using Android.Content;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bible.Alarm.Droid
 {
@@ -10,6 +11,18 @@ namespace Bible.Alarm.Droid
     {
         private static ConcurrentDictionary<object, IContainer> containers
             = new();
+
+        public static IContainer GetContainer()
+        {
+            var container = containers.FirstOrDefault();
+
+            if (!container.Equals(default(KeyValuePair<object, IContainer>)))
+            {
+                return container.Value;
+            }
+
+            throw new Exception("No containers found.");
+        }
 
         public static void Remove(object key)
         {

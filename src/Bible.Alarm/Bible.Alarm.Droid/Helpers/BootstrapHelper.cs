@@ -15,6 +15,11 @@ namespace Bible.Alarm.Services.Droid.Helpers
 {
     public class BootstrapHelper
     {
+        public static IContainer GetInitializedContainer()
+        {
+            return Alarm.Droid.IocSetup.GetContainer();
+        }
+
         public static IContainer InitializeService(Context context)
         {
             var result = Alarm.Droid.IocSetup.Initialize(context, true);
