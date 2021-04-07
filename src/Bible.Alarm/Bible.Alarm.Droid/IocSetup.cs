@@ -8,42 +8,28 @@ namespace Bible.Alarm.Droid
 {
     public class IocSetup
     {
-        private static ConcurrentDictionary<string, IContainer> containers
-            = new ConcurrentDictionary<string, IContainer>();
+        private static ConcurrentDictionary<object, IContainer> containers
+            = new();
+
+        public static void Remove(object key)
+        {
+            containers.TryRemove(key, out var _);
+        }
+
         public static Tuple<IContainer, bool> Initialize(
             Context androidContext,
             bool isService)
         {
-            var result = InitializeWithContainerName(null, androidContext, isService);
-            var containerCreated = result.Item2;
-            if (containerCreated)
+            if (containers.TryGetValue(androidContext, out var existing))
             {
-                var application = (Application)androidContext.ApplicationContext;
-                Xamarin.Essentials.Platform.Init(application);
+                return new Tuple<IContainer, bool>(existing, false);
             }
 
-            return result;
-        }
-
-        public static Tuple<IContainer, bool> InitializeWithContainerName(
-            string containerName,
-            Context androidContext,
-            bool isService)
-        {
-            if (containerName != null)
+            var context = new Dictionary<string, object>
             {
-                containers.TryGetValue(containerName, out var existing);
-
-                if (existing != null)
-                {
-                    return new Tuple<IContainer, bool>(existing, false);
-                }
-            }
-
-            var context = new Dictionary<string, object>();
-
-            context.Add("AndroidContext", androidContext);
-            context.Add("IsAndroidService", isService);
+                { "AndroidContext", androidContext },
+                { "IsAndroidService", isService }
+            };
 
             IContainer container = new Container(context);
 
@@ -52,10 +38,7 @@ namespace Bible.Alarm.Droid
             Alarm.Services.Droid.IocSetup.Initialize(container, isService);
             ViewModels.IocSetup.Initialize(container, isService);
 
-            if (containerName != null)
-            {
-                container = containers.GetOrAdd(containerName, container);
-            }
+            container = containers.GetOrAdd(androidContext, container);
 
             return new Tuple<IContainer, bool>(container, true);
         }

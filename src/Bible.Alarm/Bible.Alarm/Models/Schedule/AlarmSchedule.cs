@@ -110,7 +110,7 @@ namespace Bible.Alarm.Models
             return Id.CompareTo((obj as AlarmSchedule).Id);
         }
 
-        internal async static Task<AlarmSchedule> GetSampleSchedule(bool isNew, MediaDbContext mediaDbContext)
+        public async static Task<AlarmSchedule> GetSampleSchedule(bool isNew, MediaDbContext mediaDbContext)
         {
             var sample = new AlarmSchedule()
             {

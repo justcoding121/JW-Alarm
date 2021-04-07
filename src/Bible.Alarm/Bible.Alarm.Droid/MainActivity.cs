@@ -37,7 +37,7 @@ namespace Bible.Alarm.Droid
         {
             try
             {
-                container = BootstrapHelper.InitializeUI(logger, Application);
+                container = BootstrapHelper.InitializeUI(logger, this, Application);
 
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
@@ -154,6 +154,12 @@ namespace Bible.Alarm.Droid
         public string IsAlarmOn()
         {
             return container.Resolve<IMediaManager>().IsPreparedEx().ToString();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            BootstrapHelper.Remove(this);
         }
     }
 }

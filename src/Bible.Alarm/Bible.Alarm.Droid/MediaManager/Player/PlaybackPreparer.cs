@@ -6,9 +6,11 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media.Session;
+using Bible.Alarm;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Contracts.Media;
 using Bible.Alarm.Droid.Services.Platform;
+using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
@@ -17,6 +19,7 @@ using Com.Google.Android.Exoplayer2.Ext.Mediasession;
 using Com.Google.Android.Exoplayer2.Source;
 using MediaManager.Platforms.Android.Media;
 using MediaManager.Platforms.Android.MediaSession;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 
 namespace MediaManager.Platforms.Android.Player
@@ -26,12 +29,30 @@ namespace MediaManager.Platforms.Android.Player
         private Logger logger => LogManager.GetCurrentClassLogger();
         protected IExoPlayer _player;
         protected ConcatenatingMediaSource _mediaSource;
+
+        private IContainer container;
+        private ScheduleDbContext scheduleDbContext;
+        private MediaDbContext mediaDbContext;
+
+        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
+
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
 
         public MediaSessionConnectorPlaybackPreparer(IExoPlayer player, ConcatenatingMediaSource mediaSource)
         {
             LogSetup.Initialize(VersionFinder.Default,
              new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
+
+            try
+            {
+                container = BootstrapHelper.InitializeService(Application.Context);
+                container.Resolve<IMediaManager>();
+                scheduleDbContext = container.Resolve<ScheduleDbContext>();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened when calling BootstrapHelper from PlaybackPreparer.");
+            }
 
             _player = player;
             _mediaSource = mediaSource;
@@ -58,16 +79,50 @@ namespace MediaManager.Platforms.Android.Player
 
         public async void OnPrepare(bool p0)
         {
-            if (PlaybackService.LastScheduleId != -1)
+            logger.Info($"On prepare called.  Queue Count: #{MediaManager.Queue.Count}");
+
+            await @lock.WaitAsync();
+            try
             {
-                logger.Info("On prepare called for resume.");
                 try
                 {
+                    var lastSchedule = await scheduleDbContext.GeneralSettings.AsNoTracking().FirstOrDefaultAsync(x => x.Key == "AndroidLastPlayedScheduleId");
+
+                    if (MediaManager.Queue.Count > 0 && (lastSchedule == null || lastSchedule.Value == "-1"))
+                    {
+                        //Only in case of Prepare set PlayWhenReady to true because we use this to load in the whole queue
+                        _player.Prepare(_mediaSource);
+                        _player.PlayWhenReady = MediaManager.AutoPlay;
+                        return;
+                    }
+
+                    AlarmSchedule schedule = null;
+                    if (lastSchedule != null && lastSchedule.Value != "-1")
+                    {
+                        schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == long.Parse(lastSchedule.Value));
+                    }
+
+                    if (schedule == null)
+                    {
+                        schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync();
+                    }
+
+                    if (schedule == null)
+                    {
+                        if (mediaDbContext == null)
+                        {
+                            mediaDbContext = container.Resolve<MediaDbContext>();
+                        }
+
+                        schedule = await AlarmSchedule.GetSampleSchedule(false, mediaDbContext);
+                        scheduleDbContext.Add(schedule);
+                        await scheduleDbContext.SaveChangesAsync();
+                    }
+
                     await MediaManager.StopEx();
-               
-                    var container = MediaBrowserService.Container;
+
                     var handler = container.Resolve<IAndroidAlarmHandler>();
-                    await handler.Handle(PlaybackService.LastScheduleId, true);
+                    await handler.Handle(schedule.Id, true);
                     return;
                 }
                 catch (Exception e)
@@ -75,10 +130,11 @@ namespace MediaManager.Platforms.Android.Player
                     logger.Error(e, "An error happened when calling AlarmHandler from PlaybackPreparer.");
                 }
             }
+            finally
+            {
+                @lock.Release();
+            }
 
-            //Only in case of Prepare set PlayWhenReady to true because we use this to load in the whole queue
-            _player.Prepare(_mediaSource);
-            _player.PlayWhenReady = MediaManager.AutoPlay;
         }
 
         public void OnPrepareFromMediaId(string p0, bool p1, Bundle p2)
@@ -121,5 +177,19 @@ namespace MediaManager.Platforms.Android.Player
             _player.Prepare(_mediaSource);
             _player.SeekTo(windowIndex, 0);
         }
+
+        private bool disposed = false;
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+                scheduleDbContext.Dispose();
+                mediaDbContext?.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
     }
 }

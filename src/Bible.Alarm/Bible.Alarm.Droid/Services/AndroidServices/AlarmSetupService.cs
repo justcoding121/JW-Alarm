@@ -141,11 +141,17 @@ namespace Bible.Alarm.Services.Droid.Tasks
             context.SendBroadcast(alarmIntent);
         }
 
-        public new void Dispose()
+        private bool disposed = false;
+        protected override void Dispose(bool disposing)
         {
-            base.Dispose();
-            container = null;
-        }
+            if (!disposed)
+            {
+                disposed = true;
+                container = null;
+                BootstrapHelper.Remove(this);
+            }
 
+            base.Dispose(disposing);    
+        }
     }
 }

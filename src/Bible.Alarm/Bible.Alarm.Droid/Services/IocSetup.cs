@@ -3,6 +3,7 @@
     using Android.App;
     using Android.Media;
     using Bible.Alarm.Contracts.Battery;
+    using Bible.Alarm.Contracts.Media;
     using Bible.Alarm.Contracts.Platform;
     using Bible.Alarm.Droid.Services.Battery;
     using Bible.Alarm.Droid.Services.Handlers;
@@ -20,7 +21,10 @@
     public static class IocSetup
     {
         private static Lazy<IMediaManager> mediaManagerImplementation 
-            = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+            = new(() =>
+            {
+                return new MediaManagerImplementation();
+            }, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());
@@ -69,6 +73,8 @@
             container.Register<IVersionFinder>((x) => new VersionFinder());
             container.Register<AndroidAlarmHandler>((x) => new AndroidAlarmHandler(container.Resolve<IMediaManager>(),
                                                         container.Resolve<IPlaybackService>()));
+            container.Register<IAndroidAlarmHandler>((x) => new AndroidAlarmHandler(container.Resolve<IMediaManager>(),
+                                                           container.Resolve<IPlaybackService>()));
         }
 
     }

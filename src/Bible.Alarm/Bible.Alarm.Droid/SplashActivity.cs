@@ -52,8 +52,6 @@ namespace Bible.Alarm.Droid
                 Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
 
                 SetContentView(Resource.Layout.SplashScreen);
-
-                BootstrapHelper.InitializeUI(logger, Application);
             }
             catch (Exception e)
             {

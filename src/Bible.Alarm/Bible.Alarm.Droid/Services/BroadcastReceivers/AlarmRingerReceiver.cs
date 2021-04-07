@@ -71,10 +71,10 @@ namespace Bible.Alarm.Droid.Services.Tasks
             Dispose();
         }
 
-        public new void Dispose()
+        protected override void Dispose(bool disposing)
         {
             dispose();
-            base.Dispose();
+            base.Dispose(disposing);
         }
 
         private bool disposed = false;
@@ -90,6 +90,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
                 }
 
                 context?.StopService(intent);
+                BootstrapHelper.Remove(context);
             }
         }
     }

@@ -17,16 +17,23 @@ namespace Bible.Alarm.Services.Droid.Helpers
     {
         public static IContainer InitializeService(Context context)
         {
-            var result = Alarm.Droid.IocSetup.InitializeService(context, true);
-            var container = result.Item1;
+            var result = Alarm.Droid.IocSetup.Initialize(context, true);
 
-            return container;
+            var containerCreated = result.Item2;
+            if (containerCreated)
+            {
+                var application = (Application)context.ApplicationContext;
+                Xamarin.Essentials.Platform.Init(application);
+            }
+
+            return result.Item1;
         }
 
-        public static IContainer InitializeUI(Logger logger, Application application)
+        public static IContainer InitializeUI(Logger logger, Context context, Application application)
         {
-            var result = Alarm.Droid.IocSetup.InitializeWithContainerName("MainActivity", Application.Context, false);
+            var result = Alarm.Droid.IocSetup.Initialize(context, false);
             var container = result.Item1;
+
             var containerCreated = result.Item2;
             if (containerCreated)
             {
@@ -37,7 +44,6 @@ namespace Bible.Alarm.Services.Droid.Helpers
                     try
                     {
                         await VerifyServices(container);
-
                         Messenger<bool>.Publish(MvvmMessages.Initialized, true);
 
                     }
@@ -73,6 +79,11 @@ namespace Bible.Alarm.Services.Droid.Helpers
             var task2 = BootstrapHelper.initializeDatabase(container);
 
             await Task.WhenAll(task1, task2);
+        }
+
+        internal static void Remove(Context context)
+        {
+            Alarm.Droid.IocSetup.Remove(context);
         }
 
         private async static Task verifyMediaLookUp(IContainer container)

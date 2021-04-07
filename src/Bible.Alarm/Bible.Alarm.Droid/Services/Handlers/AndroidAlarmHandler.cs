@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Contracts.Media;
 using Bible.Alarm.Services.Contracts;
 using Com.Google.Android.Exoplayer2.UI;
 using MediaManager;
@@ -10,7 +11,7 @@ using NLog;
 
 namespace Bible.Alarm.Droid.Services.Handlers
 {
-    public class AndroidAlarmHandler : IDisposable
+    public class AndroidAlarmHandler : IAndroidAlarmHandler, IDisposable
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
 

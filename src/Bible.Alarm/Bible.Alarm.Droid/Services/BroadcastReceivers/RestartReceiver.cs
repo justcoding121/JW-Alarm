@@ -22,6 +22,7 @@ namespace Bible.Alarm.Droid.Services.Tasks
         private Logger logger => LogManager.GetCurrentClassLogger();
 
         private IContainer container;
+        private Context context;
 
         public RestartReceiver()
         {
@@ -30,6 +31,8 @@ namespace Bible.Alarm.Droid.Services.Tasks
         }
         public override async void OnReceive(Context context, Intent intent)
         {
+            this.context = context;
+
             var pendingIntent = GoAsync();
 
             try
@@ -62,10 +65,17 @@ namespace Bible.Alarm.Droid.Services.Tasks
             }
         }
 
+        private bool disposed = false;
         public new void Dispose()
         {
+            if (!disposed)
+            {
+                disposed = true;
+                container = null;
+                BootstrapHelper.Remove(context);
+            }
+
             base.Dispose();
-            container = null;
         }
     }
 }

@@ -12,6 +12,7 @@ using AndroidX.Media.Session;
 using Bible.Alarm;
 using Bible.Alarm.Droid;
 using Bible.Alarm.Droid.Services.Platform;
+using Bible.Alarm.Services;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using Com.Google.Android.Exoplayer2.UI;
@@ -41,7 +42,6 @@ namespace MediaManager.Platforms.Android.MediaSession
         public readonly int ForegroundNotificationId = 1;
         public bool IsForeground = false;
 
-        public static IContainer Container { get; private set; }
         public MediaBrowserService()
         {
             LogSetup.Initialize(VersionFinder.Default,
@@ -54,17 +54,17 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override void OnCreate()
         {
-            base.OnCreate();
-            logger.Info("Service start.");
             try
             {
-                Container = BootstrapHelper.InitializeService(this);
-                Container.Resolve<IMediaManager>();
+                var container = BootstrapHelper.InitializeService(Application.Context);
+                container.Resolve<IMediaManager>();
             }
             catch (Exception e)
             {
-                logger.Error(e, "An error happened when calling BootstrapHelper from PlaybackPreparer.");
+                logger.Error(e, "An error happened when calling BootstrapHelper from MediaBrowserService.");
             }
+
+            base.OnCreate();
 
             try
             {
@@ -77,7 +77,7 @@ namespace MediaManager.Platforms.Android.MediaSession
             }
 
             MediaManager.StateChanged += MediaManager_StateChanged;
-           
+            logger.Info($"Service start.  Queue Count: #{MediaManager.Queue.Count}");
         }
 
         private void MediaManager_StateChanged(object sender, MediaManager.Playback.StateChangedEventArgs e)
@@ -153,8 +153,9 @@ namespace MediaManager.Platforms.Android.MediaSession
         }
         private void onNotificationPosted(object sender, PlayerNotificationManager.NotificationPostedEventArgs e)
         {
-            logger.Info($"Notification posted. IsOngoing:{e.Ongoing}, IsForeground: {IsForeground}");
-
+            logger.Info($"Notification posted. IsOngoing:{e.Ongoing}, IsForeground: {IsForeground}, " + 
+                $"Queue Count: #{MediaManager.Queue.Count}");
+        
             //playing state
             if (e.Ongoing && !IsForeground)
             {
@@ -244,8 +245,6 @@ namespace MediaManager.Platforms.Android.MediaSession
             {
                 logger.Error(e, "An error happened when disposing MediaBrowserService");
             }
-
-            Container = null;
 
             base.OnDestroy();
         }

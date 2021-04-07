@@ -58,11 +58,17 @@ namespace Bible.Alarm.Droid.Services.Tasks
             return false;
         }
 
-        public new void Dispose()
+        private bool disposed = false;
+        protected override void Dispose(bool disposing)
         {
-            base.Dispose();
-            container = null;
-        }
+            if (!disposed)
+            {
+                disposed = true;
+                container = null;
+                BootstrapHelper.Remove(this);
+            }
 
+            base.Dispose(disposing);
+        }
     }
 }

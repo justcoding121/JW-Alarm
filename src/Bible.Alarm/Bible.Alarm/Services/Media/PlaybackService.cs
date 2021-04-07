@@ -10,6 +10,7 @@ using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Player;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace Bible.Alarm.Services
         private INetworkStatusService networkStatusService;
         private INotificationService notificationService;
         private IDownloadService downloadService;
-
+        private ScheduleDbContext scheduleDbContext;
         private static long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying
             = new Dictionary<IMediaItem, NotificationDetail>();
@@ -56,7 +57,8 @@ namespace Bible.Alarm.Services
             IStorageService storageService,
             INetworkStatusService networkStatusService,
             INotificationService notificationService,
-            IDownloadService downloadService)
+            IDownloadService downloadService,
+            ScheduleDbContext scheduleDbContext)
         {
             this.mediaManager = mediaManager;
             this.playlistService = playlistService;
@@ -66,6 +68,7 @@ namespace Bible.Alarm.Services
             this.networkStatusService = networkStatusService;
             this.notificationService = notificationService;
             this.downloadService = downloadService;
+            this.scheduleDbContext = scheduleDbContext;
 
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
@@ -283,7 +286,7 @@ namespace Bible.Alarm.Services
                 {
                     firstChapter = currentlyPlaying.FirstOrDefault(x => x.Value.IsBibleReading).Key;
                     this.mediaManager.RepeatMode = RepeatMode.Off;
-
+                    await removeLastPlayed();
                     await this.mediaManager.PlayEx(mergedMediaItems.Select(x => x.Value).ToList());
                 }
             }
@@ -302,6 +305,20 @@ namespace Bible.Alarm.Services
             watch();
         }
 
+        private async Task storeLastPlayed(long scheduleId)
+        {
+            var lastSchedule = await scheduleDbContext.GeneralSettings.FirstOrDefaultAsync(x => x.Key == "AndroidLastPlayedScheduleId");
+
+            if (lastSchedule == null)
+            {
+                lastSchedule = new GeneralSettings() { Key = "AndroidLastPlayedScheduleId" };
+                scheduleDbContext.GeneralSettings.Add(lastSchedule);
+            }
+
+            lastSchedule.Value = scheduleId.ToString();
+            await scheduleDbContext.SaveChangesAsync();
+        }
+
         public async Task Dismiss()
         {
             if (this.mediaManager.IsPreparedEx()
@@ -310,8 +327,20 @@ namespace Bible.Alarm.Services
                 await this.mediaManager.StopEx();
             }
 
-            currentScheduleId = 0;
+            currentScheduleId = -1;
             readyTodispose = true;
+        }
+
+        private async Task removeLastPlayed()
+        {
+            var lastSchedule = await scheduleDbContext.GeneralSettings.FirstOrDefaultAsync(x => x.Key == "AndroidLastPlayedScheduleId");
+
+            if (lastSchedule != null)
+            {
+                lastSchedule.Value = "-1";
+                await scheduleDbContext.SaveChangesAsync();
+            }
+       
         }
 
         private void watch()
@@ -356,6 +385,8 @@ namespace Bible.Alarm.Services
 
                                         track.FinishedDuration = mediaManager.Position;
                                         await this.playlistService.MarkTrackAsPlayed(track);
+                                        await storeLastPlayed(currentScheduleId);
+
                                     }
                                 }
                             }
