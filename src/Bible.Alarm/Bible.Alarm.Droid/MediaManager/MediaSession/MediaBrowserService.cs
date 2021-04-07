@@ -186,7 +186,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                 IsForeground = false;
             }
 
-            if (e.DismissedByUser)
+            if (e.DismissedByUser || Build.VERSION.SdkInt <= BuildVersionCodes.Q)
             {
                 StopSelf();
             }
@@ -210,8 +210,12 @@ namespace MediaManager.Platforms.Android.MediaSession
             await MediaManager.Stop();
             base.OnTaskRemoved(rootIntent);
 
-            StopForeground(true);
-            IsForeground = false;
+            if (IsForeground)
+            {
+                StopForeground(true);
+                IsForeground = false;
+            }
+
             StopSelf();
         }
 

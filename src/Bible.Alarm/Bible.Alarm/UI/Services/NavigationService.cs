@@ -78,6 +78,16 @@ namespace Bible.Alarm.UI
                     {
                         case MvvmMessages.ShowAlarmModal:
                             {
+                                await Task.Delay(500);
+
+                                var next = await queue.PeekAsync();
+
+                                if (next != default && next.Item1 == MvvmMessages.HideAlarmModal)
+                                {
+                                    await queue.DequeueAsync();
+                                    break;
+                                }
+
                                 var vm = container.Resolve<AlarmViewModal>();
                                 await Task.Delay(0).ContinueWith(async (x) =>
                                 {

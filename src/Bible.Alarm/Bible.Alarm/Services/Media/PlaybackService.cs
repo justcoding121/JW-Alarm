@@ -441,7 +441,6 @@ namespace Bible.Alarm.Services
             {
                 this.mediaManager.RepeatMode = RepeatMode.All;
                 await this.mediaManager.PlayEx(new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3")));
-                Messenger<object>.Publish(MvvmMessages.ShowAlarmModal);
             }
             else
             {

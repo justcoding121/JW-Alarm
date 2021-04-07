@@ -69,5 +69,24 @@ namespace Advanced.Algorithms.Distributed
             return await consumer.Task;
 
         }
+
+        public async Task<T> PeekAsync()
+        {
+            await consumerQueueLock.WaitAsync();
+
+            try
+            {
+                if(queue.Count == 0)
+                {
+                    return default;
+                }
+
+                return queue.Peek();
+            }
+            finally
+            {
+                consumerQueueLock.Release();
+            }
+        }
     }
 }
