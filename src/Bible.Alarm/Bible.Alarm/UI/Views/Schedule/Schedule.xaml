@@ -23,7 +23,6 @@
                 IsEnabled="True"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
-                Scale="0.5"
                 VerticalOptions="Center"
                 Color="SlateBlue">
                 <ActivityIndicator.Scale>
@@ -337,9 +336,57 @@
                             </StackLayout>
                         </Grid>
                         <Grid
+                            x:Name="ShowNotificationButton"
+                            Margin="5,0,5,0"
+                            BackgroundColor="WhiteSmoke"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill">
+                            <Grid.IsVisible>
+                                <OnPlatform x:TypeArguments="x:Boolean"
+                                  Default="false"
+                                  Android="true"/>
+                            </Grid.IsVisible>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*" />
+                                <ColumnDefinition Width="4*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NotificationEnabledCommand}" NumberOfTapsRequired="1" />
+                            </Grid.GestureRecognizers>
+                            <Label
+                                Grid.Column="0"
+                                Margin="5,0,0,0"
+                                Padding="10"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Start"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                Play only when I tap on alarm notification
+                            </Label>
+                            <StackLayout
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                Orientation="Horizontal"
+                                VerticalOptions="Center">
+                                <Switch
+                                    Margin="{OnPlatform Default='0,0,15,0',
+                                                        UWP='0,0,-95,0'}"
+                                    HeightRequest="30"
+                                    HorizontalOptions="End"
+                                    IsToggled="{Binding NotificationEnabled, Mode=TwoWay}"
+                                    Scale="{OnPlatform Default='1.25',
+                                                       iOS='1',
+                                                       UWP='1'}"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+                        <Grid
                             x:Name="MusicButton"
                             Padding="0,0,0,30"
-                            Margin="{OnPlatform Default='5,5,5,30'}"
+                            Margin="{OnPlatform Default='5,0,5,30'}"
                             BackgroundColor="WhiteSmoke"
                             HorizontalOptions="Fill"
                             VerticalOptions="Fill">
@@ -388,6 +435,7 @@
                                     VerticalOptions="Center" />
                             </StackLayout>
                         </Grid>
+
                     </StackLayout>
                 </ScrollView>
                 <Grid Grid.Row="2" VerticalOptions="End">

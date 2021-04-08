@@ -1,6 +1,7 @@
 ﻿
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Helpers;
+using Bible.Alarm.Contracts.Battery;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -40,9 +41,19 @@ namespace Bible.Alarm.ViewModels
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
+        public Command BatteryOptimizationExcludeCommand { get; private set; }
+        public Command BatteryOptimizationDismissCommand { get; private set; }
+
+        private IBatteryOptimizationManager batteryOptimizationManager;
+
         public ScheduleViewModel(IContainer container)
         {
             this.container = container;
+
+            if (CurrentDevice.RuntimePlatform == Device.Android)
+            {
+                this.batteryOptimizationManager = container.Resolve<IBatteryOptimizationManager>();
+            }
 
             this.scheduleDbContext = this.container.Resolve<ScheduleDbContext>();
             this.mediaDbContext = this.container.Resolve<MediaDbContext>();
@@ -73,7 +84,7 @@ namespace Bible.Alarm.ViewModels
 
                    if (model == null)
                    {
-                       modelToSet = await AlarmSchedule.GetSampleSchedule(true, mediaDbContext);   
+                       modelToSet = await AlarmSchedule.GetSampleSchedule(true, mediaDbContext);
                    }
                    else
                    {
@@ -277,7 +288,73 @@ namespace Bible.Alarm.ViewModels
 
                 IsBusy = false;
             });
+
+            NotificationEnabledCommand = new Command(async () =>
+            {
+                NotificationEnabled = !NotificationEnabled;
+
+                if (!NotificationEnabled)
+                {
+                    IsBusy = true;
+                    await showBatteryOptimizationExclusionPage();
+                    IsBusy = false;
+                }
+            });
+
+            BatteryOptimizationExcludeCommand = new Command(async () =>
+            {
+                await markBatteryOptimizationModalAsShown();
+
+                await navigationService.CloseModal();
+
+                this.batteryOptimizationManager.ShowBatteryOptimizationExclusionSettingsPage();
+            });
+
+            BatteryOptimizationDismissCommand = new Command(async () =>
+            {
+                await markBatteryOptimizationModalAsShown();
+
+                await navigationService.CloseModal();
+            });
         }
+
+        private bool canOptimizeBattery = false;
+        public bool CanOptimizeBattery
+        {
+            get => canOptimizeBattery;
+            set
+            {
+                this.Set(ref canOptimizeBattery, value);
+            }
+        }
+
+        private async Task markBatteryOptimizationModalAsShown()
+        {
+            if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
+            {
+                await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
+                {
+                    Key = "AndroidBatteryOptimizationExclusionPromptShown",
+                    Value = "True"
+                });
+
+                await scheduleDbContext.SaveChangesAsync();
+            }
+        }
+
+        private async Task showBatteryOptimizationExclusionPage()
+        {
+            if (batteryOptimizationManager.CanShowOptimizeActivity())
+            {
+                CanOptimizeBattery = true;
+            }
+
+            if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
+            {
+                await navigationService.ShowModal("BatteryOptimizationExclusionModal", this);
+            }
+        }
+
 
         private ScheduleListItem scheduleListItem;
 
@@ -288,6 +365,8 @@ namespace Bible.Alarm.ViewModels
 
         public ICommand SelectMusicCommand { get; set; }
         public ICommand SelectBibleCommand { get; set; }
+
+        public ICommand NotificationEnabledCommand { get; set; }
 
         public ICommand ToggleDayCommand { get; set; }
         public ICommand ToggleAlwaysPlayFromStartCommand { get; set; }
@@ -341,8 +420,9 @@ namespace Bible.Alarm.ViewModels
             Model.DaysOfWeek = DaysOfWeek;
             Model.Hour = Time.Hours;
             Model.Minute = Time.Minutes;
-            Model.MusicEnabled = musicEnabled;
-            Model.AlwaysPlayFromStart = alwaysPlayFromStart;
+            Model.MusicEnabled = MusicEnabled;
+            Model.NotificationEnabled = notificationEnabled;
+            Model.AlwaysPlayFromStart = AlwaysPlayFromStart;
             Model.NumberOfChaptersToRead = CurrentNumberOfChapters.Value;
 
             return Model;
@@ -358,6 +438,7 @@ namespace Bible.Alarm.ViewModels
             daysOfWeek = model.DaysOfWeek;
             time = new TimeSpan(model.Hour, model.Minute, model.Second);
             musicEnabled = model.MusicEnabled;
+            notificationEnabled = model.NotificationEnabled;
             alwaysPlayFromStart = model.AlwaysPlayFromStart;
 
             populateNumberOfChaptersListView(model);
@@ -422,6 +503,13 @@ namespace Bible.Alarm.ViewModels
         {
             get => musicEnabled;
             set => this.Set(ref musicEnabled, value);
+        }
+
+        private bool notificationEnabled;
+        public bool NotificationEnabled
+        {
+            get => notificationEnabled;
+            set => this.Set(ref notificationEnabled, value);
         }
 
         private bool alwaysPlayFromStart;
@@ -538,7 +626,7 @@ namespace Bible.Alarm.ViewModels
                         existing.BibleReadingSchedule.ChapterNumber = model.BibleReadingSchedule.ChapterNumber;
                         existing.BibleReadingSchedule.LanguageCode = model.BibleReadingSchedule.LanguageCode;
                         existing.BibleReadingSchedule.PublicationCode = model.BibleReadingSchedule.PublicationCode;
-                        
+
                         if (bibleReadingUpdated)
                         {
                             existing.BibleReadingSchedule.FinishedDuration = default(TimeSpan);
@@ -546,6 +634,7 @@ namespace Bible.Alarm.ViewModels
                     }
 
                     existing.MusicEnabled = model.MusicEnabled;
+                    existing.NotificationEnabled = model.NotificationEnabled;
                     existing.AlwaysPlayFromStart = model.AlwaysPlayFromStart;
                     existing.NumberOfChaptersToRead = model.NumberOfChaptersToRead;
                     existing.Name = model.Name;
@@ -655,6 +744,7 @@ namespace Bible.Alarm.ViewModels
             this.playbackService.Dispose();
             this.notificationService.Dispose();
             this.mediaDbContext.Dispose();
+            this.batteryOptimizationManager?.Dispose();
         }
     }
 }

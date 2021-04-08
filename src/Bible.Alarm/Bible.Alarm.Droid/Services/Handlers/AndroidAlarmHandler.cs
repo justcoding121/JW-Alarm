@@ -4,9 +4,12 @@ using System.Threading.Tasks;
 using Android.App;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Contracts.Media;
+using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
+using Bible.Alarm.Services.Droid;
 using Com.Google.Android.Exoplayer2.UI;
 using MediaManager;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 
 namespace Bible.Alarm.Droid.Services.Handlers
@@ -19,11 +22,19 @@ namespace Bible.Alarm.Droid.Services.Handlers
         private IPlaybackService playbackService;
         private bool mediaManagerInitialized = false;
         private PlayerNotificationManager playerNotificationManager;
+        private DroidNotificationService notificationService;
+        private ScheduleDbContext dbContext;
 
-        public AndroidAlarmHandler(IMediaManager mediaManager, IPlaybackService playbackService)
+        public AndroidAlarmHandler(IMediaManager mediaManager,
+            IPlaybackService playbackService,
+            ScheduleDbContext dbContext,
+            DroidNotificationService notificationService)
         {
             this.mediaManager = mediaManager;
             this.playbackService = playbackService;
+            this.notificationService = notificationService;
+            this.dbContext = dbContext;
+
             playbackService.Stopped += onStopped;
         }
 
@@ -35,6 +46,33 @@ namespace Bible.Alarm.Droid.Services.Handlers
             {
                 Dispose();
                 return;
+            }
+
+            var schedule = await dbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == scheduleId);
+
+            if (schedule == null)
+            {
+                Dispose();
+                return;
+            }
+
+            //local notification for android
+            if (!isImmediate)
+            {
+
+                if (schedule.NotificationEnabled)
+                {
+                    notificationService.RemoveLocalNotification(schedule.Id);
+                    notificationService.ShowLocalNotification(schedule.Id, string.IsNullOrEmpty(schedule.Name) ? "Bible Alarm" : schedule.Name,
+                                                                     "Press to start listening now.");
+                    Dispose();
+                    return;
+                }
+            }
+
+            if (schedule.NotificationEnabled)
+            {
+                notificationService.RemoveLocalNotification(schedule.Id);
             }
 
             mediaManager.Init(Application.Context);
@@ -95,6 +133,9 @@ namespace Bible.Alarm.Droid.Services.Handlers
                 {
                     playerNotificationManager.NotificationCancelled -= notificationCancelled;
                 }
+
+                dbContext.Dispose();
+                notificationService.Dispose();
 
                 if (resetMediaManager)
                 {

@@ -2,13 +2,10 @@
 using Android.Content;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.App;
 using Bible.Alarm.Droid.Services.Platform;
-using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using NLog;
-using Plugin.CurrentActivity;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;

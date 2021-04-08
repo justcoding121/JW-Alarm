@@ -26,10 +26,12 @@ namespace Bible.Alarm.Services.UWP
             _ = uwpAlarmHandler.Handle(scheduleId, true);
         }
 
-        public Task ScheduleNotification(long scheduleId, DaysOfWeek dayOfWeek,
-            DateTimeOffset time,
+        public Task ScheduleNotification(AlarmSchedule schedule,
             string title, string body)
         {
+
+            var scheduleId = schedule.Id;
+            var time = schedule.NextFireDate();
             // Construct the toast content
             ToastContent toastContent = new ToastContent()
             {

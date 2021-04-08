@@ -23,6 +23,10 @@ namespace Bible.Alarm.Services
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+
+//#if DEBUG
+//            optionsBuilder.UseSqlite("DataSource=media_migration.db");
+//#endif
         }
 
     }

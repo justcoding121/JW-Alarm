@@ -1,11 +1,10 @@
 ﻿using Android.App;
 using Android.App.Job;
 using Android.Content;
+using Android.OS;
 using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Droid;
 using Bible.Alarm.Droid.Services.Helpers;
 using Bible.Alarm.Droid.Services.Tasks;
-using Bible.Alarm.Services.Droid.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
@@ -29,6 +28,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
             {
                 var application = (Application)context.ApplicationContext;
                 Xamarin.Essentials.Platform.Init(application);
+                createNotificationChannel();
             }
 
             return result.Item1;
@@ -43,6 +43,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
             if (containerCreated)
             {
                 Xamarin.Essentials.Platform.Init(application);
+                createNotificationChannel();
 
                 Task.Run(async () =>
                 {
@@ -131,5 +132,26 @@ namespace Bible.Alarm.Services.Droid.Helpers
             }
         }
 
+
+        private static void createNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification
+                // channel on older versions of Android.
+                return;
+            }
+
+            var channelId = DroidNotificationService.CHANNEL_ID;
+            var channelDescription = DroidNotificationService.CHANNEL_DESCRIPTION;
+            var channel = new NotificationChannel(channelId, channelId, NotificationImportance.Default)
+            {
+                Description = channelDescription
+            };
+
+            var notificationManager = (NotificationManager)Application.Context.GetSystemService(Context.NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+        }
     }
 }

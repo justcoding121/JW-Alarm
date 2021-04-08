@@ -20,7 +20,7 @@
 
     public static class IocSetup
     {
-        private static Lazy<IMediaManager> mediaManagerImplementation 
+        private static Lazy<IMediaManager> mediaManagerImplementation
             = new(() =>
             {
                 return new MediaManagerImplementation();
@@ -31,7 +31,10 @@
 
             container.Register<IToastService>((x) => new DroidToastService(container));
 
-            container.Register<INotificationService>((x) => new DroidNotificationService(container));
+            DroidNotificationService notificationServiceFactory() => new DroidNotificationService(container);
+
+            container.Register<DroidNotificationService>((x) => notificationServiceFactory());
+            container.Register<INotificationService>((x) => notificationServiceFactory());
 
             container.Register<IPreviewPlayService>((x) => new PreviewPlayService(container, container.Resolve<MediaPlayer>()));
             container.Register((x) =>
@@ -71,10 +74,13 @@
 
             container.Register<IBatteryOptimizationManager>((x) => new BatteryOptimizationManager(container));
             container.Register<IVersionFinder>((x) => new VersionFinder());
-            container.Register<AndroidAlarmHandler>((x) => new AndroidAlarmHandler(container.Resolve<IMediaManager>(),
-                                                        container.Resolve<IPlaybackService>()));
-            container.Register<IAndroidAlarmHandler>((x) => new AndroidAlarmHandler(container.Resolve<IMediaManager>(),
-                                                           container.Resolve<IPlaybackService>()));
+
+            AndroidAlarmHandler alarmHandlerFactory() => new AndroidAlarmHandler(container.Resolve<IMediaManager>(),
+                                                        container.Resolve<IPlaybackService>(), container.Resolve<ScheduleDbContext>(),
+                                                        container.Resolve<DroidNotificationService>());
+
+            container.Register<AndroidAlarmHandler>((x) => alarmHandlerFactory());
+            container.Register<IAndroidAlarmHandler>((x) => alarmHandlerFactory());
         }
 
     }

@@ -2,7 +2,6 @@
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Helpers;
 using Bible.Alarm.Common.Mvvm;
-using Bible.Alarm.Contracts.Battery;
 using Bible.Alarm.Models;
 using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
@@ -39,15 +38,13 @@ namespace Bible.Alarm.ViewModels
         private INavigationService navigationService;
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;
-        private IBatteryOptimizationManager batteryOptimizationManager;
+
         private INotificationService notificationService;
 
         private TaskScheduler uiTaskScheduler;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
-        public Command BatteryOptimizationExcludeCommand { get; private set; }
-        public Command BatteryOptimizationDismissCommand { get; private set; }
 
         public HomeViewModel(IContainer container,
             ScheduleDbContext scheduleDbContext,
@@ -66,10 +63,6 @@ namespace Bible.Alarm.ViewModels
             this.notificationService = notificationService;
             this.mediaDbContext = mediaDbContext;
 
-            if (CurrentDevice.RuntimePlatform == Device.Android)
-            {
-                this.batteryOptimizationManager = container.Resolve<IBatteryOptimizationManager>();
-            }
 
             uiTaskScheduler = this.container.Resolve<TaskScheduler>();
 
@@ -96,74 +89,22 @@ namespace Bible.Alarm.ViewModels
 
             });
 
-            BatteryOptimizationExcludeCommand = new Command(async () =>
-            {
-                await markBatteryOptimizationModalAsShown();
-
-                await navigationService.CloseModal();
-
-                this.batteryOptimizationManager.ShowBatteryOptimizationExclusionSettingsPage();
-            });
-
-            BatteryOptimizationDismissCommand = new Command(async () =>
-            {
-                await markBatteryOptimizationModalAsShown();
-
-                await navigationService.CloseModal();
-            });
-
-
+    
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
             var subscription = ReduxContainer.Store
                .Select(state => state.Schedules)
                .Where(x => x != null)
                .DistinctUntilChanged()
-               .Subscribe(async x =>
+               .Subscribe(x =>
                {
                    Schedules = x;
                    listenIsEnabledChanges();
                    IsBusy = false;
-
-                   await Task.Delay(10).ContinueWith(async (y) =>
-                   {
-                       if (CurrentDevice.RuntimePlatform == Device.Android)
-                       {
-                           await showBatteryOptimizationExclusionPage();
-                       }
-
-                   }, uiTaskScheduler);
                });
             subscriptions.Add(subscription);
 
             initialize();
-        }
-
-        private async Task markBatteryOptimizationModalAsShown()
-        {
-            if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
-            {
-                await scheduleDbContext.GeneralSettings.AddAsync(new GeneralSettings()
-                {
-                    Key = "AndroidBatteryOptimizationExclusionPromptShown",
-                    Value = "True"
-                });
-
-                await scheduleDbContext.SaveChangesAsync();
-            }
-        }
-
-        private async Task showBatteryOptimizationExclusionPage()
-        {
-            if (batteryOptimizationManager.CanShowOptimizeActivity())
-            {
-                CanOptimizeBattery = true;
-            }
-
-            if (!await scheduleDbContext.GeneralSettings.AnyAsync(x => x.Key == "AndroidBatteryOptimizationExclusionPromptShown"))
-            {
-                await navigationService.ShowModal("BatteryOptimizationExclusionModal", this);
-            }
         }
 
         private async Task seedDefaultAlarm()
@@ -204,15 +145,6 @@ namespace Bible.Alarm.ViewModels
             }
         }
 
-        private bool canOptimizeBattery = false;
-        public bool CanOptimizeBattery
-        {
-            get => canOptimizeBattery;
-            set
-            {
-                this.Set(ref canOptimizeBattery, value);
-            }
-        }
 
         private bool loaded = false;
         public bool Loaded
@@ -432,7 +364,6 @@ namespace Bible.Alarm.ViewModels
             this.popUpService.Dispose();
             this.mediaCacheService.Dispose();
             this.alarmService.Dispose();
-            this.batteryOptimizationManager?.Dispose();
             this.notificationService.Dispose();
             this.mediaDbContext.Dispose();
 

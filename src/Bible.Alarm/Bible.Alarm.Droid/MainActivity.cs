@@ -3,7 +3,10 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Contracts.Media;
+using Bible.Alarm.Droid.Services.Handlers;
 using Bible.Alarm.Droid.Services.Platform;
+using Bible.Alarm.Services.Droid;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Droid.Tasks;
 using Bible.Alarm.Services.Infrastructure;
@@ -32,7 +35,7 @@ namespace Bible.Alarm.Droid
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Device.Android);
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected async override void OnCreate(Bundle bundle)
         {
             try
             {
@@ -46,26 +49,26 @@ namespace Bible.Alarm.Droid
                 Forms.Init(this, bundle);
                 LoadApplication(new App(container));
 
-                Task.Run(() =>
-                {
-                    //legacy
-                    try
-                    {
-                        var cachePath = Path.Combine(Path.GetTempPath(), "MediaCache");
+                _ = Task.Run(() =>
+                 {
+                     //legacy
+                     try
+                     {
+                         var cachePath = Path.Combine(Path.GetTempPath(), "MediaCache");
 
-                        // If exist, delete the cache directory
-                        // and everything in it recursivly
-                        if (Directory.Exists(cachePath))
-                        {
-                            Directory.Delete(cachePath, true);
-                        }
+                         // If exist, delete the cache directory
+                         // and everything in it recursivly
+                         if (Directory.Exists(cachePath))
+                         {
+                             Directory.Delete(cachePath, true);
+                         }
 
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "Deleting cache directory failed in android.");
-                    }
-                });
+                     }
+                     catch (Exception e)
+                     {
+                         logger.Error(e, "Deleting cache directory failed in android.");
+                     }
+                 });
 
             }
             catch (Exception e)
@@ -84,6 +87,17 @@ namespace Bible.Alarm.Droid
             {
                 logger.Error(e, "CrossCurrentActivity init error.");
                 throw;
+            }
+
+            if (Intent.Extras != null)
+            {
+                var scheduleId = Intent.Extras.GetInt(DroidNotificationService.SCHEDULE_ID, int.MinValue);
+
+                if (scheduleId != int.MinValue)
+                {
+                    var alarmHandler = container.Resolve<AndroidAlarmHandler>();
+                    await alarmHandler.Handle(scheduleId, true);
+                }
             }
         }
 

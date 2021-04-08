@@ -263,6 +263,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\cool-alarm-tone-notification-sound.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\drawables.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
+  </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties TriggeredFromHotReload="False" />

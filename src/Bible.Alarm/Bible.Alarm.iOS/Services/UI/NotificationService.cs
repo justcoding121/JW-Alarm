@@ -29,9 +29,14 @@ namespace Bible.Alarm.Services.iOS
             _ = iosAlarmHandler.Handle(scheduleId, true);
         }
 
-        public async Task ScheduleNotification(long scheduleId, DaysOfWeek daysOfWeek, DateTimeOffset time,
-            string title, string body)
+        public async Task ScheduleNotification(AlarmSchedule schedule,
+        string title, string body)
         {
+
+            var scheduleId = schedule.Id;
+            var time = schedule.NextFireDate();
+            var daysOfWeek = schedule.DaysOfWeek;
+
             await Task.Delay(0).
                 ContinueWith((x) =>
                 {

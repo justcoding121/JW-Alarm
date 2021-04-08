@@ -32,6 +32,7 @@ namespace Bible.Alarm.Models
 
         public string CronExpression => getCronExpression();
 
+        public bool NotificationEnabled { get; set; }
         public bool MusicEnabled { get; set; }
         public virtual AlarmMusic Music { get; set; }
 
@@ -116,6 +117,7 @@ namespace Bible.Alarm.Models
             {
                 IsEnabled = false,
                 MusicEnabled = false,
+                NotificationEnabled = true,
                 DaysOfWeek = DaysOfWeek.All,
                 Name = $"{(isNew ? "New schedule" : "Initial schedule")}",
                 Hour = 6,
