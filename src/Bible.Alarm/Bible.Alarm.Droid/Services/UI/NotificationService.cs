@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Android.Graphics;
+using Bible.Alarm.Contracts.Media;
 
 namespace Bible.Alarm.Services.Droid
 {
@@ -38,7 +39,7 @@ namespace Bible.Alarm.Services.Droid
         {
             try
             {
-                var alarmHandler = container.Resolve<AndroidAlarmHandler>();
+                var alarmHandler = container.Resolve<IAndroidAlarmHandler>();
                 await alarmHandler.Handle(scheduleId, true);
             }
             catch (System.Exception e)

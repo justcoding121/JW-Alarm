@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Bible.Alarm.Common.Extensions;
+using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Media;
 using Bible.Alarm.Droid.Services.Handlers;
 using Bible.Alarm.Droid.Services.Platform;
@@ -28,7 +29,7 @@ namespace Bible.Alarm.Droid
     {
         private IContainer container;
         private Logger logger => LogManager.GetCurrentClassLogger();
-
+        private IAndroidAlarmHandler alarmHandler;
         public MainActivity()
         {
             LogSetup.Initialize(VersionFinder.Default,
@@ -89,16 +90,24 @@ namespace Bible.Alarm.Droid
                 throw;
             }
 
-            if (Intent.Extras != null)
+            Messenger<bool>.Subscribe(MvvmMessages.Initialized, async vm =>
             {
-                var scheduleId = Intent.Extras.GetInt(DroidNotificationService.SCHEDULE_ID, int.MinValue);
-
-                if (scheduleId != int.MinValue)
+                if (Intent.Extras != null)
                 {
-                    var alarmHandler = container.Resolve<AndroidAlarmHandler>();
-                    await alarmHandler.Handle(scheduleId, true);
+                    var scheduleId = Intent.Extras.GetInt(DroidNotificationService.SCHEDULE_ID, int.MinValue);
+
+                    if (scheduleId != int.MinValue)
+                    {
+                        if (alarmHandler == null)
+                        {
+                            alarmHandler = container.Resolve<IAndroidAlarmHandler>();
+                        }
+
+                        await alarmHandler.Handle(scheduleId, true);
+                       
+                    }
                 }
-            }
+            }, true);
         }
 
         private void callSchedulerTask()

@@ -105,7 +105,7 @@ namespace MediaManager.Platforms.Android.Player
 
                     await MediaManager.StopEx();
 
-                    var handler = container.Resolve<IAndroidAlarmHandler>();
+                    using var handler = container.Resolve<IAndroidAlarmHandler>();
                     await handler.Handle(schedule.Id, true);
                     return;
                 }

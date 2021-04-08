@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Contracts.Media
 {
-    public interface IAndroidAlarmHandler
+    public interface IAndroidAlarmHandler 
     {
         Task Handle(long scheduleId, bool isImmediate);
     }
