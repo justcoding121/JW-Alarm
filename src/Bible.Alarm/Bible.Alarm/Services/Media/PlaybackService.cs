@@ -322,7 +322,7 @@ namespace Bible.Alarm.Services
             await scheduleDbContext.SaveChangesAsync();
         }
 
-        private bool dismissed = false;
+        private static bool dismissed = false;
 
         public async Task Dismiss()
         {

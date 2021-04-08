@@ -3,8 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V4.Media.Session;
 using Bible.Alarm;
 using Bible.Alarm.Common.Extensions;
@@ -59,16 +61,25 @@ namespace MediaManager.Platforms.Android.Player
 
         public bool OnCommand(IPlayer p0, IControlDispatcher p1, string p2, Bundle p3, ResultReceiver p4)
         {
+            logger.Info($"On command called.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
             return false;
         }
 
+
         public async void OnPrepare(bool p0)
         {
-            logger.Info($"On prepare called.  Queue Count: #{MediaManager.Queue.Count}");
+            logger.Info($"On prepare called.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
 
             await @lock.WaitAsync();
             try
             {
+                logger.Info($"On prepare called inside lock.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+
+                if (MediaManager.IsPlaying())
+                {
+                    return;
+                }
+
                 try
                 {
                     var container = BootstrapHelper.GetInitializedContainer();
@@ -105,8 +116,10 @@ namespace MediaManager.Platforms.Android.Player
 
                     await MediaManager.StopEx();
 
-                    using var handler = container.Resolve<IAndroidAlarmHandler>();
+                    var handler = container.Resolve<IAndroidAlarmHandler>();
                     await handler.Handle(schedule.Id, true);
+                    logger.Info($"On prepare exits lock.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+
                     return;
                 }
                 catch (Exception e)
