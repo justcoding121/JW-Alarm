@@ -14,7 +14,7 @@ namespace Bible.Alarm.Droid
 
         public static IContainer GetContainer()
         {
-            var container = containers.FirstOrDefault();
+            var container = containers.OrderBy(x => x.Value.IsAndroidService() ? 1 : 0).FirstOrDefault();
 
             if (!container.Equals(default(KeyValuePair<object, IContainer>)))
             {
