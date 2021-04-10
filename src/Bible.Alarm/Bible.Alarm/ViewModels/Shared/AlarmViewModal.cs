@@ -276,7 +276,6 @@ namespace Bible.Alarm.ViewModels
             if (!isDisposed)
             {
                 isDisposed = true;
-                playbackService.Dispose();
             }
 
         }

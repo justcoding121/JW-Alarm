@@ -24,7 +24,7 @@
         public static IContainer Container { get; private set; }
 
         private static Lazy<IMediaManager> mediaManagerImplementation
-       = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+             = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
 
         public static void Initialize(IContainer container, bool isService)
         {
@@ -69,8 +69,7 @@
             container.Register<IStorageService>((x) => new UwpStorageService());
             container.Register((x) =>
                     new UwpAlarmHandler(container.Resolve<IPlaybackService>(),
-                                container.Resolve<IMediaManager>(),
-                                container.Resolve<ScheduleDbContext>()));
+                                container.Resolve<IMediaManager>()));
         }
     }
 }

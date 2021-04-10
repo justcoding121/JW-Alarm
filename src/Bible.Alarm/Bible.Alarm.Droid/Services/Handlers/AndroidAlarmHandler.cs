@@ -35,7 +35,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
             this.notificationService = notificationService;
             this.dbContext = dbContext;
 
-            playbackService.Stopped += onStopped;
         }
 
         public event EventHandler<bool> Disposed;
@@ -81,7 +80,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
             {
                 try
                 {
-                    await playbackService.Play(scheduleId, isImmediate);
+                    await playbackService.PrepareAndPlay(scheduleId, isImmediate);
 
                     mediaManagerInitialized = true;
 
@@ -104,30 +103,13 @@ namespace Bible.Alarm.Droid.Services.Handlers
             }
         }
 
-        private void onStopped(object sender, bool resetMediaManager)
-        {
-            try
-            {
-                dispose(resetMediaManager);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "An error happened when stopping the alarm after media failure.");
-            }
-        }
-
         private bool disposed = false;
-        private void dispose(bool resetMediaManager)
+        public void Dispose()
         {
             if (!disposed)
             {
                 disposed = true;
 
-                if (playbackService != null)
-                {
-                    playbackService.Stopped -= onStopped;
-                    playbackService.Dispose();
-                }
 
                 if (playerNotificationManager != null)
                 {
@@ -137,22 +119,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
                 dbContext.Dispose();
                 notificationService.Dispose();
 
-                if (resetMediaManager)
-                {
-                    try
-                    {
-                        if (!mediaManager.IsStopped())
-                        {
-                            mediaManager.StopEx().Wait();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "An error happened on calling StopEx.");
-                    }
-
-                }
-
                 if (mediaManagerInitialized)
                 {
                     mediaManager?.Dispose();
@@ -160,11 +126,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
 
                 Disposed?.Invoke(this, true);
             }
-        }
-
-        public void Dispose()
-        {
-            dispose(false);
         }
     }
 }

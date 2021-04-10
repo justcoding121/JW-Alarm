@@ -21,23 +21,18 @@ namespace Bible.Alarm.UWP.Services.Handlers
 
         private IPlaybackService playbackService;
         private IMediaManager mediaManager;
-        private ScheduleDbContext dbContext;
-        private SystemMediaTransportControls systemMediaTransportControls;
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
         public UwpAlarmHandler(IPlaybackService playbackService,
-                                IMediaManager mediaManager,
-                                ScheduleDbContext dbContext)
+                                IMediaManager mediaManager)
         {
             this.playbackService = playbackService;
             this.mediaManager = mediaManager;
-            this.dbContext = dbContext;
-
+   
             var windowsMediaPlayer = mediaManager.MediaPlayer as WindowsMediaPlayer;
             var mediaPlayer = windowsMediaPlayer.Player;
 
             mediaPlayer.SystemMediaTransportControls.IsEnabled = false;
-            playbackService.Stopped += stateChanged;
         }
 
         public async Task Handle(long scheduleId, bool isImmediate)
@@ -56,7 +51,7 @@ namespace Bible.Alarm.UWP.Services.Handlers
                 {
                     try
                     {
-                        await playbackService.Play(scheduleId, isImmediate);
+                        await playbackService.PrepareAndPlay(scheduleId, isImmediate);
                     }
                     catch (Exception e)
                     {
@@ -77,50 +72,9 @@ namespace Bible.Alarm.UWP.Services.Handlers
             }
         }
 
-        private void stateChanged(object sender, bool disposeMediaManager)
-        {
-            try
-            {
-                dispose(disposeMediaManager);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "An error happened when stopping the alarm after media failure.");
-            }
-        }
-
-        private bool disposed = false;
-        private void dispose(bool disposeMediaManager)
-        {
-            if (!disposed)
-            {
-                disposed = true;
-
-                playbackService.Stopped -= stateChanged;
-                playbackService.Dispose();
-
-                if (disposeMediaManager)
-                {
-                    try
-                    {
-                        if (!mediaManager.IsStopped())
-                        {
-                            mediaManager.StopEx().Wait();
-                        }
-                    }
-                    catch(Exception e)
-                    {
-                        logger.Error(e, "An error happened on calling StopEx.");
-                    }
-
-                    mediaManager?.Queue?.Clear();
-                }
-            }
-        }
-
         public void Dispose()
         {
-            dispose(false);
+            
         }
 
     }

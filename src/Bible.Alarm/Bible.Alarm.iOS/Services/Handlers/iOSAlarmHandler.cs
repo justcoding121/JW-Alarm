@@ -37,8 +37,6 @@ namespace Bible.Alarm.iOS.Services.Handlers
             this.dbContext = dbContext;
             this.taskScheduler = taskScheduler;
 
-            playbackService.Stopped += stateChanged;
-
         }
 
         public async Task Handle(long scheduleId, bool isImmediate)
@@ -70,7 +68,7 @@ namespace Bible.Alarm.iOS.Services.Handlers
                 {
                     try
                     {
-                        await playbackService.Play(scheduleId, isImmediate);
+                        await playbackService.PrepareAndPlay(scheduleId, isImmediate);
                     }
                     catch (Exception e)
                     {
@@ -91,20 +89,6 @@ namespace Bible.Alarm.iOS.Services.Handlers
             }
         }
 
-        private void stateChanged(object sender, bool disposeMediaManager)
-        {
-            try
-            {
-                dispose(disposeMediaManager);
-
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "An error happened when stopping the alarm after media failure.");
-            }
-        }
-
-
         public void Dispose()
         {
             dispose(false);
@@ -116,25 +100,9 @@ namespace Bible.Alarm.iOS.Services.Handlers
             if (!disposed)
             {
                 disposed = true;
-                playbackService.Stopped -= stateChanged;
-                playbackService.Dispose();
          
                 if (disposeMediaManager)
                 {
-                    try
-                    {
-                        if (!mediaManager.IsStopped())
-                        {
-                            mediaManager.StopEx().Wait();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e, "An error happened on calling StopEx.");
-                    }
-
-                    mediaManager?.Queue?.Clear();
-
                     Task.Delay(0).ContinueWith((x) =>
                     {
                         UIApplication.SharedApplication.EndReceivingRemoteControlEvents();

@@ -6,10 +6,14 @@
     using Bible.Alarm.Services.Network;
     using Bible.Alarm.Services.Tasks;
     using MediaManager;
+    using System;
     using System.Net.Http;
 
     public static class IocSetup
     {
+        private static object @lock = new object();
+        private static IPlaybackService playbackService;
+
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<IDownloadService>((x) => new DownloadService(container.Resolve<HttpMessageHandler>()));
@@ -35,15 +39,28 @@
 
             container.Register<INetworkStatusService>((x) => new NetworkStatusService(container));
 
-            container.Register<IPlaybackService>((x) => new PlaybackService(container.Resolve<IMediaManager>(),
-                  container.Resolve<IPlaylistService>(),
-                  container.Resolve<IAlarmService>(),
-                  container.Resolve<IMediaCacheService>(),
-                  container.Resolve<IStorageService>(),
-                  container.Resolve<INetworkStatusService>(),
-                  container.Resolve<INotificationService>(),
-                  container.Resolve<IDownloadService>(),
-                  container.Resolve<ScheduleDbContext>()));
+            Func<IPlaybackService> playbackServiceFactory = new Func<IPlaybackService>(() =>
+            {
+                lock (@lock)
+                {
+
+                    if (playbackService == null)
+                    {
+                        playbackService = new PlaybackService(container.Resolve<IMediaManager>(),
+                          container.Resolve<IPlaylistService>(),
+                          container.Resolve<IMediaCacheService>(),
+                          container.Resolve<IStorageService>(),
+                          container.Resolve<INetworkStatusService>(),
+                          container.Resolve<IDownloadService>(),
+                          container.Resolve<ScheduleDbContext>(),
+                          container.Resolve<MediaDbContext>());
+                    }
+
+                    return playbackService;
+                }
+            });
+
+            container.RegisterSingleton<IPlaybackService>((x) => playbackServiceFactory());
 
             container.Register((x) => new SchedulerTask(container.Resolve<ScheduleDbContext>(),
                                  container.Resolve<IMediaCacheService>(), container.Resolve<IAlarmService>(),

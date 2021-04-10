@@ -42,7 +42,7 @@ namespace MediaManager.Platforms.Android.Player
         protected AdaptiveTrackSelection.Factory TrackSelectionFactory { get; set; }
         protected DefaultTrackSelector TrackSelector { get; set; }
 
-        protected MediaSessionConnector MediaSessionConnector { get; set; }
+        public MediaSessionConnector MediaSessionConnector { get; set; }
         protected QueueNavigator QueueNavigator { get; set; }
         protected ConcatenatingMediaSource MediaSource { get; set; }
         protected QueueDataAdapter QueueDataAdapter { get; set; }

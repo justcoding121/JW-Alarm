@@ -741,7 +741,6 @@ namespace Bible.Alarm.ViewModels
             this.scheduleDbContext.Dispose();
             this.popUpService.Dispose();
             this.alarmService.Dispose();
-            this.playbackService.Dispose();
             this.notificationService.Dispose();
             this.mediaDbContext.Dispose();
             this.batteryOptimizationManager?.Dispose();

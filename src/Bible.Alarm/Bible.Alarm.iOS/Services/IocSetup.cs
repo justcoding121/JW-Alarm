@@ -16,7 +16,8 @@
     public static class IocSetup
     {
         private static Lazy<IMediaManager> mediaManagerImplementation
-       = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+       = new Lazy<IMediaManager>(() => new MediaManagerImplementation(),
+            System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
 
         public static void Initialize(IContainer container, bool isService)
         {

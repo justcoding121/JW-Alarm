@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.Runtime;
+using Android.Support.V4.Media.Session;
 using Com.Google.Android.Exoplayer2;
 using Com.Google.Android.Exoplayer2.UI;
 using Java.Lang;
@@ -14,8 +15,10 @@ namespace MediaManager.Platforms.Android.Media
     {
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
 
-        public MediaDescriptionAdapter()
+        private readonly MediaControllerCompat controller;
+        public MediaDescriptionAdapter(MediaControllerCompat controller)
         {
+            this.controller = controller;
         }
 
         protected MediaDescriptionAdapter(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer)
@@ -24,23 +27,18 @@ namespace MediaManager.Platforms.Android.Media
 
         public PendingIntent CreateCurrentContentIntent(IPlayer player)
         {
-            return MediaManager.SessionActivityPendingIntent;
+            return controller.SessionActivity;
         }
-        /*
+       
         public string GetCurrentContentText(IPlayer player)
         {
-            return MediaManager.Queue.ElementAtOrDefault(player.CurrentWindowIndex)?.DisplayTitle;
+            return controller.Metadata.Description.Subtitle;
         }
 
         public string GetCurrentContentTitle(IPlayer player)
         {
-            return MediaManager.Queue.ElementAtOrDefault(player.CurrentWindowIndex)?.DisplaySubtitle;
+            return controller.Metadata.Description.Title;
         }
-
-        public string GetCurrentSubText(IPlayer player)
-        {
-            return MediaManager.Queue.ElementAtOrDefault(player.CurrentWindowIndex)?.DisplayDescription;
-        }*/
 
         public Bitmap GetCurrentLargeIcon(IPlayer player, PlayerNotificationManager.BitmapCallback callback)
         {

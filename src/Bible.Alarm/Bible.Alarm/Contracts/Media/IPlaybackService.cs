@@ -4,12 +4,17 @@ using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Contracts
 {
-    public interface IPlaybackService : IDisposable
+    public interface IPlaybackService 
     {
         long CurrentlyPlayingScheduleId { get; }
+        bool IsPlaying { get; }
+        bool IsPrepared { get; }
+        Task PrepareAndPlay(long scheduleId, bool isImmediate);
 
-        Task Play(long scheduleId, bool isImmediate);
+        Task Prepare(long scheduleId);
+        Task Play();
+
         Task Dismiss();
-        event EventHandler<bool> Stopped;
+        Task PrepareLastPlayed();
     }
 }
