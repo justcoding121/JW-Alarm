@@ -148,6 +148,8 @@ namespace MediaManager.Platforms.Android.MediaSession
                 mediaManager.Init(Application.Context);
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
+                logger.Info("Cast session available:" + CastPlayer.IsCastSessionAvailable);
+
                 SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
 
                 PlayerNotificationManager.SetPlayer(CurrentPlayer);
@@ -353,12 +355,13 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override void OnLoadChildren(string parentId, Result result)
         {
-            logger.Info($"On load children.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+            logger.Info($"On load children parent {parentId}.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
 
             try
             {
                 if (MediaManager.Queue.Count > 0)
                 {
+                    logger.Info("Setting media as result from queue.");
                     setResult();
                     return;
                 }
@@ -366,6 +369,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                 if (relavantMedia != null)
                 {
                     result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>() { relavantMedia.ToMediaBrowserMediaItem() });
+                    logger.Info("Set relavant media as result.");
                     return;
                 }
 
