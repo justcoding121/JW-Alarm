@@ -9,6 +9,10 @@ namespace Bible.Alarm.Services.Contracts
     {
         Task MarkTrackAsPlayed(NotificationDetail trackDetail);
         Task MarkTrackAsFinished(NotificationDetail trackDetail);
+        Task<PlayItem> NextTrack(long scheduleId);
         Task<List<PlayItem>> NextTracks(long scheduleId);
+        Task SaveLastPlayed(long currentScheduleId);
+
+        Task<long> GetRelavantScheduleToPlay();
     }
 }

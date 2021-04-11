@@ -1,4 +1,5 @@
-﻿using MediaManager.Player;
+﻿using MediaManager.Library;
+using MediaManager.Player;
 using System;
 using System.Threading.Tasks;
 
@@ -9,12 +10,11 @@ namespace Bible.Alarm.Services.Contracts
         long CurrentlyPlayingScheduleId { get; }
         bool IsPlaying { get; }
         bool IsPrepared { get; }
-        Task PrepareAndPlay(long scheduleId, bool isImmediate);
-
-        Task Prepare(long scheduleId);
+        Task PrepareRelavantPlaylist();
         Task Play();
 
+        Task PrepareAndPlay(long scheduleId, bool isImmediate);
         Task Dismiss();
-        Task PrepareLastPlayed();
+
     }
 }

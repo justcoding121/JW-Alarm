@@ -62,6 +62,22 @@ namespace Bible.Alarm.Services
             return new OrderedDictionary<int, BibleChapter>(chapters.Select(x => new KeyValuePair<int, BibleChapter>(x.Number, x)));
         }
 
+        public async Task<BibleChapter> GetBibleChapter(string languageCode, 
+            string versionCode, int bookNumber, int chapterNumber)
+        {
+            await mediaLookUpService.Verify();
+
+            return await dbContext.BibleTranslations
+                .Where(x => x.Language.Code == languageCode)
+                .Where(x => x.Code == versionCode)
+                .SelectMany(x => x.Books)
+                .Where(x => x.Number == bookNumber)
+                .SelectMany(x => x.Chapters)
+                .Where(x => x.Number == chapterNumber)
+                .Include(x => x.Source)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Dictionary<string, MelodyMusic>> GetMelodyMusicReleases()
         {
             await mediaLookUpService.Verify();

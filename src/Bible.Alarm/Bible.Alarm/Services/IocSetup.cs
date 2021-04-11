@@ -30,6 +30,7 @@
                 container.Resolve<IMediaManager>()));
 
             container.Register<IPlaylistService>((x) => new PlaylistService(container.Resolve<ScheduleDbContext>(),
+                container.Resolve<MediaDbContext>(),
                 container.Resolve<MediaService>()));
 
             container.Register<IAlarmService>((x) => new AlarmService(container,
@@ -51,9 +52,7 @@
                           container.Resolve<IMediaCacheService>(),
                           container.Resolve<IStorageService>(),
                           container.Resolve<INetworkStatusService>(),
-                          container.Resolve<IDownloadService>(),
-                          container.Resolve<ScheduleDbContext>(),
-                          container.Resolve<MediaDbContext>());
+                          container.Resolve<IDownloadService>());
                     }
 
                     return playbackService;

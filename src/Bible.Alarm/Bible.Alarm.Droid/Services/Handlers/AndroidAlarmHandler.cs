@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Android.App;
+
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Contracts.Media;
 using Bible.Alarm.Services;
@@ -9,6 +8,7 @@ using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid;
 using Com.Google.Android.Exoplayer2.UI;
 using MediaManager;
+using MediaManager.Platforms.Android.Notifications;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 
@@ -74,7 +74,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
                 notificationService.RemoveLocalNotification(schedule.Id);
             }
 
-            mediaManager.Init(Application.Context);
+            mediaManager.Init(Android.App.Application.Context);
 
             await Task.Run(async () =>
             {
@@ -84,7 +84,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
 
                     mediaManagerInitialized = true;
 
-                    playerNotificationManager = (mediaManager.Notification as MediaManager.Platforms.Android.Notifications.NotificationManager).PlayerNotificationManager;
+                    playerNotificationManager = (mediaManager.Notification as NotificationManager).PlayerNotificationManager;
                     playerNotificationManager.NotificationCancelled += notificationCancelled;
                 }
                 catch (Exception e)

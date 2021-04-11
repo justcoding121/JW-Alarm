@@ -31,9 +31,6 @@ namespace Bible.Alarm.Services
         private IStorageService storageService;
         private INetworkStatusService networkStatusService;
         private IDownloadService downloadService;
-        private ScheduleDbContext scheduleDbContext;
-        private MediaDbContext mediaDbContext;
-
         private static IMediaExtractor mediaExtractor => CrossMediaManager.Current.Extractor;
 
         private SemaphoreSlim @lock = new SemaphoreSlim(1);
@@ -44,9 +41,7 @@ namespace Bible.Alarm.Services
             IMediaCacheService cacheService,
             IStorageService storageService,
             INetworkStatusService networkStatusService,
-            IDownloadService downloadService,
-            ScheduleDbContext scheduleDbContext,
-            MediaDbContext mediaDbContext)
+            IDownloadService downloadService)
         {
             this.mediaManager = mediaManager;
             this.playlistService = playlistService;
@@ -54,44 +49,25 @@ namespace Bible.Alarm.Services
             this.storageService = storageService;
             this.networkStatusService = networkStatusService;
             this.downloadService = downloadService;
-            this.scheduleDbContext = scheduleDbContext;
-            this.mediaDbContext = mediaDbContext;
 
             this.mediaManager.MediaItemFinished += markTrackAsFinished;
             this.mediaManager.StateChanged += stateChanged;
         }
 
         private bool isPlaying = false;
-        private bool isPrepared = false;
 
         private long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying;
         private IMediaItem firstChapter;
 
         public bool IsPlaying => isPlaying;
-        public bool IsPrepared => isPrepared;
+        public bool IsPrepared => mediaManager.Queue.Count > 0;
 
         public long CurrentlyPlayingScheduleId => currentScheduleId;
-
-        public async Task Prepare(long scheduleId)
+        private async Task prepare(long scheduleId)
         {
-            await @lock.WaitAsync();
-
-            try
-            {
-                if (isPrepared)
-                {
-                    return;
-                }
-
-                reset();
-                await preparePlay(scheduleId, false, true);
-                isPrepared = true;
-            }
-            finally
-            {
-                @lock.Release();
-            }
+            reset();
+            await preparePlay(scheduleId, false, true);
         }
 
         public async Task Play()
@@ -100,7 +76,7 @@ namespace Bible.Alarm.Services
 
             try
             {
-                if (!isPrepared)
+                if (!IsPrepared)
                 {
                     throw new Exception("Cannot play without preparing.");
                 }
@@ -111,7 +87,6 @@ namespace Bible.Alarm.Services
                 }
 
                 await this.mediaManager.Play();
-                isPlaying = true;
             }
             finally
             {
@@ -125,15 +100,29 @@ namespace Bible.Alarm.Services
 
             try
             {
-                if (isPrepared && isPlaying)
+                if (isPlaying)
                 {
                     return;
                 }
 
                 reset();
                 await preparePlay(scheduleId, isImmediatePlayRequest, false);
-                isPrepared = true;
-                isPlaying = true;
+            }
+            finally
+            {
+                @lock.Release();
+            }
+        }
+
+
+        public async Task PrepareRelavantPlaylist()
+        {
+            await @lock.WaitAsync();
+
+            try
+            {
+                var lastPlayed = await playlistService.GetRelavantScheduleToPlay();
+                await prepare(lastPlayed);
             }
             finally
             {
@@ -149,7 +138,6 @@ namespace Bible.Alarm.Services
             {
                 if (isPlaying)
                 {
-                    isPlaying = false;
                     await this.mediaManager.StopEx();
                 }
             }
@@ -168,7 +156,6 @@ namespace Bible.Alarm.Services
 
         private async Task preparePlay(long scheduleId, bool isImmediatePlayRequest, bool prepareOnly)
         {
-            isPrepared = true;
             Messenger<object>.Publish(MvvmMessages.ClearToasts);
 
             currentScheduleId = scheduleId;
@@ -387,7 +374,6 @@ namespace Bible.Alarm.Services
             }
         }
 
-
         private async void stateChanged(object sender, StateChangedEventArgs e)
         {
             try
@@ -430,21 +416,6 @@ namespace Bible.Alarm.Services
             {
                 logger.Error(ex, "An error happenned when handling playback state changed event.");
             }
-        }
-
-
-        private async Task saveLastPlayed(long scheduleId)
-        {
-            var lastSchedule = await scheduleDbContext.GeneralSettings.FirstOrDefaultAsync(x => x.Key == "AndroidLastPlayedScheduleId");
-
-            if (lastSchedule == null)
-            {
-                lastSchedule = new GeneralSettings() { Key = "AndroidLastPlayedScheduleId" };
-                scheduleDbContext.GeneralSettings.Add(lastSchedule);
-            }
-
-            lastSchedule.Value = scheduleId.ToString();
-            await scheduleDbContext.SaveChangesAsync();
         }
 
         private async void markTrackAsFinished(object sender, MediaItemEventArgs e)
@@ -543,7 +514,7 @@ namespace Bible.Alarm.Services
 
                                          track.FinishedDuration = mediaManager.Position;
                                          await this.playlistService.MarkTrackAsPlayed(track);
-                                         await saveLastPlayed(currentScheduleId);
+                                         await this.playlistService.SaveLastPlayed(currentScheduleId);
                                      }
                                  }
                              }
@@ -586,31 +557,6 @@ namespace Bible.Alarm.Services
             GC.SuppressFinalize(this);
         }
 
-        public async Task PrepareLastPlayed()
-        {
-            var lastSchedule = await scheduleDbContext.GeneralSettings.AsNoTracking().FirstOrDefaultAsync(x => x.Key == "AndroidLastPlayedScheduleId");
-
-            AlarmSchedule schedule = null;
-            if (lastSchedule != null && lastSchedule.Value != "-1")
-            {
-                schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == long.Parse(lastSchedule.Value));
-            }
-
-            if (schedule == null)
-            {
-                schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync();
-            }
-
-            if (schedule == null)
-            {
-                //using var mediaDbContext = container.Resolve<MediaDbContext>();
-                schedule = await AlarmSchedule.GetSampleSchedule(false, mediaDbContext);
-                scheduleDbContext.Add(schedule);
-                await scheduleDbContext.SaveChangesAsync();
-            }
-
-            await Prepare(schedule.Id);
-        }
 
         ~PlaybackService()
         {

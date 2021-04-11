@@ -1,7 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Gms.Cast.Framework;
 using Android.OS;
+using Android.Views;
 using Bible.Alarm.Common.Extensions;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Contracts.Media;
@@ -36,8 +38,11 @@ namespace Bible.Alarm.Droid
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Device.Android);
         }
 
-        protected async override void OnCreate(Bundle bundle)
+        private CastContext castContext;
+
+        protected override void OnCreate(Bundle bundle)
         {
+          
             try
             {
                 container = BootstrapHelper.InitializeUI(logger, this, Application);
@@ -46,6 +51,8 @@ namespace Bible.Alarm.Droid
                 ToolbarResource = Resource.Layout.Toolbar;
 
                 base.OnCreate(bundle);
+
+                castContext = CastContext.GetSharedInstance(this);
 
                 Forms.Init(this, bundle);
                 LoadApplication(new App(container));
@@ -104,10 +111,18 @@ namespace Bible.Alarm.Droid
                         }
 
                         await alarmHandler.Handle(scheduleId, true);
-                       
+
                     }
                 }
             }, true);
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            base.OnCreateOptionsMenu(menu);
+            MenuInflater.Inflate(Resource.Menu.menu, menu);
+            CastButtonFactory.SetUpMediaRouteButton(this, menu, Resource.Id.media_route_menu_item);
+            return true;
         }
 
         private void callSchedulerTask()

@@ -71,7 +71,7 @@ namespace MediaManager.Platforms.Android.Player
             }
 
             var playbackService = container.Resolve<IPlaybackService>();
-            await playbackService.PrepareLastPlayed();
+            await playbackService.PrepareRelavantPlaylist();
 
             prepareMediaFromQueue();
             await playbackService.Play();

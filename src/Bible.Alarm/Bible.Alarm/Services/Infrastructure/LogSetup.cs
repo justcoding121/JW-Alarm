@@ -31,6 +31,13 @@ namespace Bible.Alarm.Services.Infrastructure
                             Name = getVersionName(versionFinder)
                         });
 
+#if DEBUG
+                        logglyTarget.Tags.Add(new NLog.Targets.LogglyTagProperty()
+                        {
+                            Name = "DEBUG"
+                        });
+#endif
+
                         if (tags != null)
                         {
                             foreach (var tag in tags)

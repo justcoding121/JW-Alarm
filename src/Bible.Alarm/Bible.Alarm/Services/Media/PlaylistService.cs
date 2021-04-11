@@ -16,13 +16,56 @@ namespace Bible.Alarm.Services
         private Logger logger = LogManager.GetCurrentClassLogger();
 
         private ScheduleDbContext scheduleDbContext;
+        private MediaDbContext mediaDbContext;
         private MediaService mediaService;
 
         public PlaylistService(ScheduleDbContext scheduleDbContext,
+            MediaDbContext mediaDbContext,
             MediaService mediaService)
         {
             this.scheduleDbContext = scheduleDbContext;
             this.mediaService = mediaService;
+            this.mediaDbContext = mediaDbContext;
+        }
+
+        public async Task<long> GetRelavantScheduleToPlay()
+        {
+            var lastSchedule = await scheduleDbContext.GeneralSettings.FirstOrDefaultAsync(x => x.Key == "LastPlayedScheduleId");
+
+            if (lastSchedule != null)
+            {
+                return long.Parse(lastSchedule.Value);
+            }
+
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync();
+
+            if (schedule == null)
+            {
+                schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync();
+            }
+
+            if (schedule == null)
+            {
+                schedule = await AlarmSchedule.GetSampleSchedule(false, mediaDbContext);
+                scheduleDbContext.Add(schedule);
+                await scheduleDbContext.SaveChangesAsync();
+            }
+
+            return schedule.Id;
+        }
+
+        public async Task SaveLastPlayed(long scheduleId)
+        {
+            var lastSchedule = await scheduleDbContext.GeneralSettings.FirstOrDefaultAsync(x => x.Key == "LastPlayedScheduleId");
+
+            if (lastSchedule == null)
+            {
+                lastSchedule = new GeneralSettings() { Key = "LastPlayedScheduleId" };
+                scheduleDbContext.GeneralSettings.Add(lastSchedule);
+            }
+
+            lastSchedule.Value = scheduleId.ToString();
+            await scheduleDbContext.SaveChangesAsync();
         }
 
         public async Task MarkTrackAsPlayed(NotificationDetail trackDetail)
@@ -95,6 +138,56 @@ namespace Bible.Alarm.Services
             await scheduleDbContext.SaveChangesAsync();
 
             Messenger<object>.Publish(MvvmMessages.TrackChanged, schedule.Id);
+        }
+
+        public async Task<PlayItem> NextTrack(long scheduleId)
+        {
+            var schedule = await scheduleDbContext.AlarmSchedules
+                                  .AsNoTracking()
+                                  .Include(x => x.Music)
+                                  .Include(x => x.BibleReadingSchedule)
+                                  .FirstOrDefaultAsync(x => x.Id == scheduleId);
+
+            if (schedule == null)
+            {
+                throw new ArgumentException($"Invalid schedule Id {scheduleId}");
+            }
+
+            if (schedule.MusicEnabled)
+            {
+                return await nextMusicUrlToPlay(schedule);
+            }
+
+            var bibleReadingSchedule = schedule.BibleReadingSchedule;
+
+            int bookNumber = bibleReadingSchedule.BookNumber;
+            int chapter = bibleReadingSchedule.ChapterNumber;
+
+            var chapterDetail = await mediaService.GetBibleChapter(bibleReadingSchedule.LanguageCode,
+                bibleReadingSchedule.PublicationCode, bookNumber, chapter);
+
+            if (chapterDetail == null)
+            {
+                logger.Error($"Chapter: ${chapter}, book: {bookNumber}, language: {bibleReadingSchedule.LanguageCode}, pub code: {bibleReadingSchedule.PublicationCode} not in lookup. ");
+            }
+
+            var publicationCode = bibleReadingSchedule.PublicationCode;
+            var languageCode = bibleReadingSchedule.LanguageCode;
+            var url = chapterDetail.Source.Url;
+            var lookUpPath = chapterDetail.Source.LookUpPath;
+
+            var notificationDetail = new NotificationDetail()
+            {
+                ScheduleId = scheduleId,
+                PublicationCode = publicationCode,
+                LanguageCode = languageCode,
+                LookUpPath = lookUpPath,
+                BookNumber = bookNumber,
+                ChapterNumber = chapter,
+                IsLastTrack = false
+            };
+
+            return new PlayItem(notificationDetail, url);
         }
 
         public async Task<List<PlayItem>> NextTracks(long scheduleId)
@@ -246,6 +339,7 @@ namespace Bible.Alarm.Services
 
         public void Dispose()
         {
+            mediaDbContext.Dispose();
             scheduleDbContext.Dispose();
             mediaService.Dispose();
         }

@@ -2,20 +2,15 @@
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Media.Session;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media;
 using Android.Support.V4.Media.Session;
 using AndroidX.Core.Content;
 using AndroidX.Media;
-using AndroidX.Media.Session;
 using Bible.Alarm;
-using Bible.Alarm.Contracts.Media;
 using Bible.Alarm.Droid;
 using Bible.Alarm.Droid.Services.Platform;
-using Bible.Alarm.Models;
-using Bible.Alarm.Services;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
@@ -24,10 +19,11 @@ using Com.Google.Android.Exoplayer2.Ext.Mediasession;
 using Com.Google.Android.Exoplayer2.UI;
 using Com.Google.Android.Exoplayer2.Ext.Cast;
 using MediaManager.Platforms.Android.Media;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using Android.Gms.Cast.Framework;
 using MediaManager.Platforms.Android.Player;
+using MediaManager.Library;
+using System.IO;
 
 namespace MediaManager.Platforms.Android.MediaSession
 {
@@ -67,7 +63,7 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         }
 
-        private Task prepareMediaTask;
+        private IMediaItem relavantMedia;
 
         public IPlayer CurrentPlayer;
         public SimpleExoPlayer ExoPlayer;
@@ -92,6 +88,9 @@ namespace MediaManager.Platforms.Android.MediaSession
 
             //create media session and connect
             var mediaManager = container.Resolve<IMediaManager>() as MediaManagerImplementation;
+
+            //async prepare call here
+            var prepareMediaTask = Task.Run(async () => await prepareMedia());
 
             castPlayer = new Lazy<CastPlayer>(() =>
             {
@@ -146,16 +145,14 @@ namespace MediaManager.Platforms.Android.MediaSession
                 PlayerNotificationManager.SetUsePlayPauseActions(MediaManager.Notification.ShowPlayPauseControls);
                 PlayerNotificationManager.SetUseNavigationActions(MediaManager.Notification.ShowNavigationControls);
 
-                //async prepare call here
-                prepareMediaTask = prepareMedia();
-
-
                 mediaManager.Init(Application.Context);
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
                 SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
 
                 PlayerNotificationManager.SetPlayer(CurrentPlayer);
+
+                relavantMedia = prepareMediaTask.Result;
             }
             catch (Exception ex)
             {
@@ -336,24 +333,19 @@ namespace MediaManager.Platforms.Android.MediaSession
         }
 
         private const string MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED";
-        private const string UAMP_RECENT_ROOT = "__RECENT__";
-        private const string UAMP_BROWSABLE_ROOT = "/";
-
-        private const string CONTENT_STYLE_BROWSABLE_HINT = "android.media.browse.CONTENT_STYLE_BROWSABLE_HINT";
         private const string CONTENT_STYLE_SUPPORTED = "android.media.browse.CONTENT_STYLE_SUPPORTED";
-        private const int CONTENT_STYLE_LIST = 1;
-        private const int CONTENT_STYLE_GRID = 2;
-        private const string CONTENT_STYLE_PLAYABLE_HINT = "android.media.browse.CONTENT_STYLE_PLAYABLE_HINT";
+
+        private const string UAMP_BROWSABLE_ROOT = "/";
+        private const string UAMP_RECENT_ROOT = "__RECENT__";
+
         public override BrowserRoot OnGetRoot(string clientPackageName, int clientUid, Bundle rootHints)
         {
             var rootExtras = new Bundle();
 
             rootExtras.PutBoolean(MEDIA_SEARCH_SUPPORTED, false);
             rootExtras.PutBoolean(CONTENT_STYLE_SUPPORTED, false);
-            rootExtras.PutInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_GRID);
-            rootExtras.PutInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_LIST);
 
-            var isRecentRequest = rootHints != null && rootHints.GetBoolean(BrowserRoot.ExtraRecent) ? true : false;
+            var isRecentRequest = rootHints != null && rootHints.GetBoolean(BrowserRoot.ExtraRecent);
             var browserRootPath = isRecentRequest ? UAMP_RECENT_ROOT : UAMP_BROWSABLE_ROOT;
 
             return new BrowserRoot(browserRootPath, rootExtras);
@@ -363,14 +355,29 @@ namespace MediaManager.Platforms.Android.MediaSession
         {
             logger.Info($"On load children.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
 
-            if (MediaManager.Queue.Count > 0)
+            try
             {
-                setResult();
+                if (MediaManager.Queue.Count > 0)
+                {
+                    setResult();
+                    return;
+                }
+
+                if (relavantMedia != null)
+                {
+                    result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>() { relavantMedia.ToMediaBrowserMediaItem() });
+                    return;
+                }
+
+                logger.Info("Returning empty list of children.");
+
+                result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>());
                 return;
             }
-
-
-            result.Detach();
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened when loading children.");
+            }
 
             void setResult()
             {
@@ -385,23 +392,38 @@ namespace MediaManager.Platforms.Android.MediaSession
             }
         }
 
-        private async Task prepareMedia()
+        private async Task<IMediaItem> prepareMedia()
         {
             try
             {
                 if (MediaManager.Queue.Count > 0)
                 {
-                    return;
+                    return MediaManager.Queue[0];
                 }
 
-                var playbackService = container.Resolve<IPlaybackService>();
-                await playbackService.PrepareLastPlayed();
+                using var playlistService = container.Resolve<IPlaylistService>();      
+
+                var lastPlayed = await playlistService.GetRelavantScheduleToPlay();
+                var nextTrack = await playlistService.NextTrack(lastPlayed);
+
+                using var cacheService = container.Resolve<IMediaCacheService>();
+
+                var mediaExtractor = MediaManager.Extractor;
+
+                if (await cacheService.Exists(nextTrack.Url))
+                {
+                    return await mediaExtractor.CreateMediaItem(new FileInfo(cacheService.GetCacheFilePath(nextTrack.Url)));
+                }
+
+                return await mediaExtractor.CreateMediaItem(nextTrack.Url);
 
             }
             catch (Exception e)
             {
                 logger.Error(e, "An error happened when calling AlarmHandler from PlaybackPreparer.");
             }
+
+            return null;
         }
 
         private bool disposed = false;
