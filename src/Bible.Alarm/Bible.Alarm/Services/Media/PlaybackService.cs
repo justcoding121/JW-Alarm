@@ -26,7 +26,6 @@ namespace Bible.Alarm.Services
         private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
         private static Logger logger => lazyLogger.Value;
 
-
         private readonly IMediaManager mediaManager;
         private IPlaylistService playlistService;
         private IMediaCacheService cacheService;
@@ -573,11 +572,11 @@ namespace Bible.Alarm.Services
                 this.cacheService.Dispose();
                 this.storageService.Dispose();
                 this.networkStatusService.Dispose();
+                this.mediaManager.Dispose();
             }
 
             GC.SuppressFinalize(this);
         }
-
 
         ~PlaybackService()
         {

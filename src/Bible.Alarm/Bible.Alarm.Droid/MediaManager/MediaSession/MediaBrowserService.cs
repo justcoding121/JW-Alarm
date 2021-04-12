@@ -36,7 +36,6 @@ namespace MediaManager.Platforms.Android.MediaSession
         private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
         private static Logger logger => lazyLogger.Value;
 
-
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
         protected MediaDescriptionAdapter MediaDescriptionAdapter { get; set; }
         protected PlayerNotificationManager PlayerNotificationManager
@@ -66,7 +65,8 @@ namespace MediaManager.Platforms.Android.MediaSession
 #endif
         }
 
-        protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
         {
 
         }
@@ -78,7 +78,7 @@ namespace MediaManager.Platforms.Android.MediaSession
         public CastPlayer CastPlayer => MediaManager.AndroidMediaPlayer.CastPlayer;
 
 
-        private PlayerEventListener playerListener = new PlayerEventListener();
+        private PlayerEventListener playerListener;
 
         public override void OnCreate()
         {
@@ -101,7 +101,7 @@ namespace MediaManager.Platforms.Android.MediaSession
 
             try
             {
-
+                playerListener = new PlayerEventListener();
                 playerListener.OnPlayerErrorImpl += onPlayerError;
                 playerListener.OnPlayerStateChangedImpl += onPlayerStateChanged;
 
@@ -473,10 +473,12 @@ namespace MediaManager.Platforms.Android.MediaSession
                 return;
             }
 
+
             BootstrapHelper.Remove(this);
 
             disposed = true;
             base.Dispose(disposing);
         }
+
     }
 }
