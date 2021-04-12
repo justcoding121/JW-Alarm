@@ -51,12 +51,12 @@ namespace Bible.Alarm.UWP
 
         private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            logger.Error("Unobserved task exception.", e.Exception);
+            logger.Error(e.Exception,"Unobserved task exception.");
         }
 
         private void unhandledExceptionHandler(object sender, System.UnhandledExceptionEventArgs e)
         {
-            logger.Error("Unhandled exception.", e);
+            logger.Error(e, "Unhandled exception.");
         }
 
         private void initContainer()

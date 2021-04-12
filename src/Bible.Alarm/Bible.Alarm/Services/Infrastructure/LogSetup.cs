@@ -1,6 +1,7 @@
 ﻿using Bible.Alarm.Contracts.Platform;
 using Loggly;
 using Loggly.Config;
+using Newtonsoft.Json;
 using NLog;
 using NLog.Config;
 using Xamarin.Forms;
@@ -89,5 +90,20 @@ namespace Bible.Alarm.Services.Infrastructure
             }
         }
 
+    }
+
+    public static class JsonConvertExtension
+    {
+        public static string SerializeObject(this object @object)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(@object);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

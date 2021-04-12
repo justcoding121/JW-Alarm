@@ -8,6 +8,7 @@ using Bible.Alarm.Droid.Services.Tasks;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using Bible.Alarm.Services.Tasks;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Bible.Alarm.Services.Droid.Tasks
         public AlarmSetupService()
         {
             LogSetup.Initialize(VersionFinder.Default,
-                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}"}, Device.Android);
+                new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Device.Android);
 
             AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
             TaskScheduler.UnobservedTaskException += unobserverdTaskException;
@@ -37,12 +38,12 @@ namespace Bible.Alarm.Services.Droid.Tasks
 
         private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            logger.Error("Unobserved task exception.", e.Exception);
+            logger.Error(e.Exception, "Unobserved task exception.");
         }
 
         private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            logger.Error("Unhandled exception.", e);
+            logger.Error("Unhandled exception.", e.SerializeObject());
         }
 
         public override IBinder OnBind(Intent intent)

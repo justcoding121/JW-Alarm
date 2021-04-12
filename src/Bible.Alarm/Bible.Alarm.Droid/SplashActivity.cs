@@ -5,6 +5,7 @@ using Android.Views;
 using AndroidX.AppCompat.App;
 using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Infrastructure;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Diagnostics;
@@ -31,12 +32,12 @@ namespace Bible.Alarm.Droid
 
         private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            logger.Error("Unobserved task exception.", e.Exception);
+            logger.Error(e.Exception, "Unobserved task exception.");
         }
 
         private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            logger.Error("Unhandled exception.", e);
+            logger.Error("Unhandled exception.", e.SerializeObject());
         }
 
         protected async override void OnCreate(Bundle bundle)

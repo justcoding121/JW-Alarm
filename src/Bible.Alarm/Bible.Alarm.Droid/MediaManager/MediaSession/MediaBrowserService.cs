@@ -26,6 +26,7 @@ using MediaManager.Library;
 using System.IO;
 using AndroidX.Media.Session;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace MediaManager.Platforms.Android.MediaSession
 {
@@ -65,12 +66,12 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            logger.Error("Unobserved task exception.", e.Exception);
+            logger.Error(e.Exception, "Unobserved task exception.");
         }
 
         private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            logger.Error("Unhandled exception.", e);
+              logger.Error("Unhandled exception.", e.SerializeObject());
         }
 
         protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer)
