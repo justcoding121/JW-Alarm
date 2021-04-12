@@ -25,7 +25,7 @@ using MediaManager.Video;
 
 namespace MediaManager.Platforms.Android.Player
 {
-    public class AndroidMediaPlayer : MediaPlayerBase, IMediaPlayer<SimpleExoPlayer, VideoView>
+    public class AndroidMediaPlayer : MediaPlayerBase, IMediaPlayer<IPlayer, VideoView>
     {
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
         protected Dictionary<string, string> RequestHeaders => MediaManager.RequestHeaders;
@@ -44,7 +44,7 @@ namespace MediaManager.Platforms.Android.Player
 
         public MediaSessionConnector MediaSessionConnector { get; set; }
         protected QueueNavigator QueueNavigator { get; set; }
-        protected ConcatenatingMediaSource MediaSource { get; set; }
+        public ConcatenatingMediaSource MediaSource { get; set; }
         protected QueueDataAdapter QueueDataAdapter { get; set; }
         protected QueueMediaSourceFactory MediaSourceFactory { get; set; }
         protected TimelineQueueEditor TimelineQueueEditor { get; set; }
@@ -52,17 +52,16 @@ namespace MediaManager.Platforms.Android.Player
         public PlayerEventListener PlayerEventListener { get; set; }
         protected RatingCallback RatingCallback { get; set; }
 
-        private SimpleExoPlayer _player;
-        public SimpleExoPlayer Player
+        public IPlayer CurrentPlayer { get; set; }
+
+        private Lazy<SimpleExoPlayer> _player;
+        public SimpleExoPlayer ExoPlayer
         {
             get
             {
-                if (_player == null)
-                    Initialize();
-                return _player;
+                return _player.Value;
             }
-
-            set => SetProperty(ref _player, value);
+            set => throw new NotSupportedException();
         }
 
         public VideoView PlayerView => VideoView as VideoView;
@@ -80,12 +79,14 @@ namespace MediaManager.Platforms.Android.Player
 
                     //Use private field to prevent calling Initialize here
                     if (_player != null)
-                        PlayerView.Player = Player;
+                        PlayerView.Player = CurrentPlayer;
 
                     UpdateVideoView();
                 }
             }
         }
+
+        public IPlayer Player { get => CurrentPlayer; set => throw new NotImplementedException(); }
 
         public override void UpdateVideoAspect(VideoAspectMode videoAspectMode)
         {
@@ -141,7 +142,7 @@ namespace MediaManager.Platforms.Android.Player
         public override event BeforePlayingEventHandler BeforePlaying;
         public override event AfterPlayingEventHandler AfterPlaying;
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             if (RequestHeaders?.Count > 0 && RequestHeaders.TryGetValue("User-Agent", out var userAgent))
                 UserAgent = userAgent;
@@ -157,100 +158,107 @@ namespace MediaManager.Platforms.Android.Player
             DashChunkSourceFactory = new DefaultDashChunkSource.Factory(DataSourceFactory);
             SsChunkSourceFactory = new DefaultSsChunkSource.Factory(DataSourceFactory);
 
-            Player = new SimpleExoPlayer.Builder(Context).Build();
-            Player.VideoSizeChanged += Player_VideoSizeChanged;
-
-            var audioAttributes = new Com.Google.Android.Exoplayer2.Audio.AudioAttributes.Builder()
-             .SetUsage(C.UsageMedia)
-             .SetContentType(C.ContentTypeMusic)
-             .Build();
-
-            Player.SetAudioAttributes(audioAttributes, true);
-            Player.SetHandleAudioBecomingNoisy(true);
-            Player.SetWakeMode(C.WakeModeNetwork);
-
-            PlayerEventListener = new PlayerEventListener()
-            {
-                OnPlayerErrorImpl = (ExoPlaybackException exception) =>
-                {
-                    switch (exception.Type)
-                    {
-                        case ExoPlaybackException.TypeRenderer:
-                        case ExoPlaybackException.TypeSource:
-                        case ExoPlaybackException.TypeUnexpected:
-                            break;
-                    }
-                    MediaManager.OnMediaItemFailed(this, new MediaItemFailedEventArgs(MediaManager.Queue.Current, exception, exception.Message));
-                },
-                OnTracksChangedImpl = (trackGroups, trackSelections) =>
-                {
-                    BeforePlaying?.Invoke(this, new MediaPlayerEventArgs(MediaManager.Queue.Current, this));
-
-                    MediaManager.Queue.CurrentIndex = Player.CurrentWindowIndex;
-
-                    AfterPlaying?.Invoke(this, new MediaPlayerEventArgs(MediaManager.Queue.Current, this));
-                },
-                OnPlayerStateChangedImpl = (bool playWhenReady, int playbackState) =>
-                {
-                    switch (playbackState)
-                    {
-                        case Com.Google.Android.Exoplayer2.IPlayer.StateEnded:
-                            if (!Player.HasNext)
-                                MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.Queue.Current));
-                            //TODO: This means the whole list is finished. Should we fire an event?
-                            break;
-                        case Com.Google.Android.Exoplayer2.IPlayer.StateIdle:
-                            lastWindowIndex = -1;
-                            break;
-                        case Com.Google.Android.Exoplayer2.IPlayer.StateBuffering:
-                            //MediaManager.Buffered = TimeSpan.FromMilliseconds(Player.BufferedPosition);
-                            break;
-                        case Com.Google.Android.Exoplayer2.IPlayer.StateReady:
-                        default:
-                            break;
-                    }
-                },
-                OnPositionDiscontinuityImpl = (int reason) =>
-                {
-                    switch (reason)
-                    {
-                        case IPlayer.DiscontinuityReasonAdInsertion:
-                        case IPlayer.DiscontinuityReasonSeek:
-                        case IPlayer.DiscontinuityReasonSeekAdjustment:
-                            break;
-                        case IPlayer.DiscontinuityReasonPeriodTransition:
-                            var currentWindowIndex = Player.CurrentWindowIndex;
-                            if (SetProperty(ref lastWindowIndex, currentWindowIndex))
-                            {
-                                MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.Queue.Current));
-                            }
-                            break;
-                        case IPlayer.DiscontinuityReasonInternal:
-                            break;
-                    }
-                },
-                OnLoadingChangedImpl = (bool isLoading) =>
-                {
-                    if (isLoading && Player.BufferedPosition >= 0)
-                        MediaManager.Buffered = TimeSpan.FromMilliseconds(Player.BufferedPosition);
-                },
-                OnIsPlayingChangedImpl = (bool isPlaying) =>
-                {
-                    //TODO: Maybe call playing changed event
-                },
-                OnPlaybackSuppressionReasonChangedImpl = (int playbackSuppressionReason) =>
-                {
-                    //TODO: Maybe call event
-                }
-            };
-            Player.AddListener(PlayerEventListener);
-
             ConnectMediaSession();
 
-            if (PlayerView != null && PlayerView.Player == null)
+            _player = new Lazy<SimpleExoPlayer>(() =>
             {
-                PlayerView.Player = Player;
-            }
+                var player = new SimpleExoPlayer.Builder(Context).Build();
+                player.VideoSizeChanged += Player_VideoSizeChanged;
+
+                var audioAttributes = new Com.Google.Android.Exoplayer2.Audio.AudioAttributes.Builder()
+                 .SetUsage(C.UsageMedia)
+                 .SetContentType(C.ContentTypeMusic)
+                 .Build();
+
+                player.SetAudioAttributes(audioAttributes, true);
+                player.SetHandleAudioBecomingNoisy(true);
+                player.SetWakeMode(C.WakeModeNetwork);
+
+                PlayerEventListener = new PlayerEventListener()
+                {
+                    OnPlayerErrorImpl = (ExoPlaybackException exception) =>
+                    {
+                        switch (exception.Type)
+                        {
+                            case ExoPlaybackException.TypeRenderer:
+                            case ExoPlaybackException.TypeSource:
+                            case ExoPlaybackException.TypeUnexpected:
+                                break;
+                        }
+                        MediaManager.OnMediaItemFailed(this, new MediaItemFailedEventArgs(MediaManager.Queue.Current, exception, exception.Message));
+                    },
+                    OnTracksChangedImpl = (trackGroups, trackSelections) =>
+                    {
+                        BeforePlaying?.Invoke(this, new MediaPlayerEventArgs(MediaManager.Queue.Current, this));
+
+                        MediaManager.Queue.CurrentIndex = player.CurrentWindowIndex;
+
+                        AfterPlaying?.Invoke(this, new MediaPlayerEventArgs(MediaManager.Queue.Current, this));
+                    },
+                    OnPlayerStateChangedImpl = (bool playWhenReady, int playbackState) =>
+                    {
+                        switch (playbackState)
+                        {
+                            case IPlayer.StateEnded:
+                                if (!player.HasNext)
+                                    MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.Queue.Current));
+                                //TODO: This means the whole list is finished. Should we fire an event?
+                                break;
+                            case IPlayer.StateIdle:
+                                lastWindowIndex = -1;
+                                break;
+                            case IPlayer.StateBuffering:
+                                //MediaManager.Buffered = TimeSpan.FromMilliseconds(Player.BufferedPosition);
+                                break;
+                            case IPlayer.StateReady:
+                            default:
+                                break;
+                        }
+                    },
+                    OnPositionDiscontinuityImpl = (int reason) =>
+                    {
+                        switch (reason)
+                        {
+                            case IPlayer.DiscontinuityReasonAdInsertion:
+                            case IPlayer.DiscontinuityReasonSeek:
+                            case IPlayer.DiscontinuityReasonSeekAdjustment:
+                                break;
+                            case IPlayer.DiscontinuityReasonPeriodTransition:
+                                var currentWindowIndex = player.CurrentWindowIndex;
+                                if (SetProperty(ref lastWindowIndex, currentWindowIndex))
+                                {
+                                    MediaManager.OnMediaItemFinished(this, new MediaItemEventArgs(MediaManager.Queue.Current));
+                                }
+                                break;
+                            case IPlayer.DiscontinuityReasonInternal:
+                                break;
+                        }
+                    },
+                    OnLoadingChangedImpl = (bool isLoading) =>
+                    {
+                        if (isLoading && player.BufferedPosition >= 0)
+                            MediaManager.Buffered = TimeSpan.FromMilliseconds(player.BufferedPosition);
+                    },
+                    OnIsPlayingChangedImpl = (bool isPlaying) =>
+                    {
+                        //TODO: Maybe call playing changed event
+                    },
+                    OnPlaybackSuppressionReasonChangedImpl = (int playbackSuppressionReason) =>
+                    {
+                        //TODO: Maybe call event
+                    }
+                };
+
+                player.AddListener(PlayerEventListener);
+
+                if (PlayerView != null && PlayerView.Player == null)
+                {
+                    PlayerView.Player = player;
+                }
+
+                return player;
+            });
+
         }
 
         private void Player_VideoSizeChanged(object sender, Com.Google.Android.Exoplayer2.Video.VideoSizeChangedEventArgs e)
@@ -288,8 +296,7 @@ namespace MediaManager.Platforms.Android.Player
             RatingCallback = new RatingCallback();
             MediaSessionConnector.SetRatingCallback(RatingCallback);
 
-            PlaybackPreparer = new MediaSessionConnectorPlaybackPreparer(Player, MediaSource);
-            MediaSessionConnector.SetPlayer(Player);
+            PlaybackPreparer = new MediaSessionConnectorPlaybackPreparer(MediaSource);
             MediaSessionConnector.SetPlaybackPreparer(PlaybackPreparer);
         }
 
@@ -304,12 +311,10 @@ namespace MediaManager.Platforms.Android.Player
         {
             BeforePlaying?.Invoke(this, new MediaPlayerEventArgs(mediaItem, this));
 
-
             var mediaSource = stopAt.HasValue ? mediaItem.ToClippingMediaSource(stopAt.Value) : mediaItem.ToMediaSource();
             MediaSource.Clear();
             MediaSource.AddMediaSource(mediaSource);
 
-            Player.Prepare(MediaSource);
             if (startAt != TimeSpan.Zero)
                 await SeekTo(startAt);
 
@@ -322,7 +327,6 @@ namespace MediaManager.Platforms.Android.Player
         {
             MediaSource.Clear();
             MediaSource.AddMediaSource(mediaSource);
-            Player.Prepare(MediaSource);
             await Play();
         }
 
@@ -358,12 +362,12 @@ namespace MediaManager.Platforms.Android.Player
                 return;
             }
 
-            if (Player != null)
+            if (ExoPlayer != null)
             {
-                Player.VideoSizeChanged -= Player_VideoSizeChanged;
-                Player.RemoveListener(PlayerEventListener);
-                Player.Release();
-                Player = null;
+                ExoPlayer.VideoSizeChanged -= Player_VideoSizeChanged;
+                ExoPlayer.RemoveListener(PlayerEventListener);
+                ExoPlayer.Release();
+                ExoPlayer.Dispose();
             }
 
             disposed = true;

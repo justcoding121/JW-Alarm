@@ -173,7 +173,7 @@ namespace MediaManager
         }
 
         public AndroidMediaPlayer AndroidMediaPlayer => (AndroidMediaPlayer)MediaPlayer;
-        public SimpleExoPlayer Player => AndroidMediaPlayer?.Player;
+        public SimpleExoPlayer Player => AndroidMediaPlayer?.ExoPlayer;
 
         private IVolumeManager _volume;
         public override IVolumeManager Volume

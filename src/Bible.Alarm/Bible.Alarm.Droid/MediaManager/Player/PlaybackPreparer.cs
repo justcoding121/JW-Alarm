@@ -11,6 +11,7 @@ using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Helpers;
 using Bible.Alarm.Services.Infrastructure;
 using Com.Google.Android.Exoplayer2;
+using Com.Google.Android.Exoplayer2.Ext.Cast;
 using Com.Google.Android.Exoplayer2.Ext.Mediasession;
 using Com.Google.Android.Exoplayer2.Source;
 using MediaManager.Platforms.Android.Media;
@@ -18,123 +19,105 @@ using NLog;
 
 namespace MediaManager.Platforms.Android.Player
 {
-    public class MediaSessionConnectorPlaybackPreparer : Java.Lang.Object, MediaSessionConnector.IPlaybackPreparer
+    public class MediaSessionConnectorPlaybackPreparer : Java.Lang.Object,
+        MediaSessionConnector.IPlaybackPreparer
     {
         private Logger logger => LogManager.GetCurrentClassLogger();
-        protected IExoPlayer _player;
-        protected ConcatenatingMediaSource _mediaSource;
 
-        private static SemaphoreSlim @lock = new SemaphoreSlim(1);
         private IContainer container;
 
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
+        protected IPlayer currentPlayer => MediaManager.AndroidMediaPlayer.CurrentPlayer;
 
-        public MediaSessionConnectorPlaybackPreparer(IExoPlayer player, ConcatenatingMediaSource mediaSource)
+        ConcatenatingMediaSource mediaSource;
+        private IPlaybackService playbackService;
+        public MediaSessionConnectorPlaybackPreparer(ConcatenatingMediaSource mediaSource)
         {
             LogSetup.Initialize(VersionFinder.Default,
              new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
 
+            this.mediaSource = mediaSource;
             container = BootstrapHelper.GetInitializedContainer();
-
-            _player = player;
-            _mediaSource = mediaSource;
+            playbackService = container.Resolve<IPlaybackService>();
         }
 
-        protected MediaSessionConnectorPlaybackPreparer(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer)
+        protected MediaSessionConnectorPlaybackPreparer(IntPtr handle, JniHandleOwnership transfer)
+            : base(handle, transfer)
         {
         }
 
-        //public long SupportedPrepareActions => MediaSessionConnector.IPlaybackPreparer.Actions;
         public long SupportedPrepareActions =>
             PlaybackStateCompat.ActionPrepare |
             PlaybackStateCompat.ActionPrepareFromMediaId |
-            PlaybackStateCompat.ActionPrepareFromSearch |
-            PlaybackStateCompat.ActionPrepareFromUri |
-            PlaybackStateCompat.ActionPlayFromMediaId |
-            PlaybackStateCompat.ActionPlayFromSearch |
-            PlaybackStateCompat.ActionPlayFromUri;
+            PlaybackStateCompat.ActionPrepareFromSearch;
 
-        public bool OnCommand(IPlayer p0, IControlDispatcher p1, string p2, Bundle p3, ResultReceiver p4)
+        public bool OnCommand(IPlayer player, IControlDispatcher controlDispatcher, string command, Bundle extras, ResultReceiver cb)
         {
             logger.Info($"On command called.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
             return false;
         }
 
-        private async Task prepare()
+        public async void OnPrepare(bool playWhenReady)
         {
-            if(MediaManager.Queue.Count > 0)
+            logger.Info($"On prepare called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+
+            if (mediaSource.Size > 0)
             {
-                //Only in case of Prepare set PlayWhenReady to true because we use this to load in the whole queue
-                _player.Prepare(_mediaSource);
-                _player.PlayWhenReady = MediaManager.AutoPlay;
+                prepare(playWhenReady);
                 return;
             }
 
-            var playbackService = container.Resolve<IPlaybackService>();
             await playbackService.PrepareRelavantPlaylist();
+            prepare(playWhenReady);
 
-            prepareMediaFromQueue();
-            await playbackService.Play();
+            logger.Info($"On prepare finished with relavant playlist. mediaSource.Size: {mediaSource.Size}");
         }
 
-        public async void OnPrepare(bool p0)
-        {
-            logger.Info($"On prepare called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
-            await prepare();
-        }
-
-        public void OnPrepareFromMediaId(string p0, bool p1, Bundle p2)
+        public async void OnPrepareFromMediaId(string mediaId, bool playWhenReady, Bundle extras)
         {
             logger.Info($"On prepare  from median Id called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+           
+            await playbackService.PrepareRelavantPlaylist();
+            prepare(playWhenReady);
 
-            prepareMediaFromQueue();
+            logger.Info($"On prepare finished with relavant playlist. mediaSource.Size: {mediaSource.Size}");
         }
 
-        private void prepareMediaFromQueue()
+        public async void OnPrepareFromSearch(string query, bool playWhenReady, Bundle extras)
         {
-            _mediaSource.Clear();
-            var windowIndex = 0;
-            foreach (var mediaItem in MediaManager.Queue)
-            {
-                _mediaSource.AddMediaSource(mediaItem.ToMediaSource());
-            }
-            _player.Prepare(_mediaSource);
-            _player.SeekTo(windowIndex, 0);
-            _player.PlayWhenReady = true;
-        }
-
-        public void OnPrepareFromSearch(string p0, bool p1, Bundle p2)
-        {
-
             logger.Info($"On prepare from search called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
-
-
-            _mediaSource.Clear();
-            foreach (var mediaItem in MediaManager.Queue.Where(x => x.Title == p0))
-            {
-                _mediaSource.AddMediaSource(mediaItem.ToMediaSource());
-            }
-            _player.Prepare(_mediaSource);
+            await playbackService.PrepareRelavantPlaylist();
+            prepare(playWhenReady);
         }
 
-        public void OnPrepareFromUri(global::Android.Net.Uri p0, bool p1, Bundle p2)
+        public void OnPrepareFromUri(global::Android.Net.Uri uri, bool playWhenReady, Bundle extras)
         {
+            logger.Info("On prepare from Uri called. Uri host:" + uri.Host);
+            return;
+        }
 
-            logger.Info($"On prepare from Uri called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
 
+        private void prepare(bool playWhenReady)
+        {
+            currentPlayer.PlayWhenReady = playWhenReady || MediaManager.AutoPlay;
+            currentPlayer.Stop(true);
 
-            _mediaSource.Clear();
-            var windowIndex = 0;
-            foreach (var mediaItem in MediaManager.Queue)
+            var currentTrackIndex = playbackService.CurrentTrackIndex;
+            var currentTrackPosition = playbackService.CurrentTrackPosition;
+            var seek = currentTrackIndex >= 0 && currentTrackPosition != default;
+            if (currentPlayer is SimpleExoPlayer)
             {
-                var uri = global::Android.Net.Uri.Parse(mediaItem.MediaUri);
-                if (uri.Equals(p0))
-                    windowIndex = MediaManager.Queue.IndexOf(mediaItem);
-
-                _mediaSource.AddMediaSource(mediaItem.ToMediaSource());
+                (currentPlayer as SimpleExoPlayer).Prepare(mediaSource);
+                if (seek)
+                {
+                    currentPlayer.SeekTo(currentTrackIndex, (long)currentTrackPosition.TotalMilliseconds);
+                }
+                return;
             }
-            _player.Prepare(_mediaSource);
-            _player.SeekTo(windowIndex, 0);
+
+            var castPlayer = currentPlayer as CastPlayer;
+            castPlayer.LoadItems(MediaManager.Queue.Select(x => x.ToMediaQueueItem()).ToArray(), seek ? currentTrackIndex : 0,
+                seek ? (long)currentTrackPosition.TotalMilliseconds : 0, IPlayer.RepeatModeOff);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Android.Gms.Cast;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.Media;
@@ -6,6 +7,7 @@ using Com.Google.Android.Exoplayer2.Source;
 using Com.Google.Android.Exoplayer2.Source.Dash;
 using Com.Google.Android.Exoplayer2.Source.Hls;
 using Com.Google.Android.Exoplayer2.Source.Smoothstreaming;
+using Com.Google.Android.Exoplayer2.Util;
 using MediaManager.Library;
 using MediaManager.Platforms.Android.Player;
 
@@ -14,6 +16,16 @@ namespace MediaManager.Platforms.Android.Media
     public static class MediaItemExtensions
     {
         private static MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
+
+        public static MediaQueueItem ToMediaQueueItem(this IMediaItem mediaItem)
+        {
+            var movieMetadata = new MediaMetadata(MediaMetadata.MediaTypeMovie);
+            movieMetadata.PutString(MediaMetadata.KeyTitle, mediaItem.GetContentTitle());
+            MediaInfo mediaInfo = new MediaInfo.Builder(mediaItem.MediaUri)
+                    .SetStreamType(MediaInfo.StreamTypeBuffered).SetContentType(MimeTypes.AudioMpeg)
+                    .SetMetadata(movieMetadata).Build();
+            return new MediaQueueItem.Builder(mediaInfo).Build();
+        }
 
         public static IMediaSource ToMediaSource(this IMediaItem mediaItem)
         {

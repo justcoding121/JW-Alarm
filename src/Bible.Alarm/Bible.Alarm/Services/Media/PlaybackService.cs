@@ -64,6 +64,10 @@ namespace Bible.Alarm.Services
         public bool IsPrepared => mediaManager.Queue.Count > 0;
 
         public long CurrentlyPlayingScheduleId => currentScheduleId;
+
+        public int CurrentTrackIndex { get; set; }
+        public TimeSpan CurrentTrackPosition { get; set; }
+
         private async Task prepare(long scheduleId)
         {
             reset();
@@ -152,6 +156,8 @@ namespace Bible.Alarm.Services
             currentScheduleId = -1;
             firstChapter = null;
             currentlyPlaying = null;
+            CurrentTrackIndex = -1;
+            CurrentTrackPosition = default;
         }
 
         private async Task preparePlay(long scheduleId, bool isImmediatePlayRequest, bool prepareOnly)
@@ -511,6 +517,9 @@ namespace Bible.Alarm.Services
                                          {
                                              firstChapter = null;
                                          }
+
+                                         CurrentTrackIndex = mediaManager.Queue.IndexOf(mediaItem);
+                                         CurrentTrackPosition = mediaManager.Position;
 
                                          track.FinishedDuration = mediaManager.Position;
                                          await this.playlistService.MarkTrackAsPlayed(track);

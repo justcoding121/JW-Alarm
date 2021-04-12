@@ -24,6 +24,7 @@ using Android.Gms.Cast.Framework;
 using MediaManager.Platforms.Android.Player;
 using MediaManager.Library;
 using System.IO;
+using AndroidX.Media.Session;
 
 namespace MediaManager.Platforms.Android.MediaSession
 {
@@ -65,8 +66,8 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         private IMediaItem relavantMedia;
 
-        public IPlayer CurrentPlayer;
-        public SimpleExoPlayer ExoPlayer;
+        public IPlayer CurrentPlayer { get => MediaManager.AndroidMediaPlayer.CurrentPlayer; set { MediaManager.AndroidMediaPlayer.CurrentPlayer = value; } }
+        public SimpleExoPlayer ExoPlayer => MediaManager.AndroidMediaPlayer.ExoPlayer;
         public CastPlayer CastPlayer => castPlayer.Value;
 
         private Lazy<CastPlayer> castPlayer;
@@ -120,8 +121,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                 NotificationListener.OnNotificationCancelledImpl += onNotificationCancelled;
 
                 var mediaSession = MediaManager.MediaSession = new MediaSessionCompat(this, nameof(MediaBrowserService));
-                var sessionIntent = PackageManager.GetLaunchIntentForPackage(PackageName);
-                mediaSession.SetSessionActivity(PendingIntent.GetActivity(this, 0, sessionIntent, 0));
+                mediaSession.SetSessionActivity(MediaManager.SessionActivityPendingIntent);
                 mediaSession.Active = true;
 
                 SessionToken = mediaSession.SessionToken;
@@ -146,6 +146,8 @@ namespace MediaManager.Platforms.Android.MediaSession
                 PlayerNotificationManager.SetUseNavigationActions(MediaManager.Notification.ShowNavigationControls);
 
                 mediaManager.Init(Application.Context);
+                mediaManager.AndroidMediaPlayer.Initialize();
+
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
                 logger.Info("Cast session available:" + CastPlayer.IsCastSessionAvailable);
@@ -287,12 +289,28 @@ namespace MediaManager.Platforms.Android.MediaSession
             }
         }
 
+        public override StartCommandResult OnStartCommand(Intent startIntent, StartCommandFlags flags, int startId)
+        {
+            if (startIntent != null)
+            {
+                MediaButtonReceiver.HandleIntent(MediaManager.MediaSession, startIntent);
+            }
+            return StartCommandResult.Sticky;
+        }
+
         public override void OnTaskRemoved(Intent rootIntent)
         {
             logger.Info("Task removed.");
             base.OnTaskRemoved(rootIntent);
 
             CurrentPlayer.Stop(true);
+
+            if (IsForegroundService)
+            {
+                StopForeground(true);
+            }
+
+            StopSelf();
         }
 
         public override void OnDestroy()
@@ -325,6 +343,12 @@ namespace MediaManager.Platforms.Android.MediaSession
                 MediaManager.MediaSession.Active = false;
                 MediaManager.MediaSession.Release();
                 MediaManager.MediaSession = null;
+
+                if (CastPlayer != null)
+                {
+                    CastPlayer.Release();
+                    CastPlayer.Dispose();
+                }
             }
             catch (Exception e)
             {
