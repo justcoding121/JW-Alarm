@@ -291,10 +291,13 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override StartCommandResult OnStartCommand(Intent startIntent, StartCommandFlags flags, int startId)
         {
+            logger.Info("Start command.");
+
             if (startIntent != null)
             {
                 MediaButtonReceiver.HandleIntent(MediaManager.MediaSession, startIntent);
             }
+
             return StartCommandResult.Sticky;
         }
 
@@ -304,13 +307,6 @@ namespace MediaManager.Platforms.Android.MediaSession
             base.OnTaskRemoved(rootIntent);
 
             CurrentPlayer.Stop(true);
-
-            if (IsForegroundService)
-            {
-                StopForeground(true);
-            }
-
-            StopSelf();
         }
 
         public override void OnDestroy()
