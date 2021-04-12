@@ -90,7 +90,7 @@ namespace Bible.Alarm.Services
                     return;
                 }
 
-                await this.mediaManager.Play();            
+                await this.mediaManager.Play();
             }
             finally
             {
@@ -111,7 +111,7 @@ namespace Bible.Alarm.Services
 
                 reset();
                 await preparePlay(scheduleId, isImmediatePlayRequest, false);
-             
+
             }
             finally
             {
@@ -361,23 +361,30 @@ namespace Bible.Alarm.Services
 
         private async Task handleInternetDown(bool isImmediate, bool prepareOnly)
         {
-            if (!isImmediate)
+            try
             {
-                var file = new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3"));
-                this.mediaManager.RepeatMode = RepeatMode.All;
-                if (prepareOnly)
+                if (!isImmediate)
                 {
-                    var mediaItem = await mediaExtractor.CreateMediaItem(file);
-                    await (this.mediaManager as MediaManagerBase).PrepareQueueForPlayback(mediaItem);
+                    var file = new FileInfo(Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3"));
+                    this.mediaManager.RepeatMode = RepeatMode.All;
+                    if (prepareOnly)
+                    {
+                        var mediaItem = await mediaExtractor.CreateMediaItem(file);
+                        await (this.mediaManager as MediaManagerBase).PrepareQueueForPlayback(mediaItem);
+                    }
+                    else
+                    {
+                        await this.mediaManager.PlayEx(file);
+                    }
                 }
                 else
                 {
-                    await this.mediaManager.PlayEx(file);
+                    Messenger<object>.Publish(MvvmMessages.ShowToast, "An error happened while downloading files. Your internet may be down.");
                 }
             }
-            else
+            catch (Exception e)
             {
-                Messenger<object>.Publish(MvvmMessages.ShowToast, "An error happened while downloading files. Your internet may be down.");
+                logger.Error(e, "An error happened when handling internet down.");
             }
         }
 
@@ -389,7 +396,7 @@ namespace Bible.Alarm.Services
 
                 if (mediaItem == null)
                 {
-                    if(e.State == MediaPlayerState.Stopped)
+                    if (e.State == MediaPlayerState.Stopped)
                     {
                         await stopped();
                     }
@@ -397,7 +404,7 @@ namespace Bible.Alarm.Services
                     return;
                 }
 
-                if (currentlyPlaying!=null && currentlyPlaying.ContainsKey(mediaItem))
+                if (currentlyPlaying != null && currentlyPlaying.ContainsKey(mediaItem))
                 {
                     var track = currentlyPlaying[mediaItem];
 
@@ -580,7 +587,6 @@ namespace Bible.Alarm.Services
 
         ~PlaybackService()
         {
-            logger.Info("Finalizer called on playbackservice.");
             dispose();
         }
     }
