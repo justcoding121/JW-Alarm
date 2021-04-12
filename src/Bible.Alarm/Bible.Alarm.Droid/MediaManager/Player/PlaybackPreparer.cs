@@ -96,10 +96,16 @@ namespace MediaManager.Platforms.Android.Player
             return;
         }
 
-
-        private void prepare(bool playWhenReady)
+        private  void prepare(bool playWhenReady)
         {
-            currentPlayer.PlayWhenReady = playWhenReady || MediaManager.AutoPlay;
+            Prepare(playWhenReady, currentPlayer, MediaManager, playbackService, mediaSource);
+        }
+
+        public static void Prepare(bool playWhenReady, IPlayer currentPlayer,
+                IMediaManager mediaManager, IPlaybackService playbackService,
+                ConcatenatingMediaSource mediaSource)
+        {
+            currentPlayer.PlayWhenReady = playWhenReady || mediaManager.AutoPlay;
             currentPlayer.Stop(true);
 
             var currentTrackIndex = playbackService.CurrentTrackIndex;
@@ -116,7 +122,8 @@ namespace MediaManager.Platforms.Android.Player
             }
 
             var castPlayer = currentPlayer as CastPlayer;
-            castPlayer.LoadItems(MediaManager.Queue.Select(x => x.ToMediaQueueItem()).ToArray(), seek ? currentTrackIndex : 0,
+            castPlayer.LoadItems(mediaManager.Queue.Select(x => x.ToMediaQueueItem()).ToArray(),
+                seek ? currentTrackIndex : 0,
                 seek ? (long)currentTrackPosition.TotalMilliseconds : 0, IPlayer.RepeatModeOff);
         }
 

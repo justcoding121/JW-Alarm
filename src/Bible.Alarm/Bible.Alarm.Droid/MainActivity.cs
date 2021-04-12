@@ -42,7 +42,13 @@ namespace Bible.Alarm.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
-          
+#if DEBUG
+            if (container == null)
+            {
+                AppDomain.CurrentDomain.UnhandledException += (s, e) => logger.Error("Unhandled error", e);
+                TaskScheduler.UnobservedTaskException += (s, e) => logger.Error("Unhandled error", e);
+            }
+#endif
             try
             {
                 container = BootstrapHelper.InitializeUI(logger, this, Application);

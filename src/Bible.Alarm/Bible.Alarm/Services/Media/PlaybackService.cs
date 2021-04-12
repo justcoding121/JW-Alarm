@@ -384,14 +384,19 @@ namespace Bible.Alarm.Services
         {
             try
             {
-                var mediaItem = this.mediaManager.Queue?.Current;
+                var mediaItem = this.mediaManager?.Queue?.Current;
 
                 if (mediaItem == null)
                 {
+                    if(e.State == MediaPlayerState.Stopped)
+                    {
+                        await stopped();
+                    }
+
                     return;
                 }
 
-                if (currentlyPlaying.ContainsKey(mediaItem))
+                if (currentlyPlaying!=null && currentlyPlaying.ContainsKey(mediaItem))
                 {
                     var track = currentlyPlaying[mediaItem];
 
@@ -411,9 +416,7 @@ namespace Bible.Alarm.Services
                             }
                             break;
                         case MediaPlayerState.Stopped:
-                            isPlaying = false;
-                            await stopWatching();
-                            Messenger<object>.Publish(MvvmMessages.HideAlarmModal);
+                            await stopped();
                             break;
                     }
                 }
@@ -421,6 +424,13 @@ namespace Bible.Alarm.Services
             catch (Exception ex)
             {
                 logger.Error(ex, "An error happenned when handling playback state changed event.");
+            }
+
+            async Task stopped()
+            {
+                isPlaying = false;
+                await stopWatching();
+                Messenger<object>.Publish(MvvmMessages.HideAlarmModal);
             }
         }
 
@@ -569,6 +579,7 @@ namespace Bible.Alarm.Services
 
         ~PlaybackService()
         {
+            logger.Info("Finalizer called on playbackservice.");
             dispose();
         }
     }

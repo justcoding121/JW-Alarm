@@ -25,6 +25,7 @@ using MediaManager.Platforms.Android.Player;
 using MediaManager.Library;
 using System.IO;
 using AndroidX.Media.Session;
+using System.Threading;
 
 namespace MediaManager.Platforms.Android.MediaSession
 {
@@ -74,10 +75,13 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         private PlayerEventListener playerListener = new PlayerEventListener();
 
-        public override void OnCreate()
+        public async override void OnCreate()
         {
             base.OnCreate();
-
+#if DEBUG
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => logger.Error("Unhandled error", e);
+            TaskScheduler.UnobservedTaskException += (s, e) => logger.Error("Unhandled error", e);
+#endif
             try
             {
                 container = BootstrapHelper.InitializeService(this);
@@ -152,7 +156,7 @@ namespace MediaManager.Platforms.Android.MediaSession
 
                 logger.Info("Cast session available:" + CastPlayer.IsCastSessionAvailable);
 
-                SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
+                await SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
 
                 PlayerNotificationManager.SetPlayer(CurrentPlayer);
 
@@ -174,18 +178,18 @@ namespace MediaManager.Platforms.Android.MediaSession
                 this.service = service;
             }
 
-            public void OnCastSessionUnavailable()
+            public async void OnCastSessionUnavailable()
             {
-                service.SwitchToPlayer(service.CurrentPlayer, service.CastPlayer);
+                await service.SwitchToPlayer(service.CurrentPlayer, service.CastPlayer);
             }
 
-            public void OnCastSessionAvailable()
+            public async void OnCastSessionAvailable()
             {
-                service.SwitchToPlayer(service.CurrentPlayer, service.ExoPlayer);
+                await service.SwitchToPlayer(service.CurrentPlayer, service.ExoPlayer);
             }
         }
 
-        public void SwitchToPlayer(IPlayer previousPlayer, IPlayer newPlayer)
+        public async Task SwitchToPlayer(IPlayer previousPlayer, IPlayer newPlayer)
         {
             if (previousPlayer == newPlayer)
             {
@@ -204,7 +208,11 @@ namespace MediaManager.Platforms.Android.MediaSession
                 }
                 else if (playbackState != IPlayer.StateIdle && playbackState != IPlayer.StateEnded)
                 {
+                    var playbackService = container.Resolve<IPlaybackService>();
                     //prepare playlist
+                    await playbackService.PrepareRelavantPlaylist();
+                    MediaSessionConnectorPlaybackPreparer.Prepare(true, CurrentPlayer, MediaManager, playbackService,
+                         MediaManager.AndroidMediaPlayer.MediaSource);
                 }
             }
 
@@ -234,8 +242,6 @@ namespace MediaManager.Platforms.Android.MediaSession
                     break;
             }
 
-            using var toastService = container.Resolve<IToastService>();
-            toastService.ShowMessage("An error happened while playback.");
         }
 
         private void onPlayerStateChanged(bool playWhenReady, int playbackState)
@@ -425,7 +431,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                     return MediaManager.Queue[0];
                 }
 
-                using var playlistService = container.Resolve<IPlaylistService>();      
+                using var playlistService = container.Resolve<IPlaylistService>();
 
                 var lastPlayed = await playlistService.GetRelavantScheduleToPlay();
                 var nextTrack = await playlistService.NextTrack(lastPlayed);
