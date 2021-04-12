@@ -290,16 +290,9 @@ namespace Bible.Alarm.ViewModels
                 IsBusy = false;
             });
 
-            NotificationEnabledCommand = new Command(async () =>
+            NotificationEnabledCommand = new Command(() =>
             {
                 NotificationEnabled = !NotificationEnabled;
-
-                if (!NotificationEnabled)
-                {
-                    IsBusy = true;
-                    await showBatteryOptimizationExclusionPage();
-                    IsBusy = false;
-                }
             });
 
             BatteryOptimizationExcludeCommand = new Command(async () =>
@@ -510,7 +503,15 @@ namespace Bible.Alarm.ViewModels
         public bool NotificationEnabled
         {
             get => notificationEnabled;
-            set => this.Set(ref notificationEnabled, value);
+            set
+            {
+                if (!value)
+                {
+                    _ = showBatteryOptimizationExclusionPage();
+                }
+
+                this.Set(ref notificationEnabled, value);
+            }
         }
 
         private bool alwaysPlayFromStart;
