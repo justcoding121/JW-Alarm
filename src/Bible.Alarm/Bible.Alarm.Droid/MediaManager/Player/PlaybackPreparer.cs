@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media.Session;
 using Bible.Alarm;
-using Bible.Alarm.Droid.Services.Platform;
 using Bible.Alarm.Services.Contracts;
 using Bible.Alarm.Services.Droid.Helpers;
-using Bible.Alarm.Services.Infrastructure;
 using Com.Google.Android.Exoplayer2;
 using Com.Google.Android.Exoplayer2.Ext.Cast;
 using Com.Google.Android.Exoplayer2.Ext.Mediasession;
@@ -50,13 +47,11 @@ namespace MediaManager.Platforms.Android.Player
 
         public bool OnCommand(IPlayer player, IControlDispatcher controlDispatcher, string command, Bundle extras, ResultReceiver cb)
         {
-            logger.Info($"On command called.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
             return false;
         }
 
         public async void OnPrepare(bool playWhenReady)
         {
-            logger.Info($"On prepare called. MediaSource: {mediaSource.Size}, AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
 
             if (mediaSource.Size > 0)
             {
@@ -67,29 +62,22 @@ namespace MediaManager.Platforms.Android.Player
             await playbackService.PrepareRelavantPlaylist();
             prepare(playWhenReady);
 
-            logger.Info($"On prepare finished with relavant playlist. mediaSource.Size: {mediaSource.Size}");
         }
 
         public async void OnPrepareFromMediaId(string mediaId, bool playWhenReady, Bundle extras)
         {
-            logger.Info($"On prepare  from median Id called. MediaSource: {mediaSource.Size}, AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
-
             await playbackService.PrepareRelavantPlaylist();
             prepare(playWhenReady);
-
-            logger.Info($"On prepare finished with relavant playlist. mediaSource.Size: {mediaSource.Size}");
         }
 
         public async void OnPrepareFromSearch(string query, bool playWhenReady, Bundle extras)
         {
-            logger.Info($"On prepare from search called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
             await playbackService.PrepareRelavantPlaylist();
             prepare(playWhenReady);
         }
 
         public void OnPrepareFromUri(global::Android.Net.Uri uri, bool playWhenReady, Bundle extras)
         {
-            logger.Info("On prepare from Uri called. Uri host:" + uri.Host);
             return;
         }
 
@@ -125,8 +113,6 @@ namespace MediaManager.Platforms.Android.Player
                         seek ? currentTrackIndex : 0,
                         seek ? (long)currentTrackPosition.TotalMilliseconds : 0, IPlayer.RepeatModeOff);
                 }
-
-                logger.Info($"On prepare complete. ");
 
             }
             catch (Exception e)

@@ -120,7 +120,7 @@ namespace Bible.Alarm.Services
                                     if (url != null && url != playItem.Url)
                                     {
                                         await mediaService.UpdateBibleTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber, url);
-                                        logger.Info($"Updated URL to {url} for {playItem.ToString()}");
+                                        logger.Warn($"Updated URL to {url} for {playItem.ToString()}");
                                     }
                                     else
                                     {
@@ -144,7 +144,7 @@ namespace Bible.Alarm.Services
                                             await mediaService.UpdateVocalTrackUrl(playDetail.LanguageCode, playDetail.PublicationCode, playDetail.TrackNumber, url);
                                         }
 
-                                        logger.Info($"Updated URL to {url} for {playItem.ToString()}");
+                                        logger.Warn($"Updated URL to {url} for {playItem.ToString()}");
                                     }
                                     else
                                     {
@@ -161,7 +161,7 @@ namespace Bible.Alarm.Services
                                 if (bytes != null)
                                 {
                                     await storageService.SaveFile(cacheRoot, GetCacheFileName(url), bytes);
-                                    logger.Info($"Downloaded using updated URL {url} for {playItem.ToString()}");
+                                    logger.Warn($"Downloaded using updated URL {url} for {playItem.ToString()}");
                                     continue;
                                 }
 

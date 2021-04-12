@@ -150,8 +150,6 @@ namespace MediaManager.Platforms.Android.MediaSession
 
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
-                logger.Info("Cast session available:" + CastPlayer.IsCastSessionAvailable);
-
                 SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer).Wait();
 
                 PlayerNotificationManager.NotificationPosted += onNotificationPosted;
@@ -160,21 +158,11 @@ namespace MediaManager.Platforms.Android.MediaSession
                 PlayerNotificationManager.SetPlayer(CurrentPlayer);
 
                 relavantMedia = prepareMediaTask.Result;
-
-                var notificationManager = (NotificationManager)Application.Context.GetSystemService(Context.NotificationService);
-                var activeNotifications = notificationManager.GetActiveNotifications().Length;
-
-                var appProcessInfo = new ActivityManager.RunningAppProcessInfo();
-                ActivityManager.GetMyMemoryState(appProcessInfo);
-
-                logger.Info("Start service. Active notifications:" + activeNotifications + ", Importance:" + appProcessInfo.Importance);
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Error happened when initializing MediaBrowserService");
             }
-
-            logger.Info($"Service start.  Queue Count: #{MediaManager.Queue.Count}");
         }
 
         private class CastSessionAvailabilityListener : Java.Lang.Object, ISessionAvailabilityListener
@@ -282,8 +270,6 @@ namespace MediaManager.Platforms.Android.MediaSession
         {
             var dismissedByUser = e.DismissedByUser;
 
-            logger.Info($"Notification cancelled. IsDismissedByUser:{dismissedByUser}, IsForeground: {IsForegroundService}");
-
             StopForeground(true);
             IsForegroundService = false;
 
@@ -296,9 +282,6 @@ namespace MediaManager.Platforms.Android.MediaSession
             var notificationId = e.NotificationId;
             var notification = e.Notification;
 
-            logger.Info($"Notification posted. IsOngoing:{isOnGoing}, IsForeground: {IsForegroundService}, " +
-                  $"Queue Count: #{MediaManager.Queue.Count}");
-
             //playing state
             if (isOnGoing && !IsForegroundService)
             {
@@ -310,8 +293,6 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override StartCommandResult OnStartCommand(Intent startIntent, StartCommandFlags flags, int startId)
         {
-            logger.Info("Start command.");
-
             if (startIntent != null)
             {
                 MediaButtonReceiver.HandleIntent(MediaManager.MediaSession, startIntent);
@@ -322,7 +303,6 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override void OnTaskRemoved(Intent rootIntent)
         {
-            logger.Info("Task removed.");
             base.OnTaskRemoved(rootIntent);
 
             CurrentPlayer.Stop(true);
@@ -349,13 +329,10 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override void OnLoadChildren(string parentId, Result result)
         {
-            logger.Info($"On load children parent {parentId}.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
-
             try
             {
                 if (MediaManager.Queue.Count > 0)
                 {
-                    logger.Info("Setting media as result from queue.");
                     setResult();
                     return;
                 }
@@ -363,11 +340,9 @@ namespace MediaManager.Platforms.Android.MediaSession
                 if (relavantMedia != null)
                 {
                     result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>() { relavantMedia.ToMediaBrowserMediaItem() });
-                    logger.Info($"Set relavant media as result.  Queue Count: #{MediaManager.Queue.Count}. ");
                     return;
                 }
 
-                logger.Info("Returning empty list of children.");
 
                 result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>());
                 return;
@@ -385,8 +360,6 @@ namespace MediaManager.Platforms.Android.MediaSession
                     mediaItems.Add(item.ToMediaBrowserMediaItem());
 
                 result.SendResult(mediaItems);
-                logger.Info($"On load children exit.  Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
-
             }
         }
 
@@ -396,7 +369,6 @@ namespace MediaManager.Platforms.Android.MediaSession
             {
                 if (MediaManager.Queue.Count > 0)
                 {
-                    logger.Info($"Service start. Queue was not empty. Count: {MediaManager.Queue.Count}");
                     return MediaManager.Queue[0];
                 }
 
@@ -428,8 +400,6 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public override void OnDestroy()
         {
-            logger.Info("Service stop.");
-
             try
             {
                 playerListener.OnPlayerErrorImpl -= onPlayerError;
