@@ -56,7 +56,7 @@ namespace Bible.Alarm.UWP
 
         private void unhandledExceptionHandler(object sender, System.UnhandledExceptionEventArgs e)
         {
-            logger.Error(e, "Unhandled exception.");
+            logger.Error("Unhandled exception.", e.SerializeObject());
         }
 
         private void initContainer()
