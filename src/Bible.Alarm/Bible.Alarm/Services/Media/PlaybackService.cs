@@ -491,70 +491,70 @@ namespace Bible.Alarm.Services
                 }
 
                 isWatching = true;
+
+                _ = Task.Run(async () =>
+                {
+                    while (isWatching)
+                    {
+                        var acquired = await @lock.WaitAsync(100);
+
+                        try
+                        {
+                            if (isPlaying && this.mediaManager.IsPlaying())
+                            {
+                                var mediaItem = this.mediaManager.Queue?.Current;
+
+                                if (mediaItem != null && currentlyPlaying != null)
+                                {
+                                    if (currentlyPlaying.ContainsKey(mediaItem))
+                                    {
+                                        var track = currentlyPlaying[mediaItem];
+
+                                        if (track.FinishedDuration.TotalSeconds > 0
+                                            && firstChapter != null
+                                            && mediaItem == firstChapter)
+                                        {
+                                            await this.mediaManager.SeekTo(track.FinishedDuration);
+                                            firstChapter = null;
+                                        }
+                                        else if (mediaManager.Position.TotalSeconds > 0)
+                                        {
+                                            if (mediaItem == firstChapter)
+                                            {
+                                                firstChapter = null;
+                                            }
+
+                                            CurrentTrackIndex = mediaManager.Queue.IndexOf(mediaItem);
+                                            CurrentTrackPosition = mediaManager.Position;
+
+                                            track.FinishedDuration = mediaManager.Position;
+                                            await this.playlistService.MarkTrackAsPlayed(track);
+                                            await this.playlistService.SaveLastPlayed(currentScheduleId);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(e, "An error happened when updating finished track duration.");
+                        }
+                        finally
+                        {
+                            if (acquired)
+                            {
+                                @lock.Release();
+                            }
+                        }
+
+                        await Task.Delay(1000);
+                    }
+                });
             }
             finally
             {
                 @lock.Release();
             }
-
-            _ = Task.Run(async () =>
-             {
-                 while (isWatching)
-                 {
-                     var acquired = await @lock.WaitAsync(100);
-
-                     try
-                     {
-                         if (isPlaying && this.mediaManager.IsPlaying())
-                         {
-                             var mediaItem = this.mediaManager.Queue?.Current;
-
-                             if (mediaItem != null && currentlyPlaying != null)
-                             {
-                                 if (currentlyPlaying.ContainsKey(mediaItem))
-                                 {
-                                     var track = currentlyPlaying[mediaItem];
-
-                                     if (track.FinishedDuration.TotalSeconds > 0
-                                         && firstChapter != null
-                                         && mediaItem == firstChapter)
-                                     {
-                                         await this.mediaManager.SeekTo(track.FinishedDuration);
-                                         firstChapter = null;
-                                     }
-                                     else if (mediaManager.Position.TotalSeconds > 0)
-                                     {
-                                         if (mediaItem == firstChapter)
-                                         {
-                                             firstChapter = null;
-                                         }
-
-                                         CurrentTrackIndex = mediaManager.Queue.IndexOf(mediaItem);
-                                         CurrentTrackPosition = mediaManager.Position;
-
-                                         track.FinishedDuration = mediaManager.Position;
-                                         await this.playlistService.MarkTrackAsPlayed(track);
-                                         await this.playlistService.SaveLastPlayed(currentScheduleId);
-                                     }
-                                 }
-                             }
-                         }
-                     }
-                     catch (Exception e)
-                     {
-                         logger.Error(e, "An error happened when updating finished track duration.");
-                     }
-                     finally
-                     {
-                         if (acquired)
-                         {
-                             @lock.Release();
-                         }
-                     }
-
-                     await Task.Delay(1000);
-                 }
-             });
         }
 
 
