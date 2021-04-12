@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media.Session;
@@ -23,7 +24,6 @@ namespace MediaManager.Platforms.Android.Player
         private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
         private static Logger logger => lazyLogger.Value;
 
-
         private IContainer container;
 
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
@@ -33,9 +33,6 @@ namespace MediaManager.Platforms.Android.Player
         private IPlaybackService playbackService;
         public MediaSessionConnectorPlaybackPreparer(ConcatenatingMediaSource mediaSource)
         {
-            LogSetup.Initialize(VersionFinder.Default,
-             new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
-
             this.mediaSource = mediaSource;
             container = BootstrapHelper.GetInitializedContainer();
             playbackService = container.Resolve<IPlaybackService>();

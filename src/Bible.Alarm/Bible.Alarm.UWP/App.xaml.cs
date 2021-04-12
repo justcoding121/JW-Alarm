@@ -6,6 +6,7 @@ using Bible.Alarm.Uwp.Services.Platform;
 using Bible.Alarm.UWP.Services.Handlers;
 using NLog;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -28,7 +29,7 @@ namespace Bible.Alarm.UWP
         private IContainer container;
 
         public App()
-        {    
+        {
             bool isLoggingEnabled = true;
 
 #if DEBUG
@@ -36,13 +37,26 @@ namespace Bible.Alarm.UWP
             isLoggingEnabled = false;
 #endif
             LogSetup.Initialize(UwpVersionFinder.Default,
-                new string[] { }, Xamarin.Forms.Device.UWP, 
+                new string[] { }, Xamarin.Forms.Device.UWP,
                 isLoggingEnabled);
+
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += unobserverdTaskException;
 
             initContainer();
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+        }
+
+        private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Unobserved task exception.", e.Exception);
+        }
+
+        private void unhandledExceptionHandler(object sender, System.UnhandledExceptionEventArgs e)
+        {
+            logger.Error("Unhandled exception.", e);
         }
 
         private void initContainer()
@@ -200,6 +214,26 @@ namespace Bible.Alarm.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private bool disposed = false;
+        private void dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            AppDomain.CurrentDomain.UnhandledException -= unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException -= unobserverdTaskException;
+
+            disposed = true;
+            GC.SuppressFinalize(this);
+        }
+
+        ~App()
+        {
+            dispose();
         }
     }
 }

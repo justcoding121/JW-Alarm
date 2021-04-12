@@ -24,6 +24,19 @@ namespace Bible.Alarm.Droid
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
+
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += unobserverdTaskException;
+        }
+
+        private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Unobserved task exception.", e.Exception);
+        }
+
+        private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            logger.Error("Unhandled exception.", e);
         }
 
         protected async override void OnCreate(Bundle bundle)
@@ -100,6 +113,23 @@ namespace Bible.Alarm.Droid
                 await Task.Delay(1500);
                 throw;
             }
+        }
+
+        private bool disposed = false;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            AppDomain.CurrentDomain.UnhandledException -= unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException -= unobserverdTaskException;
+
+            disposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

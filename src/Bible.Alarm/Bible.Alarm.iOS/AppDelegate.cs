@@ -33,6 +33,9 @@ namespace Bible.Alarm.iOS
         {
             LogSetup.Initialize(VersionFinder.Default, new string[] { }, Xamarin.Forms.Device.iOS);
 
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += unobserverdTaskException;
+
             container = IocSetup.GetContainer("SplashActivity");
 
             try
@@ -53,6 +56,16 @@ namespace Bible.Alarm.iOS
                 logger.Fatal(e, "AppDelegate initialization failed.");
                 throw;
             }
+        }
+
+        private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Unobserved task exception.", e.Exception);
+        }
+
+        private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            logger.Error("Unhandled exception.", e);
         }
 
         //
@@ -219,6 +232,22 @@ namespace Bible.Alarm.iOS
 
             // Inform system of fetch results
             completionHandler(downloaded ? UIBackgroundFetchResult.NewData : UIBackgroundFetchResult.NoData);
+        }
+
+        private bool disposed = false;
+        protected override void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            AppDomain.CurrentDomain.UnhandledException -= unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException -= unobserverdTaskException;
+
+            disposed = true;
+
+            base.Dispose(disposing);
         }
     }
 }

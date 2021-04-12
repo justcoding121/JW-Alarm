@@ -30,6 +30,19 @@ namespace Bible.Alarm.Services.Droid.Tasks
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}"}, Device.Android);
+
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += unobserverdTaskException;
+        }
+
+        private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Unobserved task exception.", e.Exception);
+        }
+
+        private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            logger.Error("Unhandled exception.", e);
         }
 
         public override IBinder OnBind(Intent intent)
@@ -154,7 +167,11 @@ namespace Bible.Alarm.Services.Droid.Tasks
 
             BootstrapHelper.Remove(this);
 
+            AppDomain.CurrentDomain.UnhandledException -= unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException -= unobserverdTaskException;
+
             disposed = true;
+
             base.Dispose(disposing);
         }
     }

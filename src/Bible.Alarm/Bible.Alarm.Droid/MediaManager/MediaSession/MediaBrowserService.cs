@@ -59,10 +59,18 @@ namespace MediaManager.Platforms.Android.MediaSession
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
 
-#if DEBUG
-            AppDomain.CurrentDomain.UnhandledException += (s, e) => logger.Error("Unhandled error", e);
-            TaskScheduler.UnobservedTaskException += (s, e) => logger.Error("Unhandled error", e);
-#endif
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += unobserverdTaskException;
+        }
+
+        private void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Unobserved task exception.", e.Exception);
+        }
+
+        private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            logger.Error("Unhandled exception.", e);
         }
 
         protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer)
@@ -475,6 +483,9 @@ namespace MediaManager.Platforms.Android.MediaSession
 
 
             BootstrapHelper.Remove(this);
+
+            AppDomain.CurrentDomain.UnhandledException -= unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException -= unobserverdTaskException;
 
             disposed = true;
             base.Dispose(disposing);

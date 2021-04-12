@@ -16,10 +16,22 @@ namespace Bible.Alarm.iOS
         private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
         private static Logger logger => lazyLogger.Value;
 
-
         static Application()
         {
             LogSetup.Initialize(VersionFinder.Default, new string[] { }, Xamarin.Forms.Device.iOS);
+
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException += unobserverdTaskException;
+        }
+
+        private static void unobserverdTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            logger.Error("Unobserved task exception.", e.Exception);
+        }
+
+        private static void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            logger.Error("Unhandled exception.", e);
         }
 
         // This is the main entry point of the application.
@@ -59,6 +71,25 @@ namespace Bible.Alarm.iOS
                 logger.Error(e, "Main initialization failed.");
                 throw;
             }
+        }
+
+        private static bool disposed = false;
+        private static void dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            AppDomain.CurrentDomain.UnhandledException -= unhandledExceptionHandler;
+            TaskScheduler.UnobservedTaskException -= unobserverdTaskException;
+
+            disposed = true;
+        }
+
+        ~Application()
+        {
+            dispose();
         }
     }
 }
