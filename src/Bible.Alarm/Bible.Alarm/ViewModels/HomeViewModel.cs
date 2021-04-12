@@ -27,7 +27,9 @@ namespace Bible.Alarm.ViewModels
 {
     public class HomeViewModel : ViewModel, IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IContainer container;
 
@@ -373,7 +375,9 @@ namespace Bible.Alarm.ViewModels
 
     public class ScheduleListItem : ViewModel, IComparable, IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private readonly IContainer container;
 

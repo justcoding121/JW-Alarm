@@ -17,7 +17,9 @@ namespace Bible.Alarm.UWP.Services.Handlers
 {
     public class UwpAlarmHandler : IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IPlaybackService playbackService;
         private IMediaManager mediaManager;

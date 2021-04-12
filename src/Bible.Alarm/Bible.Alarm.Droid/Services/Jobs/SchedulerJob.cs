@@ -18,7 +18,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
     {
         public const int JobId = 1;
         private IContainer container;
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
         public SchedulerJob()
         {
             LogSetup.Initialize(VersionFinder.Default,

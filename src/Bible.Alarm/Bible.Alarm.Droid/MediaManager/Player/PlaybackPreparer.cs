@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media.Session;
@@ -22,7 +20,9 @@ namespace MediaManager.Platforms.Android.Player
     public class MediaSessionConnectorPlaybackPreparer : Java.Lang.Object,
         MediaSessionConnector.IPlaybackPreparer
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IContainer container;
 
@@ -59,7 +59,7 @@ namespace MediaManager.Platforms.Android.Player
 
         public async void OnPrepare(bool playWhenReady)
         {
-            logger.Info($"On prepare called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+            logger.Info($"On prepare called. MediaSource: {mediaSource.Size}, AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
 
             if (mediaSource.Size > 0)
             {
@@ -75,8 +75,8 @@ namespace MediaManager.Platforms.Android.Player
 
         public async void OnPrepareFromMediaId(string mediaId, bool playWhenReady, Bundle extras)
         {
-            logger.Info($"On prepare  from median Id called. AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
-           
+            logger.Info($"On prepare  from median Id called. MediaSource: {mediaSource.Size}, AutoPlay: {MediaManager.AutoPlay}, Queue Count: #{MediaManager.Queue.Count}. PlaybackState: #{MediaManager.State}");
+
             await playbackService.PrepareRelavantPlaylist();
             prepare(playWhenReady);
 
@@ -96,7 +96,7 @@ namespace MediaManager.Platforms.Android.Player
             return;
         }
 
-        private  void prepare(bool playWhenReady)
+        private void prepare(bool playWhenReady)
         {
             Prepare(playWhenReady, currentPlayer, MediaManager, playbackService, mediaSource);
         }
@@ -105,26 +105,37 @@ namespace MediaManager.Platforms.Android.Player
                 IMediaManager mediaManager, IPlaybackService playbackService,
                 ConcatenatingMediaSource mediaSource)
         {
-            currentPlayer.PlayWhenReady = playWhenReady || mediaManager.AutoPlay;
-            currentPlayer.Stop(true);
-
-            var currentTrackIndex = playbackService.CurrentTrackIndex;
-            var currentTrackPosition = playbackService.CurrentTrackPosition;
-            var seek = currentTrackIndex >= 0 && currentTrackPosition != default;
-            if (currentPlayer is SimpleExoPlayer)
+            try
             {
-                (currentPlayer as SimpleExoPlayer).Prepare(mediaSource);
-                if (seek)
-                {
-                    currentPlayer.SeekTo(currentTrackIndex, (long)currentTrackPosition.TotalMilliseconds);
-                }
-                return;
-            }
+                currentPlayer.PlayWhenReady = playWhenReady || mediaManager.AutoPlay;
+                currentPlayer.Stop(true);
 
-            var castPlayer = currentPlayer as CastPlayer;
-            castPlayer.LoadItems(mediaManager.Queue.Select(x => x.ToMediaQueueItem()).ToArray(),
-                seek ? currentTrackIndex : 0,
-                seek ? (long)currentTrackPosition.TotalMilliseconds : 0, IPlayer.RepeatModeOff);
+                var currentTrackIndex = playbackService.CurrentTrackIndex;
+                var currentTrackPosition = playbackService.CurrentTrackPosition;
+                var seek = currentTrackIndex >= 0 && currentTrackPosition != default;
+                if (currentPlayer is SimpleExoPlayer)
+                {
+                    (currentPlayer as SimpleExoPlayer).Prepare(mediaSource);
+                    if (seek)
+                    {
+                        currentPlayer.SeekTo(currentTrackIndex, (long)currentTrackPosition.TotalMilliseconds);
+                    }
+                }
+                else
+                {
+                    var castPlayer = currentPlayer as CastPlayer;
+                    castPlayer.LoadItems(mediaManager.Queue.Select(x => x.ToMediaQueueItem()).ToArray(),
+                        seek ? currentTrackIndex : 0,
+                        seek ? (long)currentTrackPosition.TotalMilliseconds : 0, IPlayer.RepeatModeOff);
+                }
+
+                logger.Info($"On prepare complete. ");
+
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened when preparing.");
+            }
         }
 
     }

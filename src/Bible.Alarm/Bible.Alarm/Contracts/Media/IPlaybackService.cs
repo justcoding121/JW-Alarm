@@ -12,6 +12,7 @@ namespace Bible.Alarm.Services.Contracts
         long CurrentlyPlayingScheduleId { get; }
         bool IsPlaying { get; }
         bool IsPrepared { get; }
+
         Task PrepareRelavantPlaylist();
         Task Play();
 

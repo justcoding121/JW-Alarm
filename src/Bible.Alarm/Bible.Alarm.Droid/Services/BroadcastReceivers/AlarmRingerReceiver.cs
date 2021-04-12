@@ -20,7 +20,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
     [BroadcastReceiver(Enabled = true)]
     public class AlarmRingerReceiver : BroadcastReceiver, IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IContainer container;
         private Context context;

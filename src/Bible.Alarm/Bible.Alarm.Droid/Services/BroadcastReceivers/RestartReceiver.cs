@@ -19,7 +19,9 @@ namespace Bible.Alarm.Droid.Services.Tasks
         "com.Bible.Alarm.Restart"})]
     public class RestartReceiver : BroadcastReceiver, IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IContainer container;
         private Context context;

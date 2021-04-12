@@ -12,7 +12,9 @@ namespace Bible.Alarm.Services.iOS
 {
     public class iOSNotificationService : INotificationService
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private readonly IContainer container;
         private readonly TaskScheduler taskScheduler;

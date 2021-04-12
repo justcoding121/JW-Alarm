@@ -16,7 +16,9 @@ namespace Bible.Alarm.Droid.Services.Handlers
 {
     public class AndroidAlarmHandler : IAndroidAlarmHandler, IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IMediaManager mediaManager;
         private IPlaybackService playbackService;

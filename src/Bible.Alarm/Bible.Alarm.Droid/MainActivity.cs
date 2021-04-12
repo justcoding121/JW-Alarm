@@ -30,7 +30,9 @@ namespace Bible.Alarm.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         private IContainer container;
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
         private IAndroidAlarmHandler alarmHandler;
         public MainActivity()
         {
@@ -58,7 +60,7 @@ namespace Bible.Alarm.Droid
 
                 base.OnCreate(bundle);
 
-                castContext = CastContext.GetSharedInstance(this);
+                castContext = CastContext.GetSharedInstance(Android.App.Application.Context);
 
                 Forms.Init(this, bundle);
                 LoadApplication(new App(container));

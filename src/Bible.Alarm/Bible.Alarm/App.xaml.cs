@@ -16,7 +16,10 @@ namespace Bible.Alarm
     public partial class App : Application
     {
         private readonly IContainer container;
-        private static Logger logger => LogManager.GetCurrentClassLogger();
+
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
         public App(IContainer container)
         {
             this.container = container;

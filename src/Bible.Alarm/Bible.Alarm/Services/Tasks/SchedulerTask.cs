@@ -12,7 +12,9 @@ namespace Bible.Alarm.Services.Tasks
 {
     public class SchedulerTask : IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
         private ScheduleDbContext scheduleDbContext;
         private IMediaCacheService mediaCacheService;
         private IAlarmService alarmService;

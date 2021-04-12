@@ -17,7 +17,10 @@ namespace Bible.Alarm.Common.Extensions
     public static class MediaManagerExtensions
     {
         private static readonly int retryAttempts = 3;
-        private static Logger logger => LogManager.GetCurrentClassLogger();
+
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         public static bool IsPreparedEx(this IMediaManager mediaManager)
         {

@@ -26,7 +26,9 @@ namespace Bible.Alarm.Services.Droid
         public static readonly string CHANNEL_DESCRIPTION = "alarm_notification are send to this channel";
         public static readonly string SCHEDULE_ID = "schedule_id";
 
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private readonly IContainer container;
 

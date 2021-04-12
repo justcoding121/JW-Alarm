@@ -16,7 +16,9 @@ namespace Bible.Alarm.Droid
         MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         public SplashActivity()
         {

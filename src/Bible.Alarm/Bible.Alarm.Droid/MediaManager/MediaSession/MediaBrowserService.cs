@@ -33,8 +33,9 @@ namespace MediaManager.Platforms.Android.MediaSession
     [IntentFilter(new[] { global::Android.Service.Media.MediaBrowserService.ServiceInterface })]
     public class MediaBrowserService : MediaBrowserServiceCompat
     {
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
 
-        private Logger logger => LogManager.GetCurrentClassLogger();
 
         protected MediaManagerImplementation MediaManager => (MediaManagerImplementation)CrossMediaManager.Current;
         protected MediaDescriptionAdapter MediaDescriptionAdapter { get; set; }
@@ -48,7 +49,7 @@ namespace MediaManager.Platforms.Android.MediaSession
         protected NotificationListener NotificationListener { get; set; }
 
         public readonly string ChannelId = "com.jthomas.info.Bible.Alarm.NOW_PLAYING";
-        public readonly int NotificationId = 0xb339;
+        public readonly int NotificationId = 1;
 
         public bool IsForegroundService = false;
 
@@ -58,6 +59,11 @@ namespace MediaManager.Platforms.Android.MediaSession
         {
             LogSetup.Initialize(VersionFinder.Default,
                 new string[] { $"AndroidSdk {Build.VERSION.SdkInt}" }, Xamarin.Forms.Device.Android);
+
+#if DEBUG
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => logger.Error("Unhandled error", e);
+            TaskScheduler.UnobservedTaskException += (s, e) => logger.Error("Unhandled error", e);
+#endif
         }
 
         protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
@@ -69,19 +75,15 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         public IPlayer CurrentPlayer { get => MediaManager.AndroidMediaPlayer.CurrentPlayer; set { MediaManager.AndroidMediaPlayer.CurrentPlayer = value; } }
         public SimpleExoPlayer ExoPlayer => MediaManager.AndroidMediaPlayer.ExoPlayer;
-        public CastPlayer CastPlayer => castPlayer.Value;
+        public CastPlayer CastPlayer => MediaManager.AndroidMediaPlayer.CastPlayer;
 
-        private Lazy<CastPlayer> castPlayer;
 
         private PlayerEventListener playerListener = new PlayerEventListener();
 
-        public async override void OnCreate()
+        public override void OnCreate()
         {
             base.OnCreate();
-#if DEBUG
-            AppDomain.CurrentDomain.UnhandledException += (s, e) => logger.Error("Unhandled error", e);
-            TaskScheduler.UnobservedTaskException += (s, e) => logger.Error("Unhandled error", e);
-#endif
+
             try
             {
                 container = BootstrapHelper.InitializeService(this);
@@ -97,22 +99,6 @@ namespace MediaManager.Platforms.Android.MediaSession
             //async prepare call here
             var prepareMediaTask = Task.Run(async () => await prepareMedia());
 
-            castPlayer = new Lazy<CastPlayer>(() =>
-            {
-                try
-                {
-                    var castContext = CastContext.GetSharedInstance(this);
-                    var player = new CastPlayer(castContext);
-                    player.SetSessionAvailabilityListener(new CastSessionAvailabilityListener(this));
-                    return player;
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "Cast is not available on this device");
-                    return null;
-                }
-            });
-
             try
             {
 
@@ -120,9 +106,6 @@ namespace MediaManager.Platforms.Android.MediaSession
                 playerListener.OnPlayerStateChangedImpl += onPlayerStateChanged;
 
                 NotificationListener = new NotificationListener();
-
-                NotificationListener.OnNotificationPostedImpl += onNotificationPosted;
-                NotificationListener.OnNotificationCancelledImpl += onNotificationCancelled;
 
                 var mediaSession = MediaManager.MediaSession = new MediaSessionCompat(this, nameof(MediaBrowserService));
                 mediaSession.SetSessionActivity(MediaManager.SessionActivityPendingIntent);
@@ -152,15 +135,31 @@ namespace MediaManager.Platforms.Android.MediaSession
                 mediaManager.Init(Application.Context);
                 mediaManager.AndroidMediaPlayer.Initialize();
 
+                if (CastPlayer != null)
+                {
+                    CastPlayer.SetSessionAvailabilityListener(new CastSessionAvailabilityListener(this));
+                }
+
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
                 logger.Info("Cast session available:" + CastPlayer.IsCastSessionAvailable);
 
-                await SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
+                SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer).Wait();
+
+                PlayerNotificationManager.NotificationPosted += onNotificationPosted;
+                PlayerNotificationManager.NotificationCancelled += onNotificationCancelled;
 
                 PlayerNotificationManager.SetPlayer(CurrentPlayer);
 
                 relavantMedia = prepareMediaTask.Result;
+
+                var notificationManager = (NotificationManager)Application.Context.GetSystemService(Context.NotificationService);
+                var activeNotifications = notificationManager.GetActiveNotifications().Length;
+
+                var appProcessInfo = new ActivityManager.RunningAppProcessInfo();
+                ActivityManager.GetMyMemoryState(appProcessInfo);
+
+                logger.Info("Start service. Active notifications:" + activeNotifications + ", Importance:" + appProcessInfo.Importance);
             }
             catch (Exception ex)
             {
@@ -271,8 +270,10 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         private MediaSessionConnector mediaSessionConnector;
 
-        private void onNotificationCancelled(int notificationId, bool dismissedByUser)
+        private void onNotificationCancelled(object sender, PlayerNotificationManager.NotificationCancelledEventArgs e)
         {
+            var dismissedByUser = e.DismissedByUser;
+
             logger.Info($"Notification cancelled. IsDismissedByUser:{dismissedByUser}, IsForeground: {IsForegroundService}");
 
             StopForeground(true);
@@ -281,8 +282,12 @@ namespace MediaManager.Platforms.Android.MediaSession
             StopSelf();
         }
 
-        private void onNotificationPosted(int notificationId, Notification notification, bool isOnGoing)
+        private void onNotificationPosted(object sender, PlayerNotificationManager.NotificationPostedEventArgs e)
         {
+            var isOnGoing = e.Ongoing;
+            var notificationId = e.NotificationId;
+            var notification = e.Notification;
+
             logger.Info($"Notification posted. IsOngoing:{isOnGoing}, IsForeground: {IsForegroundService}, " +
                   $"Queue Count: #{MediaManager.Queue.Count}");
 
@@ -313,51 +318,6 @@ namespace MediaManager.Platforms.Android.MediaSession
             base.OnTaskRemoved(rootIntent);
 
             CurrentPlayer.Stop(true);
-        }
-
-        public override void OnDestroy()
-        {
-            logger.Info("Service stop.");
-
-            try
-            {
-                playerListener.OnPlayerErrorImpl -= onPlayerError;
-                playerListener.OnPlayerStateChangedImpl -= onPlayerStateChanged;
-
-                NotificationListener.OnNotificationPostedImpl -= onNotificationPosted;
-                NotificationListener.OnNotificationCancelledImpl -= onNotificationCancelled;
-
-                MediaManager.MediaSession.Active = false;
-                MediaManager.MediaSession.Release();
-
-                (MediaManager.Notification as Notifications.NotificationManager).Player = null;
-
-                MediaDescriptionAdapter.Dispose();
-                MediaDescriptionAdapter = null;
-
-                PlayerNotificationManager.SetPlayer(null);
-                PlayerNotificationManager.Dispose();
-                PlayerNotificationManager = null;
-
-                NotificationListener.Dispose();
-                NotificationListener = null;
-
-                MediaManager.MediaSession.Active = false;
-                MediaManager.MediaSession.Release();
-                MediaManager.MediaSession = null;
-
-                if (CastPlayer != null)
-                {
-                    CastPlayer.Release();
-                    CastPlayer.Dispose();
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "An error happened when disposing MediaBrowserService");
-            }
-
-            base.OnDestroy();
         }
 
         private const string MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED";
@@ -395,7 +355,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                 if (relavantMedia != null)
                 {
                     result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>() { relavantMedia.ToMediaBrowserMediaItem() });
-                    logger.Info("Set relavant media as result.");
+                    logger.Info($"Set relavant media as result.  Queue Count: #{MediaManager.Queue.Count}. ");
                     return;
                 }
 
@@ -428,6 +388,7 @@ namespace MediaManager.Platforms.Android.MediaSession
             {
                 if (MediaManager.Queue.Count > 0)
                 {
+                    logger.Info($"Service start. Queue was not empty. Count: {MediaManager.Queue.Count}");
                     return MediaManager.Queue[0];
                 }
 
@@ -455,6 +416,54 @@ namespace MediaManager.Platforms.Android.MediaSession
 
             return null;
         }
+
+
+        public override void OnDestroy()
+        {
+            logger.Info("Service stop.");
+
+            try
+            {
+                playerListener.OnPlayerErrorImpl -= onPlayerError;
+                playerListener.OnPlayerStateChangedImpl -= onPlayerStateChanged;
+
+                PlayerNotificationManager.NotificationPosted += onNotificationPosted;
+                PlayerNotificationManager.NotificationCancelled += onNotificationCancelled;
+
+                MediaManager.MediaSession.Active = false;
+                MediaManager.MediaSession.Release();
+
+                (MediaManager.Notification as Notifications.NotificationManager).Player = null;
+
+                MediaDescriptionAdapter.Dispose();
+                MediaDescriptionAdapter = null;
+
+                PlayerNotificationManager.SetPlayer(null);
+                PlayerNotificationManager.Dispose();
+                PlayerNotificationManager = null;
+
+                NotificationListener.Dispose();
+                NotificationListener = null;
+
+                MediaManager.MediaSession.Active = false;
+                MediaManager.MediaSession.Release();
+                MediaManager.MediaSession = null;
+
+                if (CastPlayer != null)
+                {
+                    CastPlayer.SetSessionAvailabilityListener(new CastSessionAvailabilityListener(this));
+                }
+
+                CurrentPlayer.RemoveListener(playerListener);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened when disposing MediaBrowserService");
+            }
+
+            base.OnDestroy();
+        }
+
 
         private bool disposed = false;
         protected override void Dispose(bool disposing)

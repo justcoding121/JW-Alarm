@@ -13,7 +13,8 @@ namespace Bible.Alarm.Services
 {
     public class PlaylistService : IPlaylistService
     {
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
 
         private ScheduleDbContext scheduleDbContext;
         private MediaDbContext mediaDbContext;
@@ -32,12 +33,7 @@ namespace Bible.Alarm.Services
         {
             var lastSchedule = await scheduleDbContext.GeneralSettings.FirstOrDefaultAsync(x => x.Key == "LastPlayedScheduleId");
 
-            if (lastSchedule != null)
-            {
-                return long.Parse(lastSchedule.Value);
-            }
-
-            var schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync();
+            var schedule = await scheduleDbContext.AlarmSchedules.FirstOrDefaultAsync(x=> x.Id == long.Parse(lastSchedule.Value));
 
             if (schedule == null)
             {

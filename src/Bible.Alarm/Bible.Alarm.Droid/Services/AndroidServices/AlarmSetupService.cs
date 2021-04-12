@@ -20,7 +20,9 @@ namespace Bible.Alarm.Services.Droid.Tasks
     public class AlarmSetupService : Service, IDisposable
     {
         private IContainer container;
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         public static bool IsRunning = false;
 

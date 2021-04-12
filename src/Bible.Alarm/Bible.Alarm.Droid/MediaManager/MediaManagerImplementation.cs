@@ -27,7 +27,7 @@ using MediaManager.Volume;
 namespace MediaManager
 {
     [global::Android.Runtime.Preserve(AllMembers = true)]
-    public class MediaManagerImplementation : MediaManagerBase, IMediaManager<SimpleExoPlayer>
+    public class MediaManagerImplementation : MediaManagerBase, IMediaManager<IPlayer>
     {
         public MediaManagerImplementation()
         {
@@ -173,7 +173,7 @@ namespace MediaManager
         }
 
         public AndroidMediaPlayer AndroidMediaPlayer => (AndroidMediaPlayer)MediaPlayer;
-        public SimpleExoPlayer Player => AndroidMediaPlayer?.ExoPlayer;
+        public IPlayer Player => AndroidMediaPlayer?.Player;
 
         private IVolumeManager _volume;
         public override IVolumeManager Volume

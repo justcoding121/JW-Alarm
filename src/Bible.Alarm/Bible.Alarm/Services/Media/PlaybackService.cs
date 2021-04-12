@@ -23,7 +23,9 @@ namespace Bible.Alarm.Services
 {
     public class PlaybackService : IPlaybackService
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private readonly IMediaManager mediaManager;
         private IPlaylistService playlistService;
@@ -59,7 +61,6 @@ namespace Bible.Alarm.Services
         private long currentScheduleId;
         private Dictionary<IMediaItem, NotificationDetail> currentlyPlaying;
         private IMediaItem firstChapter;
-
         public bool IsPlaying => isPlaying;
         public bool IsPrepared => mediaManager.Queue.Count > 0;
 
@@ -90,7 +91,7 @@ namespace Bible.Alarm.Services
                     return;
                 }
 
-                await this.mediaManager.Play();
+                await this.mediaManager.Play();            
             }
             finally
             {
@@ -111,6 +112,7 @@ namespace Bible.Alarm.Services
 
                 reset();
                 await preparePlay(scheduleId, isImmediatePlayRequest, false);
+             
             }
             finally
             {

@@ -15,7 +15,9 @@ namespace Bible.Alarm.iOS.Services.Handlers
 {
     public class iOSAlarmHandler : IDisposable
     {
-        private Logger logger => LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
 
         private IPlaybackService playbackService;
         private IMediaManager mediaManager;
