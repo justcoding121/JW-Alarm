@@ -450,10 +450,21 @@ namespace Bible.Alarm.Services
                         await playlistService.MarkTrackAsFinished(track);
                         await Dismiss();
 
+                        var scheduleId = currentScheduleId;
                         reset();
-                        await PrepareRelavantPlaylist();
-                        await mediaManager.Play();
-                        await mediaManager.Stop();        
+                        
+                        if(CurrentDevice.RuntimePlatform == Device.Android)
+                        {
+                            await PrepareRelavantPlaylist();
+                            await Play();
+                        }
+                        else
+                        {
+                            await PrepareAndPlay(scheduleId, true);
+                        }
+                       
+                        await Task.Delay(500);
+                        await Dismiss();       
                     }
                 }
 
