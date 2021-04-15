@@ -9,6 +9,7 @@ using Bible.Alarm.ViewModels;
 using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Shared;
+using MediaManager;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -32,7 +33,6 @@ namespace Bible.Alarm.UI
         {
             this.container = container;
             this.navigater = navigater;
-
 
             Messenger<object>.Subscribe(MvvmMessages.ShowAlarmModal, async @param =>
             {
@@ -78,13 +78,10 @@ namespace Bible.Alarm.UI
                     {
                         case MvvmMessages.ShowAlarmModal:
                             {
-                                await Task.Delay(1000);
-
-                                var next = await queue.PeekAsync();
-
-                                if (next != default && next.Item1 == MvvmMessages.HideAlarmModal)
+                                //hack to prevent pop-ups in quick succession
+                                var mediaManager = container.Resolve<IMediaManager>();
+                                if (!mediaManager.IsPlaying())
                                 {
-                                    await queue.DequeueAsync();
                                     break;
                                 }
 
