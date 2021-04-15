@@ -9,7 +9,6 @@ using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Playback;
 using MediaManager.Player;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -434,38 +433,12 @@ namespace Bible.Alarm.Services
                 isPlaying = false;
                 await stopWatching();
                 Messenger<object>.Publish(MvvmMessages.HideAlarmModal);
-
-                try
-                {
-                    var mediaItem = this.mediaManager.Queue?.Current;
-
-                    if (mediaItem != null && currentlyPlaying != null)
-                    {
-                        if (currentlyPlaying.ContainsKey(mediaItem))
-                        {
-                            var track = currentlyPlaying[mediaItem];
-
-                            //finished last track
-                            if (mediaManager.Queue.Last() == mediaItem &&
-                                mediaItem.Duration.TotalMilliseconds > 0 && track.FinishedDuration.TotalMilliseconds > 0
-                              && track.FinishedDuration.TotalMilliseconds >= (mediaItem.Duration.TotalMilliseconds - 1000))
-                            {
-                                reset();
-                                await PrepareRelavantPlaylist();
-                                await mediaManager.Stop();
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e, "An error happenned insided stopped() method.");
-                }
             }
         }
 
         private async void markTrackAsFinished(object sender, MediaItemEventArgs e)
         {
+
             try
             {
                 if (currentlyPlaying.ContainsKey(e.MediaItem))
@@ -476,9 +449,15 @@ namespace Bible.Alarm.Services
                     {
                         await playlistService.MarkTrackAsFinished(track);
                         await Dismiss();
-                    }
 
+                        reset();
+                        await PrepareRelavantPlaylist();
+                        await mediaManager.Play();
+                        await mediaManager.Stop();        
+                    }
                 }
+
+                mediaManager.Notification.UpdateNotification();
             }
             catch (Exception ex)
             {
@@ -544,6 +523,7 @@ namespace Bible.Alarm.Services
                                             && mediaItem == firstChapter)
                                         {
                                             await this.mediaManager.SeekTo(track.FinishedDuration);
+                                            mediaManager.Notification.UpdateNotification();
                                             firstChapter = null;
                                         }
                                         else if (mediaManager.Position.TotalSeconds > 0)
@@ -559,6 +539,7 @@ namespace Bible.Alarm.Services
                                             track.FinishedDuration = mediaManager.Position;
                                             await this.playlistService.MarkTrackAsPlayed(track);
                                             await this.playlistService.SaveLastPlayed(currentScheduleId);
+                                            mediaManager.Notification.UpdateNotification();
                                         }
                                     }
                                 }
