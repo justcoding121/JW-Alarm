@@ -452,8 +452,8 @@ namespace Bible.Alarm.Services
 
                         var scheduleId = currentScheduleId;
                         reset();
-                        
-                        if(CurrentDevice.RuntimePlatform == Device.Android)
+
+                        if (CurrentDevice.RuntimePlatform == Device.Android)
                         {
                             await PrepareRelavantPlaylist();
                             await Play();
@@ -462,13 +462,12 @@ namespace Bible.Alarm.Services
                         {
                             await PrepareAndPlay(scheduleId, true);
                         }
-                       
+
+                        mediaManager.Notification.UpdateNotification();
                         await Task.Delay(500);
-                        await Dismiss();       
+                        await Dismiss();
                     }
                 }
-
-                mediaManager.Notification.UpdateNotification();
             }
             catch (Exception ex)
             {
