@@ -463,8 +463,9 @@ namespace Bible.Alarm.Services
                             await PrepareAndPlay(scheduleId, true);
                         }
 
-                        mediaManager.Notification.UpdateNotification();
                         await Task.Delay(500);
+                        mediaManager.Notification.UpdateNotification();
+                     
                         await Dismiss();
                     }
                 }
