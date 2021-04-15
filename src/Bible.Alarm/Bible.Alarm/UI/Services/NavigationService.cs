@@ -78,7 +78,7 @@ namespace Bible.Alarm.UI
                     {
                         case MvvmMessages.ShowAlarmModal:
                             {
-                                await Task.Delay(500);
+                                await Task.Delay(1000);
 
                                 var next = await queue.PeekAsync();
 
