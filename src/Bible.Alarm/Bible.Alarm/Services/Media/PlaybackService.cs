@@ -465,7 +465,7 @@ namespace Bible.Alarm.Services
 
                         await Task.Delay(500);
                         mediaManager.Notification.UpdateNotification();
-                     
+
                         await Dismiss();
                     }
                 }
@@ -534,7 +534,11 @@ namespace Bible.Alarm.Services
                                             && mediaItem == firstChapter)
                                         {
                                             await this.mediaManager.SeekTo(track.FinishedDuration);
-                                            mediaManager.Notification.UpdateNotification();
+                                            if (CurrentDevice.RuntimePlatform == Device.iOS)
+                                            {
+                                                mediaManager.Notification.UpdateNotification();
+                                            }
+
                                             firstChapter = null;
                                         }
                                         else if (mediaManager.Position.TotalSeconds > 0)
@@ -550,7 +554,10 @@ namespace Bible.Alarm.Services
                                             track.FinishedDuration = mediaManager.Position;
                                             await this.playlistService.MarkTrackAsPlayed(track);
                                             await this.playlistService.SaveLastPlayed(currentScheduleId);
-                                            mediaManager.Notification.UpdateNotification();
+                                            if (CurrentDevice.RuntimePlatform == Device.iOS)
+                                            {
+                                                mediaManager.Notification.UpdateNotification();
+                                            }
                                         }
                                     }
                                 }
