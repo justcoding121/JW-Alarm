@@ -101,7 +101,7 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
+                    Margin="{OnPlatform Default='10,0,0,0', UWP='10,0,0,10'}"
                     FontSize="{OnPlatform Default='Small',
                                           UWP='Micro'}"
                     HorizontalOptions="Start"
@@ -117,7 +117,7 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="2"
-                    Margin="0,0,10,0"
+                    Margin="{OnPlatform Default='0,0,10,0', UWP='0,0,10,10'}"
                     FontSize="{OnPlatform Default='Small',
                                           UWP='Micro'}"
                     HorizontalOptions="End"
