@@ -52,7 +52,6 @@ namespace MediaManager.Platforms.Android.Player
 
         public async void OnPrepare(bool playWhenReady)
         {
-
             if (mediaSource.Size > 0)
             {
                 prepare(playWhenReady);
@@ -61,7 +60,6 @@ namespace MediaManager.Platforms.Android.Player
 
             await playbackService.PrepareRelavantPlaylist();
             prepare(playWhenReady);
-
         }
 
         public async void OnPrepareFromMediaId(string mediaId, bool playWhenReady, Bundle extras)

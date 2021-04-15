@@ -396,11 +396,6 @@ namespace Bible.Alarm.Services
 
                 if (mediaItem == null)
                 {
-                    if (e.State == MediaPlayerState.Stopped)
-                    {
-                        await stopped();
-                    }
-
                     return;
                 }
 
@@ -439,6 +434,33 @@ namespace Bible.Alarm.Services
                 isPlaying = false;
                 await stopWatching();
                 Messenger<object>.Publish(MvvmMessages.HideAlarmModal);
+
+                try
+                {
+                    var mediaItem = this.mediaManager.Queue?.Current;
+
+                    if (mediaItem != null && currentlyPlaying != null)
+                    {
+                        if (currentlyPlaying.ContainsKey(mediaItem))
+                        {
+                            var track = currentlyPlaying[mediaItem];
+
+                            //finished last track
+                            if (mediaManager.Queue.Last() == mediaItem &&
+                                mediaItem.Duration.TotalMilliseconds > 0 && track.FinishedDuration.TotalMilliseconds > 0
+                              && track.FinishedDuration.TotalMilliseconds >= (mediaItem.Duration.TotalMilliseconds - 1000))
+                            {
+                                reset();
+                                await PrepareRelavantPlaylist();
+                                await mediaManager.Stop();
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e, "An error happenned insided stopped() method.");
+                }
             }
         }
 

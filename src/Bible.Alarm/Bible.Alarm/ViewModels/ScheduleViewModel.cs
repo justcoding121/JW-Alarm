@@ -282,11 +282,6 @@ namespace Bible.Alarm.ViewModels
 
                 await navigationService.CloseModal();
 
-                if (CurrentNumberOfChapters.Value == 1)
-                {
-                    AlwaysPlayFromStart = true;
-                }
-
                 IsBusy = false;
             });
 

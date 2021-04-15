@@ -21,8 +21,6 @@ namespace Bible.Alarm.Models
         //music
         public int TrackNumber { get; set; }
 
-        public TimeSpan Duration { get; set; }
-
         public TimeSpan FinishedDuration { get; set; }
 
         public bool IsAlarmMusic => TrackNumber > 0;
