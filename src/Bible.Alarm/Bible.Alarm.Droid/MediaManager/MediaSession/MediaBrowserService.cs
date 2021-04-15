@@ -71,7 +71,7 @@ namespace MediaManager.Platforms.Android.MediaSession
 
         private void unhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-              logger.Error("Unhandled exception.", e.SerializeObject());
+            logger.Error("Unhandled exception.", e.SerializeObject());
         }
 
         protected MediaBrowserService(IntPtr javaReference, JniHandleOwnership transfer)
@@ -151,7 +151,7 @@ namespace MediaManager.Platforms.Android.MediaSession
 
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
-                SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer).Wait();
+                SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
 
                 PlayerNotificationManager.NotificationPosted += onNotificationPosted;
                 PlayerNotificationManager.NotificationCancelled += onNotificationCancelled;
@@ -174,18 +174,18 @@ namespace MediaManager.Platforms.Android.MediaSession
                 this.service = service;
             }
 
-            public async void OnCastSessionUnavailable()
+            public void OnCastSessionUnavailable()
             {
-                await service.SwitchToPlayer(service.CurrentPlayer, service.CastPlayer);
+                service.SwitchToPlayer(service.CurrentPlayer, service.CastPlayer);
             }
 
-            public async void OnCastSessionAvailable()
+            public void OnCastSessionAvailable()
             {
-                await service.SwitchToPlayer(service.CurrentPlayer, service.ExoPlayer);
+                service.SwitchToPlayer(service.CurrentPlayer, service.ExoPlayer);
             }
         }
 
-        public async Task SwitchToPlayer(IPlayer previousPlayer, IPlayer newPlayer)
+        public void SwitchToPlayer(IPlayer previousPlayer, IPlayer newPlayer)
         {
             if (previousPlayer == newPlayer)
             {
@@ -206,7 +206,7 @@ namespace MediaManager.Platforms.Android.MediaSession
                 {
                     var playbackService = container.Resolve<IPlaybackService>();
                     //prepare playlist
-                    await playbackService.PrepareRelavantPlaylist();
+                    Task.Run(async () => await playbackService.PrepareRelavantPlaylist()).Wait();
                     MediaSessionConnectorPlaybackPreparer.Prepare(true, CurrentPlayer, MediaManager, playbackService,
                          MediaManager.AndroidMediaPlayer.MediaSource);
                 }

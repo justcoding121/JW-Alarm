@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Media.Session;
@@ -50,7 +51,7 @@ namespace MediaManager.Platforms.Android.Player
             return false;
         }
 
-        public async void OnPrepare(bool playWhenReady)
+        public void OnPrepare(bool playWhenReady)
         {
             if (mediaSource.Size > 0)
             {
@@ -58,19 +59,19 @@ namespace MediaManager.Platforms.Android.Player
                 return;
             }
 
-            await playbackService.PrepareRelavantPlaylist();
+            Task.Run(async () => await playbackService.PrepareRelavantPlaylist()).Wait();
             prepare(playWhenReady);
         }
 
-        public async void OnPrepareFromMediaId(string mediaId, bool playWhenReady, Bundle extras)
+        public void OnPrepareFromMediaId(string mediaId, bool playWhenReady, Bundle extras)
         {
-            await playbackService.PrepareRelavantPlaylist();
+            Task.Run(async () => await playbackService.PrepareRelavantPlaylist()).Wait();
             prepare(playWhenReady);
         }
 
-        public async void OnPrepareFromSearch(string query, bool playWhenReady, Bundle extras)
+        public void OnPrepareFromSearch(string query, bool playWhenReady, Bundle extras)
         {
-            await playbackService.PrepareRelavantPlaylist();
+            Task.Run(async () => await playbackService.PrepareRelavantPlaylist()).Wait();
             prepare(playWhenReady);
         }
 
