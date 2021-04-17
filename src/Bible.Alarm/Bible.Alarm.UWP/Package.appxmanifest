@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
-  <Identity Name="7610JehonathanThomas.BibleAlarm" Publisher="CN=035C1A4A-153B-45C3-AE0C-2258A2D579AD" Version="1.4.16.0" />
+  <Identity Name="7610JehonathanThomas.BibleAlarm" Publisher="CN=035C1A4A-153B-45C3-AE0C-2258A2D579AD" Version="1.4.17.0" />
   <mp:PhoneIdentity PhoneProductId="b3a8623d-ff99-4a3b-8305-9a7b55c1309d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Bible Alarm</DisplayName>
