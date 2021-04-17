@@ -1,6 +1,8 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.App.Job;
 using Android.Content;
+using Android.Content.Res;
 using Android.Media;
 using Android.OS;
 using Bible.Alarm.Common.Mvvm;
@@ -160,14 +162,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
                     .SetContentType(AudioContentType.Sonification)
                     .Build();
 
-            using var storageService = container.Resolve<IStorageService>();
-
-            var filePath = Path.Combine(storageService.StorageRoot,
-                    "cool-alarm-tone-notification-sound.mp3");
-
-            var file = new Java.IO.File(filePath);
-            var soundUri = Android.Net.Uri.FromFile(file);
-
+            var soundUri = Android.Net.Uri.Parse("android.resource://" + Application.Context.PackageName + "/" + Bible.Alarm.Droid.Resource.Raw.cool_alarm_tone_notification_sound);
             // Configure the notification channel.
             channel.Description = DroidNotificationService.CHANNEL_DESCRIPTION;
             channel.EnableLights(true);
