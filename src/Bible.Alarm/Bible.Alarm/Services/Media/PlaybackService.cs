@@ -84,11 +84,6 @@ namespace Bible.Alarm.Services
                     throw new Exception("Cannot play without preparing.");
                 }
 
-                if (isPlaying)
-                {
-                    return;
-                }
-
                 await this.mediaManager.Play();
             }
             finally
@@ -99,14 +94,12 @@ namespace Bible.Alarm.Services
 
         public async Task PrepareAndPlay(long scheduleId, bool isImmediatePlayRequest)
         {
+            await Dismiss();
+
             await @lock.WaitAsync();
 
             try
             {
-                if (isPlaying)
-                {
-                    return;
-                }
 
                 reset();
                 await preparePlay(scheduleId, isImmediatePlayRequest, false);
@@ -140,15 +133,16 @@ namespace Bible.Alarm.Services
 
             try
             {
-                if (isPlaying)
-                {
-                    await this.mediaManager.StopEx();
-                }
+                await this.mediaManager.Stop();
+            }
+            catch(Exception e)
+            {
+                logger.Error(e, "Error happened when stopping playback.");
             }
             finally
             {
                 @lock.Release();
-            };
+            }
         }
 
         private void reset()
@@ -498,6 +492,7 @@ namespace Bible.Alarm.Services
             }
         }
 
+        private Task watchtask;
         private async Task watchAndSaveProgress()
         {
             await @lock.WaitAsync();
@@ -509,17 +504,22 @@ namespace Bible.Alarm.Services
                     return;
                 }
 
+                while (watchtask != null)
+                {
+                    await Task.Delay(100);
+                }
+
                 isWatching = true;
 
-                _ = Task.Run(async () =>
+                watchtask = Task.Run(async () =>
                 {
                     while (isWatching)
                     {
-                        var acquired = await @lock.WaitAsync(100);
+                        var acquired = await @lock.WaitAsync(1);
 
                         try
                         {
-                            if (isPlaying && this.mediaManager.IsPlaying())
+                            if (IsPlaying && this.mediaManager.IsPlaying())
                             {
                                 var mediaItem = this.mediaManager.Queue?.Current;
 
@@ -577,6 +577,8 @@ namespace Bible.Alarm.Services
 
                         await Task.Delay(1000);
                     }
+
+                    watchtask = null;
                 });
             }
             finally

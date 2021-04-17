@@ -33,11 +33,6 @@ namespace Bible.Alarm.Common.Extensions
                 && mediaManager.Position.TotalMilliseconds > 0;
         }
 
-        public static async Task StopEx(this IMediaManager mediaManager)
-        {
-            await mediaManager.Stop();
-        }
-
         public static void SetDisplay(this IMediaItem item, NotificationDetail detail)
         {
             if (detail.IsBibleReading)

@@ -91,7 +91,7 @@ namespace Bible.Alarm.ViewModels
 
             });
 
-    
+
             //set schedules from initial state.
             //this should fire only once (look at the where condition).
             var subscription = ReduxContainer.Store
@@ -397,14 +397,7 @@ namespace Bible.Alarm.ViewModels
                     var toastService = container.Resolve<IToastService>();
                     var mediaManager = container.Resolve<IMediaManager>();
 
-                    if (!mediaManager.IsPreparedEx())
-                    {
-                        await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
-                    }
-                    else
-                    {
-                        await toastService.ShowMessage("Cannot play when its already playing a schedule.", 5);
-                    }
+                    await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
 
                     toastService.Dispose();
 

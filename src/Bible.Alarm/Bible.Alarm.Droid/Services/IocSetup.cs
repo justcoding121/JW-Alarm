@@ -31,7 +31,7 @@
 
             container.Register<IToastService>((x) => new DroidToastService(container));
 
-            DroidNotificationService notificationServiceFactory() => new DroidNotificationService(container);
+            DroidNotificationService notificationServiceFactory() => new DroidNotificationService(container, container.Resolve<IStorageService>());
 
             container.Register<DroidNotificationService>((x) => notificationServiceFactory());
             container.Register<INotificationService>((x) => notificationServiceFactory());

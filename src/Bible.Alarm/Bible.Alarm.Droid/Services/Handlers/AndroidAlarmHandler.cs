@@ -43,11 +43,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
 
         public async Task Handle(long scheduleId, bool isImmediate)
         {
-            if (mediaManager.IsPreparedEx())
-            {
-                Dispose();
-                return;
-            }
 
             var schedule = await dbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == scheduleId);
 
@@ -101,7 +96,7 @@ namespace Bible.Alarm.Droid.Services.Handlers
         {
             if (e.DismissedByUser)
             {
-                await mediaManager.StopEx();
+                await mediaManager.Stop();
             }
         }
 
