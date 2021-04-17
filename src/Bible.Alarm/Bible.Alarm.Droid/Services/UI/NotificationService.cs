@@ -198,7 +198,7 @@ namespace Bible.Alarm.Services.Droid
 
         public void Dispose()
         {
-
+            storageService.Dispose();
         }
     }
 
