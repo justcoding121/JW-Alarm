@@ -17,6 +17,7 @@ using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Android.Graphics;
 using Bible.Alarm.Contracts.Media;
+using System.IO;
 
 namespace Bible.Alarm.Services.Droid
 {
@@ -31,10 +32,12 @@ namespace Bible.Alarm.Services.Droid
 
 
         private readonly IContainer container;
+        private readonly IStorageService storageService;
 
-        public DroidNotificationService(IContainer container)
+        public DroidNotificationService(IContainer container, IStorageService storageService)
         {
             this.container = container;
+            this.storageService = storageService;
         }
 
         public async void ShowNotification(long scheduleId)
@@ -94,6 +97,8 @@ namespace Bible.Alarm.Services.Droid
             var drawable = ContextCompat.GetDrawable(Application.Context, Resource.Drawable.ic_launcher_round);
             var bitmap = drawableToBitmap(drawable);
 
+            var filePath = System.IO.Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3");
+
             // Build the notification:
             var builder = new NotificationCompat.Builder(Application.Context, CHANNEL_ID)
                           .SetAutoCancel(true)
@@ -101,7 +106,9 @@ namespace Bible.Alarm.Services.Droid
                           .SetContentTitle(title)
                           .SetSmallIcon(Resource.Drawable.exo_icon_circular_play)
                           .SetLargeIcon(bitmap)
-                          .SetContentText(body);
+                          .SetContentText(body)
+                          .SetSound(Android.Net.Uri.Parse(filePath))
+                          .SetDefaults(0);
 
             var notificationManager = NotificationManagerCompat.From(Application.Context);
             notificationManager.Notify(scheduleId, builder.Build());
