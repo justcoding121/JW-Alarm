@@ -1,10 +1,12 @@
 ﻿using Android.App;
 using Android.App.Job;
 using Android.Content;
+using Android.Media;
 using Android.OS;
 using Bible.Alarm.Common.Mvvm;
 using Bible.Alarm.Droid.Services.Helpers;
 using Bible.Alarm.Droid.Services.Tasks;
+using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
@@ -22,13 +24,13 @@ namespace Bible.Alarm.Services.Droid.Helpers
         public static IContainer InitializeService(Context context)
         {
             var result = Alarm.Droid.IocSetup.Initialize(context, true);
-
+            var container = result.Item1;
             var containerCreated = result.Item2;
             if (containerCreated)
             {
                 var application = (Application)context.ApplicationContext;
                 Xamarin.Essentials.Platform.Init(application);
-                createNotificationChannel();
+                createNotificationChannel(container);
             }
 
             return result.Item1;
@@ -43,7 +45,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
             if (containerCreated)
             {
                 Xamarin.Essentials.Platform.Init(application);
-                createNotificationChannel();
+                createNotificationChannel(container);
 
                 Task.Run(async () =>
                 {
@@ -133,7 +135,7 @@ namespace Bible.Alarm.Services.Droid.Helpers
         }
 
 
-        private static void createNotificationChannel()
+        private static void createNotificationChannel(IContainer container)
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
@@ -143,12 +145,31 @@ namespace Bible.Alarm.Services.Droid.Helpers
                 return;
             }
 
-            var channelId = DroidNotificationService.CHANNEL_ID;
+            var channelId = DroidNotificationService.CHANNEL_ID_AND_NAME;
+            var channelName = DroidNotificationService.CHANNEL_ID_AND_NAME;
             var channelDescription = DroidNotificationService.CHANNEL_DESCRIPTION;
-            var channel = new NotificationChannel(channelId, channelId, NotificationImportance.Default)
+            var channel = new NotificationChannel(channelId, channelName, NotificationImportance.High)
             {
                 Description = channelDescription
             };
+
+            var attributes = new AudioAttributes.Builder()
+                    .SetUsage(AudioUsageKind.Notification)
+                    .Build();
+
+            using var storageService = container.Resolve<IStorageService>();
+
+            var filePath = System.IO.Path.Combine(storageService.StorageRoot,
+                    "cool-alarm-tone-notification-sound.mp3");
+
+            var file = new Java.IO.File(filePath);
+            var soundUri = Android.Net.Uri.FromFile(file);
+
+            // Configure the notification channel.
+            channel.Description = DroidNotificationService.CHANNEL_DESCRIPTION;
+            channel.EnableLights(true);
+            channel.EnableVibration(true);
+            channel.SetSound(soundUri, attributes);
 
             var notificationManager = (NotificationManager)Application.Context.GetSystemService(Context.NotificationService);
             notificationManager.CreateNotificationChannel(channel);

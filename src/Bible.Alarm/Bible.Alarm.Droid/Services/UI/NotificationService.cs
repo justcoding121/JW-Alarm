@@ -18,12 +18,13 @@ using Android.Support.V4.Content;
 using Android.Graphics;
 using Bible.Alarm.Contracts.Media;
 using System.IO;
+using Android.Media;
 
 namespace Bible.Alarm.Services.Droid
 {
     public class DroidNotificationService : INotificationService
     {
-        public static readonly string CHANNEL_ID = "alarm_notification";
+        public static readonly string CHANNEL_ID_AND_NAME = "alarm_notification";
         public static readonly string CHANNEL_DESCRIPTION = "alarm_notification are send to this channel";
         public static readonly string SCHEDULE_ID = "schedule_id";
 
@@ -80,6 +81,14 @@ namespace Bible.Alarm.Services.Droid
 
         public void ShowLocalNotification(int scheduleId, string title, string body)
         {
+            var filePath = System.IO.Path.Combine(this.storageService.StorageRoot, 
+                "cool-alarm-tone-notification-sound.mp3");
+
+            var file = new Java.IO.File(filePath);
+            var soundUri = Android.Net.Uri.FromFile(file);
+
+            var notificationManagerCompat = NotificationManagerCompat.From(Application.Context);
+
             // Pass the current button press count value to the next activity:
             var valuesForActivity = new Bundle();
             valuesForActivity.PutInt(SCHEDULE_ID, scheduleId);
@@ -97,21 +106,20 @@ namespace Bible.Alarm.Services.Droid
             var drawable = ContextCompat.GetDrawable(Application.Context, Resource.Drawable.ic_launcher_round);
             var bitmap = drawableToBitmap(drawable);
 
-            var filePath = System.IO.Path.Combine(this.storageService.StorageRoot, "cool-alarm-tone-notification-sound.mp3");
-
             // Build the notification:
-            var builder = new NotificationCompat.Builder(Application.Context, CHANNEL_ID)
+            var builder = new NotificationCompat.Builder(Application.Context, CHANNEL_ID_AND_NAME)
                           .SetAutoCancel(true)
                           .SetContentIntent(resultPendingIntent)
                           .SetContentTitle(title)
                           .SetSmallIcon(Resource.Drawable.exo_icon_circular_play)
                           .SetLargeIcon(bitmap)
+                          .SetSound(soundUri)
                           .SetContentText(body)
                           .SetSound(Android.Net.Uri.Parse(filePath))
                           .SetDefaults(0);
 
-            var notificationManager = NotificationManagerCompat.From(Application.Context);
-            notificationManager.Notify(scheduleId, builder.Build());
+
+            notificationManagerCompat.Notify(scheduleId, builder.Build());
         }
 
         private static Bitmap drawableToBitmap(Drawable drawable)
