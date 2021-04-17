@@ -10,6 +10,7 @@ using Bible.Alarm.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Bible.Alarm.Services.Droid.Helpers
@@ -45,13 +46,14 @@ namespace Bible.Alarm.Services.Droid.Helpers
             if (containerCreated)
             {
                 Xamarin.Essentials.Platform.Init(application);
-                createNotificationChannel(container);
 
                 Task.Run(async () =>
                 {
                     try
                     {
                         await VerifyServices(container);
+                        createNotificationChannel(container);
+
                         Messenger<bool>.Publish(MvvmMessages.Initialized, true);
 
                     }
@@ -155,11 +157,12 @@ namespace Bible.Alarm.Services.Droid.Helpers
 
             var attributes = new AudioAttributes.Builder()
                     .SetUsage(AudioUsageKind.Notification)
+                    .SetContentType(AudioContentType.Sonification)
                     .Build();
 
             using var storageService = container.Resolve<IStorageService>();
 
-            var filePath = System.IO.Path.Combine(storageService.StorageRoot,
+            var filePath = Path.Combine(storageService.StorageRoot,
                     "cool-alarm-tone-notification-sound.mp3");
 
             var file = new Java.IO.File(filePath);

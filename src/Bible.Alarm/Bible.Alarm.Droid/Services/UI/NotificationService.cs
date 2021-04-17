@@ -81,11 +81,6 @@ namespace Bible.Alarm.Services.Droid
 
         public void ShowLocalNotification(int scheduleId, string title, string body)
         {
-            var filePath = System.IO.Path.Combine(this.storageService.StorageRoot, 
-                "cool-alarm-tone-notification-sound.mp3");
-
-            var file = new Java.IO.File(filePath);
-            var soundUri = Android.Net.Uri.FromFile(file);
 
             var notificationManagerCompat = NotificationManagerCompat.From(Application.Context);
 
@@ -113,11 +108,19 @@ namespace Bible.Alarm.Services.Droid
                           .SetContentTitle(title)
                           .SetSmallIcon(Resource.Drawable.exo_icon_circular_play)
                           .SetLargeIcon(bitmap)
-                          .SetSound(soundUri)
-                          .SetContentText(body)
-                          .SetSound(Android.Net.Uri.Parse(filePath))
-                          .SetDefaults(0);
+                          .SetContentText(body);
 
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                var filePath = System.IO.Path.Combine(this.storageService.StorageRoot,
+               "cool-alarm-tone-notification-sound.mp3");
+
+                var file = new Java.IO.File(filePath);
+                var soundUri = Android.Net.Uri.FromFile(file);
+
+                builder.SetSound(soundUri);
+                builder.SetDefaults(0);
+            }
 
             notificationManagerCompat.Notify(scheduleId, builder.Build());
         }
