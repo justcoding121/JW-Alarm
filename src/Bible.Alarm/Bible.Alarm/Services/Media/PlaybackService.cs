@@ -75,73 +75,41 @@ namespace Bible.Alarm.Services
 
         public async Task Play()
         {
-            await @lock.WaitAsync();
-
-            try
+            if (!IsPrepared)
             {
-                if (!IsPrepared)
-                {
-                    throw new Exception("Cannot play without preparing.");
-                }
+                throw new Exception("Cannot play without preparing.");
+            }
 
-                await this.mediaManager.Play();
-            }
-            finally
-            {
-                @lock.Release();
-            }
+            await this.mediaManager.Play();
         }
 
         public async Task PrepareAndPlay(long scheduleId, bool isImmediatePlayRequest)
         {
             await Dismiss();
 
-            await @lock.WaitAsync();
-
-            try
-            {
-
-                reset();
-                await preparePlay(scheduleId, isImmediatePlayRequest, false);
-
-            }
-            finally
-            {
-                @lock.Release();
-            }
+            reset();
+            await preparePlay(scheduleId, isImmediatePlayRequest, false);
         }
 
 
         public async Task PrepareRelavantPlaylist()
         {
-            await @lock.WaitAsync();
-
-            try
-            {
-                var lastPlayed = await playlistService.GetRelavantScheduleToPlay();
-                await prepare(lastPlayed);
-            }
-            finally
-            {
-                @lock.Release();
-            }
+            var lastPlayed = await playlistService.GetRelavantScheduleToPlay();
+            await prepare(lastPlayed);
         }
 
         public async Task Dismiss()
         {
-            await @lock.WaitAsync();
-
             try
             {
-                await this.mediaManager.Stop();
+                if (this.mediaManager.IsPlaying())
+                {
+                    await this.mediaManager.Stop();
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 logger.Error(e, "Error happened when stopping playback.");
-            }
-            finally
-            {
-                @lock.Release();
             }
         }
 

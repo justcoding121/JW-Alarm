@@ -19,6 +19,7 @@ using Android.Graphics;
 using Bible.Alarm.Contracts.Media;
 using System.IO;
 using Android.Media;
+using Android.Content.Res;
 
 namespace Bible.Alarm.Services.Droid
 {
@@ -112,11 +113,8 @@ namespace Bible.Alarm.Services.Droid
 
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
-                var filePath = System.IO.Path.Combine(this.storageService.StorageRoot,
-               "cool-alarm-tone-notification-sound.mp3");
 
-                var file = new Java.IO.File(filePath);
-                var soundUri = Android.Net.Uri.FromFile(file);
+                var soundUri = Android.Net.Uri.Parse("android.resource://" + Application.Context.PackageName + "/" + Resource.Raw.cool_alarm_tone_notification_sound);
 
                 builder.SetSound(soundUri);
                 builder.SetDefaults(0);

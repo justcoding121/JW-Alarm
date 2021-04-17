@@ -10,8 +10,8 @@ using Bible.Alarm.ViewModels.Redux;
 using Bible.Alarm.ViewModels.Redux.Actions;
 using Bible.Alarm.ViewModels.Shared;
 using MediaManager;
+using NLog;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -20,6 +20,10 @@ namespace Bible.Alarm.UI
 {
     public class NavigationService : INavigationService
     {
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
+        private static Logger logger => lazyLogger.Value;
+
+
         private readonly IContainer container;
 
         private readonly INavigation navigater;
@@ -275,60 +279,80 @@ namespace Bible.Alarm.UI
 
         public async Task GoBack()
         {
-            if (navigater.ModalStack.Count > 0)
+            try
             {
-                await CloseModal();
-                return;
+                if (navigater.ModalStack.Count > 0)
+                {
+                    await CloseModal();
+                    return;
+                }
+
+                if (navigater.NavigationStack.Count > 1)
+                {
+                    var top = navigater.NavigationStack.Last();
+                    ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
+                    await navigater.PopAsync();
+                }
+
+                var currentPage = navigater.NavigationStack.LastOrDefault();
+
+                if (currentPage != null)
+                {
+                    NavigatedBack?.Invoke(currentPage.BindingContext);
+                }
             }
-
-            if (navigater.NavigationStack.Count > 1)
+            catch (Exception e)
             {
-                var top = navigater.NavigationStack.Last();
-                ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
-                await navigater.PopAsync();
-            }
-
-            var currentPage = navigater.NavigationStack.LastOrDefault();
-
-            if (currentPage != null)
-            {
-                NavigatedBack?.Invoke(currentPage.BindingContext);
+                logger.Error(e, "An error happened when navigating back.");
             }
         }
 
         public async Task CloseModal()
         {
-            if (navigater.ModalStack.Count > 0)
+            try
             {
-                var modal = await navigater.PopModalAsync();
-                if (modal.BindingContext is IDisposableModal)
+                if (navigater.ModalStack.Count > 0)
                 {
-                    (modal.BindingContext as IDisposableModal).Dispose();
+                    var modal = await navigater.PopModalAsync();
+                    if (modal.BindingContext is IDisposableModal)
+                    {
+                        (modal.BindingContext as IDisposableModal).Dispose();
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "An error happened when closing Modal.");
             }
         }
 
         public async Task NavigateToHome()
         {
-            while (navigater.ModalStack.Count > 0)
+            try
             {
-                await navigater.PopModalAsync();
-            }
+                while (navigater.ModalStack.Count > 0)
+                {
+                    await navigater.PopModalAsync();
+                }
 
-            while (navigater.NavigationStack.Count > 1)
+                while (navigater.NavigationStack.Count > 1)
+                {
+                    var top = navigater.NavigationStack.Last();
+                    ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
+                    await navigater.PopAsync();
+                }
+
+                var currentPage = navigater.NavigationStack.LastOrDefault();
+
+                if (currentPage != null)
+                {
+                    NavigatedBack?.Invoke(currentPage.BindingContext);
+                }
+            }
+            catch (Exception e)
             {
-                var top = navigater.NavigationStack.Last();
-                ReduxContainer.Store.Dispatch(new BackAction((top.BindingContext as IDisposable)));
-                await navigater.PopAsync();
+                logger.Error(e, "An error happened when navigating to home.");
             }
-
-            var currentPage = navigater.NavigationStack.LastOrDefault();
-
-            if (currentPage != null)
-            {
-                NavigatedBack?.Invoke(currentPage.BindingContext);
-            }
-
         }
 
         public void Dispose()

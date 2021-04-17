@@ -392,22 +392,31 @@ namespace Bible.Alarm.ViewModels
 
             PlayCommand = new Command(async () =>
             {
-                if (Schedule.Id > 0)
+                using var toastService = container.Resolve<IToastService>();
+
+                try
                 {
-                    var toastService = container.Resolve<IToastService>();
-                    var mediaManager = container.Resolve<IMediaManager>();
 
-                    await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
+                    if (Schedule.Id > 0)
+                    {
 
-                    toastService.Dispose();
+                        var mediaManager = container.Resolve<IMediaManager>();
 
-                    var notificationService = container.Resolve<INotificationService>();
-                    notificationService.ShowNotification(Schedule.Id);
+                        await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
 
-                    notificationService.Dispose();
+                        toastService.Dispose();
 
+                        using var notificationService = container.Resolve<INotificationService>();
+                        notificationService.ShowNotification(Schedule.Id);
+                    }
                 }
-
+                catch (Exception e)
+                {
+                    logger.Info(e, "An error happenned when playing alarm.");
+                    await toastService.ShowMessage("An error happenned when playing. " +
+                        "It was reported for investigation." +
+                        "Please force stop the app and try again.", 5);
+                }
             });
 
             RefreshChapterName(true);
