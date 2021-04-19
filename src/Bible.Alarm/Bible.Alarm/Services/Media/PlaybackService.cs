@@ -70,7 +70,7 @@ namespace Bible.Alarm.Services
         private async Task prepare(long scheduleId)
         {
             reset();
-            await preparePlay(scheduleId, false, true);
+            await preparePlay(scheduleId, true, true);
         }
 
         public async Task Play()
