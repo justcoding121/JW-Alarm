@@ -10,7 +10,7 @@ namespace Bible.Alarm.Droid
     public class IocSetup
     {
         private static ConcurrentDictionary<object, IContainer> containers
-            = new();
+            = new ConcurrentDictionary<object, IContainer>();
 
         public static IContainer GetContainer()
         {

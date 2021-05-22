@@ -21,7 +21,7 @@
     public static class IocSetup
     {
         private static Lazy<IMediaManager> mediaManagerImplementation
-            = new(() =>
+            = new Lazy<IMediaManager>(() =>
             {
                 return new MediaManagerImplementation();
             }, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);

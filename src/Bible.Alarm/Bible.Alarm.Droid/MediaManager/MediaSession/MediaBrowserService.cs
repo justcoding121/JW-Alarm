@@ -151,7 +151,7 @@ namespace MediaManager.Platforms.Android.MediaSession
 
                 mediaSessionConnector = mediaManager.AndroidMediaPlayer.MediaSessionConnector;
 
-                SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? CastPlayer : ExoPlayer);
+                SwitchToPlayer(null, CastPlayer != null && CastPlayer.IsCastSessionAvailable ? (IPlayer)CastPlayer : ExoPlayer);
 
                 PlayerNotificationManager.NotificationPosted += onNotificationPosted;
                 PlayerNotificationManager.NotificationCancelled += onNotificationCancelled;
