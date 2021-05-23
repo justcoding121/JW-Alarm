@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
-    - name: Run Link Harvestor
+    - name: Run Version Patcher
       run: dotnet run --project src/_tools/Bible.Alarm.VersionPatcher/Bible.Alarm.VersionPatcher.csproj --configuration Release
     
     - name: Commit changes

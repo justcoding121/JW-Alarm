@@ -48,7 +48,7 @@ namespace Bible.Alarm.VersionPatcher
 
         private static void patchiOS(string rootDir)
         {
-            var manifestFile = Path.Combine(rootDir, "src", "Bible.Alarm", "Bible.Alarm.iOS", "info.plist");
+            var manifestFile = Path.Combine(rootDir, "src", "Bible.Alarm", "Bible.Alarm.iOS", "Info.plist");
             
             var file =
                 new StreamReader(manifestFile);
