@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
-  <Identity Name="7610JehonathanThomas.BibleAlarm" Publisher="CN=035C1A4A-153B-45C3-AE0C-2258A2D579AD" Version="1.5.0.0" />
+  <Identity Name="7610JehonathanThomas.BibleAlarm" Publisher="CN=035C1A4A-153B-45C3-AE0C-2258A2D579AD" Version="1.6.0.0" />
   <mp:PhoneIdentity PhoneProductId="b3a8623d-ff99-4a3b-8305-9a7b55c1309d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Bible Alarm</DisplayName>
@@ -16,25 +16,26 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Bible.Alarm.UWP.App">
       <uap:VisualElements DisplayName="Bible Alarm" Description="Play music and Bible as an alarm." BackgroundColor="transparent" Square150x150Logo="Assets\MediumTile.png" Square44x44Logo="Assets\AppIcon.png">
-        <uap:DefaultTile  Square71x71Logo="Assets\SmallTile.png" Wide310x150Logo="Assets\WideTile.png" Square310x310Logo="Assets\LargeTile.png">
+        <uap:DefaultTile Square71x71Logo="Assets\SmallTile.png" Wide310x150Logo="Assets\WideTile.png" Square310x310Logo="Assets\LargeTile.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen BackgroundColor="white" Image="Assets\SplashScreen.png"/>
-        <uap:LockScreen Notification="badge"  BadgeLogo="Assets\BadgeLogo.png"/>
+        <uap:SplashScreen BackgroundColor="white" Image="Assets\SplashScreen.png" />
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:InitialRotationPreference>
-          <uap:Rotation Preference="landscape"/>
-          <uap:Rotation Preference="portrait"/>
-          <uap:Rotation Preference="landscapeFlipped"/>
-          <uap:Rotation Preference="portraitFlipped"/></uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="portrait" />
+          <uap:Rotation Preference="landscapeFlipped" />
+          <uap:Rotation Preference="portraitFlipped" />
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
-    <uap3:Capability Name="backgroundMediaPlayback"/>
+    <uap3:Capability Name="backgroundMediaPlayback" />
   </Capabilities>
 </Package>
