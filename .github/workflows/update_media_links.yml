@@ -26,7 +26,7 @@ jobs:
     - name: Commit changes
       uses: EndBug/add-and-commit@v7
       with:
-          author_name: BuildBot171
+          author_name: buildbot171
           author_email: buildbot171@gmail.com
           message: 'Update media links database'
           add: '*.zip'

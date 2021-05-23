@@ -29,43 +29,54 @@ namespace AudioLinkHarvester
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            deleteDirectory(DirectoryHelper.IndexDirectory);
-
-            var bibleTasks = new List<Task>();
-
-            var languageCodeToNameMappings = new ConcurrentDictionary<string, string>();
-            var languageCodeToEditionsMapping = new ConcurrentDictionary<string, List<string>>();
-
-            //////Bible
-            bibleTasks.Add(JwBibleHarvester.Harvest_Bible_Links(JwSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
-            //bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(BgSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
-
-            var musicTasks = new List<Task>();
-
-            ////////Music
-            musicTasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
-            musicTasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
-
-            Task.WhenAll(bibleTasks.Concat(musicTasks).ToArray()).Wait();
-
-            writeBibleIndex(languageCodeToNameMappings, languageCodeToEditionsMapping);
-
-            var index = new
+            try
             {
-                ReleaseDate = DateTime.Now.Ticks
-            };
+                deleteDirectory(DirectoryHelper.IndexDirectory);
 
-            var indexFile = $"{DirectoryHelper.IndexDirectory}/media/index.json";
-            if (File.Exists(indexFile))
-            {
-                File.Delete(indexFile);
+                var bibleTasks = new List<Task>();
+
+                var languageCodeToNameMappings = new ConcurrentDictionary<string, string>();
+                var languageCodeToEditionsMapping = new ConcurrentDictionary<string, List<string>>();
+
+                //////Bible
+                bibleTasks.Add(JwBibleHarvester.Harvest_Bible_Links(JwSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
+                //bibleTasks.Add(BgBibleHarvester.Harvest_Bible_Links(BgSourceHelper.PublicationCodeToNameMappings, languageCodeToNameMappings, languageCodeToEditionsMapping));
+
+                var musicTasks = new List<Task>();
+
+                ////////Music
+                musicTasks.Add(MusicHarverster.Harvest_Vocal_Music_Links());
+                musicTasks.Add(MusicHarverster.Harvest_Music_Melody_Links());
+
+                Task.WhenAll(bibleTasks.Concat(musicTasks).ToArray()).Wait();
+
+                writeBibleIndex(languageCodeToNameMappings, languageCodeToEditionsMapping);
+
+                var index = new
+                {
+                    ReleaseDate = DateTime.Now.Ticks
+                };
+
+                var indexFile = $"{DirectoryHelper.IndexDirectory}/media/index.json";
+                if (File.Exists(indexFile))
+                {
+                    File.Delete(indexFile);
+                }
+
+                File.WriteAllText(indexFile, JsonConvert.SerializeObject(index));
+
+                DbSeeder.Seed($"{DirectoryHelper.IndexDirectory}").Wait();
+
+                zipFiles();
             }
-
-            File.WriteAllText(indexFile, JsonConvert.SerializeObject(index));
-
-            DbSeeder.Seed($"{DirectoryHelper.IndexDirectory}").Wait();
-
-            zipFiles();
+            finally
+            {
+                var zipIndex = $"{DirectoryHelper.IndexDirectory}/index.zip";
+                if (!File.Exists(zipIndex))
+                {
+                    throw new Exception("Harvesting failed to create zip file.");
+                }
+            }
         }
 
         private static void writeBibleIndex(ConcurrentDictionary<string, string> languageCodeToNameMappings,
@@ -141,22 +152,23 @@ namespace AudioLinkHarvester
                 }
             }
 
-            if(Directory.GetFiles(path).Length > 0)
+            if(Directory.GetFiles(path).Length > 0
+                || Directory.GetDirectories(path).Length > 0)
             {
                 return;
             }
 
             try
             {
-                Directory.Delete(path, true);
+                Directory.Delete(path);
             }
             catch (IOException)
             {
-                Directory.Delete(path, true);
+                Directory.Delete(path);
             }
             catch (UnauthorizedAccessException)
             {
-                Directory.Delete(path, true);
+                Directory.Delete(path);
             }
         }
     }
