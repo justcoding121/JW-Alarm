@@ -1,9 +1,6 @@
 name: Update media links
 
 on:
- push:
-    branches:    
-      - develop
  schedule:
     - cron:  '5 4 * * *'
     
