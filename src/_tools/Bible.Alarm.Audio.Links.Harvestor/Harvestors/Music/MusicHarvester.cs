@@ -54,10 +54,10 @@ namespace AudioLinkHarvester.Audio
                         }
 
                     }
-                    catch
+                    catch (Exception e)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Failed: Harvesting Music track links for {publication.Value} of {language} language.");
+                        Console.WriteLine($"Failed: Harvesting Music track links for {publication.Value} of {language} language. Exception: {e}");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
