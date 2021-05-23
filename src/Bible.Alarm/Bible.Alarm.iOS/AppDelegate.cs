@@ -24,7 +24,7 @@ namespace Bible.Alarm.iOS
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate,
                                         IUNUserNotificationCenterDelegate
     {
-        private static readonly Lazy<Logger> lazyLogger = new(() => LogManager.GetCurrentClassLogger());
+        private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
         private static Logger logger => lazyLogger.Value;
 
         private readonly IContainer container;
