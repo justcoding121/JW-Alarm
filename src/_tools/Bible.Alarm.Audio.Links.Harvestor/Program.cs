@@ -131,6 +131,21 @@ namespace AudioLinkHarvester
                 deleteDirectory(directory);
             }
 
+            var files = Directory.GetFiles(path);
+
+            foreach(var file in files)
+            {
+                if (!file.EndsWith("index.zip"))
+                {
+                    File.Delete(file);
+                }
+            }
+
+            if(Directory.GetFiles(path).Length > 0)
+            {
+                return;
+            }
+
             try
             {
                 Directory.Delete(path, true);
