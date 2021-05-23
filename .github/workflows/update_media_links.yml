@@ -2,7 +2,7 @@ name: Update media links
 
 on:
  schedule:
-    - cron:  '5 4 * * *'
+    - cron:  '0 0 13 * *'
     
 jobs:
   build:
