@@ -6,7 +6,7 @@ namespace Bible.Alarm.Services.Contracts
 {
     public interface INotificationService : IDisposable
     {
-        void ShowNotification(long scheduleId);
+        Task ShowNotification(long scheduleId);
         Task ScheduleNotification(AlarmSchedule alarmSchedule,  string title, string body);
         Task Remove(long scheduleId);
         Task<bool> IsScheduled(long scheduleId);

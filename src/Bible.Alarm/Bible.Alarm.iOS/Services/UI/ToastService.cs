@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
+using Xamarin.Essentials;
 
 [assembly: Xamarin.Forms.Dependency(typeof(iOSToastService))]
 namespace Bible.Alarm.Services.iOS
@@ -17,18 +18,23 @@ namespace Bible.Alarm.Services.iOS
         }
 
         private static SemaphoreSlim @lock = new SemaphoreSlim(1);
-        public override Task ShowMessage(string message, int seconds)
+        public async override Task ShowMessage(string message, int seconds)
         {
             if (clearRequest != null)
             {
-                return Task.CompletedTask;
+                return;
             }
 
-            Task.Delay(0)
+            if (!MainThread.IsMainThread)
+            {
+               await Task.Delay(0)
                  .ContinueWith(async (x) =>
                      await showAlert(message, (double)seconds), taskScheduler);
-
-            return Task.CompletedTask;
+            }
+            else
+            {
+                await showAlert(message, (double)seconds);
+            }
         }
 
         private async Task showAlert(string message, double seconds)

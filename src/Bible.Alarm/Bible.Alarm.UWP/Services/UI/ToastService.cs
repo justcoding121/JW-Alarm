@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Xamarin.Essentials;
 
 namespace JW.Alarm.Services.UWP
 {
@@ -29,18 +30,23 @@ namespace JW.Alarm.Services.UWP
             return Task.CompletedTask;
         }
 
-        public override Task ShowMessage(string message, int seconds)
+        public async override Task ShowMessage(string message, int seconds)
         {
             if (clearRequest != null)
             {
-                return Task.CompletedTask;
+                return;
             }
 
-            Task.Delay(0)
-                 .ContinueWith(async (x) =>
-                     await showAlert(message, (double)seconds), taskScheduler);
-
-            return Task.CompletedTask;
+            if (!MainThread.IsMainThread)
+            {
+                await Task.Delay(0)
+                   .ContinueWith(async (x) =>
+                       await showAlert(message, (double)seconds), taskScheduler);
+            }
+            else
+            {
+                await showAlert(message, (double)seconds);
+            }
         }
 
         private async Task showAlert(string message, double seconds)

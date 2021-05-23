@@ -30,7 +30,6 @@ namespace Bible.Alarm.ViewModels
         private static readonly Lazy<Logger> lazyLogger = new Lazy<Logger>(() => LogManager.GetCurrentClassLogger());
         private static Logger logger => lazyLogger.Value;
 
-
         private IContainer container;
 
         private ScheduleDbContext scheduleDbContext;
@@ -42,8 +41,6 @@ namespace Bible.Alarm.ViewModels
         private IAlarmService alarmService;
 
         private INotificationService notificationService;
-
-        private TaskScheduler uiTaskScheduler;
 
         private List<IDisposable> subscriptions = new List<IDisposable>();
 
@@ -64,9 +61,6 @@ namespace Bible.Alarm.ViewModels
             this.alarmService = alarmService;
             this.notificationService = notificationService;
             this.mediaDbContext = mediaDbContext;
-
-
-            uiTaskScheduler = this.container.Resolve<TaskScheduler>();
 
             subscriptions.Add(scheduleDbContext);
 
@@ -390,33 +384,31 @@ namespace Bible.Alarm.ViewModels
             Schedule = schedule;
             isEnabled = schedule.IsEnabled;
 
-            PlayCommand = new Command(async () =>
+            PlayCommand = new Command(() =>
             {
-                using var toastService = container.Resolve<IToastService>();
-
-                try
+                _ = Task.Run(async () =>
                 {
+                    using var toastService = container.Resolve<IToastService>();
 
-                    if (Schedule.Id > 0)
+                    try
                     {
+                        if (Schedule.Id > 0)
+                        {
+                            var mediaManager = container.Resolve<IMediaManager>();
 
-                        var mediaManager = container.Resolve<IMediaManager>();
+                            await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
 
-                        await toastService.ShowMessage("Your schedule will start playing in a few seconds.", 5);
-
-                        toastService.Dispose();
-
-                        using var notificationService = container.Resolve<INotificationService>();
-                        notificationService.ShowNotification(Schedule.Id);
+                            using var notificationService = container.Resolve<INotificationService>();
+                            await notificationService.ShowNotification(Schedule.Id);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    logger.Info(e, "An error happenned when playing alarm.");
-                    await toastService.ShowMessage("An error happenned when playing. " +
-                        "It was reported for investigation." +
-                        "Please force stop the app and try again.", 5);
-                }
+                    catch (Exception e)
+                    {
+                        logger.Info(e, "An error happenned when playing alarm.");
+                        await toastService.ShowMessage("Error. Network may not be available." +
+                            "Please try again.", 5);
+                    }
+                });
             });
 
             RefreshChapterName(true);

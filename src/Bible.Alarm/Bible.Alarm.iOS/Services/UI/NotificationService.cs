@@ -25,10 +25,10 @@ namespace Bible.Alarm.Services.iOS
             taskScheduler = container.Resolve<TaskScheduler>();
         }
 
-        public void ShowNotification(long scheduleId)
+        public async Task ShowNotification(long scheduleId)
         {
             var iosAlarmHandler = container.Resolve<iOSAlarmHandler>();
-            _ = iosAlarmHandler.Handle(scheduleId, true);
+            await iosAlarmHandler.Handle(scheduleId, true);
         }
 
         public async Task ScheduleNotification(AlarmSchedule schedule,

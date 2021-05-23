@@ -43,7 +43,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
 
         public async Task Handle(long scheduleId, bool isImmediate)
         {
-
             var schedule = await dbContext.AlarmSchedules.FirstOrDefaultAsync(x => x.Id == scheduleId);
 
             if (schedule == null)
@@ -55,7 +54,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
             //local notification for android
             if (!isImmediate)
             {
-
                 if (schedule.NotificationEnabled)
                 {
                     notificationService.RemoveLocalNotification(schedule.Id);
@@ -106,7 +104,6 @@ namespace Bible.Alarm.Droid.Services.Handlers
             if (!disposed)
             {
                 disposed = true;
-
 
                 if (playerNotificationManager != null)
                 {

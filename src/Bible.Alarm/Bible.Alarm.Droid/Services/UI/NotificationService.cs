@@ -42,12 +42,16 @@ namespace Bible.Alarm.Services.Droid
             this.storageService = storageService;
         }
 
-        public async void ShowNotification(long scheduleId)
+        public async Task ShowNotification(long scheduleId)
         {
             try
             {
-                var alarmHandler = container.Resolve<IAndroidAlarmHandler>();
-                await alarmHandler.Handle(scheduleId, true);
+                var context = container.AndroidContext();
+                var alarmIntent = new Intent(context, typeof(AlarmRingerReceiver));
+                alarmIntent.PutExtra("ScheduleId", scheduleId.ToString());
+                alarmIntent.PutExtra("IsImmediate", true);
+
+                context.SendBroadcast(alarmIntent);
             }
             catch (System.Exception e)
             {
@@ -82,7 +86,6 @@ namespace Bible.Alarm.Services.Droid
 
         public void ShowLocalNotification(int scheduleId, string title, string body)
         {
-
             var notificationManagerCompat = NotificationManagerCompat.From(Application.Context);
 
             // Pass the current button press count value to the next activity:

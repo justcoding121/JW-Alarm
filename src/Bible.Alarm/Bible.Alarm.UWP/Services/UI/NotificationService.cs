@@ -20,10 +20,10 @@ namespace Bible.Alarm.Services.UWP
             this.container = container;
         }
 
-        public void ShowNotification(long scheduleId)
+        public async Task ShowNotification(long scheduleId)
         {
             var uwpAlarmHandler = container.Resolve<UwpAlarmHandler>();
-            _ = uwpAlarmHandler.Handle(scheduleId, true);
+            await uwpAlarmHandler.Handle(scheduleId, true);
         }
 
         public Task ScheduleNotification(AlarmSchedule schedule,
