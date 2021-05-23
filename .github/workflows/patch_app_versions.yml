@@ -1,0 +1,29 @@
+name: Patch App Version Every Month 15th
+
+on:
+ schedule:
+    - cron:  '0 0 15 * *'
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Run Link Harvestor
+      run: dotnet run --project src/_tools/Bible.Alarm.VersionPatcher/Bible.Alarm.VersionPatcher.csproj --configuration Release
+    
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v7
+      with:
+          author_name: buildbot171
+          author_email: buildbot171@gmail.com
+          message: 'Update app versions'
+          add: "['*.xml', '*.plist', '*.appxmanifest']"
