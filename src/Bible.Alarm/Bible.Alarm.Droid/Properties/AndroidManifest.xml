@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.jthomas.info.Bible.Alarm" android:installLocation="auto" android:versionCode="343" android:versionName="1.89">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.jthomas.info.Bible.Alarm" android:installLocation="auto" android:versionCode="344" android:versionName="1.90">
   <uses-sdk android:targetSdkVersion="30" android:minSdkVersion="21" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.INTERNET" />
