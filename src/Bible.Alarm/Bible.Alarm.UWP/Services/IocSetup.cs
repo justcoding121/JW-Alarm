@@ -24,7 +24,7 @@
         public static IContainer Container { get; private set; }
 
         private static Lazy<IMediaManager> mediaManagerImplementation
-             = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
+             = new Lazy<IMediaManager>(() => new MediaManagerImplementation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         public static void Initialize(IContainer container, bool isService)
         {
