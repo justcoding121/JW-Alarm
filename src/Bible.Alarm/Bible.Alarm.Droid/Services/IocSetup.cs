@@ -24,7 +24,8 @@
             = new Lazy<IMediaManager>(() =>
             {
                 return new MediaManagerImplementation();
-            }, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
+            }, System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
         public static void Initialize(IContainer container, bool isService)
         {
             container.Register<HttpMessageHandler>((x) => new AndroidClientHandler());

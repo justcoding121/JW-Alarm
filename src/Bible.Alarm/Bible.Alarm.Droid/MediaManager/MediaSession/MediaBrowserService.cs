@@ -344,7 +344,6 @@ namespace MediaManager.Platforms.Android.MediaSession
                     return;
                 }
 
-
                 result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>());
                 return;
             }
@@ -362,6 +361,8 @@ namespace MediaManager.Platforms.Android.MediaSession
 
                 result.SendResult(mediaItems);
             }
+
+            result.SendResult(new JavaList<MediaBrowserCompat.MediaItem>());
         }
 
         private async Task<IMediaItem> prepareMedia()

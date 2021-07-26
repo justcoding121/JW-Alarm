@@ -101,6 +101,11 @@ namespace Bible.Alarm.Services
             var indexResourceFile = "index.zip";
             var defaultAlarmFile = "cool-alarm-tone-notification-sound.mp3";
 
+            if (!Directory.Exists(IndexRoot))
+            {
+                Directory.CreateDirectory(IndexRoot);
+            }
+
             var tmpIndexFilePath = Path.Combine(IndexRoot, indexResourceFile);
 
             if (await storageService.FileExists(tmpIndexFilePath))
