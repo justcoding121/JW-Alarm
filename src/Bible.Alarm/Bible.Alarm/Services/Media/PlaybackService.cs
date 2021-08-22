@@ -214,48 +214,52 @@ namespace Bible.Alarm.Services
 
                     try
                     {
-                        if (await downloadService.FileExists(x.Value))
-                        {
-                            var item = await mediaExtractor.CreateMediaItemEx(x.Value);
-                            item?.SetDisplay(playDetail);
-                            Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                            return item;
-                        }
-                        else
-                        if (playDetail.IsBibleReading)
-                        {
-                            var url = await cacheService.GetBibleChapterUrl(playDetail.LanguageCode,
-                                             playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber,
-                                             playDetail.LookUpPath);
-
-                            if (await downloadService.FileExists(url))
-                            {
-                                var item = await mediaExtractor.CreateMediaItemEx(url);
-                                item?.SetDisplay(playDetail);
-                                Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                                return item;
-                            }
-                        }
-                        else
-                        {
-                            var url = await cacheService.GetMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
-
-                            if (await downloadService.FileExists(url))
-                            {
-                                var item = await mediaExtractor.CreateMediaItemEx(url);
-                                item?.SetDisplay(playDetail);
-                                Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
-                                return item;
-                            }
-                        }
-
-                        logger.Error($"Could'nt download the streaming file: {x.Value}.");
-                        return null;
+                        var item = await mediaExtractor.CreateMediaItemEx(x.Value);
+                        item?.SetDisplay(playDetail);
+                        Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                        return item;
                     }
                     catch (Exception e)
                     {
-                        logger.Error(e, $"An error happened when streaming file: {x.Value}.");
-                        return null;
+                        logger.Warn(e, $"An error happened when streaming file: {x.Value}. Trying to use latest source URL.");
+
+                        try
+                        {
+                            if (playDetail.IsBibleReading)
+                            {
+                                var url = await cacheService.GetBibleChapterUrl(playDetail.LanguageCode,
+                                                 playDetail.PublicationCode, playDetail.BookNumber, playDetail.ChapterNumber,
+                                                 playDetail.LookUpPath);
+
+                                if (await downloadService.FileExists(url))
+                                {
+                                    var item = await mediaExtractor.CreateMediaItemEx(url);
+                                    item?.SetDisplay(playDetail);
+                                    Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                                    return item;
+                                }
+                            }
+                            else
+                            {
+                                var url = await cacheService.GetMusicTrackUrl(playDetail.LanguageCode, playDetail.LookUpPath);
+
+                                if (await downloadService.FileExists(url))
+                                {
+                                    var item = await mediaExtractor.CreateMediaItemEx(url);
+                                    item?.SetDisplay(playDetail);
+                                    Messenger<object>.Publish(MvvmMessages.MediaProgress, new Tuple<int, int>(++preparedTracks, totalTracks));
+                                    return item;
+                                }
+                            }
+
+                            logger.Error($"Could'nt download the streaming file: {x.Value}.");
+                            return null;
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Error(ex, $"An error happened when streaming file: {x.Value}.");
+                            return null;
+                        }
                     }
 
                 });
