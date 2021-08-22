@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -55,7 +56,9 @@ namespace Bible.Alarm.Services
 
         public string GetCacheFileName(string url)
         {
-            var plainTextBytes = Encoding.UTF8.GetBytes(url);
+            var uri = new Uri(url);
+            
+            var plainTextBytes = Encoding.UTF8.GetBytes(uri.PathAndQuery);
             return Convert.ToBase64String(plainTextBytes) + ".mp3";
         }
 
@@ -196,8 +199,6 @@ namespace Bible.Alarm.Services
 
         private static string[] jwOrgUrls = new string[] { UrlHelper.JwOrgIndexServiceBaseUrl,
                                                       "https://apps.jw.org/GETPUBMEDIALINKS"};
-
-        private static string bibleGateWayUrl = UrlHelper.BibleGatewayIndexServiceBaseUrl;
         public async Task<string> GetBibleChapterUrl(string languageCode, string pubCode, int bookNumber, int chapter, string lookUpPath)
         {
             try
@@ -257,12 +258,12 @@ namespace Bible.Alarm.Services
                 .AsNoTracking()
                 .ToListAsync();
 
-            var filesToDelete = (await storageService.GetAllFiles(cacheRoot)).ToDictionary(x => x, null);
+            var filePathsToDelete = new HashSet<string>(await storageService.GetAllFiles(cacheRoot));
 
             foreach (var schedule in schedules)
             {
                 var playlist = await mediaPlayService.NextTracks(schedule.Id);
-                var fileNames = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
+                var filePaths = playlist.Select(x => GetCacheFilePath(x.Url)).ToList();
 
                 //do not delete anything when alarm is playing!
                 if (schedule.NextFireDate(DateTime.Now.AddMinutes(-5)) <= DateTimeOffset.Now.AddMinutes(5)
@@ -271,16 +272,16 @@ namespace Bible.Alarm.Services
                     return;
                 }
 
-                fileNames.ForEach(x =>
+                filePaths.ForEach(x =>
                 {
-                    if (filesToDelete.ContainsKey(x))
+                    if (filePathsToDelete.Contains(x))
                     {
-                        filesToDelete.Remove(x);
+                        filePathsToDelete.Remove(x);
                     }
                 });
             }
 
-            filesToDelete.Select(x => x.Key).ToList().ForEach(x =>
+            filePathsToDelete.ToList().ForEach(x =>
             {
                 if (mediaManager.IsPreparedEx())
                     return;

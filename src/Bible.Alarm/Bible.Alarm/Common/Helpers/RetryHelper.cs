@@ -17,10 +17,19 @@ namespace Bible.Alarm.Common.Helpers
                     {
                         return await func();
                     }
-                    catch when (retryCount-- > 0)
+                    catch
                     {
-                        await Task.Delay(delay);
-                        delay *= 2;
+                        retryCount--;
+
+                        if (retryCount > 0)
+                        {
+                            await Task.Delay(delay);
+                            delay *= 2;
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
             }
@@ -31,7 +40,7 @@ namespace Bible.Alarm.Common.Helpers
                     throw;
                 }
 
-                return default(T);
+                return default;
             }
         }
     }
